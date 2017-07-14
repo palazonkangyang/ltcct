@@ -20,8 +20,8 @@
 						<div class="container-fluid">
 
 							<div class="page-logo">
-                                <a href="index.html">
-                                    <img src="{{ URL::asset('/images/logo-default.jpg') }}" alt="logo" class="logo-default">
+                                <a href="/operator/dashboard">
+                                    <img src="{{ URL::asset('/images/logo-small.jpg') }}" alt="logo" class="logo-default">
                                 </a>
                             </div><!-- end page-logo -->
 

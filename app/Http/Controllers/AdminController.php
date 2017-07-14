@@ -27,6 +27,13 @@ class AdminController extends Controller
 		return view('admin/homepage');
 	}
 
+    public function dashboard()
+    {
+
+      
+        return view('admin/dashboard');
+    }
+
 	// Get All Accounts
 	public function getAllAccounts()
 	{
