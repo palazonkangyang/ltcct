@@ -30,5 +30,21 @@
 
     <!-- Date Time Picker -->
     <link href="{{ asset('/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+
+    <style type="text/css">
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+        #filter input{
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+    </style>
         
 </head>
