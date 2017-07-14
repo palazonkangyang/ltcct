@@ -40,14 +40,14 @@ Route::group(['middleware' => 'web'], function () {
 		Route::post('/change-account', ['as' => 'change-account-page', 'uses' => 'AdminController@changeAccount']);
     });
 
-    Route::group(['prefix' => 'supervisor'], function () {
-		Route::get('/add-member', ['as' => 'add-member-page', 'uses' => 'SupervisorController@getAddMember']);
-		Route::get('/member/edit/{member_id}', ['as' => 'edit-member-page', 'uses' => 'SupervisorController@getEditMember']);
-		Route::get('/member/delete/{member_id}', ['as' => 'delete-member-page', 'uses' => 'SupervisorController@deleteMember']);
+  //   Route::group(['prefix' => 'supervisor'], function () {
+		// // Route::get('/add-member', ['as' => 'add-member-page', 'uses' => 'SupervisorController@getAddMember']);
+		// Route::get('/member/edit/{member_id}', ['as' => 'edit-member-page', 'uses' => 'SupervisorController@getEditMember']);
+		// Route::get('/member/delete/{member_id}', ['as' => 'delete-member-page', 'uses' => 'SupervisorController@deleteMember']);
 
-		Route::post('/add-member', ['as' => 'post-member-page', 'uses' => 'SupervisorController@postAddMember']);
-		Route::post('/member/edit/{member_id}', ['as' => 'post-member-page', 'uses' => 'SupervisorController@postEditMember']);
-    });
+		// Route::post('/add-member', ['as' => 'post-member-page', 'uses' => 'SupervisorController@postAddMember']);
+		// Route::post('/member/edit/{member_id}', ['as' => 'post-member-page', 'uses' => 'SupervisorController@postEditMember']);
+  //   });
 
     Route::group(['prefix' => 'operator'], function () {
 		Route::get('/index', ['as' => 'main-page', 'uses' => 'OperatorController@index']);
@@ -69,6 +69,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix' => 'staff'], function () {
     	Route::get('/search-devotee', ['as' => 'search-devotee-page', 'uses' => 'StaffController@getSearchDevotee']);
     	Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
+    	Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
+    	Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
     	Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
     });
 
