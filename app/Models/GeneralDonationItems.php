@@ -14,10 +14,10 @@ class GeneralDonationItems extends Model
         'paid_till',
         'hjgr',
         'display',
-        'xy_receipt',
         'trans_date',
         'receipt_at',
         'generaldonation_id',
-        'devotee_id'
+        'devotee_id',
+        'receipt_id'
     ];
 }

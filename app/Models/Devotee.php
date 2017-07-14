@@ -34,7 +34,7 @@ class Devotee extends Model
         'member_id'
     ];
 
-    public function focusDevotee($chinese_name)
+    public function focusDevotee($input)
     {
         $devotee = DB::table('devotee');
 
@@ -66,19 +66,19 @@ class Devotee extends Model
             'familycode.familycode'
         );
 
-        $devotee->join('member', 'devotee.member_id', '=', 'member.member_id');
-        $devotee->join('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
+        $devotee->leftjoin('member', 'devotee.member_id', '=', 'member.member_id');
+        $devotee->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
 
         if (\Input::get("chinese_name")) {
-            $devotee->where('chinese_name', 'like', '%' . \Input::get('chinese_name') . '%');
+            $devotee->where('chinese_name', '=', $input['chinese_name']);
         }
 
         if (\Input::get("english_name")) {
-            $devotee->where('english_name', 'like', '%' . \Input::get('english_name') . '%');
+            $devotee->where('english_name', '=', $input['english_name']);
         }
 
         if (\Input::get("guiyi_name")) {
-            $devotee->where('guiyi_name', 'like', '%' . \Input::get('guiyi_name') . '%');
+            $devotee->where('guiyi_name', '=', $input['guiyi_name']);
         }
 
         return $devotee;
