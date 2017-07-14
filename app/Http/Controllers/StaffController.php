@@ -47,8 +47,13 @@ class StaffController extends Controller
 			$receipt_at = $input['receipt_at'];
 		}
 
+		$trans_id = GeneralDonation::all()->last()->generaldonation_id;
+		$prefix = "T";
+		$trans_id += 1;
+		$trans_id = $prefix . $trans_id;
+
 		$data = [
-			"trans_no" => "T1620251",
+			"trans_no" => $trans_id,
 			"description" => "Xiangyou",
 			"hjgr" => $input['hjgr'],
 			"total_amount" => $input['total_amount'],
@@ -248,16 +253,59 @@ class StaffController extends Controller
 
 	public function getReceipt(Request $request, $receipt_id)
 	{
-		$receipt = Receipt::join('generaldonation_items', 'generaldonation_items.receipt_id', '=', 'receipt.receipt_id')
-					->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'generaldonation_items.generaldonation_id')
+		$receipt = Receipt::join('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
+					->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
 					->select('receipt.*')
-					->addselect('generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no', 'generaldonation.total_amount',
-						'generaldonation.mode_payment', 'generaldonation.cheque_no', 'generaldonation.receipt_at', 'generaldonation.manualreceipt',
-						'generaldonation.trans_at')
+					->addSelect('devotee.chinese_name')
+					->addSelect('generaldonation.trans_no')
 					->where('receipt.receipt_id', $receipt_id)
 					->get();
 
-		dd($receipt->toArray());
+		// get general donation devotee by generaldonation id
+		$donation_devotees = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
+							->select('generaldonation_items.*')
+							->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street', 'devotee.address_unit1',
+								'devotee.address_unit2')
+							->where('receipt_id', $receipt_id)
+							->get();
+
+		$generaldonation = GeneralDonation::find($receipt[0]->generaldonation_id);
+
+		return view('staff.receipt', [
+            'receipt' => $receipt,
+            'donation_devotees' => $donation_devotees,
+            'generaldonation' => $generaldonation
+        ]);
+	}
+
+	public function getTransaction(Request $request, $generaldonation_id)
+	{
+		$receipt = Receipt::join('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
+					->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+					->select('receipt.*')
+					->addSelect('devotee.chinese_name')
+					->addSelect('generaldonation.trans_no')
+					->where('receipt.generaldonation_id', $generaldonation_id)
+					->get();
+
+		$generaldonation_items = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
+									->join('receipt', 'receipt.receipt_id', '=', 'generaldonation_items.receipt_id')
+									->select('generaldonation_items.*')
+									->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street', 
+											'devotee.address_unit1', 'devotee.address_unit2')
+									->addSelect('receipt.xy_receipt')
+									->where('generaldonation_items.generaldonation_id', $generaldonation_id)
+								 	->get();
+
+		$generaldonation = GeneralDonation::find($generaldonation_id);
+
+		// dd($generaldonation_items->toArray());
+
+		return view('staff.transaction-detail', [
+			'receipt' => $receipt,
+			'generaldonation' => $generaldonation,
+			'generaldonation_items' => $generaldonation_items
+		]);
 	}
 
 
