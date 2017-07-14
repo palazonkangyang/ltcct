@@ -35,6 +35,8 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
+		// dd($input);
+
 		if(isset($input['receipt_at']))
 		{
 			$receipt_at = date("Y-m-d", strtotime($input['receipt_at']));
@@ -47,7 +49,7 @@ class StaffController extends Controller
 
 		$data = [
 			"trans_no" => "T1620251",
-			"description" => "General Donation",
+			"description" => "Xiangyou",
 			"hjgr" => $input['hjgr'],
 			"total_amount" => $input['total_amount'],
 			"mode_payment" => $input['mode_payment'],
@@ -64,42 +66,24 @@ class StaffController extends Controller
 		{
 			if($input["hjgr"] == "hj")
 			{
-				$data = [
-					"amount" => $input["amount"][0],
-					"paid_till" => date("Y-m-d", strtotime($input["paid_till"][0])),
-					"hjgr" => $input["hjgr_arr"][0],
-					"display" => $input["display"][0],
-					"xy_receipt" => "XY2641",
+				// save receipt for same family (1 receipt for printing)
+				$same_xy_receipt = Receipt::all()->last()->receipt_id;
+				$prefix = "XY";
+				$same_xy_receipt += 1;
+				$same_xy_receipt = $prefix . $same_xy_receipt;
+
+				$receipt = [
+					"xy_receipt" => $same_xy_receipt,
 					"trans_date" => Carbon::now(),
+					"description" => "Xiangyou",
+					"focusdevotee_id" => $input['focusdevotee_id'],
+					"amount" => $input["amount"][0],
 					"generaldonation_id" => $general_donation->generaldonation_id,
-					"devotee_id" => $input["devotee_id"][0]
+
 				];
 
-				GeneralDonationItems::create($data);
+				$same_receipt = Receipt::create($receipt);
 
-				if(isset($input['other_devotee_id']))
-				{
-					for($i = 0; $i < count($input['other_devotee_id']); $i++)
-					{
-
-						$data2 = [
-							"amount" => $input["other_amount"][$i],
-							"paid_till" => date("Y-m-d", strtotime($input["other_paid_till"][$i])),
-							"hjgr" => $input["other_hjgr_arr"][$i],
-							"display" => $input["other_display"][$i],
-							"xy_receipt" => "XY2641",
-							"trans_date" => Carbon::now(),
-							"generaldonation_id" => $general_donation->generaldonation_id,
-							"devotee_id" => $input["other_devotee_id"][$i]
-						];
-
-						GeneralDonationItems::create($data2);
-					}
-				}
-			}
-
-			else
-			{
 				for($i = 0; $i < count($input['devotee_id']); $i++)
 				{
 					$data = [
@@ -107,17 +91,39 @@ class StaffController extends Controller
 						"paid_till" => date("Y-m-d", strtotime($input["paid_till"][$i])),
 						"hjgr" => $input["hjgr_arr"][$i],
 						"display" => $input["display"][$i],
-						"xy_receipt" => "XY2641",
 						"trans_date" => Carbon::now(),
 						"generaldonation_id" => $general_donation->generaldonation_id,
-						"devotee_id" => $input["devotee_id"][$i]
+						"devotee_id" => $input["devotee_id"][$i],
+						"receipt_id" => $same_receipt->receipt_id
 					];
 
 					GeneralDonationItems::create($data);
 				}
 
+				// save receipt for relatives and friends (1 receipt for printing)
 				if(isset($input['other_devotee_id']))
 				{
+					$different_receipt = "";
+
+					for($i = 0; $i < count($input['other_devotee_id']); $i++)
+					{
+						$different_xy_receipt = Receipt::all()->last()->receipt_id;
+						$prefix = "XY";
+						$different_xy_receipt += 1;
+						$different_xy_receipt = $prefix . $different_xy_receipt;
+
+						$data2 = [
+							"xy_receipt" => $different_xy_receipt,
+							"trans_date" => Carbon::now(),
+							"description" => "Xiangyou",
+							"focusdevotee_id" => $input['focusdevotee_id'],
+							"amount" => $input["other_amount"][$i],
+							"generaldonation_id" => $general_donation->generaldonation_id,
+						];
+
+						$different_receipt = Receipt::create($data2);
+					}
+
 					for($i = 0; $i < count($input['other_devotee_id']); $i++)
 					{
 						$data2 = [
@@ -125,10 +131,86 @@ class StaffController extends Controller
 							"paid_till" => date("Y-m-d", strtotime($input["other_paid_till"][$i])),
 							"hjgr" => $input["other_hjgr_arr"][$i],
 							"display" => $input["other_display"][$i],
-							"xy_receipt" => "XY2641",
 							"trans_date" => Carbon::now(),
 							"generaldonation_id" => $general_donation->generaldonation_id,
-							"devotee_id" => $input["other_devotee_id"][$i]
+							"devotee_id" => $input["other_devotee_id"][$i],
+							"receipt_id" => $different_receipt->receipt_id
+						];
+
+						GeneralDonationItems::create($data2);
+					}
+				}
+				
+			}
+
+			else
+			{
+
+				for($i = 0; $i < count($input['devotee_id']); $i++)
+				{
+					// save receipt for same family (1 receipt for printing)
+					$same_xy_receipt = Receipt::all()->last()->receipt_id;
+					$prefix = "XY";
+					$same_xy_receipt += 1;
+					$same_xy_receipt = $prefix . $same_xy_receipt;
+
+					$receipt = [
+						"xy_receipt" => $same_xy_receipt,
+						"trans_date" => Carbon::now(),
+						"description" => "Xiangyou",
+						"focusdevotee_id" => $input['focusdevotee_id'],
+						"amount" => $input["amount"][$i],
+						"generaldonation_id" => $general_donation->generaldonation_id
+					];
+
+					$individual_receipt = Receipt::create($receipt);
+
+					$data = [
+						"amount" => $input["amount"][$i],
+						"paid_till" => date("Y-m-d", strtotime($input["paid_till"][$i])),
+						"hjgr" => $input["hjgr_arr"][$i],
+						"display" => $input["display"][$i],
+						"trans_date" => Carbon::now(),
+						"generaldonation_id" => $general_donation->generaldonation_id,
+						"devotee_id" => $input["devotee_id"][$i],
+						"receipt_id" => $individual_receipt->receipt_id
+					];
+
+					GeneralDonationItems::create($data);
+				}
+
+				// save receipt for relatives and friends (1 receipt for printing)
+				if(isset($input['other_devotee_id']))
+				{
+					$different_receipt = "";
+
+					for($i = 0; $i < count($input['other_devotee_id']); $i++)
+					{
+						$different_xy_receipt = Receipt::all()->last()->receipt_id;
+						$prefix = "XY";
+						$different_xy_receipt += 1;
+						$different_xy_receipt = $prefix . $different_xy_receipt;
+
+						$data = [
+							"xy_receipt" => $different_xy_receipt,
+							"trans_date" => Carbon::now(),
+							"description" => "Xiangyou",
+							"focusdevotee_id" => $input['focusdevotee_id'],
+							"amount" => $input["other_amount"][$i],
+							"generaldonation_id" => $general_donation->generaldonation_id,
+						];
+
+						$different_receipt = Receipt::create($data);
+
+						$data2 = [
+							"amount" => $input["other_amount"][$i],
+							"paid_till" => date("Y-m-d", strtotime($input["other_paid_till"][$i])),
+							"hjgr" => $input["other_hjgr_arr"][$i],
+							"display" => $input["other_display"][$i],
+							"trans_date" => Carbon::now(),
+							"generaldonation_id" => $general_donation->generaldonation_id,
+							"devotee_id" => $input["other_devotee_id"][$i],
+							"receipt_id" => $different_receipt->receipt_id
 						];
 
 						GeneralDonationItems::create($data2);
@@ -137,41 +219,11 @@ class StaffController extends Controller
 			}
 		}
 
-		for($i = 0; $i < count($input['devotee_id']); $i++)
+		// remove session
+		if(Session::has('receipts'))
 		{
-			$receipt = [
-				"xy_receipt" => "XY2641",
-				"trans_date" => Carbon::now(),
-				"description" => "General Donation",
-				"focusdevotee_id" => $input['focusdevotee_id'],
-				"hjgr" => $input["hjgr_arr"][$i],
-				"amount" => $input["amount"][$i],
-				"generaldonation_id" => $general_donation->generaldonation_id,
-
-			];
-
-			Receipt::create($receipt);
+			Session::forget('receipts');
 		}
-
-		if(isset($input['other_devotee_id']))
-		{
-			for($i = 0; $i < count($input['other_devotee_id']); $i++)
-			{
-				$data2 = [
-					"xy_receipt" => "XY2641",
-					"trans_date" => Carbon::now(),
-					"description" => "General Donation",
-					"focusdevotee_id" => $input['focusdevotee_id'],
-					"hjgr" => $input["other_hjgr_arr"][$i],
-					"amount" => $input["other_amount"][$i],
-					"generaldonation_id" => $general_donation->generaldonation_id,
-				];
-
-				Receipt::create($data2);
-			}
-		}
-
-		Session::forget('receipts');
 
 		// Get Receipt History
        	$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
@@ -183,14 +235,29 @@ class StaffController extends Controller
        				->addSelect('generaldonation.manualreceipt')
        				->get();
 
+       	// store session
        	if(!Session::has('receipts'))
         {
         	Session::put('receipts', $receipts);
         }
 
 		$request->session()->flash('success', 'General Donation is successfully created.');
-
         return redirect()->back();
+	}
+
+
+	public function getReceipt(Request $request, $receipt_id)
+	{
+		$receipt = Receipt::join('generaldonation_items', 'generaldonation_items.receipt_id', '=', 'receipt.receipt_id')
+					->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'generaldonation_items.generaldonation_id')
+					->select('receipt.*')
+					->addselect('generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no', 'generaldonation.total_amount',
+						'generaldonation.mode_payment', 'generaldonation.cheque_no', 'generaldonation.receipt_at', 'generaldonation.manualreceipt',
+						'generaldonation.trans_at')
+					->where('receipt.receipt_id', $receipt_id)
+					->get();
+
+		dd($receipt->toArray());
 	}
 
 
