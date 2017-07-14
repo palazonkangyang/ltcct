@@ -110,16 +110,24 @@
                                                                 <div class="form-group">
 
                                                                     <table class="table table-bordered" id="devotees_table">
+
                                                                         <thead>
-                                                                            <tr>
-                                                                                <th>#</th>
+                                                                            <tr id="filter">
                                                                                 <th>Chinese Name</th>
-                                                                                <th>Devotee#</th>
+                                                                                <th>Devotee</th>
                                                                                 <th>Address</th>
                                                                                 <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th>Family Code</th>
                                                                             </tr>
+                                                                            <tr>
+                                                                                <th>Chinese Name</th>
+                                                                                <th>Devotee</th>
+                                                                                <th>Address</th>
+                                                                                <th>Unit</th>
+                                                                                <th>Guiyi Name</th>
+                                                                                <th>Family Code</th>
+                                                                            </tr>      
                                                                         </thead>
 
                                                                         @php $count = 1; @endphp
@@ -127,7 +135,6 @@
                                                                         <tbody>
                                                                             @foreach($devotees as $devotee)
                                                                             <tr>
-                                                                                <td>{{ $count++ }}</td>
                                                                                 <td><a href="#tab_editdevotee" data-toggle="tab" 
                                                                                     class="edit-devotee" id="{{ $devotee->devotee_id }}">
                                                                                     {{ $devotee->chinese_name }}</a>
@@ -146,10 +153,6 @@
                                                                     </table>
                                                                     
                                                                 </div><!-- end form-group -->
-
-                                                                <div class="paginate">
-                                                                    {{ $devotees->render() }}
-                                                                </div><!-- end paginate -->
                                                             
                                                             </div><!-- end form-body -->
 
@@ -195,10 +198,6 @@
                                                                     
                                                                 </div><!-- end form-group -->
 
-                                                                <div class="paginate">
-                                                                    {{ $members->render() }}
-                                                                </div><!-- end paginate -->
-
                                                             </div><!-- end form-body -->
 
                                                         </div><!-- end tab-pane member-lists -->
@@ -242,10 +241,6 @@
                                                                     </table>
                                                                     
                                                                 </div><!-- end form-group -->
-
-                                                                <div class="paginate">
-                                                                    {{ $deceased_lists->render() }}
-                                                                </div><!-- end paginate -->
                                                             
                                                             </div><!-- end form-body -->
 
@@ -1193,11 +1188,57 @@
     <script src="{{asset('js/custom/common.js')}}"></script>
     <script src="{{asset('js/custom/search-devotee.js')}}"></script>
     <script src="{{asset('js/custom/check-familycode.js')}}"></script>
-    <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>
+    <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>    
+
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     
     <script type="text/javascript">
 
         $(function(){
+
+            // $('#devotees_table thead tr#filter th').each( function () {
+            //     var title = $(this).text();
+            //     $(this).html( '<input type="text" placeholder="Search ' + title + '" />' );
+            // });
+
+            // // DataTable
+            // var table = $('#devotees_table').DataTable();
+
+            // table.columns().every( function () {
+            //     var that = this;
+ 
+            //     $( 'input', this.footer() ).on( 'keyup change', function () {
+            //         if ( that.search() !== this.value ) {
+            //             that
+            //                 .search( this.value )
+            //                 .draw();
+            //         }
+            //     });
+            // });
+
+            $('#devotees_table thead tr#filter th').each( function () {
+                var title = $('#devotees_table thead th').eq( $(this).index() ).text();
+                $(this).html( '<input type="text" onclick="stopPropagation(event);" placeholder="Search '+title+'" />' );
+            } );
+         
+            // DataTable
+            var table = $('#devotees_table').DataTable();
+             
+            // Apply the filter
+            $("#devotees_table thead input").on( 'keyup change', function () {
+                table
+                    .column( $(this).parent().index()+':visible' )
+                    .search( this.value )
+                    .draw();
+            } );
+
+            function stopPropagation(evt) {
+                if (evt.stopPropagation !== undefined) {
+                    evt.stopPropagation();
+                } else {
+                    evt.cancelBubble = true;
+                }
+            }
 
             var opt_address;
 
