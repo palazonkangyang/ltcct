@@ -1,0 +1,98 @@
+body {
+	font-size: 12px;
+	background: rgb(204,204,204);
+}
+
+page {
+	background: white;
+	display: block;
+	margin: 0 auto;
+	margin-bottom: 0.5cm;
+	box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+
+page[size="A4"] {  
+	width: 21cm;
+	height: 29.7cm; 
+}
+
+#top-area {
+	width: 20cm;
+	padding-top: 1cm;
+	padding-left: 0.5cm;
+}
+
+#middle-left-area{
+	width: 10cm;
+	float: left;
+}
+
+#bottom-area{
+	margin: 0.3cm 1cm;
+}
+
+.label-wrapper{
+	width: 11cm;
+	margin: 0.3cm 1cm;
+	overflow: hidden;
+}
+
+.label{
+	width: 11cm;
+}
+
+.label-left{
+	width: 4cm;
+	float: left;
+}
+
+.label-right{
+	width: 5cm;
+	float: left;
+}
+
+.label-middle{
+	width: 2.5cm;
+	float: left;
+}
+
+.label-middle a{
+	text-decoration: none;
+}
+
+.clearfix{
+	clear: both;
+}
+
+table.receipt-table {
+	width: 100%;
+	font-family: verdana,arial,sans-serif;
+	font-size: 11px;
+	color: #333;
+	border-width: 1px;
+	border-color: #666;
+	border-collapse: collapse;
+}
+table.receipt-table th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666;
+	background-color: #dedede;
+}
+table.receipt-table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666;
+	background-color: #fff;
+}
+
+@media print {
+
+  	body, page {
+    	margin: 0;
+    	box-shadow: 0;
+  	}
+
+}
