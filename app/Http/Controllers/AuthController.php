@@ -28,7 +28,7 @@ class AuthController extends Controller
         $credentials = $request->only('user_name', 'password');
 
         $user = User::where('user_name', $credentials['user_name'])->first();
-
+  
         if ( !$user ) {
 
             return response()->json([
@@ -42,15 +42,26 @@ class AuthController extends Controller
             $auth = true;
         }
 
-        if ($request->ajax()) {
+        if ($request->ajax() ) {
             return response()->json([
                 'auth' => $auth,
-                'redirect' => '/admin/all-accounts'
+                'redirect' => '/operator/index'
+            ]);
+        } 
+
+        else if ($request->ajax() ) {
+            return response()->json([
+                'auth' => $auth,
+                'redirect' => '/operator/index'
             ]);
         } 
 
         else {
+            if ($user->role == 3 ||  $user->role == 4 || $user->role == 5 ) {
+                return redirect()->intended(URL::route('main-page'));
+            }else{
             return redirect()->intended(URL::route('all-accounts-page'));
+        }
         }
 	}
 
