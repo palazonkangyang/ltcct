@@ -12,7 +12,7 @@
 
                 	<div class="page-title">
 
-                        <h1>Edit Account</h1>
+                        <h1>Main Page 主页</h1>
 
                     </div><!-- end page-title -->
 
@@ -77,23 +77,23 @@
 
                                                     <ul class="nav nav-tabs">
                                                         <li class="active">
-                                                            <a href="#tab_devoteelists" data-toggle="tab">Devotee Lists</a>
+                                                            <a href="#tab_devoteelists" data-toggle="tab">Devotee Lists<br> 善信名单</a>
                                                         </li>
                                                         
                                                         <li id="members">
-                                                            <a href="#tab_memberlists" data-toggle="tab">Member Lists</a>
+                                                            <a href="#tab_memberlists" data-toggle="tab">Member Lists<br> 会员名单</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#tab_deceasedlists" data-toggle="tab">Deceased Lists</a>
+                                                            <a href="#tab_deceasedlists" data-toggle="tab">Deceased Lists <br> 已故善信名单</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#tab_newdevotee" data-toggle="tab">New Devotee</a>
+                                                            <a href="#tab_newdevotee" data-toggle="tab">New Devotee <br>新善信档案</a>
                                                         </li>
                                                         <li id="edit" class="disabled">
-                                                            <a href="#tab_editdevotee" data-toggle="tab">Edit Devotee</a>
+                                                            <a href="#tab_editdevotee" data-toggle="tab">Edit Devotee <br>资料更新</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#tab_relocation" data-toggle="tab">Relocation Lists</a>
+                                                            <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
                                                         </li>
                                                         <li>
                                                             <a href="#tab_history" data-toggle="tab"> History </a>

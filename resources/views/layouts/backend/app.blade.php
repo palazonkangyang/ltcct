@@ -64,7 +64,7 @@
                                             
                                             <li>
                                                 <a href="{{ URL::to('/auth/logout') }}">
-                                                    <i class="icon-key"></i> Log Out </a>
+                                                    <i class="icon-key"></i> Log Out 登出 </a>
                                             </li>
                                         </ul>
                                    </li>                                   
@@ -87,7 +87,7 @@
                             	<ul class="nav navbar-nav">
 
                             		<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown active">
-                                        <a href="/operator/index"> Dashboard
+                                        <a href="/operator/index"> Main Page 主页
                                             <span class="arrow"></span>
                                         </a>
                                         
@@ -95,7 +95,7 @@
                                     </li>
 
                                     <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
-                                        <a href="/staff/donation"> Donation
+                                        <a href="/staff/donation"> General Donation 乐捐
                                             <span class="arrow"></span>
                                         </a>
                                         

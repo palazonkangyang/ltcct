@@ -13,7 +13,7 @@
             <div class="row" id="has_session">
 
                 <div class="col-md-12">
-                    <h4>Focus Devotee</h4>
+                    <h4>Focus Devotee 焦点善信</h4>
                 </div><!-- end col-md-12 -->
 
                 <div class="col-md-12">
@@ -260,7 +260,7 @@
             <div class="row" id="no_session">
 
                 <div class="col-md-12">
-                    <h4>Focus Devotee</h4>
+                    <h4>Focus Devotee 焦点善信</h4>
                 </div><!-- end col-md-12 -->
 
                 <div class="col-md-12">
