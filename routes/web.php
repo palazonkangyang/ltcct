@@ -53,6 +53,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/index', ['as' => 'main-page', 'uses' => 'OperatorController@index']);
 		Route::get('/search/autocomplete', ['as' => 'search-autocomplete2-page', 'uses' => 'OperatorController@getAutocomplete']);
 		Route::get('/search/autocomplete2', ['as' => 'search-autocomplete-page', 'uses' => 'OperatorController@getAutocomplete2']);
+		Route::get('/search/address_street', ['as' => 'search-address-street-page', 'uses' => 'OperatorController@getAddressStreet']);
 		Route::get('/devotee/edit/{devotee_id}', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@getEditDevotee']);
 		Route::match(["post", "get"], '/devotee/new-search', ['as' => 'get-json-focus-devotee-page', 'uses' => 'OperatorController@getRemoveFocusDevotee']);
 		Route::post('/devotee/search-familycode', ['as' => 'search-familycode-page', 'uses' => 'OperatorController@getSearchFamilyCode']);

@@ -925,6 +925,26 @@ class OperatorController extends Controller
 			return response()->json($results);
 	}
 
+	public function getAddressStreet(Request $request)
+	{
+			$address_street = Input::get('term');
+
+			$results = array();
+
+			$queries = TranslationStreet::where('english_name', 'like', '%'.$address_street.'%')
+								 ->take(5)
+								 ->get();
+
+		foreach ($queries as $query)
+		{
+			$results[] = [
+				'id' => $query->id,
+				'value' => $query->english
+			];
+		}
+		return response()->json($results);
+	}
+
 
 	// Delete Devotee
 	public function deleteDevotee(Request $request, $devotee_id)

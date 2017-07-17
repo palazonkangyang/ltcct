@@ -315,7 +315,7 @@
                                                                                 id="content_address_houseno">
                                                                         </div><!-- end col-md-3 -->
 
-                                                                        <label class="col-md-1 control-label">Unit *</label>
+                                                                        <label class="col-md-1 control-label">Unit</label>
 
                                                                         <div class="col-md-2">
                                                                             <input type="text" class="form-control" name="address_unit1"
@@ -335,14 +335,8 @@
 
                                                                         <label class="col-md-3 control-label">Address - Street</label>
                                                                         <div class="col-md-9">
-                                                                            <select class="form-control" name="address_street"
-                                                                                id="content_address_street">
-                                                                                <option>Ang Mo Kio Ave 10</option>
-                                                                                <option>Ang Mo Kio Ave 8</option>
-                                                                                <option>Bishan Ave 4</option>
-                                                                                <option>Rehill Ave 1</option>
-                                                                                <option>Clementi Ave 3</option>
-                                                                            </select>
+																																						<input type="text" class="form-control" name="address_street"
+                                                                                value="{{ old('address_street') }}" id="address_street">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -373,7 +367,7 @@
                                                                         <label class="col-md-3 control-label">Address - Translate</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control"
-                                                                                name="address_translated">
+                                                                                name="address_translated" readonly>
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -430,7 +424,7 @@
                                                                         <label class="col-md-3 control-label">Date of Birth</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="dob"
-                                                                                data-provide="datepicker" data-date-format="dd-mm-yyyy" value="{{ old('dob') }}">
+                                                                                data-provide="datepicker" data-date-format="dd/mm/yyyy" value="{{ old('dob') }}">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1174,6 +1168,14 @@
 						minLength: 2,
 					  select: function(event, ui) {
 					  	$('#introduced_by2').val(ui.item.value);
+						}
+					});
+
+					$("#address_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 2,
+					  select: function(event, ui) {
+					  	$('#address_street').val(ui.item.value);
 						}
 					});
 
