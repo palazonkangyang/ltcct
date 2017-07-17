@@ -949,7 +949,9 @@ class OperatorController extends Controller
 
 	public function getAddressTranslate(Request $request)
 	{
-		$address_street = $_GET['address_street'];
+		// $address_street = $_GET['address_street'];
+
+		$address_street = "Jurong West Street 52";
 
 		$address_translate = TranslationStreet::where('english', $address_street)
 												 ->get();
