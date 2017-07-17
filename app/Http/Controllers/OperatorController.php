@@ -902,7 +902,7 @@ class OperatorController extends Controller
 					$value = $query->introduced_by1;
 				}
 				else {
-					$value => $query->introduced_by2;
+					$value = $query->introduced_by2;
 				}
 
 				$results[] = [
