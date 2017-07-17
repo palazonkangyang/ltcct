@@ -899,10 +899,10 @@ class OperatorController extends Controller
 			{
 				if($member == $query->introduced_by1)
 				{
-					$value = $query->introduced_by1
+					$value = $query->introduced_by1;
 				}
 				else {
-					$value => $query->introduced_by2
+					$value => $query->introduced_by2;
 				}
 
 				$results[] = [
