@@ -1153,6 +1153,7 @@
     <script src="{{asset('js/custom/search-devotee.js')}}"></script>
     <script src="{{asset('js/custom/check-familycode.js')}}"></script>
     <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 
