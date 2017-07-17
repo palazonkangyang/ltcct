@@ -451,8 +451,6 @@ class OperatorController extends Controller
 				$dob_date = str_replace('/', '-', $dob);
 				$dobNewDate = date("Y-m-d", strtotime($dob_date));
 
-				dd($dobNewDate);
-
 				if(isset($input['approved_date']))
 				{
 					$approvedDate = $input['approved_date'];
