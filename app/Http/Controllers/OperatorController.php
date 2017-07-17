@@ -892,7 +892,7 @@ class OperatorController extends Controller
 
 			$queries = Member::where('introduced_by1', 'LIKE', '%'.$term.'%')
 								 ->where('introduced_by2', 'LIKE', '%'.$term.'%')
-								 ->take(5)->get();
+								 ->get();
 
 		 dd($queries->toArray());
 	}
