@@ -162,7 +162,8 @@ class OperatorController extends Controller
 
 		    	// Modify fields
 		    $dob = $input['dob'];
-				$dobNewDate = date("Y-m-d", strtotime($dob));
+				$dob_date = str_replace('/', '-', $dob);
+				$dobNewDate = date("Y-m-d", strtotime($dob_date));
 
 				$approvedDate = $input['approved_date'];
 				$approveNewDate = date("Y-m-d", strtotime($approvedDate));
@@ -170,7 +171,7 @@ class OperatorController extends Controller
 				$cancelledDate = $input['cancelled_date'];
 				$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate));
 
-				dd($input['dob']);
+				dd($dobNewDate);
 
 		        // Save Member
 		        if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
