@@ -902,7 +902,7 @@ class OperatorController extends Controller
 			{
 				$results[] = [ 'id' => $query->id, 'value' => $query->introduced_by1 ];
 			}
-			return Response::json($results);
+			return response()->json($results);
 	}
 
 
