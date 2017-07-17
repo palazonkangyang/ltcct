@@ -1193,7 +1193,7 @@
                 format: 'yyyy'
             });
 
-						$('.dob').datepicker({ dateFormat: 'dd/mm/yy' });
+						$('.dob').datepicker({ dateFormat: 'dd/mm/yyyy' });
 
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));
