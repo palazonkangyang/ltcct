@@ -894,8 +894,8 @@ class OperatorController extends Controller
 
 			$results = array();
 
-			$queries = Member::where('introduced_by1', 'like', '%'.$term.'%')
-								 ->orwhere('introduced_by2', 'like', '%'.$term.'%')
+			$queries = Member::where('introduced_by1', 'like', '%'.$member.'%')
+								 ->orwhere('introduced_by2', 'like', '%'.$member.'%')
 								 ->get();
 
 		  foreach ($queries as $query)
