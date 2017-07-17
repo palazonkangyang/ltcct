@@ -367,7 +367,7 @@
                                                                         <label class="col-md-3 control-label">Address - Translate</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control"
-                                                                                name="address_translated" readonly>
+                                                                                name="address_translated" id="address_translated" readonly>
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -392,7 +392,7 @@
                                                                         </label>
 
                                                                         <label class="col-md-3">
-																																						<button type="button" class="btn default address_translated">
+																																						<button type="button" class="btn default address_translated_btn">
 																																								Translate Address
 																																						</button>
                                                                         </label><!-- end col-md-3 -->
@@ -1186,9 +1186,17 @@
 						}
 					});
 
-					$(".address_translated").click(function() {
-						alert("here");
-					});
+					$(".address_translated_btn").click(function() {
+							var address_houseno = $("#content_address_houseno").val();
+							var address_unit1 = $("#content_address_unit1").val();
+							var address_unit2 = $("#content_address_unit2").val();
+							var address_building = $("#content_address_building").val();
+							var address_postal = $("#content_address_postal").val();
+
+							var full_address = address_houseno + ", " + address_unit1 + ", " + address_unit2;
+
+							$("#address_translated").val(full_address);
+ 					});
 
             $('#devotees_table thead tr#filter th').each( function () {
                 var title = $('#devotees_table thead th').eq( $(this).index() ).text();
