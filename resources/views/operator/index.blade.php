@@ -390,8 +390,15 @@
                                                                                 Check Family Code
                                                                             </button>
                                                                         </label>
-                                                                        <div class="col-md-9">
-                                                                        </div><!-- end col-md-9 -->
+
+                                                                        <label class="col-md-3">
+																																						<button type="button" class="btn default address_translated">
+																																								Translate Address
+																																						</button>
+                                                                        </label><!-- end col-md-3 -->
+
+																																				<div class="col-md-3">
+																																				</div><!-- end col-md-3 -->
 
                                                                     </div><!-- end form-group -->
 
@@ -1177,6 +1184,10 @@
 					  select: function(event, ui) {
 					  	$('#address_street').val(ui.item.value);
 						}
+					});
+
+					$(".address_translated").click(function() {
+						alert("here");
 					});
 
             $('#devotees_table thead tr#filter th').each( function () {
