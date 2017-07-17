@@ -890,11 +890,11 @@ class OperatorController extends Controller
 
 			$results = array();
 
-			// $queries = Member::where('introduced_by1', 'LIKE', '%'.$term.'%')
-			// 					 ->where('introduced_by2', 'LIKE', '%'.$term.'%')
-			// 					 ->get();
+			$queries = Member::where('introduced_by1', 'like', '%'.$term.'%')
+								//  ->where('introduced_by2', 'like', '%'.$term.'%')
+								 ->get();
 
-			$queries = Member::all()->get();
+			// $queries = Member::all();
 
 		 dd($queries->toArray());
 	}
