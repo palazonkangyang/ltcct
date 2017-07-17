@@ -886,19 +886,28 @@ class OperatorController extends Controller
 
 	public function getAutocomplete(Request $request)
 	{
-			// $member = $input['q'];
 			$member = Input::get('term');
 
 			$results = array();
 
 			$queries = Member::where('introduced_by1', 'like', '%'.$member.'%')
 								 ->orwhere('introduced_by2', 'like', '%'.$member.'%')
-								 ->take(7)
+								 ->take(5)
 								 ->get();
 
 		  foreach ($queries as $query)
 			{
-				$results[] = [ 'id' => $query->id, 'value' => $query->introduced_by1 ];
+				$results[] = [
+					'id' => $query->id,
+
+					if($member == $query->introduced_by1)
+					{
+						'value' => $query->introduced_by1
+					}
+					else {
+						'value' => $query->introduced_by2
+					}
+				];
 			}
 			return response()->json($results);
 	}
