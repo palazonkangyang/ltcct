@@ -133,6 +133,8 @@ class OperatorController extends Controller
 	{
 		$member_id = "";
 		$devotee_id = "";
+		$approveNewDate = "";
+		$cancelledNewDate = "";
 		$input = array_except($request->all(), '_token');
 
 		$validator = $this->validate($request, [
@@ -165,20 +167,28 @@ class OperatorController extends Controller
 				$dob_date = str_replace('/', '-', $dob);
 				$dobNewDate = date("Y-m-d", strtotime($dob_date));
 
-				$approvedDate = $input['approved_date'];
-				$approveNewDate = date("Y-m-d", strtotime($approvedDate));
+				if(isset($input['approved_date']))
+				{
+					$approvedDate = $input['approved_date'];
+					$approvedDate_date = str_replace('/', '-', $approvedDate);
+					$approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
+				}
 
-				$cancelledDate = $input['cancelled_date'];
-				$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate));
-
-				dd($dobNewDate);
+				if(isset($input['cancelled_date']))
+				{
+					$cancelledDate = $input['cancelled_date'];
+					$cancelledDate_date = str_replace('/', '-', $cancelledDate);
+					$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate_date));
+				}
 
 		        // Save Member
 		        if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
 		        {
 			        $data = [
 			        	"introduced_by1" => $input['introduced_by1'],
-			        	"introduced_by2" => $input['introduced_by2']
+			        	"introduced_by2" => $input['introduced_by2'],
+								"approved_date" => $approveNewDate,
+								"cancelled_date" => $cancelledNewDate
 			        ];
 
 			        $member = Member::create($data);
