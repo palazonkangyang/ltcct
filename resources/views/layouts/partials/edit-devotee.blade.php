@@ -180,7 +180,7 @@
 
                     <label class="col-md-3 control-label">Date of Birth</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="dob" data-provide="datepicker" value="{{ old('dob') }}" id="edit_dob">
+                        <input type="text" class="form-control" name="dob" data-provide="datepicker" data-date-format="dd/mm/yyyy" value="{{ old('dob') }}" id="edit_dob">
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
@@ -354,7 +354,7 @@
 
                     <label class="col-md-3 control-label">Introduced By-1</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="introduced_by1" value="{{ old('introduced_by1') }}" id="edit_introduced_by1">
+                        <input type="text" class="form-control" name="introduced_by1" data-date-format="dd/mm/yyyy" value="{{ old('introduced_by1') }}" id="edit_introduced_by1">
                    	</div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
@@ -363,7 +363,7 @@
 
                     <label class="col-md-3 control-label">Introduced By-2</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="introduced_by2" value="{{ old('introduced_by2') }}" id="edit_introduced_by2">
+                        <input type="text" class="form-control" name="introduced_by2" data-date-format="dd/mm/yyyy" value="{{ old('introduced_by2') }}" id="edit_introduced_by2">
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
