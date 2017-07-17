@@ -429,8 +429,8 @@
 
                                                                         <label class="col-md-3 control-label">Date of Birth</label>
                                                                         <div class="col-md-9">
-                                                                            <input type="text" class="form-control dob" name="dob"
-                                                                                data-provide="datepicker" value="{{ old('dob') }}">
+                                                                            <input type="text" class="form-control" name="dob"
+                                                                                data-provide="datepicker" data-date-format="dd-mm-yyyy" value="{{ old('dob') }}">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1192,8 +1192,6 @@
                 minViewMode: 2,
                 format: 'yyyy'
             });
-
-						$('.dob').datepicker({ dateFormat: 'dd/mm/yyyy' });
 
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));
