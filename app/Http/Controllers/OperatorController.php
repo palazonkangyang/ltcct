@@ -617,84 +617,6 @@ class OperatorController extends Controller
         ]);
 	}
 
-
-	// Update Devotee
-	// public function postEditDevotee(Request $request, $devotee_id)
-	// {
-	// 	$input = Input::except('_token');
-
-	// 	// Modify fields
- //        $dob = $input['dob'];
-	// 	$dobNewDate = date("Y-m-d", strtotime($dob));
-
-	// 	$devotee = Devotee::find($devotee_id);
-
-	//     $devotee->title = $input['title'];
-	//     $devotee->chinese_name = $input['chinese_name'];
-	//     $devotee->english_name = $input['english_name'];
-	//     $devotee->contact = $input['contact'];
-	//     $devotee->guiyi_name = $input['guiyi_name'];
-	//     $devotee->address_houseno = $input['address_houseno'];
-	//     $devotee->address_unit1 = $input['address_unit1'];
-	//     $devotee->address_unit2 = $input['address_unit2'];
-	//     $devotee->address_street = $input['address_street'];
-	//     $devotee->address_building = $input['address_building'];
-	//     $devotee->address_postal = $input['address_postal'];
-	//     $devotee->address_translated = $input['address_translated'];
-	//     $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
-	//     $devotee->nric = $input['nric'];
-	//     $devotee->deceased_year = $input['deceased_year'];
-	//     $devotee->dob = $dobNewDate;
-	//     $devotee->marital_status = $input['marital_status'];
-	//     $devotee->dialect = $input['dialect'];
-	//     $devotee->nationality = $input['nationality'];
-
-	//     $result = $devotee->save();
-
-	//     // Update Optional Address
-	//     if(isset($input['address_type']) && isset($input['address_data']))
- //        {
- //        	//delete first before saving
- //        	OptionalAddress::where('devotee_id', $devotee_id)->delete();
-
-	// 		for($i = 0; $i < count($input['address_type']); $i++)
-	// 		{
-	// 			$optional_address = new OptionalAddress;
- //                $optional_address->type = $input['address_type'][$i];
- //                $optional_address->data = $input['address_data'][$i];
- //                $optional_address->devotee_id = $devotee_id;
- //                $optional_address->save();
-	// 		}
- //        }
-
- //        // Update Optional Vehicle
- //        if(isset($input['vehicle_type']) && isset($input['vehicle_data']))
- //        {
- //        	//delete first before saving
- //        	OptionalVehicle::where('devotee_id', $devotee_id)->delete();
-
-	// 		for($i = 0; $i < count($input['vehicle_type']); $i++)
-	// 		{
-	// 			$optional_vehicle = new OptionalVehicle;
- //                $optional_vehicle->type = $input['vehicle_type'][$i];
- //                $optional_vehicle->data = $input['vehicle_data'][$i];
- //                $optional_vehicle->devotee_id = $devotee_id;
- //                $optional_vehicle->save();
-	// 		}
- //        }
-
- //        if ($result) {
- //            $request->session()->flash('success', 'Devotee Profile is successfully updated.');
- //        }
-
- //        else {
- //            $request->session()->flash('error', 'Failed in updating profile.');
- //        }
-
- //        return redirect()->back();
-	// }
-
-
 	// Focus Devotee
 	public function getFocusDevotee(Request $request)
 	{
@@ -778,15 +700,6 @@ class OperatorController extends Controller
 								        	'deceased_lists' => $deceased_lists,
 								        ]);
 				}
-
-
-
-
-
-
-
-
-
 
 	}
 
@@ -958,7 +871,7 @@ class OperatorController extends Controller
 
 		return response()->json(array(
 			'address_translate' => $address_translate
-		)););
+		));
 	}
 
 
