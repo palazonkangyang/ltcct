@@ -899,8 +899,7 @@ class OperatorController extends Controller
 			{
 				$results[] = [
 					'id' => $query->member_id,
-					'value' => $query->introduced_by1,
-					'value2' => $query->introduced_by2
+					'value' => $query->introduced_by1
 				];
 			}
 			return response()->json($results);
