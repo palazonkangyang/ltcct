@@ -92,6 +92,12 @@
                                                         <li id="edit" class="disabled">
                                                             <a href="#tab_editdevotee" data-toggle="tab">Edit Devotee <br>资料更新</a>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                                                        </li>
+                                                        <li>
+                                                            <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
+>>>>>>> c83c0738299b07c2ef41c7c6f7ed1f8e202acc7c
 =======
                                                         </li>
                                                         <li>
