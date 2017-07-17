@@ -1206,7 +1206,7 @@
 					      dataType: 'json',
 					      success: function(response)
 					      {
-					      	alert(JSON.stringify(response));
+					      	alert(response.address_translate['chinese']);
 
 									if($.trim(address_unit1).length >= 0)
 									{
