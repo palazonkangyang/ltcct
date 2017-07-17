@@ -1207,16 +1207,23 @@
 					      success: function(response)
 					      {
 					      	alert(JSON.stringify(response));
+
+									if($.trim(address_unit1).length >= 0)
+									{
+										var full_address = "No." + address_houseno + ", " + response.address_translate['chinese'] + ", " + address_postal + ", Singapore";
+
+										$("#address_translated").val(full_address);
+									}
+									else
+									{
+
+									}
 					      },
 
 					      error: function (response) {
 					      	console.log(response);
 					      }
 					   });
-
-							var full_address = "No." + address_houseno + ", " + address_postal + ", Singapore";
-
-							$("#address_translated").val(full_address);
  					});
 
             $('#devotees_table thead tr#filter th').each( function () {
