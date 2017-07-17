@@ -947,7 +947,7 @@ class OperatorController extends Controller
 	}
 
 
-	public function getAddressTranslate()
+	public function getAddressTranslate(Request $request)
 	{
 		$address_street = $_GET['address_street'];
 
