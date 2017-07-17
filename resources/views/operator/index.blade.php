@@ -336,7 +336,7 @@
                                                                         <label class="col-md-3 control-label">Address - Street</label>
                                                                         <div class="col-md-9">
 																																						<input type="text" class="form-control" name="address_street"
-                                                                                value="{{ old('address_street') }}" id="address_street">
+                                                                                value="{{ old('content_address_street') }}" id="content_address_street">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1178,11 +1178,11 @@
 						}
 					});
 
-					$("#address_street").autocomplete({
+					$("#content_address_street").autocomplete({
 						source: "/operator/search/address_street",
 						minLength: 2,
 					  select: function(event, ui) {
-					  	$('#address_street').val(ui.item.value);
+					  	$('#content_address_street').val(ui.item.value);
 						}
 					});
 
@@ -1192,8 +1192,29 @@
 							var address_unit2 = $("#content_address_unit2").val();
 							var address_building = $("#content_address_building").val();
 							var address_postal = $("#content_address_postal").val();
+							var address_street = $("#content_address_street").val();
 
-							var full_address = address_houseno + ", " + address_unit1 + ", " + address_unit2;
+							var formData = {
+			        	_token: $('meta[name="csrf-token"]').attr('content'),
+			        	address_street: address_street,
+			        };
+
+							$.ajax({
+					    	type: 'GET',
+					      url: "/operator/address-translate",
+					      data: formData,
+					      dataType: 'json',
+					      success: function(response)
+					      {
+					      	alert(JSON.stringify(response));
+					      },
+
+					      error: function (response) {
+					      	console.log(response);
+					      }
+					   });
+
+							var full_address = "No." + address_houseno + ", " + address_postal + ", Singapore";
 
 							$("#address_translated").val(full_address);
  					});

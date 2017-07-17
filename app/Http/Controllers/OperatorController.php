@@ -947,6 +947,17 @@ class OperatorController extends Controller
 	}
 
 
+	public function getAddressTranslate()
+	{
+		$address_street = $_GET['address_street'];
+
+		$address_translate = TranslationStreet::where('english', $address_street)
+												 ->get();
+
+		return response()->json('address_translate', $address_translate);
+	}
+
+
 	// Delete Devotee
 	public function deleteDevotee(Request $request, $devotee_id)
 	{
