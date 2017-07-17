@@ -3,16 +3,16 @@
 @section('main-content')
 
 	<div class="page-container-fluid">
-                        
+
         <div class="page-content-wrapper">
-            
+
             <div class="page-head">
-                
+
                 <div class="container-fluid">
 
                 	<div class="page-title">
 
-                        <h1>Edit Account</h1>
+                        <h1>Main Page 主页</h1>
 
                     </div><!-- end page-title -->
 
@@ -26,7 +26,7 @@
 
                     <ul class="page-breadcrumb breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="/operator/index">Home</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
@@ -45,7 +45,7 @@
                                 <div class="col-md-9">
 
                                     <div class="form-horizontal form-row-seperated">
-                                        
+
                                         <div class="portlet">
 
                                             <div class="validation-error">
@@ -58,7 +58,7 @@
                                                     @foreach($errors->all() as $error)
                                                         <p>{{ $error }}</p>
                                                     @endforeach
-                                                    
+
                                                 </div>
 
                                             @endif
@@ -75,34 +75,37 @@
 
                                                 <div class="tabbable-bordered">
 
-                                                    <ul class="nav nav-tabs">
+                                                          <ul class="nav nav-tabs">
                                                         <li class="active">
-                                                            <a href="#tab_devoteelists" data-toggle="tab">Devotee Lists</a>
+                                                            <a href="#tab_devoteelists" data-toggle="tab">Devotee Lists<br> 善信名单</a>
                                                         </li>
-                                                        
+
                                                         <li id="members">
-                                                            <a href="#tab_memberlists" data-toggle="tab">Member Lists</a>
+                                                            <a href="#tab_memberlists" data-toggle="tab">Member Lists<br> 会员名单</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#tab_deceasedlists" data-toggle="tab">Deceased Lists</a>
+                                                            <a href="#tab_deceasedlists" data-toggle="tab">Deceased Lists <br> 已故善信名单</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#tab_newdevotee" data-toggle="tab">New Devotee</a>
+                                                            <a href="#tab_newdevotee" data-toggle="tab">New Devotee <br>新善信档案</a>
                                                         </li>
                                                         <li id="edit" class="disabled">
-                                                            <a href="#tab_editdevotee" data-toggle="tab">Edit Devotee</a>
+                                                            <a href="#tab_editdevotee" data-toggle="tab">Edit Devotee <br>资料更新</a>
+<<<<<<< HEAD
+=======
                                                         </li>
                                                         <li>
-                                                            <a href="#tab_relocation" data-toggle="tab">Relocation Lists</a>
+                                                            <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
+>>>>>>> c83c0738299b07c2ef41c7c6f7ed1f8e202acc7c
                                                         </li>
                                                         <li>
-                                                            <a href="#tab_history" data-toggle="tab"> History </a>
+                                                            <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
                                                         </li>
                                                     </ul>
-                                                    
+
 
                                                     <div class="tab-content">
-                                                        
+
                                                         <div class="tab-pane active" id="tab_devoteelists">
 
                                                             <div class="form-body">
@@ -127,7 +130,7 @@
                                                                                 <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th>Family Code</th>
-                                                                            </tr>      
+                                                                            </tr>
                                                                         </thead>
 
                                                                         @php $count = 1; @endphp
@@ -135,7 +138,7 @@
                                                                         <tbody>
                                                                             @foreach($devotees as $devotee)
                                                                             <tr>
-                                                                                <td><a href="#tab_editdevotee" data-toggle="tab" 
+                                                                                <td><a href="#tab_editdevotee" data-toggle="tab"
                                                                                     class="edit-devotee" id="{{ $devotee->devotee_id }}">
                                                                                     {{ $devotee->chinese_name }}</a>
                                                                                 </td>
@@ -151,13 +154,13 @@
                                                                         </tbody>
 
                                                                     </table>
-                                                                    
+
                                                                 </div><!-- end form-group -->
-                                                            
+
                                                             </div><!-- end form-body -->
 
                                                         </div><!-- end tab-pane devotee-lists -->
-                                                        
+
                                                         <div class="tab-pane" id="tab_memberlists">
 
                                                             <div class="form-body">
@@ -180,7 +183,7 @@
                                                                         <tbody>
                                                                             @foreach($members as $member)
                                                                             <tr>
-                                                                                <td><a href="#tab_editdevotee" data-toggle="tab" 
+                                                                                <td><a href="#tab_editdevotee" data-toggle="tab"
                                                                                     id="edit-member">{{ $member->chinese_name }}</a></td>
                                                                                 <td>{{ $member->devotee_id }}</td>
                                                                                 <td>{{ $member->member_id }}</td>
@@ -195,13 +198,13 @@
                                                                         </tbody>
 
                                                                     </table>
-                                                                    
+
                                                                 </div><!-- end form-group -->
 
                                                             </div><!-- end form-body -->
 
                                                         </div><!-- end tab-pane member-lists -->
-                                                        
+
                                                         <div class="tab-pane" id="tab_deceasedlists">
 
                                                             <div class="form-body">
@@ -229,7 +232,7 @@
                                                                                 <td>{{ $deceased_list->member_id }}</td>
                                                                                 <td>{{ $deceased_list->address_building }}</td>
                                                                                 <td>
-                                                                                    {{ $deceased_list->address_unit1 }} 
+                                                                                    {{ $deceased_list->address_unit1 }}
                                                                                     {{ $deceased_list->address_unit2 }}
                                                                                 </td>
                                                                                 <td>{{ $deceased_list->guiyi_name }}</td>
@@ -239,16 +242,16 @@
                                                                         </tbody>
 
                                                                     </table>
-                                                                    
+
                                                                 </div><!-- end form-group -->
-                                                            
+
                                                             </div><!-- end form-body -->
 
                                                         </div><!-- end tab-pane deceased-lists -->
 
                                                         <div class="tab-pane" id="tab_newdevotee">
 
-                                                            <form method="post" action="{{ URL::to('/operator/new-devotee') }}" 
+                                                            <form method="post" action="{{ URL::to('/operator/new-devotee') }}"
                                                                 class="form-horizontal form-bordered">
                                                                 {!! csrf_field() !!}
 
@@ -314,7 +317,7 @@
                                                                         <label class="col-md-3 control-label">Address - House No *</label>
                                                                         <div class="col-md-3">
                                                                             <input type="text" class="form-control" name="address_houseno"
-                                                                                value="{{ old('address_houseno') }}" 
+                                                                                value="{{ old('address_houseno') }}"
                                                                                 id="content_address_houseno">
                                                                         </div><!-- end col-md-3 -->
 
@@ -338,7 +341,7 @@
 
                                                                         <label class="col-md-3 control-label">Address - Street</label>
                                                                         <div class="col-md-9">
-                                                                            <select class="form-control" name="address_street" 
+                                                                            <select class="form-control" name="address_street"
                                                                                 id="content_address_street">
                                                                                 <option>Ang Mo Kio Ave 10</option>
                                                                                 <option>Ang Mo Kio Ave 8</option>
@@ -355,7 +358,7 @@
                                                                         <label class="col-md-3 control-label">Address - Building</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="address_building"
-                                                                                value="{{ old('address_building') }}" 
+                                                                                value="{{ old('address_building') }}"
                                                                                 id="content_address_building">
                                                                         </div><!-- end col-md-9 -->
 
@@ -375,7 +378,7 @@
 
                                                                         <label class="col-md-3 control-label">Address - Translate</label>
                                                                         <div class="col-md-9">
-                                                                            <input type="text" class="form-control" 
+                                                                            <input type="text" class="form-control"
                                                                                 name="address_translated">
                                                                         </div><!-- end col-md-9 -->
 
@@ -386,7 +389,7 @@
                                                                         <label class="col-md-3 control-label">Oversea Addr in Chinese
                                                                         </label>
                                                                         <div class="col-md-9">
-                                                                            <input type="text" class="form-control" 
+                                                                            <input type="text" class="form-control"
                                                                                 name="oversea_addr_in_chinese">
                                                                         </div><!-- end col-md-9 -->
 
@@ -432,7 +435,7 @@
 
                                                                         <label class="col-md-3 control-label">Date of Birth</label>
                                                                         <div class="col-md-9">
-                                                                            <input type="text" class="form-control" name="dob"
+                                                                            <input type="text" class="form-control dob" name="dob"
                                                                                 data-provide="datepicker" value="{{ old('dob') }}">
                                                                         </div><!-- end col-md-9 -->
 
@@ -541,7 +544,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Opt.Address 
+                                                                        <label class="col-md-3 control-label">Opt.Address
                                                                             <span id="opt_addr_count">1</span>
                                                                         </label>
 
@@ -568,9 +571,9 @@
                                                                     <div class="form-group">
 
                                                                         <div class="col-md-1"></div><!-- end col-md-1 -->
-                                                                        
+
                                                                         <div class="col-md-5">
-                                                                            <i class="fa fa-plus-circle" aria-hidden="true" 
+                                                                            <i class="fa fa-plus-circle" aria-hidden="true"
                                                                                 id="appendAddressBtn"></i>
                                                                         </div><!-- end col-md-5 -->
 
@@ -604,9 +607,9 @@
 
                                                                         <div class="col-md-1">
                                                                         </div><!-- end col-md-1 -->
-                                                                        
+
                                                                         <div class="col-md-5">
-                                                                            <i class="fa fa-plus-circle" aria-hidden="true" 
+                                                                            <i class="fa fa-plus-circle" aria-hidden="true"
                                                                                 id="appendVehicleBtn"></i>
                                                                         </div><!-- end col-md-5 -->
 
@@ -634,9 +637,9 @@
 
                                                                         <div class="col-md-1">
                                                                         </div><!-- end col-md-1 -->
-                                                                        
+
                                                                         <div class="col-md-5">
-                                                                            <i class="fa fa-plus-circle" aria-hidden="true" 
+                                                                            <i class="fa fa-plus-circle" aria-hidden="true"
                                                                                 id="appendSpecRemarkBtn"></i>
                                                                         </div><!-- end col-md-5 -->
 
@@ -677,7 +680,7 @@
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
-                                                                    
+
                                                                     <div class="form-group">
 
                                                                         <label class="col-md-3 control-label">Member Approved Date</label>
@@ -716,7 +719,7 @@
                                                                         <label class="col-md-6"></label>
                                                                         <label class="col-md-3 control-label">Authorized Password</label>
                                                                         <div class="col-md-3">
-                                                                            <input type="password" class="form-control" 
+                                                                            <input type="password" class="form-control"
                                                                                 name="authorized_password">
                                                                         </div><!-- end col-md-9 -->
 
@@ -725,7 +728,7 @@
                                                                     <div class="form-actions pull-right">
                                                                         <button type="submit" class="btn blue" id="confirm_btn" disabled>Confirm</button>
                                                                         <button type="button" class="btn default">Cancel</button>
-                                                                    </div><!-- end form-actions -->                                                                    
+                                                                    </div><!-- end form-actions -->
                                                                 </div><!-- end col-md-6 -->
 
                                                             </div><!-- end form-body -->
@@ -739,14 +742,14 @@
                                                         <div class="tab-pane" id="tab_editdevotee">
 
                                                             @include('layouts.partials.edit-devotee')
-                                                            
+
                                                         </div><!-- end tab-pane -->
 
                                                         <div class="tab-pane" id="tab_relocation">
 
                                                             <div class="form-body">
 
-                                                                <form method="post" action="{{ URL::to('/operator/relocation') }}" 
+                                                                <form method="post" action="{{ URL::to('/operator/relocation') }}"
                                                                     class="form-horizontal form-bordered">
                                                                     {!! csrf_field() !!}
 
@@ -770,8 +773,8 @@
 
                                                                             @if(Session::has('devotee_lists'))
 
-                                                                            @php 
-                    
+                                                                            @php
+
                                                                                 $devotee_lists = Session::get('devotee_lists');
                                                                                 $focus_devotee = Session::get('focus_devotee');
 
@@ -781,7 +784,7 @@
 
                                                                                 <tr>
                                                                                     <tr>
-                                                                                        <td><input type="checkbox" name="devotee_id[]" 
+                                                                                        <td><input type="checkbox" name="devotee_id[]"
                                                                                             value="{{ $focus_devotee[0]->devotee_id }}" /></td>
                                                                                         <td>{{ $focus_devotee[0]->chinese_name }}</td>
                                                                                         <td>{{ $focus_devotee[0]->english_name }}</td>
@@ -789,7 +792,7 @@
                                                                                         <td>{{ $focus_devotee[0]->nric }}</td>
                                                                                         <td>{{ $focus_devotee[0]->address_street }}</td>
                                                                                         <td>
-                                                                                            {{ $focus_devotee[0]->address_unit1 }} 
+                                                                                            {{ $focus_devotee[0]->address_unit1 }}
                                                                                             {{ $focus_devotee[0]->address_unit2 }}
                                                                                         </td>
                                                                                         <td>{{ $focus_devotee[0]->familycode }}</td>
@@ -799,7 +802,7 @@
 
                                                                                 @foreach($devotee_lists as $devotee)
                                                                                     <tr>
-                                                                                        <td><input type="checkbox" name="devotee_id[]" 
+                                                                                        <td><input type="checkbox" name="devotee_id[]"
                                                                                             value="{{ $devotee->devotee_id }}" /></td>
                                                                                         <td>{{ $devotee->chinese_name }}</td>
                                                                                         <td>{{ $devotee->english_name }}</td>
@@ -818,13 +821,13 @@
                                                                             @else
 
                                                                             <tbody id="no_session">
-                                                                                
+
                                                                             </tbody>
 
                                                                             @endif
 
                                                                         </table>
-                                                                        
+
                                                                     </div><!-- end form-group -->
 
                                                                 </div><!-- end col-md-12 -->
@@ -840,8 +843,8 @@
 
                                                                     @if(Session::has('focus_devotee'))
 
-                                                                    @php 
-                                                                        
+                                                                    @php
+
                                                                         $focus_devotee = Session::get('focus_devotee');
 
                                                                     @endphp
@@ -850,7 +853,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - House No</label>
                                                                             <div class="col-md-3">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_houseno" id="current_address_houseno"
                                                                                     value="{{ $focus_devotee[0]->address_houseno }}">
                                                                             </div><!-- end col-md-3 -->
@@ -858,13 +861,13 @@
                                                                             <label class="col-md-1">Unit</label>
 
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_unit1" id="current_address_unit1"
                                                                                     value="{{ $focus_devotee[0]->address_unit1 }}">
                                                                             </div><!-- end col-md-2 -->
 
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_unit2" id="current_address_unit2"
                                                                                     value="{{ $focus_devotee[0]->address_unit2 }}">
                                                                             </div><!-- end col-md-2 -->
@@ -874,7 +877,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Street</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_street" id="current_address_street"
                                                                                     value="{{ $focus_devotee[0]->address_street }}">
                                                                             </div><!-- end col-md-8 -->
@@ -884,7 +887,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Building</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_building" id="current_address_building"
                                                                                     value="{{ $focus_devotee[0]->address_building }}">
                                                                             </div><!-- end col-md-6 -->
@@ -894,7 +897,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Postal</label>
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_postal" id="current_address_postal"
                                                                                     value="{{ $focus_devotee[0]->address_postal }}">
                                                                             </div><!-- end col-md-2 -->
@@ -913,8 +916,8 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Oversea Addr in Chinese</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
-                                                                                    name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese" 
+                                                                                <input type="text" class="form-control"
+                                                                                    name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese"
                                                                                     value="{{ $focus_devotee[0]->oversea_addr_in_chinese }}">
                                                                             </div><!-- end col-md-6 -->
 
@@ -928,19 +931,19 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - House No</label>
                                                                             <div class="col-md-3">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_houseno" id="current_address_houseno">
                                                                             </div><!-- end col-md-3 -->
 
                                                                             <label class="col-md-1">Unit</label>
 
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_unit1" id="current_address_unit1">
                                                                             </div><!-- end col-md-2 -->
 
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_unit2" id="current_address_unit2">
                                                                             </div><!-- end col-md-2 -->
 
@@ -949,7 +952,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Street</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_street" id="current_address_street">
                                                                             </div><!-- end col-md-8 -->
 
@@ -958,7 +961,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Building</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_building" id="current_address_building">
                                                                             </div><!-- end col-md-6 -->
 
@@ -967,7 +970,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Postal</label>
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="address_postal" id="current_address_postal">
                                                                             </div><!-- end col-md-2 -->
 
@@ -985,7 +988,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Oversea Addr in Chinese</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese">
                                                                             </div><!-- end col-md-6 -->
 
@@ -996,7 +999,7 @@
                                                                     @endif
 
                                                                     <div class="col-md-6">
-                                                                        
+
                                                                     </div><!-- end col-md-6 -->
 
                                                                 </div><!-- end col-md-12 -->
@@ -1009,28 +1012,28 @@
 
                                                                     <h4>New Address</h4>
                                                                     <h5>Local Address</h5>
-                                                                    
+
                                                                     <div class="col-md-6">
 
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - House No</label>
                                                                             <div class="col-md-3">
-                                                                                <input type="text" class="form-control" 
-                                                                                    name="new_address_houseno" 
+                                                                                <input type="text" class="form-control"
+                                                                                    name="new_address_houseno"
                                                                                     value="{{ old('new_address_houseno') }}">
                                                                             </div><!-- end col-md-3 -->
 
                                                                             <label class="col-md-1">Unit</label>
 
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="new_address_unit1"
                                                                                     value="{{ old('new_address_unit1') }}">
                                                                             </div><!-- end col-md-2 -->
 
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
-                                                                                    name="new_address_unit2" 
+                                                                                <input type="text" class="form-control"
+                                                                                    name="new_address_unit2"
                                                                                     value="{{ old('new_address_unit2') }}">
                                                                             </div><!-- end col-md-2 -->
 
@@ -1039,7 +1042,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Street</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="new_address_street"
                                                                                     value="{{ old('new_address_street') }}">
                                                                             </div><!-- end col-md-8 -->
@@ -1049,7 +1052,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Building</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="new_address_building"
                                                                                     value="{{ old('new_address_building') }}">
                                                                             </div><!-- end col-md-6 -->
@@ -1059,7 +1062,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Postal</label>
                                                                             <div class="col-md-2">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="new_address_postal"
                                                                                     value="{{ old('new_address_postal') }}">
                                                                             </div><!-- end col-md-2 -->
@@ -1078,16 +1081,16 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Oversea Addr in Chinese</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control" 
+                                                                                <input type="text" class="form-control"
                                                                                     name="new_oversea_addr_in_chinese">
                                                                             </div><!-- end col-md-6 -->
 
                                                                         </div><!-- end form-group -->
-                                                                        
+
                                                                     </div><!-- end col-md-6 -->
 
                                                                     <div class="col-md-6">
-                                                                        
+
                                                                     </div><!-- end col-md-6 -->
 
                                                                 </div><!-- end col-md-12 -->
@@ -1097,9 +1100,9 @@
                                                                 <hr>
 
                                                                 <div class="col-md-12">
-                                                                    
+
                                                                     <div class="col-md-6">
-                                                                        
+
                                                                     </div><!-- end col-md-6 -->
 
                                                                     <div class="col-md-6">
@@ -1109,7 +1112,7 @@
                                                                             </button>
                                                                             <button type="button" class="btn default">Cancel</button>
                                                                         </div><!-- end form-actions -->
-                                                                        
+
                                                                     </div><!-- end col-md-6 -->
 
                                                                 </div><!-- end col-md-12 -->
@@ -1117,43 +1120,10 @@
                                                                 </form>
 
                                                                 <div class="clearfix"></div>
-                                                            
+
                                                             </div><!-- end form-body -->
 
                                                         </div><!-- end tab-pane relocation -->
-
-                                                        <div class="tab-pane" id="tab_history">
-
-                                                            <div class="form-body">
-                                                                <div class="form-group">
-
-                                                                    <label class="col-md-2 control-label">New Devotee:</label>
-                                                                    <div class="col-md-10">
-                                                                        <input type="text" class="form-control" name="" placeholder="">
-                                                                        <span class="help-block"> max 100 chars </span>
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                                
-                                                                <div class="form-group">
-                                                                    <label class="col-md-2 control-label">Meta Keywords:</label>
-                                                                    <div class="col-md-10">
-                                                                        <textarea class="form-control" rows="8" name=""></textarea>
-                                                                        <span class="help-block"> max 1000 chars </span>
-                                                                    </div>
-                                                                </div>
-                                                                
-                                                                <div class="form-group">
-                                                                    <label class="col-md-2 control-label">Meta Description:</label>
-                                                                    <div class="col-md-10">
-                                                                        <textarea class="form-control maxlength-handler" rows="8" name="product[meta_description]" maxlength="255"></textarea>
-                                                                        <span class="help-block"> max 255 chars </span>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div><!-- end form-body -->
-
-                                                        </div><!-- end tab-pane tab_history -->
 
                                                     </div><!-- end tab-content -->
 
@@ -1184,46 +1154,28 @@
 @stop
 
 @section('custom-js')
-    
+
     <script src="{{asset('js/custom/common.js')}}"></script>
     <script src="{{asset('js/custom/search-devotee.js')}}"></script>
     <script src="{{asset('js/custom/check-familycode.js')}}"></script>
-    <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>    
+    <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-    
+
     <script type="text/javascript">
 
         $(function(){
 
-            // $('#devotees_table thead tr#filter th').each( function () {
-            //     var title = $(this).text();
-            //     $(this).html( '<input type="text" placeholder="Search ' + title + '" />' );
-            // });
-
-            // // DataTable
-            // var table = $('#devotees_table').DataTable();
-
-            // table.columns().every( function () {
-            //     var that = this;
- 
-            //     $( 'input', this.footer() ).on( 'keyup change', function () {
-            //         if ( that.search() !== this.value ) {
-            //             that
-            //                 .search( this.value )
-            //                 .draw();
-            //         }
-            //     });
-            // });
-
             $('#devotees_table thead tr#filter th').each( function () {
                 var title = $('#devotees_table thead th').eq( $(this).index() ).text();
-                $(this).html( '<input type="text" onclick="stopPropagation(event);" placeholder="Search '+title+'" />' );
+                $(this).html( '<input type="text" onclick="stopPropagation(event);" placeholder="" />' );
             } );
-         
+
             // DataTable
-            var table = $('#devotees_table').DataTable();
-             
+            var table = $('#devotees_table').DataTable({
+						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+						});
+
             // Apply the filter
             $("#devotees_table thead input").on( 'keyup change', function () {
                 table
@@ -1247,6 +1199,8 @@
                 format: 'yyyy'
             });
 
+						$('.dob').datepicker({ dateFormat: 'dd/mm/yy' });
+
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));
             });
@@ -1258,7 +1212,7 @@
             else
             {
                 var activeTab = localStorage.getItem('activeTab');
-            }            
+            }
 
             if (activeTab) {
                 $('a[href="' + activeTab + '"]').tab('show');
@@ -1280,11 +1234,10 @@
 
             // quick search button
             $("#quick_search").click(function(e) {
-                
+
                 var chinese_name = $("#chinese_name").val();
                 var english_name = $("#english_name").val();
                 var guiyi_name = $("#guiyi_name").val();
-                
             });
 
             $("#update_btn").click(function() {
@@ -1348,7 +1301,7 @@
                     var errorMsgs = '';
 
                     for(var i = 0; i < count; i++)
-                    {                
+                    {
                         errorMsgs = errorMsgs + errors[i] + "<br/>";
                     }
 
@@ -1360,9 +1313,13 @@
                     return false;
                 }
             });
-            
+
 
             $("#devotees_table").on('click','.edit-devotee',function(e) {
+
+							$("#edit-familycode-table tbody").empty();
+							$('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+											"<td colspan='3'>No Family Code</td></tr>");
 
                 $(".nav-tabs > li:first-child").removeClass("active");
                 $("#edit").addClass("active");
@@ -1376,7 +1333,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: "/public/operator/devotee/getDevoteeDetail",
+                    url: "/operator/devotee/getDevoteeDetail",
                     data: formData,
                     dataType: 'json',
                     success: function(response)
@@ -1411,13 +1368,13 @@
                         {
                             $.each(response.optionaladdresses, function(index, data) {
 
-                                $('#opt_address').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address " + "</label><div class='col-md-3' id='address'>" + 
+                                $('#opt_address').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address " + "</label><div class='col-md-3' id='address'>" +
                                 "<select class='form-control' id='type' name='address_type[]'>" +
                                 "<option value='home'" + (data.type == 'home' ? 'selected': '') + ">Home</option>" +
                                 "<option value='company'" + (data.type == 'company' ? 'selected': '') + ">Company</option>" +
-                                "<option value='stall'" + (data.type == 'stall' ? 'selected': '') + ">Stall</option>" + 
+                                "<option value='stall'" + (data.type == 'stall' ? 'selected': '') + ">Stall</option>" +
                                 "<option value='office'" + (data.type == 'office' ? 'selected': '') + ">Office</option>" +
-                                "</select></div><div class='col-md-5'><input type='text' class='form-control' name='address_data[]' value='" + 
+                                "</select></div><div class='col-md-5'><input type='text' class='form-control' name='address_data[]' value='" +
                                 data.data +"'></div>" +
                                 "<div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div></div>");
                             });
@@ -1425,10 +1382,10 @@
 
                         else
                         {
-                            $("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address1" + 
+                            $("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address1" +
                                 "</label><div class='col-md-3'><select class='form-control' name='address_type[]'><option value='home'>Home" +
                                 "</option><option value='company'>Company</option><option value='stall'>Stall</option><option value='office'>" +
-                                "Office</option></select></div><div class='col-md-5'><input type='text' class='form-control'" + 
+                                "Office</option></select></div><div class='col-md-5'><input type='text' class='form-control'" +
                                 "name='address_data[]'></div>");
                         }
 
@@ -1436,8 +1393,8 @@
                         {
                             $.each(response.optionalvehicles, function(index, data) {
 
-                                $('#opt_vehicle').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " + 
-                            "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'>" + 
+                                $('#opt_vehicle').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
+                            "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'>" +
                             "<option value='car'" + (data.type == 'car' ? 'selected': '') + ">Car</option>" +
                             "<option value='ship'" + (data.type == 'ship' ? 'selected': '') + ">Ship</option></select></div>" +
                             "<div class='col-md-5'>" +
@@ -1448,7 +1405,7 @@
 
                         else
                         {
-                            $("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " + 
+                            $("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
                             "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
                             "<option value='ship'>Ship</option></select></div><div class='col-md-5'>" +
                             "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
@@ -1470,17 +1427,21 @@
                                 "</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]'></div>");
                         }
 
-                        
+
                     },
 
                     error: function (response) {
-                        console.log(response);  
-                    } 
+                        console.log(response);
+                    }
                 });
-                
-            }); 
 
-            $("#members_table").on('click','#edit-member',function(e) {                
+            });
+
+            $("#members_table").on('click','#edit-member',function(e) {
+
+							$("#edit-familycode-table tbody").empty();
+							$('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+											"<td colspan='3'>No Family Code</td></tr>");
 
                 $("#members").removeClass("active");
                 $("#edit").addClass("active");
@@ -1496,7 +1457,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: "/public/operator/devotee/getMemberDetail",
+                    url: "/operator/devotee/getMemberDetail",
                     data: formData,
                     dataType: 'json',
                     success: function(response)
@@ -1537,13 +1498,13 @@
                         {
                             $.each(response.optionaladdresses, function(index, data) {
 
-                                $('#opt_address').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address " + "</label><div class='col-md-3' id='address'>" + 
+                                $('#opt_address').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address " + "</label><div class='col-md-3' id='address'>" +
                                 "<select class='form-control' id='type' name='address_type[]'>" +
                                 "<option value='home'" + (data.type == 'home' ? 'selected': '') + ">Home</option>" +
                                 "<option value='company'" + (data.type == 'company' ? 'selected': '') + ">Company</option>" +
-                                "<option value='stall'" + (data.type == 'stall' ? 'selected': '') + ">Stall</option>" + 
+                                "<option value='stall'" + (data.type == 'stall' ? 'selected': '') + ">Stall</option>" +
                                 "<option value='office'" + (data.type == 'office' ? 'selected': '') + ">Office</option>" +
-                                "</select></div><div class='col-md-5'><input type='text' class='form-control' name='address_data[]' value='" + 
+                                "</select></div><div class='col-md-5'><input type='text' class='form-control' name='address_data[]' value='" +
                                 data.data +"'></div>" +
                                 "<div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div></div>");
                             });
@@ -1551,10 +1512,10 @@
 
                         else
                         {
-                            $("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address1" + 
+                            $("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address1" +
                                 "</label><div class='col-md-3'><select class='form-control' name='address_type[]'><option value='home'>Home" +
                                 "</option><option value='company'>Company</option><option value='stall'>Stall</option><option value='office'>" +
-                                "Office</option></select></div><div class='col-md-5'><input type='text' class='form-control'" + 
+                                "Office</option></select></div><div class='col-md-5'><input type='text' class='form-control'" +
                                 "name='address_data[]'></div>");
                         }
 
@@ -1562,8 +1523,8 @@
                         {
                             $.each(response.optionalvehicles, function(index, data) {
 
-                                $('#opt_vehicle').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " + 
-                            "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'>" + 
+                                $('#opt_vehicle').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
+                            "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'>" +
                             "<option value='car'" + (data.type == 'car' ? 'selected': '') + ">Car</option>" +
                             "<option value='ship'" + (data.type == 'ship' ? 'selected': '') + ">Ship</option></select></div>" +
                             "<div class='col-md-5'>" +
@@ -1574,7 +1535,7 @@
 
                         else
                         {
-                            $("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " + 
+                            $("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
                             "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
                             "<option value='ship'>Ship</option></select></div><div class='col-md-5'>" +
                             "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
@@ -1596,15 +1557,15 @@
                                 "</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]'></div>");
                         }
 
-                        
+
                     },
 
                     error: function (response) {
-                        console.log(response);  
-                    } 
+                        console.log(response);
+                    }
                 });
 
-            });          
+            });
 
             var address_count = 2;
 
@@ -1644,7 +1605,7 @@
 
             $("#appendVehicleBtn").click(function() {
 
-                $("#append_opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " + vehicle_count + 
+                $("#append_opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " + vehicle_count +
                     "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
                     "<option value='ship'>Ship</option></select></div><div class='col-md-5'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
@@ -1655,7 +1616,7 @@
 
             $("#VehicleBtn").click(function() {
 
-                $("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " + 
+                $("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
                     "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
                     "<option value='ship'>Ship</option></select></div><div class='col-md-5'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +

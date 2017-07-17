@@ -121,7 +121,7 @@
 
 		<div id="bottom-area">
 
-			<h3>Same address and same family code</h3>
+			<h3>Same address Devotee 同址善信</h3>
 
 			<table class="receipt-table">
 				<thead>
@@ -180,7 +180,7 @@
 
 				<br><br>
 
-				<h3>Relatives and Friends</h3>
+				<h3>Relatives and Friends 亲戚朋友</h3>
 
 				<table class="receipt-table">
 				<thead>

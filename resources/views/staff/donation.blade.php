@@ -12,7 +12,7 @@
 
                 	<div class="page-title">
 
-                        <h1>General Donation</h1>
+                        <h1>General Donation 乐捐</h1>
 
                     </div><!-- end page-title -->
 
@@ -26,7 +26,7 @@
 
             		<ul class="page-breadcrumb breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="/operator/index">Home</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
@@ -77,14 +77,17 @@
 
                                             		<ul class="nav nav-tabs">
                                                         <li class="active">
-                                                            <a href="#tab_xiangyou" data-toggle="tab">Xiangyou</a>
+                                                            <a href="#tab_xiangyou" data-toggle="tab">Xiangyou <br>香油</a>
                                                         </li>
                                                         
                                                         <li id="members">
-                                                            <a href="#tab_ciji" data-toggle="tab">Ciji</a>
+                                                            <a href="#tab_ciji" data-toggle="tab">Ciji <br> 慈济</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#tab_yuejuan" data-toggle="tab">Yuejuan</a>
+                                                            <a href="#tab_yuejuan" data-toggle="tab">Yuejuan <br> 月捐 </a>
+                                                        </li>
+                                                         <li>
+                                                            <a href="#tab_others" data-toggle="tab">Others <br> 其他 </a>
                                                         </li>
                                                     </ul>
 
@@ -101,7 +104,7 @@
 
                                                     			<div class="form-group">
 
-                                                    				<h4>Same address and same family code</h4>
+                                                    				<h4>Same address Devotee 同址善信</h4>
 
                                                                     <table class="table table-bordered" id="generaldonation_table">
                                                                         <thead>
@@ -226,7 +229,7 @@
 
                                                                 <div class="form-group">
 
-                                                    				<h4>Relatives and friends</h4>
+                                                    				<h4>Relatives and friends 亲戚朋友</h4>
                                                                     
                                                                 </div><!-- end form-group -->
 

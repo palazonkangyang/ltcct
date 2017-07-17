@@ -30,7 +30,7 @@
             </div><!-- end form-group -->
             
             <div class="form-actions">
-                <button type="submit" class="btn green uppercase">Login</button>
+                <button type="submit" class="btn green uppercase">Login 登入</button>
                 <label style='margin-left:50px;' class="rememberme check mt-checkbox mt-checkbox-outline">
 	                <input type="checkbox" name="remember" value="1" />        Remember Me
 	                <span></span>

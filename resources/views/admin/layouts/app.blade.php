@@ -64,7 +64,7 @@
                                             
                                             <li>
                                                 <a href="{{ URL::to('/auth/logout') }}">
-                                                    <i class="icon-key"></i> Log Out </a>
+                                                    <i class="icon-key"></i> Log Out 登出</a>
                                             </li>
                                         </ul>
                                    </li>                                   
@@ -87,7 +87,7 @@
                             	<ul class="nav navbar-nav">
 
                             		<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown active">
-                                        <a href="javascript:;"> Dashboard
+                                        <a href="javascript:;"> Main Page 管理员主页
                                             <span class="arrow"></span>
                                         </a>
                                         
@@ -95,17 +95,17 @@
                                     </li>
 
                                     <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
-                                        <a href="javascript:;"> Manage Account
+                                        <a href="javascript:;"> Manage Account 管理会员
                                             <span class="arrow"></span>
                                         </a>
                                         
                                         <ul class="dropdown-menu pull-left">
                                             <li>
-                                                <a href="{{ URL::to('/admin/all-accounts') }}">All Accounts</a>
+                                                <a href="{{ URL::to('/admin/all-accounts') }}">All Accounts 会员列表</a>
                                             </li>
 
                                             <li>
-                                                <a href="{{ URL::to('/admin/add-account') }}">Add New Account</a>
+                                                <a href="{{ URL::to('/admin/add-account') }}">Add New Account 新增会员</a>
                                             </li>
                                         </ul>
                                     </li>
