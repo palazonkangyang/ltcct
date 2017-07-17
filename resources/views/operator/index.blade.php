@@ -680,7 +680,8 @@
 
                                                                         <label class="col-md-3 control-label">Member Approved Date</label>
                                                                         <div class="col-md-9">
-                                                                            <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker">
+                                                                            <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
+																																							data-date-format="dd/mm/yyyy">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -690,7 +691,7 @@
                                                                         <label class="col-md-3 control-label">Member Cancelled Date</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="cancelled_date"
-                                                                                data-provide="datepicker">
+                                                                                data-provide="datepicker" data-date-format="dd/mm/yyyy">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1240,6 +1241,11 @@
 									return false;
 							}
 
+							else {
+									$(".validation-error").removeClass("bg-danger alert alert-error")
+									$(".validation-error").empty();
+							}
+
 							var formData = {
 			        	_token: $('meta[name="csrf-token"]').attr('content'),
 			        	address_street: address_street,
@@ -1252,17 +1258,16 @@
 					      dataType: 'json',
 					      success: function(response)
 					      {
-					      	alert(response.address_translate[0]['chinese']);
-
 									if($.trim(address_unit1).length >= 0)
 									{
-										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal + ", Singapore";
+										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
 
 										$("#address_translated").val(full_address);
 									}
 									else
 									{
-										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal + ", Singapore";
+										var full_address = response.address_translate[0]['chinese'] + ", " + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
+																				address_postal + ", Singapore";
 
 										$("#address_translated").val(full_address);
 									}
