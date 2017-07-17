@@ -336,7 +336,7 @@
                                                                         <label class="col-md-3 control-label">Address - Street</label>
                                                                         <div class="col-md-9">
 																																						<input type="text" class="form-control" name="address_street"
-                                                                                value="{{ old('content_address_street') }}" id="content_address_street">
+                                                                                value="{{ old('address_street') }}" id="content_address_street">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1200,6 +1200,14 @@
 						minLength: 2,
 					  select: function(event, ui) {
 					  	$('#content_address_street').val(ui.item.value);
+						}
+					});
+
+					$("#edit_address_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 2,
+					  select: function(event, ui) {
+					  	$('#edit_address_street').val(ui.item.value);
 						}
 					});
 

@@ -1,7 +1,7 @@
-	
-	<form method="post" action="{{ URL::to('/operator/edit-devotee') }}" 
+
+	<form method="post" action="{{ URL::to('/operator/edit-devotee') }}"
         class="form-horizontal form-bordered">
-        
+
         {!! csrf_field() !!}
 
         <div class="form-body">
@@ -68,21 +68,21 @@
 
                     <label class="col-md-3 control-label">Address - House No</label>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}" 
+                        <input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}"
                             id="edit_address_houseno">
                     </div><!-- end col-md-3 -->
 
                     <label class="col-md-1 control-label">Unit</label>
 
                     <div class="col-md-2">
-                        <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}" 
+                        <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}"
                             id="edit_address_unit1">
                     </div><!-- end col-md-2 -->
 
                     <label class="col-md-1">-</label>
 
                     <div class="col-md-2">
-                        <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}" 
+                        <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}"
                             id="edit_address_unit2">
                     </div><!-- end col-md-2 -->
 
@@ -99,6 +99,9 @@
                             <option>Rehill Ave 1</option>
                             <option>Clementi Ave 3</option>
                         </select>
+
+												<input type="text" class="form-control" name="address_street"
+														value="{{ old('address_street') }}" id="edit_address_street">
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
@@ -107,7 +110,7 @@
 
                     <label class="col-md-3 control-label">Address - Building</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="address_building" value="{{ old('address_building') }}" 
+                        <input type="text" class="form-control" name="address_building" value="{{ old('address_building') }}"
                             id="edit_address_building">
                     </div><!-- end col-md-9 -->
 
@@ -117,7 +120,7 @@
 
                     <label class="col-md-3 control-label">Address - Postal *</label>
                     <div class="col-md-9">
-                       	<input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}" 
+                       	<input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}"
                             id="edit_address_postal">
                     </div><!-- end col-md-9 -->
 
@@ -168,7 +171,7 @@
 
                     <label class="col-md-3 control-label">Deceased Year</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control deceased_year" name="deceased_year" data-provide="datepicker" 
+                        <input type="text" class="form-control deceased_year" name="deceased_year" data-provide="datepicker"
                             value="{{ old('deceased_year') }}" id="edit_deceased_year">
                     </div><!-- end col-md-9 -->
 
@@ -236,7 +239,7 @@
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-                    
+
                     <label class="col-md-3"></label>
                     <div class="col-md-9">
                         <div class="table-scrollable" id="edit-familycode-table">
@@ -292,7 +295,7 @@
                 <div class="form-group">
 
                     <div class="col-md-1"></div><!-- end col-md-1 -->
-                                                                        
+
                     <div class="col-md-5">
                         <i class="fa fa-plus-circle" aria-hidden="true" id="AddressBtn"></i>
                     </div><!-- end col-md-5 -->
@@ -308,7 +311,7 @@
 
                     <div class="col-md-1">
                     </div><!-- end col-md-1 -->
-                                                                        
+
                     <div class="col-md-5">
                         <i class="fa fa-plus-circle" aria-hidden="true" id="VehicleBtn"></i>
                     </div><!-- end col-md-5 -->
@@ -325,7 +328,7 @@
 
                     <div class="col-md-1">
                     </div><!-- end col-md-1 -->
-                                                                        
+
                     <div class="col-md-5">
                         <i class="fa fa-plus-circle" aria-hidden="true" id="SpecRemarkBtn"></i>
                     </div><!-- end col-md-5 -->
@@ -365,7 +368,7 @@
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
-                                                                    
+
                 <div class="form-group">
 
                     <label class="col-md-3 control-label">Member Approved Date</label>
@@ -380,7 +383,7 @@
 
                     <label class="col-md-3 control-label">Member Cancelled Date</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control form-control-inline date-picker" name="cancelled_date" data-provide="datepicker" 
+                        <input type="text" class="form-control form-control-inline date-picker" name="cancelled_date" data-provide="datepicker"
                             id="edit_cancelled_date">
                     </div><!-- end col-md-9 -->
 
@@ -413,7 +416,7 @@
                 <div class="form-actions pull-right">
                     <button type="submit" class="btn blue" id="update_btn" disabled>Update</button>
                     <button type="button" class="btn default">Cancel</button>
-                </div><!-- end form-actions -->                                                                    
+                </div><!-- end form-actions -->
             </div><!-- end col-md-6 -->
 
         </div><!-- end form-body -->
