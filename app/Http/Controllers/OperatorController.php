@@ -106,16 +106,16 @@ class OperatorController extends Controller
 		$optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
 		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
 
-		$devotee->dob = Carbon::parse($devotee->dob)->format("m/d/Y");
+		$devotee->dob = Carbon::parse($devotee->dob)->format("d/m/Y");
 
 		if(isset($member->approved_date))
 		{
-			$member->approved_date = Carbon::parse($member->approved_date)->format("d/m/y");
+			$member->approved_date = Carbon::parse($member->approved_date)->format("d/m/Y");
 		}
 
 		if(isset($member->cancelled_date))
 		{
-			$member->cancelled_date = Carbon::parse($member->cancelled_date)->format("d/m/y");
+			$member->cancelled_date = Carbon::parse($member->cancelled_date)->format("d/m/Y");
 		}
 
 		return response()->json(array(
