@@ -887,7 +887,7 @@ class OperatorController extends Controller
 	public function getAutocomplete(Request $request)
 	{
 			// $member = $input['q'];
-			$member = $_GET['introduced_by1'];
+			$member = Input::get('term');
 
 			$results = array();
 
