@@ -660,7 +660,7 @@
                                                                         <label class="col-md-3 control-label">Introduced By-1</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="introduced_by1"
-                                                                                value="{{ old('introduced_by1') }}">
+                                                                                value="{{ old('introduced_by1') }}" id="introduced_by1">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -670,7 +670,7 @@
                                                                         <label class="col-md-3 control-label">Introduced By-2</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="introduced_by2"
-                                                                                value="{{ old('introduced_by2') }}">
+                                                                                value="{{ old('introduced_by2') }}" id="introduced_by2">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1159,6 +1159,14 @@
     <script type="text/javascript">
 
         $(function(){
+
+					$("#introduced_by1").autocomplete({
+						source: "/operator/search/autocomplete",
+						minLength: 3,
+					  select: function(event, ui) {
+					  	$('#introduced_by1').val(ui.item.value);
+						}
+					});
 
             $('#devotees_table thead tr#filter th').each( function () {
                 var title = $('#devotees_table thead th').eq( $(this).index() ).text();

@@ -890,12 +890,13 @@ class OperatorController extends Controller
 			$input = array_except($request->all(), '_token');
 
 			// $member = $input['q'];
-			$member = "Oakka Myo";
+			$member = $input['introduced_by1'];
 
 			$results = array();
 
 			$queries = Member::where('introduced_by1', 'like', '%'.$member.'%')
 								 ->orwhere('introduced_by2', 'like', '%'.$member.'%')
+								 ->take(7)
 								 ->get();
 
 		  foreach ($queries as $query)
