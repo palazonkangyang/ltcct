@@ -170,7 +170,7 @@ class OperatorController extends Controller
 				$cancelledDate = $input['cancelled_date'];
 				$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate));
 
-				dd($dobNewDate);
+				dd($input['dob']);
 
 		        // Save Member
 		        if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
