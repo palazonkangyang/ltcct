@@ -1187,6 +1187,11 @@
 					});
 
 					$(".address_translated_btn").click(function() {
+
+							var count = 0;
+							var errors = new Array();
+							var validationFailed = false;
+
 							var address_houseno = $("#content_address_houseno").val();
 							var address_unit1 = $("#content_address_unit1").val();
 							var address_unit2 = $("#content_address_unit2").val();
