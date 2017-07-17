@@ -1163,9 +1163,17 @@
 
 					$("#introduced_by1").autocomplete({
 						source: "/operator/search/autocomplete",
-						minLength: 3,
+						minLength: 2,
 					  select: function(event, ui) {
 					  	$('#introduced_by1').val(ui.item.value);
+						}
+					});
+
+					$("#introduced_by2").autocomplete({
+						source: "/operator/search/autocomplete",
+						minLength: 2,
+					  select: function(event, ui) {
+					  	$('#introduced_by2').val(ui.item.value);
 						}
 					});
 
