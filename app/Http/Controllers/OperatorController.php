@@ -135,8 +135,6 @@ class OperatorController extends Controller
 		$devotee_id = "";
 		$input = array_except($request->all(), '_token');
 
-		dd($input);
-
 		$validator = $this->validate($request, [
             'title' => 'required',
             'chinese_name' => 'required',
@@ -171,6 +169,8 @@ class OperatorController extends Controller
 
 				$cancelledDate = $input['cancelled_date'];
 				$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate));
+
+				dd($dobNewDate);
 
 		        // Save Member
 		        if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
