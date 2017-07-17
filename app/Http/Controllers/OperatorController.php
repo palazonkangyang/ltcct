@@ -956,7 +956,9 @@ class OperatorController extends Controller
 		$address_translate = TranslationStreet::where('english', $address_street)
 												 ->get();
 
-		return response()->json('address_translate', $address_translate);
+		return response()->json(array(
+			'address_translate' => $address_translate
+		)););
 	}
 
 
