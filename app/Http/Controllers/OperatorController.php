@@ -886,11 +886,8 @@ class OperatorController extends Controller
 
 	public function getAutocomplete(Request $request)
 	{
-
-			$input = array_except($request->all(), '_token');
-
 			// $member = $input['q'];
-			$member = $input['introduced_by1'];
+			$member = $_GET['introduced_by1'];
 
 			$results = array();
 
