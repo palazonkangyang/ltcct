@@ -448,18 +448,23 @@ class OperatorController extends Controller
 
         		// Modify fields
 				$dob = $input['dob'];
-				$dobNewDate = date("Y-m-d", strtotime($dob));
+				$dob_date = str_replace('/', '-', $dob);
+				$dobNewDate = date("Y-m-d", strtotime($dob_date));
+
+				dd($dobNewDate);
 
 				if(isset($input['approved_date']))
 				{
 					$approvedDate = $input['approved_date'];
-					$approveNewDate = date("Y-m-d", strtotime($approvedDate));
+					$approvedDate_date = str_replace('/', '-', $approvedDate);
+					$approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
 				}
 
 				if(isset($input['cancelled_date']))
 				{
 					$cancelledDate = $input['cancelled_date'];
-					$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate));
+					$cancelledDate_date = str_replace('/', '-', $cancelledDate);
+					$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate_date));
 				}
 
 		        if(isset($input['edit_familycode_id']))
