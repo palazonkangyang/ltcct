@@ -92,14 +92,6 @@
 
                     <label class="col-md-3 control-label">Address - Street</label>
                     <div class="col-md-9">
-                        <select class="form-control" name="address_street" id="edit_address_street">
-                            <option>Ang Mo Kio Ave 10</option>
-                            <option>Ang Mo Kio Ave 8</option>
-                            <option>Bishan Ave 4</option>
-                            <option>Rehill Ave 1</option>
-                            <option>Clementi Ave 3</option>
-                        </select>
-
 												<input type="text" class="form-control" name="address_street"
 														value="{{ old('address_street') }}" id="edit_address_street">
                     </div><!-- end col-md-9 -->
