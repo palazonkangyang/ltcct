@@ -1258,7 +1258,7 @@
 					      dataType: 'json',
 					      success: function(response)
 					      {
-									if($.trim(address_unit1).length >= 0)
+									if($.trim(address_unit1).length <= 0)
 									{
 										var full_address = response.address_translate[0]['chinese'] + ", " + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
 																				address_postal + ", Singapore";
