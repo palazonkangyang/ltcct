@@ -1170,7 +1170,7 @@
 					});
 
 					$("#introduced_by2").autocomplete({
-						source: "/operator/search/autocomplete",
+						source: "/operator/search/autocomplete2",
 						minLength: 2,
 					  select: function(event, ui) {
 					  	$('#introduced_by2').val(ui.item.value);

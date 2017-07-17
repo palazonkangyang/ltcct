@@ -913,6 +913,35 @@ class OperatorController extends Controller
 			return response()->json($results);
 	}
 
+	public function getAutocomplete2(Request $request)
+	{
+			$member = Input::get('term');
+
+			$results = array();
+
+			$queries = Member::where('introduced_by1', 'like', '%'.$member.'%')
+								 ->orwhere('introduced_by2', 'like', '%'.$member.'%')
+								 ->take(5)
+								 ->get();
+
+		  foreach ($queries as $query)
+			{
+				if($member == $query->introduced_by2)
+				{
+					$value = $query->introduced_by2;
+				}
+				else {
+					$value = $query->introduced_by1;
+				}
+
+				$results[] = [
+					'id' => $query->id,
+					'value' => $value
+				];
+			}
+			return response()->json($results);
+	}
+
 
 	// Delete Devotee
 	public function deleteDevotee(Request $request, $devotee_id)
