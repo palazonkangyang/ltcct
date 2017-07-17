@@ -884,6 +884,13 @@ class OperatorController extends Controller
 	    return redirect()->back();
 	}
 
+	public function getAutocomplete(Request $request)
+	{
+			$term = "Ang Mo Kio";
+
+			dd($term);
+	}
+
 
 	// Delete Devotee
 	public function deleteDevotee(Request $request, $devotee_id)
