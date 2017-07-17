@@ -886,9 +886,15 @@ class OperatorController extends Controller
 
 	public function getAutocomplete(Request $request)
 	{
-			$term = "Ang Mo Kio";
+			$term = "Johnson";
 
-			dd($term);
+			$results = array();
+
+			$queries = Member::where('introduced_by1', 'LIKE', '%'.$term.'%')
+								 ->where('introduced_by2', 'LIKE', '%'.$term.'%')
+								 ->take(5)->get();
+
+		 dd($queries->toArray());
 	}
 
 
