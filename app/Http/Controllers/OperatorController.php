@@ -135,6 +135,8 @@ class OperatorController extends Controller
 		$devotee_id = "";
 		$input = array_except($request->all(), '_token');
 
+		dd($input);
+
 		$validator = $this->validate($request, [
             'title' => 'required',
             'chinese_name' => 'required',
