@@ -1194,6 +1194,47 @@
 							var address_postal = $("#content_address_postal").val();
 							var address_street = $("#content_address_street").val();
 
+							if ($.trim(address_houseno).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Address Houseno is empty."
+							}
+
+							if ($.trim(address_building).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Address Building is empty."
+							}
+
+							if ($.trim(address_postal).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Address Postal is empty."
+							}
+
+							if ($.trim(address_street).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Address Street is empty."
+							}
+
+							if (validationFailed)
+							{
+									var errorMsgs = '';
+
+									for(var i = 0; i < count; i++)
+									{
+											errorMsgs = errorMsgs + errors[i] + "<br/>";
+									}
+
+									$('html,body').animate({ scrollTop: 0 }, 'slow');
+
+									$(".validation-error").addClass("bg-danger alert alert-error")
+									$(".validation-error").html(errorMsgs);
+
+									return false;
+							}
+
 							var formData = {
 			        	_token: $('meta[name="csrf-token"]').attr('content'),
 			        	address_street: address_street,
@@ -1216,7 +1257,9 @@
 									}
 									else
 									{
+										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal + ", Singapore";
 
+										$("#address_translated").val(full_address);
 									}
 					      },
 
@@ -1315,7 +1358,7 @@
                 if ($.trim(chinese_name).length <= 0)
                 {
                     validationFailed = true;
-                    errors[count++] = "."
+                    errors[count++] = "Chinese name is empty."
                 }
 
                 if ($.trim(contact).length <= 0)
