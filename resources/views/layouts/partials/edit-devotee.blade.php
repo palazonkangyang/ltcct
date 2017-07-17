@@ -122,7 +122,7 @@
 
                     <label class="col-md-3 control-label">Address - Translate</label>
                     <div class="col-md-9">
-                            <input type="text" class="form-control" name="address_translated" id="edit_address_translated">
+                            <input type="text" class="form-control" name="address_translated" id="edit_address_translated" readonly>
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
