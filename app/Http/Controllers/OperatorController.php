@@ -897,16 +897,17 @@ class OperatorController extends Controller
 
 		  foreach ($queries as $query)
 			{
+				if($member == $query->introduced_by1)
+				{
+					$value = $query->introduced_by1
+				}
+				else {
+					$value => $query->introduced_by2
+				}
+
 				$results[] = [
 					'id' => $query->id,
-
-					if($member == $query->introduced_by1)
-					{
-						'value' => $query->introduced_by1
-					}
-					else {
-						'value' => $query->introduced_by2
-					}
+					'value' => $value
 				];
 			}
 			return response()->json($results);
