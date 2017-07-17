@@ -1378,14 +1378,14 @@
 									{
 										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
 
-										$("#address_translated").val(full_address);
+										$("#edit_address_translated").val(full_address);
 									}
 									else
 									{
 										var full_address = response.address_translate[0]['chinese'] + ", No." + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
 																				address_postal + ", Singapore";
 
-										$("#address_translated").val(full_address);
+										$("#edit_address_translated").val(full_address);
 									}
 					      },
 
