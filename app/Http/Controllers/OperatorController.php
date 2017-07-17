@@ -891,22 +891,14 @@ class OperatorController extends Controller
 			$results = array();
 
 			$queries = Member::where('introduced_by1', 'like', '%'.$member.'%')
-								 ->orwhere('introduced_by2', 'like', '%'.$member.'%')
 								 ->take(5)
 								 ->get();
 
 		  foreach ($queries as $query)
 			{
-				if( strpos( $member, $query->introduced_by1 ) == true ) {
-				    $value = $query->introduced_by1;
-				}
-				else{
-						$value = $query->introduced_by2;
-				}
-
 				$results[] = [
-					'id' => $query->devotee_id,
-					'value' => $value,
+					'id' => $query->member_id,
+					'value' => $query->introduced_by1,
 				];
 			}
 			return response()->json($results);
