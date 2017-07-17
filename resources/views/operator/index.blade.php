@@ -1266,7 +1266,7 @@
 									}
 									else
 									{
-										var full_address = response.address_translate[0]['chinese'] + ", " + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
+										var full_address = response.address_translate[0]['chinese'] + ", No." + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
 																				address_postal + ", Singapore";
 
 										$("#address_translated").val(full_address);
