@@ -891,6 +891,7 @@ class OperatorController extends Controller
 			$results = array();
 
 			$queries = Member::where('introduced_by1', 'like', '%'.$member.'%')
+								 ->orwhere('introduced_by2', 'like', '%'.$member.'%')
 								 ->take(5)
 								 ->get();
 
@@ -899,6 +900,7 @@ class OperatorController extends Controller
 				$results[] = [
 					'id' => $query->member_id,
 					'value' => $query->introduced_by1,
+					'value2' => $query->introduced_by2
 				];
 			}
 			return response()->json($results);
