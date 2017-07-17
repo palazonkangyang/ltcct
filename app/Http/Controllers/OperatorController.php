@@ -886,7 +886,11 @@ class OperatorController extends Controller
 
 	public function getAutocomplete(Request $request)
 	{
-			$term = "Johnson";
+
+			$input = array_except($request->all(), '_token');
+
+			// $member = $input['q'];
+			$member = "Oakka Myo";
 
 			$results = array();
 
@@ -894,9 +898,11 @@ class OperatorController extends Controller
 								 ->orwhere('introduced_by2', 'like', '%'.$term.'%')
 								 ->get();
 
-			// $queries = Member::all();
-
-		 dd($queries->toArray());
+		  foreach ($queries as $query)
+			{
+				$results[] = [ 'id' => $query->id, 'value' => $query->introduced_by1 ];
+			}
+			return Response::json($results);
 	}
 
 
