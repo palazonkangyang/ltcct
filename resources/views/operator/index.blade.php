@@ -1309,12 +1309,12 @@
 							var errors = new Array();
 							var validationFailed = false;
 
-							var address_houseno = $("#content_address_houseno").val();
-							var address_unit1 = $("#content_address_unit1").val();
-							var address_unit2 = $("#content_address_unit2").val();
-							var address_building = $("#content_address_building").val();
-							var address_postal = $("#content_address_postal").val();
-							var address_street = $("#content_address_street").val();
+							var address_houseno = $("#edit_address_houseno").val();
+							var address_unit1 = $("#edit_address_unit1").val();
+							var address_unit2 = $("#edit_address_unit2").val();
+							var address_building = $("#edit_address_building").val();
+							var address_postal = $("#edit_address_postal").val();
+							var address_street = $("#edit_address_street").val();
 
 							if ($.trim(address_houseno).length <= 0)
 							{
