@@ -110,12 +110,12 @@ class OperatorController extends Controller
 
 		if(isset($member->approved_date))
 		{
-			$member->approved_date = Carbon::parse($member->approved_date)->format("m/d/Y");
+			$member->approved_date = Carbon::parse($member->approved_date)->format("d/m/y");
 		}
 
 		if(isset($member->cancelled_date))
 		{
-			$member->cancelled_date = Carbon::parse($member->cancelled_date)->format("m/d/Y");
+			$member->cancelled_date = Carbon::parse($member->cancelled_date)->format("d/m/y");
 		}
 
 		return response()->json(array(
