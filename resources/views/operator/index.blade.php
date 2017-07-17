@@ -1206,11 +1206,11 @@
 					      dataType: 'json',
 					      success: function(response)
 					      {
-					      	alert(response.address_translate['chinese']);
+					      	alert(response.address_translate[0]['chinese']);
 
 									if($.trim(address_unit1).length >= 0)
 									{
-										var full_address = "No." + address_houseno + ", " + response.address_translate['chinese'] + ", " + address_postal + ", Singapore";
+										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal + ", Singapore";
 
 										$("#address_translated").val(full_address);
 									}
