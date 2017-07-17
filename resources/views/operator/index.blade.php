@@ -1169,13 +1169,13 @@
 						}
 					});
 
-					// $("#introduced_by2").autocomplete({
-					// 	source: "/operator/search/autocomplete2",
-					// 	minLength: 2,
-					//   select: function(event, ui) {
-					//   	$('#introduced_by2').val(ui.item.value);
-					// 	}
-					// });
+					$("#introduced_by2").autocomplete({
+						source: "/operator/search/autocomplete2",
+						minLength: 2,
+					  select: function(event, ui) {
+					  	$('#introduced_by2').val(ui.item.value);
+						}
+					});
 
             $('#devotees_table thead tr#filter th').each( function () {
                 var title = $('#devotees_table thead th').eq( $(this).index() ).text();
