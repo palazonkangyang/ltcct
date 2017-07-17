@@ -4,6 +4,10 @@ $(function() {
 	// check family code
     $(".check_family_code").click(function() {
 
+			$("#familycode-table tbody").empty();
+    $('#familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+                        "<td colspan='3'>No Family Code</td></tr>");
+
     	var address_houseno = $("#content_address_houseno").val();
     	var address_unit1 = $("#content_address_unit1").val();
     	var address_unit2 = $("#content_address_unit2").val();
@@ -24,31 +28,36 @@ $(function() {
         	address_postal: address_postal
         };
 
-        // alert(JSON.stringify(formData));
-
         $.ajax({
             type: 'POST',
-            url: "http://localhost/ltcct/public/operator/devotee/search-familycode",
+            url: "/operator/devotee/search-familycode",
             data: formData,
             dataType: 'json',
             success: function(response)
             {
-            	alert(JSON.stringify(response));
+                if(response.familycode.length != 0)
+                {
+                    $("#no_familycode").remove();
 
-            	$("#no_familycode").remove();
+                    $.each(response.familycode, function(index, data) {
+                        $('#familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='familycode_id' " +
+                            "value='" + data.familycode_id + "' /></td>" +
+                            "<td>" + data.chinese_name + "</td>" +
+                            "<td>" + data.familycode + "</td></tr>");
+                    });
+                }
 
-            	$.each(response.familycode, function(index, data) {
-					$('#familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='familycode_id' " + 
-            			"value='" + data.familycode_id + "' /></td>" +
-            			"<td>" + data.chinese_name + "</td>" +
-            			"<td>" + data.familycode + "</td></tr>");
-				});
-            	
+                else
+                {
+                    $('#familycode-table tbody').append("<tr id='no_familycode'>" +
+                        "<td colspan='3'>No Family Code</td></tr>");
+                }
+
             },
 
             error: function (response) {
-            	console.log(response);  
-            } 
+            	console.log(response);
+            }
        	});
 
     });

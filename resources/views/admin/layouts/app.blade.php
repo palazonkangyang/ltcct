@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 @section('htmlheader')
@@ -20,9 +20,9 @@
 						<div class="container">
 
 							<div class="page-logo">
-                                <a href="/admin/dashboard">
+                                <!--<a href="/admin/dashboard">
                                     <img src="{{ URL::asset('/images/logo-small.jpg') }}" alt="logo" class="logo-default">
-                                </a>
+                                </a> -->
                             </div><!-- end page-logo -->
 
                             <!-- RESPONSIVE MENU TOGGLER -->

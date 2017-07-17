@@ -12,7 +12,7 @@
 
                 	<div class="page-title">
 
-                        <h1>Main Page 主页</h1>
+                        <h1>Edit Account</h1>
 
                     </div><!-- end page-title -->
 
@@ -26,7 +26,7 @@
 
                     <ul class="page-breadcrumb breadcrumb">
                         <li>
-                            <a href="/operator/index">Home</a>
+                            <a href="index.html">Home</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
@@ -91,18 +91,6 @@
                                                         </li>
                                                         <li id="edit" class="disabled">
                                                             <a href="#tab_editdevotee" data-toggle="tab">Edit Devotee <br>资料更新</a>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-                                                        </li>
-                                                        <li>
-                                                            <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
->>>>>>> c83c0738299b07c2ef41c7c6f7ed1f8e202acc7c
-=======
-                                                        </li>
-                                                        <li>
-                                                            <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
->>>>>>> c83c0738299b07c2ef41c7c6f7ed1f8e202acc7c
                                                         </li>
                                                         <li>
                                                             <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>

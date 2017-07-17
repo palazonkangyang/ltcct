@@ -12,7 +12,7 @@ $(function() {
 
 		$.ajax({
             type: 'GET',
-            url: "/public/staff/search-devotee",
+            url: "/staff/search-devotee",
             data: formData,
             dataType: 'json',
             success: function(response)
@@ -20,14 +20,14 @@ $(function() {
                 if(response.devotee == null)
                 {
                     alert("Devotee ID is not found. Please search again!");
-                }   
+                }
 
                 else
                 {
                     $("#no_data").remove();
 
 
-                    $('#appendDevoteeLists').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i>" + 
+                    $('#appendDevoteeLists').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i>" +
                         "<input type='hidden' name='other_devotee_id[]' value='" + response.devotee['devotee_id'] + "'></td>" +
                         "<td>" + response.devotee['chinese_name'] +"</td>" +
                         "<td>" + response.devotee['devotee_id'] + "</td>" +
@@ -37,9 +37,9 @@ $(function() {
                         "<td>" + response.devotee['guiyi_name'] + "</td>" +
                         "<td width='100px' class='amount-col'><input type='text' class='form-control amount' name='other_amount[]'></td>" +
                         "<td width='120px'><input type='text' class='form-control paid_till' name='other_paid_till[]' data-provide='datepicker'></td>" +
-                        "<td><select class='form-control' name='other_hjgr_arr[]'><option value='hj'>hj</option><option value='gr'>gr</option>" +
+                        "<td width='150px'><select class='form-control' name='other_hjgr_arr[]'><option value='hj'>hj</option><option value='gr'>gr</option>" +
                         "</select></td>" +
-                        "<td><select class='form-control' name='other_display[]'><option value='Y'>Y</option><option value='N'>N</option>" +
+                        "<td width='50px'><select class='form-control' name='other_display[]'><option value='Y'>Y</option><option value='N'>N</option>" +
                         "</select></td>" +
                         "<td></td>" +
                         "<td></td>");
@@ -47,8 +47,8 @@ $(function() {
             },
 
             error: function (response) {
-                console.log(response);  
-            } 
+                console.log(response);
+            }
         });
 	});
 
@@ -88,12 +88,12 @@ $(function() {
                 validationFailed = true;
                 errors[count++] = "Manual Receipt is empty."
             }
-            
+
             if ($.trim(receipt_at).length <= 0)
             {
                 validationFailed = true;
                 errors[count++] = "Date Of Receipt is empty."
-            }  
+            }
         }
 
         if (validationFailed)
@@ -101,7 +101,7 @@ $(function() {
             var errorMsgs = '';
 
             for(var i = 0; i < count; i++)
-            {                
+            {
                 errorMsgs = errorMsgs + errors[i] + "<br/>";
             }
 

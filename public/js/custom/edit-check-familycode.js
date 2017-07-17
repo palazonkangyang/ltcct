@@ -1,8 +1,15 @@
 
 $(function() {
 
+    $("#edit-familycode-table tbody").empty();
+    $('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+                        "<td colspan='3'>No Family Code</td></tr>");
+
 	// check family code
     $(".edit_check_family_code").click(function() {
+
+        $("#edit_no_familycode").remove();
+        $("#edit-familycode-table tbody").empty();
 
     	var address_houseno = $("#edit_address_houseno").val();
     	var address_unit1 = $("#edit_address_unit1").val();
@@ -26,26 +33,37 @@ $(function() {
 
         $.ajax({
             type: 'POST',
-            url: "http://localhost/ltcct/public/operator/devotee/search-familycode",
+            url: "/operator/devotee/search-familycode",
             data: formData,
             dataType: 'json',
             success: function(response)
             {
 
-            	$("#edit_no_familycode").remove();
+                if(response.familycode.length != 0)
+                {
+                    $("#edit_no_familycode").remove();
 
-            	$.each(response.familycode, function(index, data) {
-					$('#edit-familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='edit_familycode_id' " + 
-            			"value='" + data.familycode_id + "' /></td>" +
-            			"<td>" + data.chinese_name + "</td>" +
-            			"<td>" + data.familycode + "</td></tr>");
-				});
-            	
+                    $.each(response.familycode, function(index, data) {
+                        $('#edit-familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='edit_familycode_id' " +
+                            "value='" + data.familycode_id + "' /></td>" +
+                            "<td>" + data.chinese_name + "</td>" +
+                            "<td>" + data.familycode + "</td></tr>");
+                    });
+                }
+
+                else
+                {
+                    $('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+                        "<td colspan='3'>No Family Code</td></tr>");
+                }
+
+
+
             },
 
             error: function (response) {
-            	console.log(response);  
-            } 
+            	console.log(response);
+            }
        	});
 
     });

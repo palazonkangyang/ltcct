@@ -1,10 +1,10 @@
-@extends('layouts/backend/default')
+﻿@extends('layouts/backend/default')
 
 @section('main-content')
 
 	<div class="logo">
-     <img src="{{ URL::asset('/images/logo.jpg') }}" class="img-circle" alt=""> 
-    </div><!-- end logo -->
+     <!-- <img src="{{ URL::asset('/images/logo.jpg') }}" class="img-circle" alt=""> -->
+    </div><!--  end logo -->
 
     <div class="content">
 

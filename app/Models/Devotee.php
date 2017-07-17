@@ -73,12 +73,44 @@ class Devotee extends Model
             $devotee->where('chinese_name', '=', $input['chinese_name']);
         }
 
-        if (\Input::get("english_name")) {
-            $devotee->where('english_name', '=', $input['english_name']);
+        if (\Input::get("devotee_id")) {
+            $devotee->where('devotee_id', '=', $input['devotee_id']);
         }
 
-        if (\Input::get("guiyi_name")) {
-            $devotee->where('guiyi_name', '=', $input['guiyi_name']);
+        if (\Input::get("member_id")) {
+            $devotee->where('member_id', '=', $input['member_id']);
+        }
+
+        if (\Input::get("familycode_id")) {
+            $devotee->where('familycode_id', '=', $input['familycode_id']);
+        }
+
+        if (\Input::get("nric")) {
+            $devotee->where('nric', '=', $input['nric']);
+        }
+
+        if (\Input::get("contact")) {
+            $devotee->where('contact', '=', $input['contact']);
+        }
+
+        if (\Input::get("address_houseno")) {
+            $devotee->where('address_houseno', '=', $input['address_houseno']);
+        }
+
+        if (\Input::get("address_street")) {
+            $devotee->where('address_street', '=', $input['address_street']);
+        }
+
+        if (\Input::get("adress_unit1")) {
+            $devotee->where('adress_unit1', '=', $input['adress_unit1']);
+        }
+
+        if (\Input::get("adress_unit2")) {
+            $devotee->where('adress_unit2', '=', $input['adress_unit2']);
+        }
+
+        if (\Input::get("address_postal")) {
+            $devotee->where('address_postal', '=', $input['address_postal']);
         }
 
         return $devotee;

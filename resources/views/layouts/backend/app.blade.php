@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 @section('htmlheader')
@@ -19,11 +19,11 @@
 
                         <div class="container">
 
-                            <div class="page-logo">
+                           <!-- <div class="page-logo">
                                 <a href="/operator/index">
                                     <img src="{{ URL::asset('/images/logo-small.jpg') }}" alt="logo" class="logo-default">
                                 </a>
-                            </div><!-- end page-logo -->
+                            </div> end page-logo -->
 
                             <!-- RESPONSIVE MENU TOGGLER -->
                             <a href="javascript:;" class="menu-toggler"></a>

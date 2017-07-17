@@ -31,20 +31,23 @@ class OperatorController extends Controller
 						->whereNull('member_id')
 						->whereNull('deceased_year')
         				->select('devotee.*')
-        				->addSelect('familycode.familycode')->paginate(50);
+        				->addSelect('familycode.familycode')
+        				->get();
 
 		$members = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 						->whereNotNull('member_id')
 						->whereNull('deceased_year')
 						->orderBy('devotee_id', 'asc')
         				->select('devotee.*')
-        				->addSelect('familycode.familycode')->paginate(50);		
+        				->addSelect('familycode.familycode')
+        				->get();
 
         $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 						->whereNotNull('deceased_year')
 						->orderBy('devotee_id', 'asc')
         				->select('devotee.*')
-        				->addSelect('familycode.familycode')->paginate(50);
+        				->addSelect('familycode.familycode')
+        				->get();
 
 		return view('operator.index', [
             'members' => $members,
@@ -139,6 +142,7 @@ class OperatorController extends Controller
             'address_unit1' => 'required',
             'address_unit2' => 'required',
             'address_postal' => 'required',
+						'marital_status' => 'required',
             'authorized_password' => 'required'
         ]);
 
@@ -154,9 +158,9 @@ class OperatorController extends Controller
         	$hashedPassword = $user->password;
 
         	if (Hash::check($input['authorized_password'], $hashedPassword)) {
-		    	
+
 		    	// Modify fields
-		        $dob = $input['dob'];
+		    $dob = $input['dob'];
 				$dobNewDate = date("Y-m-d", strtotime($dob));
 
 				$approvedDate = $input['approved_date'];
@@ -175,8 +179,8 @@ class OperatorController extends Controller
 
 			        $member = Member::create($data);
 			        $member_id = $member['member_id'];
-		        }     
-		        
+		        }
+
 
 		        if($member_id != null && isset($input['familycode_id']))
 		        {
@@ -318,9 +322,9 @@ class OperatorController extends Controller
 
 				    $devotee = Devotee::create($data);
 			    	$devotee_id = $devotee->devotee_id;
-		        }      
+		        }
 
-		        
+
 		        if($devotee_id != null)
 		        {
 		        	if(isset($input['address_data'][0]))
@@ -518,7 +522,7 @@ class OperatorController extends Controller
 				    $devotee->nationality = $input['nationality'];
 				    $devotee->familycode_id = $familycode_id;
 
-				    $devotee_result = $devotee->save();	
+				    $devotee_result = $devotee->save();
 		        }
 
 
@@ -568,7 +572,7 @@ class OperatorController extends Controller
 		                $special_remark->data = $input['special_remark'][$i];
 		                $special_remark->devotee_id = $input['devotee_id'];
 
-		                $special_remark->save();				
+		                $special_remark->save();
 					}
 				}
 
@@ -583,7 +587,7 @@ class OperatorController extends Controller
 		        	$request->session()->flash('success', 'Devotee Profile is successfully updated.');
 		        	return redirect()->back();
 		        }
-		        
+
         	}
 
         	else
@@ -592,19 +596,12 @@ class OperatorController extends Controller
 	            return redirect()->back();
 			}
 		}
-
-		else
-		{
-			$request->session()->flash('error', "Please enter password. Please Try Again");
-            return redirect()->back();
-		}
-
 	}
 
 
 	// Edit Devotee
 	public function getEditDevotee($devotee_id)
-	{	
+	{
 		$devotee = Devotee::find($devotee_id);
 
 		$optionaladdresses = OptionalAddress::where('devotee_id', '=', $devotee->devotee_id)->get();
@@ -651,7 +648,7 @@ class OperatorController extends Controller
 	//     $devotee->dialect = $input['dialect'];
 	//     $devotee->nationality = $input['nationality'];
 
-	//     $result = $devotee->save();	    
+	//     $result = $devotee->save();
 
 	//     // Update Optional Address
 	//     if(isset($input['address_type']) && isset($input['address_data']))
@@ -687,7 +684,7 @@ class OperatorController extends Controller
 
  //        if ($result) {
  //            $request->session()->flash('success', 'Devotee Profile is successfully updated.');
- //        } 
+ //        }
 
  //        else {
  //            $request->session()->flash('error', 'Failed in updating profile.');
@@ -699,7 +696,8 @@ class OperatorController extends Controller
 
 	// Focus Devotee
 	public function getFocusDevotee(Request $request)
-	{	
+	{
+
 		$devotees = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 						->whereNull('member_id')
 						->whereNull('deceased_year')
@@ -711,7 +709,7 @@ class OperatorController extends Controller
 						->whereNull('deceased_year')
 						->orderBy('devotee_id', 'asc')
         				->select('devotee.*')
-        				->addSelect('familycode.familycode')->paginate(50);		
+        				->addSelect('familycode.familycode')->paginate(50);
 
         $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 						->whereNotNull('deceased_year')
@@ -725,48 +723,70 @@ class OperatorController extends Controller
 
         $focus_devotee = $devotee->focusDevotee($input)->get();
 
-        // Get Devotee Lists for relocation
-        $familycode_id = $focus_devotee[0]->familycode_id;
+				if(count($focus_devotee) == 0)
+				{
+					$request->session()->flash('error', 'There has no record. Please search again.');
+					return redirect()->back()->withInput();
+				}
 
-        $devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-        				->where('devotee.familycode_id', $familycode_id)
-        				->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
-        				->orderBy('devotee_id', 'asc')
-        				->select('devotee.*')
-        				->addSelect('familycode.familycode')->get();
+				elseif(count($focus_devotee) > 1)
+				{
+					$request->session()->flash('error', 'There has more than one record. Please search with more details.');
+					return redirect()->back()->withInput();
+				}
 
-       	// Get Receipt History
-       	$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-       				->leftjoin('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
-       				->where('receipt.focusdevotee_id', $focus_devotee[0]->devotee_id)
-       				->orderBy('receipt_id', 'desc')
-       				->select('receipt.*')
-       				->addSelect('devotee.chinese_name')
-       				->addSelect('generaldonation.manualreceipt')
-       				->get();
+				else {
+					// Get Devotee Lists for relocation
+	        $familycode_id = $focus_devotee[0]->familycode_id;
+
+	        $devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+	        				->where('devotee.familycode_id', $familycode_id)
+	        				->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
+	        				->orderBy('devotee_id', 'asc')
+	        				->select('devotee.*')
+	        				->addSelect('familycode.familycode')->get();
+
+					// Get Receipt History
+				  $receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+				         				->leftjoin('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
+				         				->where('receipt.focusdevotee_id', $focus_devotee[0]->devotee_id)
+				         				->orderBy('receipt_id', 'desc')
+				         				->select('receipt.*')
+				         				->addSelect('devotee.chinese_name')
+				         				->addSelect('generaldonation.manualreceipt')
+				         				->get();
+
+												if (!Session::has('focus_devotee'))
+												{
+										    	Session::put('focus_devotee', $focus_devotee);
+												}
+
+								        if(!Session::has('devotee_lists'))
+								        {
+								        	Session::put('devotee_lists', $devotee_lists);
+								        }
+
+								        if(!Session::has('receipts'))
+								        {
+								        	Session::put('receipts', $receipts);
+								        }
+
+												return redirect()->back()->with([
+								        	'members' => $members,
+								        	'devotees' => $devotees,
+								        	'deceased_lists' => $deceased_lists,
+								        ]);
+				}
 
 
 
-        if (!Session::has('focus_devotee'))
-		{
-		    Session::put('focus_devotee', $focus_devotee);
-		}
-        
-        if(!Session::has('devotee_lists'))
-        {
-        	Session::put('devotee_lists', $devotee_lists);
-        }
 
-        if(!Session::has('receipts'))
-        {
-        	Session::put('receipts', $receipts);
-        }
 
-        return redirect()->back()->with([
-        	'members' => $members,
-        	'devotees' => $devotees, 
-        	'deceased_lists' => $deceased_lists,
-        ]);
+
+
+
+
+
 	}
 
 
@@ -784,7 +804,7 @@ class OperatorController extends Controller
 						->whereNull('deceased_year')
 						->orderBy('devotee_id', 'asc')
         				->select('devotee.*')
-        				->addSelect('familycode.familycode')->paginate(50);		
+        				->addSelect('familycode.familycode')->paginate(50);
 
         $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 						->whereNotNull('deceased_year')
@@ -797,8 +817,8 @@ class OperatorController extends Controller
 		Session::forget('receipts');
 
         return redirect()->back()->with([
-        	'members' => $members, 
-        	'devotees' => $devotees, 
+        	'members' => $members,
+        	'devotees' => $devotees,
         	'deceased_lists' => $deceased_lists
         ]);
 	}
@@ -842,7 +862,7 @@ class OperatorController extends Controller
                 ->withInput();
         }
 
-		$input = Input::except('_token', 'address_houseno', 'address_unit1', 'address_unit2', 'address_street', 
+		$input = Input::except('_token', 'address_houseno', 'address_unit1', 'address_unit2', 'address_street',
 								'address_building', 'address_postal', 'nationality', 'oversea_addr_in_chinese');
 
 	    for($i = 0; $i < count($input['devotee_id']); $i++)

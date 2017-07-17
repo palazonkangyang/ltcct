@@ -1,13 +1,13 @@
 @extends('layouts.backend.app')
 
 @section('main-content')
-	
+
 	<div class="page-container-fluid">
 
 		<div class="page-content-wrapper">
 
 			<div class="page-head">
-                
+
                 <div class="container-fluid">
 
                 	<div class="page-title">
@@ -58,7 +58,7 @@
                                                     @foreach($errors->all() as $error)
                                                         <p>{{ $error }}</p>
                                                     @endforeach
-                                                    
+
                                                 </div>
 
                                             @endif
@@ -79,7 +79,7 @@
                                                         <li class="active">
                                                             <a href="#tab_xiangyou" data-toggle="tab">Xiangyou <br>香油</a>
                                                         </li>
-                                                        
+
                                                         <li id="members">
                                                             <a href="#tab_ciji" data-toggle="tab">Ciji <br> 慈济</a>
                                                         </li>
@@ -126,8 +126,8 @@
 
                                                                         @if(Session::has('devotee_lists'))
 
-                                                                            @php 
-                    
+                                                                            @php
+
                                                                                 $devotee_lists = Session::get('devotee_lists');
                                                                                 $focus_devotee = Session::get('focus_devotee');
 
@@ -139,7 +139,7 @@
                                                                             	<td>{{ $focus_devotee[0]->chinese_name }}</td>
                                                                             	<td>
                                                                             		{{ $focus_devotee[0]->devotee_id }}
-                                                                            		<input type="hidden" name="devotee_id[]" 
+                                                                            		<input type="hidden" name="devotee_id[]"
 	                                                    								value="{{ $focus_devotee[0]->devotee_id }}">
                                                                             	</td>
                                                                             	<td>{{ $focus_devotee[0]->address_building }}</td>
@@ -153,16 +153,16 @@
                                                                             		<input type="text" class="form-control amount" name="amount[]">
                                                                             	</td>
                                                                             	<td width="120px">
-                                                                            		<input type="text" class="form-control paid_till" 
+                                                                            		<input type="text" class="form-control paid_till"
                                                                             			name="paid_till[]" data-provide="datepicker">
                                                                             	</td>
-                                                                            	<td>
+                                                                            	<td width="120px">
                                                                             		<select class="form-control" name="hjgr_arr[]">
 	                                                                                    <option value="hj">hj</option>
 	                                                                                    <option value="gr">gr</option>
 	                                                                                </select>
                                                                             	</td>
-                                                                            	<td>
+                                                                            	<td width="50px">
                                                                             		<select class="form-control" name="display[]">
 	                                                                                    <option value="Y">Y</option>
 	                                                                                    <option value="N">N</option>
@@ -178,7 +178,7 @@
                                                                             	<td>{{ $devotee->chinese_name }}</td>
                                                                             	<td>
                                                                             		{{ $devotee->devotee_id }}
-                                                                            		<input type="hidden" name="devotee_id[]" 
+                                                                            		<input type="hidden" name="devotee_id[]"
                                                                             		value="{{ $devotee->devotee_id }}">
                                                                             	</td>
                                                                             	<td>{{ $devotee->address_building }}</td>
@@ -190,10 +190,10 @@
                                                                             		<input type="text" class="form-control amount" name="amount[]">
                                                                             	</td>
                                                                             	<td width="120px">
-                                                                            		<input type="text" class="form-control paid_till" 
+                                                                            		<input type="text" class="form-control paid_till"
                                                                             			name="paid_till[]" data-provide="datepicker">
                                                                             	</td>
-                                                                            	<td>
+                                                                            	<td width="100px">
                                                                             		<select class="form-control" name="hjgr_arr[]">
 	                                                                                    <option value="hj">hj</option>
 	                                                                                    <option value="gr">gr</option>
@@ -224,13 +224,13 @@
                                                                         @endif
 
                                                                     </table>
-                                                                    
+
                                                                 </div><!-- end form-group -->
 
                                                                 <div class="form-group">
 
                                                     				<h4>Relatives and friends 亲戚朋友</h4>
-                                                                    
+
                                                                 </div><!-- end form-group -->
 
                                                                 <div class="form-group">
@@ -294,7 +294,7 @@
                                                     		<div class="form-body">
 
                                                     			<div class="form-group">
-                                                    			
+
 	                                                    			<div class="col-md-12">
 	                                                    				<h5><b>Total Amount: S$ <span class="total"></span></b></h5>
 	                                                    			</div><!-- end col-md-12 -->
@@ -306,7 +306,7 @@
 	                                                    			<div class="col-md-12">
 
 	                                                    				<div class="col-md-4">
-	                                                    					
+
 	                                                    					<div class="form-group">
 
 		                                                                        <label class="col-md-4">Transation No:</label>
@@ -327,20 +327,20 @@
 
 				                                                                        <div class="col-md-6">
 				                                                                        	<label class="mt-radio mt-radio-outline"> Cash
-					                                                                            <input type="radio" name="mode_payment" 
+					                                                                            <input type="radio" name="mode_payment"
 					                                                                            	value="cash" checked>
 					                                                                            <span></span>
 					                                                                        </label>
 				                                                                        </div><!-- end col-md-6 -->
 
-				                                                                        <div class="col-md-6">                   	
+				                                                                        <div class="col-md-6">
 				                                                                        </div><!-- end col-md-6 -->
 
 				                                                                        <div class="clearfix"></div>
 
 				                                                                        <div class="col-md-6">
 				                                                                        	<label class="mt-radio mt-radio-outline"> Cheque
-					                                                                            <input type="radio" name="mode_payment" 
+					                                                                            <input type="radio" name="mode_payment"
 					                                                                            	value="cheque" class="form-control">
 					                                                                            <span></span>
 					                                                                        </label>
@@ -352,10 +352,10 @@
 				                                                                        </div><!-- end col-md-6 -->
 
 				                                                                        <div class="clearfix"></div>
-				                                                                        
+
 				                                                                        <div class="col-md-6">
 				                                                                        	<label class="mt-radio mt-radio-outline"> NETS
-					                                                                            <input type="radio" name="mode_payment" 
+					                                                                            <input type="radio" name="mode_payment"
 					                                                                            	value="nets">
 					                                                                            <span></span>
 					                                                                        </label>
@@ -368,7 +368,7 @@
 
 				                                                                        <div class="col-md-6">
 				                                                                        	<label class="mt-radio mt-radio-outline"> Manual Receipt
-					                                                                            <input type="radio" name="mode_payment" 
+					                                                                            <input type="radio" name="mode_payment"
 					                                                                            	value="receipt">
 					                                                                            <span></span>
 					                                                                        </label>
@@ -376,7 +376,7 @@
 
 				                                                                        <div class="col-md-6">
 				                                                                        	<input type="text" name="manualreceipt" value=""
-				                                                                        		class="form-control input-small" 
+				                                                                        		class="form-control input-small"
                                                                                                 id="manualreceipt">
 				                                                                        </div><!-- end col-md-6 -->
 
@@ -390,11 +390,11 @@
 
 				                                                                        <div class="col-md-6">
 				                                                                        	<input type="text" name="receipt_at"
-				                                                                        		class="form-control input-small" 
+				                                                                        		class="form-control input-small"
 				                                                                        		data-provide="datepicker" id="receipt_at">
 				                                                                    	</div><!-- end col-md-6 -->
 
-				                                                                    </div><!-- end mt-radio-list -->                 
+				                                                                    </div><!-- end mt-radio-list -->
 
 		                                                                        </div><!-- end col-md-12 -->
 
@@ -441,7 +441,7 @@
 
 	                                                    		@if(Session::has('focus_devotee'))
 	                                                    		<div class="form-group">
-	                                                    			<input type="hidden" name="focusdevotee_id" 
+	                                                    			<input type="hidden" name="focusdevotee_id"
 	                                                    				value="{{ $focus_devotee[0]->devotee_id }}">
 	                                                    			<input type="hidden" name="total_amount" id="total_amount" value="">
 	                                                    		</div>
@@ -449,7 +449,7 @@
 	                                                    		@else
 
 	                                                    		<div class="form-group">
-	                                                    			<input type="hidden" name="focusdevotee_id" 
+	                                                    			<input type="hidden" name="focusdevotee_id"
 	                                                    				value="">
 	                                                    			<input type="hidden" name="total_amount" id="total_amount" value="">
 	                                                    		</div>
@@ -457,7 +457,7 @@
 	                                                    		@endif
 
 	                                                    		<div class="form-group">
-                                                    			
+
 	                                                    			<div class="col-md-12">
 
 	                                                    				<div class="form-actions">
@@ -471,16 +471,16 @@
 	                                                    		</div><!-- end form-group -->
 
 	                                                    		</form>
-                                                    			
+
                                                     		</div><!-- end form-body -->
 
                                                             <hr>
 
                                                             <div class="form-body">
-                                                                
+
                                                                 <div class="form-group portlet-body">
 
-                                                                    <table class="table table-bordered order-column" 
+                                                                    <table class="table table-bordered order-column"
                                                                         id="receipt_history_table sample_1">
                                                                         <thead>
                                                                             <tr>
@@ -499,8 +499,8 @@
 
                                                                         @if(Session::has('receipts'))
 
-                                                                            @php 
-                    
+                                                                            @php
+
                                                                                 $receipts = Session::get('receipts');
 
                                                                             @endphp
@@ -528,7 +528,7 @@
 
                                                                         @endif
 
-                                                                        
+
                                                                     </table>
 
                                                                 </div><!-- end form-group -->
@@ -569,7 +569,7 @@
 
 	<script src="{{asset('js/custom/common.js')}}"></script>
 	<script src="{{asset('js/custom/search-devotee.js')}}"></script>
-	
+
 	<script type="text/javascript">
 		$(function() {
 
@@ -601,9 +601,9 @@
             // else
             // {
             // 	$("#confirm_donation_btn").attr("disabled", false);
-            // }            
+            // }
 
 		});
 	</script>
-	
+
 @stop
