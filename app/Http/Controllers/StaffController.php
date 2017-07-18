@@ -354,7 +354,7 @@ class StaffController extends Controller
 				FestiveEvent::create($data);
     }
 
-		$event = FestiveEvent::all();
+		$event = FestiveEvent::orderBy('start_at', 'desc')->get();
 
 		dd($event->toArray());
 
