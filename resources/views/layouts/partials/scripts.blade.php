@@ -22,10 +22,10 @@
 
         <!-- END CORE PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
+        <script src="{{ asset('/js/bootstrap-timepicker.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/table-datatables-scroller.min.js') }}" type="text/javascript"></script>
-        
 
         <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/dashboard.min.js') }}" type="text/javascript"></script>
