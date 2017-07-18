@@ -354,8 +354,17 @@ class StaffController extends Controller
 				FestiveEvent::create($data);
     }
 
+		$event = FestiveEvent::all();
+
+		dd($event->toArray());
+
 		$request->session()->flash('success', 'Festive Events have been created!');
-		return redirect()->back();
+
+		return redirect()->back()->with([
+			'members' => $members,
+			'devotees' => $devotees,
+			'deceased_lists' => $deceased_lists,
+		]);;
 	}
 
 }
