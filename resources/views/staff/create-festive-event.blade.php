@@ -88,6 +88,10 @@
                                                             </tr>
                                                         </thead>
 
+                                                        <tbody>
+
+                                                        </tbody>
+
                                                     </table>
 
 
@@ -129,7 +133,14 @@
         $(function() {
 
             $("#addEventRow").click(function() {
-                alert('here');
+
+                $("#festive-event-table").append("<tr><td><input type='text' class='form-control' name='start_at[]'></td>" +
+                    "<td><input type='text' class='form-control' name='end_at[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='time[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='display[]' value=''></td></tr>");
             });
         });
     </script>
