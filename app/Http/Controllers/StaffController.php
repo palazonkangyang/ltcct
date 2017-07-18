@@ -329,7 +329,9 @@ class StaffController extends Controller
 
 	public function postCreateFestiveEvent(Request $request)
 	{
+			$input = array_except($request->all(), '_token');
 
+			dd($input);
 	}
 
 }
