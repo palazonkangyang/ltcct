@@ -86,28 +86,16 @@
                             <div class="hor-menu">
                             	<ul class="nav navbar-nav">
 
-                            		<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown active">
+                            		<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
                                         <a href="/operator/index" id="main-page"> Main Page 主页
                                             <span class="arrow"></span>
                                         </a>
-
-
                                     </li>
 
                                     <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
                                         <a href="/staff/donation"> General Donation 乐捐
                                             <span class="arrow"></span>
                                         </a>
-
-                                        <!-- <ul class="dropdown-menu pull-left">
-                                            <li>
-                                                <a href="#">All Account</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="#">Add New Account</a>
-                                            </li>
-                                        </ul> -->
                                     </li>
 
                                 </ul><!-- end nav navbar-nav -->
