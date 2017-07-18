@@ -114,15 +114,16 @@
                                                                         <input type='text' class='form-control' name='event[]' value='{{ $event->event }}'>
                                                                     </td>
                                                                     <td>
-                                                                        <input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''>
+                                                                        <input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]'
+                                                                          value=''>
                                                                     </td>
                                                                     <td>
                                                                         <input type='text' class='form-control' name='shuwen_title[]' value='{{ $event->shuwen_title }}'>
                                                                     </td>
                                                                     <td>
                                                                         <select class='form-control' name='display[]'>
-                                                                            <option value='Y'>Yes</option>
-                                                                            <option value='N'>No</option>
+                                                                            <option value='Y' <?php if ($event->display == 'Y') echo "selected"; ?>>Yes</option>
+                                                                            <option value='N' <?php if ($event->display == 'N') echo "selected"; ?>>No</option>
                                                                         </select>
                                                                     </td>
                                                                 </tr>
