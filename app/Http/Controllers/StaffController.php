@@ -335,6 +335,8 @@ class StaffController extends Controller
 	{
 			$input = array_except($request->all(), '_token');
 
+			dd($input);
+
 			FestiveEvent::truncate();
 
 			for($i = 0; $i < count($input["start_at"]); $i++)
@@ -344,6 +346,8 @@ class StaffController extends Controller
 
 				$end_at = $input['end_at'][$i];
 				$new_end_at = str_replace('/', '-', $end_at);
+
+				if()
 
 				$data = [
 					"event" => $input['event'][$i],
