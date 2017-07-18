@@ -90,6 +90,13 @@
 
                                                     </table>
 
+
+
+                                                </div><!-- end form-group -->
+
+                                                <div class="form-group">
+                                                    <button type="button" class="btn green" style="width: 100px; margin: 0 25px 0 10px;">Add New
+                                                    </button>
                                                 </div><!-- end form-group -->
 
                                             </div><!-- end form-body -->
