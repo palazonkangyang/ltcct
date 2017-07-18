@@ -335,35 +335,31 @@ class StaffController extends Controller
 	{
 			$input = array_except($request->all(), '_token');
 
-			dd($input);
+			dd($input["start_at"]["0"]);
 
 			// FestiveEvent::truncate();
 
-			foreach ($input["start_at"] as $name => $value) {
-
-				$start_at = $input['start_at'][$name];
+			for($i = 0; $i < count($input["start_at"]); $i++)
+			{
+				$start_at = $input["start_at"][$i];
 				$new_start_at = str_replace('/', '-', $start_at);
 
-				$end_at = $input['end_at'][$name];
+				$end_at = $input['end_at'][$i];
 				$new_end_at = str_replace('/', '-', $end_at);
 
-				if($input['display'][$name] != 'Y')
-				{
-					$input['display'][$name] = 'N';
-				}
-
-      	$data = [
-					"event" => $input['event'][$name],
+				$data = [
+					"event" => $input['event'][$i],
         	"start_at" => date("Y-m-d", strtotime($new_start_at)),
         	"end_at" => date("Y-m-d", strtotime($new_end_at)),
-					"lunar_date" => $input['lunar_date'][$name],
-					"time" => $input['time'][$name],
-					"shuwen_title" => $input['shuwen_title'][$name],
-					"display" => $input['display'][$name]
+					"lunar_date" => $input['lunar_date'][$i],
+					"time" => $input['time'][$i],
+					"shuwen_title" => $input['shuwen_title'][$i],
+					"display" => $input['display'][$i]
       	];
 
 				FestiveEvent::create($data);
-    }
+			}
+
 
 		$events = FestiveEvent::orderBy('start_at', 'desc')->get();
 
