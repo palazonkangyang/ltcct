@@ -75,6 +75,26 @@
 
                                                     <h4>Event  Calendar 庆典节目表</h4>
 
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Chinese Name</th>
+                                                                <th>Devotee#</th>
+                                                                <th>Block</th>
+                                                                <th>Address</th>
+                                                                <th>Unit</th>
+                                                                <th>Guiyi Name</th>
+                                                                <th>Amount</th>
+                                                                <th>Pay Till</th>
+                                                                <th>HJ/ GR</th>
+                                                                <th>Display</th>
+                                                                <th>XYReceipt</th>
+                                                                <th>Trans Date</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                    </table>
+
                                                 </div><!-- end form-group -->
 
                                             </div><!-- end form-body -->
