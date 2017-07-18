@@ -142,7 +142,8 @@
                     "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='time[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='display[]' value=''></td></tr>");
+                    "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
+                    "<option value='N'>No</option></select></td></tr>");
             });
         });
     </script>
