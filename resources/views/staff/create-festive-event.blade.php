@@ -90,12 +90,8 @@
                                                         </thead>
 
                                                         <tbody>
-
                                                         </tbody>
-
                                                     </table>
-
-
 
                                                 </div><!-- end form-group -->
 
@@ -103,6 +99,13 @@
                                                     <button type="button" class="btn green" style="width: 100px; margin: 0 25px 0 10px;" id="addEventRow">Add New
                                                     </button>
                                                 </div><!-- end form-group -->
+
+                                                <hr>
+
+                                                <div class="form-actions pull-right">
+                                                    <button type="submit" class="btn blue" id="confirm_btn" disabled>Confirm</button>
+                                                    <button type="button" class="btn default">Cancel</button>
+                                                </div><!-- end form-actions -->
 
                                             </div><!-- end form-body -->
 
@@ -141,7 +144,7 @@
                     "<td><input type='text' class='form-control' name='lunar_date[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='event[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='time[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='shuwen_title[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
                     "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
                     "<option value='N'>No</option></select></td></tr>");
             });
