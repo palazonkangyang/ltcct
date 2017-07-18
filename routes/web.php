@@ -12,44 +12,35 @@
 */
 
 
-		Route::post('/auth/login', ['as' => 'auth-page', 'uses' => 'AuthController@postAuthenticate']);
-    	Route::get('/auth/login', ['uses' => 'AuthController@authenticate']);
+	Route::post('/auth/login', ['as' => 'auth-page', 'uses' => 'AuthController@postAuthenticate']);
+  Route::get('/auth/login', ['uses' => 'AuthController@authenticate']);
 
-    	Route::get('/auth/logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
-		Route::get('/', ['as' => 'login-page', 'uses' => 'AdminController@login']);
+  Route::get('/auth/logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
+	Route::get('/', ['as' => 'login-page', 'uses' => 'AdminController@login']);
 
- 		Route::get('/login', ['as' => 'login-page', 'uses' => 'AdminController@login']);
- 		Route::get('/logout', ['as' => 'logout-page', 'uses' => 'AdminController@logout']);
+ 	Route::get('/login', ['as' => 'login-page', 'uses' => 'AdminController@login']);
+ 	Route::get('/logout', ['as' => 'logout-page', 'uses' => 'AdminController@logout']);
 
-		// Post Route
-		Route::post('/login', ['as' => 'post-login-page', 'uses' => 'AdminController@postLogin']);
+	// Post Route
+	Route::post('/login', ['as' => 'post-login-page', 'uses' => 'AdminController@postLogin']);
 
 
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['prefix' => 'admin'], function () {
 
-
 		// Get Route
-		 	Route::get('/dashboard', ['as' => 'dashboard-page', 'uses' => 'AdminController@dashboard']);
-      	Route::get('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@getAddAccount']);
+		Route::get('/dashboard', ['as' => 'dashboard-page', 'uses' => 'AdminController@dashboard']);
+    Route::get('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@getAddAccount']);
 		Route::get('/all-accounts', ['as' => 'all-accounts-page', 'uses' => 'AdminController@getAllAccounts']);
 		Route::get('/account/edit/{id}', ['as' => 'all-account-page', 'uses' => 'AdminController@getEditAccount']);
 		Route::get('/account/delete/{id}', ['as' => 'all-account-page', 'uses' => 'AdminController@deleteAccount']);
-			Route::post('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@postAddAccount']);
+		Route::post('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@postAddAccount']);
 		Route::post('/change-account', ['as' => 'change-account-page', 'uses' => 'AdminController@changeAccount']);
-    });
+  });
 
-    /*Route::group(['prefix' => 'supervisor'], function () {
-		Route::get('/add-member', ['as' => 'add-member-page', 'uses' => 'SupervisorController@getAddMember']);
-		Route::get('/member/edit/{member_id}', ['as' => 'edit-member-page', 'uses' => 'SupervisorController@getEditMember']);
-		Route::get('/member/delete/{member_id}', ['as' => 'delete-member-page', 'uses' => 'SupervisorController@deleteMember']);
+  Route::group(['prefix' => 'operator'], function () {
 
-		Route::post('/add-member', ['as' => 'post-member-page', 'uses' => 'SupervisorController@postAddMember']);
-		Route::post('/member/edit/{member_id}', ['as' => 'post-member-page', 'uses' => 'SupervisorController@postEditMember']);
-    }); */
-
-    Route::group(['prefix' => 'operator'], function () {
 		Route::get('/index', ['as' => 'main-page', 'uses' => 'OperatorController@index']);
 		Route::get('/search/autocomplete', ['as' => 'search-autocomplete2-page', 'uses' => 'OperatorController@getAutocomplete']);
 		Route::get('/search/autocomplete2', ['as' => 'search-autocomplete-page', 'uses' => 'OperatorController@getAutocomplete2']);
@@ -65,20 +56,20 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::match(["post", "get"], '/focus-devotee', ['as' => 'focus-devotee-page', 'uses' => 'OperatorController@getFocusDevotee']);
 		Route::post('/relocation', ['as' => 'relocation-devotee-page', 'uses' => 'OperatorController@postRelocationDevotees']);
-		// Route::post('/devotee/edit/{devotee_id}', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@postEditDevotee']);
 		Route::post('/new-devotee', ['as' => 'new-devotee-page', 'uses' => 'OperatorController@postAddDevotee']);
 		Route::post('/edit-devotee', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@postEditDevotee']);
-    });
+  });
 
-    Route::group(['prefix' => 'staff'], function () {
-    	Route::get('/search-devotee', ['as' => 'search-devotee-page', 'uses' => 'StaffController@getSearchDevotee']);
-    	Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
-    	Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
-    	Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
-    	Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
-			Route::get('/create-festive-event', ['as' => 'create-festive-event-page', 'uses' => 'StaffController@getCreateFestiveEvent']);
+  Route::group(['prefix' => 'staff'], function () {
+    Route::get('/search-devotee', ['as' => 'search-devotee-page', 'uses' => 'StaffController@getSearchDevotee']);
+    Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
+    Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
+    Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
+    Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
+		Route::get('/create-festive-event', ['as' => 'create-festive-event-page', 'uses' => 'StaffController@getCreateFestiveEvent']);
 
-    	Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
-    });
+		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);		
+    Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
+  });
 
 });

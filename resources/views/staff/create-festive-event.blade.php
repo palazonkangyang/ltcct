@@ -71,6 +71,10 @@
 
                                             <div class="form-body">
 
+                                                <form method="post" action="{{ URL::to('/staff/create-festive-event') }}" class="form-horizontal form-bordered">
+
+                                                  {!! csrf_field() !!}
+
                                                 <div class="form-group">
 
                                                     <h4>Event  Calendar 庆典节目表</h4>
@@ -106,6 +110,8 @@
                                                     <button type="submit" class="btn blue" id="confirm_event_btn">Confirm</button>
                                                     <button type="button" class="btn default">Cancel</button>
                                                 </div><!-- end form-actions -->
+
+                                                </form>
 
                                                 <div class="clearfix">
                                                 </div><!-- end clearfix -->
@@ -145,7 +151,7 @@
                     "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='lunar_date[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='event[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='time[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
                     "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +

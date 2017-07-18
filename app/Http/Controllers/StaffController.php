@@ -13,6 +13,7 @@ use App\Models\SpecialRemarks;
 use App\Models\GeneralDonation;
 use App\Models\GeneralDonationItems;
 use App\Models\Receipt;
+use App\Models\FestiveEvent;
 use Auth;
 use DB;
 use Hash;
@@ -324,6 +325,11 @@ class StaffController extends Controller
 	public function getCreateFestiveEvent()
 	{
 			return view('staff.create-festive-event');
+	}
+
+	public function postCreateFestiveEvent(Request $request)
+	{
+
 	}
 
 }

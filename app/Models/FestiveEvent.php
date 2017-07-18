@@ -9,10 +9,13 @@ class FestiveEvent extends Model
     protected $primaryKey = "festiveevent_id";
 
     protected $fillable = [
-        'title',
-        'description',
+        'event',
         'start_at',
         'end_at',
+        'lunar_date',
+        'time',
+        'shuwen_title',
+        'display',
         'letter_template_id'
     ];
 }
