@@ -1162,7 +1162,7 @@
     <script type="text/javascript">
 
         $(function(){
-					
+
 					$("#introduced_by1").autocomplete({
 						source: "/operator/search/autocomplete",
 						minLength: 1,
@@ -1179,21 +1179,7 @@
 						}
 					});
 
-					$("#edit_introduced_by1").autocomplete({
-						source: "/operator/search/autocomplete",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_introduced_by1').val(ui.item.value);
-						}
-					});
-
-					$("#edit_introduced_by2").autocomplete({
-						source: "/operator/search/autocomplete2",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_introduced_by2').val(ui.item.value);
-						}
-					});
+					
 
 					$("#content_address_street").autocomplete({
 						source: "/operator/search/address_street",
