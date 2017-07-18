@@ -353,6 +353,9 @@ class StaffController extends Controller
 
 				FestiveEvent::create($data);
     }
+
+		$request->session()->flash('success', 'Festive Events have been created!');
+		return redirect()->back();
 	}
 
 }
