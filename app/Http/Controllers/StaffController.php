@@ -335,7 +335,9 @@ class StaffController extends Controller
 	{
 			$input = array_except($request->all(), '_token');
 
-			FestiveEvent::truncate();
+			dd($input);
+
+			// FestiveEvent::truncate();
 
 			foreach ($input["start_at"] as $name => $value) {
 
@@ -345,7 +347,7 @@ class StaffController extends Controller
 				$end_at = $input['end_at'][$name];
 				$new_end_at = str_replace('/', '-', $end_at);
 
-				if(!isset($input['display'][$name]))
+				if($input['display'][$name] != 'Y')
 				{
 					$input['display'][$name] = 'N';
 				}
