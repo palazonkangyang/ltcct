@@ -138,20 +138,20 @@
 
                 <div class="form-group">
 
-                    <label class="col-md-3">
-                        <button type="button" class="btn default edit_check_family_code" style="margin: 0 25px 0 10px;">
+                    <label class="col-md-4">
+                        <button type="button" class="btn default edit_check_family_code">
 														Check Family Code
 												</button>
-                    </label>
+                    </label><!-- end col-md-4 -->
 
-										<label class="col-md-3">
+										<label class="col-md-4">
 												<button type="button" class="btn default edit_address_translated_btn">
 														Translate Address
 												</button>
-										</label><!-- end col-md-3 -->
+										</label><!-- end col-md-4 -->
 
-										<div class="col-md-3">
-										</div><!-- end col-md-3 -->
+										<div class="col-md-4">
+										</div><!-- end col-md-4 -->
 
                 </div><!-- end form-group -->
 
