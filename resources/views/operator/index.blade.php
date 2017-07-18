@@ -386,7 +386,7 @@
                                                                     <div class="form-group">
 
                                                                         <label class="col-md-3">
-                                                                            <button type="button" class="btn default check_family_code">
+                                                                            <button type="button" class="btn default check_family_code" style="margin: 0 25px 0 10px;">
                                                                                 Check Family Code
                                                                             </button>
                                                                         </label>

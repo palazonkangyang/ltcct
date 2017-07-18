@@ -139,7 +139,9 @@
                 <div class="form-group">
 
                     <label class="col-md-3">
-                        <button type="button" class="btn default edit_check_family_code">Check Family Code</button>
+                        <button type="button" class="btn default edit_check_family_code" style="margin: 0 25px 0 10px;">
+														Check Family Code
+												</button>
                     </label>
 
 										<label class="col-md-3">
@@ -355,6 +357,7 @@
                     <label class="col-md-3 control-label">Introduced By-1</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" name="introduced_by1" value="{{ old('introduced_by1') }}" id="edit_introduced_by1">
+												<input type="text" class="form-control" name="introduced_by1" value="{{ old('introduced_by1') }}" id="introduced_by1">
                    	</div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
