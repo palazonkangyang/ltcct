@@ -30,7 +30,7 @@
                           <i class="fa fa-circle"></i>
                       </li>
                       <li>
-                          <span>General Donation</span>
+                          <span>Event  Calendar</span>
                       </li>
                   </ul>
 
@@ -41,6 +41,47 @@
                           <div class="row">
 
                               <div class="col-md-12">
+
+                                  <div class="portlet">
+
+                                    <div class="validation-error">
+                                    </div><!-- end validation-error -->
+
+                                        @if($errors->any())
+
+                                            <div class="alert alert-danger">
+
+                                                @foreach($errors->all() as $error)
+                                                    <p>{{ $error }}</p>
+                                                @endforeach
+
+                                            </div><!-- end alert alert-danger -->
+
+                                        @endif
+
+                                        @if(Session::has('success'))
+                                            <div class="alert alert-success"><em> {{ Session::get('success') }}</em></div>
+                                        @endif
+
+                                        @if(Session::has('error'))
+                                            <div class="alert alert-danger"><em> {{ Session::get('error') }}</em></div>
+                                        @endif
+
+                                        <div class="portlet-body">
+
+                                            <div class="form-body">
+
+                                                <div class="form-group">
+
+                                                    <h4>Event  Calendar 庆典节目表</h4>
+
+                                                </div><!-- end form-group -->
+
+                                            </div><!-- end form-body -->
+
+                                        </div><!-- end portlet-body -->
+
+                                  </div><!-- end portlet -->
 
                               </div><!-- end col-md-12 -->
 
@@ -56,6 +97,6 @@
 
         </div><!-- end page-content-wrapper -->
 
-    </div>!<!-- end page-container-fluid -->
+    </div><!-- end page-container-fluid -->
 
 @stop
