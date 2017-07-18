@@ -115,7 +115,7 @@
                                                                     </td>
                                                                     <td>
                                                                         <input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]'
-                                                                          value=''>
+                                                                          value='{{ $event->time }}'>
                                                                     </td>
                                                                     <td>
                                                                         <input type='text' class='form-control' name='shuwen_title[]' value='{{ $event->shuwen_title }}'>
