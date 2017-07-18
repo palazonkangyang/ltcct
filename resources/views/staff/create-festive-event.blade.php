@@ -143,7 +143,7 @@
                                                 <hr>
 
                                                 <div class="form-actions pull-right">
-                                                    <button type="submit" class="btn blue" id="confirm_event_btn">Confirm</button>
+                                                    <button type="submit" class="btn blue" id="confirm_event_btn">Outdated</button>
                                                     <button type="button" class="btn default">Cancel</button>
                                                 </div><!-- end form-actions -->
 

@@ -360,7 +360,7 @@ class StaffController extends Controller
 
 		$events = FestiveEvent::orderBy('start_at', 'desc')->get();
 
-		$request->session()->flash('success', 'Festive Events have been created!');
+		$request->session()->flash('success', 'Event Calender has been outdated!');
 
 		return redirect()->back()->with([
 			'events' => $events
