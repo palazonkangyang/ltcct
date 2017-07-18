@@ -103,7 +103,7 @@
                                                 <hr>
 
                                                 <div class="form-actions pull-right">
-                                                    <button type="submit" class="btn blue" id="confirm_btn">Confirm</button>
+                                                    <button type="submit" class="btn blue" id="confirm_event_btn">Confirm</button>
                                                     <button type="button" class="btn default">Cancel</button>
                                                 </div><!-- end form-actions -->
 
@@ -150,6 +150,80 @@
                     "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
                     "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
                     "<option value='N'>No</option></select></td></tr>");
+            });
+
+            $("#confirm_event_btn").click(function() {
+
+                var count = 0;
+                var errors = new Array();
+                var validationFailed = false;
+
+                $("input:text[name^='start_at']").each(function() {
+
+                    if (!$.trim($(this).val()).length) {
+
+                        validationFailed = true;
+                        errors[count++] = "Date From fields are empty.";
+                        return false;
+                    }
+                });
+
+                $("input:text[name^='end_at']").each(function() {
+
+                    if (!$.trim($(this).val()).length) {
+
+                        validationFailed = true;
+                        errors[count++] = "Date To fields are empty.";
+                        return false;
+                    }
+                });
+
+                $("input:text[name^='lunar_date']").each(function() {
+
+                    if (!$.trim($(this).val()).length) {
+
+                        validationFailed = true;
+                        errors[count++] = "Lunar Date fields are empty.";
+                        return false;
+                    }
+                });
+
+                $("input:text[name^='event']").each(function() {
+
+                    if (!$.trim($(this).val()).length) {
+
+                        validationFailed = true;
+                        errors[count++] = "Event fields are empty.";
+                        return false;
+                    }
+                });
+
+                $("input:text[name^='time']").each(function() {
+
+                    if (!$.trim($(this).val()).length) {
+
+                        validationFailed = true;
+                        errors[count++] = "Time fields are empty.";
+                        return false;
+                    }
+                });
+
+                if (validationFailed)
+                {
+                    var errorMsgs = '';
+
+                    for(var i = 0; i < count; i++)
+                    {
+                        errorMsgs = errorMsgs + errors[i] + "<br/>";
+                    }
+
+                    $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+                    $(".validation-error").addClass("bg-danger alert alert-error")
+                    $(".validation-error").html(errorMsgs);
+
+                    return false;
+                }
             });
         });
     </script>
