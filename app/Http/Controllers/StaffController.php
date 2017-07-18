@@ -332,9 +332,18 @@ class StaffController extends Controller
 			$input = array_except($request->all(), '_token');
 
 			foreach ($input["start_at"] as $name => $value) {
+
+				$start_at = $input['start_at']['name'];
+				$start_at_date = str_replace('/', '-', $start_at);
+				$startNewDate = date("Y-m-d", strtotime($start_at_date));
+
+				$end_at = $input['end_at']['name'];
+				$end_at_date = str_replace('/', '-', $end_at);
+				$endNewDate = date("Y-m-d", strtotime($end_at_date));
+
       	$data = [
-        	"start_at" => $input["start_at"][$name],
-        	"end_at" => $input["end_at"][$name],
+        	"start_at" => $startNewDate,
+        	"end_at" => $endNewDate,
       	];
 
 				dd($data);
