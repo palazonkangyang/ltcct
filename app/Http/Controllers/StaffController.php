@@ -324,7 +324,11 @@ class StaffController extends Controller
 
 	public function getCreateFestiveEvent()
 	{
-			return view('staff.create-festive-event');
+			$events = FestiveEvent::orderBy('start_at', 'desc')->get();
+
+			return view('staff.create-festive-event', [
+				'events' => $events
+			]);
 	}
 
 	public function postCreateFestiveEvent(Request $request)
@@ -353,13 +357,14 @@ class StaffController extends Controller
 
 				FestiveEvent::create($data);
     }
+
 		$events = FestiveEvent::orderBy('start_at', 'desc')->get();
 
 		$request->session()->flash('success', 'Festive Events have been created!');
 
 		return redirect()->back()->with([
 			'events' => $events
-		]);;
+		]);
 	}
 
 }
