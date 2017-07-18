@@ -95,7 +95,7 @@
                                                 </div><!-- end form-group -->
 
                                                 <div class="form-group">
-                                                    <button type="button" class="btn green" style="width: 100px; margin: 0 25px 0 10px;">Add New
+                                                    <button type="button" class="btn green" style="width: 100px; margin: 0 25px 0 10px;" id="addEventRow">Add New
                                                     </button>
                                                 </div><!-- end form-group -->
 
@@ -120,5 +120,18 @@
         </div><!-- end page-content-wrapper -->
 
     </div><!-- end page-container-fluid -->
+
+@stop
+
+@section('custom-js')
+
+    <script type="text/javascript">
+        $(function() {
+
+            $("#addEventRow").click(function() {
+                alert('here');
+            });
+        });
+    </script>
 
 @stop
