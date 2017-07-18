@@ -75,21 +75,16 @@
 
                                                     <h4>Event  Calendar 庆典节目表</h4>
 
-                                                    <table>
+                                                    <table class="table table-bordered" id="festive-event-table">
                                                         <thead>
                                                             <tr>
-                                                                <th>Chinese Name</th>
-                                                                <th>Devotee#</th>
-                                                                <th>Block</th>
-                                                                <th>Address</th>
-                                                                <th>Unit</th>
-                                                                <th>Guiyi Name</th>
-                                                                <th>Amount</th>
-                                                                <th>Pay Till</th>
-                                                                <th>HJ/ GR</th>
+                                                                <th>Date From 阴历</th>
+                                                                <th>Date To 阴历</th>
+                                                                <th>Lunar Date 阳历</th>
+                                                                <th>Event 节日</th>
+                                                                <th>Time 时间</th>
+                                                                <th>Shuwen Title 文疏</th>
                                                                 <th>Display</th>
-                                                                <th>XYReceipt</th>
-                                                                <th>Trans Date</th>
                                                             </tr>
                                                         </thead>
 
