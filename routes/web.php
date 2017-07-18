@@ -76,6 +76,8 @@ Route::group(['middleware' => 'auth'], function () {
     	Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
     	Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
     	Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
+			Route::get('/create-festive-event', ['as' => 'create-festive-event-page', 'uses' => 'StaffController@getCreateFestiveEvent']);
+
     	Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
     });
 

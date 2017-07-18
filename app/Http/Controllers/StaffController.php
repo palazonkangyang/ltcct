@@ -145,7 +145,7 @@ class StaffController extends Controller
 						GeneralDonationItems::create($data2);
 					}
 				}
-				
+
 			}
 
 			else
@@ -291,7 +291,7 @@ class StaffController extends Controller
 		$generaldonation_items = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
 									->join('receipt', 'receipt.receipt_id', '=', 'generaldonation_items.receipt_id')
 									->select('generaldonation_items.*')
-									->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street', 
+									->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street',
 											'devotee.address_unit1', 'devotee.address_unit2')
 									->addSelect('receipt.xy_receipt')
 									->where('generaldonation_items.generaldonation_id', $generaldonation_id)
@@ -319,4 +319,11 @@ class StaffController extends Controller
 			'devotee' => $devotee
 		]);
 	}
+
+
+	public function getCreateFestiveEvent()
+	{
+			return view('staff.create-festive-event');
+	}
+
 }
