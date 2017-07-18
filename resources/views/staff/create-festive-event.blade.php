@@ -42,7 +42,7 @@
 
                               <div class="col-md-12">
 
-                                  <div class="portlet">
+                                  <div class="portlet light">
 
                                     <div class="validation-error">
                                     </div><!-- end validation-error -->
