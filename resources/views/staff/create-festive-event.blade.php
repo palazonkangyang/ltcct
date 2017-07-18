@@ -69,7 +69,7 @@
 
                                         <div class="portlet-body">
 
-                                            <div class="form-body form">
+                                            <div class="form-body">
 
                                                 <form method="post" action="{{ URL::to('/staff/create-festive-event') }}" class="form-horizontal form-bordered">
 

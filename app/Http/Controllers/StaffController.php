@@ -331,6 +331,8 @@ class StaffController extends Controller
 	{
 			$input = array_except($request->all(), '_token');
 
+			dd($input);
+
 			foreach ($input["start_at"] as $name => $value) {
 
 				$start_at = $input['start_at'][$name];
@@ -353,6 +355,8 @@ class StaffController extends Controller
       	];
 
 				dd($data);
+
+				FestiveEvent::create($data);
     }
 	}
 
