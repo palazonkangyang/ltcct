@@ -334,16 +334,22 @@ class StaffController extends Controller
 			foreach ($input["start_at"] as $name => $value) {
 
 				$start_at = $input['start_at'][$name];
-				$start_at_date = str_replace('/', '-', $start_at);
-				$startNewDate = date("Y-m-d", strtotime($start_at_date));
+				$new_start_at = str_replace('/', '-', $start_at);
 
 				$end_at = $input['end_at'][$name];
-				$end_at_date = str_replace('/', '-', $end_at);
-				$endNewDate = date("Y-m-d", strtotime($end_at_date));
+				$new_end_at = str_replace('/', '-', $end_at);
+
+				$lunar_date = $input['lunar_date'][$name];
+				$new_lunar_date = str_replace('/', '-', $lunar_date);
 
       	$data = [
-        	"start_at" => $startNewDate,
-        	"end_at" => $endNewDate,
+					"event" => $input['event'][$name],
+        	"start_at" => date("Y-m-d", strtotime($new_start_at)),
+        	"end_at" => date("Y-m-d", strtotime($new_end_at)),
+					"lunar_date" => date("Y-m-d", strtotime($new_lunar_date)),
+					"time" => $input['time'][$name],
+					"shuwen_title" => $input['shuwen_title'][$name],
+					"display" => $input['display'][$name]
       	];
 
 				dd($data);
