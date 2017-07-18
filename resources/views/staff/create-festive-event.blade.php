@@ -78,14 +78,14 @@
                                                     <table class="table table-bordered" id="festive-event-table">
                                                         <thead>
                                                             <tr>
-                                                                <th>#</th>
-                                                                <th>Date From 阴历</th>
-                                                                <th>Date To 阴历</th>
-                                                                <th>Lunar Date 阳历</th>
-                                                                <th>Event 节日</th>
-                                                                <th>Time 时间</th>
-                                                                <th>Shuwen Title 文疏</th>
-                                                                <th>Display</th>
+                                                                <th width='3%'>#</th>
+                                                                <th width='15%'>Date From 阴历</th>
+                                                                <th width='15%'>Date To 阴历</th>
+                                                                <th width='15%'>Lunar Date 阳历</th>
+                                                                <th width='15%'>Event 节日</th>
+                                                                <th width='15%'>Time 时间</th>
+                                                                <th width='15%'>Shuwen Title 文疏</th>
+                                                                <th width='8%'>Display</th>
                                                             </tr>
                                                         </thead>
 
@@ -135,14 +135,14 @@
 
             $("#addEventRow").click(function() {
 
-                $("#festive-event-table").append("<tr><td width='5%'><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-                    "<td width='15%'><input type='text' class='form-control' name='start_at[]'></td>" +
-                    "<td width='15%'><input type='text' class='form-control' name='end_at[]' value=''></td>" +
-                    "<td width='15%'><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
-                    "<td width='15%'><input type='text' class='form-control' name='event[]' value=''></td>" +
-                    "<td width='15%'><input type='text' class='form-control' name='time[]' value=''></td>" +
-                    "<td width='15%'><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-                    "<td width='5%'><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
+                $("#festive-event-table").append("<tr><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
+                    "<td><input type='text' class='form-control' name='start_at[]'></td>" +
+                    "<td><input type='text' class='form-control' name='end_at[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='time[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
+                    "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
                     "<option value='N'>No</option></select></td></tr>");
             });
         });
