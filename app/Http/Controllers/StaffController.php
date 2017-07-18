@@ -347,8 +347,6 @@ class StaffController extends Controller
 				$end_at = $input['end_at'][$i];
 				$new_end_at = str_replace('/', '-', $end_at);
 
-				if()
-
 				$data = [
 					"event" => $input['event'][$i],
         	"start_at" => date("Y-m-d", strtotime($new_start_at)),
