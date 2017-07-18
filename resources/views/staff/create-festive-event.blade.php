@@ -78,6 +78,7 @@
                                                     <table class="table table-bordered" id="festive-event-table">
                                                         <thead>
                                                             <tr>
+                                                                <th>#</th>
                                                                 <th>Date From 阴历</th>
                                                                 <th>Date To 阴历</th>
                                                                 <th>Lunar Date 阳历</th>
@@ -134,7 +135,8 @@
 
             $("#addEventRow").click(function() {
 
-                $("#festive-event-table").append("<tr><td><input type='text' class='form-control' name='start_at[]'></td>" +
+                $("#festive-event-table").append("<tr><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
+                    "<td><input type='text' class='form-control' name='start_at[]'></td>" +
                     "<td><input type='text' class='form-control' name='end_at[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
