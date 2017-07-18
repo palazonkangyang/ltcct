@@ -178,6 +178,8 @@
 
 @section('custom-js')
 
+    <script src="{{asset('js/custom/common.js')}}"></script>
+
     <script type="text/javascript">
         $(function() {
 

@@ -6,7 +6,11 @@ $(function() {
     if(title)
     {
         $("#focus_devotee_form input[type=text]").attr("disabled", true);
-        $("#quick_search").attr("disabled", true);               
+        $("#quick_search").attr("disabled", true);
     }
+
+		$("#main-page").click(function() {
+				localStorage.removeItem('activeTab');
+		});
 
 });
