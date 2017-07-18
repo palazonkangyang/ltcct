@@ -142,8 +142,6 @@
 
 @section('custom-js')
 
-    <script src="{{ asset('/js/wickedpicker.js') }}" type="text/javascript"></script>
-
     <script type="text/javascript">
         $(function() {
 
@@ -154,13 +152,11 @@
                     "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='lunar_date[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
-                    "<td class='input-group'><input type='text' class='form-control timepicker' name='time[]' value=''></td>" +
+                    "<td class='input-group'><input type='text' class='form-control timepicker timepicker-no-seconds' name='time[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
                     "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
                     "<option value='N'>No</option></select></td></tr>");
             });
-
-            $('.timepicker').wickedpicker();
 
             $("#confirm_event_btn").click(function() {
 
