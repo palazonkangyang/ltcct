@@ -135,14 +135,14 @@
 
             $("#addEventRow").click(function() {
 
-                $("#festive-event-table").append("<tr><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-                    "<td><input type='text' class='form-control' name='start_at[]'></td>" +
-                    "<td><input type='text' class='form-control' name='end_at[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='time[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-                    "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
+                $("#festive-event-table").append("<tr><td width='5%'><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
+                    "<td width='15%'><input type='text' class='form-control' name='start_at[]'></td>" +
+                    "<td width='15%'><input type='text' class='form-control' name='end_at[]' value=''></td>" +
+                    "<td width='15%'><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
+                    "<td width='15%'><input type='text' class='form-control' name='event[]' value=''></td>" +
+                    "<td width='15%'><input type='text' class='form-control' name='time[]' value=''></td>" +
+                    "<td width='15%'><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
+                    "<td width='5%'><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
                     "<option value='N'>No</option></select></td></tr>");
             });
         });
