@@ -354,7 +354,7 @@
 
                     <label class="col-md-3 control-label">Introduced By-1</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="introduced_by1" data-date-format="dd/mm/yyyy" value="{{ old('introduced_by1') }}" id="edit_introduced_by1">
+                        <input type="text" class="form-control" name="introduced_by1" value="{{ old('introduced_by1') }}" id="edit_introduced_by1">
                    	</div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
@@ -363,7 +363,7 @@
 
                     <label class="col-md-3 control-label">Introduced By-2</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="introduced_by2" data-date-format="dd/mm/yyyy" value="{{ old('introduced_by2') }}" id="edit_introduced_by2">
+                        <input type="text" class="form-control" name="introduced_by2" value="{{ old('introduced_by2') }}" id="edit_introduced_by2">
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
@@ -373,7 +373,7 @@
                     <label class="col-md-3 control-label">Member Approved Date</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
-                            id="edit_approved_date">
+                            id="edit_approved_date" data-date-format="dd/mm/yyyy">
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
@@ -383,7 +383,7 @@
                     <label class="col-md-3 control-label">Member Cancelled Date</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control form-control-inline date-picker" name="cancelled_date" data-provide="datepicker"
-                            id="edit_cancelled_date">
+                            id="edit_cancelled_date" data-date-format="dd/mm/yyyy">
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
