@@ -98,6 +98,12 @@
                                         </a>
                                     </li>
 
+                                    <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
+                                        <a href="/staff/create-festive-event"> Event Calendar 庆典节目表
+                                            <span class="arrow"></span>
+                                        </a>
+                                    </li>
+
                                 </ul><!-- end nav navbar-nav -->
                             </div><!-- end hor-menu -->
 
