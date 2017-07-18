@@ -31,6 +31,7 @@
 
     <!-- Date Time Picker -->
     <link href="{{ asset('/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('/css/bootstrap-timepicker.min.css') }}" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 
