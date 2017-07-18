@@ -333,11 +333,11 @@ class StaffController extends Controller
 
 			foreach ($input["start_at"] as $name => $value) {
 
-				$start_at = $input['start_at']['name'];
+				$start_at = $input['start_at'][$name];
 				$start_at_date = str_replace('/', '-', $start_at);
 				$startNewDate = date("Y-m-d", strtotime($start_at_date));
 
-				$end_at = $input['end_at']['name'];
+				$end_at = $input['end_at'][$name];
 				$end_at_date = str_replace('/', '-', $end_at);
 				$endNewDate = date("Y-m-d", strtotime($end_at_date));
 
