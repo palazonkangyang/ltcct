@@ -332,6 +332,15 @@ class StaffController extends Controller
 			$input = array_except($request->all(), '_token');
 
 			dd($input);
+
+			foreach ($input["start_at"] as $name => $value) {
+      	$data = [
+        	"start_at" => $input["start_at"][$name],
+        	"end_at" => $input["end_at"][$name],
+      	];
+
+				dd($data);
+    }
 	}
 
 }
