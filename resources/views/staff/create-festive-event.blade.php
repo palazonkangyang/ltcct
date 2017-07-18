@@ -121,10 +121,8 @@
                                                                         <input type='text' class='form-control' name='shuwen_title[]' value='{{ $event->shuwen_title }}'>
                                                                     </td>
                                                                     <td>
-                                                                        <select class='form-control' name='display[]'>
-                                                                            <option value='Y' <?php if ($event->display == 'Y') echo "selected"; ?>>Yes</option>
-                                                                            <option value='N' <?php if ($event->display == 'N') echo "selected"; ?>>No</option>
-                                                                        </select>
+                                                                        <input type='checkbox' name='display[]' value='Y' class='form-control'
+                                                                          <?php if ($event->display == 'Y'){ ?>checked="checked"<?php }?>>
                                                                     </td>
                                                                 </tr>
                                                                 @endforeach
@@ -192,8 +190,7 @@
                     "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
                     "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-                    "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
-                    "<option value='N'>No</option></select></td></tr>");
+                    "<td><input type='checkbox' name='display[]' value='Y' class='form-control'></td></tr>");
             });
 
             $("#festive-event-table").on('click', '.removeEventRow', function() {
