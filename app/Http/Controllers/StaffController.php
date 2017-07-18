@@ -354,16 +354,12 @@ class StaffController extends Controller
 				FestiveEvent::create($data);
     }
 
-		$event = FestiveEvent::orderBy('start_at', 'desc')->get();
-
-		dd($event->toArray());
+		$events = FestiveEvent::orderBy('start_at', 'desc')->get();
 
 		$request->session()->flash('success', 'Festive Events have been created!');
 
 		return redirect()->back()->with([
-			'members' => $members,
-			'devotees' => $devotees,
-			'deceased_lists' => $deceased_lists,
+			'events' => $events
 		]);;
 	}
 

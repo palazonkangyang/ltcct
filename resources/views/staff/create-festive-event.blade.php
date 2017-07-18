@@ -94,6 +94,41 @@
                                                         </thead>
 
                                                         <tbody>
+                                                            @if(count($events))
+
+                                                                @foreach($events as $event)
+                                                                <tr class="event-row">
+                                                                    <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
+                                                                    <td>
+                                                                        <input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
+                                                                          value='{{ \Carbon\Carbon::parse($event->start_at)->format("d/m/Y") }}'>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
+                                                                        value='{{ \Carbon\Carbon::parse($event->end_at)->format("d/m/Y") }}'>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type='text' class='form-control' name='lunar_date[]' value='{{ $event->lunar_date }}'>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type='text' class='form-control' name='event[]' value='{{ $event->event }}'>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type='text' class='form-control' name='shuwen_title[]' value='{{ $event->shuwen_title }}'>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class='form-control' name='display[]'>
+                                                                            <option value='Y'>Yes</option>
+                                                                            <option value='N'>No</option>
+                                                                        </select>
+                                                                    </td>
+                                                                </tr>
+                                                                @endforeach
+
+                                                            @endif
                                                         </tbody>
                                                     </table>
 
