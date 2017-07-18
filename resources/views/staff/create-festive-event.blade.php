@@ -135,13 +135,13 @@
 
             $("#addEventRow").click(function() {
 
-                $("#festive-event-table").append("<tr><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-                    "<td><input type='text' class='form-control' name='start_at[]'></td>" +
-                    "<td><input type='text' class='form-control' name='end_at[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
+                $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
+                    "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='lunar_date[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='event[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='time[]' value=''></td>" +
-                    "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
+                    "<td><input type='text' class='form-control' name='shuwen_title[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><select class='form-control' name='display[]'><option value='Y'>Yes</option>" +
                     "<option value='N'>No</option></select></td></tr>");
             });
