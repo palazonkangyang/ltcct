@@ -341,14 +341,11 @@ class StaffController extends Controller
 				$end_at = $input['end_at'][$name];
 				$new_end_at = str_replace('/', '-', $end_at);
 
-				$lunar_date = $input['lunar_date'][$name];
-				$new_lunar_date = str_replace('/', '-', $lunar_date);
-
       	$data = [
 					"event" => $input['event'][$name],
         	"start_at" => date("Y-m-d", strtotime($new_start_at)),
         	"end_at" => date("Y-m-d", strtotime($new_end_at)),
-					"lunar_date" => date("Y-m-d", strtotime($new_lunar_date)),
+					"lunar_date" => $input['lunar_date'][$name],
 					"time" => $input['time'][$name],
 					"shuwen_title" => $input['shuwen_title'][$name],
 					"display" => $input['display'][$name]
