@@ -142,8 +142,8 @@
 
 @section('custom-js')
 
-    <script src="{{ asset('/js/quick-nav.min.js') }}" type="text/javascript"></script>
-
+    <script src="{{ asset('/js/clockface.js') }}" type="text/javascript"></script>
+    
     <script type="text/javascript">
         $(function() {
 
