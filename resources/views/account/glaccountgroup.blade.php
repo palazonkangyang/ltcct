@@ -73,14 +73,86 @@
                             <ul class="nav nav-tabs">
 
                               <li class="active">
-                                <a href="#tab_xiangyou" data-toggle="tab">GL Account Group List</a>
+                                <a href="#tab_glaccountlist" data-toggle="tab">GL Account Group List</a>
                               </li>
 
                               <li id="members">
-                                <a href="#tab_ciji" data-toggle="tab">New GL Account Group</a>
+                                <a href="#tab_newglaccount" data-toggle="tab">New GL Account Group</a>
                               </li>
-                              
+
                             </ul>
+
+                            <div class="tab-content">
+
+                              <div class="tab-pane active" id="tab_glaccountlist">
+
+                              </div><!-- end tab-pane tab-glaccount-group-list -->
+
+                              <div class="tab-pane" id="tab_newglaccount">
+
+                                <div class="form-body">
+
+                                  <div class="col-md-6">
+
+                                    <form method="post" action="{{ URL::to('/account/new-glaccount') }}"
+                                      class="form-horizontal form-bordered">
+
+                                      {!! csrf_field() !!}
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Account Group Name *</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Account Description *</label>
+                                        <div class="col-md-9">
+                                            <textarea class="form-control" name="description" rows="4">{{ old('description') }}</textarea>
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Balancing Side *</label>
+                                        <div class="col-md-9">
+                                          <select class="form-control" name="balancing_side">
+                                              <option value="ap">AP</option>
+                                              <option value="ar">AR</option>
+                                          </select>
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Group Status *</label>
+                                        <div class="col-md-9">
+                                          <select class="form-control" name="balancing_side">
+                                              <option value="active">Active</option>
+                                              <option value="inactive">Inactive</option>
+                                          </select>
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                    </form>
+
+                                  </div><!-- end col-md-6 -->
+
+                                  <div class="col-md-6">
+                                  </div><!-- end col-md-6 -->
+
+                                </div><!-- end form-group -->
+
+                              </div><!-- end tab-pane tab_newglaccount -->
+
+                            </div><!-- end tab-content -->
                         </div><!-- end tabbable-bordered -->
 
                       </div><!-- end portlet-body -->
