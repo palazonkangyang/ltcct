@@ -142,6 +142,10 @@
                                       </div><!-- end form-group -->
 
                                       <div class="form-group">
+                                        <p>&nbsp;</p>
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
 
                                         <div class="col-md-6">
                                           <p>
@@ -163,7 +167,7 @@
 
                                         <label class="col-md-3 control-label"></label>
                                         <div class="col-md-9">
-                                          <div class="form-actions">
+                                          <div class="form-actions pull-right">
                                             <button type="submit" class="btn blue" id="confirm_donation_btn">Confirm
                                             </button>
                                             <button type="button" class="btn default">Cancel</button>
