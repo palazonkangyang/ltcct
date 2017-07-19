@@ -341,7 +341,7 @@ class StaffController extends Controller
 
 	public function postCreateFestiveEvent(Request $request)
 	{
-			$input = array_except($request->all(), '_token');
+			$input = array_except($request->all(), '_token', 'display');
 
 			dd($input);
 
@@ -349,6 +349,7 @@ class StaffController extends Controller
 
 			for($i = 0; $i < count($input["start_at"]); $i++)
 			{
+				
 				$start_at = $input["start_at"][$i];
 				$new_start_at = str_replace('/', '-', $start_at);
 
@@ -362,20 +363,20 @@ class StaffController extends Controller
 					"lunar_date" => $input['lunar_date'][$i],
 					"time" => $input['time'][$i],
 					"shuwen_title" => $input['shuwen_title'][$i],
-					"display" => $input['display'][$i]
+					"display" => $input['display_hidden'][$i]
       	];
 
 				FestiveEvent::create($data);
 			}
 
 
-		$events = FestiveEvent::orderBy('start_at', 'desc')->get();
+			$events = FestiveEvent::orderBy('start_at', 'desc')->get();
 
-		$request->session()->flash('success', 'Event Calender has been outdated!');
+			$request->session()->flash('success', 'Event Calender has been outdated!');
 
-		return redirect()->back()->with([
-			'events' => $events
-		]);
+			return redirect()->back()->with([
+				'events' => $events
+			]);
 	}
 
 }
