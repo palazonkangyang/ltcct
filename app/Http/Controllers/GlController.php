@@ -20,7 +20,11 @@ class GlController extends Controller
 
   public function getAddNewGlAccount()
   {
-    return view('account.glaccountgroup');
+    $glaccountgroup = GlCodeGroup::orderBy('created_at', 'desc')->get();
+
+    return view('account.glaccountgroup', [
+      'glaccountgroup' => $glaccountgroup
+    ]);
   }
 
   // Add New GL Accont Group

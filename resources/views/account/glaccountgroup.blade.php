@@ -86,6 +86,39 @@
 
                               <div class="tab-pane active" id="tab_glaccountlist">
 
+                                <div class="form-body">
+
+                                  <div class="form-group">
+
+                                    <table class="table table-bordered" id="glaccountgroup-table">
+                                      <thead>
+                                          <tr>
+                                              <th>Account Group Code</th>
+                                              <th>Account Group Description</th>
+                                              <th>Balancing Side</th>
+                                              <th>Account Group Status</th>
+                                          </tr>
+                                      </thead>
+
+                                      <tbody>
+                                        @if(count($glaccountgroup))
+
+                                          @foreach($glaccountgroup as $gl)
+                                          <tr>
+                                            <td>{{ $gl->name }}</td>
+                                            <td>{{ $gl->description }}</td>
+                                            <td>{{ $gl->balancesheet_side }}</td>
+                                            <td>{{ $gl->status }}</td>
+                                          </tr>
+                                          @endforeach
+
+                                        @endif
+                                      </tbody>
+                                    </table>
+                                  </div><!-- end form-group -->
+
+                                </div><!-- end form-body -->
+
                               </div><!-- end tab-pane tab-glaccount-group-list -->
 
                               <div class="tab-pane" id="tab_newglaccount">
@@ -218,6 +251,11 @@
 
   <script type="text/javascript">
     $(function() {
+
+      // DataTable
+      var table = $('#glaccountgroup-table').DataTable({
+        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+      });
 
       $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
           localStorage.setItem('activeTab', $(e.target).attr('href'));
