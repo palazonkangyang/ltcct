@@ -36,7 +36,7 @@ class StaffController extends Controller
 							->take(2)
 							->get();
 
-		dd($events);
+		dd($events->toArray());
 
 		return view('staff.donation', [
 			'events' => $events
