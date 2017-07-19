@@ -343,6 +343,8 @@ class StaffController extends Controller
 	{
 			$input = array_except($request->all(), '_token');
 
+			dd($input);
+
 			FestiveEvent::truncate();
 
 			for($i = 0; $i < count($input["start_at"]); $i++)
