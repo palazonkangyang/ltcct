@@ -45,7 +45,7 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		// dd($input);
+		dd($input);
 
 		if(isset($input['receipt_at']))
 		{
@@ -73,6 +73,7 @@ class StaffController extends Controller
 			"manualreceipt" => $input['manualreceipt'],
 			"trans_at" => Carbon::now(),
 			"focusdevotee_id" => $input['focusdevotee_id'],
+			"festiveevent_id" => $input['festiveevent_id']
 		];
 
 		$general_donation = GeneralDonation::create($data);
