@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use User;
 use GlCodeGroup;
 use Auth;
 use DB;
@@ -27,7 +28,34 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    dd($input);
+    if(isset($input['authorized_password']))
+    {
+      $user = User::find(Auth::user()->id);
+
+      $hashedPassword = $user->password;
+
+      if (Hash::check($input['authorized_password'], $hashedPassword)) {
+        $data = [
+          "name" => $input['name'],
+          "description" => $input['description'],
+          "balancesheet_side" => $input['balancesheet_side'],
+          "status" => $input['status']
+        ];
+
+        $glcodegroup = GlCodeGroup::create($data);
+      }
+
+      else {
+        $request->session()->flash('error', "Password did not match. Please Try Again");
+        return redirect()->back()->withInput();
+      }
+    }
+
+    if($glcodegroup)
+    {
+      $request->session()->flash('success', 'New GL account group has been created!');
+      return redirect()->back();
+    }
   }
 
 }

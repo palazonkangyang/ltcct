@@ -121,7 +121,7 @@
 
                                         <label class="col-md-3 control-label">Balancing Side *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="balancing_side">
+                                          <select class="form-control" name="balancesheet_side">
                                               <option value="ap">AP</option>
                                               <option value="ar">AR</option>
                                           </select>
