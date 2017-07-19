@@ -13,4 +13,8 @@ $(function() {
 				localStorage.removeItem('activeTab');
 		});
 
+		var path = window.location.href;
+
+		alert(path);
+
 });
