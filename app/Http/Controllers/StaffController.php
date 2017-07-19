@@ -29,7 +29,13 @@ class StaffController extends Controller
 
 	public function getDonation()
 	{
-		return view('staff.donation');
+		$events = FestiveEvent::orderBy('start_at', 'desc')->take(2)->get();
+
+		dd($events);
+
+		return view('staff.donation', [
+			'events' => $events
+		]);
 	}
 
 	public function postDonation(Request $request)
@@ -334,8 +340,6 @@ class StaffController extends Controller
 	public function postCreateFestiveEvent(Request $request)
 	{
 			$input = array_except($request->all(), '_token');
-
-			dd($input);
 
 			FestiveEvent::truncate();
 
