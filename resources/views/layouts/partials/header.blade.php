@@ -35,6 +35,7 @@
 		<link href="{{ asset('/css/ootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
 
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 
     <style type="text/css">
         tfoot input {
