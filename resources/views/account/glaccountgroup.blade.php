@@ -252,6 +252,12 @@
             errors[count++] = "Group description is empty."
         }
 
+        if ($.trim(authorized_password).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Authorized Pasword is empty."
+        }
+
         if (validationFailed)
         {
             var errorMsgs = '';
@@ -274,7 +280,7 @@
             $(".validation-error").removeClass("bg-danger alert alert-error")
             $(".validation-error").empty();
         }
-        
+
       });
 
     });
