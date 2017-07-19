@@ -243,6 +243,24 @@
 
     $(function() {
 
+      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+          localStorage.setItem('activeTab', $(e.target).attr('href'));
+      });
+
+      if ( $('.alert-success').children().length > 0 ) {
+          localStorage.removeItem('activeTab');
+      }
+
+      else
+      {
+          var activeTab = localStorage.getItem('activeTab');
+      }
+
+      if (activeTab) {
+          $('a[href="' + activeTab + '"]').tab('show');
+          console.log(activeTab);
+      }
+
       $("#confirm_glcode_btn").click(function() {
 
         var count = 0;
