@@ -162,7 +162,7 @@
 	                                                                                    <option value="gr">gr</option>
 	                                                                                </select>
                                                                             	</td>
-                                                                            	<td width="50px">
+                                                                            	<td width="80px">
                                                                             		<select class="form-control" name="display[]">
 	                                                                                    <option value="Y">Y</option>
 	                                                                                    <option value="N">N</option>
@@ -199,7 +199,7 @@
 	                                                                                    <option value="gr">gr</option>
 	                                                                                </select>
                                                                             	</td>
-                                                                            	<td>
+                                                                            	<td width="80px">
                                                                             		<select class="form-control" name="display[]">
 	                                                                                    <option value="Y">Y</option>
 	                                                                                    <option value="N">N</option>
@@ -430,6 +430,26 @@
 
 		                                                                    </div><!-- end form-group -->
 
+																																				<div class="form-group">
+
+						                                                           		<label class="col-md-12">Event</label>
+
+						                                                           	</div><!-- end form-group -->
+
+																																				<div class="form-group">
+
+		                                                                    		<div class="col-md-12">
+
+																																								<select class="form-control" name="festiveevent_id">
+																																										@foreach($events as $event)
+																																										<option value="{{ $event->festiveevent_id }}">{{ $event->event }}</option>
+																																										@endforeach
+																																								</select>
+
+		                                                                        </div><!-- end col-md-12 -->
+
+		                                                                  </div><!-- end form-group -->
+
 		                                                    			</div><!-- end col-md-4 -->
 
 		                                                    			<div class="col-md-4">
@@ -573,35 +593,21 @@
 	<script type="text/javascript">
 		$(function() {
 
-			$('body').on('focus',".paid_till", function(){
-                $(this).datepicker({ dateFormat: 'yy-mm-dd' });
-            });
+				$('body').on('focus',".paid_till", function(){
+	      		$(this).datepicker({ dateFormat: 'yy-mm-dd' });
+	    	});
 
-			$('body').on('keyup',".amount-col", function(){
+				$('body').on('keyup',".amount-col", function(){
 
-                var sum = 0;
+	        var sum = 0;
 
-			    $(".amount").each(function(){
-			        sum += +$(this).val();
-			    });
+				  $(".amount").each(function(){
+				        sum += +$(this).val();
+			  });
 
-			    $(".total").text(sum);
-			    $("#total_amount").val(sum);
-            });
-
-
-
-            // var focusdevotee_id = $("#focusdevotee_id").val();
-
-            // if($("#focusdevotee_id").val() == null )
-            // {
-            // 	$("#confirm_donation_btn").attr("disabled", true);
-            // }
-
-            // else
-            // {
-            // 	$("#confirm_donation_btn").attr("disabled", false);
-            // }
+				$(".total").text(sum);
+						$("#total_amount").val(sum);
+		    });
 
 		});
 	</script>
