@@ -69,6 +69,20 @@
 
                       <div class="portlet-body">
 
+                        <div class="tabbable-bordered">
+                            <ul class="nav nav-tabs">
+
+                              <li class="active">
+                                <a href="#tab_xiangyou" data-toggle="tab">GL Account Group List</a>
+                              </li>
+
+                              <li id="members">
+                                <a href="#tab_ciji" data-toggle="tab">New GL Account Group</a>
+                              </li>
+                              
+                            </ul>
+                        </div><!-- end tabbable-bordered -->
+
                       </div><!-- end portlet-body -->
 
                     </div><!-- end portlet light -->
