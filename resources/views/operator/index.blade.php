@@ -106,7 +106,7 @@
 
                                                                 <div class="form-group">
 
-                                                                    <table class="table table-bordered" id="devotees_table">
+                                                                    <table class="table table-striped table-bordered" id="devotees_table">
 
                                                                         <thead>
                                                                             <tr id="filter">
@@ -1158,6 +1158,7 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
     <script type="text/javascript">
 
