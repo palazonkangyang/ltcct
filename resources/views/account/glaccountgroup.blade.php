@@ -213,3 +213,22 @@
     </div><!-- end page-container-fluid -->
 
 @stop
+
+@section('custom-js')
+
+  <script type="text/javascript">
+    $(function() {
+
+      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+          localStorage.setItem('activeTab', $(e.target).attr('href'));
+      });
+
+      if (activeTab) {
+          $('a[href="' + activeTab + '"]').tab('show');
+          console.log(activeTab);
+      }
+      
+    });
+  </script>
+
+@stop
