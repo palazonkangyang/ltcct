@@ -42,8 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
   Route::group(['prefix' => 'operator'], function () {
 
 		Route::get('/index', ['as' => 'main-page', 'uses' => 'OperatorController@index']);
-		Route::get('/search/autocomplete', ['as' => 'search-autocomplete2-page', 'uses' => 'OperatorController@getAutocomplete']);
-		Route::get('/search/autocomplete2', ['as' => 'search-autocomplete-page', 'uses' => 'OperatorController@getAutocomplete2']);
+		Route::get('/search/autocomplete', ['as' => 'search-autocomplete-page', 'uses' => 'OperatorController@getAutocomplete']);
+		Route::get('/search/autocomplete2', ['as' => 'search-autocomplete2-page', 'uses' => 'OperatorController@getAutocomplete2']);
 		Route::get('/search/address_street', ['as' => 'search-address-street-page', 'uses' => 'OperatorController@getAddressStreet']);
 		Route::get('/address-translate', ['as' => 'address-translate-page', 'uses' => 'OperatorController@getAddressTranslate']);
 		Route::get('/devotee/edit/{devotee_id}', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@getEditDevotee']);
@@ -65,11 +65,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
     Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
     Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
-    Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
+    // Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
 		Route::get('/create-festive-event', ['as' => 'create-festive-event-page', 'uses' => 'StaffController@getCreateFestiveEvent']);
 
-		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);		
+		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);
     Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
+  });
+
+	Route::group(['prefix' => 'account'], function () {
+    Route::get('/new-glaccount', ['as' => 'new-glaccount-page', 'uses' => 'GlController@getAddNewGlAccount']);
+
   });
 
 });
