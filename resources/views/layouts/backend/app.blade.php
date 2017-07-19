@@ -170,9 +170,6 @@
                                                                     <li>
                                                                         <a href="components_context_menu.html">Cashflow Statement Report</a>
                                                                     </li>
-                                                                    <li>
-                                                                        <a href="components_editors.html"> Markdown & WYSIWYG Editors </a>
-                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
