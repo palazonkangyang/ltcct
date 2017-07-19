@@ -19,6 +19,7 @@ class GeneralDonation extends Model
         'manualreceipt',
         'trans_at',
         'focusdevotee_id',
+        'festiveevent_id',
         'donationtype_id'
     ];
 }
