@@ -22,4 +22,12 @@ class GlController extends Controller
     return view('account.glaccountgroup');
   }
 
+  // Add New GL Accont Group
+  public function postAddNewGlAccount(Request $request)
+  {
+    $input = array_except($request->all(), '_token');
+
+    dd($input);
+  }
+
 }
