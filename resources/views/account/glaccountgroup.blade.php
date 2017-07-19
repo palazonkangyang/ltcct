@@ -143,6 +143,24 @@
 
                                       <div class="form-group">
 
+                                        <div class="col-md-8">
+                                          <p>
+                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.
+                                            To Confirm, please enter authorized password to proceed.
+                                          </p>
+                                        </div><!-- end col-md-8 -->
+
+                                        <div class="col-md-4">
+                                          <label class="col-md-3 control-label">Group Status *</label>
+                                          <div class="col-md-9">
+                                            <input type="text" name="authorized_password" value="">
+                                          </div><!-- end col-md-9 -->
+                                        </div><!-- end col-md-4 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
                                         <label class="col-md-3 control-label"></label>
                                         <div class="col-md-9">
                                           <div class="form-actions">
