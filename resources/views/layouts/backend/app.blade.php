@@ -104,15 +104,15 @@
                                         </a>
                                     </li>
 
-                                    <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown  mega-menu-full">
+                                    <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
                                             <a href="javascript:;"> Fund Account
                                                 <span class="arrow"></span>
                                             </a>
-                                            <ul class="dropdown-menu" style="min-width: ">
+                                            <ul class="dropdown-menu" style="min-width: 710px">
                                                 <li>
                                                     <div class="mega-menu-content">
                                                         <div class="row">
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <ul class="mega-menu-submenu">
                                                                     <li>
                                                                         <h3>Income & Expenditure</h3>
@@ -128,7 +128,7 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <ul class="mega-menu-submenu">
                                                                     <li>
                                                                         <h3>Setting</h3>
@@ -153,7 +153,7 @@
                                                                     </li>
                                                                 </ul>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <ul class="mega-menu-submenu">
                                                                     <li>
                                                                         <h3>Finance</h3>
