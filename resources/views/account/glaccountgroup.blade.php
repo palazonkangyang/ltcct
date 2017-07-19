@@ -133,7 +133,7 @@
 
                                         <label class="col-md-3 control-label">Group Status *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="balancing_side">
+                                          <select class="form-control" name="status">
                                               <option value="active">Active</option>
                                               <option value="inactive">Inactive</option>
                                           </select>
