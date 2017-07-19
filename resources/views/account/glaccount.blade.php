@@ -73,11 +73,11 @@
                             <ul class="nav nav-tabs">
 
                               <li class="active">
-                                <a href="#tab_glaccountlist" data-toggle="tab">GL Account Group List</a>
+                                <a href="#tab_glaccountlist" data-toggle="tab">GL Account List</a>
                               </li>
 
                               <li id="members">
-                                <a href="#tab_newglaccount" data-toggle="tab">New GL Account Group</a>
+                                <a href="#tab_newglaccount" data-toggle="tab">New GL Account</a>
                               </li>
 
                             </ul>
@@ -90,7 +90,7 @@
 
                                   <div class="form-group">
 
-                                    <table class="table table-bordered" id="glaccountgroup-table">
+                                    <table class="table table-bordered" id="glaccount-table">
                                       <thead>
                                           <tr>
                                               <th>Account Group Code</th>
@@ -101,18 +101,7 @@
                                       </thead>
 
                                       <tbody>
-                                        @if(count($glaccountgroup))
 
-                                          @foreach($glaccountgroup as $gl)
-                                          <tr>
-                                            <td>{{ $gl->name }}</td>
-                                            <td>{{ $gl->description }}</td>
-                                            <td>{{ $gl->balancesheet_side }}</td>
-                                            <td>{{ $gl->status }}</td>
-                                          </tr>
-                                          @endforeach
-
-                                        @endif
                                       </tbody>
                                     </table>
                                   </div><!-- end form-group -->
@@ -127,16 +116,16 @@
 
                                   <div class="col-md-6">
 
-                                    <form method="post" action="{{ URL::to('/account/new-glaccountgroup') }}"
+                                    <form method="post" action="{{ URL::to('/account/new-glaccount') }}"
                                       class="form-horizontal form-bordered">
 
                                       {!! csrf_field() !!}
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Account Group Name *</label>
+                                        <label class="col-md-3 control-label">Account Code *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name">
+                                            <input type="text" class="form-control" name="accountcode" value="{{ old('accountcode') }}" id="accountcode">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -152,11 +141,12 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Balancing Side *</label>
+                                        <label class="col-md-3 control-label">Account Group *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="balancesheet_side">
-                                              <option value="ap">AP</option>
-                                              <option value="ar">AR</option>
+                                          <select class="form-control" name="glcodegroup_id">
+                                              @foreach($glaccountgroup as $gl)
+                                              <option value="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</option>
+                                              @endforeach
                                           </select>
                                         </div><!-- end col-md-9 -->
 
@@ -164,7 +154,7 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Group Status *</label>
+                                        <label class="col-md-3 control-label">Account Status *</label>
                                         <div class="col-md-9">
                                           <select class="form-control" name="status">
                                               <option value="active">Active</option>
@@ -244,86 +234,5 @@
       </div><!-- end page-content-wrapper -->
 
     </div><!-- end page-container-fluid -->
-
-@stop
-
-@section('custom-js')
-
-  <script type="text/javascript">
-    $(function() {
-
-      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-          localStorage.setItem('activeTab', $(e.target).attr('href'));
-      });
-
-      if ( $('.alert-success').children().length > 0 ) {
-          localStorage.removeItem('activeTab');
-      }
-
-      else
-      {
-          var activeTab = localStorage.getItem('activeTab');
-      }
-
-      if (activeTab) {
-          $('a[href="' + activeTab + '"]').tab('show');
-          console.log(activeTab);
-      }
-
-      $("#confirm_gl_btn").click(function() {
-
-        var count = 0;
-        var errors = new Array();
-        var validationFailed = false;
-
-        var name = $("#name").val();
-        var description = $("#description").val();
-        var authorized_password = $("#authorized_password").val();
-
-        if ($.trim(name).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Group name is empty."
-        }
-
-        if ($.trim(description).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Group description is empty."
-        }
-
-        if ($.trim(authorized_password).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Authorized Pasword is empty."
-        }
-
-        if (validationFailed)
-        {
-            var errorMsgs = '';
-
-            for(var i = 0; i < count; i++)
-            {
-                errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
-
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
-
-            $(".validation-error").addClass("bg-danger alert alert-error")
-            $(".validation-error").html(errorMsgs);
-
-            return false;
-        }
-
-        else
-        {
-            $(".validation-error").removeClass("bg-danger alert alert-error")
-            $(".validation-error").empty();
-        }
-
-      });
-
-    });
-  </script>
 
 @stop
