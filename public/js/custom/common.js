@@ -19,8 +19,8 @@ $(function() {
 				console.log(path);
 				console.log($(this).attr('href'));
 
-	      if ($(this).attr('href') === path) {
-					//    	$(this).parent().addClass('active');
+	      if ($(this).attr('href') == path) {
+					$(this).parent().addClass('active');
 					console.log("same path");
 	      }
 
