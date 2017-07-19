@@ -1398,7 +1398,7 @@
 
             $('#devotees_table thead tr#filter th').each( function () {
                 var title = $('#devotees_table thead th').eq( $(this).index() ).text();
-                $(this).html( '<input type="text" onclick="stopPropagation(event);" placeholder="" />' );
+                $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
             } );
 
             // DataTable
