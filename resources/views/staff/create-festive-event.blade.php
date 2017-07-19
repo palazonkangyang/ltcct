@@ -121,7 +121,6 @@
                                                                         <input type='text' class='form-control' name='shuwen_title[]' value='{{ $event->shuwen_title }}'>
                                                                     </td>
                                                                     <td>
-                                                                        <input type='hidden' name='display[]' value='N' class='form-control'>
                                                                         <input type='checkbox' name='display[]' value='Y' class='form-control'
                                                                           <?php if ($event->display == 'Y'){ ?>checked="checked"<?php }?>>
                                                                     </td>
@@ -182,6 +181,26 @@
     <script type="text/javascript">
         $(function() {
 
+          $("form").submit(function () {
+
+            var this_master = $(this);
+
+            this_master.find('input[type="checkbox"]').each( function () {
+                var checkbox_this = $(this);
+
+
+                if( checkbox_this.is(":checked") == true ) {
+                    checkbox_this.attr('value','1');
+                }
+
+                else {
+                    checkbox_this.prop('checked', true);
+                    //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
+                    checkbox_this.attr('value','0');
+                }
+            });
+          });
+
             $("#addEventRow").click(function() {
 
                 $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
@@ -191,7 +210,7 @@
                     "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
                     "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-                    "<td><input type='hidden' name='display[]' value='N' class='form-control'><input type='checkbox' name='display[]' value='Y' class='form-control'></td></tr>");
+                    "<td><input type='checkbox' name='display[]' value='Y' class='form-control'></td></tr>");
             });
 
             $("#festive-event-table").on('click', '.removeEventRow', function() {
