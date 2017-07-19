@@ -438,17 +438,20 @@
 
 																																				<div class="form-group">
 
-		                                                                    		<div class="col-md-12">
+		                                                                    		<div class="col-md-9">
 
 																																								<select class="form-control" name="festiveevent_id">
 																																										@foreach($events as $event)
 																																										<option value="{{ $event->festiveevent_id }}">
-																																												{{ \Carbon\Carbon::parse($event->start_at)->format("d/m/Y") }} / {{ $event->event }}
+																																												{{ \Carbon\Carbon::parse($event->start_at)->format("d/m/Y") }} ({{ $event->event }})
 																																										</option>
 																																										@endforeach
 																																								</select>
 
-		                                                                        </div><!-- end col-md-12 -->
+		                                                                        </div><!-- end col-md-9 -->
+
+																																						<div class="col-md-3">
+																																						</div><!-- end col-md-3 -->
 
 		                                                                  </div><!-- end form-group -->
 
