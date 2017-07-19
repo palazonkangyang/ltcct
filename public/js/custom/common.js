@@ -13,7 +13,7 @@ $(function() {
 				localStorage.removeItem('activeTab');
 		});
 
-		var path = window.location.href;
+		var path = window.location.pathname;
 
 		alert(path);
 
