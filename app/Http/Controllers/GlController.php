@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
 use App\Models\GlCodeGroup;
+use App\Models\GlCode;
 use Auth;
 use DB;
 use Hash;
@@ -35,7 +36,6 @@ class GlController extends Controller
     if(isset($input['authorized_password']))
     {
       $user = User::find(Auth::user()->id);
-
       $hashedPassword = $user->password;
 
       if (Hash::check($input['authorized_password'], $hashedPassword)) {
@@ -71,6 +71,42 @@ class GlController extends Controller
     return view('account.glaccount', [
       'glaccountgroup' => $glaccountgroup
     ]);
+  }
+
+  public function postAddNewGlAccount(Request $request)
+  {
+    $input = array_except($request->all(), '_token');
+
+    dd($input);
+
+    if(isset($input['authorized_password']))
+    {
+      $user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
+
+      if (Hash::check($input['authorized_password'], $hashedPassword)) {
+        $data = [
+          "accountcode" => $input['accountcode'],
+          "description" => $input['description'],
+          "status" => $input['status'],
+          "glcodegroup_id" => $input['glcodegroup_id']
+        ];
+
+        $glcodegroup = GlCodeGroup::create($data);
+      }
+
+      else {
+        $request->session()->flash('error', "Password did not match. Please Try Again");
+        return redirect()->back()->withInput();
+      }
+    }
+
+    if($glcode)
+    {
+      $request->session()->flash('success', 'New GL account group has been created!');
+      return redirect()->back();
+    }
+
   }
 
 }

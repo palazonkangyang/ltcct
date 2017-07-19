@@ -191,7 +191,7 @@
                                         <label class="col-md-3 control-label"></label>
                                         <div class="col-md-9">
                                           <div class="form-actions pull-right">
-                                            <button type="submit" class="btn blue" id="confirm_gl_btn">Confirm
+                                            <button type="submit" class="btn blue" id="confirm_glcode_btn">Confirm
                                             </button>
                                             <button type="button" class="btn default">Cancel</button>
                                           </div><!-- end form-actions -->
@@ -234,5 +234,69 @@
       </div><!-- end page-content-wrapper -->
 
     </div><!-- end page-container-fluid -->
+
+@stop
+
+@section('custom-js')
+
+  <script type="text/javascript">
+
+    $(function() {
+
+      $("#confirm_glcode_btn").click(function() {
+
+        var count = 0;
+        var errors = new Array();
+        var validationFailed = false;
+
+        var accountcode = $("#accountcode").val();
+        var description = $("#description").val();
+        var authorized_password = $("#authorized_password").val();
+
+        if ($.trim(accountcode).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Account code is empty."
+        }
+
+        if ($.trim(description).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Account description is empty."
+        }
+
+        if ($.trim(authorized_password).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Authorized Pasword is empty."
+        }
+
+        if (validationFailed)
+        {
+            var errorMsgs = '';
+
+            for(var i = 0; i < count; i++)
+            {
+                errorMsgs = errorMsgs + errors[i] + "<br/>";
+            }
+
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+            $(".validation-error").addClass("bg-danger alert alert-error")
+            $(".validation-error").html(errorMsgs);
+
+            return false;
+        }
+
+        else
+        {
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
+        }
+
+      });
+
+    });
+  </script>
 
 @stop
