@@ -270,6 +270,8 @@
 
       $("#confirm_gl_btn").click(function() {
 
+        alert('here');
+
         var count = 0;
         var errors = new Array();
         var validationFailed = false;
