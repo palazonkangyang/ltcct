@@ -127,7 +127,7 @@
 
                                   <div class="col-md-6">
 
-                                    <form method="post" action="{{ URL::to('/account/new-glaccount') }}"
+                                    <form method="post" action="{{ URL::to('/account/new-glaccountgroup') }}"
                                       class="form-horizontal form-bordered">
 
                                       {!! csrf_field() !!}

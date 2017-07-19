@@ -73,9 +73,9 @@ Route::group(['middleware' => 'auth'], function () {
   });
 
 	Route::group(['prefix' => 'account'], function () {
-    Route::get('/new-glaccount', ['as' => 'new-glaccount-page', 'uses' => 'GlController@getAddNewGlAccount']);
+    Route::get('/new-glaccountgroup', ['as' => 'new-glaccount-page', 'uses' => 'GlController@getAddNewGlAccount']);
 
-		Route::post('/new-glaccount', ['as' => 'post-glaccount-page', 'uses' => 'GlController@postAddNewGlAccount']);
+		Route::post('/new-glaccountgroup', ['as' => 'post-glaccount-page', 'uses' => 'GlController@postAddNewGlAccount']);
 
   });
 
