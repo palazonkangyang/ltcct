@@ -96,6 +96,8 @@
                                                         <tbody>
                                                             @if(count($events))
 
+                                                                @php $count = 0; @endphp
+
                                                                 @foreach($events as $event)
                                                                 <tr class="event-row">
                                                                     <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
@@ -121,10 +123,13 @@
                                                                         <input type='text' class='form-control' name='shuwen_title[]' value='{{ $event->shuwen_title }}'>
                                                                     </td>
                                                                     <td>
-                                                                        <input type='checkbox' name='display[]' value='' class='form-control'
+                                                                        <input type='checkbox' name='display[$count]' value='' class='form-control'
                                                                           <?php if ($event->display == 'Y'){ ?>checked="checked"<?php }?>>
                                                                     </td>
                                                                 </tr>
+
+                                                                @php $count++; @endphp
+                                                                
                                                                 @endforeach
 
                                                             @endif
@@ -199,14 +204,6 @@
                 }
             });
           });
-
-          $("#form").submit(function() {
-            // to each unchecked checkbox
-            $(this + 'input[type=checkbox]:not(:checked)').each(function () {
-                // set value 0 and check it
-                $(this).attr('checked', true).val(0);
-            });
-        });
 
             $("#addEventRow").click(function() {
 
