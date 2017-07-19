@@ -103,7 +103,7 @@
 
                                         <label class="col-md-3 control-label">Account Group Name *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+                                            <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -112,7 +112,7 @@
 
                                         <label class="col-md-3 control-label">Account Description *</label>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" name="description" rows="4">{{ old('description') }}</textarea>
+                                            <textarea class="form-control" name="description" rows="4" id="description">{{ old('description') }}</textarea>
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -157,7 +157,7 @@
                                         <div class="col-md-6">
                                           <label class="col-md-6">Authorized Password</label>
                                           <div class="col-md-6">
-                                            <input type="password" class="form-control" name="authorized_password" value="">
+                                            <input type="password" class="form-control" name="authorized_password" value="" id="authorized_password">
                                           </div><!-- end col-md-6 -->
                                         </div><!-- end col-md-6 -->
 
@@ -168,7 +168,7 @@
                                         <label class="col-md-3 control-label"></label>
                                         <div class="col-md-9">
                                           <div class="form-actions pull-right">
-                                            <button type="submit" class="btn blue" id="confirm_donation_btn">Confirm
+                                            <button type="submit" class="btn blue" id="confirm_gl_btn">Confirm
                                             </button>
                                             <button type="button" class="btn default">Cancel</button>
                                           </div><!-- end form-actions -->
@@ -229,6 +229,53 @@
           $('a[href="' + activeTab + '"]').tab('show');
           console.log(activeTab);
       }
+
+      $("#confirm_gl_btn").click(function() {
+
+        var count = 0;
+        var errors = new Array();
+        var validationFailed = false;
+
+        var name = $("#name").val();
+        var description = $("#description").val();
+        var authorized_password = $("#authorized_password").val();
+
+        if ($.trim(name).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Group name is empty."
+        }
+
+        if ($.trim(description).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Group description is empty."
+        }
+
+        if (validationFailed)
+        {
+            var errorMsgs = '';
+
+            for(var i = 0; i < count; i++)
+            {
+                errorMsgs = errorMsgs + errors[i] + "<br/>";
+            }
+
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+            $(".validation-error").addClass("bg-danger alert alert-error")
+            $(".validation-error").html(errorMsgs);
+
+            return false;
+        }
+
+        else
+        {
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
+        }
+        
+      });
 
     });
   </script>
