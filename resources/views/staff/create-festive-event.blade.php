@@ -123,7 +123,7 @@
                                                                     <td class="display-row">
                                                                         <input type='hidden' name='display_hidden[]' value='' class="display-hidden">
                                                                         <input type='checkbox' name='display[]' value='' class='form-control'
-                                                                          <?php if ($event->display == 'Y'){ ?>checked="checked"<?php }?>>
+                                                                          <?php if ($event->display == '1'){ ?>checked="checked"<?php }?>>
                                                                     </td>
                                                                 </tr>
                                                                 @endforeach
