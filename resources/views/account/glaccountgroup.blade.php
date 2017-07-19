@@ -252,11 +252,6 @@
   <script type="text/javascript">
     $(function() {
 
-      // DataTable
-      var table = $('#glaccountgroup-table').DataTable({
-        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-      });
-
       $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
           localStorage.setItem('activeTab', $(e.target).attr('href'));
       });
