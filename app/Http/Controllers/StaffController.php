@@ -29,7 +29,12 @@ class StaffController extends Controller
 
 	public function getDonation()
 	{
-		$events = FestiveEvent::orderBy('start_at', 'desc')->take(2)->get();
+		$today = Carbon::today();
+
+		$events = FestiveEvent::orderBy('start_at', 'desc')
+							->where('start_at', '>', $today)
+							->take(2)
+							->get();
 
 		dd($events);
 
