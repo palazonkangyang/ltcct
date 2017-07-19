@@ -19,7 +19,7 @@ $(function() {
 
 		$('.navbar-nav li a').each(function() {
 	      if (this.href === path) {
-	       	$(this).addClass('active');
+	       	$(this).parent().addClass('active');
 	      }
    });
 
