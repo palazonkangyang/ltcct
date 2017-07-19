@@ -67,7 +67,7 @@
                           <div class="alert alert-danger"><em> {{ Session::get('error') }}</em></div>
                       @endif
 
-                      <div class="portlet-body">
+                      <div class="portlet-body form">
 
                         <div class="tabbable-bordered">
                             <ul class="nav nav-tabs">
@@ -143,13 +143,14 @@
 
                                       <div class="form-group">
 
-                                        <div class="col-md-12">
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-9">
                                           <div class="form-actions">
                                             <button type="submit" class="btn blue" id="confirm_donation_btn">Confirm
                                             </button>
                                             <button type="button" class="btn default">Cancel</button>
                                           </div><!-- end form-actions -->
-                                        </div><!-- end col-md-12 -->
+                                        </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
 
