@@ -90,7 +90,7 @@ class GlController extends Controller
           "glcodegroup_id" => $input['glcodegroup_id']
         ];
 
-        $glcode = GlCodeGroup::create($data);
+        $glcode = GlCode::create($data);
       }
 
       else {
