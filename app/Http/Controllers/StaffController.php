@@ -343,13 +343,11 @@ class StaffController extends Controller
 	{
 			$input = array_except($request->all(), '_token', 'display');
 
-			dd($input);
-
 			FestiveEvent::truncate();
 
 			for($i = 0; $i < count($input["start_at"]); $i++)
 			{
-				
+
 				$start_at = $input["start_at"][$i];
 				$new_start_at = str_replace('/', '-', $start_at);
 
