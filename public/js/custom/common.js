@@ -16,9 +16,11 @@ $(function() {
 		var path = window.location.pathname;
 
 		$('.navbar-nav li a').each(function() {
+				console.log(path);
+				console.log(this.herf);
+				
 	      if (this.href === path) {
 					//    	$(this).parent().addClass('active');
-					console.log(path);
 					console.log("same path");
 	      }
 
