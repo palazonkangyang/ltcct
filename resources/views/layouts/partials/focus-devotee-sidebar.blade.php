@@ -263,38 +263,6 @@
                     <h4>Focus Devotee 焦点善信</h4>
                 </div><!-- end col-md-12 -->
 
-                <div class="col-md-12">
-
-                    <div class="row form-horizontal">
-
-                        <div class="col-md-6">
-
-                            <div class="form-group">
-                                <label class="col-md-12">Devotee ID : <span id="devodee_id">0</span></label>
-                            </div><!-- end form-group -->
-
-                            <div class="form-group">
-                                <label class="col-md-12">Member ID : <span id="member_id">0</span></label>
-                            </div><!-- end form-group -->
-
-
-                        </div><!-- end col-md-6 -->
-
-                        <div class="col-md-6">
-
-                            <div class="form-group">
-                                <label class="col-md-12">Family Code : <span id="family_code">0</span></label>
-                            </div><!-- end form-group -->
-
-                            <div class="form-group">
-                                <label class="col-md-12">Bridging ID : <span id="bridging_id">0</span></label>
-                            </div><!-- end form-group -->
-
-                        </div><!-- end col-md-6 -->
-                    </div><!-- end row -->
-
-                </div><!-- end col-md-12 -->
-
             </div><!-- end row -->
 
             <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
