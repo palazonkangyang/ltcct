@@ -64,11 +64,16 @@ class GlController extends Controller
 
   public function getAddNewGlAccount()
   {
+    $glaccount = GlCode::join('glcodegroup', 'glcodegroup.glcodegroup_id', '=', 'glcode.glcodegroup_id')
+                 ->select('glcode.*', 'glcodegroup.name as glcodegroup_name')
+                 ->orderBy('created_at', 'desc')->get();
+
     $glaccountgroup = GlCodeGroup::select('glcodegroup_id', 'name')
                       ->orderBy('name', 'asc')
                       ->get();
 
     return view('account.glaccount', [
+      'glaccount' => $glaccount,
       'glaccountgroup' => $glaccountgroup
     ]);
   }
