@@ -18,6 +18,7 @@ $(function() {
 		$('.navbar-nav li a').each(function() {
 	      if (this.href === path) {
 					//    	$(this).parent().addClass('active');
+					console.log(path);
 					console.log("same path");
 	      }
 
