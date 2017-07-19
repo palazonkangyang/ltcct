@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use User;
-use GlCodeGroup;
+use App\Models\User;
+use App\Models\GlCodeGroup;
 use Auth;
 use DB;
 use Hash;

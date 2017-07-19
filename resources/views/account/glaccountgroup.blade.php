@@ -157,7 +157,7 @@
                                         <div class="col-md-6">
                                           <label class="col-md-6">Authorized Password</label>
                                           <div class="col-md-6">
-                                            <input type="text" class="form-control" name="authorized_password" value="">
+                                            <input type="password" class="form-control" name="authorized_password" value="">
                                           </div><!-- end col-md-6 -->
                                         </div><!-- end col-md-6 -->
 
