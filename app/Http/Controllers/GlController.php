@@ -19,7 +19,7 @@ class GlController extends Controller
 
   public function getAddNewGlAccount()
   {
-    
+    return view('account.glaccountgroup');
   }
 
 }
