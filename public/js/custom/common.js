@@ -15,12 +15,15 @@ $(function() {
 
 		var path = window.location.pathname;
 
-		alert(path);
-
 		$('.navbar-nav li a').each(function() {
 	      if (this.href === path) {
-	       	$(this).parent().addClass('active');
+					//    	$(this).parent().addClass('active');
+					console.log("same path");
 	      }
+
+				else {
+						console.log("different path");
+				}
    });
 
 });
