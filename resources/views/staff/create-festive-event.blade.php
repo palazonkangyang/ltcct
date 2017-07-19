@@ -96,8 +96,6 @@
                                                         <tbody>
                                                             @if(count($events))
 
-                                                                @php $count = 0; @endphp
-
                                                                 @foreach($events as $event)
                                                                 <tr class="event-row">
                                                                     <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
@@ -122,14 +120,12 @@
                                                                     <td>
                                                                         <input type='text' class='form-control' name='shuwen_title[]' value='{{ $event->shuwen_title }}'>
                                                                     </td>
-                                                                    <td>
-                                                                        <input type='checkbox' name='display[$count]' value='' class='form-control'
+                                                                    <td class="display-row">
+                                                                        <input type='hidden' name='display_hidden[]' value='' class="display-hidden">
+                                                                        <input type='checkbox' name='display[]' value='' class='form-control'
                                                                           <?php if ($event->display == 'Y'){ ?>checked="checked"<?php }?>>
                                                                     </td>
                                                                 </tr>
-
-                                                                @php $count++; @endphp
-                                                                
                                                                 @endforeach
 
                                                             @endif
@@ -192,15 +188,16 @@
 
             this_master.find('input[type="checkbox"]').each( function () {
                 var checkbox_this = $(this);
-
+                var display_hidden = checkbox_this.closest('.display-row').find('.display-hidden');
 
                 if( checkbox_this.is(":checked") == true ) {
-                    checkbox_this.attr('value','1');
+                    display_hidden.attr('value','1');
                 }
 
                 else {
+                    display_hidden.prop('checked', true);
                     //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
-                    checkbox_this.attr('value','0');
+                    display_hidden.attr('value','0');
                 }
             });
           });
@@ -214,7 +211,7 @@
                     "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
                     "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
                     "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-                    "<td><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
+                    "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
             });
 
             $("#festive-event-table").on('click', '.removeEventRow', function() {
