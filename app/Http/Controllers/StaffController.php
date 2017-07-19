@@ -31,7 +31,7 @@ class StaffController extends Controller
 	{
 		$today = Carbon::today();
 
-		$events = FestiveEvent::orderBy('start_at', 'desc')
+		$events = FestiveEvent::orderBy('start_at', 'asc')
 							->where('start_at', '>', $today)
 							->take(2)
 							->get();
