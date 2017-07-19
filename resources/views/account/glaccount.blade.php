@@ -93,15 +93,26 @@
                                     <table class="table table-bordered" id="glaccount-table">
                                       <thead>
                                           <tr>
-                                              <th>Account Group Code</th>
-                                              <th>Account Group Description</th>
-                                              <th>Balancing Side</th>
+                                              <th>Account Code</th>
+                                              <th>Account Group</th>
+                                              <th>Account Description</th>
                                               <th>Account Group Status</th>
                                           </tr>
                                       </thead>
 
                                       <tbody>
+                                          @if(count($glaccount))
 
+                                            @foreach($glaccount as $gl)
+                                            <tr>
+                                              <td>{{ $gl->accountcode }}</td>
+                                              <td>{{ $gl->glcodegroup_name }}</td>
+                                              <td>{{ $gl->description }}</td>
+                                              <td>{{ $gl->status }}</td>
+                                            </tr>
+                                            @endforeach
+
+                                          @endif
                                       </tbody>
                                     </table>
                                   </div><!-- end form-group -->

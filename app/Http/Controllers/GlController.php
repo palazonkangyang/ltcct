@@ -68,8 +68,6 @@ class GlController extends Controller
                  ->select('glcode.*', 'glcodegroup.name as glcodegroup_name')
                  ->orderBy('created_at', 'desc')->get();
 
-    dd($glaccount->toArray());
-
     $glaccountgroup = GlCodeGroup::select('glcodegroup_id', 'name')
                       ->orderBy('name', 'asc')
                       ->get();
