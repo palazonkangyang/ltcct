@@ -223,11 +223,13 @@
           localStorage.setItem('activeTab', $(e.target).attr('href'));
       });
 
+      var activeTab = localStorage.getItem('activeTab');
+
       if (activeTab) {
           $('a[href="' + activeTab + '"]').tab('show');
           console.log(activeTab);
       }
-      
+
     });
   </script>
 
