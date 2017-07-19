@@ -39,7 +39,7 @@ $(function() {
                         "<td width='120px'><input type='text' class='form-control paid_till' name='other_paid_till[]' data-provide='datepicker'></td>" +
                         "<td width='150px'><select class='form-control' name='other_hjgr_arr[]'><option value='hj'>hj</option><option value='gr'>gr</option>" +
                         "</select></td>" +
-                        "<td width='50px'><select class='form-control' name='other_display[]'><option value='Y'>Y</option><option value='N'>N</option>" +
+                        "<td width='80px'><select class='form-control' name='other_display[]'><option value='Y'>Y</option><option value='N'>N</option>" +
                         "</select></td>" +
                         "<td></td>" +
                         "<td></td>");
