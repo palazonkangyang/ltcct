@@ -45,8 +45,6 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		dd($input);
-
 		if(isset($input['receipt_at']))
 		{
 			$receipt_at = date("Y-m-d", strtotime($input['receipt_at']));
