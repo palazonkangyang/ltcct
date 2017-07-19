@@ -141,6 +141,18 @@
 
                                       </div><!-- end form-group -->
 
+                                      <div class="form-group">
+
+                                        <div class="col-md-12">
+                                          <div class="form-actions">
+                                            <button type="submit" class="btn blue" id="confirm_donation_btn">Confirm
+                                            </button>
+                                            <button type="button" class="btn default">Cancel</button>
+                                          </div><!-- end form-actions -->
+                                        </div><!-- end col-md-12 -->
+
+                                      </div><!-- end form-group -->
+
                                     </form>
 
                                   </div><!-- end col-md-6 -->
@@ -149,6 +161,8 @@
                                   </div><!-- end col-md-6 -->
 
                                 </div><!-- end form-group -->
+
+                                <div class="clearfix"></div><!-- end clearfix -->
 
                               </div><!-- end tab-pane tab_newglaccount -->
 
