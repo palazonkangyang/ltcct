@@ -250,9 +250,16 @@
 
 @section('custom-js')
 
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
   <script type="text/javascript">
 
     $(function() {
+
+      $('#glaccount-table').DataTable( {
+        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+      });
 
       $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
           localStorage.setItem('activeTab', $(e.target).attr('href'));

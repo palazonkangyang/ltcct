@@ -256,7 +256,7 @@
     $(function() {
 
       $('#glaccountgroup-table').DataTable( {
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
       });
 
       $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
