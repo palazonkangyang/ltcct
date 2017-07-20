@@ -389,9 +389,7 @@
             dataType: 'json',
             success: function(response)
             {
-
-              alert(JSON.stringify(response));
-
+              
               $("#edit_glcode_id").val(response.glaccount['glcode_id']);
               $("#edit_accountcode").val(response.glaccount['accountcode']);
               $("#edit_description").val(response.glaccount['description']);
