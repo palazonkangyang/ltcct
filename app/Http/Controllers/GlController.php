@@ -164,7 +164,7 @@ class GlController extends Controller
   {
     $glaccount_id = $_GET['glaccount_id'];
 
-    $glaccount = GlCode::find($glcode_id);
+    $glaccount = GlCode::find($glaccount_id);
 
     return response()->json(array(
 			'glaccount' => $glaccount
