@@ -356,6 +356,170 @@
 
 @section('custom-js')
 
-  
+<script src="{{asset('js/custom/common.js')}}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+  $(function() {
+
+    var hashtag = "#tab_editglaccount";
+    var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
+
+    
+
+    if ( $('.alert-success').children().length > 0 ) {
+        localStorage.removeItem('activeTab');
+    }
+
+    else
+    {
+        var activeTab = localStorage.getItem('activeTab');
+    }
+
+    if (activeTab) {
+        $('a[href="' + activeTab + '"]').tab('show');
+        console.log(activeTab);
+    }
+
+    // Disabled Edit Devotee Tab
+    $(".nav-tabs > li").click(function(){
+        if($(this).hasClass("disabled"))
+            return false;
+    });
+
+    if ( $('.alert-success').children().length > 0 ) {
+        localStorage.removeItem('glocodeid');
+        localStorage.removeItem('glcodegroup_id');
+        localStorage.removeItem('status');
+    }
+
+    else
+    {
+        var glocodeid = localStorage.getItem('glocodeid');
+        var glcodegroup_id = localStorage.getItem('glcodegroup_id');
+        var status = localStorage.getItem('status');
+    }
+
+    if(glocodeid)
+    {
+      $("#edit_glcode_id").val(glocodeid);
+      $("#edit_glcodegroup_id").val(glcodegroup_id);
+      $("#edit_status").val(status);
+    }
+
+    $("#update_glcode_btn").click(function() {
+
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+
+      var accountcode = $("#edit_accountcode").val();
+      var description = $("#edit_description").val();
+      var authorized_password = $("#edit_authorized_password").val();
+
+      if ($.trim(accountcode).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Account code is empty."
+      }
+
+      if ($.trim(description).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Account description is empty."
+      }
+
+      if ($.trim(authorized_password).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Authorized Pasword is empty."
+      }
+
+      if (validationFailed)
+      {
+          var errorMsgs = '';
+
+          for(var i = 0; i < count; i++)
+          {
+              errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
+
+          return false;
+      }
+
+      else
+      {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+      }
+
+    });
+
+    $('#glaccount-table').DataTable( {
+      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+    });
+
+    $("#confirm_glcode_btn").click(function() {
+
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+
+      var accountcode = $("#accountcode").val();
+      var description = $("#description").val();
+      var authorized_password = $("#authorized_password").val();
+
+      if ($.trim(accountcode).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Account code is empty."
+      }
+
+      if ($.trim(description).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Account description is empty."
+      }
+
+      if ($.trim(authorized_password).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Authorized Pasword is empty."
+      }
+
+      if (validationFailed)
+      {
+          var errorMsgs = '';
+
+          for(var i = 0; i < count; i++)
+          {
+              errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
+
+          return false;
+      }
+
+      else
+      {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+      }
+
+    });
+
+  });
+</script>
 
 @stop
