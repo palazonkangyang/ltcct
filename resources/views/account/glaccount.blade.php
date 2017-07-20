@@ -457,13 +457,13 @@
             $(".validation-error").addClass("bg-danger alert alert-error")
             $(".validation-error").html(errorMsgs);
 
-            return false;
-
             $("#edit_glcodegroup_id").val(glcodegroup_id);
             $("#edit_status").val(status);
 
             console.log(glcodegroup_id);
             console.log(status);
+
+            return false;
         }
 
         else
