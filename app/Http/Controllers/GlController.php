@@ -19,7 +19,7 @@ use Carbon\Carbon;
 class GlController extends Controller
 {
 
-  // Get GL Accont Group
+  // Get GL Account Group
   public function getAddNewGlAccountGroup()
   {
     $glaccountgroup = GlCodeGroup::orderBy('created_at', 'desc')->get();
@@ -29,7 +29,7 @@ class GlController extends Controller
     ]);
   }
 
-  // Add New GL Accont Group
+  // Add New GL Account Group
   public function postAddNewGlAccountGroup(Request $request)
   {
     $input = array_except($request->all(), '_token');
@@ -63,7 +63,7 @@ class GlController extends Controller
     }
   }
 
-  // Get GL Accont Group
+  // Get GL Account Group
   public function EditGlAccountGroup(Request $request)
   {
     $glaccountgroup_id = $_GET['glaccountgroup_id'];
@@ -107,7 +107,7 @@ class GlController extends Controller
     }
   }
 
-  // Get GL Accont
+  // Get GL Account
   public function getAddNewGlAccount()
   {
     $glaccount = GlCode::leftjoin('glcodegroup', 'glcodegroup.glcodegroup_id', '=', 'glcode.glcodegroup_id')
@@ -124,7 +124,7 @@ class GlController extends Controller
     ]);
   }
 
-  // Add New GL Accont
+  // Add New GL Account
   public function postAddNewGlAccount(Request $request)
   {
     $input = array_except($request->all(), '_token');
@@ -159,7 +159,7 @@ class GlController extends Controller
 
   }
 
-  // Get GL Accont Group
+  // Get GL Account
   public function EditGlAccount(Request $request)
   {
     $glaccount_id = $_GET['glaccount_id'];
@@ -169,6 +169,40 @@ class GlController extends Controller
     return response()->json(array(
 			'glaccount' => $glaccount
 		));
+  }
+
+  // Update Gl Account
+  public function UpdateGlAccount(Request $request)
+  {
+    $input = array_except($request->all(), '_token');
+
+    dd($input);
+
+    if(isset($input['authorized_password']))
+    {
+      $user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
+
+      if (Hash::check($input['authorized_password'], $hashedPassword)) {
+
+        $glcode = GlCode::find($input['glcode_id']);
+
+        $glcode->accountcode = $input['accountcode'];
+        $glcode->description = $input['description'];
+        $result = $glcode->save();
+      }
+
+      else {
+        $request->session()->flash('error', "Password did not match. Please Try Again");
+        return redirect()->back()->withInput();
+      }
+    }
+
+    if($result)
+    {
+      $request->session()->flash('success', 'GL account has been updated!');
+      return redirect()->back();
+    }
   }
 
 }
