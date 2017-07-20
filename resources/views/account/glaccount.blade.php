@@ -368,15 +368,14 @@
       var hash = url.substring(url.indexOf("#")+1);
       var tab = "#" + hash;
 
+      localStorage.setItem('activeTab', tab);
+
       var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
 
       if(glaccount_id)
       {
-        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-            localStorage.setItem('activeTab', tab);
-            var tab_value = localStorage.getItem('activeTab');
-        });
-
+        localStorage.setItem('activeTab', tab);
+        
         var formData = {
             _token: $('meta[name="csrf-token"]').attr('content'),
             glaccount_id: glaccount_id
@@ -411,15 +410,6 @@
       else {
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
-        });
-      }
-
-      console.log("tab");
-      console.log(tab_value);
-
-      if ($('.alert-error').children().length > 0) {
-        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-            localStorage.setItem('activeTab', tab_value);
         });
       }
 
