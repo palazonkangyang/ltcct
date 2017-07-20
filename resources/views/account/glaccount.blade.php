@@ -382,7 +382,6 @@
             glaccount_id: glaccount_id
         };
 
-        $("#edit_glcode_id").val('');
         $("#edit_accountcode").val('');
         $("#edit_description").val('');
         $("#edit_glcodegroup_id").val('');

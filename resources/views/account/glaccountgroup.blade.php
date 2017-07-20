@@ -381,6 +381,12 @@
             glaccountgroup_id: glaccountgroup_id
         };
 
+        $("#edit_glcodegroup_id").val('');
+        $("#edit_name").val('');
+        $("#edit_description").val('');
+        $("#edit_balancesheet_side").val('');
+        $("#edit_status").val('');
+
         $.ajax({
             type: 'GET',
             url: "/account/edit-glaccountgroup/",
