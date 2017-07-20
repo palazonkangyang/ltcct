@@ -357,6 +357,7 @@
 
 @section('custom-js')
 
+  <script src="{{asset('js/custom/common.js')}}"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
