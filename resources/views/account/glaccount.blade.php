@@ -224,6 +224,112 @@
 
                               </div><!-- end tab-pane tab_newglaccount -->
 
+                              <div class="tab-pane" id="tab_editglaccount">
+
+                                <div class="form-body">
+
+                                  <div class="col-md-6">
+
+                                    <form method="post" action="{{ URL::to('/account/update-glaccount') }}"
+                                      class="form-horizontal form-bordered">
+
+                                      {!! csrf_field() !!}
+
+                                      <div class="form-group">
+                                        <input type="hidden" name="glcode_id" value="" id="edit_glcode_id">
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Account Code *</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="accountcode" value="{{ old('accountcode') }}" id="edit_accountcode">
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Account Description *</label>
+                                        <div class="col-md-9">
+                                            <textarea class="form-control" name="description" rows="4" id="edit_description">{{ old('description') }}</textarea>
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Account Group *</label>
+                                        <div class="col-md-9">
+                                          <select class="form-control" name="edit_glcodegroup_id">
+                                              @foreach($glaccountgroup as $gl)
+                                              <option value="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</option>
+                                              @endforeach
+                                          </select>
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Account Status *</label>
+                                        <div class="col-md-9">
+                                          <select class="form-control" name="edit_status">
+                                              <option value="active">Active</option>
+                                              <option value="inactive">Inactive</option>
+                                          </select>
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+                                        <p>&nbsp;</p>
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <div class="col-md-6">
+                                          <p>
+                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.
+                                            To Confirm, please enter authorized password to proceed.
+                                          </p>
+                                        </div><!-- end col-md-6 -->
+
+                                        <div class="col-md-6">
+                                          <label class="col-md-6">Authorized Password</label>
+                                          <div class="col-md-6">
+                                            <input type="password" class="form-control" name="authorized_password" value="" id="edit_authorized_password">
+                                          </div><!-- end col-md-6 -->
+                                        </div><!-- end col-md-6 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label"></label>
+                                        <div class="col-md-9">
+                                          <div class="form-actions pull-right">
+                                            <button type="submit" class="btn blue" id="update_glcode_btn">Update
+                                            </button>
+                                            <button type="button" class="btn default">Cancel</button>
+                                          </div><!-- end form-actions -->
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                    </form>
+
+                                  </div><!-- end col-md-6 -->
+
+                                  <div class="col-md-6">
+                                  </div><!-- end col-md-6 -->
+
+                                </div><!-- end form-group -->
+
+                                <div class="clearfix"></div><!-- end clearfix -->
+
+                              </div><!-- end tab-pane tab_editglaccount -->
+
                             </div><!-- end tab-content -->
                         </div><!-- end tabbable-bordered -->
 
