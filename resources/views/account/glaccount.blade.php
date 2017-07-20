@@ -365,7 +365,7 @@
     $(function() {
 
       var hashtag = "#tab_editglaccount";
-      var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
+      // var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
 
       if(glaccount_id)
       {
