@@ -82,7 +82,7 @@
 
                                       @else
 
-                            							@php break; @endphp
+                            							@php continue; @endphp
 
                                       @endif
 
