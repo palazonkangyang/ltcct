@@ -65,14 +65,16 @@
 
                                 @php $glcodegroup_id = $gcg->glcodegroup_id; @endphp
 
-                                <li data-jstree='{ "opened" : true }'> {{ $gcg->name }}
+                                <li data-jstree='{ "opened" : true }'>
+                                  <a href="/account/glaccountgroup/{{ $gcg->$glcodegroup_id }}">{{ $gcg->name }}</a>
+                                  
                                   <ul>
 
                                     @foreach($glcode as $gc)
 
                                       @if($glcodegroup_id == $gc->glcodegroup_id)
                                         <li data-jstree='{ "type" : "file" }'>
-                                          <a href="/account/{{ $gc->glcode_id }}">{{ $gc->accountcode }}</a>
+                                          <a href="/account/glaccount/{{ $gc->glcode_id }}">{{ $gc->accountcode }}</a>
                                         </li>
 
                                       @else
