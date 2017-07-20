@@ -365,6 +365,11 @@
 
     $(function() {
 
+      var url = window.location.pathname;
+      var hash = url.substring(url.indexOf("#")+1);
+      alert(hash);
+      console.log(hash);
+
       // Disabled Edit Devotee Tab
       $(".nav-tabs > li").click(function(){
           if($(this).hasClass("disabled"))
