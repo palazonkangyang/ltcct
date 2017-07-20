@@ -411,6 +411,59 @@
 
       });
 
+      $("#update_glcode_btn").click(function() {
+
+        var count = 0;
+        var errors = new Array();
+        var validationFailed = false;
+
+        var accountcode = $("#edit_accountcode").val();
+        var description = $("#edit_description").val();
+        var authorized_password = $("#edit_authorized_password").val();
+
+        if ($.trim(accountcode).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Account code is empty."
+        }
+
+        if ($.trim(description).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Account description is empty."
+        }
+
+        if ($.trim(authorized_password).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Authorized Pasword is empty."
+        }
+
+        if (validationFailed)
+        {
+            var errorMsgs = '';
+
+            for(var i = 0; i < count; i++)
+            {
+                errorMsgs = errorMsgs + errors[i] + "<br/>";
+            }
+
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+            $(".validation-error").addClass("bg-danger alert alert-error")
+            $(".validation-error").html(errorMsgs);
+
+            return false;
+        }
+
+        else
+        {
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
+        }
+
+      });
+
       $('#glaccount-table').DataTable( {
         "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
       });
