@@ -365,6 +365,9 @@
 
     $(function() {
 
+      var glcodegroup_id = "";
+      var status = ""
+
       // Disabled Edit Devotee Tab
       $(".nav-tabs > li").click(function(){
           if($(this).hasClass("disabled"))
@@ -399,6 +402,9 @@
               $("#edit_description").val(response.glaccount['description']);
               $("#edit_glcodegroup_id").val(response.glaccount['glcodegroup_id']);
               $("#edit_status").val(response.glaccount['status']);
+
+              glcodegroup_id = response.glaccount['glcodegroup_id'];
+              status = response.glaccount['status'];
 
             },
 
@@ -452,6 +458,12 @@
             $(".validation-error").html(errorMsgs);
 
             return false;
+
+            $("#edit_glcodegroup_id").val(glcodegroup_id);
+            $("#edit_status").val(status);
+
+            console.log();
+            console.log();
         }
 
         else
