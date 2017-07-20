@@ -70,7 +70,7 @@
 
                               @foreach($glcodegroup as $gcg)
 
-                                @php $glcodegroup_id = $gcg->id; @endphp
+                                @php $glcodegroup_id = $gcg->glcodegroup_id; @endphp
 
                                 <li data-jstree='{ "opened" : true }'> {{ $gcg->name }}
                                   <ul>
@@ -87,7 +87,7 @@
                                       @endif
 
                                     @endforeach
-                                    
+
                                   </ul>
                                 </li>
 
