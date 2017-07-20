@@ -123,3 +123,9 @@
 
   </div><!-- end page-container-fluid -->
 @stop
+
+@section('custom-js')
+
+    <script src="{{asset('js/ui-tree.min.js')}}"></script>
+
+@stop
