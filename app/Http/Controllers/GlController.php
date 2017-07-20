@@ -19,6 +19,7 @@ use Carbon\Carbon;
 class GlController extends Controller
 {
 
+  // Get GL Accont Group
   public function getAddNewGlAccountGroup()
   {
     $glaccountgroup = GlCodeGroup::orderBy('created_at', 'desc')->get();
@@ -62,6 +63,13 @@ class GlController extends Controller
     }
   }
 
+  // Get GL Accont Group
+  public function EditGlAccountGroup($glaccountgroup_id)
+  {
+    dd($glaccountgroup_id);
+  }
+
+  // Get GL Accont
   public function getAddNewGlAccount()
   {
     $glaccount = GlCode::leftjoin('glcodegroup', 'glcodegroup.glcodegroup_id', '=', 'glcode.glcodegroup_id')
@@ -78,6 +86,7 @@ class GlController extends Controller
     ]);
   }
 
+  // Add New GL Accont
   public function postAddNewGlAccount(Request $request)
   {
     $input = array_except($request->all(), '_token');
