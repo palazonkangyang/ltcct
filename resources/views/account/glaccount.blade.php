@@ -371,15 +371,18 @@
               return false;
       });
 
-      var glocodeid = localStorage.getItem('glocodeid');
+      if ( $('.alert-success').children().length > 0 ) {
+          localStorage.removeItem('glocodeid');
+      }
+
+      else
+      {
+          var glocodeid = localStorage.getItem('glocodeid');
+      }
 
       if(glocodeid)
       {
         $("#edit_glcode_id").val(glocodeid);
-      }
-
-      if ( $('.alert-success').children().length > 0 ) {
-          localStorage.removeItem('glocodeid');
       }
 
       $("#glaccount-table").on('click','.edit-glaccount',function(e) {
