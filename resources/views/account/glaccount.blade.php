@@ -367,11 +367,8 @@
       var url = window.location.href;
       var hash = url.substring(url.indexOf("#")+1);
       var tab = "#" + hash;
-      alert(tab);
 
       var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
-      // console.log("glcode_id");
-      // console.log(gid);
 
       if(glaccount_id)
       {
