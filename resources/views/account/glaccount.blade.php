@@ -365,9 +365,9 @@
   $(function() {
 
     var hashtag = "#tab_editglaccount";
-    var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
-
     
+
+
 
     if ( $('.alert-success').children().length > 0 ) {
         localStorage.removeItem('activeTab');
