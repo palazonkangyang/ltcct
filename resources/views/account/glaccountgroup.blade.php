@@ -79,7 +79,7 @@
                               <li>
                                 <a href="#tab_newglaccountgroup" data-toggle="tab">New GL Account Group</a>
                               </li>
-                              <li class="disabled">
+                              <li id="edit-glaccountgroup" class="disabled">
                                 <a href="#tab_editglaccountgroup" data-toggle="tab">Edit GL Account Group</a>
                               </li>
                             </ul>
@@ -108,7 +108,7 @@
                                           @foreach($glaccountgroup as $gl)
                                           <tr>
                                             <td><a href="#tab_editglaccountgroup" data-toggle="tab"
-                                                class="edit-devotee" id="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</a></td>
+                                                class="edit-glaccountgroup" id="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</a></td>
                                             <td>{{ $gl->description }}</td>
                                             <td>{{ $gl->balancesheet_side }}</td>
                                             <td>{{ $gl->status }}</td>
@@ -262,6 +262,13 @@
       $(".nav-tabs > li").click(function(){
           if($(this).hasClass("disabled"))
               return false;
+      });
+
+      $("#glaccountgroup-table").on('click','.edit-glaccountgroup',function(e) {
+
+        $(".nav-tabs > li:first-child").removeClass("active");
+        $("#edit-glaccountgroup").addClass("active");
+
       });
 
       $('#glaccountgroup-table').DataTable( {
