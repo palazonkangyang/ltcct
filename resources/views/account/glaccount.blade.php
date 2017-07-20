@@ -370,7 +370,7 @@
       // alert(hash);
       // console.log(hash);
 
-      var gid = "<?php $_GET['glcode_id'] ?>";
+      var gid = "<?php echo $_GET['glcode_id'] ?>";
       console.log("glcode_id");
       console.log(gid);
 
