@@ -84,6 +84,8 @@
                   <div class="col-md-6">
                   </div><!-- end col-md-6 -->
 
+                  <div class="clearfix"></div><!-- end clearfix -->
+
                 </div><!-- end col-md-12 -->
 
               </div><!-- end row -->
