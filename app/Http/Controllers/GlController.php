@@ -212,8 +212,6 @@ class GlController extends Controller
     $glcode = GlCode::orderby('glcodegroup_id', 'asc')
               ->get();
 
-    dd($glcode->toArray());
-
     return view('account.chart-all-accounts');
   }
 
