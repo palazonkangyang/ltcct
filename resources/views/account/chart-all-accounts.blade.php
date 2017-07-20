@@ -58,16 +58,16 @@
                       <div id="tree_1" class="tree-demo">
 
                         <ul>
-                          <li>Root
+                          <li data-jstree='{ "opened" : true }'>Root
                             <ul>
 
                               @foreach($glcodegroup as $gcg)
 
                                 @php $glcodegroup_id = $gcg->glcodegroup_id; @endphp
 
-                                <li data-jstree='{ "opened" : true }'>
+                                <li data-jstree='{ "opened" : false }'>
                                   <a href="/account/glaccountgroup/{{ $gcg->$glcodegroup_id }}">{{ $gcg->name }}</a>
-                                  
+
                                   <ul>
 
                                     @foreach($glcode as $gc)
