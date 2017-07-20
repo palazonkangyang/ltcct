@@ -109,7 +109,7 @@
                                                   class="edit-glaccount" id="{{ $gl->glcode_id }}">{{ $gl->accountcode }}</td>
                                               <td>{{ $gl->glcodegroup_name }}</td>
                                               <td>{{ $gl->description }}</td>
-                                              <td>{{ $gl->status }}</td>
+                                              <td class="text-capitalize">{{ $gl->status }}</td>
                                             </tr>
                                             @endforeach
 
