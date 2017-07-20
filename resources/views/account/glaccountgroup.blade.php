@@ -370,6 +370,26 @@
               return false;
       });
 
+      if ( $('.alert-success').children().length > 0 ) {
+          localStorage.removeItem('glcodegroup_id');
+          localStorage.removeItem('balancesheet_side');
+          localStorage.removeItem('status');
+      }
+
+      else
+      {
+          var glcodegroup_id = localStorage.getItem('glcodegroup_id');
+          var balancesheet_side = localStorage.getItem('balancesheet_side');
+          var status = localStorage.getItem('status');
+      }
+
+      if(glcodegroup_id)
+      {
+        $("#edit_glcodegroup_id").val(glcodegroup_id);
+        $("#edit_balancesheet_side").val(balancesheet_side);
+        $("#edit_status").val(status);
+      }
+
       $("#glaccountgroup-table").on('click','.edit-glaccountgroup',function(e) {
 
         $(".nav-tabs > li:first-child").removeClass("active");
@@ -382,11 +402,8 @@
             glaccountgroup_id: glaccountgroup_id
         };
 
-        $("#edit_glcodegroup_id").val('');
         $("#edit_name").val('');
         $("#edit_description").val('');
-        $("#edit_balancesheet_side").val('');
-        $("#edit_status").val('');
 
         $.ajax({
             type: 'GET',
@@ -402,6 +419,9 @@
               $("#edit_balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
               $("#edit_status").val(response.glaccountgroup['status']);
 
+              localStorage.setItem('glcodegroup_id', response.glaccount['glcodegroup_id']);
+              localStorage.setItem('balancesheet_side', response.glaccount['balancesheet_side']);
+              localStorage.setItem('status', response.glaccount['status']);
             },
 
             error: function (response) {
