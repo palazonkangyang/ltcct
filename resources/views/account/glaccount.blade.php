@@ -365,7 +365,6 @@
     $(function() {
 
       var hashtag = "#tab_editglaccount";
-
       var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
 
       if(glaccount_id)
@@ -448,48 +447,6 @@
         $("#edit_glcodegroup_id").val(glcodegroup_id);
         $("#edit_status").val(status);
       }
-
-      // $("#glaccount-table").on('click','.edit-glaccount',function(e) {
-      //
-      //   $(".nav-tabs > li:first-child").removeClass("active");
-      //   $("#edit-glaccount").addClass("active");
-      //
-      //   var glaccount_id = $(this).attr("id");
-      //
-      //   var formData = {
-      //       _token: $('meta[name="csrf-token"]').attr('content'),
-      //       glaccount_id: glaccount_id
-      //   };
-      //
-      //   $("#edit_accountcode").val('');
-      //   $("#edit_description").val('');
-      //
-      //   $.ajax({
-      //       type: 'GET',
-      //       url: "/account/edit-glaccount",
-      //       data: formData,
-      //       dataType: 'json',
-      //       success: function(response)
-      //       {
-      //
-      //         $("#edit_glcode_id").val(response.glaccount['glcode_id']);
-      //         $("#edit_accountcode").val(response.glaccount['accountcode']);
-      //         $("#edit_description").val(response.glaccount['description']);
-      //         $("#edit_glcodegroup_id").val(response.glaccount['glcodegroup_id']);
-      //         $("#edit_status").val(response.glaccount['status']);
-      //
-      //         localStorage.setItem('glocodeid', response.glaccount['glcode_id']);
-      //         localStorage.setItem('glcodegroup_id', response.glaccount['glcodegroup_id']);
-      //         localStorage.setItem('status', response.glaccount['status']);
-      //
-      //       },
-      //
-      //       error: function (response) {
-      //           console.log(response);
-      //       }
-      //   });
-      //
-      // });
 
       $("#update_glcode_btn").click(function() {
 
