@@ -366,16 +366,24 @@
 
       var url = window.location.href;
       var hash = url.substring(url.indexOf("#")+1);
-      var tab = "#" + hash;
+      var active_tab = "#" + hash;
 
-      localStorage.setItem('activeTab', tab);
+      var tab = localStorage.setItem('tab', active_tab);
+      console.log(tab);
 
       var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
 
       if(glaccount_id)
       {
-        localStorage.setItem('activeTab', tab);
-        
+        if(active_tab)
+        {
+          localStorage.setItem('activeTab', active_tab);
+        }
+
+        else {
+          localStorage.setItem('activeTab', tab);
+        }
+
         var formData = {
             _token: $('meta[name="csrf-token"]').attr('content'),
             glaccount_id: glaccount_id
