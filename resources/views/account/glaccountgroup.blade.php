@@ -419,9 +419,9 @@
               $("#edit_balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
               $("#edit_status").val(response.glaccountgroup['status']);
 
-              localStorage.setItem('glcodegroup_id', response.glaccount['glcodegroup_id']);
-              localStorage.setItem('balancesheet_side', response.glaccount['balancesheet_side']);
-              localStorage.setItem('status', response.glaccount['status']);
+              localStorage.setItem('glcodegroup_id', response.glaccountgroup['glcodegroup_id']);
+              localStorage.setItem('balancesheet_side', response.glaccountgroup['balancesheet_side']);
+              localStorage.setItem('status', response.glaccountgroup['status']);
             },
 
             error: function (response) {
