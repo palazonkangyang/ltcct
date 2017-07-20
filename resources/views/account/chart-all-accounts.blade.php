@@ -63,7 +63,13 @@
                             <li>Root
                               <ul>
 
-                                
+                                @for($i = 0; $i < count($glcodegroup); $i++)
+                                <li data-jstree='{ "opened" : true }'> {{ $glocodegroup[$i]->name }}
+
+
+
+                                </li>
+                                @endfor
                               </ul>
 
 
