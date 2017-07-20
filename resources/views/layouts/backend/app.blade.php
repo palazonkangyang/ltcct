@@ -149,7 +149,7 @@
                                                                         <a href="/account/new-glaccount">GL Accounts</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">Chart All Accounts</a>
+                                                                        <a href="/account/chart-all-accounts">Chart All Accounts</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
