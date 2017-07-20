@@ -63,7 +63,7 @@
                             <li>Root
                               <ul>
 
-                                @for($$glcodegroup as $gl)
+                                @for($glcodegroup as $gl)
                                   <li data-jstree='{ "opened" : true }'> {{ $gl->name }}</li>
                                 @endfor
 
