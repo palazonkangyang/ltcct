@@ -20,6 +20,9 @@
         <script src="{{ asset('/js/jquery.sparkline.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/jquery.vmap.js') }}" type="text/javascript"></script>
 
+        <script src="../assets/global/plugins/jstree/dist/jstree.min.js" type="text/javascript"></script>
+        <script src="{{ asset('/js/jstree.min.js') }}" type="text/javascript"></script>
+
         <!-- END CORE PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="{{ asset('/js/bootstrap-timepicker.js') }}" type="text/javascript"></script>
