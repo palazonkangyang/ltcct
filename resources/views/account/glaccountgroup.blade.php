@@ -110,8 +110,8 @@
                                             <td><a href="#tab_editglaccountgroup" data-toggle="tab"
                                                 class="edit-glaccountgroup" id="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</a></td>
                                             <td>{{ $gl->description }}</td>
-                                            <td>{{ $gl->balancesheet_side }}</td>
-                                            <td>{{ $gl->status }}</td>
+                                            <td class="text-uppercase">{{ $gl->balancesheet_side }}</td>
+                                            <td class="text-capitalize">{{ $gl->status }}</td>
                                           </tr>
                                           @endforeach
 
