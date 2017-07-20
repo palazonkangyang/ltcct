@@ -71,7 +71,9 @@
                                     @foreach($glcode as $gc)
 
                                       @if($glcodegroup_id == $gc->glcodegroup_id)
-                                        <li data-jstree='{ "type" : "file" }'>{{ $gc->accountcode }}</li>
+                                        <li data-jstree='{ "type" : "file" }'>
+                                          <a href="/account/{{ $gc->glcodegroup_id }}">{{ $gc->accountcode }}</a>
+                                        </li>
 
                                       @else
 
@@ -87,8 +89,6 @@
                               @endforeach
 
                             </ul>
-
-
                           </li>
                         </ul>
 
