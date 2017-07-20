@@ -231,7 +231,7 @@
 
                                   <div class="col-md-6">
 
-                                    <form method="post" action="{{ URL::to('/account/edit-glaccountgroup') }}"
+                                    <form method="post" action="{{ URL::to('/account/update-glaccountgroup') }}"
                                       class="form-horizontal form-bordered">
 
                                       {!! csrf_field() !!}

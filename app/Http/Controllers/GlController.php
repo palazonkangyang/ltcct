@@ -76,6 +76,14 @@ class GlController extends Controller
 		));
   }
 
+
+  public function UpdateGlAccountGroup(Request $request)
+  {
+    $input = array_except($request->all(), '_token');
+
+    dd($input);
+  }
+
   // Get GL Accont
   public function getAddNewGlAccount()
   {
