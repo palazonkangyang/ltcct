@@ -374,7 +374,18 @@
 
       if(glaccount_id)
       {
-        localStorage.setItem('activeTab', tab);
+
+        if(tab == "#tab_editglaccount")
+        {
+          localStorage.setItem('activeTab', tab);
+        }
+
+        else {
+          var hashtag = "#tab_editglaccount";
+          localStorage.setItem('activeTab', hashtag);
+          alert(hashtag);
+        }
+
 
 
         var formData = {
