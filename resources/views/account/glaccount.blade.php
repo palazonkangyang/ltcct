@@ -374,7 +374,7 @@
       // console.log("glcode_id");
       // console.log(gid);
 
-      if(hash)
+      if(gid)
       {
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', tab);
