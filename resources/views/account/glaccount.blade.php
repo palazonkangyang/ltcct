@@ -365,7 +365,10 @@
   $(function() {
 
     var hashtag = "#tab_editglaccount";
-    
+
+    var queryString = window.location.search;
+
+    alert(queryString);
 
 
 
