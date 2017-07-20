@@ -369,7 +369,8 @@
       var active_tab = "#" + hash;
 
       var tab = localStorage.setItem('tab', active_tab);
-      console.log(tab);
+      var tab_value = localStorage.getItem('tab');
+      console.log(tab_value);
 
       var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
 
@@ -381,7 +382,7 @@
         }
 
         else {
-          localStorage.setItem('activeTab', tab);
+          localStorage.setItem('activeTab', tab_value);
         }
 
         var formData = {
