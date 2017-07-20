@@ -64,9 +64,14 @@ class GlController extends Controller
   }
 
   // Get GL Accont Group
-  public function EditGlAccountGroup($glaccountgroup_id)
+  public function EditGlAccountGroup(Request $request)
   {
-    dd($glaccountgroup_id);
+    // $glaccountgroup_id = $_GET['glaccountgroup_id'];
+    $glaccountgroup_id = 1;
+
+    $glaccountgroup = GlCodeGroup::find($glaccountgroup_id);
+
+    dd($glaccountgroup->toArray());
   }
 
   // Get GL Accont

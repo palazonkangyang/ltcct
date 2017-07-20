@@ -370,6 +370,30 @@
         $(".nav-tabs > li:first-child").removeClass("active");
         $("#edit-glaccountgroup").addClass("active");
 
+        var glaccountgroup_id = $(this).attr("id");
+
+        var formData = {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            glaccountgroup_id: glaccountgroup_id
+        };
+
+        $.ajax({
+            type: 'GET',
+            url: "/account/edit-glaccountgroup/",
+            data: formData,
+            dataType: 'json',
+            success: function(response)
+            {
+
+
+
+            },
+
+            error: function (response) {
+                console.log(response);
+            }
+        });
+
       });
 
       $('#glaccountgroup-table').DataTable( {
