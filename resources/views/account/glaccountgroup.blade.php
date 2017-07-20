@@ -73,18 +73,20 @@
                             <ul class="nav nav-tabs">
 
                               <li class="active">
-                                <a href="#tab_glaccountlist" data-toggle="tab">GL Account Group List</a>
+                                <a href="#tab_glaccountlistgroup" data-toggle="tab">GL Account Group List</a>
                               </li>
 
-                              <li id="members">
-                                <a href="#tab_newglaccount" data-toggle="tab">New GL Account Group</a>
+                              <li>
+                                <a href="#tab_newglaccountgroup" data-toggle="tab">New GL Account Group</a>
                               </li>
-
+                              <li class="disabled">
+                                <a href="#tab_editglaccountgroup" data-toggle="tab">Edit GL Account Group</a>
+                              </li>
                             </ul>
 
                             <div class="tab-content">
 
-                              <div class="tab-pane active" id="tab_glaccountlist">
+                              <div class="tab-pane active" id="tab_glaccountlistgroup">
 
                                 <div class="form-body">
 
@@ -105,7 +107,8 @@
 
                                           @foreach($glaccountgroup as $gl)
                                           <tr>
-                                            <td>{{ $gl->name }}</td>
+                                            <td><a href="#tab_editglaccountgroup" data-toggle="tab"
+                                                class="edit-devotee" id="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</a></td>
                                             <td>{{ $gl->description }}</td>
                                             <td>{{ $gl->balancesheet_side }}</td>
                                             <td>{{ $gl->status }}</td>
@@ -121,7 +124,7 @@
 
                               </div><!-- end tab-pane tab-glaccount-group-list -->
 
-                              <div class="tab-pane" id="tab_newglaccount">
+                              <div class="tab-pane" id="tab_newglaccountgroup">
 
                                 <div class="form-body">
 
@@ -254,6 +257,12 @@
 
   <script type="text/javascript">
     $(function() {
+
+      // Disabled Edit Devotee Tab
+      $(".nav-tabs > li").click(function(){
+          if($(this).hasClass("disabled"))
+              return false;
+      });
 
       $('#glaccountgroup-table').DataTable( {
         "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
