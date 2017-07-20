@@ -26,7 +26,7 @@
 
     <link href="{{ asset('/css/layout.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/default.min.css') }}" rel="stylesheet" type="text/css" id="style_color" />
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link href="{{ asset('/css/style.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- <link href="{{ asset('/css/custom.min.css') }}" rel="stylesheet" type="text/css" /> -->
 
     <!-- Date Time Picker -->
@@ -34,6 +34,7 @@
 		<link href="{{ asset('/css/bootstrap-timepicker.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('/css/ootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
 
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
 
     <style type="text/css">
