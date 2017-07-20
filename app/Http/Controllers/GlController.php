@@ -81,7 +81,31 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    dd($input);
+    if(isset($input['authorized_password']))
+    {
+      $user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
+
+      if (Hash::check($input['authorized_password'], $hashedPassword)) {
+
+        $glcodegroup = GlCodeGroup::find($input['glcodegroup_id']);
+
+        $glcodegroup->name = $input['name'];
+        $glcodegroup->description = $input['description'];
+        $result = $glcodegroup->save();
+      }
+
+      else {
+        $request->session()->flash('error', "Password did not match. Please Try Again");
+        return redirect()->back()->withInput();
+      }
+    }
+
+    if($result)
+    {
+      $request->session()->flash('success', 'GL account group has been updated!');
+      return redirect()->back();
+    }
   }
 
   // Get GL Accont
