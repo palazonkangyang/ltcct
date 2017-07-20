@@ -143,10 +143,10 @@
                                                                         <a href="#">Cost Center</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">GL Account Group</a>
+                                                                        <a href="/account/new-glaccountgroup">GL Account Group</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">GL Accounts</a>
+                                                                        <a href="/account/new-glaccount">GL Accounts</a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#">Chart All Accounts</a>
@@ -162,13 +162,13 @@
                                                                         <a href="#">General Entry</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="components_bootstrap_touchspin.html">Income Statement Report</a>
+                                                                        <a href="#">Income Statement Report</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="components_form_tools.html">Trial Balance Report</a>
+                                                                        <a href="#">Trial Balance Report</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="components_context_menu.html">Cashflow Statement Report</a>
+                                                                        <a href="#">Cashflow Statement Report</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
