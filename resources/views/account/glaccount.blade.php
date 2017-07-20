@@ -106,7 +106,7 @@
                                             @foreach($glaccount as $gl)
                                             <tr>
                                               <td><a href="#tab_editglaccount" data-toggle="tab"
-                                                  class="edit-glaccount" id="{{ $gl->glcodegroup_id }}">{{ $gl->accountcode }}</td>
+                                                  class="edit-glaccount" id="{{ $gl->glcode_id }}">{{ $gl->accountcode }}</td>
                                               <td>{{ $gl->glcodegroup_name }}</td>
                                               <td>{{ $gl->description }}</td>
                                               <td>{{ $gl->status }}</td>
@@ -261,7 +261,7 @@
 
                                         <label class="col-md-3 control-label">Account Group *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="edit_glcodegroup_id">
+                                          <select class="form-control" name="edit_glcodegroup_id" disabled>
                                               @foreach($glaccountgroup as $gl)
                                               <option value="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</option>
                                               @endforeach
@@ -274,7 +274,7 @@
 
                                         <label class="col-md-3 control-label">Account Status *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="edit_status">
+                                          <select class="form-control" name="edit_status" disabled>
                                               <option value="active">Active</option>
                                               <option value="inactive">Inactive</option>
                                           </select>
