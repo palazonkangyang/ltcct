@@ -364,29 +364,13 @@
 
     $(function() {
 
-      var url = window.location.href;
-      var hash = url.substring(url.indexOf("#")+1);
-      var tab = "#" + hash;
-
-      alert(tab);
+      var hashtag = "#tab_editglaccount";
 
       var glaccount_id = "<?php echo $_GET['glcode_id'] ?>";
 
       if(glaccount_id)
       {
-
-        if(tab == "#tab_editglaccount")
-        {
-          localStorage.setItem('activeTab', tab);
-        }
-
-        else {
-          var hashtag = "#tab_editglaccount";
-          localStorage.setItem('activeTab', hashtag);
-          alert(hashtag);
-        }
-
-
+        localStorage.setItem('activeTab', hashtag);
 
         var formData = {
             _token: $('meta[name="csrf-token"]').attr('content'),
