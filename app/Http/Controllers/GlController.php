@@ -212,7 +212,10 @@ class GlController extends Controller
     $glcode = GlCode::orderby('glcodegroup_id', 'asc')
               ->get();
 
-    return view('account.chart-all-accounts');
+    return view('account.chart-all-accounts', [
+      'glcodegroup' => $glcodegroup,
+      'glcode' => $glcode
+    ]);
   }
 
 }
