@@ -72,7 +72,7 @@
 
                                       @if($glcodegroup_id == $gc->glcodegroup_id)
                                         <li data-jstree='{ "type" : "file" }'>
-                                          <a href="/account/{{ $gc->glcodegroup_id }}">{{ $gc->accountcode }}</a>
+                                          <a href="/account/{{ $gc->glcode_id }}">{{ $gc->accountcode }}</a>
                                         </li>
 
                                       @else
