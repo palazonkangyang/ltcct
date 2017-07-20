@@ -61,13 +61,6 @@
                           <li>Root
                             <ul>
 
-                              <li data-jstree='{ "opened" : true }'> initially open
-                                                                            <ul>
-                                                                                <li data-jstree='{ "disabled" : true }'> Disabled Node </li>
-                                                                                <li data-jstree='{ "type" : "file" }'> Another node </li>
-                                                                            </ul>
-                                                                        </li>
-
                               @foreach($glcodegroup as $gcg)
 
                                 @php $glcodegroup_id = $gcg->glcodegroup_id; @endphp
@@ -78,7 +71,7 @@
                                     @foreach($glcode as $gc)
 
                                       @if($glcodegroup_id == $gc->glcodegroup_id)
-                                        <li>{{ $gc->accountcode }}</li>
+                                        <li data-jstree='{ "type" : "file" }'>{{ $gc->accountcode }}</li>
 
                                       @else
 
