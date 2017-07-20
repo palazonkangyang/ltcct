@@ -71,15 +71,15 @@
 
                         <div class="tabbable-bordered">
                             <ul class="nav nav-tabs">
-
                               <li class="active">
                                 <a href="#tab_glaccountlist" data-toggle="tab">GL Account List</a>
                               </li>
-
-                              <li id="members">
+                              <li>
                                 <a href="#tab_newglaccount" data-toggle="tab">New GL Account</a>
                               </li>
-
+                              <li id="edit-glaccount" class="disabled">
+                                <a href="#tab_editglaccount" data-toggle="tab">Edit GL Account Group</a>
+                              </li>
                             </ul>
 
                             <div class="tab-content">
@@ -105,7 +105,8 @@
 
                                             @foreach($glaccount as $gl)
                                             <tr>
-                                              <td>{{ $gl->accountcode }}</td>
+                                              <td><a href="#tab_editglaccount" data-toggle="tab"
+                                                  class="edit-glaccount" id="{{ $gl->glcodegroup_id }}">{{ $gl->accountcode }}</td>
                                               <td>{{ $gl->glcodegroup_name }}</td>
                                               <td>{{ $gl->description }}</td>
                                               <td>{{ $gl->status }}</td>
@@ -256,6 +257,47 @@
   <script type="text/javascript">
 
     $(function() {
+
+      // Disabled Edit Devotee Tab
+      $(".nav-tabs > li").click(function(){
+          if($(this).hasClass("disabled"))
+              return false;
+      });
+
+      $("#glaccountgroup-table").on('click','.edit-glaccount',function(e) {
+
+        $(".nav-tabs > li:first-child").removeClass("active");
+        $("#edit-glaccount").addClass("active");
+
+        // var glaccountgroup_id = $(this).attr("id");
+        //
+        // var formData = {
+        //     _token: $('meta[name="csrf-token"]').attr('content'),
+        //     glaccountgroup_id: glaccountgroup_id
+        // };
+
+        // $.ajax({
+        //     type: 'GET',
+        //     url: "/account/edit-glaccountgroup/",
+        //     data: formData,
+        //     dataType: 'json',
+        //     success: function(response)
+        //     {
+        //
+        //       $("#edit_glcodegroup_id").val(response.glaccountgroup['glcodegroup_id']);
+        //       $("#edit_name").val(response.glaccountgroup['name']);
+        //       $("#edit_description").val(response.glaccountgroup['description']);
+        //       $("#edit_balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
+        //       $("#edit_status").val(response.glaccountgroup['status']);
+        //
+        //     },
+        //
+        //     error: function (response) {
+        //         console.log(response);
+        //     }
+        // });
+
+      });
 
       $('#glaccount-table').DataTable( {
         "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
