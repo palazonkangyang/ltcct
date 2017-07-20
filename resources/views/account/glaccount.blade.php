@@ -373,16 +373,22 @@
 
       if ( $('.alert-success').children().length > 0 ) {
           localStorage.removeItem('glocodeid');
+          localStorage.removeItem('glcodegroup_id');
+          localStorage.removeItem('status');
       }
 
       else
       {
           var glocodeid = localStorage.getItem('glocodeid');
+          var glcodegroup_id = localStorage.getItem('glcodegroup_id');
+          var status = localStorage.getItem('status');
       }
 
       if(glocodeid)
       {
         $("#edit_glcode_id").val(glocodeid);
+        $("#edit_glcodegroup_id").val(glcodegroup_id);
+        $("#edit_status").val(status);
       }
 
       $("#glaccount-table").on('click','.edit-glaccount',function(e) {
@@ -415,6 +421,8 @@
               $("#edit_status").val(response.glaccount['status']);
 
               localStorage.setItem('glocodeid', response.glaccount['glcode_id']);
+              localStorage.setItem('glcodegroup_id', response.glaccount['glcodegroup_id']);
+              localStorage.setItem('status', response.glaccount['status']);
 
             },
 
