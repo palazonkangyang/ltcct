@@ -253,9 +253,7 @@
 
                                         <label class="col-md-3 control-label">Account Description *</label>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" name="description" rows="4" id="edit_description">
-                                              {{ old('description') }}
-                                            </textarea>
+                                            <textarea class="form-control" name="description" rows="4" id="edit_description">{{ old('description') }}</textarea>
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
