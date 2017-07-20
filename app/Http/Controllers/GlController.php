@@ -110,6 +110,7 @@ class GlController extends Controller
   // Get GL Account
   public function getAddNewGlAccount()
   {
+    dd('here');
     $glaccount = GlCode::leftjoin('glcodegroup', 'glcodegroup.glcodegroup_id', '=', 'glcode.glcodegroup_id')
                  ->select('glcode.*', 'glcodegroup.name as glcodegroup_name')
                  ->orderBy('created_at', 'desc')->get();
