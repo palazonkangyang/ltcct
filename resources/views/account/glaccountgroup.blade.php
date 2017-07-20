@@ -137,6 +137,12 @@
 
                                       <div class="form-group">
 
+                                        <input type="hidden" name="glcodegroup_id" value="" id="glcodegroup_id">
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
                                         <label class="col-md-3 control-label">Account Group Name *</label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name">
@@ -258,7 +264,7 @@
 
                                         <label class="col-md-3 control-label">Balancing Side *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="balancesheet_side">
+                                          <select class="form-control" name="balancesheet_side" id="balancesheet_side" disabled>
                                               <option value="ap">AP</option>
                                               <option value="ar">AR</option>
                                           </select>
@@ -270,7 +276,7 @@
 
                                         <label class="col-md-3 control-label">Group Status *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="status">
+                                          <select class="form-control" name="status" id="status" disabled>
                                               <option value="active">Active</option>
                                               <option value="inactive">Inactive</option>
                                           </select>
@@ -386,6 +392,12 @@
             {
 
               alert(JSON.stringify(response));
+
+              $("#glcodegroup_id").val(response.glaccountgroup['glcodegroup_id']);
+              $("#name").val(response.glaccountgroup['name']);
+              $("#description").val(response.glaccountgroup['description']);
+              $("#balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
+              $("#status").val(response.glaccountgroup['status']);
 
             },
 
