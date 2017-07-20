@@ -119,8 +119,6 @@ class GlController extends Controller
                       ->orderBy('name', 'asc')
                       ->get();
 
-    dd($glaccountgroup);
-
     return view('account.glaccount', [
       'glaccount' => $glaccount,
       'glaccountgroup' => $glaccountgroup
