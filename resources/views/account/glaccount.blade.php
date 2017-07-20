@@ -261,7 +261,7 @@
 
                                         <label class="col-md-3 control-label">Account Group *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="edit_glcodegroup_id" disabled>
+                                          <select class="form-control" name="edit_glcodegroup_id" id="edit_glcodegroup_id" disabled>
                                               @foreach($glaccountgroup as $gl)
                                               <option value="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</option>
                                               @endforeach
@@ -274,7 +274,7 @@
 
                                         <label class="col-md-3 control-label">Account Status *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="edit_status" disabled>
+                                          <select class="form-control" name="edit_status" id="edit_status" disabled>
                                               <option value="active">Active</option>
                                               <option value="inactive">Inactive</option>
                                           </select>
@@ -391,12 +391,12 @@
             {
 
               alert(JSON.stringify(response));
-              
-              // $("#edit_glcodegroup_id").val(response.glaccountgroup['glcodegroup_id']);
-              // $("#edit_name").val(response.glaccountgroup['name']);
-              // $("#edit_description").val(response.glaccountgroup['description']);
-              // $("#edit_balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
-              // $("#edit_status").val(response.glaccountgroup['status']);
+
+              $("#edit_glcode_id").val(response.glaccount['glcode_id']);
+              $("#edit_accountcode").val(response.glaccount['accountcode']);
+              $("#edit_description").val(response.glaccount['description']);
+              $("#edit_glcodegroup_id").val(response.glaccount['glcodegroup_id']);
+              $("#edit_status").val(response.glaccount['status']);
 
             },
 
