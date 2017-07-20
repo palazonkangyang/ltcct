@@ -2,11 +2,6 @@
 
 @section('main-content')
 
-@php
-
-  dd($glcodegroup);
-@endphp
-
   <div class="page-container-fluid">
 
     <div class="page-content-wrapper">
@@ -68,6 +63,9 @@
                             <li>Root
                               <ul>
 
+                                @for($i = 0; $i < count($glcodegroup); $i++)
+                                  <li data-jstree='{ "opened" : true }'> {{ $glocodegroup[$i]->name }}</li>
+                                @endfor
 
                               </ul>
 
