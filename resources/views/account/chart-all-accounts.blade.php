@@ -62,20 +62,16 @@
                           <ul>
                             <li>Root
                               <ul>
-                              <li data-jstree='{ "selected" : true }'>
-                              <a href="javascript:;"> Initially selected </a>
-                              </li>
 
-                              <li data-jstree='{ "opened" : true }'> initially open
+                                @for($i = 0; $i < count($glcodegroup); $i++)
+                                <li data-jstree='{ "opened" : true }'> {{ $glocodegroup->name }}
 
-                                <ul>
-                                  <li data-jstree='{ "disabled" : true }'> Disabled Node </li>
-                                  <li data-jstree='{ "type" : "file" }'> Another node </li>
-                                </ul>
 
-                              </li>
 
+                                </li>
+                                @endfor
                               </ul>
+
 
                             </li>
                           </ul>
