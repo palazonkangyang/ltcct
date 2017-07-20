@@ -1285,13 +1285,13 @@
                           {
                                     if($.trim(address_unit1).length <= 0)
                                     {
-                                        var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
+                                        var full_address = address_houseno + " " + response.address_translate[0]['chinese'] + " " + address_building + " " + address_postal + ", Singapore";
 
                                         $("#address_translated").val(full_address);
                                     }
                                     else
                                     {
-                                        var full_address = "大牌" + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + " " + response.address_translate[0]['chinese']  + ", " + address_building +  ", " + address_postal + ", Singapore";
+                                        var full_address = "大牌" + address_houseno + " #" + address_unit1 + "-" + address_unit2 + " " + response.address_translate[0]['chinese']  + " " + address_building +  " " + address_postal + ", Singapore";
 
                                         $("#address_translated").val(full_address);
                                     }
