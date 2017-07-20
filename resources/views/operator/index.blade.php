@@ -2,7 +2,7 @@
 
 @section('main-content')
 
-	<div class="page-container-fluid">
+    <div class="page-container-fluid">
 
         <div class="page-content-wrapper">
 
@@ -10,7 +10,7 @@
 
                 <div class="container-fluid">
 
-                	<div class="page-title">
+                    <div class="page-title">
 
                         <h1>Edit Account</h1>
 
@@ -335,7 +335,7 @@
 
                                                                         <label class="col-md-3 control-label">Address - Street</label>
                                                                         <div class="col-md-9">
-																																						<input type="text" class="form-control" name="address_street"
+                                                                                                                                                        <input type="text" class="form-control" name="address_street"
                                                                                 value="{{ old('address_street') }}" id="content_address_street">
                                                                         </div><!-- end col-md-9 -->
 
@@ -392,13 +392,13 @@
                                                                         </label><!-- end col-md-4 -->
 
                                                                         <label class="col-md-4">
-																																						<button type="button" class="btn default address_translated_btn">
-																																								Translate Address
-																																						</button>
+                                                                                                                                                        <button type="button" class="btn default address_translated_btn">
+                                                                                                                                                                Translate Address
+                                                                                                                                                        </button>
                                                                         </label><!-- end col-md-4 -->
 
-																																				<div class="col-md-4">
-																																				</div><!-- end col-md-4 -->
+                                                                                                                                                <div class="col-md-4">
+                                                                                                                                                </div><!-- end col-md-4 -->
 
                                                                     </div><!-- end form-group -->
 
@@ -681,7 +681,7 @@
                                                                         <label class="col-md-3 control-label">Member Approved Date</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
-																																							data-date-format="dd/mm/yyyy">
+                                                                                                                                                            data-date-format="dd/mm/yyyy">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1155,246 +1155,245 @@
     <script src="{{asset('js/custom/search-devotee.js')}}"></script>
     <script src="{{asset('js/custom/check-familycode.js')}}"></script>
     <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-		<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
     <script type="text/javascript">
 
         $(function(){
 
-					$("#content_introduced_by1").autocomplete({
-						source: "/operator/search/autocomplete",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#content_introduced_by1').val(ui.item.value);
-						}
-					});
+                    $("#content_introduced_by1").autocomplete({
+                        source: "/operator/search/autocomplete",
+                        minLength: 1,
+                      select: function(event, ui) {
+                        $('#content_introduced_by1').val(ui.item.value);
+                        }
+                    });
 
-					$("#content_introduced_by2").autocomplete({
-						source: "/operator/search/autocomplete2",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#content_introduced_by2').val(ui.item.value);
-						}
-					});
+                    $("#content_introduced_by2").autocomplete({
+                        source: "/operator/search/autocomplete2",
+                        minLength: 1,
+                      select: function(event, ui) {
+                        $('#content_introduced_by2').val(ui.item.value);
+                        }
+                    });
 
-					$("#edit_introduced_by1").autocomplete({
-						source: "/operator/search/autocomplete",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_introduced_by1').val(ui.item.value);
-						}
-					});
+                    $("#edit_introduced_by1").autocomplete({
+                        source: "/operator/search/autocomplete",
+                        minLength: 1,
+                      select: function(event, ui) {
+                        $('#edit_introduced_by1').val(ui.item.value);
+                        }
+                    });
 
-					$("#edit_introduced_by2").autocomplete({
-						source: "/operator/search/autocomplete2",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_introduced_by2').val(ui.item.value);
-						}
-					});
+                    $("#edit_introduced_by2").autocomplete({
+                        source: "/operator/search/autocomplete2",
+                        minLength: 1,
+                      select: function(event, ui) {
+                        $('#edit_introduced_by2').val(ui.item.value);
+                        }
+                    });
 
-					$("#content_address_street").autocomplete({
-						source: "/operator/search/address_street",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#content_address_street').val(ui.item.value);
-						}
-					});
+                    $("#content_address_street").autocomplete({
+                        source: "/operator/search/address_street",
+                        minLength: 1,
+                      select: function(event, ui) {
+                        $('#content_address_street').val(ui.item.value);
+                        }
+                    });
 
-					$("#edit_address_street").autocomplete({
-						source: "/operator/search/address_street",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_address_street').val(ui.item.value);
-						}
-					});
+                    $("#edit_address_street").autocomplete({
+                        source: "/operator/search/address_street",
+                        minLength: 1,
+                      select: function(event, ui) {
+                        $('#edit_address_street').val(ui.item.value);
+                        }
+                    });
 
-					$(".address_translated_btn").click(function() {
+                    $(".address_translated_btn").click(function() {
 
-							var count = 0;
-							var errors = new Array();
-							var validationFailed = false;
+                            var count = 0;
+                            var errors = new Array();
+                            var validationFailed = false;
 
-							var address_houseno = $("#content_address_houseno").val();
-							var address_unit1 = $("#content_address_unit1").val();
-							var address_unit2 = $("#content_address_unit2").val();
-							var address_building = $("#content_address_building").val();
-							var address_postal = $("#content_address_postal").val();
-							var address_street = $("#content_address_street").val();
+                            var address_houseno = $("#content_address_houseno").val();
+                            var address_unit1 = $("#content_address_unit1").val();
+                            var address_unit2 = $("#content_address_unit2").val();
+                            var address_building = $("#content_address_building").val();
+                            var address_postal = $("#content_address_postal").val();
+                            var address_street = $("#content_address_street").val();
 
-							if ($.trim(address_houseno).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Houseno is empty."
-							}
+                            if ($.trim(address_houseno).length <= 0)
+                            {
+                                    validationFailed = true;
+                                    errors[count++] = "Address Houseno is empty."
+                            }
 
-							if ($.trim(address_building).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Building is empty."
-							}
+                            if ($.trim(address_building).length <= 0)
+                            {
+                                    validationFailed = true;
+                                    errors[count++] = "Address Building is empty."
+                            }
 
-							if ($.trim(address_postal).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Postal is empty."
-							}
+                            if ($.trim(address_postal).length <= 0)
+                            {
+                                    validationFailed = true;
+                                    errors[count++] = "Address Postal is empty."
+                            }
 
-							if ($.trim(address_street).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Street is empty."
-							}
+                            if ($.trim(address_street).length <= 0)
+                            {
+                                    validationFailed = true;
+                                    errors[count++] = "Address Street is empty."
+                            }
 
-							if (validationFailed)
-							{
-									var errorMsgs = '';
+                            if (validationFailed)
+                            {
+                                    var errorMsgs = '';
 
-									for(var i = 0; i < count; i++)
-									{
-											errorMsgs = errorMsgs + errors[i] + "<br/>";
-									}
+                                    for(var i = 0; i < count; i++)
+                                    {
+                                            errorMsgs = errorMsgs + errors[i] + "<br/>";
+                                    }
 
-									$('html,body').animate({ scrollTop: 0 }, 'slow');
+                                    $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-									$(".validation-error").addClass("bg-danger alert alert-error")
-									$(".validation-error").html(errorMsgs);
+                                    $(".validation-error").addClass("bg-danger alert alert-error")
+                                    $(".validation-error").html(errorMsgs);
 
-									return false;
-							}
+                                    return false;
+                            }
 
-							else {
-									$(".validation-error").removeClass("bg-danger alert alert-error")
-									$(".validation-error").empty();
-							}
+                            else {
+                                    $(".validation-error").removeClass("bg-danger alert alert-error")
+                                    $(".validation-error").empty();
+                            }
 
-							var formData = {
-			        	_token: $('meta[name="csrf-token"]').attr('content'),
-			        	address_street: address_street,
-			        };
+                            var formData = {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        address_street: address_street,
+                    };
 
-							$.ajax({
-					    	type: 'GET',
-					      url: "/operator/address-translate",
-					      data: formData,
-					      dataType: 'json',
-					      success: function(response)
-					      {
-									if($.trim(address_unit1).length <= 0)
-									{
-										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
+                            $.ajax({
+                            type: 'GET',
+                          url: "/operator/address-translate",
+                          data: formData,
+                          dataType: 'json',
+                          success: function(response)
+                          {
+                                    if($.trim(address_unit1).length <= 0)
+                                    {
+                                        var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
 
-										$("#address_translated").val(full_address);
-									}
-									else
-									{
-										var full_address = response.address_translate[0]['chinese'] + ", No." + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
-																				address_postal + ", Singapore";
+                                        $("#address_translated").val(full_address);
+                                    }
+                                    else
+                                    {
+                                        var full_address = "大牌" + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + " " + response.address_translate[0]['chinese']  + ", " + address_building +  ", " + address_postal + ", Singapore";
 
-										$("#address_translated").val(full_address);
-									}
-					      },
+                                        $("#address_translated").val(full_address);
+                                    }
+                          },
 
-					      error: function (response) {
-					      	console.log(response);
-					      }
-					   });
- 					});
+                          error: function (response) {
+                            console.log(response);
+                          }
+                       });
+                    });
 
-					$(".edit_address_translated_btn").click(function() {
+                    $(".edit_address_translated_btn").click(function() {
 
-							var count = 0;
-							var errors = new Array();
-							var validationFailed = false;
+                            var count = 0;
+                            var errors = new Array();
+                            var validationFailed = false;
 
-							var address_houseno = $("#edit_address_houseno").val();
-							var address_unit1 = $("#edit_address_unit1").val();
-							var address_unit2 = $("#edit_address_unit2").val();
-							var address_building = $("#edit_address_building").val();
-							var address_postal = $("#edit_address_postal").val();
-							var address_street = $("#edit_address_street").val();
+                            var address_houseno = $("#edit_address_houseno").val();
+                            var address_unit1 = $("#edit_address_unit1").val();
+                            var address_unit2 = $("#edit_address_unit2").val();
+                            var address_building = $("#edit_address_building").val();
+                            var address_postal = $("#edit_address_postal").val();
+                            var address_street = $("#edit_address_street").val();
 
-							if ($.trim(address_houseno).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Houseno is empty."
-							}
+                            if ($.trim(address_houseno).length <= 0)
+                            {
+                                    validationFailed = true;
+                                    errors[count++] = "Address Houseno is empty."
+                            }
 
-							if ($.trim(address_building).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Building is empty."
-							}
+                            if ($.trim(address_building).length <= 0)
+                            {
+                                    validationFailed = true;
+                                    errors[count++] = "Address Building is empty."
+                            }
 
-							if ($.trim(address_postal).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Postal is empty."
-							}
+                            if ($.trim(address_postal).length <= 0)
+                            {
+                                    validationFailed = true;
+                                    errors[count++] = "Address Postal is empty."
+                            }
 
-							if ($.trim(address_street).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Street is empty."
-							}
+                            if ($.trim(address_street).length <= 0)
+                            {
+                                    validationFailed = true;
+                                    errors[count++] = "Address Street is empty."
+                            }
 
-							if (validationFailed)
-							{
-									var errorMsgs = '';
+                            if (validationFailed)
+                            {
+                                    var errorMsgs = '';
 
-									for(var i = 0; i < count; i++)
-									{
-											errorMsgs = errorMsgs + errors[i] + "<br/>";
-									}
+                                    for(var i = 0; i < count; i++)
+                                    {
+                                            errorMsgs = errorMsgs + errors[i] + "<br/>";
+                                    }
 
-									$('html,body').animate({ scrollTop: 0 }, 'slow');
+                                    $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-									$(".validation-error").addClass("bg-danger alert alert-error")
-									$(".validation-error").html(errorMsgs);
+                                    $(".validation-error").addClass("bg-danger alert alert-error")
+                                    $(".validation-error").html(errorMsgs);
 
-									return false;
-							}
+                                    return false;
+                            }
 
-							else {
-									$(".validation-error").removeClass("bg-danger alert alert-error")
-									$(".validation-error").empty();
-							}
+                            else {
+                                    $(".validation-error").removeClass("bg-danger alert alert-error")
+                                    $(".validation-error").empty();
+                            }
 
-							var formData = {
-			        	_token: $('meta[name="csrf-token"]').attr('content'),
-			        	address_street: address_street,
-			        };
+                            var formData = {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        address_street: address_street,
+                    };
 
-							$.ajax({
-					    	type: 'GET',
-					      url: "/operator/address-translate",
-					      data: formData,
-					      dataType: 'json',
-					      success: function(response)
-					      {
-									if($.trim(address_unit1).length <= 0)
-									{
-										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
+                            $.ajax({
+                            type: 'GET',
+                          url: "/operator/address-translate",
+                          data: formData,
+                          dataType: 'json',
+                          success: function(response)
+                          {
+                                    if($.trim(address_unit1).length <= 0)
+                                    {
+                                        var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
 
-										$("#edit_address_translated").val(full_address);
-									}
-									else
-									{
-										var full_address = response.address_translate[0]['chinese'] + ", No." + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
-																				address_postal + ", Singapore";
+                                        $("#edit_address_translated").val(full_address);
+                                    }
+                                    else
+                                    {
+                                        var full_address = response.address_translate[0]['chinese'] + ", No." + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
+                                                                                address_postal + ", Singapore";
 
-										$("#edit_address_translated").val(full_address);
-									}
-					      },
+                                        $("#edit_address_translated").val(full_address);
+                                    }
+                          },
 
-					      error: function (response) {
-					      	console.log(response);
-					      }
-					   });
- 					});
+                          error: function (response) {
+                            console.log(response);
+                          }
+                       });
+                    });
 
             $('#devotees_table thead tr#filter th').each( function () {
                 var title = $('#devotees_table thead th').eq( $(this).index() ).text();
@@ -1403,8 +1402,8 @@
 
             // DataTable
             var table = $('#devotees_table').DataTable({
-						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-						});
+                          "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+                        });
 
             // Apply the filter
             $("#devotees_table thead input").on( 'keyup change', function () {
@@ -1545,9 +1544,9 @@
 
             $("#devotees_table").on('click','.edit-devotee',function(e) {
 
-							$("#edit-familycode-table tbody").empty();
-							$('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
-											"<td colspan='3'>No Family Code</td></tr>");
+                            $("#edit-familycode-table tbody").empty();
+                            $('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+                                            "<td colspan='3'>No Family Code</td></tr>");
 
                 $(".nav-tabs > li:first-child").removeClass("active");
                 $("#edit").addClass("active");
@@ -1667,9 +1666,9 @@
 
             $("#members_table").on('click','#edit-member',function(e) {
 
-							$("#edit-familycode-table tbody").empty();
-							$('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
-											"<td colspan='3'>No Family Code</td></tr>");
+                            $("#edit-familycode-table tbody").empty();
+                            $('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+                                            "<td colspan='3'>No Family Code</td></tr>");
 
                 $("#members").removeClass("active");
                 $("#edit").addClass("active");
