@@ -400,6 +400,10 @@
               $("#edit_glcodegroup_id").val(response.glaccount['glcodegroup_id']);
               $("#edit_status").val(response.glaccount['status']);
 
+              localStorage.setItem('glocodeid', response.glaccount['glcode_id']);
+              var id = localStorage.getItem('glocodeid');
+              console.log(id)
+
             },
 
             error: function (response) {
