@@ -407,7 +407,11 @@
         });
       }
 
-      
+      else if ($('.alert-error').children().length > 0) {
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', tab);
+        });
+      }
 
       else {
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
