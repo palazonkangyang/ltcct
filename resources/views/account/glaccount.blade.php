@@ -384,12 +384,12 @@
 
         $.ajax({
             type: 'GET',
-            url: "/account/edit-glaccount/",
+            url: "/account/edit-glaccount",
             data: formData,
             dataType: 'json',
             success: function(response)
             {
-              
+
               $("#edit_glcode_id").val(response.glaccount['glcode_id']);
               $("#edit_accountcode").val(response.glaccount['accountcode']);
               $("#edit_description").val(response.glaccount['description']);
