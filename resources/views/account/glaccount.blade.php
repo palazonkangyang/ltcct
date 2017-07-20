@@ -366,7 +366,7 @@
     $(function() {
 
       var glcodegroup_id = "";
-      var status = ""
+      var status = "";
 
       // Disabled Edit Devotee Tab
       $(".nav-tabs > li").click(function(){
@@ -462,8 +462,8 @@
             $("#edit_glcodegroup_id").val(glcodegroup_id);
             $("#edit_status").val(status);
 
-            console.log();
-            console.log();
+            console.log(glcodegroup_id);
+            console.log(status);
         }
 
         else
