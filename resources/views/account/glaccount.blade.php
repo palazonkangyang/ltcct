@@ -365,10 +365,14 @@
 
     $(function() {
 
-      var url = window.location.pathname;
-      var hash = url.substring(url.indexOf("#")+1);
-      alert(hash);
-      console.log(hash);
+      // var url = window.location.pathname;
+      // var hash = url.substring(url.indexOf("#")+1);
+      // alert(hash);
+      // console.log(hash);
+
+      var gid = "<?php $_GET['glcode_id'] ?>";
+      console.log("glcode_id");
+      console.log(gid);
 
       // Disabled Edit Devotee Tab
       $(".nav-tabs > li").click(function(){

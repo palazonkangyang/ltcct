@@ -74,7 +74,7 @@
 
                                       @if($glcodegroup_id == $gc->glcodegroup_id)
                                         <li data-jstree='{ "type" : "file" }'>
-                                          <a href="/account/new-glaccount?{{ $gc->glcode_id }}#tab_editglaccount" data-toggle="tab"
+                                          <a href="/account/new-glaccount?glcode_id={{ $gc->glcode_id }}#tab_editglaccount" data-toggle="tab"
                                             class="edit-glaccount">{{ $gc->accountcode }}</a>
                                         </li>
 
