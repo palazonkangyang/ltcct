@@ -67,7 +67,6 @@ class GlController extends Controller
   public function EditGlAccountGroup(Request $request)
   {
     $glaccountgroup_id = $_GET['glaccountgroup_id'];
-    // $glaccountgroup_id = 1;
 
     $glaccountgroup = GlCodeGroup::find($glaccountgroup_id);
 
@@ -76,7 +75,7 @@ class GlController extends Controller
 		));
   }
 
-
+  // Update GL Account Group
   public function UpdateGlAccountGroup(Request $request)
   {
     $input = array_except($request->all(), '_token');
@@ -158,6 +157,18 @@ class GlController extends Controller
       return redirect()->back();
     }
 
+  }
+
+  // Get GL Accont Group
+  public function EditGlAccount(Request $request)
+  {
+    $glaccount_id = $_GET['glaccount_id'];
+
+    $glaccount = GlCode::find($glcode_id);
+
+    return response()->json(array(
+			'glaccount' => $glaccount
+		));
   }
 
 }
