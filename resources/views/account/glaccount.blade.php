@@ -385,8 +385,6 @@
 
         $("#edit_accountcode").val('');
         $("#edit_description").val('');
-        $("#edit_glcodegroup_id").val('');
-        $("#edit_status").val('');
 
         $.ajax({
             type: 'GET',
