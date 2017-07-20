@@ -137,12 +137,6 @@
 
                                       <div class="form-group">
 
-                                        <input type="hidden" name="glcodegroup_id" value="" id="glcodegroup_id">
-
-                                      </div><!-- end form-group -->
-
-                                      <div class="form-group">
-
                                         <label class="col-md-3 control-label">Account Group Name *</label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name">
@@ -237,16 +231,20 @@
 
                                   <div class="col-md-6">
 
-                                    <form method="post" action="{{ URL::to('/account/new-glaccountgroup') }}"
+                                    <form method="post" action="{{ URL::to('/account/edit-glaccountgroup') }}"
                                       class="form-horizontal form-bordered">
 
                                       {!! csrf_field() !!}
 
                                       <div class="form-group">
+                                        <input type="hidden" name="glcodegroup_id" value="" id="edit_glcodegroup_id">
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
 
                                         <label class="col-md-3 control-label">Account Group Name *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name">
+                                            <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="edit_name">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -255,7 +253,9 @@
 
                                         <label class="col-md-3 control-label">Account Description *</label>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" name="description" rows="4" id="description">{{ old('description') }}</textarea>
+                                            <textarea class="form-control" name="description" rows="4" id="edit_description">
+                                              {{ old('description') }}
+                                            </textarea>
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -264,7 +264,7 @@
 
                                         <label class="col-md-3 control-label">Balancing Side *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="balancesheet_side" id="balancesheet_side" disabled>
+                                          <select class="form-control" name="balancesheet_side" id="edit_balancesheet_side" disabled>
                                               <option value="ap">AP</option>
                                               <option value="ar">AR</option>
                                           </select>
@@ -276,7 +276,7 @@
 
                                         <label class="col-md-3 control-label">Group Status *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="status" id="status" disabled>
+                                          <select class="form-control" name="status" id="edit_status" disabled>
                                               <option value="active">Active</option>
                                               <option value="inactive">Inactive</option>
                                           </select>
@@ -391,13 +391,11 @@
             success: function(response)
             {
 
-              alert(JSON.stringify(response));
-
-              $("#glcodegroup_id").val(response.glaccountgroup['glcodegroup_id']);
-              $("#name").val(response.glaccountgroup['name']);
-              $("#description").val(response.glaccountgroup['description']);
-              $("#balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
-              $("#status").val(response.glaccountgroup['status']);
+              $("#edit_glcodegroup_id").val(response.glaccountgroup['glcodegroup_id']);
+              $("#edit_name").val(response.glaccountgroup['name']);
+              $("#edit_description").val(response.glaccountgroup['description']);
+              $("#edit_balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
+              $("#edit_status").val(response.glaccountgroup['status']);
 
             },
 
