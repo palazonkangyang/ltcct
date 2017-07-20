@@ -48,7 +48,7 @@
 
                       <div class="caption">
                         <i class="icon-social-dribbble font-blue-sharp"></i>
-                        <span class="caption-subject font-blue-sharp bold uppercase">Default Tree</span>
+                        <span class="caption-subject font-blue-sharp bold uppercase">Chart All Accounts</span>
                       </div><!-- end caption -->
 
                     </div><!-- end portlet-title -->
@@ -61,8 +61,36 @@
                           <li>Root
                             <ul>
 
-                              @foreach($glcodegroup as $gl)
-                                <li data-jstree='{ "opened" : true }'> {{ $gl->name }}</li>
+                              <li data-jstree='{ "opened" : true }'> initially open
+                                                                            <ul>
+                                                                                <li data-jstree='{ "disabled" : true }'> Disabled Node </li>
+                                                                                <li data-jstree='{ "type" : "file" }'> Another node </li>
+                                                                            </ul>
+                                                                        </li>
+
+                              @foreach($glcodegroup as $gcg)
+
+                                @php $glcodegroup_id = $gcg->id; @endphp
+
+                                <li data-jstree='{ "opened" : true }'> {{ $gcg->name }}
+                                  <ul>
+
+                                    @foreach($glcode as $gc)
+
+                                      @if($glcodegroup_id == $gc->glcodegroup_id)
+                                        <li>{{ $gc->accountcode }}</li>
+
+                                      @else
+
+                            							@php break; @endphp
+
+                                      @endif
+
+                                    @endforeach
+                                    
+                                  </ul>
+                                </li>
+
                               @endforeach
 
                             </ul>
