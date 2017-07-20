@@ -203,4 +203,18 @@ class GlController extends Controller
     }
   }
 
+  // Get Chart All all-accounts
+  public function getChartAllAccounts()
+  {
+    $glcodegroup = GlCodeGroup::orderBy('glcodegroup_id', 'asc')
+                   ->get();
+
+    $glcode = GlCode::orderby('glcodegroup_id', 'asc')
+              ->get();
+
+    dd($glcodegroup->toArray());
+
+    return view('account.chart-all-accounts');
+  }
+
 }
