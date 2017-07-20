@@ -264,7 +264,7 @@
               return false;
       });
 
-      $("#glaccountgroup-table").on('click','.edit-glaccount',function(e) {
+      $("#glaccount-table").on('click','.edit-glaccount',function(e) {
 
         $(".nav-tabs > li:first-child").removeClass("active");
         $("#edit-glaccount").addClass("active");
