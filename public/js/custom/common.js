@@ -16,17 +16,13 @@ $(function() {
 		var path = window.location.pathname;
 
 		$('.navbar-nav li a').each(function() {
-				console.log(path);
-				console.log($(this).attr('href'));
+				// console.log(path);
+				// console.log($(this).attr('href'));
 
 	      if ($(this).attr('href') == path) {
 					$(this).parent().addClass('active');
-					console.log("same path");
+					$(this).closest(".mega-menu-dropdown" ).addClass('active');
 	      }
-
-				else {
-						console.log("different path");
-				}
    });
 
 });
