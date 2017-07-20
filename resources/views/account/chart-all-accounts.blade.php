@@ -42,47 +42,40 @@
 
                 <div class="col-md-12">
 
-                  <div class="col-md-6">
+                  <div class="portlet light">
 
-                    <div class="portlet light">
+                    <div class="portlet-title">
 
-                      <div class="portlet-title">
+                      <div class="caption">
+                        <i class="icon-social-dribbble font-blue-sharp"></i>
+                        <span class="caption-subject font-blue-sharp bold uppercase">Default Tree</span>
+                      </div><!-- end caption -->
 
-                        <div class="caption">
-                          <i class="icon-social-dribbble font-blue-sharp"></i>
-                          <span class="caption-subject font-blue-sharp bold uppercase">Default Tree</span>
-                        </div><!-- end caption -->
+                    </div><!-- end portlet-title -->
 
-                      </div><!-- end portlet-title -->
+                    <div class="portlet-body">
 
-                      <div class="portlet-body">
+                      <div id="tree_1" class="tree-demo">
 
-                        <div id="tree_1" class="tree-demo">
+                        <ul>
+                          <li>Root
+                            <ul>
 
-                          <ul>
-                            <li>Root
-                              <ul>
+                              @foreach($glcodegroup as $gl)
+                                <li data-jstree='{ "opened" : true }'> {{ $gl->name }}</li>
+                              @endforeach
 
-                                @foreach($glcodegroup as $gl)
-                                  <li data-jstree='{ "opened" : true }'> {{ $gl->name }}</li>
-                                @endforeach
-
-                              </ul>
+                            </ul>
 
 
-                            </li>
-                          </ul>
+                          </li>
+                        </ul>
 
-                        </div><!-- end tree_1 -->
+                      </div><!-- end tree_1 -->
 
-                      </div><!-- end portlet-body -->
+                    </div><!-- end portlet-body -->
 
-                    </div><!-- end portlet light -->
-
-                  </div><!-- end col-md-6 -->
-
-                  <div class="col-md-6">
-                  </div><!-- end col-md-6 -->
+                  </div><!-- end portlet light -->
 
                   <div class="clearfix"></div><!-- end clearfix -->
 
