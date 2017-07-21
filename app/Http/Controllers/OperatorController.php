@@ -810,12 +810,14 @@ class OperatorController extends Controller
 
 			$focus_devotee = Session::get('focus_devotee');
 
-			dd($focus_devotee[0]->devotee_id);
+			$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+			        ->where('devotee.familycode_id', $focus_devotee[0]->familycode_id)
+			        ->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
+			        ->orderBy('devotee_id', 'asc')
+			        ->select('devotee.*')
+			        ->addSelect('familycode.familycode')->get();
 
-			// if(Session::has('focus_devotee'))
-			// {
-			//   Session::get('focus_devotee', $focus_devotee);
-			// }
+			dd($devotee_lists);
 
 	    $request->session()->flash('success', 'Relocation Devotee(s) has been changed!');
 	    return redirect()->back();
