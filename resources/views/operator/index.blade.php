@@ -514,7 +514,7 @@
 
                                                                         <label class="col-md-3 control-label">Mailer</label>
                                                                         <div class="col-md-2">
-                                                                            <select class="form-control" name="mailer">
+                                                                            <select class="form-control" name="mailer" style="width: 90px;">
                                                                                 <option value="">Yes</option>
                                                                                 <option>No</option>
                                                                             </select>
