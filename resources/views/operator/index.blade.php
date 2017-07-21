@@ -1488,18 +1488,6 @@
 									errors[count++] = "Address Houseno is empty."
 							}
 
-							if ($.trim(address_unit1).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Unit is empty."
-							}
-
-							if ($.trim(address_unit2).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Unit is empty."
-							}
-
 							if ($.trim(address_postal).length <= 0)
 							{
 									validationFailed = true;
