@@ -161,7 +161,7 @@
 
                                                                 <div class="form-group">
 
-                                                                    <table class="table table-bordered" id="members_table" style="width:1320px">
+                                                                    <table class="table table-bordered" id="members_table">
                                                                         <thead>
 																																					<tr id="filter">
 																																							<th>Chinese Name</th>
@@ -833,7 +833,7 @@
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_houseno" id="current_address_houseno"
-                                                                                    value="{{ $focus_devotee[0]->address_houseno }}">
+                                                                                    value="{{ $focus_devotee[0]->address_houseno }}" disabled>
                                                                             </div><!-- end col-md-3 -->
 
                                                                             <label class="col-md-1">Unit</label>
@@ -841,13 +841,13 @@
                                                                             <div class="col-md-2">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_unit1" id="current_address_unit1"
-                                                                                    value="{{ $focus_devotee[0]->address_unit1 }}">
+                                                                                    value="{{ $focus_devotee[0]->address_unit1 }}" disabled>
                                                                             </div><!-- end col-md-2 -->
 
                                                                             <div class="col-md-2">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_unit2" id="current_address_unit2"
-                                                                                    value="{{ $focus_devotee[0]->address_unit2 }}">
+                                                                                    value="{{ $focus_devotee[0]->address_unit2 }}" disabled>
                                                                             </div><!-- end col-md-2 -->
 
                                                                         </div><!-- end form-group -->
@@ -857,7 +857,7 @@
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_street" id="current_address_street"
-                                                                                    value="{{ $focus_devotee[0]->address_street }}">
+                                                                                    value="{{ $focus_devotee[0]->address_street }}" disabled>
                                                                             </div><!-- end col-md-8 -->
 
                                                                         </div><!-- end form-group -->
@@ -867,7 +867,7 @@
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_building" id="current_address_building"
-                                                                                    value="{{ $focus_devotee[0]->address_building }}">
+                                                                                    value="{{ $focus_devotee[0]->address_building }}" disabled>
                                                                             </div><!-- end col-md-6 -->
 
                                                                         </div><!-- end form-group -->
@@ -877,12 +877,12 @@
                                                                             <div class="col-md-2">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_postal" id="current_address_postal"
-                                                                                    value="{{ $focus_devotee[0]->address_postal }}">
+                                                                                    value="{{ $focus_devotee[0]->address_postal }}" disabled>
                                                                             </div><!-- end col-md-2 -->
 
                                                                             <label class="col-md-2">Country *</label>
                                                                             <div class="col-md-4">
-                                                                                <select class="form-control" name="nationality">
+                                                                                <select class="form-control" name="nationality" disabled>
                                                                                     <option value="">Please select</option>
                                                                                     <option value="singapore">Singapore</option>
                                                                                     <option value="others">Others</option>
@@ -896,7 +896,7 @@
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese"
-                                                                                    value="{{ $focus_devotee[0]->oversea_addr_in_chinese }}">
+                                                                                    value="{{ $focus_devotee[0]->oversea_addr_in_chinese }}" disabled>
                                                                             </div><!-- end col-md-6 -->
 
                                                                         </div><!-- end form-group -->
