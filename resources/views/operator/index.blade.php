@@ -1420,13 +1420,11 @@
                 console.log(activeTab);
             }
 
-
             // Disabled Edit Devotee Tab
             $(".nav-tabs > li").click(function(){
                 if($(this).hasClass("disabled"))
                     return false;
             });
-
 
             // new button
             $("#new_search").click(function() {
@@ -1461,61 +1459,61 @@
 							if ($.trim(chinese_name).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Chinese name is empty."
+									errors[count++] = "Chinese name field is empty."
 							}
 
 							if ($.trim(english_name).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "English name is empty."
+									errors[count++] = "English name field is empty."
 							}
 
 							if ($.trim(guiyi_name).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Guiyi Name is empty."
+									errors[count++] = "Guiyi Name field is empty."
 							}
 
 							if ($.trim(contact).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Contact is empty."
+									errors[count++] = "Contact field is empty."
 							}
 
 							if ($.trim(address_houseno).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Address Houseno is empty."
+									errors[count++] = "Address Houseno field is empty."
 							}
 
 							if ($.trim(address_postal).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Address Postal is empty."
+									errors[count++] = "Address Postal field is empty."
 							}
 
 							if ($.trim(marital_status).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Marital Status is empty."
+									errors[count++] = "Marital Status field is empty."
 							}
 
 							if ($.trim(dialect).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Dialect is empty."
+									errors[count++] = "Dialect field is empty."
 							}
 
 							if ($.trim(nationality).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Nationality is empty."
+									errors[count++] = "Nationality field is empty."
 							}
 
 							if ($.trim(authorized_password).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Authorized Password is empty."
+									errors[count++] = "Authorized Password field is empty."
 							}
 
 							if (validationFailed)
