@@ -689,7 +689,7 @@
                                                                         <label class="col-md-3 control-label">Authorized Password</label>
                                                                         <div class="col-md-3">
                                                                             <input type="password" class="form-control"
-                                                                                name="authorized_password">
+                                                                                name="authorized_password" id="content_authorized_password">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1452,8 +1452,6 @@
 							var guiyi_name = $("#content_guiyi_name").val();
 							var contact = $("#content_contact").val();
 							var address_houseno = $("#content_address_houseno").val();
-							var address_unit1 = $("#content_address_unit1").val();
-							var address_unit2 = $("#content_address_unit2").val();
 							var address_postal = $("#content_address_postal").val();
 							var marital_status = $("#content_marital_status").val();
 							var dialect = $("#content_dialect").val();
