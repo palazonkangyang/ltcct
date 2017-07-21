@@ -389,28 +389,26 @@
                     </div><!-- end form-group -->
 
                     <div class="form-group">
-                        <button type="button" class="btn green" style="width: 100px; margin: 0 25px 0 10px;">New
-                        </button>
 	                   <button type="submit" class="btn default" style="margin-right: 25px;" id="quick_search">Quick Search
 	                   </button>
+
+                     </form>
+
+                     <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
+                         action="{{ URL::to('/operator/devotee/new-search') }}">
+
+                         {!! csrf_field() !!}
+
+                     <div class="form-group">
+                         <button type="submit" class="btn default" id="new_search">New Search</button>
+                     </div>
+
+                     </form>
                     </div><!-- end form-group -->
 
                 </div><!-- end col-md-12 -->
 
             </div><!-- end row -->
-
-            </form>
-
-            <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
-                action="{{ URL::to('/operator/devotee/new-search') }}">
-
-                {!! csrf_field() !!}
-
-            <div class="form-group">
-                <button type="submit" class="btn default" id="new_search">New Search</button>
-            </div>
-
-            </form>
 
         </div><!-- end inbox-sidebar -->
 
