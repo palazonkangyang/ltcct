@@ -475,6 +475,8 @@ class OperatorController extends Controller
 				    $devotee->contact = $input['contact'];
 				    $devotee->guiyi_name = $input['guiyi_name'];
 				    $devotee->address_houseno = $input['address_houseno'];
+						$devotee->address_unit1 = null;
+				    $devotee->address_unit2 = null;
 				    $devotee->address_street = $input['address_street'];
 			    	$devotee->address_building = $input['address_building'];
 					  $devotee->address_postal = $input['address_postal'];
@@ -528,6 +530,8 @@ class OperatorController extends Controller
 						 $devotee->contact = $input['contact'];
 						 $devotee->guiyi_name = $input['guiyi_name'];
 						 $devotee->address_houseno = $input['address_houseno'];
+						 $devotee->address_unit1 = null;
+ 				     $devotee->address_unit2 = null;
 						 $devotee->address_street = $input['address_street'];
 						 $devotee->address_building = $input['address_building'];
 						 $devotee->address_postal = $input['address_postal'];
