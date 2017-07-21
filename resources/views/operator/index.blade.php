@@ -1077,7 +1077,7 @@
                                                                     <div class="col-md-6">
 
                                                                         <div class="form-actions pull-right">
-                                                                            <button type="submit" class="btn blue" id="confirm_btn">Confirm
+                                                                            <button type="submit" class="btn blue" id="confirm_relocation_btn">Confirm
                                                                             </button>
                                                                             <button type="button" class="btn default">Cancel</button>
                                                                         </div><!-- end form-actions -->
@@ -1440,6 +1440,19 @@
                 var english_name = $("#english_name").val();
                 var guiyi_name = $("#guiyi_name").val();
             });
+
+						$("#confirm_relocation_btn").click(function() {
+							var count_checked = $("[name='devotee_id[]']:checked").length; // count the checked rows
+
+							if(count_checked == 0)
+			        {
+			            alert("Please select any devotee.");
+			            return false;
+			        }
+
+							return true;
+
+						});
 
 						$("#confirm_btn").click(function() {
 
