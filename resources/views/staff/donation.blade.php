@@ -80,13 +80,13 @@
                                                             <a href="#tab_xiangyou" data-toggle="tab">Xiangyou <br>香油</a>
                                                         </li>
 
-                                                        <li id="members">
+                                                        <li class="disabled">
                                                             <a href="#tab_ciji" data-toggle="tab">Ciji <br> 慈济</a>
                                                         </li>
-                                                        <li>
+                                                        <li class="disabled">
                                                             <a href="#tab_yuejuan" data-toggle="tab">Yuejuan <br> 月捐 </a>
                                                         </li>
-                                                         <li>
+                                                         <li class="disabled">
                                                             <a href="#tab_others" data-toggle="tab">Others <br> 其他 </a>
                                                         </li>
                                                     </ul>
@@ -597,6 +597,12 @@
 
 	<script type="text/javascript">
 		$(function() {
+
+				// Disabled Edit Devotee Tab
+				$(".nav-tabs > li").click(function(){
+						if($(this).hasClass("disabled"))
+								return false;
+				});
 
 				$('body').on('focus',".paid_till", function(){
 	      		$(this).datepicker({ dateFormat: 'yy-mm-dd' });
