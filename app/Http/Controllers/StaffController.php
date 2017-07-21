@@ -100,9 +100,14 @@ class StaffController extends Controller
 
 				for($i = 0; $i < count($input['devotee_id']); $i++)
 				{
+					// Modify fields
+			    $paid_till = $input['paid_till'][$i];
+					$paid_till_date = str_replace('/', '-', $paid_till);
+					$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+
 					$data = [
 						"amount" => $input["amount"][$i],
-						"paid_till" => date("Y-m-d", strtotime($input["paid_till"][$i])),
+						"paid_till" => $new_paid_till_date,
 						"hjgr" => $input["hjgr_arr"][$i],
 						"display" => $input["display"][$i],
 						"trans_date" => Carbon::now(),
@@ -140,9 +145,14 @@ class StaffController extends Controller
 
 					for($i = 0; $i < count($input['other_devotee_id']); $i++)
 					{
+						// Modify fields
+				    $paid_till = $input['paid_till'][$i];
+						$paid_till_date = str_replace('/', '-', $paid_till);
+						$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+
 						$data2 = [
 							"amount" => $input["other_amount"][$i],
-							"paid_till" => date("Y-m-d", strtotime($input["other_paid_till"][$i])),
+							"paid_till" => $new_paid_till_date,
 							"hjgr" => $input["other_hjgr_arr"][$i],
 							"display" => $input["other_display"][$i],
 							"trans_date" => Carbon::now(),
@@ -179,9 +189,14 @@ class StaffController extends Controller
 
 					$individual_receipt = Receipt::create($receipt);
 
+					// Modify fields
+					$paid_till = $input['paid_till'][$i];
+					$paid_till_date = str_replace('/', '-', $paid_till);
+					$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+
 					$data = [
 						"amount" => $input["amount"][$i],
-						"paid_till" => date("Y-m-d", strtotime($input["paid_till"][$i])),
+						"paid_till" => $new_paid_till_date,
 						"hjgr" => $input["hjgr_arr"][$i],
 						"display" => $input["display"][$i],
 						"trans_date" => Carbon::now(),
@@ -216,9 +231,14 @@ class StaffController extends Controller
 
 						$different_receipt = Receipt::create($data);
 
+						// Modify fields
+						$paid_till = $input['paid_till'][$i];
+						$paid_till_date = str_replace('/', '-', $paid_till);
+						$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+
 						$data2 = [
 							"amount" => $input["other_amount"][$i],
-							"paid_till" => date("Y-m-d", strtotime($input["other_paid_till"][$i])),
+							"paid_till" => $new_paid_till_date,
 							"hjgr" => $input["other_hjgr_arr"][$i],
 							"display" => $input["other_display"][$i],
 							"trans_date" => Carbon::now(),
