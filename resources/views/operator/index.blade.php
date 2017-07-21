@@ -1657,7 +1657,7 @@
 							var errors = new Array();
 							var validationFailed = false;
 
-							var count_checked = $("[name='chk[]']:checked").length; // count the checked rows
+							var count_checked = $("[name='devotee_id[]']:checked").length; // count the checked rows
 
 							var address_houseno = $("#new_address_houseno").val();
 							var address_street = $("#new_address_street").val();
@@ -1667,7 +1667,7 @@
 							if(count_checked == 0)
 			        {
 									validationFailed = true;
-			            errors[count++] = "Choose Devotee ID is empty."			            
+			            errors[count++] = "Choose Devotee ID is empty."
 			        }
 
 							if ($.trim(address_houseno).length <= 0)
