@@ -702,27 +702,27 @@ class OperatorController extends Controller
 				         				->addSelect('generaldonation.manualreceipt')
 				         				->get();
 
-												if (!Session::has('focus_devotee'))
-												{
-										    	Session::put('focus_devotee', $focus_devotee);
-												}
-
-								        if(!Session::has('devotee_lists'))
-								        {
-								        	Session::put('devotee_lists', $devotee_lists);
-								        }
-
-								        if(!Session::has('receipts'))
-								        {
-								        	Session::put('receipts', $receipts);
-								        }
-
-												return redirect()->back()->with([
-								        	'members' => $members,
-								        	'devotees' => $devotees,
-								        	'deceased_lists' => $deceased_lists,
-								        ]);
+				if(!Session::has('focus_devotee'))
+				{
+					Session::put('focus_devotee', $focus_devotee);
 				}
+
+				if(!Session::has('devotee_lists'))
+				{
+					Session::put('devotee_lists', $devotee_lists);
+				}
+
+				if(!Session::has('receipts'))
+				{
+					Session::put('receipts', $receipts);
+				}
+
+				return redirect()->back()->with([
+					'members' => $members,
+					'devotees' => $devotees,
+					'deceased_lists' => $deceased_lists,
+				]);
+			}
 
 	}
 
@@ -789,17 +789,9 @@ class OperatorController extends Controller
 	// Relocation Devotees
 	public function postRelocationDevotees(Request $request)
 	{
-		$validator = $this->validate($request, [
-            'devotee_id' => 'required'
-        ]);
+			dd($input);
 
-        if ($validator && $validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-		$input = Input::except('_token', 'address_houseno', 'address_unit1', 'address_unit2', 'address_street',
+			$input = Input::except('_token', 'address_houseno', 'address_unit1', 'address_unit2', 'address_street',
 								'address_building', 'address_postal', 'nationality', 'oversea_addr_in_chinese');
 
 	    for($i = 0; $i < count($input['devotee_id']); $i++)
@@ -814,8 +806,13 @@ class OperatorController extends Controller
 		    $devotee->address_postal = $input['new_address_postal'];
 		    $devotee->nationality = $input['new_nationality'];
 		    $devotee->oversea_addr_in_chinese = $input['new_oversea_addr_in_chinese'];
-			$devotee->save();
+				$devotee->save();
 	    }
+
+			if(Session::has('focus_devotee'))
+			{
+			  Session::get('focus_devotee', $focus_devotee);
+			}
 
 	    $request->session()->flash('success', 'Relocation Devotee(s) has been changed!');
 	    return redirect()->back();
