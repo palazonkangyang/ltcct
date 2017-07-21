@@ -827,7 +827,7 @@
 
                                                                     @endphp
 
-                                                                    <div class="col-md-6" id="has_session">
+                                                                    <div class="col-md-8" id="has_session">
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - House No</label>
                                                                             <div class="col-md-3">
@@ -905,7 +905,7 @@
 
                                                                     @else
 
-                                                                    <div class="col-md-6" id="no_session">
+                                                                    <div class="col-md-8" id="no_session">
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - House No</label>
                                                                             <div class="col-md-3">
@@ -976,9 +976,9 @@
 
                                                                     @endif
 
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-4">
 
-                                                                    </div><!-- end col-md-6 -->
+                                                                    </div><!-- end col-md-4 -->
 
                                                                 </div><!-- end col-md-12 -->
 
@@ -991,7 +991,7 @@
                                                                     <h4>New Address</h4>
                                                                     <h5>Local Address</h5>
 
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-8">
 
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - House No</label>
@@ -1209,9 +1209,6 @@
 							var validationFailed = false;
 
 							var address_houseno = $("#content_address_houseno").val();
-							var address_unit1 = $("#content_address_unit1").val();
-							var address_unit2 = $("#content_address_unit2").val();
-							var address_building = $("#content_address_building").val();
 							var address_postal = $("#content_address_postal").val();
 							var address_street = $("#content_address_street").val();
 
@@ -1219,12 +1216,6 @@
 							{
 									validationFailed = true;
 									errors[count++] = "Address Houseno is empty."
-							}
-
-							if ($.trim(address_building).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Building is empty."
 							}
 
 							if ($.trim(address_postal).length <= 0)
@@ -1301,9 +1292,6 @@
 							var validationFailed = false;
 
 							var address_houseno = $("#edit_address_houseno").val();
-							var address_unit1 = $("#edit_address_unit1").val();
-							var address_unit2 = $("#edit_address_unit2").val();
-							var address_building = $("#edit_address_building").val();
 							var address_postal = $("#edit_address_postal").val();
 							var address_street = $("#edit_address_street").val();
 
@@ -1311,12 +1299,6 @@
 							{
 									validationFailed = true;
 									errors[count++] = "Address Houseno is empty."
-							}
-
-							if ($.trim(address_building).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Building is empty."
 							}
 
 							if ($.trim(address_postal).length <= 0)
