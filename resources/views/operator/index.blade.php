@@ -1683,7 +1683,7 @@
 							if ($.trim(nationality).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Nationality field is empty."
+									errors[count++] = "Country field is empty."
 							}
 
 							if (validationFailed)
