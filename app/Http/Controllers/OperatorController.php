@@ -808,14 +808,36 @@ class OperatorController extends Controller
 				$devotee->save();
 	    }
 
-			$focus_devotee = Session::get('focus_devotee');
+			$session_focus_devotee = Session::get('focus_devotee');
+
+			// remove session data
+			Session::forget('focus_devotee');
+			Session::forget('devotee_lists');
+
+			$focus_devotee = Devotee::join('member', 'member.member_id', '=', 'devotee.member_id')
+											 ->join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+											 ->where('devotee.devotee_id', $session_focus_devotee[0]->devotee_id)
+											 ->select('devotee.*', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date', 'familycode.familycode')
+											 ->get();
 
 			$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-			        ->where('devotee.familycode_id', $focus_devotee[0]->familycode_id)
-			        ->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
+			        ->where('devotee.familycode_id', $session_focus_devotee[0]->familycode_id)
+			        ->where('devotee_id', '!=', $session_focus_devotee[0]->devotee_id)
 			        ->orderBy('devotee_id', 'asc')
 			        ->select('devotee.*')
 			        ->addSelect('familycode.familycode')->get();
+
+		dd($focus_devotee);
+
+		if(!Session::has('focus_devotee'))
+		{
+			Session::put('focus_devotee', $focus_devotee);
+		}
+
+		if(!Session::has('devotee_lists'))
+		{
+			Session::put('devotee_lists', $devotee_lists);
+		}
 
 			dd($devotee_lists);
 
