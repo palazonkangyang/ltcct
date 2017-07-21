@@ -1038,7 +1038,7 @@
 
                                                                             <label class="col-md-2">Country *</label>
                                                                             <div class="col-md-4">
-                                                                                <select class="form-control" name="new_nationality">
+                                                                                <select class="form-control" name="new_nationality" id="new_nationality">
                                                                                     <option value="">Please select</option>
                                                                                     <option value="singapore">Singapore</option>
                                                                                     <option value="others">Others</option>
@@ -1650,6 +1650,65 @@
 					          $(".validation-error").empty();
 					      }
             });
+
+						$("#confirm_relocation_btn").click(function() {
+
+							var count = 0;
+							var errors = new Array();
+							var validationFailed = false;
+
+							var address_houseno = $("#new_address_houseno").val();
+							var address_street = $("#new_address_street").val();
+							var address_postal = $("#new_address_postal").val();
+							var nationality = $("#new_nationality").val();
+
+							if ($.trim(address_houseno).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Address House No field is empty."
+							}
+
+							if ($.trim(address_street).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Address Street field is empty."
+							}
+
+							if ($.trim(address_postal).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Address Postal field is empty."
+							}
+
+							if ($.trim(nationality).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Nationality field is empty."
+							}
+
+							if (validationFailed)
+							{
+									var errorMsgs = '';
+
+									for(var i = 0; i < count; i++)
+									{
+											errorMsgs = errorMsgs + errors[i] + "<br/>";
+									}
+
+									$('html,body').animate({ scrollTop: 0 }, 'slow');
+
+									$(".validation-error").addClass("bg-danger alert alert-error")
+									$(".validation-error").html(errorMsgs);
+
+									return false;
+							}
+
+							else
+							{
+									$(".validation-error").removeClass("bg-danger alert alert-error")
+									$(".validation-error").empty();
+							}
+						});
 
 						$("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address" +
 											"</label><div class='col-md-3'><select class='form-control' name='address_type[]'><option value='home'>Home" +
