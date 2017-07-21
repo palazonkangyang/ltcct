@@ -310,7 +310,7 @@
 	                                                    					<div class="form-group">
 
 		                                                                        <label class="col-md-4">Transation No:</label>
-		                                                                        <div class="col-md-8">T1620251</div><!-- end col-md-8 -->
+		                                                                        <div class="col-md-8"></div><!-- end col-md-8 -->
 
 		                                                                    </div><!-- end form-group -->
 
@@ -597,29 +597,72 @@
 	<script type="text/javascript">
 		$(function() {
 
-				// Disabled Edit Devotee Tab
-				$(".nav-tabs > li").click(function(){
-						if($(this).hasClass("disabled"))
-								return false;
-				});
+			$("#confirm_donation_btn").click(function() {
 
-				$('body').on('focus',".paid_till", function(){
-	      		$(this).datepicker({ dateFormat: 'yy-mm-dd' });
-	    	});
+				$("input:text[name^='amount']").each(function() {
 
-				$('body').on('keyup',".amount-col", function(){
+            if (!$.trim($(this).val()).length) {
 
+                validationFailed = true;
+                errors[count++] = "Amount fields for same address devotee are empty.";
+                return false;
+            }
+        });
+
+				$("input:text[name^='paid_till']").each(function() {
+
+            if (!$.trim($(this).val()).length) {
+
+                validationFailed = true;
+                errors[count++] = "Paid Till fields for same address devotee  are empty.";
+                return false;
+            }
+        });
+
+				$("input:text[name^='other_amount']").each(function() {
+
+            if (!$.trim($(this).val()).length) {
+
+                validationFailed = true;
+                errors[count++] = "Amount fields for relatives and friends are empty.";
+                return false;
+            }
+        });
+
+				$("input:text[name^='other_paid_till']").each(function() {
+
+            if (!$.trim($(this).val()).length) {
+
+                validationFailed = true;
+                errors[count++] = "Paid Till fields for relatives and friends are empty.";
+                return false;
+            }
+        });
+
+			});
+
+			// Disabled Edit Devotee Tab
+			$(".nav-tabs > li").click(function(){
+					if($(this).hasClass("disabled"))
+							return false;
+			});
+
+			$('body').on('focus',".paid_till", function(){
+	     		$(this).datepicker({ dateFormat: 'yy-mm-dd' });
+	    });
+
+			$('body').on('keyup',".amount-col", function(){
 	        var sum = 0;
 
-				  $(".amount").each(function(){
-				        sum += +$(this).val();
-			  });
+			  $(".amount").each(function(){
+			        sum += +$(this).val();
+		  });
 
-				$(".total").text(sum);
-						$("#total_amount").val(sum);
-		    });
+			$(".total").text(sum);
+					$("#total_amount").val(sum);
+	    });
 
-		});
+ 		});
 	</script>
 
 @stop
