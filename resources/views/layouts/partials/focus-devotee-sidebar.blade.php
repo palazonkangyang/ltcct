@@ -400,7 +400,7 @@
                   {!! csrf_field() !!}
 
               <div class="form-group">
-                  <button type="submit" class="btn default" id="new_search">Reset</button>
+                  <button type="submit" class="btn default" id="new_search" style="width: 100px;">Reset</button>
               </div>
 
               </form>
