@@ -1545,8 +1545,7 @@
 
             $("#update_btn").click(function() {
 
-								$(".validation-error").removeClass("bg-danger alert alert-error")
-								$(".validation-error").empty();
+								$(".alert-danger").empty();
 
                 var count = 0;
                 var errors = new Array();
