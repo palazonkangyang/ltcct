@@ -1376,6 +1376,7 @@
             // DataTable
             var table = $('#devotees_table').DataTable({
 						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+                          , "scrollX": true
 						});
 
 						function stopPropagation(evt) {
@@ -1401,7 +1402,7 @@
 
             // DataTable
             var table = $('#members_table').DataTable({
-						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]], "scrollX": true
 						});
 
             // Apply the filter
