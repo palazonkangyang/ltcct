@@ -47,13 +47,17 @@ class StaffController extends Controller
 
 		if(isset($input['receipt_at']))
 		{
-			$receipt_at = date("Y-m-d", strtotime($input['receipt_at']));
+			// Modify fields
+			$input_receipt_at = str_replace('/', '-', $input['receipt_at']);
+			$receipt_at = date("Y-m-d", strtotime($input_receipt_at));
 		}
 
 		else
 		{
 			$receipt_at = $input['receipt_at'];
 		}
+
+		dd($receipt_at);
 
 		$trans_id = GeneralDonation::all()->last()->generaldonation_id;
 		$prefix = "T";
