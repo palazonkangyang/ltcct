@@ -399,11 +399,10 @@
 
                          {!! csrf_field() !!}
 
-                     <div class="form-group">
                          <button type="submit" class="btn default" id="new_search">New Search</button>
-                     </div>
 
                      </form>
+                     
                     </div><!-- end form-group -->
 
                 </div><!-- end col-md-12 -->
