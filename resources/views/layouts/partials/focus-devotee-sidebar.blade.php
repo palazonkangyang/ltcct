@@ -381,34 +381,31 @@
 
             @endif
 
-            <div class="row">
+            <div class="col-md-6">
 
-                <div class="col-md-12">
+              <div class="form-group">
+               <button type="submit" class="btn default" style="margin-right: 25px;" id="quick_search">Quick Search
+               </button>
+              </div><!-- end form-group -->
 
-                    <div class="form-group">
-                    </div><!-- end form-group -->
-
-                    <div class="form-group">
-	                   <button type="submit" class="btn default" style="margin-right: 25px;" id="quick_search">Quick Search
-	                   </button>
-                    </div><!-- end form-group -->
-
-                </div><!-- end col-md-12 -->
-
-            </div><!-- end row -->
+            </div><!-- end col-md-6 -->
 
             </form>
 
-            <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
-                action="{{ URL::to('/operator/devotee/new-search') }}">
+            <div class="col-md-6">
 
-                {!! csrf_field() !!}
+              <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
+                  action="{{ URL::to('/operator/devotee/new-search') }}">
 
-            <div class="form-group">
-                <button type="submit" class="btn default" id="new_search">New Search</button>
-            </div>
+                  {!! csrf_field() !!}
 
-            </form>
+              <div class="form-group">
+                  <button type="submit" class="btn default" id="new_search">New Search</button>
+              </div>
+
+              </form>
+
+            </div><!-- end col-md-6 -->
 
         </div><!-- end inbox-sidebar -->
 
