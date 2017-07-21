@@ -98,7 +98,7 @@ class StaffController extends Controller
 
 				];
 
-				// $same_receipt = Receipt::create($receipt);
+				$same_receipt = Receipt::create($receipt);
 
 				for($i = 0; $i < count($input['devotee_id']); $i++)
 				{
@@ -106,8 +106,6 @@ class StaffController extends Controller
 			    $paid_till = $input['paid_till'][$i];
 					$paid_till_date = str_replace('/', '-', $paid_till);
 					$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
-
-					dd($new_paid_till_date);
 
 					$data = [
 						"amount" => $input["amount"][$i],
