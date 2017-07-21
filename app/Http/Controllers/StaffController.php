@@ -354,7 +354,7 @@ class StaffController extends Controller
 
 	public function getCreateFestiveEvent()
 	{
-			$events = FestiveEvent::orderBy('start_at', 'desc')->get();
+			$events = FestiveEvent::orderBy('start_at', 'asc')->get();
 
 			return view('staff.create-festive-event', [
 				'events' => $events
