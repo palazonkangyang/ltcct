@@ -130,7 +130,7 @@
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="adress_unit" id="address_unit1"
-                                value="{{ $focus_devotee[0]->address_unit1 }}">
+                                value="{{ $focus_devotee[0]->address_unit1 }} - {{ $focus_devotee[0]->address_unit2 }}">
                         </div><!-- end col-md-8 -->
 
                     </div><!-- end form-group -->
