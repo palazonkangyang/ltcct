@@ -1545,7 +1545,7 @@
 
             $("#update_btn").click(function() {
 
-								$(".alert-danger").empty();
+								$(".alert-danger").remove();
 
                 var count = 0;
                 var errors = new Array();
