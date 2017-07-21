@@ -827,8 +827,6 @@ class OperatorController extends Controller
 			        ->select('devotee.*')
 			        ->addSelect('familycode.familycode')->get();
 
-		dd($focus_devotee);
-
 		if(!Session::has('focus_devotee'))
 		{
 			Session::put('focus_devotee', $focus_devotee);
@@ -839,10 +837,8 @@ class OperatorController extends Controller
 			Session::put('devotee_lists', $devotee_lists);
 		}
 
-			dd($devotee_lists);
-
-	    $request->session()->flash('success', 'Relocation Devotee(s) has been changed!');
-	    return redirect()->back();
+	  $request->session()->flash('success', 'Relocation Devotee(s) has been changed!');
+	  return redirect()->back();
 	}
 
 	public function getAutocomplete(Request $request)
