@@ -134,35 +134,16 @@ class OperatorController extends Controller
 		$member_id = "";
 		$devotee_id = "";
 		$approveNewDate = "";
-		$cancelledNewDate = "";
 		$input = array_except($request->all(), '_token');
 
-		$validator = $this->validate($request, [
-            'title' => 'required',
-            'chinese_name' => 'required',
-            'contact'	=> 'required',
-            'address_houseno' => 'required',
-            'address_unit1' => 'required',
-            'address_unit2' => 'required',
-            'address_postal' => 'required',
-						'marital_status' => 'required',
-            'authorized_password' => 'required'
-        ]);
-
-        if ($validator && $validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        if(isset($input['authorized_password']))
+    if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
-        	$hashedPassword = $user->password;
+      $hashedPassword = $user->password;
 
-        	if (Hash::check($input['authorized_password'], $hashedPassword)) {
+      if (Hash::check($input['authorized_password'], $hashedPassword)) {
 
-		    	// Modify fields
+		    // Modify fields
 		    $dob = $input['dob'];
 				$dob_date = str_replace('/', '-', $dob);
 				$dobNewDate = date("Y-m-d", strtotime($dob_date));
@@ -174,63 +155,53 @@ class OperatorController extends Controller
 					$approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
 				}
 
-				if(isset($input['cancelled_date']))
-				{
-					$cancelledDate = $input['cancelled_date'];
-					$cancelledDate_date = str_replace('/', '-', $cancelledDate);
-					$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate_date));
-				}
+		    // Save Member
+		    if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
+		    {
+			  	$data = [
+			    	"introduced_by1" => $input['introduced_by1'],
+			      "introduced_by2" => $input['introduced_by2'],
+						"approved_date" => $approveNewDate
+			    ];
 
-		        // Save Member
-		        if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
-		        {
-			        $data = [
-			        	"introduced_by1" => $input['introduced_by1'],
-			        	"introduced_by2" => $input['introduced_by2'],
-								"approved_date" => $approveNewDate,
-								"cancelled_date" => $cancelledNewDate
-			        ];
+			    $member = Member::create($data);
+			    $member_id = $member['member_id'];
+		    }
 
-			        $member = Member::create($data);
-			        $member_id = $member['member_id'];
-		        }
+		   if($member_id != null && isset($input['familycode_id']))
+		   {
+		   		$data = [
+				  	"title" => $input['title'],
+				    "chinese_name" => $input['chinese_name'],
+				    "english_name" => $input['english_name'],
+				    "contact" => $input['contact'],
+				    "guiyi_name" => $input['guiyi_name'],
+				    "address_houseno" => $input['address_houseno'],
+				    "address_unit1" => $input['address_unit1'],
+				    "address_unit2" => $input['address_unit2'],
+				    "address_street" => $input['address_street'],
+				    "address_building" => $input['address_building'],
+				    "address_postal" => $input['address_postal'],
+				    "address_translated" => $input['address_translated'],
+				    "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
+				    "nric" => $input['nric'],
+				    "deceased_year" => $input['deceased_year'],
+				    "dob" => $dobNewDate,
+				    "marital_status" => $input['marital_status'],
+				    "dialect" => $input['dialect'],
+				    "nationality" => $input['nationality'],
+				    "familycode_id" => $input['familycode_id'],
+				    "member_id" => $member_id
+				  ];
 
+				  $devotee = Devotee::create($data);
+			    $devotee_id = $devotee->devotee_id;
+		   }
 
-		        if($member_id != null && isset($input['familycode_id']))
-		        {
-
-		        	$data = [
-				        "title" => $input['title'],
-				        "chinese_name" => $input['chinese_name'],
-				        "english_name" => $input['english_name'],
-				        "contact" => $input['contact'],
-				        "guiyi_name" => $input['guiyi_name'],
-				        "address_houseno" => $input['address_houseno'],
-				        "address_unit1" => $input['address_unit1'],
-				        "address_unit2" => $input['address_unit2'],
-				        "address_street" => $input['address_street'],
-				        "address_building" => $input['address_building'],
-				        "address_postal" => $input['address_postal'],
-				        "address_translated" => $input['address_translated'],
-				        "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
-				        "nric" => $input['nric'],
-				        "deceased_year" => $input['deceased_year'],
-				        "dob" => $dobNewDate,
-				        "marital_status" => $input['marital_status'],
-				        "dialect" => $input['dialect'],
-				        "nationality" => $input['nationality'],
-				        "familycode_id" => $input['familycode_id'],
-				        "member_id" => $member_id
-				    ];
-
-				    $devotee = Devotee::create($data);
-			    	$devotee_id = $devotee->devotee_id;
-		        }
-
-		        elseif($member_id != null)
-		        {
-		        	// Create Family Code
-		        	$familycode_id = FamilyCode::all()->last()->familycode_id;
+		   elseif($member_id != null)
+		   {
+		   		// Create Family Code
+		      $familycode_id = FamilyCode::all()->last()->familycode_id;
 					$new_familycode_id = $familycode_id + 1;
 					$new_familycode = "F" . $new_familycode_id;
 
@@ -296,14 +267,14 @@ class OperatorController extends Controller
 
 				    $devotee = Devotee::create($data);
 			    	$devotee_id = $devotee->devotee_id;
-		        }
+		      }
 
-		        else
-		        {
-		        	// Create Family Code
-		        	$familycode_id = FamilyCode::all()->last()->familycode_id;
-					$new_familycode_id = $familycode_id + 1;
-					$new_familycode = "F" . $new_familycode_id;
+		      else
+		      {
+		        // Create Family Code
+		      	$familycode_id = FamilyCode::all()->last()->familycode_id;
+						$new_familycode_id = $familycode_id + 1;
+						$new_familycode = "F" . $new_familycode_id;
 
 					$familycode_data = [
 						"familycode" => $new_familycode
@@ -402,14 +373,14 @@ class OperatorController extends Controller
 			else
 			{
 				$request->session()->flash('error', "Password did not match. Please Try Again");
-            	return redirect()->back();
+            	return redirect()->back()->withInput();;
 			}
 		}
 
 		else
 		{
 			$request->session()->flash('error', "Please enter password. Please Try Again");
-            return redirect()->back();
+            return redirect()->back()->withInput();;
 		}
 	}
 
