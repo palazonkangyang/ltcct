@@ -1376,7 +1376,6 @@
             // DataTable
             var table = $('#devotees_table').DataTable({
 						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-                          , "scrollX": true
 						});
 
 						function stopPropagation(evt) {
@@ -1387,9 +1386,14 @@
                 }
             }
 
+            // DataTable
+            var member_table = $('#members_table').DataTable({
+                          "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+                        });
+
             // Apply the filter
             $("#members_table thead input").on( 'keyup change', function () {
-                table
+                member_table
                     .column( $(this).parent().index()+':visible' )
                     .search( this.value )
                     .draw();
@@ -1400,14 +1404,11 @@
                 $(this).html( '<input type="text" class="form-control" onclick="stopPropagation2(event);" placeholder="" />' );
             } );
 
-            // DataTable
-            var table = $('#members_table').DataTable({
-						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]], "scrollX": true
-						});
+            
 
             // Apply the filter
             $("#members_table thead input").on( 'keyup change', function () {
-                table
+                member_table
                     .column( $(this).parent().index()+':visible' )
                     .search( this.value )
                     .draw();
