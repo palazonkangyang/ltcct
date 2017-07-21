@@ -230,7 +230,7 @@
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="approved_date" id="approved_date"
-                                value="{{ $focus_devotee[0]->approved_date }}">
+                                value="{{ \Carbon\Carbon::parse($focus_devotee[0]->approved_date)->format("d/m/Y") }}">
                         </div><!-- end col-md-8 -->
 
                     </div><!-- end form-group -->
@@ -243,14 +243,6 @@
                         </div><!-- end col-md-8 -->
 
                     </div><!-- end form-group -->
-
-                    <div class="form-group">
-                        <label class="col-md-4">Devotee ID</label>
-
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" id="search_devotee_id">
-                        </div><!-- end col-md-8 -->
-                    </div>
 
                 </div><!-- end col-md-12 -->
 
