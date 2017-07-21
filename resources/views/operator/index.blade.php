@@ -161,7 +161,7 @@
 
                                                                 <div class="form-group">
 
-                                                                    <table class="table table-bordered" id="members_table">
+                                                                    <table class="table table-bordered" id="members_table" style="width:1320px">
                                                                         <thead>
 																																					<tr id="filter">
 																																							<th>Chinese Name</th>
