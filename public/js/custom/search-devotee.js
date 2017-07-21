@@ -36,7 +36,7 @@ $(function() {
                         "<td>" + response.devotee['address_unit1'] + "</td>" +
                         "<td>" + response.devotee['guiyi_name'] + "</td>" +
                         "<td width='100px' class='amount-col'><input type='text' class='form-control amount' name='other_amount[]'></td>" +
-                        "<td width='120px'><input type='text' class='form-control paid_till' name='other_paid_till[]' data-provide='datepicker'></td>" +
+                        "<td width='120px'><input type='text' class='form-control paid_till' name='other_paid_till[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'></td>" +
                         "<td width='150px'><select class='form-control' name='other_hjgr_arr[]'><option value='hj'>hj</option><option value='gr'>gr</option>" +
                         "</select></td>" +
                         "<td width='80px'><select class='form-control' name='other_display[]'><option value='Y'>Y</option><option value='N'>N</option>" +

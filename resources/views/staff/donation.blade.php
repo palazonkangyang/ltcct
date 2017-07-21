@@ -154,7 +154,7 @@
                                                                             	</td>
                                                                             	<td width="120px">
                                                                             		<input type="text" class="form-control paid_till"
-                                                                            			name="paid_till[]" data-provide="datepicker">
+                                                                            			name="paid_till[]" data-provide="datepicker" data-date-format="dd/mm/yyyy">
                                                                             	</td>
                                                                             	<td width="120px">
                                                                             		<select class="form-control" name="hjgr_arr[]">
@@ -191,7 +191,7 @@
                                                                             	</td>
                                                                             	<td width="120px">
                                                                             		<input type="text" class="form-control paid_till"
-                                                                            			name="paid_till[]" data-provide="datepicker">
+                                                                            			name="paid_till[]" data-provide="datepicker" data-date-format="dd/mm/yyyy">
                                                                             	</td>
                                                                             	<td width="100px">
                                                                             		<select class="form-control" name="hjgr_arr[]">
