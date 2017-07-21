@@ -385,14 +385,15 @@
                                                                     <div class="form-group">
 
 
-                                                                      <button type="button" class="btn default check_family_code" style="margin-right: 30px;">
-                                                                      	Check Family Code
-                                                                      </button>
+                                                                      <div class="col-md-8">
+																																				<button type="button" class="btn default check_family_code" style="margin-right: 30px;">
+	                                                                      	Check Family Code
+	                                                                      </button>
 
-																																			<button type="button" class="btn default address_translated_btn">
-																																				Translate Address
-																																			</button>
-
+																																				<button type="button" class="btn default address_translated_btn">
+																																					Translate Address
+																																				</button>
+                                                                      </div><!-- end col-md-8 -->
 
 																																				<div class="col-md-4">
 																																				</div><!-- end col-md-4 -->
