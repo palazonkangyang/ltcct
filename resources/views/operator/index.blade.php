@@ -989,7 +989,7 @@
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_houseno"
-                                                                                    value="{{ old('new_address_houseno') }}">
+                                                                                    value="{{ old('new_address_houseno') }}" id="new_address_houseno">
                                                                             </div><!-- end col-md-3 -->
 
                                                                             <label class="col-md-1">Unit</label>
@@ -1013,7 +1013,7 @@
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_street"
-                                                                                    value="{{ old('new_address_street') }}">
+                                                                                    value="{{ old('new_address_street') }}" id="new_address_street">
                                                                             </div><!-- end col-md-8 -->
 
                                                                         </div><!-- end form-group -->
@@ -1023,7 +1023,7 @@
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_building"
-                                                                                    value="{{ old('new_address_building') }}">
+                                                                                    value="{{ old('new_address_building') }}" id="new_address_building">
                                                                             </div><!-- end col-md-6 -->
 
                                                                         </div><!-- end form-group -->
@@ -1033,7 +1033,7 @@
                                                                             <div class="col-md-2">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_postal"
-                                                                                    value="{{ old('new_address_postal') }}">
+                                                                                    value="{{ old('new_address_postal') }}" id="">
                                                                             </div><!-- end col-md-2 -->
 
                                                                             <label class="col-md-2">Country *</label>
@@ -1440,19 +1440,6 @@
                 var english_name = $("#english_name").val();
                 var guiyi_name = $("#guiyi_name").val();
             });
-
-						$("#confirm_relocation_btn").click(function() {
-							var count_checked = $("[name='devotee_id[]']:checked").length; // count the checked rows
-
-							if(count_checked == 0)
-			        {
-			            alert("Please select any devotee.");
-			            return false;
-			        }
-
-							return true;
-
-						});
 
 						$("#confirm_btn").click(function() {
 
