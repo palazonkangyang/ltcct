@@ -138,17 +138,15 @@
 
                 <div class="form-group">
 
-                    <label class="col-md-4">
-                        <button type="button" class="btn default edit_check_family_code">
-														Check Family Code
-												</button>
-                    </label><!-- end col-md-4 -->
+										<div class="col-md-8">
+											<button type="button" class="btn default edit_check_family_code" style="margin-right: 30px;">
+													Check Family Code
+											</button>
 
-										<label class="col-md-4">
-												<button type="button" class="btn default edit_address_translated_btn">
-														Translate Address
-												</button>
-										</label><!-- end col-md-4 -->
+											<button type="button" class="btn default edit_address_translated_btn">
+													Translate Address
+											</button>
+										</div><!-- end col-md-8 -->
 
 										<div class="col-md-4">
 										</div><!-- end col-md-4 -->
