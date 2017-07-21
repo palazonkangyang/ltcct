@@ -1654,9 +1654,24 @@
 
             $("#devotees_table").on('click','.edit-devotee',function(e) {
 
-							$("#edit-familycode-table tbody").empty();
-							$('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+								$("#edit-familycode-table tbody").empty();
+								$('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
 											"<td colspan='3'>No Family Code</td></tr>");
+
+								$("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address" +
+													"</label><div class='col-md-3'><select class='form-control' name='address_type[]'><option value='home'>Home" +
+													"</option><option value='company'>Company</option><option value='stall'>Stall</option><option value='office'>" +
+													"Office</option></select></div><div class='col-md-5'><input type='text' class='form-control'" +
+													"name='address_data[]'></div>");
+
+								$("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
+													"</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
+													"<option value='ship'>Ship</option></select></div><div class='col-md-5'>" +
+													"<input type='text' class='form-control' name='vehicle_data[]'></div>" +
+													"<div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div></div>");
+
+								$("#special_remark").append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark" +
+															"</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]'></div>");
 
                 $(".nav-tabs > li:first-child").removeClass("active");
                 $("#edit").addClass("active");
@@ -1719,7 +1734,7 @@
 
                         else
                         {
-                            $("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address1" +
+                            $("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address" +
                                 "</label><div class='col-md-3'><select class='form-control' name='address_type[]'><option value='home'>Home" +
                                 "</option><option value='company'>Company</option><option value='stall'>Stall</option><option value='office'>" +
                                 "Office</option></select></div><div class='col-md-5'><input type='text' class='form-control'" +
@@ -1752,7 +1767,7 @@
                         if(response.specialRemarks.length > 0)
                         {
                             $.each(response.specialRemarks, function(index, data) {
-                                $('#special_remark').append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark 1" +
+                                $('#special_remark').append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark" +
                                     "</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]' value='" +
                                     data.data + "'></div><div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i></div></div>");
                             });
