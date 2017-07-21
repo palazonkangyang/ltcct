@@ -1185,6 +1185,14 @@
 						}
 					});
 
+					$("#new_address_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#new_address_street').val(ui.item.value);
+						}
+					});
+
 					$(".address_translated_btn").click(function() {
 
 							var count = 0;
