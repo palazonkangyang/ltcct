@@ -683,11 +683,16 @@
 
 			  $(".amount").each(function(){
 			        sum += +$(this).val();
-		  });
+		  	});
 
-			$(".total").text(sum);
-					$("#total_amount").val(sum);
-	    });
+				$(".total").text(sum);
+				$("#total_amount").val(sum);
+
+				if(sum = 0)
+				{
+					$("#total_amount").val(0);
+				}
+	    	});
 
  		});
 	</script>
