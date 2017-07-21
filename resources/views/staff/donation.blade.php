@@ -538,7 +538,7 @@
                                                                                     <td>{{ $receipt->description }}</td>
                                                                                     <td>{{ $receipt->chinese_name }}</td>
                                                                                     <td>{{ $receipt->focusdevotee_id }}</td>
-                                                                                    <td>{{ $receipt->hjgr }}</td>
+                                                                                    <td>{{ $receipt->generaldonation_hjgr }}</td>
                                                                                     <td>{{ $receipt->amount }}</td>
                                                                                     <td>{{ $receipt->manualreceipt }}</td>
                                                                                     <td><a href="{{ URL::to('/staff/receipt/' . $receipt->receipt_id) }}">Detail</a></td>

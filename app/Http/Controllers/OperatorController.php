@@ -700,8 +700,6 @@ class OperatorController extends Controller
 				         				->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.hjgr as generaldonation_hjgr')
 				         				->get();
 
-				dd($receipts);
-
 				if(!Session::has('focus_devotee'))
 				{
 					Session::put('focus_devotee', $focus_devotee);
