@@ -882,7 +882,7 @@
 
                                                                             <label class="col-md-2">Country *</label>
                                                                             <div class="col-md-4">
-                                                                                <select class="form-control" name="nationality" readonly>
+                                                                                <select class="form-control" name="nationality" disabled>
                                                                                     <option value="">Please select</option>
                                                                                     <option value="singapore">Singapore</option>
                                                                                     <option value="others">Others</option>
