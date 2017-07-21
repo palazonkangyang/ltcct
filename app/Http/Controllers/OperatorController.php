@@ -443,36 +443,9 @@ class OperatorController extends Controller
 
 		      $devotee = Devotee::find($input['devotee_id']);
 
-			    $devotee->title = $input['title'];
-			    $devotee->chinese_name = $input['chinese_name'];
-			    $devotee->english_name = $input['english_name'];
-			    $devotee->contact = $input['contact'];
-			    $devotee->guiyi_name = $input['guiyi_name'];
-			    $devotee->address_houseno = $input['address_houseno'];
-			    $devotee->address_unit1 = $input['address_unit1'];
-			    $devotee->address_unit2 = $input['address_unit2'];
-			    $devotee->address_street = $input['address_street'];
-		    	$devotee->address_building = $input['address_building'];
-				  $devotee->address_postal = $input['address_postal'];
-				  $devotee->address_translated = $input['address_translated'];
-				  $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
-				  $devotee->nric = $input['nric'];
-				  $devotee->deceased_year = $input['deceased_year'];
-				  $devotee->dob = $dobNewDate;
-				  $devotee->marital_status = $input['marital_status'];
-				  $devotee->dialect = $input['dialect'];
-				  $devotee->nationality = $input['nationality'];
-				  $devotee->familycode_id = $familycode_id;
-				  $devotee->member_id = $input['member_id'];
-
-				  $member_result = $devotee->save();
-		    }
-
-		    else
-		    {
-		       $devotee = Devotee::find($input['devotee_id']);
-
-				    $devotee->title = $input['title'];
+			    if(isset($input['address_unit1']) && isset($input['address_unit2']))
+					{
+						$devotee->title = $input['title'];
 				    $devotee->chinese_name = $input['chinese_name'];
 				    $devotee->english_name = $input['english_name'];
 				    $devotee->contact = $input['contact'];
@@ -481,17 +454,93 @@ class OperatorController extends Controller
 				    $devotee->address_unit1 = $input['address_unit1'];
 				    $devotee->address_unit2 = $input['address_unit2'];
 				    $devotee->address_street = $input['address_street'];
-				    $devotee->address_building = $input['address_building'];
-				    $devotee->address_postal = $input['address_postal'];
-				    $devotee->address_translated = $input['address_translated'];
-				    $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
-				    $devotee->nric = $input['nric'];
-				    $devotee->deceased_year = $input['deceased_year'];
-				    $devotee->dob = $dobNewDate;
-				    $devotee->marital_status = $input['marital_status'];
-				    $devotee->dialect = $input['dialect'];
-				    $devotee->nationality = $input['nationality'];
-				    $devotee->familycode_id = $familycode_id;
+			    	$devotee->address_building = $input['address_building'];
+					  $devotee->address_postal = $input['address_postal'];
+					  $devotee->address_translated = $input['address_translated'];
+					  $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
+					  $devotee->nric = $input['nric'];
+					  $devotee->deceased_year = $input['deceased_year'];
+					  $devotee->dob = $dobNewDate;
+					  $devotee->marital_status = $input['marital_status'];
+					  $devotee->dialect = $input['dialect'];
+					  $devotee->nationality = $input['nationality'];
+					  $devotee->familycode_id = $familycode_id;
+					  $devotee->member_id = $input['member_id'];
+					}
+
+					else {
+						$devotee->title = $input['title'];
+				    $devotee->chinese_name = $input['chinese_name'];
+				    $devotee->english_name = $input['english_name'];
+				    $devotee->contact = $input['contact'];
+				    $devotee->guiyi_name = $input['guiyi_name'];
+				    $devotee->address_houseno = $input['address_houseno'];
+				    $devotee->address_street = $input['address_street'];
+			    	$devotee->address_building = $input['address_building'];
+					  $devotee->address_postal = $input['address_postal'];
+					  $devotee->address_translated = $input['address_translated'];
+					  $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
+					  $devotee->nric = $input['nric'];
+					  $devotee->deceased_year = $input['deceased_year'];
+					  $devotee->dob = $dobNewDate;
+					  $devotee->marital_status = $input['marital_status'];
+					  $devotee->dialect = $input['dialect'];
+					  $devotee->nationality = $input['nationality'];
+					  $devotee->familycode_id = $familycode_id;
+					  $devotee->member_id = $input['member_id'];
+					}
+
+				  $member_result = $devotee->save();
+		    }
+
+		    else
+		    {
+		       $devotee = Devotee::find($input['devotee_id']);
+
+					 if(isset($input['address_unit1']) && isset($input['address_unit2']))
+					 {
+						 	$devotee->title = $input['title'];
+	 				    $devotee->chinese_name = $input['chinese_name'];
+	 				    $devotee->english_name = $input['english_name'];
+	 				    $devotee->contact = $input['contact'];
+	 				    $devotee->guiyi_name = $input['guiyi_name'];
+	 				    $devotee->address_houseno = $input['address_houseno'];
+	 				    $devotee->address_unit1 = $input['address_unit1'];
+	 				    $devotee->address_unit2 = $input['address_unit2'];
+	 				    $devotee->address_street = $input['address_street'];
+	 				    $devotee->address_building = $input['address_building'];
+	 				    $devotee->address_postal = $input['address_postal'];
+	 				    $devotee->address_translated = $input['address_translated'];
+	 				    $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
+	 				    $devotee->nric = $input['nric'];
+	 				    $devotee->deceased_year = $input['deceased_year'];
+	 				    $devotee->dob = $dobNewDate;
+	 				    $devotee->marital_status = $input['marital_status'];
+	 				    $devotee->dialect = $input['dialect'];
+	 				    $devotee->nationality = $input['nationality'];
+	 				    $devotee->familycode_id = $familycode_id;
+					 }
+
+					 else {
+						 $devotee->title = $input['title'];
+						 $devotee->chinese_name = $input['chinese_name'];
+						 $devotee->english_name = $input['english_name'];
+						 $devotee->contact = $input['contact'];
+						 $devotee->guiyi_name = $input['guiyi_name'];
+						 $devotee->address_houseno = $input['address_houseno'];
+						 $devotee->address_street = $input['address_street'];
+						 $devotee->address_building = $input['address_building'];
+						 $devotee->address_postal = $input['address_postal'];
+						 $devotee->address_translated = $input['address_translated'];
+						 $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
+						 $devotee->nric = $input['nric'];
+						 $devotee->deceased_year = $input['deceased_year'];
+						 $devotee->dob = $dobNewDate;
+						 $devotee->marital_status = $input['marital_status'];
+						 $devotee->dialect = $input['dialect'];
+						 $devotee->nationality = $input['nationality'];
+						 $devotee->familycode_id = $familycode_id;
+					 }
 
 				    $devotee_result = $devotee->save();
 		    }
