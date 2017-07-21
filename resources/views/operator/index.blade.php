@@ -1404,12 +1404,12 @@
             } );
 
 						$('#members_table thead tr#filter th').each( function () {
-                var title = $('#devotees_table thead th').eq( $(this).index() ).text();
+                var title = $('#members_table thead th').eq( $(this).index() ).text();
                 $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
             } );
 
             // DataTable
-            var table = $('#devotees_table').DataTable({
+            var table = $('#members_table').DataTable({
 						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
 						});
 
