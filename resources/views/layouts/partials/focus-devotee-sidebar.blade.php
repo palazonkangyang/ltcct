@@ -407,6 +407,9 @@
 
             </div><!-- end col-md-6 -->
 
+            <div class="clearfix">
+            </div><!-- end clearfix -->
+
         </div><!-- end inbox-sidebar -->
 
     </div><!-- end col-md-3 -->
