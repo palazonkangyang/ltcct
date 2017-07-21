@@ -393,22 +393,24 @@ class OperatorController extends Controller
 
 		$input = array_except($request->all(), '_token');
 
-		$validator = $this->validate($request, [
-            'title' => 'required',
-            'chinese_name' => 'required',
-            'contact'	=> 'required',
-            'address_houseno' => 'required',
-            'address_unit1' => 'required',
-            'address_unit2' => 'required',
-            'address_postal' => 'required',
-            // 'authorized_password' => 'required'
-        ]);
+		dd($input);
 
-        if ($validator && $validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+		// $validator = $this->validate($request, [
+    //         'title' => 'required',
+    //         'chinese_name' => 'required',
+    //         'contact'	=> 'required',
+    //         'address_houseno' => 'required',
+    //         'address_unit1' => 'required',
+    //         'address_unit2' => 'required',
+    //         'address_postal' => 'required',
+    //         // 'authorized_password' => 'required'
+    //     ]);
+		//
+    //     if ($validator && $validator->fails()) {
+    //         return redirect()->back()
+    //             ->withErrors($validator)
+    //             ->withInput();
+    //     }
 
         if(isset($input['authorized_password']))
 		{
@@ -581,7 +583,7 @@ class OperatorController extends Controller
         	else
 			{
 				$request->session()->flash('error', "Password did not match. Please Try Again");
-	            return redirect()->back();
+	            return redirect()->back()->withInput();
 			}
 		}
 	}
@@ -612,20 +614,20 @@ class OperatorController extends Controller
 						->whereNull('member_id')
 						->whereNull('deceased_year')
         				->select('devotee.*')
-        				->addSelect('familycode.familycode')->paginate(50);
+        				->addSelect('familycode.familycode')->get();
 
 		$members = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 						->whereNotNull('member_id')
 						->whereNull('deceased_year')
 						->orderBy('devotee_id', 'asc')
         				->select('devotee.*')
-        				->addSelect('familycode.familycode')->paginate(50);
+        				->addSelect('familycode.familycode')->get();
 
         $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 						->whereNotNull('deceased_year')
 						->orderBy('devotee_id', 'asc')
         				->select('devotee.*')
-        				->addSelect('familycode.familycode')->paginate(50);
+        				->addSelect('familycode.familycode')->get();
 
 		$input = Input::except('_token');
 
