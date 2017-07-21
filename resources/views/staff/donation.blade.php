@@ -668,7 +668,7 @@
 
 			});
 
-			$(".total").val(0);
+			$(".total").text(0);
 
 			// Disabled Edit Devotee Tab
 			$(".nav-tabs > li").click(function(){
