@@ -599,6 +599,10 @@
 
 			$("#confirm_donation_btn").click(function() {
 
+				var count = 0;
+        var errors = new Array();
+        var validationFailed = false;
+
 				$("input:text[name^='amount']").each(function() {
 
             if (!$.trim($(this).val()).length) {
