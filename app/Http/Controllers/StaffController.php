@@ -148,7 +148,7 @@ class StaffController extends Controller
 					for($i = 0; $i < count($input['other_devotee_id']); $i++)
 					{
 						// Modify fields
-				    $paid_till = $input['paid_till'][$i];
+				    $paid_till = $input['other_paid_till'][$i];
 						$paid_till_date = str_replace('/', '-', $paid_till);
 						$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
 
@@ -234,7 +234,7 @@ class StaffController extends Controller
 						$different_receipt = Receipt::create($data);
 
 						// Modify fields
-						$paid_till = $input['paid_till'][$i];
+						$paid_till = $input['other_paid_till'][$i];
 						$paid_till_date = str_replace('/', '-', $paid_till);
 						$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
 
