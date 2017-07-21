@@ -810,7 +810,7 @@ class OperatorController extends Controller
 
 			$focus_devotee = Session::get('focus_devotee');
 
-			dd($focus_devotee[0]['devotee_id']);
+			dd($focus_devotee[0]->devotee_id);
 
 			// if(Session::has('focus_devotee'))
 			// {
