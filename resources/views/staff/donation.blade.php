@@ -534,7 +534,7 @@
                                                                                 @foreach($receipts as $receipt)
                                                                                 <tr>
                                                                                     <td>{{ $receipt->xy_receipt }}</td>
-                                                                                    <td>{{ $receipt->trans_date }}</td>
+                                                                                    <td>{{ \Carbon\Carbon::parse($receipt->trans_date)->format("d/m/Y") }}</td>
                                                                                     <td>{{ $receipt->xy_receipt }}</td>
                                                                                     <td>{{ $receipt->description }}</td>
                                                                                     <td>{{ $receipt->chinese_name }}</td>
