@@ -66,7 +66,7 @@
 
                 <div class="form-group">
 
-                    <label class="col-md-3 control-label">Address - House No</label>
+                    <label class="col-md-3 control-label">Address - House No *</label>
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}"
                             id="edit_address_houseno">
@@ -90,7 +90,7 @@
 
                 <div class="form-group">
 
-                    <label class="col-md-3 control-label">Address - Street</label>
+                    <label class="col-md-3 control-label">Address - Street *</label>
                     <div class="col-md-9">
 												<input type="text" class="form-control" name="address_street"
 														value="{{ old('address_street') }}" id="edit_address_street">
@@ -189,7 +189,7 @@
 
                 <div class="form-group">
 
-                    <label class="col-md-3 control-label">Marital Status</label>
+                    <label class="col-md-3 control-label">Marital Status *</label>
                     <div class="col-md-9">
                         <select class="form-control" name="marital_status" id="edit_marital_status">
                             <option value="">Please select</option>
@@ -202,7 +202,7 @@
 
                 <div class="form-group">
 
-                    <label class="col-md-3 control-label">Dialect</label>
+                    <label class="col-md-3 control-label">Dialect *</label>
                     <div class="col-md-9">
                         <select class="form-control" name="dialect" id="edit_dialect">
                             <option value="">Please select</option>
@@ -228,7 +228,7 @@
 
                 <div class="form-group">
 
-                    <label class="col-md-3 control-label">Nationality</label>
+                    <label class="col-md-3 control-label">Nationality *</label>
                     <div class="col-md-9">
                         <select class="form-control" name="nationality" id="edit_nationality">
                             <option value="">Please select</option>
