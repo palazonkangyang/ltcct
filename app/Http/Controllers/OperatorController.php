@@ -697,10 +697,10 @@ class OperatorController extends Controller
 				         				->leftjoin('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
 				         				->where('receipt.focusdevotee_id', $focus_devotee[0]->devotee_id)
 				         				->orderBy('receipt_id', 'desc')
-				         				->select('receipt.*')
-				         				->addSelect('devotee.chinese_name')
-				         				->addSelect('generaldonation.manualreceipt')
+				         				->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.hjgr as generaldonation_hjgr')
 				         				->get();
+
+				dd($receipts);
 
 				if(!Session::has('focus_devotee'))
 				{
