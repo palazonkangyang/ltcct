@@ -1387,21 +1387,39 @@
 						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
 						});
 
-            // Apply the filter
-            $("#devotees_table thead input").on( 'keyup change', function () {
-                table
-                    .column( $(this).parent().index()+':visible' )
-                    .search( this.value )
-                    .draw();
-            } );
-
-            function stopPropagation(evt) {
+						function stopPropagation(evt) {
                 if (evt.stopPropagation !== undefined) {
                     evt.stopPropagation();
                 } else {
                     evt.cancelBubble = true;
                 }
             }
+
+            // Apply the filter
+            $("#members_table thead input").on( 'keyup change', function () {
+                table
+                    .column( $(this).parent().index()+':visible' )
+                    .search( this.value )
+                    .draw();
+            } );
+
+						$('#members_table thead tr#filter th').each( function () {
+                var title = $('#devotees_table thead th').eq( $(this).index() ).text();
+                $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+            } );
+
+            // DataTable
+            var table = $('#devotees_table').DataTable({
+						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+						});
+
+            // Apply the filter
+            $("#members_table thead input").on( 'keyup change', function () {
+                table
+                    .column( $(this).parent().index()+':visible' )
+                    .search( this.value )
+                    .draw();
+            } );
 
             var opt_address;
 
