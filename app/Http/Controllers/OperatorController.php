@@ -793,8 +793,6 @@ class OperatorController extends Controller
 			$input = Input::except('_token', 'address_houseno', 'address_unit1', 'address_unit2', 'address_street',
 								'address_building', 'address_postal', 'nationality', 'oversea_addr_in_chinese');
 
-			dd($input);
-
 	    for($i = 0; $i < count($input['devotee_id']); $i++)
 	    {
 	    	$devotee = Devotee::find($input['devotee_id'][$i]);
@@ -810,10 +808,14 @@ class OperatorController extends Controller
 				$devotee->save();
 	    }
 
-			if(Session::has('focus_devotee'))
-			{
-			  Session::get('focus_devotee', $focus_devotee);
-			}
+			$focus_devotee = Session::get('focus_devotee');
+
+			dd($focus_devotee);
+
+			// if(Session::has('focus_devotee'))
+			// {
+			//   Session::get('focus_devotee', $focus_devotee);
+			// }
 
 	    $request->session()->flash('success', 'Relocation Devotee(s) has been changed!');
 	    return redirect()->back();
