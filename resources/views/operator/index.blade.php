@@ -436,7 +436,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Marital Status</label>
+                                                                        <label class="col-md-3 control-label">Marital Status *</label>
                                                                         <div class="col-md-9">
                                                                            <select class="form-control" name="marital_status" id="content_marital_status">
                                                                                 <option value="">Please select</option>
@@ -449,7 +449,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Dialect</label>
+                                                                        <label class="col-md-3 control-label">Dialect *</label>
                                                                         <div class="col-md-9">
                                                                             <select class="form-control" name="dialect" id="content_dialect">
                                                                                 <option value="">Please select</option>
@@ -475,7 +475,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Nationality</label>
+                                                                        <label class="col-md-3 control-label">Nationality *</label>
                                                                         <div class="col-md-9">
                                                                             <select class="form-control" name="nationality" id="content_nationality">
                                                                                 <option value="">Please select</option>
