@@ -1657,10 +1657,18 @@
 							var errors = new Array();
 							var validationFailed = false;
 
+							var count_checked = $("[name='chk[]']:checked").length; // count the checked rows
+
 							var address_houseno = $("#new_address_houseno").val();
 							var address_street = $("#new_address_street").val();
 							var address_postal = $("#new_address_postal").val();
 							var nationality = $("#new_nationality").val();
+
+							if(count_checked == 0)
+			        {
+									validationFailed = true;
+			            errors[count++] = "Choose Devotee ID is empty."			            
+			        }
 
 							if ($.trim(address_houseno).length <= 0)
 							{
