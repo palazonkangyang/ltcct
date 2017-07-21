@@ -639,6 +639,29 @@
             }
         });
 
+				if (validationFailed)
+				{
+						var errorMsgs = '';
+
+						for(var i = 0; i < count; i++)
+						{
+								errorMsgs = errorMsgs + errors[i] + "<br/>";
+						}
+
+						$('html,body').animate({ scrollTop: 0 }, 'slow');
+
+						$(".validation-error").addClass("bg-danger alert alert-error")
+						$(".validation-error").html(errorMsgs);
+
+						return false;
+				}
+
+				else
+				{
+						$(".validation-error").removeClass("bg-danger alert alert-error")
+						$(".validation-error").empty();
+				}
+
 			});
 
 			// Disabled Edit Devotee Tab
