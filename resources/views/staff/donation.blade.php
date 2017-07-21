@@ -437,7 +437,9 @@
 
 																																				<div class="form-group">
 
-		                                                                    		<div class="col-md-9">
+																																					<div class="col-md-12">
+
+																																						<div class="col-md-9">
 
 																																								<select class="form-control" name="festiveevent_id">
 																																										@foreach($events as $event)
@@ -452,7 +454,9 @@
 																																						<div class="col-md-3">
 																																						</div><!-- end col-md-3 -->
 
-		                                                                  </div><!-- end form-group -->
+																																					</div><!-- end col-md-12 -->
+
+		                                                                  	</div><!-- end form-group -->
 
 		                                                    			</div><!-- end col-md-4 -->
 
