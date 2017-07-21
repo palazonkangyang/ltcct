@@ -1033,7 +1033,7 @@
                                                                             <div class="col-md-2">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_postal"
-                                                                                    value="{{ old('new_address_postal') }}" id="">
+                                                                                    value="{{ old('new_address_postal') }}" id="new_address_postal">
                                                                             </div><!-- end col-md-2 -->
 
                                                                             <label class="col-md-2">Country *</label>
