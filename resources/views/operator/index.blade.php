@@ -1377,6 +1377,7 @@
 
             // DataTable
             var table = $('#devotees_table').DataTable({
+							"bFilter": false,
 						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
 						});
 
@@ -1524,7 +1525,7 @@
 							if ($.trim(nationality).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Nationality name is empty."
+									errors[count++] = "Nationality is empty."
 							}
 
 							if ($.trim(authorized_password).length <= 0)
