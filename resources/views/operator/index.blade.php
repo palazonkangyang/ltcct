@@ -884,8 +884,8 @@
                                                                             <div class="col-md-4">
                                                                                 <select class="form-control" name="nationality" disabled>
                                                                                     <option value="">Please select</option>
-                                                                                    <option value="singapore" <?php if ($focus_devotee[0]->nationality == 'singapore') echo "selected"; ?>>Singapore</option>
-                                                                                    <option value="others" <?php if ($focus_devotee[0]->nationality == 'others') echo "selected"; ?>>Others</option>
+                                                                                    <option value="singapore" <?php if ($focus_devotee[0]->nationality == "singapore") echo "selected"; ?>>Singapore</option>
+                                                                                    <option value="others" <?php if ($focus_devotee[0]->nationality == "others") echo "selected"; ?>>Others</option>
                                                                                 </select>
                                                                             </div><!-- end col-md-3 -->
 
@@ -1710,7 +1710,7 @@
 							if(count_checked == 0)
 			        {
 									validationFailed = true;
-			            errors[count++] = "Choose Devotee ID is empty."
+			            errors[count++] = "Devotee ID field is empty."
 			        }
 
 							if ($.trim(address_houseno).length <= 0)
