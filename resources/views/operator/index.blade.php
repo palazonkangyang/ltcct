@@ -1067,9 +1067,9 @@
 
                                                                     </div><!-- end col-md-6 -->
 
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-4">
 
-                                                                    </div><!-- end col-md-6 -->
+                                                                    </div><!-- end col-md-4 -->
 
                                                                 </div><!-- end col-md-12 -->
 
