@@ -1414,7 +1414,7 @@
 
 						$('#members_table thead tr#filter th').each( function () {
                 var title = $('#members_table thead th').eq( $(this).index() ).text();
-                $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+                $(this).html( '<input type="text" class="form-control" onclick="stopPropagation2(event);" placeholder="" />' );
             } );
 
             // DataTable
@@ -1429,6 +1429,14 @@
                     .search( this.value )
                     .draw();
             } );
+
+						function stopPropagation2(evt) {
+                if (evt.stopPropagation !== undefined) {
+                    evt.stopPropagation();
+                } else {
+                    evt.cancelBubble = true;
+                }
+            }
 
             var opt_address;
 
