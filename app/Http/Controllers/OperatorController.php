@@ -789,10 +789,11 @@ class OperatorController extends Controller
 	// Relocation Devotees
 	public function postRelocationDevotees(Request $request)
 	{
-			dd($input);
 
 			$input = Input::except('_token', 'address_houseno', 'address_unit1', 'address_unit2', 'address_street',
 								'address_building', 'address_postal', 'nationality', 'oversea_addr_in_chinese');
+
+			dd($input);
 
 	    for($i = 0; $i < count($input['devotee_id']); $i++)
 	    {
