@@ -668,31 +668,27 @@
 
 			});
 
+			$(".total").val(0);
+
 			// Disabled Edit Devotee Tab
 			$(".nav-tabs > li").click(function(){
 					if($(this).hasClass("disabled"))
 							return false;
 			});
 
-			var sum = 0;
-
-			if(sum == 0)
-			{
-				$("#total_amount").val(sum);
-			}
-
 			$('body').on('focus',".paid_till", function(){
 	     		$(this).datepicker({ dateFormat: 'yy-mm-dd' });
 	    });
 
 			$('body').on('keyup',".amount-col", function(){
+	        var sum = 0;
+
 			  $(".amount").each(function(){
 			        sum += +$(this).val();
 		  	});
 
 				$(".total").text(sum);
 				$("#total_amount").val(sum);
-
 
 	    	});
 
