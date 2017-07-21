@@ -393,33 +393,14 @@ class OperatorController extends Controller
 
 		$input = array_except($request->all(), '_token');
 
-		dd($input);
-
-		// $validator = $this->validate($request, [
-    //         'title' => 'required',
-    //         'chinese_name' => 'required',
-    //         'contact'	=> 'required',
-    //         'address_houseno' => 'required',
-    //         'address_unit1' => 'required',
-    //         'address_unit2' => 'required',
-    //         'address_postal' => 'required',
-    //         // 'authorized_password' => 'required'
-    //     ]);
-		//
-    //     if ($validator && $validator->fails()) {
-    //         return redirect()->back()
-    //             ->withErrors($validator)
-    //             ->withInput();
-    //     }
-
-        if(isset($input['authorized_password']))
+    if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
-        	$hashedPassword = $user->password;
+      $hashedPassword = $user->password;
 
-        	if (Hash::check($input['authorized_password'], $hashedPassword)) {
+      if (Hash::check($input['authorized_password'], $hashedPassword)) {
 
-        		// Modify fields
+        // Modify fields
 				$dob = $input['dob'];
 				$dob_date = str_replace('/', '-', $dob);
 				$dobNewDate = date("Y-m-d", strtotime($dob_date));
@@ -438,58 +419,58 @@ class OperatorController extends Controller
 					$cancelledNewDate = date("Y-m-d", strtotime($cancelledDate_date));
 				}
 
-		        if(isset($input['edit_familycode_id']))
-		        {
-		        	$familycode_id = $input['edit_familycode_id'];
-		        }
+		   if(isset($input['edit_familycode_id']))
+		   {
+		     $familycode_id = $input['edit_familycode_id'];
+		   }
 
-		        else
-		        {
-		        	$familycode_id = $input['familycode_id'];
-		        }
+		   else
+		   {
+		     $familycode_id = $input['familycode_id'];
+		   }
 
-		        if(isset($input['member_id']))
-		        {
-		        	$member = Member::find($input['member_id']);
+		   if(isset($input['member_id']))
+		   {
+		   		$member = Member::find($input['member_id']);
 
-		        	$member->introduced_by1 = $input['introduced_by1'];
-		        	$member->introduced_by2 = $input['introduced_by2'];
-		        	$member->approved_date = $approveNewDate;
-		        	$member->cancelled_date = $cancelledNewDate;
-		        	$member->reason_for_cancel = $input['reason_for_cancel'];
+		      $member->introduced_by1 = $input['introduced_by1'];
+		      $member->introduced_by2 = $input['introduced_by2'];
+		      $member->approved_date = $approveNewDate;
+		      $member->cancelled_date = $cancelledNewDate;
+		      $member->reason_for_cancel = $input['reason_for_cancel'];
 
-		        	$member->save();
+		      $member->save();
 
-		        	$devotee = Devotee::find($input['devotee_id']);
+		      $devotee = Devotee::find($input['devotee_id']);
 
-				    $devotee->title = $input['title'];
-				    $devotee->chinese_name = $input['chinese_name'];
-				    $devotee->english_name = $input['english_name'];
-				    $devotee->contact = $input['contact'];
-				    $devotee->guiyi_name = $input['guiyi_name'];
-				    $devotee->address_houseno = $input['address_houseno'];
-				    $devotee->address_unit1 = $input['address_unit1'];
-				    $devotee->address_unit2 = $input['address_unit2'];
-				    $devotee->address_street = $input['address_street'];
-				    $devotee->address_building = $input['address_building'];
-				    $devotee->address_postal = $input['address_postal'];
-				    $devotee->address_translated = $input['address_translated'];
-				    $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
-				    $devotee->nric = $input['nric'];
-				    $devotee->deceased_year = $input['deceased_year'];
-				    $devotee->dob = $dobNewDate;
-				    $devotee->marital_status = $input['marital_status'];
-				    $devotee->dialect = $input['dialect'];
-				    $devotee->nationality = $input['nationality'];
-				    $devotee->familycode_id = $familycode_id;
-				    $devotee->member_id = $input['member_id'];
+			    $devotee->title = $input['title'];
+			    $devotee->chinese_name = $input['chinese_name'];
+			    $devotee->english_name = $input['english_name'];
+			    $devotee->contact = $input['contact'];
+			    $devotee->guiyi_name = $input['guiyi_name'];
+			    $devotee->address_houseno = $input['address_houseno'];
+			    $devotee->address_unit1 = $input['address_unit1'];
+			    $devotee->address_unit2 = $input['address_unit2'];
+			    $devotee->address_street = $input['address_street'];
+		    	$devotee->address_building = $input['address_building'];
+				  $devotee->address_postal = $input['address_postal'];
+				  $devotee->address_translated = $input['address_translated'];
+				  $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
+				  $devotee->nric = $input['nric'];
+				  $devotee->deceased_year = $input['deceased_year'];
+				  $devotee->dob = $dobNewDate;
+				  $devotee->marital_status = $input['marital_status'];
+				  $devotee->dialect = $input['dialect'];
+				  $devotee->nationality = $input['nationality'];
+				  $devotee->familycode_id = $familycode_id;
+				  $devotee->member_id = $input['member_id'];
 
-				    $member_result = $devotee->save();
-		        }
+				  $member_result = $devotee->save();
+		    }
 
-		        else
-		        {
-		        	$devotee = Devotee::find($input['devotee_id']);
+		    else
+		    {
+		       $devotee = Devotee::find($input['devotee_id']);
 
 				    $devotee->title = $input['title'];
 				    $devotee->chinese_name = $input['chinese_name'];
@@ -513,77 +494,77 @@ class OperatorController extends Controller
 				    $devotee->familycode_id = $familycode_id;
 
 				    $devotee_result = $devotee->save();
-		        }
+		    }
 
 
-		        if(isset($input['address_data'][0]))
+		    if(isset($input['address_data'][0]))
 				{
 					//delete first before saving
-		        	OptionalAddress::where('devotee_id', $input['devotee_id'])->delete();
+		      OptionalAddress::where('devotee_id', $input['devotee_id'])->delete();
 
-				    // Update Optional Address
+				  // Update Optional Address
 					for($i = 0; $i < count($input['address_type']); $i++)
 					{
 						$optional_address = new OptionalAddress;
-		                $optional_address->type = $input['address_type'][$i];
-		                $optional_address->data = $input['address_data'][$i];
-		                $optional_address->devotee_id = $input['devotee_id'];
+		        $optional_address->type = $input['address_type'][$i];
+		        $optional_address->data = $input['address_data'][$i];
+		        $optional_address->devotee_id = $input['devotee_id'];
 
-		                $optional_address->save();
+		        $optional_address->save();
 					}
 				}
 
 				if(isset($input['vehicle_data'][0]))
 				{
 					//delete first before saving
-		        	OptionalVehicle::where('devotee_id', $input['devotee_id'])->delete();
+		      OptionalVehicle::where('devotee_id', $input['devotee_id'])->delete();
 
 				    // Update Optional Vehicle
 					for($i = 0; $i < count($input['vehicle_type']); $i++)
 					{
 						$optional_vehicle = new OptionalVehicle;
-		                $optional_vehicle->type = $input['vehicle_type'][$i];
-		                $optional_vehicle->data = $input['vehicle_data'][$i];
-		                $optional_vehicle->devotee_id = $input['devotee_id'];
+		        $optional_vehicle->type = $input['vehicle_type'][$i];
+		        $optional_vehicle->data = $input['vehicle_data'][$i];
+		        $optional_vehicle->devotee_id = $input['devotee_id'];
 
-		                $optional_vehicle->save();
+		        $optional_vehicle->save();
 					}
 				}
 
 				if(isset($input['special_remark'][0]))
 				{
 					//delete first before saving
-		        	SpecialRemarks::where('devotee_id', $input['devotee_id'])->delete();
+		      SpecialRemarks::where('devotee_id', $input['devotee_id'])->delete();
 
-				    // Update Special Remarks
+				  // Update Special Remarks
 					for($i = 0; $i < count($input['special_remark']); $i++)
 					{
 						$special_remark = new SpecialRemarks;
-		                $special_remark->data = $input['special_remark'][$i];
-		                $special_remark->devotee_id = $input['devotee_id'];
+		        $special_remark->data = $input['special_remark'][$i];
+		        $special_remark->devotee_id = $input['devotee_id'];
 
-		                $special_remark->save();
+		        $special_remark->save();
 					}
 				}
 
 				if (isset($member_result)) {
 
-		            $request->session()->flash('success', 'Member Profile is successfully updated.');
-		            return redirect()->back();
-		        }
+		    	$request->session()->flash('success', 'Member Profile is successfully updated.');
+		      return redirect()->back();
+		    }
 
-		        if(isset($devotee_result))
-		        {
-		        	$request->session()->flash('success', 'Devotee Profile is successfully updated.');
-		        	return redirect()->back();
-		        }
+		    if(isset($devotee_result))
+		    {
+		    	$request->session()->flash('success', 'Devotee Profile is successfully updated.');
+		      return redirect()->back();
+		    }
 
-        	}
+    	}
 
-        	else
+      else
 			{
 				$request->session()->flash('error', "Password did not match. Please Try Again");
-	            return redirect()->back()->withInput();
+	      return redirect()->back()->withInput();
 			}
 		}
 	}
