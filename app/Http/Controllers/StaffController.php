@@ -76,7 +76,7 @@ class StaffController extends Controller
 			"festiveevent_id" => $input['festiveevent_id']
 		];
 
-		// $general_donation = GeneralDonation::create($data);
+		$general_donation = GeneralDonation::create($data);
 
 		if($general_donation)
 		{
