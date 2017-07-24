@@ -643,6 +643,16 @@ class OperatorController extends Controller
 	// Focus Devotee
 	public function getFocusDevotee(Request $request)
 	{
+		// remove session data
+		if(Session::has('focus_devotee'))
+		{
+			Session::forget('focus_devotee');
+		}
+
+		if(Session::has('devotee_lists'))
+		{
+			Session::forget('devotee_lists');
+		}
 
 		$devotees = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 								->whereNull('member_id')
@@ -714,6 +724,7 @@ class OperatorController extends Controller
 			Session::put('receipts', $receipts);
 		}
 
+		$request->session()->flash('error', 'There has more than one record. Please search with more details.');
 		return redirect()->back()->with([
 			'members' => $members,
 			'devotees' => $devotees,
