@@ -1982,6 +1982,15 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
+
+
+											localStorage.setItem('optionaladdresses', response.optionaladdresses);
+
+			                var optionaladdresses = localStorage.getItem('optionaladdresses');
+											console.log(optionaladdresses);
+
+											location.reload();
+
 											$("#special_remark").empty();
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
@@ -2077,8 +2086,6 @@
 													$("#special_remark").append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark 1" +
 															"</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]'></div>");
 											}
-
-											location.reload();
                     },
 
                     error: function (response) {
