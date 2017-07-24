@@ -1963,6 +1963,8 @@
 
             $("#members_table").on('click','#edit-member',function(e) {
 
+							location.reload();
+
 							$("#edit-familycode-table tbody").empty();
 							$('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
 											"<td colspan='3'>No Family Code</td></tr>");
