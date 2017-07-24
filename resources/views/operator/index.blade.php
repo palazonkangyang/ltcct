@@ -1984,8 +1984,6 @@
                     dataType: 'json',
                     success: function(response)
                     {
-												alert(JSON.stringify(response));
-
                         $("#special_remark").empty();
                         $("#opt_address").empty();
                         $("#opt_vehicle").empty();
@@ -2080,8 +2078,6 @@
                             $("#special_remark").append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark 1" +
                                 "</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]'></div>");
                         }
-
-
                     },
 
                     error: function (response) {
@@ -2137,10 +2133,74 @@
 												$("#edit_dialect").val(data.dialect);
 												$("#edit_nationality").val(data.nationality);
 												$("#edit_familycode_id").val(data.familycode_id);
+
 												$("#edit_member_id").val(data.member_id);
 												$("#edit_introduced_by1").val(data.introduced_by1);
 												$("#edit_introduced_by2").val(data.introduced_by2);
 												$("#edit_approved_date").val(data.approved_date);
+
+												if(response.optionaladdresses.length > 0)
+                        {
+                            $.each(response.optionaladdresses, function(index, data) {
+
+                                $('#opt_address').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address " + "</label><div class='col-md-3' id='address'>" +
+                                "<select class='form-control' id='type' name='address_type[]'>" +
+                                "<option value='home'" + (data.type == 'home' ? 'selected': '') + ">Home</option>" +
+                                "<option value='company'" + (data.type == 'company' ? 'selected': '') + ">Company</option>" +
+                                "<option value='stall'" + (data.type == 'stall' ? 'selected': '') + ">Stall</option>" +
+                                "<option value='office'" + (data.type == 'office' ? 'selected': '') + ">Office</option>" +
+                                "</select></div><div class='col-md-5'><input type='text' class='form-control' name='address_data[]' value='" +
+                                data.data +"'></div>" +
+                                "<div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div></div>");
+                            });
+                        }
+
+                        else
+                        {
+                            $("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address1" +
+                                "</label><div class='col-md-3'><select class='form-control' name='address_type[]'><option value='home'>Home" +
+                                "</option><option value='company'>Company</option><option value='stall'>Stall</option><option value='office'>" +
+                                "Office</option></select></div><div class='col-md-5'><input type='text' class='form-control'" +
+                                "name='address_data[]'></div>");
+                        }
+
+												if(response.optionalvehicles.length > 0)
+                        {
+                            $.each(response.optionalvehicles, function(index, data) {
+
+                                $('#opt_vehicle').append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
+                            "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'>" +
+                            "<option value='car'" + (data.type == 'car' ? 'selected': '') + ">Car</option>" +
+                            "<option value='ship'" + (data.type == 'ship' ? 'selected': '') + ">Ship</option></select></div>" +
+                            "<div class='col-md-5'>" +
+                            "<input type='text' class='form-control' name='vehicle_data[]' value='" + data.data + "'></div>" +
+                            "<div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div></div>");
+                            });
+                        }
+
+                        else
+                        {
+                            $("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
+                            "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
+                            "<option value='ship'>Ship</option></select></div><div class='col-md-5'>" +
+                            "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
+                            "<div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div></div>");
+                        }
+
+                        if(response.specialRemarks.length > 0)
+                        {
+                            $.each(response.specialRemarks, function(index, data) {
+                                $('#special_remark').append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark 1" +
+                                    "</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]' value='" +
+                                    data.data + "'></div><div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i></div></div>");
+                            });
+                        }
+
+                        else
+                        {
+                            $("#special_remark").append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark 1" +
+                                "</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]'></div>");
+                        }
 
 											});
 						       	},
