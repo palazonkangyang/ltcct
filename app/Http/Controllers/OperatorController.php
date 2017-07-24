@@ -130,33 +130,31 @@ class OperatorController extends Controller
 		// $devotee_id = $_GET['devotee_id'];
 		$devotee_id = 4;
 
-		$devotee = Devotee::all();
+		$devotee = Devotee::find($devotee_id);
 
-		// if($devotee->member_id)
-		// {
-		// 	$member = Member::find($devotee->member_id);
-		// }
+		if($devotee->member_id)
+		{
+			$member = Member::find($devotee->member_id);
+		}
 
-		// $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
-		// $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
-		// $specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
+		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
+		$optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
+		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
 
-		// // remove session data
-		// if(Session::has('focus_devotee'))
-		// {
-		//   Session::forget('focus_devotee');
-		// }
-		//
-		// Session::put('focus_devotee', $focus_devotee);
-		// Session::put('member', $member);
-		// Session::put('optionaladdresses', $optionaladdresses);
-		// Session::put('optionalvehicles', $optionalvehicles);
+		// remove session data
+		if(Session::has('focus_devotee'))
+		{
+		  Session::forget('focus_devotee');
+		}
 
-		// $json = ['responseText' => 'success'];
+		Session::put('focus_devotee', $focus_devotee);
+		Session::put('member', $member);
+		Session::put('optionaladdresses', $optionaladdresses);
+		Session::put('optionalvehicles', $optionalvehicles);
 
-		return response()->json(array(
-			'devotee' => $devotee
-		));
+		$json = ['responseText' => 'success'];
+
+		return response()->json($json);
 	}
 
 	// Add New Devotee
