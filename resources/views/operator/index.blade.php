@@ -2120,6 +2120,24 @@
 
 												$("#edit_chinese_name").val(data.chinese_name);
 												$("#edit_english_name").val(data.english_name);
+												$("#edit_contact").val(data.contact);
+												$("#edit_guiyi_name").val(data.guiyi_name);
+												$("#edit_address_houseno").val(data.address_houseno);
+												$("#edit_address_unit1").val(data.address_unit1);
+												$("#edit_address_unit2").val(data.address_unit2);
+												$("#edit_address_street").val(data.address_street);
+												$("#edit_address_building").val(data.address_building);
+												$("#edit_address_postal").val(data.address_postal);
+												$("#edit_address_translate").val(data.address_translate);
+												$("#edit_oversea_addr_in_china").val(data.oversea_addr_in_chinese);
+												$("#edit_nric").val(data.nric);
+												$("#edit_deceased_year").val(data.deceased_year);
+												$("#edit_dob").val(data.dob);
+												$("#edit_marital_status").val(data.marital_status);
+												$("#edit_dialect").val(data.dialect);
+												$("#edit_nationality").val(data.nationality);
+												$("#edit_familycode_id").val(data.familycode_id);
+												$("#edit_member_id").val(data.member_id);
 											});
 						       	},
 
