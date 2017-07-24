@@ -151,8 +151,28 @@ class OperatorController extends Controller
 	    Session::forget('focus_devotee');
 	  }
 
+		// remove session data
+	  if(Session::has('optionaladdresses'))
+	  {
+	    Session::forget('optionaladdresses');
+	  }
+
+		// remove session data
+	  if(Session::has('optionalvehicles'))
+	  {
+	    Session::forget('optionalvehicles');
+	  }
+
+		// remove session data
+	  if(Session::has('specialRemarks'))
+	  {
+	    Session::forget('specialRemarks');
+	  }
+
 	  Session::put('focus_devotee', $devotee);
 		Session::put('optionaladdresses', $optionaladdresses);
+		Session::put('optionalvehicles', $optionalvehicles);
+		Session::put('specialRemarks', $specialRemarks);
 
 	  return response()->json(array(
 	    'devotee' => $devotee,
