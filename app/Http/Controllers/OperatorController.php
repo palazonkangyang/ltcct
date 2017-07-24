@@ -134,10 +134,7 @@ class OperatorController extends Controller
 							 ->where('devotee.devotee_id', $devotee_id)
 							 ->get();
 
-	  if(isset($devotee->member_id))
-	  {
-	    $member = Member::find($devotee->member_id);
-	  }
+		$devotee->dob = Carbon::parse($devotee->dob)->format("d/m/Y");
 
 	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 	  $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
@@ -153,7 +150,6 @@ class OperatorController extends Controller
 
 	  return response()->json(array(
 	    'devotee' => $devotee,
-	    // 'member' => $member,
 	    'optionaladdresses' => $optionaladdresses,
 	    'optionalvehicles' => $optionalvehicles,
 	    'specialRemarks' => $specialRemarks
