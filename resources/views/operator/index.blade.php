@@ -1368,59 +1368,57 @@
 					   });
  					});
 
-            $('#devotees_table thead tr#filter th').each( function () {
+					// DataTable
+					var table = $('#devotees_table').DataTable({
+						"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+					});
+
+          $('#devotees_table thead tr#filter th').each( function () {
                 var title = $('#devotees_table thead th').eq( $(this).index() ).text();
                 $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
-            } );
+          });
 
-            // DataTable
-            var table = $('#devotees_table').DataTable({
-						  "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-						});
+					// Apply the filter
+					$("#devotees_table thead input").on( 'keyup change', function () {
+							table
+									.column( $(this).parent().index()+':visible' )
+									.search( this.value )
+									.draw();
+					});
 
-						function stopPropagation(evt) {
-                if (evt.stopPropagation !== undefined) {
-                    evt.stopPropagation();
-                } else {
-                    evt.cancelBubble = true;
-                }
+					function stopPropagation(evt) {
+            if (evt.stopPropagation !== undefined) {
+              evt.stopPropagation();
+            } else {
+              evt.cancelBubble = true;
             }
+          }
 
-            // DataTable
-            var member_table = $('#members_table').DataTable({
-                          "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-                        });
+          // DataTable
+          var member_table = $('#members_table').DataTable({
+              "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+          });
 
-            // Apply the filter
-            $("#members_table thead input").on( 'keyup change', function () {
-                member_table
-                    .column( $(this).parent().index()+':visible' )
-                    .search( this.value )
-                    .draw();
-            } );
-
-						$('#members_table thead tr#filter th').each( function () {
+					$('#members_table thead tr#filter th').each( function () {
                 var title = $('#members_table thead th').eq( $(this).index() ).text();
                 $(this).html( '<input type="text" class="form-control" onclick="stopPropagation2(event);" placeholder="" />' );
-            } );
+          });
 
-            
+          // Apply the filter
+          $("#members_table thead input").on( 'keyup change', function () {
+              member_table
+                .column( $(this).parent().index()+':visible' )
+                .search( this.value )
+                .draw();
+          });
 
-            // Apply the filter
-            $("#members_table thead input").on( 'keyup change', function () {
-                member_table
-                    .column( $(this).parent().index()+':visible' )
-                    .search( this.value )
-                    .draw();
-            } );
-
-						function stopPropagation2(evt) {
-                if (evt.stopPropagation !== undefined) {
+					function stopPropagation2(evt) {
+            if (evt.stopPropagation !== undefined) {
                     evt.stopPropagation();
-                } else {
+            } else {
                     evt.cancelBubble = true;
-                }
             }
+        	}
 
             var opt_address;
 
