@@ -127,8 +127,7 @@ class OperatorController extends Controller
 
 	public function getFocusDevoteeDetail(Request $request)
 	{
-		// $devotee_id = $_GET['devotee_id'];
-		$devotee_id = 4;
+		$devotee_id = $_GET['devotee_id'];
 
 		$devotee = Devotee::find($devotee_id);
 
@@ -142,10 +141,10 @@ class OperatorController extends Controller
 		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
 
 		// remove session data
-		// if(Session::has('focus_devotee'))
-		// {
-		//   Session::forget('focus_devotee');
-		// }
+		if(Session::has('focus_devotee'))
+		{
+		  Session::forget('focus_devotee');
+		}
 
 		Session::put('focus_devotee', $devotee);
 		Session::put('member', $member);
