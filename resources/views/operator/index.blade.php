@@ -1989,7 +1989,7 @@
 			                var optionaladdresses = localStorage.getItem('optionaladdresses');
 											console.log(optionaladdresses);
 
-											location.reload();
+											// location.reload();
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
