@@ -1836,48 +1836,57 @@
 
                 var devotee_id = $(this).attr("id");
 
-                var formData = {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    devotee_id: devotee_id
-                };
+								var formData = {
+						        _token: $('meta[name="csrf-token"]').attr('content'),
+						        devotee_id: devotee_id
+						    };
 
-                $.ajax({
-                    type: 'GET',
-                    url: "/operator/devotee/getDevoteeDetail",
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response)
-                    {
-                        $("#special_remark").empty();
-                        $("#opt_address").empty();
-                        $("#opt_vehicle").empty();
+						    $.ajax({
+						        type: 'GET',
+						        url: "/operator/getFocusDevoteeDetail",
+						        data: formData,
+						        dataType: 'json',
+						        success: function(response)
+						        {
+											location.reload();
 
-                        $("#edit_devotee_id").val(response.devotee['devotee_id']);
-                        $("#edit_chinese_name").val(response.devotee['chinese_name']);
-                        $("#edit_english_name").val(response.devotee['english_name']);
-                        $("#edit_contact").val(response.devotee['contact']);
-                        $("#edit_guiyi_name").val(response.devotee['guiyi_name']);
-                        $("#edit_address_houseno").val(response.devotee['address_houseno']);
-                        $("#edit_address_unit1").val(response.devotee['address_unit1']);
-                        $("#edit_address_unit2").val(response.devotee['address_unit2']);
-                        $("#edit_address_street").val(response.devotee['address_street']);
-                        $("#edit_address_building").val(response.devotee['address_building']);
-                        $("#edit_address_postal").val(response.devotee['address_postal']);
-                        $("#edit_address_translate").val(response.devotee['address_translate']);
-                        $("#edit_oversea_addr_in_china").val(response.devotee['oversea_addr_in_chinese']);
-                        $("#edit_nric").val(response.devotee['nric']);
-                        $("#edit_deceased_year").val(response.devotee['deceased_year']);
-                        $("#edit_dob").val(response.devotee['dob']);
-                        $("#edit_marital_status").val(response.devotee['marital_status']);
-                        $("#edit_dialect").val(response.devotee['dialect']);
-                        $("#edit_nationality").val(response.devotee['nationality']);
-                        $("#edit_familycode_id").val(response.devotee['familycode_id']);
-                        $("#edit_member_id").val(response.devotee['member_id']);
-                    },
+											$("#special_remark").empty();
+											$("#opt_address").empty();
+											$("#opt_vehicle").empty();
 
-                    error: function (response) {
-                        console.log(response);
-                    }
+											$.each(response.devotee, function(index, data) {
+
+												$("#edit_chinese_name").val(data.chinese_name);
+												$("#edit_english_name").val(data.english_name);
+												$("#edit_contact").val(data.contact);
+												$("#edit_guiyi_name").val(data.guiyi_name);
+												$("#edit_address_houseno").val(data.address_houseno);
+												$("#edit_address_unit1").val(data.address_unit1);
+												$("#edit_address_unit2").val(data.address_unit2);
+												$("#edit_address_street").val(data.address_street);
+												$("#edit_address_building").val(data.address_building);
+												$("#edit_address_postal").val(data.address_postal);
+												$("#edit_address_translate").val(data.address_translate);
+												$("#edit_oversea_addr_in_china").val(data.oversea_addr_in_chinese);
+												$("#edit_nric").val(data.nric);
+												$("#edit_deceased_year").val(data.deceased_year);
+												$("#edit_dob").val(data.dob);
+												$("#edit_marital_status").val(data.marital_status);
+												$("#edit_dialect").val(data.dialect);
+												$("#edit_nationality").val(data.nationality);
+												$("#edit_familycode_id").val(data.familycode_id);
+
+												$("#edit_member_id").val(data.member_id);
+												$("#edit_introduced_by1").val(data.introduced_by1);
+												$("#edit_introduced_by2").val(data.introduced_by2);
+												$("#edit_approved_date").val(data.approved_date);
+
+											});
+						       	},
+
+						        error: function (response) {
+						            console.log(response);
+						        }
                 });
 
             });
