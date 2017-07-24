@@ -1982,6 +1982,8 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
+											location.reload();
+
 											$("#special_remark").empty();
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
@@ -2107,6 +2109,8 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
+											location.reload();
+											
 											$("#special_remark").empty();
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
