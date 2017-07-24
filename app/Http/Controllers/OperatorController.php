@@ -674,11 +674,11 @@ class OperatorController extends Controller
 			return redirect()->back()->withInput();
 		}
 
-		elseif(count($focus_devotee) > 1)
-		{
-			$request->session()->flash('error', 'There has more than one record. Please search with more details.');
-			return redirect()->back()->withInput();
-		}
+		// elseif(count($focus_devotee) > 1)
+		// {
+		// 	$request->session()->flash('error', 'There has more than one record. Please search with more details.');
+		// 	return redirect()->back()->withInput();
+		// }
 
 		else {
 			// Get Devotee Lists for relocation
