@@ -1145,7 +1145,7 @@
 																												              <tbody>
 																												                  @foreach($focus_devotee as $fd)
 																												                  <tr>
-																												                      <td><a href="#" data-toggle="tab" class="search-devotee"
+																												                      <td><a href="#tab_editdevotee" data-toggle="tab" class="search-devotee"
 																												                           id="{{ $fd->devotee_id }}">{{ $fd->chinese_name }}</a></td>
 																												                      <td>{{ $fd->devotee_id }}</td>
 																												                      <td>{{ $fd->member_id }}</td>
