@@ -2,13 +2,6 @@
 
 @section('main-content')
 
-@php
-
-	$optionaladdresses = Session::get('optionaladdresses');
-
-	
-
-@endphp
 
 	<div class="page-container-fluid">
 
