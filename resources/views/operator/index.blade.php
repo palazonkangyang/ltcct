@@ -1120,7 +1120,7 @@
 
 																										                @endphp
 
-																																	<table class="table table-bordered" id="members_table">
+																																	<table class="table table-bordered" id="search_table">
 																																			<thead>
 																																				<tr id="filter">
 																																						<th>Chinese Name</th>
@@ -1145,8 +1145,8 @@
 																																			<tbody>
 																																					@foreach($focus_devotee as $fd)
 																																					<tr>
-																																							<td><a href="#" data-toggle="tab"
-																																									id="">{{ $fd->chinese_name }}</a></td>
+																																							<td><a href="#" data-toggle="tab" class="edit-devotee"
+																																									 id="{{ $fd->devotee_id }}">{{ $fd->chinese_name }}</a></td>
 																																							<td>{{ $fd->devotee_id }}</td>
 																																							<td>{{ $fd->member_id }}</td>
 																																							<td>{{ $fd->address_building }}</td>
