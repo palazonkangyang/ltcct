@@ -645,41 +645,43 @@ class OperatorController extends Controller
 	{
 
 		$devotees = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-						->whereNull('member_id')
-						->whereNull('deceased_year')
+								->whereNull('member_id')
+								->whereNull('deceased_year')
         				->select('devotee.*')
         				->addSelect('familycode.familycode')->get();
 
 		$members = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-						->whereNotNull('member_id')
-						->whereNull('deceased_year')
-						->orderBy('devotee_id', 'asc')
+								->whereNotNull('member_id')
+								->whereNull('deceased_year')
+								->orderBy('devotee_id', 'asc')
         				->select('devotee.*')
         				->addSelect('familycode.familycode')->get();
 
-        $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-						->whereNotNull('deceased_year')
-						->orderBy('devotee_id', 'asc')
-        				->select('devotee.*')
-        				->addSelect('familycode.familycode')->get();
+  	$deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+											->whereNotNull('deceased_year')
+											->orderBy('devotee_id', 'asc')
+					        		->select('devotee.*')
+					        		->addSelect('familycode.familycode')->get();
 
 		$input = Input::except('_token');
 
+		dd($input);
+
 		$devotee = new Devotee;
 
-        $focus_devotee = $devotee->focusDevotee($input)->get();
+    $focus_devotee = $devotee->focusDevotee($input)->get();
 
-				if(count($focus_devotee) == 0)
-				{
-					$request->session()->flash('error', 'There has no record. Please search again.');
-					return redirect()->back()->withInput();
-				}
+		if(count($focus_devotee) == 0)
+		{
+			$request->session()->flash('error', 'There has no record. Please search again.');
+			return redirect()->back()->withInput();
+		}
 
-				elseif(count($focus_devotee) > 1)
-				{
-					$request->session()->flash('error', 'There has more than one record. Please search with more details.');
-					return redirect()->back()->withInput();
-				}
+		elseif(count($focus_devotee) > 1)
+		{
+			$request->session()->flash('error', 'There has more than one record. Please search with more details.');
+			return redirect()->back()->withInput();
+		}
 
 				else {
 					// Get Devotee Lists for relocation
