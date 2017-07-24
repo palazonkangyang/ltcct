@@ -57,7 +57,6 @@ class OperatorController extends Controller
         ]);
 	}
 
-
 	// Get Search Family Code
 	public function getSearchFamilyCode(Request $request)
 	{
@@ -72,12 +71,10 @@ class OperatorController extends Controller
         ));
 	}
 
-
 	// Get Devotee Detail
 	public function getDevoteeDetail(Request $request)
 	{
 		$devotee_id = $_GET['devotee_id'];
-		// $devotee_id = 17;
 
 		$devotee = Devotee::find($devotee_id);
 		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
@@ -127,6 +124,35 @@ class OperatorController extends Controller
 		));
 	}
 
+
+	public function getFocusDevoteeDetail(Request $request)
+	{
+		$devotee_id = $_GET['devotee_id'];
+
+		$devotee = Devotee::find($devotee_id);
+
+		if($devotee->member_id)
+		{
+			$member = Member::find($member_id);
+		}
+
+		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
+		$optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
+		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
+
+		// remove session data
+		if(Session::has('focus_devotee'))
+		{
+		  Session::forget('focus_devotee');
+		}
+
+		Session::put('focus_devotee', $focus_devotee);
+		Session::put('member', $member);
+		Session::put('optionaladdresses', $optionaladdresses);
+		Session::put('optionalvehicles', $optionalvehicles);
+
+		return response()->json(['responseText' => 'success']);
+	}
 
 	// Add New Devotee
 	public function postAddDevotee(Request $request)

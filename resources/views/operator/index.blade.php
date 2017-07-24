@@ -2118,20 +2118,20 @@
                     devotee_id: devotee_id
                 };
 
-                // $.ajax({
-                //     type: 'GET',
-                //     url: "/operator/fixedFocusDevotee",
-                //     data: formData,
-                //     dataType: 'json',
-                //     success: function(response)
-                //     {
-								//
-                //     },
-								//
-                //     error: function (response) {
-                //         console.log(response);
-                //     }
-                // });
+                $.ajax({
+                    type: 'GET',
+                    url: "/operator/getFocusDevoteeDetail",
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response)
+                    {
+
+                    },
+
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
 
             });
 
