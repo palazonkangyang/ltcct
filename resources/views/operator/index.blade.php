@@ -2112,6 +2112,8 @@
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
 
+											alert(JSON.stringify(response.optionaladdresses));
+
 											$.each(response.devotee, function(index, data) {
 
 												$("#edit_chinese_name").val(data.chinese_name);
