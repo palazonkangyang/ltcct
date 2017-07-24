@@ -10,6 +10,137 @@
 
                 @endphp
 
+            @if(count($focus_devotee) > 1)
+
+            <div class="row" id="no_session">
+
+                <div class="col-md-12">
+                    <h4>Focus Devotee 焦点善信</h4>
+                </div><!-- end col-md-12 -->
+
+            </div><!-- end row -->
+
+            <div class="row">
+
+              <div class="col-md-3">
+
+                <div class="form-group">
+                  <label>By Person</label>
+                </div><!-- end form-group -->
+
+              </div><!-- end col-md-3 -->
+
+              <div class="col-md-9">
+
+                <div class="form-group">
+                  <label>Name (in Chinese)</label>
+                  <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}">
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                  <label>Devotee ID</label>
+                  <input type="text" class="form-control" name="devotee_id" value="{{ old('devotee_id') }}">
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                  <label>Member ID</label>
+                  <input type="text" class="form-control" name="member_id" value="{{ old('member_id') }}">
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                  <label>Bridging ID</label>
+                  <input type="text" class="form-control" name="bridging_id" value="{{ old('bridging_id') }}">
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                  <label>Family Code</label>
+                  <input type="text" class="form-control" name="familycode" value="{{ old('familycode') }}">
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                  <label>NRIC No</label>
+                  <input type="text" class="form-control" name="nric" value="{{ old('nric') }}">
+                </div><!-- end form-group -->
+
+              </div><!-- end col-md-9 -->
+
+            </div><!-- end row -->
+
+            <div class="row">
+
+              <div class="col-md-3">
+
+                <div class="form-group">
+                  <label>By Address</label>
+                </div><!-- end form-group -->
+
+              </div><!-- end col-md-3 -->
+
+              <div class="col-md-9">
+
+                <div class="form-group">
+                  <label>Street Name</label>
+                  <input type="text" class="form-control" name="address_street" value="{{ old('address_street') }}">
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                  <label>House/ Block No</label>
+                  <input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}">
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                  <label>Unit</label>
+
+                  <div class="clearfix">
+                  </div>
+
+                  <div class="col-md-12">
+
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
+                    </div><!-- end col-md-6 -->
+
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">
+                    </div><!-- end col-md-6 -->
+
+                  </div><!-- end col-md-12 -->
+
+                  <div class="clearfix">
+                  </div>
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                  <label>Postal Code</label>
+                  <input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}">
+                </div><!-- end form-group -->
+
+              </div><!-- end col-md-9 -->
+
+            </div><!-- end row -->
+
+            <div class="row">
+
+              <div class="col-md-3">
+
+                <div class="form-group">
+                  <label>By Contact</label>
+                </div><!-- end form-group -->
+
+              </div><!-- end col-md-3 -->
+
+              <div class="col-md-9">
+
+                <div class="form-group">
+                  <label>Phone No</label>
+                  <input type="text" class="form-control" name="contact" value="{{ old('contact') }}">
+                </div><!-- end form-group -->
+
+              </div><!-- end col-md-9 -->
+            </div><!-- end row -->
+
+            @else
+
             <div class="row" id="has_session">
 
                 <div class="col-md-12">
@@ -30,7 +161,6 @@
                                 <label class="col-md-12">Member ID : <span id="member_id">{{ $focus_devotee[0]->member_id }}</span></label>
                             </div><!-- end form-group -->
 
-
                         </div><!-- end col-md-6 -->
 
                         <div class="col-md-6">
@@ -49,11 +179,6 @@
                 </div><!-- end col-md-12 -->
 
             </div><!-- end row -->
-
-            <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
-                action="{{ URL::to('/operator/focus-devotee') }}">
-
-                {!! csrf_field() !!}
 
             <div class="row">
 
@@ -248,6 +373,8 @@
 
             </div><!-- end row -->
 
+            @endif
+
             @else
 
             <div class="row" id="no_session">
@@ -258,153 +385,152 @@
 
             </div><!-- end row -->
 
-            <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
-                action="{{ URL::to('/operator/focus-devotee') }}">
+            <div class="row">
 
-                {!! csrf_field() !!}
+              <div class="col-md-3">
 
-                <div class="row">
+                <div class="form-group">
+                  <label>By Person</label>
+                </div><!-- end form-group -->
 
-                    <div class="col-md-3">
+              </div><!-- end col-md-3 -->
 
-                        <div class="form-group">
-                            <label>By Person</label>
-                        </div><!-- end form-group -->
+              <div class="col-md-9">
 
-                    </div><!-- end col-md-3 -->
+                <div class="form-group">
+                  <label>Name (in Chinese)</label>
+                  <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}">
+                </div><!-- end form-group -->
 
-                    <div class="col-md-9">
+                <div class="form-group">
+                  <label>Devotee ID</label>
+                  <input type="text" class="form-control" name="devotee_id" value="{{ old('devotee_id') }}">
+                </div><!-- end form-group -->
 
-                        <div class="form-group">
-                            <label>Name (in Chinese)</label>
-                            <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}">
-                        </div><!-- end form-group -->
+                <div class="form-group">
+                  <label>Member ID</label>
+                  <input type="text" class="form-control" name="member_id" value="{{ old('member_id') }}">
+                </div><!-- end form-group -->
 
-                        <div class="form-group">
-                            <label>Devotee ID</label>
-                            <input type="text" class="form-control" name="devotee_id" value="{{ old('devotee_id') }}">
-                        </div><!-- end form-group -->
+                <div class="form-group">
+                  <label>Bridging ID</label>
+                  <input type="text" class="form-control" name="bridging_id" value="{{ old('bridging_id') }}">
+                </div><!-- end form-group -->
 
-                        <div class="form-group">
-                            <label>Member ID</label>
-                            <input type="text" class="form-control" name="member_id" value="{{ old('member_id') }}">
-                        </div><!-- end form-group -->
+                <div class="form-group">
+                  <label>Family Code</label>
+                  <input type="text" class="form-control" name="familycode" value="{{ old('familycode') }}">
+                </div><!-- end form-group -->
 
-                        <div class="form-group">
-                            <label>Bridging ID</label>
-                            <input type="text" class="form-control" name="bridging_id" value="{{ old('bridging_id') }}">
-                        </div><!-- end form-group -->
+                <div class="form-group">
+                  <label>NRIC No</label>
+                  <input type="text" class="form-control" name="nric" value="{{ old('nric') }}">
+                </div><!-- end form-group -->
 
-                        <div class="form-group">
-                            <label>Family Code</label>
-                            <input type="text" class="form-control" name="familycode" value="{{ old('familycode') }}">
-                        </div><!-- end form-group -->
+              </div><!-- end col-md-9 -->
 
-                        <div class="form-group">
-                            <label>NRIC No</label>
-                            <input type="text" class="form-control" name="nric" value="{{ old('nric') }}">
-                        </div><!-- end form-group -->
+            </div><!-- end row -->
 
-                    </div><!-- end col-md-9 -->
+            <div class="row">
 
-                </div><!-- end row -->
+              <div class="col-md-3">
 
-                <div class="row">
+                <div class="form-group">
+                  <label>By Address</label>
+                </div><!-- end form-group -->
 
-                    <div class="col-md-3">
+              </div><!-- end col-md-3 -->
 
-                        <div class="form-group">
-                            <label>By Address</label>
-                        </div><!-- end form-group -->
+              <div class="col-md-9">
 
-                    </div><!-- end col-md-3 -->
+                <div class="form-group">
+                  <label>Street Name</label>
+                  <input type="text" class="form-control" name="address_street" value="{{ old('address_street') }}">
+                </div><!-- end form-group -->
 
-                    <div class="col-md-9">
+                <div class="form-group">
+                  <label>House/ Block No</label>
+                  <input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}">
+                </div><!-- end form-group -->
 
-                        <div class="form-group">
-                            <label>Street Name</label>
-                            <input type="text" class="form-control" name="address_street" value="{{ old('address_street') }}">
-                        </div><!-- end form-group -->
+                <div class="form-group">
+                  <label>Unit</label>
 
-                        <div class="form-group">
-                            <label>House/ Block No</label>
-                            <input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}">
-                        </div><!-- end form-group -->
+                  <div class="clearfix">
+                  </div>
 
-                        <div class="form-group">
-                            <label>Unit</label>
+                  <div class="col-md-12">
 
-                            <div class="clearfix">
-                            </div>
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
+                    </div><!-- end col-md-6 -->
 
-                            <div class="col-md-6">
-                              <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
-                            </div>
-                            <div class="col-md-6">
-                              <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">
-                            </div>
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">
+                    </div><!-- end col-md-6 -->
 
-                            <div class="clearfix">
-                            </div>
-                        </div><!-- end form-group -->
+                  </div><!-- end col-md-12 -->
 
-                        <div class="form-group">
-                            <label>Postal Code</label>
-                            <input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}">
-                        </div><!-- end form-group -->
+                  <div class="clearfix">
+                  </div>
+                </div><!-- end form-group -->
 
-                    </div><!-- end col-md-9 -->
+                <div class="form-group">
+                  <label>Postal Code</label>
+                  <input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}">
+                </div><!-- end form-group -->
 
-                </div><!-- end row -->
+              </div><!-- end col-md-9 -->
 
-                <div class="row">
+            </div><!-- end row -->
 
-                    <div class="col-md-3">
+            <div class="row">
 
-                        <div class="form-group">
-                            <label>By Contact</label>
-                        </div><!-- end form-group -->
+              <div class="col-md-3">
 
-                    </div><!-- end col-md-3 -->
+                <div class="form-group">
+                  <label>By Contact</label>
+                </div><!-- end form-group -->
 
-                    <div class="col-md-9">
+              </div><!-- end col-md-3 -->
 
-                        <div class="form-group">
-                            <label>Phone No</label>
-                            <input type="text" class="form-control" name="contact" value="{{ old('contact') }}">
-                        </div><!-- end form-group -->
+              <div class="col-md-9">
 
-                    </div><!-- end col-md-9 -->
+                <div class="form-group">
+                  <label>Phone No</label>
+                  <input type="text" class="form-control" name="contact" value="{{ old('contact') }}">
+                </div><!-- end form-group -->
 
-                </div><!-- end row -->
+              </div><!-- end col-md-9 -->
+            </div><!-- end row -->
 
             @endif
 
-            <div class="col-md-6">
+            <div class="col-md-12">
+              <div class="col-md-6">
 
-              <div class="form-group">
-               <button type="submit" class="btn default" style="margin-right: 25px;" id="quick_search">Quick Search
-               </button>
-              </div><!-- end form-group -->
+                <div class="form-group">
+                 <button type="submit" class="btn default" style="margin-right: 25px;" id="quick_search">Quick Search
+                 </button>
+                </div><!-- end form-group -->
 
-            </div><!-- end col-md-6 -->
+              </div><!-- end col-md-6 -->
 
-            </form>
+              <div class="col-md-6">
 
-            <div class="col-md-6">
+                <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
+                    action="{{ URL::to('/operator/devotee/new-search') }}">
 
-              <form class="form-horizontal form-bordered" id="focus_devotee_form" method="post"
-                  action="{{ URL::to('/operator/devotee/new-search') }}">
+                    {!! csrf_field() !!}
 
-                  {!! csrf_field() !!}
+                <div class="form-group">
+                    <button type="submit" class="btn default" id="new_search" style="width: 100px;">Reset</button>
+                </div>
 
-              <div class="form-group">
-                  <button type="submit" class="btn default" id="new_search" style="width: 100px;">Reset</button>
-              </div>
+                </form>
 
-              </form>
-
-            </div><!-- end col-md-6 -->
+              </div><!-- end col-md-6 -->
+            </div><!-- end col-md-12 -->
 
             <div class="clearfix">
             </div><!-- end clearfix -->
