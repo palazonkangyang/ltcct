@@ -142,10 +142,10 @@ class OperatorController extends Controller
 		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
 
 		// remove session data
-		if(Session::has('focus_devotee'))
-		{
-		  Session::forget('focus_devotee');
-		}
+		// if(Session::has('focus_devotee'))
+		// {
+		//   Session::forget('focus_devotee');
+		// }
 
 		Session::put('focus_devotee', $focus_devotee);
 		Session::put('member', $member);
