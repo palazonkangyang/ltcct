@@ -2093,8 +2093,6 @@
 
 						$("#search_table").on('click','.search-devotee',function(e) {
 
-								location.reload();
-
 								$("#search").removeClass("active");
 								$("#edit").addClass("active");
 
@@ -2112,6 +2110,7 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
+											location.reload();
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
