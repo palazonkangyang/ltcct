@@ -2113,8 +2113,8 @@
 											alert(JSON.stringify(response));
 
 											$.each(response, function(index) {
-						            alert(response[devotee].chinese_name);
-						            alert(response[devotee].english_name);
+						            alert(response[index].chinese_name);
+						            alert(response[index].english_name);
 						        });
 
 											$("#special_remark").empty();
