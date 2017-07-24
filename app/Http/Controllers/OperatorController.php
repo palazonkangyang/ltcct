@@ -149,7 +149,7 @@ class OperatorController extends Controller
 
 	  return response()->json(array(
 	    'devotee' => $devotee,
-	    'member' => $member,
+	    // 'member' => $member,
 	    'optionaladdresses' => $optionaladdresses,
 	    'optionalvehicles' => $optionalvehicles,
 	    'specialRemarks' => $specialRemarks
