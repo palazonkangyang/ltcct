@@ -7,7 +7,6 @@
             @php
 
                 $focus_devotee = Session::get('focus_devotee');
-                dd($focus_devotee);
 
             @endphp
 
