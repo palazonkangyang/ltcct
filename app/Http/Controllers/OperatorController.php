@@ -155,10 +155,7 @@ class OperatorController extends Controller
 		// $json = ['responseText' => 'success'];
 
 		return response()->json(array(
-			'devotee' => $devotee,
-			// 'optionaladdresses' => $optionaladdresses,
-			// 'optionalvehicles' => $optionalvehicles,
-			// 'specialRemarks' => $specialRemarks
+			'devotee' => $devotee
 		));
 	}
 
