@@ -2,6 +2,15 @@
 
 @section('main-content')
 
+@php
+
+	$optionaladdresses = Session::get('optionaladdresses');
+	dd($optionaladdresses);
+
+
+
+@endphp
+
 	<div class="page-container-fluid">
 
         <div class="page-content-wrapper">
