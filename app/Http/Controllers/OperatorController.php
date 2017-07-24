@@ -128,7 +128,7 @@ class OperatorController extends Controller
 	public function getFocusDevoteeDetail(Request $request)
 	{
 		// $devotee_id = $_GET['devotee_id'];
-		$devotee_id = 4;
+		$devotee_id = 8;
 
 		$devotee = Devotee::find($devotee_id);
 
