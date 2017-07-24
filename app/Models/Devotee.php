@@ -82,7 +82,7 @@ class Devotee extends Model
         }
 
         if (\Input::get("familycode_id")) {
-            $devotee->where('familycode.familycode_id', '=', $input['familycode_id']);
+            $devotee->where('familycode.familycode', '=', $input['familycode_id']);
         }
 
         if (\Input::get("nric")) {
