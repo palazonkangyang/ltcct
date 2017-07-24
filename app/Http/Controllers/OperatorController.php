@@ -132,9 +132,9 @@ class OperatorController extends Controller
 
 		$devotee = Devotee::find($devotee_id);
 
-		// $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
-		// $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
-		// $specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
+		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
+		$optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
+		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
 
 		// remove session data
 		// if(Session::has('focus_devotee'))
@@ -151,9 +151,9 @@ class OperatorController extends Controller
 
 		return response()->json(array(
 			'devotee' => $devotee,
-			// 'optionaladdresses' => $optionaladdresses,
-			// 'optionalvehicles' => $optionalvehicles,
-			// 'specialRemarks' => $specialRemarks
+			'optionaladdresses' => $optionaladdresses,
+			'optionalvehicles' => $optionalvehicles,
+			'specialRemarks' => $specialRemarks
 		));
 	}
 
