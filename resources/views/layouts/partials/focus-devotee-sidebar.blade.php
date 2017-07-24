@@ -297,7 +297,7 @@
 
                         <div class="form-group">
                             <label>Family Code</label>
-                            <input type="text" class="form-control" name="familycode_id" value="{{ old('familycode_id') }}">
+                            <input type="text" class="form-control" name="familycode" value="{{ old('familycode') }}">
                         </div><!-- end form-group -->
 
                         <div class="form-group">
@@ -377,7 +377,6 @@
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end row -->
-
 
             @endif
 
