@@ -2093,6 +2093,8 @@
 
 						$("#search_table").on('click','.search-devotee',function(e) {
 
+								location.reload();
+
 								$("#search").removeClass("active");
 								$("#edit").addClass("active");
 
@@ -2110,7 +2112,6 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
-											alert(JSON.stringify(response));
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
@@ -2138,6 +2139,10 @@
 												$("#edit_nationality").val(data.nationality);
 												$("#edit_familycode_id").val(data.familycode_id);
 												$("#edit_member_id").val(data.member_id);
+												$("#edit_introduced_by1").val(data.introduced_by1);
+												$("#edit_introduced_by2").val(data.introduced_by2);
+												$("#edit_approved_date").val(data.approved_date);
+
 											});
 						       	},
 
