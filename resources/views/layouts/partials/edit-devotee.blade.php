@@ -342,12 +342,12 @@
 
 								<div class='form-group'>
 
-									<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
+									<label class='col-md-3 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
 
 									<div class='col-md-3'>
 
 										<select class='form-control' name='vehicle_type[]'>
-											<option value="home" <?php if ($optVehicle->type == "car") echo "selected"; ?>>Home</option>
+											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>Home</option>
 											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>Company</option>
 										</select>
 
