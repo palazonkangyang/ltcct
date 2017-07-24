@@ -2111,12 +2111,12 @@
 						        success: function(response)
 						        {
 											alert(JSON.stringify(response));
-											
+
 											$("#special_remark").empty();
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
 
-											$("#edit_devotee_id").val(response.devotee['devotee_id']);
+											$("#edit_devotee_id").val(response.devotee[0]['devotee_id']);
 											$("#edit_chinese_name").val(response.devotee['chinese_name']);
 											$("#edit_english_name").val(response.devotee['english_name']);
 											$("#edit_contact").val(response.devotee['contact']);
