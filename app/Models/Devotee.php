@@ -78,7 +78,7 @@ class Devotee extends Model
         }
 
         if (\Input::get("member_id")) {
-            $devotee->where('member_id', '=', $input['member_id']);
+            $devotee->where('devotee.member_id', '=', $input['member_id']);
         }
 
         if (\Input::get("familycode")) {
