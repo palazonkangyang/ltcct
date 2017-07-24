@@ -1983,12 +1983,11 @@
 						        success: function(response)
 						        {
 											location.reload();
+											console.log(response.devotee);
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
-
-											alert(JSON.stringify(response.devotee));
 
 											$.each(response.devotee, function(index, data) {
 
@@ -2110,12 +2109,11 @@
 						        success: function(response)
 						        {
 											location.reload();
-											
+											console.log(response.devotee);
+
 											$("#special_remark").empty();
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
-
-											alert(JSON.stringify(response.optionaladdresses));
 
 											$.each(response.devotee, function(index, data) {
 
