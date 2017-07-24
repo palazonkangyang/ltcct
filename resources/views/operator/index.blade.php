@@ -1975,6 +1975,8 @@
 						        devotee_id: devotee_id
 						    };
 
+								location.reload();
+
 						    $.ajax({
 						        type: 'GET',
 						        url: "/operator/getFocusDevoteeDetail",
@@ -1982,7 +1984,6 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
-											location.reload();
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
