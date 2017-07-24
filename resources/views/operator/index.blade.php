@@ -2120,25 +2120,8 @@
 
 												$("#edit_chinese_name").val(data.chinese_name);
 												$("#edit_english_name").val(data.english_name);
-												$("#edit_contact").val(data.devotee['contact']);
-												$("#edit_guiyi_name").val(data.devotee['guiyi_name']);
-												$("#edit_address_houseno").val(data.devotee['address_houseno']);
-												$("#edit_address_unit1").val(data.devotee['address_unit1']);
-												$("#edit_address_unit2").val(data.devotee['address_unit2']);
-												$("#edit_address_street").val(data.devotee['address_street']);
-												$("#edit_address_building").val(data.devotee['address_building']);
-												$("#edit_address_postal").val(data.devotee['address_postal']);
-												$("#edit_address_translate").val(data.devotee['address_translate']);
-												$("#edit_oversea_addr_in_china").val(data.devotee['oversea_addr_in_chinese']);
-												$("#edit_nric").val(data.devotee['nric']);
-												$("#edit_deceased_year").val(data.devotee['deceased_year']);
-												$("#edit_dob").val(data.devotee['dob']);
-												$("#edit_marital_status").val(data.devotee['marital_status']);
-												$("#edit_dialect").val(data.devotee['dialect']);
-												$("#edit_nationality").val(data.devotee['nationality']);
-												$("#edit_familycode_id").val(data.devotee['familycode_id']);
-												$("#edit_member_id").val(data.devotee['member_id']);
-						        	},
+											});
+						       	},
 
 						        error: function (response) {
 						            console.log(response);
