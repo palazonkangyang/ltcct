@@ -1518,6 +1518,34 @@
             }
         	}
 
+					$("#search_table").on('click','.search-devotee',function(e) {
+
+					    var devotee_id = $(this).attr("id");
+
+					    alert(devotee_id);
+
+					    var formData = {
+					        _token: $('meta[name="csrf-token"]').attr('content'),
+					        devotee_id: devotee_id
+					    };
+
+					    $.ajax({
+					        type: 'GET',
+					        url: "/operator/getFocusDevoteeDetail",
+					        data: formData,
+					        dataType: 'json',
+					        success: function(response)
+					        {
+										console.log(response);
+					        },
+
+					        error: function (response) {
+					            console.log(response);
+					        }
+					    });
+
+					});
+
             var opt_address;
 
             $('.deceased_year').datepicker({
