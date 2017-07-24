@@ -1522,8 +1522,6 @@
 
 					    var devotee_id = $(this).attr("id");
 
-					    alert(devotee_id);
-
 					    var formData = {
 					        _token: $('meta[name="csrf-token"]').attr('content'),
 					        devotee_id: devotee_id
@@ -1536,6 +1534,7 @@
 					        dataType: 'json',
 					        success: function(response)
 					        {
+										location.reload();
 										console.log(response);
 					        },
 
