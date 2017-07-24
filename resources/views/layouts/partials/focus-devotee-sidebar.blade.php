@@ -304,7 +304,7 @@
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="dob" id="dob"
-                              value="{{ \Carbon\Carbon::parse($focus_devotee[0]->dob)->format("d/m/Y") }}">
+                              value="{{ $focus_devotee[0]->dob }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
 
