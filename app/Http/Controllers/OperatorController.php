@@ -727,6 +727,11 @@ class OperatorController extends Controller
 		if(count($focus_devotee) > 1)
 		{
 			$request->session()->flash('error', 'There has more than one record. Please search with more details.');
+			return redirect()->back()->withInput()->with([
+				'members' => $members,
+				'devotees' => $devotees,
+				'deceased_lists' => $deceased_lists,
+			]);
 		}
 
 		return redirect()->back()->with([
