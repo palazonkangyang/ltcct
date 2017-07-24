@@ -317,7 +317,7 @@
 									</div><!-- end col-md-3 -->
 
 									<div class='col-md-5'>
-										<input type="text" class="" name="vehicle_data[]" value="{{ $optAddress->data }}">
+										<input type="text" class="form-group" name="vehicle_data[]" value="{{ $optAddress->data }}">
 									</div><!-- end col-md-5 -->
 
 								</div><!-- end form-group -->
