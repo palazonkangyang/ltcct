@@ -128,7 +128,11 @@ class OperatorController extends Controller
 	{
 	  $devotee_id = $_GET['devotee_id'];
 
-	  $devotee = Devotee::where('devotee_id', $devotee_id)->get();
+	  $devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id');
+							 ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
+							 ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date')
+							 ->where('devotee.devotee_id', $devotee_id)
+							 ->get();
 
 	  if(isset($devotee->member_id))
 	  {
