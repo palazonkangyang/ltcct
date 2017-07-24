@@ -146,9 +146,6 @@ class OperatorController extends Controller
 
 	  Session::put('focus_devotee', $devotee);
 
-		$devotee[0]->dob = Carbon::parse($devotee[0]->dob)->format("d/m/Y");
-		$devotee[0]->approved_date = Carbon::parse($devotee[0]->approved_date)->format("d/m/Y");
-
 	  return response()->json(array(
 	    'devotee' => $devotee,
 	    'optionaladdresses' => $optionaladdresses,
