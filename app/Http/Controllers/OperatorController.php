@@ -57,6 +57,7 @@ class OperatorController extends Controller
         ]);
 	}
 
+
 	// Get Search Family Code
 	public function getSearchFamilyCode(Request $request)
 	{
@@ -71,10 +72,12 @@ class OperatorController extends Controller
         ));
 	}
 
+
 	// Get Devotee Detail
 	public function getDevoteeDetail(Request $request)
 	{
 		$devotee_id = $_GET['devotee_id'];
+		// $devotee_id = 17;
 
 		$devotee = Devotee::find($devotee_id);
 		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
@@ -124,8 +127,6 @@ class OperatorController extends Controller
 		));
 	}
 
-
-	
 
 	// Add New Devotee
 	public function postAddDevotee(Request $request)
