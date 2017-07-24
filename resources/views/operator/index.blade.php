@@ -2,6 +2,14 @@
 
 @section('main-content')
 
+@php
+
+	$optionaladdresses = Session::get('optionaladdresses');
+
+	dd($optionaladdresses);
+
+@endphp
+
 	<div class="page-container-fluid">
 
         <div class="page-content-wrapper">
@@ -1961,9 +1969,7 @@
 
             });
 
-            $("#members_table").on('click','#edit-member',function(e) {
-
-							location.reload();
+            $("#members_table").on('click','#edit-member',function(e) {\
 
 							$("#edit-familycode-table tbody").empty();
 							$('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
@@ -1986,6 +1992,8 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
+
+
 
 											localStorage.setItem('optionaladdresses', JSON.stringify(response.optionaladdresses));
 

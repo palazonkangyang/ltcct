@@ -140,7 +140,7 @@ class OperatorController extends Controller
 		{
 			$devotee[0]->approved_date = Carbon::parse($devotee[0]->approved_date)->format("d/m/Y");
 		}
-		
+
 	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 	  $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
 	  $specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
@@ -152,6 +152,7 @@ class OperatorController extends Controller
 	  }
 
 	  Session::put('focus_devotee', $devotee);
+		Session::put('optionaladdresses', $optionaladdresses);
 
 	  return response()->json(array(
 	    'devotee' => $devotee,
