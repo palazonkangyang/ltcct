@@ -395,6 +395,33 @@
 
                 </div><!-- end form-group -->
 
+								@if(Session::has('specialRemarks'))
+
+								@php
+
+									$specialRemarks = Session::get('specialRemarks');
+
+								@endphp
+
+								@foreach($specialRemarks as $specialRemark)
+
+								<div class='form-group'>
+
+									<label class='col-md-3 control-label'>Special Remarks</label><!-- end col-md-3 -->
+
+									<div class='col-md-8'>
+										<input type="text" class="form-control" name="special_remark[]" value="{{ $specialRemark->data }}">
+									</div><!-- end col-md-8 -->
+
+									<div class='col-md-1'>
+										<i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i>
+									</div><!-- end col-md-1 -->
+
+								</div><!-- end form-group -->
+
+								@endforeach
+								@endif
+
                 <div id="special_remark">
                 </div><!-- end special_remark -->
 
