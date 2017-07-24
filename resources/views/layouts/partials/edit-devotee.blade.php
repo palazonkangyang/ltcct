@@ -347,6 +347,7 @@
 								@php
 
 									$optionalvehicles = Session::get('optionalvehicles');
+									dd($optionalvehicles);
 
 								@endphp
 
