@@ -2112,37 +2112,35 @@
 						        {
 											alert(JSON.stringify(response));
 
-											$.each(response, function(index) {
-						            alert(response[index].chinese_name);
-						            alert(response[index].english_name);
-						        });
-
 											$("#special_remark").empty();
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
 
+											$.each(response.devotee, function(index, data) {
 
-											$("#edit_chinese_name").val(response.devotee['chinese_name']);
-											$("#edit_english_name").val(response.devotee['english_name']);
-											$("#edit_contact").val(response.devotee['contact']);
-											$("#edit_guiyi_name").val(response.devotee['guiyi_name']);
-											$("#edit_address_houseno").val(response.devotee['address_houseno']);
-											$("#edit_address_unit1").val(response.devotee['address_unit1']);
-											$("#edit_address_unit2").val(response.devotee['address_unit2']);
-											$("#edit_address_street").val(response.devotee['address_street']);
-											$("#edit_address_building").val(response.devotee['address_building']);
-											$("#edit_address_postal").val(response.devotee['address_postal']);
-											$("#edit_address_translate").val(response.devotee['address_translate']);
-											$("#edit_oversea_addr_in_china").val(response.devotee['oversea_addr_in_chinese']);
-											$("#edit_nric").val(response.devotee['nric']);
-											$("#edit_deceased_year").val(response.devotee['deceased_year']);
-											$("#edit_dob").val(response.devotee['dob']);
-											$("#edit_marital_status").val(response.devotee['marital_status']);
-											$("#edit_dialect").val(response.devotee['dialect']);
-											$("#edit_nationality").val(response.devotee['nationality']);
-											$("#edit_familycode_id").val(response.devotee['familycode_id']);
-											$("#edit_member_id").val(response.devotee['member_id']);
-						        },
+												$("#edit_chinese_name").val(data.devotee['chinese_name']);
+
+												$("#edit_chinese_name").val(data.devotee['chinese_name']);
+												$("#edit_english_name").val(data.devotee['english_name']);
+												$("#edit_contact").val(data.devotee['contact']);
+												$("#edit_guiyi_name").val(data.devotee['guiyi_name']);
+												$("#edit_address_houseno").val(data.devotee['address_houseno']);
+												$("#edit_address_unit1").val(data.devotee['address_unit1']);
+												$("#edit_address_unit2").val(data.devotee['address_unit2']);
+												$("#edit_address_street").val(data.devotee['address_street']);
+												$("#edit_address_building").val(data.devotee['address_building']);
+												$("#edit_address_postal").val(data.devotee['address_postal']);
+												$("#edit_address_translate").val(data.devotee['address_translate']);
+												$("#edit_oversea_addr_in_china").val(data.devotee['oversea_addr_in_chinese']);
+												$("#edit_nric").val(data.devotee['nric']);
+												$("#edit_deceased_year").val(data.devotee['deceased_year']);
+												$("#edit_dob").val(data.devotee['dob']);
+												$("#edit_marital_status").val(data.devotee['marital_status']);
+												$("#edit_dialect").val(data.devotee['dialect']);
+												$("#edit_nationality").val(data.devotee['nationality']);
+												$("#edit_familycode_id").val(data.devotee['familycode_id']);
+												$("#edit_member_id").val(data.devotee['member_id']);
+						        	},
 
 						        error: function (response) {
 						            console.log(response);
