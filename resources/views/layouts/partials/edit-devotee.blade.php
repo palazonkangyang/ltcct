@@ -291,7 +291,7 @@
                 <div id="opt_address">
                 </div><!-- end opt_address -->
 
-								@if(Session::has('focus_devotee'))
+								@if(Session::has('optionaladdresses'))
 
 								@php
 
@@ -307,17 +307,17 @@
 
 									<div class='col-md-3'>
 
-										<select class='form-control' name='vehicle_type[]'>
-											<option value="home" <?php if ($optAddress->data == "home") echo "selected"; ?>>Home</option>
-											<option value="company" <?php if ($optAddress->data == "company") echo "selected"; ?>>Company</option>
-											<option value="stall" <?php if ($optAddress->data == "stall") echo "selected"; ?>>Stall</option>
-											<option value="office" <?php if ($optAddress->data == "office") echo "selected"; ?>>Office</option>
+										<select class='form-control' name='address_type[]'>
+											<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>Home</option>
+											<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>Company</option>
+											<option value="stall" <?php if ($optAddress->type == "stall") echo "selected"; ?>>Stall</option>
+											<option value="office" <?php if ($optAddress->type == "office") echo "selected"; ?>>Office</option>
 										</select>
 
 									</div><!-- end col-md-3 -->
 
 									<div class='col-md-5'>
-										<input type="text" class="form-control" name="vehicle_data[]" value="{{ $optAddress->data }}">
+										<input type="text" class="form-control" name="address_data[]" value="{{ $optAddress->data }}">
 									</div><!-- end col-md-5 -->
 
 									<div class='col-md-1'>
@@ -327,7 +327,43 @@
 								</div><!-- end form-group -->
 
 								@endforeach
+								@endif
 
+
+								@if(Session::has('optionalvehicles'))
+
+								@php
+
+									$optionalvehicles = Session::get('optionalvehicles');
+
+								@endphp
+
+								@foreach($optionalvehicles as $optVehicle)
+
+								<div class='form-group'>
+
+									<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
+
+									<div class='col-md-3'>
+
+										<select class='form-control' name='vehicle_type[]'>
+											<option value="home" <?php if ($optVehicle->type == "car") echo "selected"; ?>>Home</option>
+											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>Company</option>
+										</select>
+
+									</div><!-- end col-md-3 -->
+
+									<div class='col-md-5'>
+										<input type="text" class="form-control" name="vehicle_data[]" value="{{ $optVehicle->data }}">
+									</div><!-- end col-md-5 -->
+
+									<div class='col-md-1'>
+										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
+									</div><!-- end col-md-1 -->
+
+								</div><!-- end form-group -->
+
+								@endforeach
 								@endif
 
 
