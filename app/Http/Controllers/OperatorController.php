@@ -135,8 +135,12 @@ class OperatorController extends Controller
 							 ->get();
 
 		$devotee[0]->dob = Carbon::parse($devotee[0]->dob)->format("d/m/Y");
-		$devotee[0]->approved_date = Carbon::parse($devotee[0]->approved_date)->format("d/m/Y");
 
+		if(isset($devotee[0]->approved_date))
+		{
+			$devotee[0]->approved_date = Carbon::parse($devotee[0]->approved_date)->format("d/m/Y");
+		}
+		
 	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 	  $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
 	  $specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
