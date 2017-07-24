@@ -1122,15 +1122,6 @@
 
 																												          <table class="table table-bordered" id="search_table">
 																												              <thead>
-																												                <tr id="filter">
-																												                    <th>Chinese Name</th>
-																												                    <th>Devotee#</th>
-																												                    <th>Member#</th>
-																												                    <th>Address</th>
-																												                    <th>Unit</th>
-																												                    <th>Guiyi Name</th>
-																												                    <th>Family Code</th>
-																												                </tr>
 																												                  <tr>
 																												                      <th>Chinese Name</th>
 																												                      <th>Devotee#</th>
