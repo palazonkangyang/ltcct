@@ -359,8 +359,8 @@
 									<div class='col-md-3'>
 
 										<select class='form-control' name='vehicle_type[]'>
-											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>Home</option>
-											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>Company</option>
+											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>Car</option>
+											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>Ship</option>
 										</select>
 
 									</div><!-- end col-md-3 -->
