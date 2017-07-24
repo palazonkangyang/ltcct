@@ -95,7 +95,7 @@
                                                         <li>
                                                             <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
                                                         </li>
-																												<li>
+																												<li id="search">
                                                             <a href="#tab_searchresult" data-toggle="tab">Search Result  <br>全家搬迁</a>
                                                         </li>
                                                     </ul>
@@ -1518,33 +1518,6 @@
             }
         	}
 
-					$("#search_table").on('click','.search-devotee',function(e) {
-
-					    var devotee_id = $(this).attr("id");
-
-					    var formData = {
-					        _token: $('meta[name="csrf-token"]').attr('content'),
-					        devotee_id: devotee_id
-					    };
-
-					    $.ajax({
-					        type: 'GET',
-					        url: "/operator/getFocusDevoteeDetail",
-					        data: formData,
-					        dataType: 'json',
-					        success: function(response)
-					        {
-										location.reload();
-										console.log(response);
-					        },
-
-					        error: function (response) {
-					            console.log(response);
-					        }
-					    });
-
-					});
-
             var opt_address;
 
             $('.deceased_year').datepicker({
@@ -2134,7 +2107,35 @@
 
             });
 
+						$("#search_table").on('click','.search-devotee',function(e) {
 
+								$("#search").removeClass("active");
+								$("#edit").addClass("active");
+
+						    var devotee_id = $(this).attr("id");
+
+						    var formData = {
+						        _token: $('meta[name="csrf-token"]').attr('content'),
+						        devotee_id: devotee_id
+						    };
+
+						    $.ajax({
+						        type: 'GET',
+						        url: "/operator/getFocusDevoteeDetail",
+						        data: formData,
+						        dataType: 'json',
+						        success: function(response)
+						        {
+											location.reload();
+											console.log(response);
+						        },
+
+						        error: function (response) {
+						            console.log(response);
+						        }
+						    });
+
+						});
 
             var address_count = 2;
 
