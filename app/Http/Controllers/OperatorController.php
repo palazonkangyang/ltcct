@@ -135,7 +135,7 @@ class OperatorController extends Controller
 							 ->where('devotee.devotee_id', $devotee_id)
 							 ->get();
 
-		dd($devotee->toArray());
+		dd($devotee[0]->dob);
 
 		// $devotee->dob = Carbon::parse($devotee->dob)->format("d/m/Y");
 
