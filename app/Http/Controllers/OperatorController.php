@@ -665,11 +665,11 @@ class OperatorController extends Controller
 
 		$input = Input::except('_token');
 
-		dd($input);
-
 		$devotee = new Devotee;
 
     $focus_devotee = $devotee->focusDevotee($input)->get();
+
+		dd($focus_devotee);
 
 		if(count($focus_devotee) == 0)
 		{
