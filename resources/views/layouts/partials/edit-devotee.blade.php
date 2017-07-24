@@ -288,9 +288,6 @@
 
             <div class="col-md-6">
 
-                <div id="opt_address">
-                </div><!-- end opt_address -->
-
 								@if(Session::has('optionaladdresses'))
 
 								@php
@@ -301,7 +298,7 @@
 
 								@foreach($optionaladdresses as $optAddress)
 
-								<div class='form-group'>
+								<div class='form-group' id="opt_address">
 
 									<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
 
@@ -328,6 +325,21 @@
 
 								@endforeach
 								@endif
+
+								<div id="opt_address">
+                </div><!-- end opt_address -->
+
+								<div class="form-group">
+
+                    <div class="col-md-1"></div><!-- end col-md-1 -->
+
+                    <div class="col-md-5">
+                        <i class="fa fa-plus-circle" aria-hidden="true" id="AddressBtn"></i>
+                    </div><!-- end col-md-5 -->
+
+                    <div class="col-md-6"></div><!-- end col-md-6 -->
+
+                </div><!-- end form-group -->
 
 
 								@if(Session::has('optionalvehicles'))
@@ -365,19 +377,6 @@
 
 								@endforeach
 								@endif
-
-
-                <div class="form-group">
-
-                    <div class="col-md-1"></div><!-- end col-md-1 -->
-
-                    <div class="col-md-5">
-                        <i class="fa fa-plus-circle" aria-hidden="true" id="AddressBtn"></i>
-                    </div><!-- end col-md-5 -->
-
-                    <div class="col-md-6"></div><!-- end col-md-6 -->
-
-                </div><!-- end form-group -->
 
                 <div id="opt_vehicle">
                 </div><!-- end opt_vehicle -->
