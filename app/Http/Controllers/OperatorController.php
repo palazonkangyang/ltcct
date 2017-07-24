@@ -130,7 +130,7 @@ class OperatorController extends Controller
 		// $devotee_id = $_GET['devotee_id'];
 		$devotee_id = 4;
 
-		$devotee = Devotee::find($devotee_id);
+		$devotee = Devotee::all();
 
 		// if($devotee->member_id)
 		// {
