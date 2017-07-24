@@ -40,7 +40,7 @@
 
                             <div class="row">
 
-                                <!-- @include('layouts.partials.focus-devotee-sidebar') -->
+                                @include('layouts.partials.focus-devotee-sidebar')
 
                                 <div class="col-md-9">
 
