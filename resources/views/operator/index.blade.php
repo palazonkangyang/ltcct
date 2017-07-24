@@ -95,9 +95,6 @@
                                                         <li>
                                                             <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
                                                         </li>
-																												<li>
-                                                            <a href="#tab_searchresult" data-toggle="tab">Search Result</a>
-                                                        </li>
                                                     </ul>
 
 
