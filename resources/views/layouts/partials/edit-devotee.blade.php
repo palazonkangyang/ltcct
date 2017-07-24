@@ -290,15 +290,11 @@
 
 								@if(Session::has('optionaladdresses'))
 
-								@php
-
-									$optionaladdresses = Session::get('optionaladdresses');
-
-								@endphp
+								@php $optionaladdresses = Session::get('optionaladdresses'); @endphp
 
 								@foreach($optionaladdresses as $optAddress)
 
-								<div class='form-group' id="opt_address">
+								<div class='form-group'>
 
 									<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
 
@@ -344,11 +340,7 @@
 
 								@if(Session::has('optionalvehicles'))
 
-								@php
-
-									$optionalvehicles = Session::get('optionalvehicles');
-
-								@endphp
+								@php $optionalvehicles = Session::get('optionalvehicles'); @endphp
 
 								@foreach($optionalvehicles as $optVehicle)
 
@@ -397,11 +389,7 @@
 
 								@if(Session::has('specialRemarks'))
 
-								@php
-
-									$specialRemarks = Session::get('specialRemarks');
-
-								@endphp
+								@php $specialRemarks = Session::get('specialRemarks'); @endphp
 
 								@foreach($specialRemarks as $specialRemark)
 
