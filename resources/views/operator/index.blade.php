@@ -1990,10 +1990,6 @@
 			                var optionaladdresses = localStorage.getItem('optionaladdresses');
 											console.log(optionaladdresses);
 
-											$("#title").val(data.chinese_name);
-
-
-
 											$("#special_remark").empty();
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
