@@ -154,13 +154,7 @@ class OperatorController extends Controller
 
 		$json = ['responseText' => 'success'];
 
-		return response()->json(array(
-			'devotee' => $devotee,
-			'member' => $member,
-			'optionaladdresses' => $optionaladdresses,
-			'optionalvehicles' => $optionalvehicles,
-			'specialRemarks' => $specialRemarks
-		));
+		return response()->json($json);
 	}
 
 	// Add New Devotee
