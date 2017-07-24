@@ -1970,7 +1970,6 @@
 
                 var devotee_id = $(this).closest("tr").find('td:eq(1)').text();
 
-
 								var formData = {
 						        _token: $('meta[name="csrf-token"]').attr('content'),
 						        devotee_id: devotee_id
@@ -1987,7 +1986,7 @@
 											$("#opt_address").empty();
 											$("#opt_vehicle").empty();
 
-											alert(JSON.stringify(response.optionaladdresses));
+											alert(JSON.stringify(response.devotee));
 
 											$.each(response.devotee, function(index, data) {
 
