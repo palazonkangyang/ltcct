@@ -127,7 +127,8 @@ class OperatorController extends Controller
 
 	public function getFocusDevoteeDetail(Request $request)
 	{
-		$devotee_id = $_GET['devotee_id'];
+		// $devotee_id = $_GET['devotee_id'];
+		$devotee_id = 4;
 
 		$devotee = Devotee::find($devotee_id);
 
@@ -151,7 +152,15 @@ class OperatorController extends Controller
 		Session::put('optionaladdresses', $optionaladdresses);
 		Session::put('optionalvehicles', $optionalvehicles);
 
-		return response()->json(['responseText' => 'success']);
+		$json = ['responseText' => 'success'];
+
+		return response()->json(array(
+			'devotee' => $devotee,
+			'member' => $member,
+			'optionaladdresses' => $optionaladdresses,
+			'optionalvehicles' => $optionalvehicles,
+			'specialRemarks' => $specialRemarks
+		));
 	}
 
 	// Add New Devotee
