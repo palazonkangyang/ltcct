@@ -296,7 +296,6 @@
 								@php
 
 									$optionaladdresses = Session::get('optionaladdresses');
-									dd($optionaladdresses);
 
 								@endphp
 
