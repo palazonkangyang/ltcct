@@ -2091,8 +2091,6 @@
 
 						$("#search_table").on('click','.search-devotee',function(e) {
 
-								location.reload();
-
 								$("#search").removeClass("active");
 								$("#edit").addClass("active");
 
