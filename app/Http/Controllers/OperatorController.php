@@ -132,10 +132,10 @@ class OperatorController extends Controller
 
 		$devotee = Devotee::find($devotee_id);
 
-		if($devotee->member_id)
-		{
-			$member = Member::find($devotee->member_id);
-		}
+		// if($devotee->member_id)
+		// {
+		// 	$member = Member::find($devotee->member_id);
+		// }
 
 		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 		$optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
@@ -156,7 +156,6 @@ class OperatorController extends Controller
 
 		return response()->json(array(
 			'devotee' => $devotee,
-			'member' => $member,
 			'optionaladdresses' => $optionaladdresses,
 			'optionalvehicles' => $optionalvehicles,
 			'specialRemarks' => $specialRemarks
