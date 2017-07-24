@@ -132,6 +132,11 @@ class OperatorController extends Controller
 
 		$devotee = Devotee::find($devotee_id);
 
+		if(isset($devotee->member_id))
+		{
+			$member = Member::find($devotee->member_id);
+		}
+
 		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 		$optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
 		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
