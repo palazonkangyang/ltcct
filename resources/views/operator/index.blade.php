@@ -1145,7 +1145,7 @@
 																																			<tbody>
 																																					@foreach($focus_devotee as $fd)
 																																					<tr>
-																																							<td><a href="#" data-toggle="tab" class="edit-devotee"
+																																							<td><a href="#" data-toggle="tab" class="search-devotee"
 																																									 id="{{ $fd->devotee_id }}">{{ $fd->chinese_name }}</a></td>
 																																							<td>{{ $fd->devotee_id }}</td>
 																																							<td>{{ $fd->member_id }}</td>
@@ -2104,6 +2104,34 @@
                         console.log(response);
                     }
                 });
+
+            });
+
+						$("#search_table").on('click','.search-devotee',function(e) {
+
+                var devotee_id = $(this).attr("id");
+
+								alert(devotee_id);
+
+                var formData = {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    devotee_id: devotee_id
+                };
+
+                // $.ajax({
+                //     type: 'GET',
+                //     url: "/operator/fixedFocusDevotee",
+                //     data: formData,
+                //     dataType: 'json',
+                //     success: function(response)
+                //     {
+								//
+                //     },
+								//
+                //     error: function (response) {
+                //         console.log(response);
+                //     }
+                // });
 
             });
 
