@@ -1984,7 +1984,7 @@
 						        {
 
 
-											localStorage.setItem('optionaladdresses', response.optionaladdresses);
+											localStorage.setItem('optionaladdresses', JSON.stringify(response.optionaladdresses));
 
 			                var optionaladdresses = localStorage.getItem('optionaladdresses');
 											console.log(optionaladdresses);
