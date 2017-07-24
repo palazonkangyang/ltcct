@@ -126,7 +126,7 @@ class OperatorController extends Controller
 
 	public function getFocusDevoteeDetail(Request $request)
 	{
-	  $devotee_id = $_GET['devotee_id'];
+	  // $devotee_id = $_GET['devotee_id'];
 		$devotee_id = 4;
 
 	  $devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
