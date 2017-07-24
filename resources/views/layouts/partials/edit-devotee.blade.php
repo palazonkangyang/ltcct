@@ -338,6 +338,7 @@
 
                 </div><!-- end form-group -->
 
+								<div id="opt_vehicle">
 
 								@if(Session::has('optionalvehicles'))
 
@@ -371,7 +372,6 @@
 								@endforeach
 								@endif
 
-                <div id="opt_vehicle">
                 </div><!-- end opt_vehicle -->
 
                 <div class="form-group">
@@ -387,6 +387,8 @@
                     </div><!-- end col-md-6 -->
 
                 </div><!-- end form-group -->
+
+								<div id="special_remark">
 
 								@if(Session::has('specialRemarks'))
 
@@ -411,7 +413,6 @@
 								@endforeach
 								@endif
 
-                <div id="special_remark">
                 </div><!-- end special_remark -->
 
                 <div class="form-group">
