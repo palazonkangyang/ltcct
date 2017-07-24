@@ -134,25 +134,25 @@ class OperatorController extends Controller
 
 		if($devotee->member_id)
 		{
-			$member = Member::find($member_id);
+			$member = Member::find($devotee->member_id);
 		}
 
 		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 		$optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
 		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
 
-		// remove session data
-		if(Session::has('focus_devotee'))
-		{
-		  Session::forget('focus_devotee');
-		}
+		// // remove session data
+		// if(Session::has('focus_devotee'))
+		// {
+		//   Session::forget('focus_devotee');
+		// }
+		//
+		// Session::put('focus_devotee', $focus_devotee);
+		// Session::put('member', $member);
+		// Session::put('optionaladdresses', $optionaladdresses);
+		// Session::put('optionalvehicles', $optionalvehicles);
 
-		Session::put('focus_devotee', $focus_devotee);
-		Session::put('member', $member);
-		Session::put('optionaladdresses', $optionaladdresses);
-		Session::put('optionalvehicles', $optionalvehicles);
-
-		$json = ['responseText' => 'success'];
+		// $json = ['responseText' => 'success'];
 
 		return response()->json(array(
 			'devotee' => $devotee,
