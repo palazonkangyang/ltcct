@@ -1112,6 +1112,14 @@
 
 																															<div class="form-group">
 
+																																@if(Session::has('focus_devotee'))
+
+																										                @php
+
+																										                    $focus_devotee = Session::get('focus_devotee');
+
+																										                @endphp
+
 																																	<table class="table table-bordered" id="members_table">
 																																			<thead>
 																																				<tr id="filter">
@@ -1152,6 +1160,40 @@
 																																			</tbody>
 
 																																	</table>
+
+																																	@else
+
+																																	<table class="table table-bordered" id="members_table">
+																																			<thead>
+																																				<tr id="filter">
+																																						<th>Chinese Name</th>
+																																						<th>Devotee#</th>
+																																						<th>Member#</th>
+																																						<th>Address</th>
+																																						<th>Unit</th>
+																																						<th>Guiyi Name</th>
+																																						<th>Family Code</th>
+																																				</tr>
+																																					<tr>
+																																							<th>Chinese Name</th>
+																																							<th>Devotee#</th>
+																																							<th>Member#</th>
+																																							<th>Address</th>
+																																							<th>Unit</th>
+																																							<th>Guiyi Name</th>
+																																							<th>Family Code</th>
+																																					</tr>
+																																			</thead>
+
+																																			<tbody>
+																																					<tr>
+																																						<td>No Data</td>
+																																					</tr>
+																																			</tbody>
+
+																																	</table>
+
+																																	@endif
 
 																															</div><!-- end form-group -->
 
