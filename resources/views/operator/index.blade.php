@@ -1856,6 +1856,8 @@
 
 											$.each(response.devotee, function(index, data) {
 
+												$("#edit_devotee_id").val(data.devotee_id);
+												$("#edit_member_id").val(data.member_id);
 												$("#edit_chinese_name").val(data.chinese_name);
 												$("#edit_english_name").val(data.english_name);
 												$("#edit_contact").val(data.contact);
@@ -1923,6 +1925,8 @@
 
 											$.each(response.devotee, function(index, data) {
 
+												$("#edit_devotee_id").val(data.devotee_id);
+												$("#edit_member_id").val(data.member_id);
 												$("#edit_chinese_name").val(data.chinese_name);
 												$("#edit_english_name").val(data.english_name);
 												$("#edit_contact").val(data.contact);
@@ -1985,6 +1989,8 @@
 
 											$.each(response.devotee, function(index, data) {
 
+												$("#edit_devotee_id").val(data.devotee_id);
+												$("#edit_member_id").val(data.member_id);
 												$("#edit_chinese_name").val(data.chinese_name);
 												$("#edit_english_name").val(data.english_name);
 												$("#edit_contact").val(data.contact);
