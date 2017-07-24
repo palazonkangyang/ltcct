@@ -288,13 +288,15 @@
 
             <div class="col-md-6">
 
+							<div id="opt_address">
+
 								@if(Session::has('optionaladdresses'))
 
 								@php $optionaladdresses = Session::get('optionaladdresses'); @endphp
 
 								@foreach($optionaladdresses as $optAddress)
 
-								<div class='form-group'>
+								<div class="form-group">
 
 									<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
 
@@ -322,8 +324,7 @@
 								@endforeach
 								@endif
 
-								<div id="opt_address">
-                </div><!-- end opt_address -->
+								</div><!-- end opt_address -->
 
 								<div class="form-group">
 
