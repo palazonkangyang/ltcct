@@ -125,38 +125,7 @@ class OperatorController extends Controller
 	}
 
 
-	public function getFocusDevoteeDetail(Request $request)
-	{
-		$devotee_id = $_GET['devotee_id'];
-		// $devotee_id = 4;
-
-		$devotee = Devotee::find($devotee_id);
-
-		if(isset($devotee->member_id))
-		{
-			$member = Member::find($devotee->member_id);
-		}
-
-		$optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
-		$optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
-		$specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
-
-		// remove session data
-		if(Session::has('focus_devotee'))
-		{
-		  Session::forget('focus_devotee');
-		}
-
-		Session::put('focus_devotee', $devotee);
-
-		return response()->json(array(
-			'devotee' => $devotee,
-			'member' => $member,
-			'optionaladdresses' => $optionaladdresses,
-			'optionalvehicles' => $optionalvehicles,
-			'specialRemarks' => $specialRemarks
-		));
-	}
+	
 
 	// Add New Devotee
 	public function postAddDevotee(Request $request)
