@@ -147,7 +147,7 @@ class OperatorController extends Controller
 		//   Session::forget('focus_devotee');
 		// }
 
-		Session::put('focus_devotee', $focus_devotee);
+		Session::put('focus_devotee', $devotee);
 		Session::put('member', $member);
 		Session::put('optionaladdresses', $optionaladdresses);
 		Session::put('optionalvehicles', $optionalvehicles);
