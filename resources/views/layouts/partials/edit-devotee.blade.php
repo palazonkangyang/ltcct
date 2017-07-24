@@ -291,6 +291,43 @@
                 <div id="opt_address">
                 </div><!-- end opt_address -->
 
+								@if(Session::has('focus_devotee'))
+
+								@php
+
+									$optionaladdresses = Session::get('optionaladdresses');
+									dd($optionaladdresses);
+
+								@endphp
+
+								@foreach($optionaladdresses as $optAddress)
+
+								<div class='form-group'>
+
+									<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
+
+									<div class='col-md-3'>
+
+										<select class='form-control' name='vehicle_type[]'>
+											<option value="home" <?php if ($optAddress->data == "home") echo "selected"; ?>>Home</option>
+											<option value="company" <?php if ($optAddress->data == "company") echo "selected"; ?>>Company</option>
+											<option value="stall" <?php if ($optAddress->data == "stall") echo "selected"; ?>>Stall</option>
+											<option value="office" <?php if ($optAddress->data == "office") echo "selected"; ?>>Office</option>
+										</select>
+
+									</div><!-- end col-md-3 -->
+
+									<div class='col-md-5'>
+										<input type="text" class="" name="vehicle_data[]" value="{{ $optAddress->data }}">
+									</div><!-- end col-md-5 -->
+
+								</div><!-- end form-group -->
+
+								@endforeach
+
+								@endif
+
+
                 <div class="form-group">
 
                     <div class="col-md-1"></div><!-- end col-md-1 -->
