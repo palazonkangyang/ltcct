@@ -317,8 +317,12 @@
 									</div><!-- end col-md-3 -->
 
 									<div class='col-md-5'>
-										<input type="text" class="form-group" name="vehicle_data[]" value="{{ $optAddress->data }}">
+										<input type="text" class="form-control" name="vehicle_data[]" value="{{ $optAddress->data }}">
 									</div><!-- end col-md-5 -->
+
+									<div class='col-md-1'>
+										<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
+									</div>
 
 								</div><!-- end form-group -->
 
