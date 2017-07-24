@@ -2118,10 +2118,8 @@
 
 											$.each(response.devotee, function(index, data) {
 
-												$("#edit_chinese_name").val(data.devotee['chinese_name']);
-
-												$("#edit_chinese_name").val(data.devotee['chinese_name']);
-												$("#edit_english_name").val(data.devotee['english_name']);
+												$("#edit_chinese_name").val(data.chinese_name);
+												$("#edit_english_name").val(data.english_name);
 												$("#edit_contact").val(data.devotee['contact']);
 												$("#edit_guiyi_name").val(data.devotee['guiyi_name']);
 												$("#edit_address_houseno").val(data.devotee['address_houseno']);
