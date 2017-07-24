@@ -1983,7 +1983,6 @@
 						        success: function(response)
 						        {
 											location.reload();
-											console.log(response.devotee);
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
@@ -2109,7 +2108,6 @@
 						        success: function(response)
 						        {
 											location.reload();
-											console.log(response.devotee);
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
