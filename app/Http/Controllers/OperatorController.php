@@ -666,10 +666,7 @@ class OperatorController extends Controller
 		$input = Input::except('_token');
 
 		$devotee = new Devotee;
-
     $focus_devotee = $devotee->focusDevotee($input)->get();
-
-		dd($focus_devotee);
 
 		if(count($focus_devotee) == 0)
 		{
@@ -683,46 +680,46 @@ class OperatorController extends Controller
 			return redirect()->back()->withInput();
 		}
 
-				else {
-					// Get Devotee Lists for relocation
-	        $familycode_id = $focus_devotee[0]->familycode_id;
+		else {
+			// Get Devotee Lists for relocation
+	    $familycode_id = $focus_devotee[0]->familycode_id;
 
-	        $devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-	        				->where('devotee.familycode_id', $familycode_id)
-	        				->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
-	        				->orderBy('devotee_id', 'asc')
-	        				->select('devotee.*')
-	        				->addSelect('familycode.familycode')->get();
+	    $devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+	        							->where('devotee.familycode_id', $familycode_id)
+	        							->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
+	        							->orderBy('devotee_id', 'asc')
+	        							->select('devotee.*')
+	        							->addSelect('familycode.familycode')->get();
 
-					// Get Receipt History
-				  $receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-				         				->leftjoin('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
-				         				->where('receipt.focusdevotee_id', $focus_devotee[0]->devotee_id)
-				         				->orderBy('receipt_id', 'desc')
-				         				->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.hjgr as generaldonation_hjgr')
-				         				->get();
+			// Get Receipt History
+			$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+				         	->leftjoin('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
+				         	->where('receipt.focusdevotee_id', $focus_devotee[0]->devotee_id)
+				         	->orderBy('receipt_id', 'desc')
+				         	->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.hjgr as generaldonation_hjgr')
+				         	->get();
 
-				if(!Session::has('focus_devotee'))
-				{
-					Session::put('focus_devotee', $focus_devotee);
-				}
+		if(!Session::has('focus_devotee'))
+		{
+			Session::put('focus_devotee', $focus_devotee);
+		}
 
-				if(!Session::has('devotee_lists'))
-				{
-					Session::put('devotee_lists', $devotee_lists);
-				}
+		if(!Session::has('devotee_lists'))
+		{
+			Session::put('devotee_lists', $devotee_lists);
+		}
 
-				if(!Session::has('receipts'))
-				{
-					Session::put('receipts', $receipts);
-				}
+		if(!Session::has('receipts'))
+		{
+			Session::put('receipts', $receipts);
+		}
 
-				return redirect()->back()->with([
-					'members' => $members,
-					'devotees' => $devotees,
-					'deceased_lists' => $deceased_lists,
-				]);
-			}
+		return redirect()->back()->with([
+			'members' => $members,
+			'devotees' => $devotees,
+			'deceased_lists' => $deceased_lists,
+		]);
+	}
 
 	}
 

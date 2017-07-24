@@ -95,6 +95,9 @@
                                                         <li>
                                                             <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
                                                         </li>
+																												<li>
+                                                            <a href="#tab_searchresult" data-toggle="tab">Search Result</a>
+                                                        </li>
                                                     </ul>
 
 
@@ -1102,6 +1105,59 @@
                                                             </div><!-- end form-body -->
 
                                                         </div><!-- end tab-pane relocation -->
+
+																												<div class="tab-pane" id="tab_searchresult">
+
+																													<div class="form-body">
+
+																															<div class="form-group">
+
+																																	<table class="table table-bordered" id="members_table">
+																																			<thead>
+																																				<tr id="filter">
+																																						<th>Chinese Name</th>
+																																						<th>Devotee#</th>
+																																						<th>Member#</th>
+																																						<th>Address</th>
+																																						<th>Unit</th>
+																																						<th>Guiyi Name</th>
+																																						<th>Family Code</th>
+																																				</tr>
+																																					<tr>
+																																							<th>Chinese Name</th>
+																																							<th>Devotee#</th>
+																																							<th>Member#</th>
+																																							<th>Address</th>
+																																							<th>Unit</th>
+																																							<th>Guiyi Name</th>
+																																							<th>Family Code</th>
+																																					</tr>
+																																			</thead>
+
+																																			<tbody>
+																																					@foreach($focus_devotee as $fd)
+																																					<tr>
+																																							<td><a href="#" data-toggle="tab"
+																																									id="">{{ $fd->chinese_name }}</a></td>
+																																							<td>{{ $fd->devotee_id }}</td>
+																																							<td>{{ $fd->member_id }}</td>
+																																							<td>{{ $fd->address_building }}</td>
+																																							<td>
+																																									{{ $fd->address_unit1 }} {{ $fd->address_unit2 }}
+																																							</td>
+																																							<td>{{ $fd->guiyi_name }}</td>
+																																							<td>{{ $fd->familycode }}</td>
+																																					</tr>
+																																					@endforeach
+																																			</tbody>
+
+																																	</table>
+
+																															</div><!-- end form-group -->
+
+																													</div><!-- end form-body -->
+
+																												</div><!-- end tab-pane tab_searchresult -->
 
                                                     </div><!-- end tab-content -->
 
