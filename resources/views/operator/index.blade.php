@@ -1,7 +1,13 @@
 @extends('layouts.backend.app')
 
 @section('main-content')
+@php
 
+	$optionaladdresses = Session::get('optionaladdresses');
+	dd($optionaladdresses);
+
+
+@endphp
 
 	<div class="page-container-fluid">
 
