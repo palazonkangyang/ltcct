@@ -40,7 +40,9 @@
 
                             <div class="row">
 
-                                @include('layouts.partials.focus-devotee-sidebar')
+																<div id="partial-pageload">
+																	@include('layouts.partials.focus-devotee-sidebar')
+																</div>
 
                                 <div class="col-md-9">
 
@@ -1986,7 +1988,9 @@
 											localStorage.setItem('optionaladdresses', JSON.stringify(response.optionaladdresses));
 
 			                var optionaladdresses = localStorage.getItem('optionaladdresses');
-											console.log(optionaladdresses.data);
+											console.log(optionaladdresses);
+
+											$("#title").val(data.chinese_name);
 
 
 
