@@ -1984,6 +1984,8 @@
                     dataType: 'json',
                     success: function(response)
                     {
+												alert(JSON.stringify(response));
+
                         $("#special_remark").empty();
                         $("#opt_address").empty();
                         $("#opt_vehicle").empty();
@@ -2108,7 +2110,7 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
-											alert(response.devotee['chinese_name']);
+											alert(JSON.stringify(response));
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
