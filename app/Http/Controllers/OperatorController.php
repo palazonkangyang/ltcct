@@ -448,6 +448,8 @@ class OperatorController extends Controller
 
 		$input = array_except($request->all(), '_token');
 
+		dd($input);
+
     if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
