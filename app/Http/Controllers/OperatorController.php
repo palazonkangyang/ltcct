@@ -127,6 +127,7 @@ class OperatorController extends Controller
 	public function getFocusDevoteeDetail(Request $request)
 	{
 	  $devotee_id = $_GET['devotee_id'];
+		$devotee_id = 4;
 
 	  $devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 							 ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
@@ -134,7 +135,9 @@ class OperatorController extends Controller
 							 ->where('devotee.devotee_id', $devotee_id)
 							 ->get();
 
-		$devotee->dob = Carbon::parse($devotee->dob)->format("d/m/Y");
+		dd($devotee->toArray());
+
+		// $devotee->dob = Carbon::parse($devotee->dob)->format("d/m/Y");
 
 	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 	  $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
