@@ -1983,13 +1983,13 @@
 						        success: function(response)
 						        {
 
-
+											location.reload();
 											localStorage.setItem('optionaladdresses', JSON.stringify(response.optionaladdresses));
 
 			                var optionaladdresses = localStorage.getItem('optionaladdresses');
-											console.log(optionaladdresses);
+											console.log(optionaladdresses.data);
 
-											// location.reload();
+
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
