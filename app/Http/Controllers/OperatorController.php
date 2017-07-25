@@ -818,8 +818,8 @@ class OperatorController extends Controller
 
 			else
 		  {
-		    $request->session()->flash('error', "Password did not match. Please Try Again");
-		    return redirect()->back()->withInput();
+				$request->session()->flash('success', 'Profile is successfully updated.');
+			 return redirect()->back();
 		  }
 	}
 
