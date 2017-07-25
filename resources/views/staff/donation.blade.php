@@ -624,25 +624,25 @@
         //     }
         // });
 
-				$("input:text[name^='other_amount']").each(function() {
-
-            if (!$.trim($(this).val()).length) {
-
-                validationFailed = true;
-                errors[count++] = "Amount fields for relatives and friends are empty.";
-                return false;
-            }
-        });
-
-				$("input:text[name^='other_paid_till']").each(function() {
-
-            if (!$.trim($(this).val()).length) {
-
-                validationFailed = true;
-                errors[count++] = "Paid Till fields for relatives and friends are empty.";
-                return false;
-            }
-        });
+				// $("input:text[name^='other_amount']").each(function() {
+				//
+        //     if (!$.trim($(this).val()).length) {
+				//
+        //         validationFailed = true;
+        //         errors[count++] = "Amount fields for relatives and friends are empty.";
+        //         return false;
+        //     }
+        // });
+				//
+				// $("input:text[name^='other_paid_till']").each(function() {
+				//
+        //     if (!$.trim($(this).val()).length) {
+				//
+        //         validationFailed = true;
+        //         errors[count++] = "Paid Till fields for relatives and friends are empty.";
+        //         return false;
+        //     }
+        // });
 
 				if (validationFailed)
 				{
