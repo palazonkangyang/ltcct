@@ -467,8 +467,6 @@ class OperatorController extends Controller
 		      $approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
 		    }
 
-				dd($approveNewDate);
-
 		    if(isset($input['cancelled_date']))
 		    {
 		      $cancelledDate_date = str_replace('/', '-', $input['cancelled_date']);
