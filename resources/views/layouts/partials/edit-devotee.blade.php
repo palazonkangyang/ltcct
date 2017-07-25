@@ -290,7 +290,9 @@
 
 								@if(Session::has('optionaladdresses'))
 
-								@php $optionaladdresses = Session::get('optionaladdresses'); dd(count($optionaladdresses)); @endphp
+								@php $optionaladdresses = Session::get('optionaladdresses'); @endphp
+
+								@if(count($optionaladdresses) > 0)
 
 								<div id="opt_address">
 
@@ -327,8 +329,6 @@
 
 								@else
 
-								@php dd('no session'); @endphp
-
 								<div id="opt_address">
 
 									<div class="form-group">
@@ -354,6 +354,7 @@
 
 								</div><!-- end opt_address -->
 
+								@endif
 								@endif
 
 								<div class="form-group">
