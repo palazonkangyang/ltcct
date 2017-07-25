@@ -1843,10 +1843,6 @@
 												$("#edit_familycode_id").val(data.familycode_id);
 
 												$("#edit_member_id").val(data.member_id);
-												$("#edit_introduced_by1").val(data.introduced_by1);
-												$("#edit_introduced_by2").val(data.introduced_by2);
-												$("#edit_approved_date").val(data.approved_date);
-
 											});
 						       	},
 
