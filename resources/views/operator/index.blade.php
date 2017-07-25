@@ -1057,17 +1057,9 @@
                                                                             </div><!-- end col-md-6 -->
                                                                         </div><!-- end form-group -->
 
-																																				<div class="form-group">
-		                                                                        <label class="col-md-12">
-		                                                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.<br />
-		                                                                            To Confirm, please enter authorized password to proceed.
-		                                                                        </label>
-		                                                                    </div><!-- end form-group -->
-
                                                                     </div><!-- end col-md-6 -->
 
                                                                     <div class="col-md-4">
-
                                                                     </div><!-- end col-md-4 -->
 
                                                                 </div><!-- end col-md-12 -->
@@ -1076,10 +1068,33 @@
 
                                                                 <hr>
 
+																																<div class="col-md-12">
+
+																																	<div class="col-md-6">
+																																		<div class="form-group">
+																																				<label class="col-md-12">
+																																						If you have made Changes to the above. You need to CONFIRM to save the Changes.<br />
+																																						To Confirm, please enter authorized password to proceed.
+																																				</label>
+																																		</div><!-- end form-group -->
+																																	</div><!-- end col-md-6 -->
+
+																																	<div class="col-md-6">
+																																		<div class="form-group pull-right">
+                                                                        <label class="col-md-6"></label>
+                                                                        <label class="col-md-3 control-label">Authorized Password</label>
+                                                                        <div class="col-md-3">
+                                                                            <input type="password" class="form-control"
+                                                                                name="authorized_password" id="relocation_authorized_password">
+                                                                        </div><!-- end col-md-9 -->
+
+                                                                    </div><!-- end form-group -->
+																																	</div><!-- end col-md-6 -->
+
+																																</div><!-- end col-md-12 -->
+
                                                                 <div class="col-md-12">
-
                                                                     <div class="col-md-6">
-
                                                                     </div><!-- end col-md-6 -->
 
                                                                     <div class="col-md-6">
