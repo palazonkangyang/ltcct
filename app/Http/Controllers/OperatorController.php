@@ -454,18 +454,23 @@ class OperatorController extends Controller
 
 		$input = array_except($request->all(), '_token');
 
-		// dd($input);
-
 		if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
 		  $hashedPassword = $user->password;
 
-			if (Hash::check($input['authorized_password'], $hashedPassword)) {
-
+			if (Hash::check($input['authorized_password'], $hashedPassword))
+			{
 				// Modify fields
-		    $dob_date = str_replace('/', '-', $input['dob']);
-		    $dobNewDate = date("Y-m-d", strtotime($dob_date));
+		    if(isset($input['dob']))
+				{
+					$dob_date = str_replace('/', '-', $input['dob']);
+					$dobNewDate = date("Y-m-d", strtotime($dob_date));
+				}
+
+				else {
+					$dobNewDate = $input['dob'];
+				}
 
 		    if(isset($input['approved_date']))
 		    {
