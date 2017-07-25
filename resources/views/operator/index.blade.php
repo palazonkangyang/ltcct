@@ -1738,7 +1738,7 @@
 							var errors = new Array();
 							var validationFailed = false;
 
-							var count_checked = $("[name='devotee_id[]']:checked").length; // count the checked rows
+							var count_checked = $("[name='relocation_devotee_id[]']:checked").length; // count the checked rows
 
 							var address_houseno = $("#new_address_houseno").val();
 							var address_street = $("#new_address_street").val();
