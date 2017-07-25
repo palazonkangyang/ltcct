@@ -485,7 +485,17 @@ class OperatorController extends Controller
 		    {
 					$member = Member::find($input['member_id']);
 
-					dd($member->toArray());
+					$member->introduced_by1 = $input['introduced_by1'];
+		      $member->introduced_by2 = $input['introduced_by2'];
+		      $member->approved_date = $approveNewDate;
+		      $member->cancelled_date = $cancelledNewDate;
+		      $member->reason_for_cancel = $input['reason_for_cancel'];
+
+					$member->save();
+
+					$result = Member::find($input['member_id']);
+
+					dd($result->toArray());
 				}
 
 			}
