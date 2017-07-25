@@ -775,7 +775,7 @@
                                                                                         <td>{{ $focus_devotee[0]->nric }}</td>
                                                                                         <td>{{ $focus_devotee[0]->address_street }}</td>
                                                                                         <td>
-                                                                                            {{ $focus_devotee[0]->address_unit1 }}
+                                                                                            {{ $focus_devotee[0]->address_unit1 }} -
                                                                                             {{ $focus_devotee[0]->address_unit2 }}
                                                                                         </td>
                                                                                         <td>{{ $focus_devotee[0]->familycode }}</td>
