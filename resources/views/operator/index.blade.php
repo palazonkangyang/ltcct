@@ -775,8 +775,7 @@
                                                                                         <td>{{ $focus_devotee[0]->nric }}</td>
                                                                                         <td>{{ $focus_devotee[0]->address_street }}</td>
                                                                                         <td>
-                                                                                            {{ $focus_devotee[0]->address_unit1 }} -
-                                                                                            {{ $focus_devotee[0]->address_unit2 }}
+                                                                                            {{ $focus_devotee[0]->address_unit1 }} - {{ $focus_devotee[0]->address_unit2 }}
                                                                                         </td>
                                                                                         <td>{{ $focus_devotee[0]->familycode }}</td>
                                                                                         <td>{{ $focus_devotee[0]->member_id }}</td>
@@ -793,7 +792,7 @@
                                                                                         <td>{{ $devotee->nric }}</td>
                                                                                         <td>{{ $devotee->address_street }}</td>
                                                                                         <td>
-                                                                                            {{ $devotee->address_unit1 }} {{ $devotee->address_unit2 }}
+                                                                                            {{ $devotee->address_unit1 }} - {{ $devotee->address_unit2 }}
                                                                                         </td>
                                                                                         <td>{{ $devotee->familycode }}</td>
                                                                                         <td>{{ $devotee->member_id }}</td>
