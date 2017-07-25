@@ -347,7 +347,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Address - Street</label>
+                                                                        <label class="col-md-3 control-label">Address - Street *</label>
                                                                         <div class="col-md-9">
 																																						<input type="text" class="form-control" name="address_street"
                                                                                 value="{{ old('address_street') }}" id="content_address_street">
