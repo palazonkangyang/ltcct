@@ -348,7 +348,6 @@
 										</div><!-- end col-md-5 -->
 
 										<div class='col-md-1'>
-											<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
 										</div><!-- end col-md-1 -->
 									</div><!-- end form-group -->
 
@@ -419,6 +418,8 @@
 
 								@php $specialRemarks = Session::get('specialRemarks'); @endphp
 
+								@if(count($optionaladdresses) > 0)
+
 								<div id="special_remark">
 
 								@foreach($specialRemarks as $specialRemark)
@@ -454,6 +455,7 @@
 									</div><!-- end form-group -->
 								</div><!-- end special_remark -->
 
+								@endif
 								@endif
 
                 <div class="form-group">
