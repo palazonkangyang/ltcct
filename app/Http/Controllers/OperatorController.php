@@ -134,7 +134,12 @@ class OperatorController extends Controller
 							 ->where('devotee.devotee_id', $devotee_id)
 							 ->get();
 
-		$devotee[0]->dob = Carbon::parse($devotee[0]->dob)->format("d/m/Y");
+		if(isset($devotee[0]->dob))
+		{
+			$devotee[0]->dob = Carbon::parse($devotee[0]->dob)->format("d/m/Y");
+		}
+
+
 
 		if(isset($devotee[0]->approved_date))
 		{
