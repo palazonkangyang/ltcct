@@ -9,7 +9,8 @@ class RelativeFriendLists extends Model
     protected $primaryKey = "relative_friend_list_id";
 
     protected $fillable = [
-        'devotee_id',
+        'donate_devotee_id',
+        'relative_friend_devotee_id',
         'year'
     ];
 }
