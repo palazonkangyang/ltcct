@@ -473,8 +473,6 @@ class OperatorController extends Controller
 		      $cancelledNewDate = date("Y-m-d", strtotime($cancelledDate_date));
 		    }
 
-				dd($cancelledNewDate);
-
 				if(isset($input['edit_familycode_id']))
 		    {
 		      $familycode_id = $input['edit_familycode_id'];
@@ -487,6 +485,8 @@ class OperatorController extends Controller
 
 				if(isset($input['member_id']))
 		    {
+
+					dd($input['member_id']);
 					$member = Member::find($input['member_id']);
 
 					$member->introduced_by1 = $input['introduced_by1'];
