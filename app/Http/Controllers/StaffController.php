@@ -45,6 +45,8 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
+		dd($input);
+
 		if(isset($input['receipt_at']))
 		{
 			// Modify fields
