@@ -433,7 +433,7 @@
                                                                         <label class="col-md-3 control-label">Deceased Year</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="deceased_year form-control" name="deceased_year"
-                                                                                data-provide="datepicker" value="{{ old('deceased_year') }}">
+                                                                                data-provide="datepicker" data-date-format="yyyy" value="{{ old('deceased_year') }}">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1508,11 +1508,6 @@
 
             var opt_address;
 
-            $('.deceased_year').datepicker({
-                minViewMode: 2,
-                format: 'yyyy'
-            });
-
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));
             });
@@ -1559,6 +1554,7 @@
 							var chinese_name = $("#content_chinese_name").val();
 							var contact = $("#content_contact").val();
 							var address_houseno = $("#content_address_houseno").val();
+							var address_street = $("#content_address_street").val();
 							var address_postal = $("#content_address_postal").val();
 							var authorized_password = $("#content_authorized_password").val();
 
@@ -1590,6 +1586,12 @@
 							{
 									validationFailed = true;
 									errors[count++] = "Address Houseno field is empty."
+							}
+
+							if ($.trim(address_street).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Address Street field is empty."
 							}
 
 							if ($.trim(address_postal).length <= 0)
