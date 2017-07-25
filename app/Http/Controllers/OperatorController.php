@@ -163,9 +163,9 @@ class OperatorController extends Controller
 	  }
 
 		// remove session data
-	  if(Session::has('$devotee_lists'))
+	  if(Session::has('devotee_lists'))
 	  {
-	    Session::forget('$devotee_lists');
+	    Session::forget('devotee_lists');
 	  }
 
 		// remove session data
