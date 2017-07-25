@@ -1249,13 +1249,13 @@
 						}
 					});
 
-					// $("#content_introduced_by2").autocomplete({
-					// 	source: "/operator/search/autocomplete2",
-					// 	minLength: 1,
-					//   select: function(event, ui) {
-					//   	$('#content_introduced_by2').val(ui.item.value);
-					// 	}
-					// });
+					$("#content_introduced_by2").autocomplete({
+						source: "/operator/search/autocomplete2",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#content_introduced_by2').val(ui.item.value);
+						}
+					});
 
 					// $("#edit_introduced_by1").autocomplete({
 					// 	source: "/operator/search/autocomplete",
