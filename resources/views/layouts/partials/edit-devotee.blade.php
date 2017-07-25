@@ -6,7 +6,55 @@
 
         <div class="form-body">
 
-            
+            <div class="col-md-6">
+
+							<div class="form-group">
+					        <input type="hidden" name="devotee_id" value="{{ old('devotee_id') }}" id="edit_devotee_id">
+					        <input type="hidden" name="familycode_id" value="{{ old('familycode_id') }}" id="edit_familycode_id">
+					        <input type="hidden" name="member_id" value="{{ old('member_id') }}" id="edit_member_id">
+					    </div><!-- end form-group -->
+
+							<div class="form-group">
+					        <label class="col-md-3 control-label">Title</label>
+					        <div class="col-md-9">
+					            <select class="form-control" name="title">
+					                <option value="mr">Mr</option>
+					                <option value="miss">Miss</option>
+					                <option value="madam">Madam</option>
+					            </select>
+					        </div><!-- end col-md-9 -->
+					    </div><!-- end form-group -->
+
+							<div class="form-group">
+					        <label class="col-md-3 control-label">Chinese Name *</label>
+					        <div class="col-md-9">
+					            <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}"
+					                id="edit_chinese_name">
+					            </div><!-- end col-md-9 -->
+					    </div><!-- end form-group -->
+
+					    <div class="form-group">
+					        <label class="col-md-3 control-label">English Name</label>
+					        <div class="col-md-9">
+					            <input type="text" class="form-control" name="english_name" value="{{ old('english_name') }}" id="edit_english_name">
+					        </div><!-- end col-md-9 -->
+					    </div><!-- end form-group -->
+
+					    <div class="form-group">
+					        <label class="col-md-3 control-label">Contact # *</label>
+					        <div class="col-md-9">
+					            <input type="text" class="form-control" name="contact" value="{{ old('contact') }}" id="edit_contact">
+					        </div><!-- end col-md-9 -->
+					    </div><!-- end form-group -->
+
+					    <div class="form-group">
+					        <label class="col-md-3 control-label">Guiyi Name</label>
+					        <div class="col-md-9">
+					            <input type="text" class="form-control" name="guiyi_name" value="{{ old('guiyi_name') }}" id="edit_guiyi_name">
+					        </div><!-- end col-md-9 -->
+					    </div><!-- end form-group -->
+
+						</div><!-- end col-md-6 -->
 
             <div class="col-md-6">
 
