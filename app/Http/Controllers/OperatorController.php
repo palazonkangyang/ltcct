@@ -807,7 +807,7 @@ class OperatorController extends Controller
 			$user = User::find(Auth::user()->id);
 			$hashedPassword = $user->password;
 
-			dd($user->toArray());
+			dd($hashedPassword);
 
 	    if(Hash::check($input['authorized_password'], $hashedPassword))
 			{
