@@ -767,7 +767,7 @@
 
                                                                                 <tr>
                                                                                     <tr>
-                                                                                        <td><input type="checkbox" name="devotee_id[]"
+                                                                                        <td><input type="checkbox" name="relocation_devotee_id[]"
                                                                                             value="{{ $focus_devotee[0]->devotee_id }}" /></td>
                                                                                         <td>{{ $focus_devotee[0]->chinese_name }}</td>
                                                                                         <td>{{ $focus_devotee[0]->english_name }}</td>

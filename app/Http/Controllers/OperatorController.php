@@ -809,9 +809,9 @@ class OperatorController extends Controller
 
 	    if(Hash::check($input['authorized_password'], $hashedPassword))
 			{
-				for($i = 0; $i < count($input['devotee_id']); $i++)
+				for($i = 0; $i < count($input['relocation_devotee_id']); $i++)
 		    {
-		    	$devotee = Devotee::find($input['devotee_id'][$i]);
+		    	$devotee = Devotee::find($input['relocation_devotee_id'][$i]);
 
 			    $devotee->address_houseno = $input['new_address_houseno'];
 			    $devotee->address_unit1 = $input['new_address_unit1'];
@@ -860,7 +860,7 @@ class OperatorController extends Controller
 			else
 			{
 				$request->session()->flash('error', 'Password did not match. Please Try Again');
-		    return redirect()->back()->withInput($request->input());
+		    return redirect()->back()->withInput();
 			}
 	}
 

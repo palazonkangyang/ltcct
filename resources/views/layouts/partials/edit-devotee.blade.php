@@ -6,51 +6,154 @@
 
         <div class="form-body">
 
-            <div class="col-md-6">
-
-							
+					<div class="col-md-6">
 
 							<div class="form-group">
-					        <label class="col-md-3 control-label">Title</label>
-					        <div class="col-md-9">
-					            <select class="form-control" name="title">
-					                <option value="mr">Mr</option>
-					                <option value="miss">Miss</option>
-					                <option value="madam">Madam</option>
-					            </select>
-					        </div><!-- end col-md-9 -->
-					    </div><!-- end form-group -->
+									<input type="hidden" name="devotee_id" value="{{ old('devotee_id') }}" id="edit_devotee_id">
+									<input type="hidden" name="familycode_id" value="{{ old('familycode_id') }}" id="edit_familycode_id">
+									<input type="hidden" name="member_id" value="{{ old('member_id') }}" id="edit_member_id">
+							</div><!-- end form-group -->
 
 							<div class="form-group">
-					        <label class="col-md-3 control-label">Chinese Name *</label>
-					        <div class="col-md-9">
-					            <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}"
-					                id="edit_chinese_name">
-					            </div><!-- end col-md-9 -->
-					    </div><!-- end form-group -->
 
-					    <div class="form-group">
-					        <label class="col-md-3 control-label">English Name</label>
-					        <div class="col-md-9">
-					            <input type="text" class="form-control" name="english_name" value="{{ old('english_name') }}" id="edit_english_name">
-					        </div><!-- end col-md-9 -->
-					    </div><!-- end form-group -->
+									<label class="col-md-3 control-label">Title</label>
+									<div class="col-md-9">
+											<select class="form-control" name="title">
+													<option value="mr">Mr</option>
+													<option value="miss">Miss</option>
+													<option value="madam">Madam</option>
+											</select>
+									</div><!-- end col-md-9 -->
 
-					    <div class="form-group">
-					        <label class="col-md-3 control-label">Contact # *</label>
-					        <div class="col-md-9">
-					            <input type="text" class="form-control" name="contact" value="{{ old('contact') }}" id="edit_contact">
-					        </div><!-- end col-md-9 -->
-					    </div><!-- end form-group -->
+							</div><!-- end form-group -->
 
-					    <div class="form-group">
-					        <label class="col-md-3 control-label">Guiyi Name</label>
-					        <div class="col-md-9">
-					            <input type="text" class="form-control" name="guiyi_name" value="{{ old('guiyi_name') }}" id="edit_guiyi_name">
-					        </div><!-- end col-md-9 -->
-					    </div><!-- end form-group -->
+							<div class="form-group">
 
-						</div><!-- end col-md-6 -->
+									<label class="col-md-3 control-label">Chinese Name *</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}"
+													id="edit_chinese_name">
+											</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">English Name</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="english_name" value="{{ old('english_name') }}" id="edit_english_name">
+									</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">Contact # *</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="contact" value="{{ old('contact') }}" id="edit_contact">
+									</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">Guiyi Name</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="guiyi_name" value="{{ old('guiyi_name') }}" id="edit_guiyi_name">
+									</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">Address - House No *</label>
+									<div class="col-md-3">
+											<input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}"
+													id="edit_address_houseno">
+									</div><!-- end col-md-3 -->
+
+									<label class="col-md-1 control-label">Unit</label>
+
+									<div class="col-md-2">
+											<input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}"
+													id="edit_address_unit1">
+									</div><!-- end col-md-2 -->
+
+									<label class="col-md-1">-</label>
+
+									<div class="col-md-2">
+											<input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}"
+													id="edit_address_unit2">
+									</div><!-- end col-md-2 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">Address - Street *</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="address_street"
+													value="{{ old('address_street') }}" id="edit_address_street">
+									</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">Address - Building</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="address_building" value="{{ old('address_building') }}"
+													id="edit_address_building">
+									</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">Address - Postal *</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}"
+													id="edit_address_postal">
+									</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">Address - Translate</label>
+									<div class="col-md-9">
+													<input type="text" class="form-control" name="address_translated" id="edit_address_translated" readonly>
+									</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<label class="col-md-3 control-label">Oversea Addr in Chinese</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="oversea_addr_in_chinese" id="edit_oversea_addr_in_chinese">
+									</div><!-- end col-md-9 -->
+
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+
+									<div class="col-md-8">
+										<button type="button" class="btn default edit_check_family_code" style="margin-right: 30px;">
+												Check Family Code
+										</button>
+
+										<button type="button" class="btn default edit_address_translated_btn">
+												Translate Address
+										</button>
+									</div><!-- end col-md-8 -->
+
+									<div class="col-md-4">
+									</div><!-- end col-md-4 -->
+
+							</div><!-- end form-group -->
+
+					</div><!-- end col-md-6 -->
 
             <div class="col-md-6">
 
