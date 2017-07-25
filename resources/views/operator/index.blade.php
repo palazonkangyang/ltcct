@@ -1228,6 +1228,8 @@
 
         $(function(){
 
+					$("#opt_address .col-md-1").first().remove('.removeAddressBtn1');
+
 					$("#content_introduced_by1").autocomplete({
 						source: "/operator/search/autocomplete",
 						minLength: 1,
