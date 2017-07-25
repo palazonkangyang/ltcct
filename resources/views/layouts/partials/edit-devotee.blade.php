@@ -366,25 +366,25 @@
                     <div class="col-md-6"></div><!-- end col-md-6 -->
                 </div><!-- end form-group -->
 
-								<div id="opt_vehicle">
 
 								@if(Session::has('optionalvehicles'))
 
 								@php $optionalvehicles = Session::get('optionalvehicles'); @endphp
 
+								@if(count($optionalvehicles) > 0)
+
+								<div id="opt_vehicle">
+
 								@foreach($optionalvehicles as $optVehicle)
 
 								<div class='form-group'>
-
 									<label class='col-md-3 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
 
 									<div class='col-md-3'>
-
 										<select class='form-control' name='vehicle_type[]'>
 											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>Car</option>
 											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>Ship</option>
 										</select>
-
 									</div><!-- end col-md-3 -->
 
 									<div class='col-md-5'>
@@ -394,13 +394,37 @@
 									<div class='col-md-1'>
 										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
-
 								</div><!-- end form-group -->
 
 								@endforeach
-								@endif
 
-                </div><!-- end opt_vehicle -->
+								</div><!-- end opt_vehicle -->
+
+								@else
+
+								<div id="opt_vehicle">
+
+									<div class='form-group'>
+										<label class='col-md-3 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
+
+										<div class='col-md-3'>
+											<select class='form-control' name='vehicle_type[]'>
+												<option value="car">Car</option>
+												<option value="ship">Ship</option>
+											</select>
+										</div><!-- end col-md-3 -->
+
+										<div class='col-md-5'>
+											<input type="text" class="form-control" name="vehicle_data[]" value="">
+										</div><!-- end col-md-5 -->
+
+										<div class='col-md-1'>
+										</div><!-- end col-md-1 -->
+									</div><!-- end form-group -->
+
+								</div><!-- end opt_vehicle -->
+
+								@endif
 
                 <div class="form-group">
                     <div class="col-md-1">
@@ -418,7 +442,7 @@
 
 								@php $specialRemarks = Session::get('specialRemarks'); @endphp
 
-								@if(count($optionaladdresses) > 0)
+								@if(count($specialRemarks) > 0)
 
 								<div id="special_remark">
 
