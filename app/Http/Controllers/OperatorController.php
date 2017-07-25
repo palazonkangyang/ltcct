@@ -211,9 +211,12 @@ class OperatorController extends Controller
 
 				if(isset($input['approved_date']))
 				{
-					$approvedDate = $input['approved_date'];
-					$approvedDate_date = str_replace('/', '-', $approvedDate);
+					$approvedDate_date = str_replace('/', '-', $input['approved_date']);
 					$approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
+				}
+
+				else {
+					$approveNewDate = $input['approved_date'];
 				}
 
 		    // Save Member
