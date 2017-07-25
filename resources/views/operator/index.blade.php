@@ -1756,6 +1756,7 @@
 							var address_street = $("#new_address_street").val();
 							var address_postal = $("#new_address_postal").val();
 							var nationality = $("#new_nationality").val();
+							var authorized_password = $("#relocation_authorized_password").val();
 
 							if(count_checked == 0)
 			        {
@@ -1785,6 +1786,12 @@
 							{
 									validationFailed = true;
 									errors[count++] = "Country field is empty."
+							}
+
+							if ($.trim(authorized_password).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Authorized Password field is empty."
 							}
 
 							if (validationFailed)
