@@ -1657,33 +1657,16 @@
                 var validationFailed = false;
 
                 var chinese_name = $("#edit_chinese_name").val();
-								var english_name = $("#edit_english_name").val();
-								var guiyi_name = $("#edit_guiyi_name").val();
                 var contact = $("#edit_contact").val();
 								var address_houseno = $("#edit_address_houseno").val();
 								var address_street = $("#edit_address_street").val();
                 var address_postal = $("#edit_address_postal").val();
-								var marital_status = $("#edit_marital_status").val();
-								var dialect = $("#edit_dialect").val();
-								var nationality = $("#edit_nationality").val();
                 var authorized_password = $("#authorized_password").val();
 
                 if ($.trim(chinese_name).length <= 0)
                 {
                     validationFailed = true;
                     errors[count++] = "Chinese name is empty."
-                }
-
-								if ($.trim(english_name).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "English name field is empty."
-                }
-
-								if ($.trim(guiyi_name).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Guiyi name field is empty."
                 }
 
                 if ($.trim(contact).length <= 0)
@@ -1708,24 +1691,6 @@
                 {
                     validationFailed = true;
                     errors[count++] = "Address Postal field is empty."
-                }
-
-								if ($.trim(marital_status).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Marital Status field is empty."
-                }
-
-								if ($.trim(dialect).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Dialect field is empty."
-                }
-
-								if ($.trim(nationality).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Nationality field is empty."
                 }
 
                 if ($.trim(authorized_password).length <= 0)
