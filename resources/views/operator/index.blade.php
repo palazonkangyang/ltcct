@@ -1510,7 +1510,8 @@
 
             $('.deceased_year').datepicker({
                 minViewMode: 2,
-                format: 'yyyy'
+                format: 'yyyy',
+								viewMode: 'years',
             });
 
 						// $('#content_deceased_year').datepicker({
