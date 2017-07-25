@@ -48,18 +48,18 @@
 
                     		 			<div class="portlet">
 
-                                            <div class="validation-error">
-                                            </div><!-- end validation-error -->
+                              	<div class="validation-error">
+                                </div><!-- end validation-error -->
 
                     		 				@if($errors->any())
 
-                                                <div class="alert alert-danger">
+                                <div class="alert alert-danger">
 
-                                                    @foreach($errors->all() as $error)
-                                                        <p>{{ $error }}</p>
-                                                    @endforeach
+                                    @foreach($errors->all() as $error)
+                                      <p>{{ $error }}</p>
+                                    @endforeach
 
-                                                </div>
+																</div><!-- end alert -->
 
                                             @endif
 
@@ -604,25 +604,25 @@
         var errors = new Array();
         var validationFailed = false;
 
-				$("input:text[name^='amount']").each(function() {
-
-            if (!$.trim($(this).val()).length) {
-
-                validationFailed = true;
-                errors[count++] = "Amount fields for same address devotee are empty.";
-                return false;
-            }
-        });
-
-				$("input:text[name^='paid_till']").each(function() {
-
-            if (!$.trim($(this).val()).length) {
-
-                validationFailed = true;
-                errors[count++] = "Paid Till fields for same address devotee  are empty.";
-                return false;
-            }
-        });
+				// $("input:text[name^='amount']").each(function() {
+				//
+        //     if (!$.trim($(this).val()).length) {
+				//
+        //         validationFailed = true;
+        //         errors[count++] = "Amount fields for same address devotee are empty.";
+        //         return false;
+        //     }
+        // });
+				//
+				// $("input:text[name^='paid_till']").each(function() {
+				//
+        //     if (!$.trim($(this).val()).length) {
+				//
+        //         validationFailed = true;
+        //         errors[count++] = "Paid Till fields for same address devotee  are empty.";
+        //         return false;
+        //     }
+        // });
 
 				$("input:text[name^='other_amount']").each(function() {
 
