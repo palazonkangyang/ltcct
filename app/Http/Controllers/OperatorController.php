@@ -135,12 +135,12 @@ class OperatorController extends Controller
 							 ->where('devotee.devotee_id', $devotee_id)
 							 ->get();
 
-		// $devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-		// 			 		       ->where('devotee.familycode_id', $devotee[0]->$familycode_id)
-		// 			 		       ->where('devotee_id', '!=', $devotee[0]->devotee_id)
-		// 			 		       ->orderBy('devotee_id', 'asc')
-		// 			 		       ->select('devotee.*')
-		// 			 		       ->addSelect('familycode.familycode')->get();
+		$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+					 		       ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+					 		       ->where('devotee_id', '!=', $devotee[0]->devotee_id)
+					 		       ->orderBy('devotee_id', 'asc')
+					 		       ->select('devotee.*')
+					 		       ->addSelect('familycode.familycode')->get();
 
 		if(isset($devotee[0]->dob))
 		{
@@ -163,10 +163,10 @@ class OperatorController extends Controller
 	  }
 
 		// remove session data
-	  // if(Session::has('$devotee_lists'))
-	  // {
-	  //   Session::forget('$devotee_lists');
-	  // }
+	  if(Session::has('$devotee_lists'))
+	  {
+	    Session::forget('$devotee_lists');
+	  }
 
 		// remove session data
 	  if(Session::has('optionaladdresses'))
@@ -187,7 +187,7 @@ class OperatorController extends Controller
 	  }
 
 	  Session::put('focus_devotee', $devotee);
-		// Session::put('devotee_lists', $devotee_lists);
+		Session::put('devotee_lists', $devotee_lists);
 		Session::put('optionaladdresses', $optionaladdresses);
 		Session::put('optionalvehicles', $optionalvehicles);
 		Session::put('specialRemarks', $specialRemarks);
