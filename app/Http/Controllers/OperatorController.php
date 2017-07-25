@@ -801,56 +801,67 @@ class OperatorController extends Controller
 	// Relocation Devotees
 	public function postRelocationDevotees(Request $request)
 	{
-
 			$input = Input::except('_token', 'address_houseno', 'address_unit1', 'address_unit2', 'address_street',
 								'address_building', 'address_postal', 'nationality', 'oversea_addr_in_chinese');
 
-	    for($i = 0; $i < count($input['devotee_id']); $i++)
-	    {
-	    	$devotee = Devotee::find($input['devotee_id'][$i]);
+			$user = User::find(Auth::user()->id);
+			$hashedPassword = $user->password;
 
-		    $devotee->address_houseno = $input['new_address_houseno'];
-		    $devotee->address_unit1 = $input['new_address_unit1'];
-		    $devotee->address_unit2 = $input['new_address_unit2'];
-		    $devotee->address_street = $input['new_address_street'];
-		    $devotee->address_building = $input['new_address_building'];
-		    $devotee->address_postal = $input['new_address_postal'];
-		    $devotee->nationality = $input['new_nationality'];
-		    $devotee->oversea_addr_in_chinese = $input['new_oversea_addr_in_chinese'];
-				$devotee->save();
-	    }
+	    if(Hash::check($input['authorized_password'], $hashedPassword))
+			{
+				for($i = 0; $i < count($input['devotee_id']); $i++)
+		    {
+		    	$devotee = Devotee::find($input['devotee_id'][$i]);
 
-			$session_focus_devotee = Session::get('focus_devotee');
+			    $devotee->address_houseno = $input['new_address_houseno'];
+			    $devotee->address_unit1 = $input['new_address_unit1'];
+			    $devotee->address_unit2 = $input['new_address_unit2'];
+			    $devotee->address_street = $input['new_address_street'];
+			    $devotee->address_building = $input['new_address_building'];
+			    $devotee->address_postal = $input['new_address_postal'];
+			    $devotee->nationality = $input['new_nationality'];
+			    $devotee->oversea_addr_in_chinese = $input['new_oversea_addr_in_chinese'];
+					$devotee->save();
+		    }
 
-			// remove session data
-			Session::forget('focus_devotee');
-			Session::forget('devotee_lists');
+				$session_focus_devotee = Session::get('focus_devotee');
 
-			$focus_devotee = Devotee::join('member', 'member.member_id', '=', 'devotee.member_id')
-											 ->join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-											 ->where('devotee.devotee_id', $session_focus_devotee[0]->devotee_id)
-											 ->select('devotee.*', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date', 'familycode.familycode')
-											 ->get();
+				// remove session data
+				Session::forget('focus_devotee');
+				Session::forget('devotee_lists');
 
-			$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-			        ->where('devotee.familycode_id', $session_focus_devotee[0]->familycode_id)
-			        ->where('devotee_id', '!=', $session_focus_devotee[0]->devotee_id)
-			        ->orderBy('devotee_id', 'asc')
-			        ->select('devotee.*')
-			        ->addSelect('familycode.familycode')->get();
+				$focus_devotee = Devotee::join('member', 'member.member_id', '=', 'devotee.member_id')
+												 ->join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+												 ->where('devotee.devotee_id', $session_focus_devotee[0]->devotee_id)
+												 ->select('devotee.*', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date', 'familycode.familycode')
+												 ->get();
 
-		if(!Session::has('focus_devotee'))
-		{
-			Session::put('focus_devotee', $focus_devotee);
-		}
+				$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+				        ->where('devotee.familycode_id', $session_focus_devotee[0]->familycode_id)
+				        ->where('devotee_id', '!=', $session_focus_devotee[0]->devotee_id)
+				        ->orderBy('devotee_id', 'asc')
+				        ->select('devotee.*')
+				        ->addSelect('familycode.familycode')->get();
 
-		if(!Session::has('devotee_lists'))
-		{
-			Session::put('devotee_lists', $devotee_lists);
-		}
+				if(!Session::has('focus_devotee'))
+				{
+					Session::put('focus_devotee', $focus_devotee);
+				}
 
-	  $request->session()->flash('success', 'Relocation Devotee(s) has been changed!');
-	  return redirect()->back();
+				if(!Session::has('devotee_lists'))
+				{
+					Session::put('devotee_lists', $devotee_lists);
+				}
+
+				$request->session()->flash('success', 'Relocation Devotee(s) has been changed!');
+			  return redirect()->back();
+			}
+
+			else
+			{
+				$request->session()->flash('error', "Password did not match. Please Try Again");
+		    return redirect()->back()->withInput();
+			}
 	}
 
 	public function getAutocomplete(Request $request)
