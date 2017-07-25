@@ -817,7 +817,7 @@ class OperatorController extends Controller
 			else
 		  {
 				$request->session()->flash('success', 'Profile is successfully updated.');
-			 return redirect()->back();
+				return redirect()->back()->withInput();
 		  }
 	}
 
