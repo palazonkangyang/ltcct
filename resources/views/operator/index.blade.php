@@ -1228,7 +1228,7 @@
 
         $(function(){
 
-					$("#opt_address .col-md-1").first().remove('.removeAddressBtn1');
+					$("#opt_address .removeAddressBtn1").first().remove();
 
 					$("#content_introduced_by1").autocomplete({
 						source: "/operator/search/autocomplete",
