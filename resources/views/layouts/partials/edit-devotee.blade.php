@@ -288,11 +288,11 @@
 
             <div class="col-md-6">
 
-							<div id="opt_address">
-
 								@if(Session::has('optionaladdresses'))
 
 								@php $optionaladdresses = Session::get('optionaladdresses'); @endphp
+
+								<div id="opt_address">
 
 								@foreach($optionaladdresses as $optAddress)
 
@@ -322,12 +322,39 @@
 								</div><!-- end form-group -->
 
 								@endforeach
-								@endif
 
 								</div><!-- end opt_address -->
 
-								<div class="form-group">
+								@else
 
+								<div id="opt_address">
+
+									<div class="form-group">
+										<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
+
+										<div class='col-md-3'>
+											<select class='form-control' name='address_type[]'>
+												<option value="home">Home</option>
+												<option value="company">Company</option>
+												<option value="stall">Stall</option>
+												<option value="office">Office</option>
+											</select>
+										</div><!-- end col-md-3 -->
+
+										<div class='col-md-5'>
+											<input type="text" class="form-control" name="address_data[]" value="">
+										</div><!-- end col-md-5 -->
+
+										<div class='col-md-1'>
+											<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
+										</div><!-- end col-md-1 -->
+									</div><!-- end form-group -->
+
+								</div><!-- end opt_address -->
+
+								@endif
+
+								<div class="form-group">
                     <div class="col-md-1"></div><!-- end col-md-1 -->
 
                     <div class="col-md-5">
@@ -335,7 +362,6 @@
                     </div><!-- end col-md-5 -->
 
                     <div class="col-md-6"></div><!-- end col-md-6 -->
-
                 </div><!-- end form-group -->
 
 								<div id="opt_vehicle">
@@ -375,7 +401,6 @@
                 </div><!-- end opt_vehicle -->
 
                 <div class="form-group">
-
                     <div class="col-md-1">
                     </div><!-- end col-md-1 -->
 
@@ -385,7 +410,6 @@
 
                     <div class="col-md-6">
                     </div><!-- end col-md-6 -->
-
                 </div><!-- end form-group -->
 
 								@if(Session::has('specialRemarks'))
@@ -397,7 +421,6 @@
 								@foreach($specialRemarks as $specialRemark)
 
 								<div class='form-group'>
-
 									<label class='col-md-3 control-label'>Special Remarks</label><!-- end col-md-3 -->
 
 									<div class='col-md-8'>
@@ -407,7 +430,6 @@
 									<div class='col-md-1'>
 										<i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
-
 								</div><!-- end form-group -->
 
 								@endforeach
@@ -417,26 +439,21 @@
 								@else
 
 								<div id="special_remark">
-
 									<div class='form-group'>
-
 										<label class='col-md-3 control-label'>Special Remarks</label><!-- end col-md-3 -->
 
 										<div class='col-md-8'>
-											<input type="text" class="form-control" name="special_remark[]" value="{{ $specialRemark->data }}">
+											<input type="text" class="form-control" name="special_remark[]" value="">
 										</div><!-- end col-md-8 -->
 
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
-
 									</div><!-- end form-group -->
-
 								</div><!-- end special_remark -->
 
 								@endif
 
                 <div class="form-group">
-
                     <div class="col-md-1">
                     </div><!-- end col-md-1 -->
 
@@ -446,62 +463,48 @@
 
                     <div class="col-md-6">
                     </div><!-- end col-md-6 -->
-
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-
                     <label class="col-md-12 control-label">
                         If you have made Changes to the above. You need to CONFIRM to save the Changes.<br />
                         To Confirm, please enter authorized password to proceed.
                     </label>
-
                 </div><!-- end form-group -->
-
             </div><!-- end col-md-6 -->
 
             <div class="col-md-6">
-
                 <div class="form-group">
-
                     <label class="col-md-3 control-label">Introduced By-1</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" name="introduced_by1" value="{{ old('introduced_by1') }}" id="edit_introduced_by1">
                    	</div><!-- end col-md-9 -->
-
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-
                     <label class="col-md-3 control-label">Introduced By-2</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" name="introduced_by2" value="{{ old('introduced_by2') }}" id="edit_introduced_by2">
                     </div><!-- end col-md-9 -->
-
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-
                     <label class="col-md-3 control-label">Member Approved Date</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
                             id="edit_approved_date" data-date-format="dd/mm/yyyy">
                     </div><!-- end col-md-9 -->
-
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-
                     <label class="col-md-3 control-label">Member Cancelled Date</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control form-control-inline date-picker" name="cancelled_date" data-provide="datepicker"
                             id="edit_cancelled_date" data-date-format="dd/mm/yyyy">
                     </div><!-- end col-md-9 -->
-
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-
                     <label class="col-md-3 control-label">Reason for Cancel</label>
                     <div class="col-md-9">
                         <select class="form-control" name="reason_for_cancel" id="edit_reason_for_cancel">
@@ -512,7 +515,6 @@
                             <option value="4">Others</option>
                         </select>
                     </div><!-- end col-md-9 -->
-
                 </div><!-- end form-group -->
 
                	<div class="form-group">
@@ -521,7 +523,6 @@
                     <div class="col-md-3">
                         <input type="password" class="form-control" name="authorized_password" id="authorized_password">
                     </div><!-- end col-md-9 -->
-
                 </div><!-- end form-group -->
 
                 <div class="form-actions pull-right">
