@@ -529,8 +529,8 @@
                                                                         <label class="col-md-3 control-label">Mailer</label>
                                                                         <div class="col-md-2">
                                                                             <select class="form-control" name="mailer" style="width: 90px;">
-                                                                                <option value="">Yes</option>
-                                                                                <option>No</option>
+																																							<option value="No">No</option>
+                                                                              <option value="Yes">Yes</option>
                                                                             </select>
                                                                         </div><!-- end col-md-2 -->
 
