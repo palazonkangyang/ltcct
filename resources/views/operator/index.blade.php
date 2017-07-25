@@ -1081,9 +1081,9 @@
 
 																																	<div class="col-md-6">
 																																		<div class="form-group pull-right">
-                                                                        <label class="col-md-6"></label>
-                                                                        <label class="col-md-3 control-label">Authorized Password</label>
-                                                                        <div class="col-md-3">
+                                                                        <label class="col-md-2"></label>
+                                                                        <label class="col-md-6 control-label">Authorized Password</label>
+                                                                        <div class="col-md-4">
                                                                             <input type="password" class="form-control"
                                                                                 name="authorized_password" id="relocation_authorized_password">
                                                                         </div><!-- end col-md-9 -->
