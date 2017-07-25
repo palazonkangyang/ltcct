@@ -388,11 +388,11 @@
 
                 </div><!-- end form-group -->
 
-								<div id="special_remark">
-
 								@if(Session::has('specialRemarks'))
 
 								@php $specialRemarks = Session::get('specialRemarks'); @endphp
+
+								<div id="special_remark">
 
 								@foreach($specialRemarks as $specialRemark)
 
@@ -411,9 +411,29 @@
 								</div><!-- end form-group -->
 
 								@endforeach
-								@endif
 
-                </div><!-- end special_remark -->
+								</div><!-- end special_remark -->
+
+								@else
+
+								<div id="special_remark">
+
+									<div class='form-group'>
+
+										<label class='col-md-3 control-label'>Special Remarks</label><!-- end col-md-3 -->
+
+										<div class='col-md-8'>
+											<input type="text" class="form-control" name="special_remark[]" value="{{ $specialRemark->data }}">
+										</div><!-- end col-md-8 -->
+
+										<div class='col-md-1'>
+										</div><!-- end col-md-1 -->
+
+									</div><!-- end form-group -->
+
+								</div><!-- end special_remark -->
+
+								@endif
 
                 <div class="form-group">
 
