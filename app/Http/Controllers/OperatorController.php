@@ -485,9 +485,9 @@ class OperatorController extends Controller
 
 				if(isset($input['member_id']))
 		    {
-
-					dd($input['member_id']);
 					$member = Member::find($input['member_id']);
+
+					dd($member->toArray());
 
 					$member->introduced_by1 = $input['introduced_by1'];
 		      $member->introduced_by2 = $input['introduced_by2'];
