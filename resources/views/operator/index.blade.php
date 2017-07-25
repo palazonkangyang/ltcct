@@ -1825,8 +1825,7 @@
 						        dataType: 'json',
 						        success: function(response)
 						        {
-											// location.reload();
-											alert(JSON.stringify(response.devotee));
+											location.reload();
 
 											$("#special_remark").empty();
 											$("#opt_address").empty();
