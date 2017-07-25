@@ -433,7 +433,7 @@
                                                                         <label class="col-md-3 control-label">Deceased Year</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="deceased_year form-control" name="deceased_year"
-                                                                                data-provide="datepicker" data-date-format="yyyy" value="{{ old('deceased_year') }}">
+                                                                                data-provide="datepicker" value="{{ old('deceased_year') }}" id="content_deceased_year">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -1507,6 +1507,16 @@
         	}
 
             var opt_address;
+
+            $('#edit_deceased_year').datepicker({
+                minViewMode: 2,
+                format: 'yyyy'
+            });
+
+						$('#content_deceased_year').datepicker({
+                minViewMode: 2,
+                format: 'yyyy'
+            });
 
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));

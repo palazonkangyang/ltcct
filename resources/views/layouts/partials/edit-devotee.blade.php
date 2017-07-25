@@ -171,7 +171,7 @@
                     <label class="col-md-3 control-label">Deceased Year</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control deceased_year" name="deceased_year" data-provide="datepicker"
-                            value="{{ old('deceased_year') }}" id="edit_deceased_year" data-date-format="yyyy">
+                            value="{{ old('deceased_year') }}" id="edit_deceased_year" id="edit_deceased_year">
                     </div><!-- end col-md-9 -->
 
                 </div><!-- end form-group -->
