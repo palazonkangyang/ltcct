@@ -1229,6 +1229,8 @@
         $(function(){
 
 					$("#opt_address .removeAddressBtn1").first().remove();
+					$("#opt_vehicle .removeVehicleBtn1").first().remove();
+					$("#special_remark .removeSpecRemarkBtn1").first().remove();
 
 					$("#content_introduced_by1").autocomplete({
 						source: "/operator/search/autocomplete",
