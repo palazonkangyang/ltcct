@@ -860,7 +860,7 @@ class OperatorController extends Controller
 			else
 			{
 				$request->session()->flash('error', 'Password did not match. Please Try Again');
-		    return redirect()->back();
+		    return redirect()->back()->withInput($request->input());
 			}
 	}
 
