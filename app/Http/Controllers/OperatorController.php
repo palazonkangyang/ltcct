@@ -603,6 +603,20 @@ class OperatorController extends Controller
 		      }
 		    }
 
+				$devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+				           ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
+				           ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date')
+				           ->where('devotee.devotee_id', $input['devotee_id'])
+				           ->get();
+
+			  // remove session data
+				if(Session::has('focus_devotee'))
+				{
+					Session::forget('focus_devotee');
+				}
+
+				Session::put('focus_devotee', $devotee);
+
 		    $request->session()->flash('success', 'Profile is successfully updated.');
 		    return redirect()->back();
 			}
