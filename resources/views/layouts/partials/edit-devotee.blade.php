@@ -425,6 +425,7 @@
 								</div><!-- end opt_vehicle -->
 
 								@endif
+								@endif
 
                 <div class="form-group">
                     <div class="col-md-1">
