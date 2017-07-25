@@ -485,7 +485,7 @@ class OperatorController extends Controller
 		    {
 					$member = Member::find($input['member_id']);
 
-					dd($member);
+					dd($member->toArray());
 				}
 
 			}
