@@ -1249,29 +1249,29 @@
 						}
 					});
 
-					$("#content_introduced_by2").autocomplete({
-						source: "/operator/search/autocomplete2",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#content_introduced_by2').val(ui.item.value);
-						}
-					});
+					// $("#content_introduced_by2").autocomplete({
+					// 	source: "/operator/search/autocomplete2",
+					// 	minLength: 1,
+					//   select: function(event, ui) {
+					//   	$('#content_introduced_by2').val(ui.item.value);
+					// 	}
+					// });
 
-					$("#edit_introduced_by1").autocomplete({
-						source: "/operator/search/autocomplete",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_introduced_by1').val(ui.item.value);
-						}
-					});
-
-					$("#edit_introduced_by2").autocomplete({
-						source: "/operator/search/autocomplete2",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_introduced_by2').val(ui.item.value);
-						}
-					});
+					// $("#edit_introduced_by1").autocomplete({
+					// 	source: "/operator/search/autocomplete",
+					// 	minLength: 1,
+					//   select: function(event, ui) {
+					//   	$('#edit_introduced_by1').val(ui.item.value);
+					// 	}
+					// });
+					//
+					// $("#edit_introduced_by2").autocomplete({
+					// 	source: "/operator/search/autocomplete2",
+					// 	minLength: 1,
+					//   select: function(event, ui) {
+					//   	$('#edit_introduced_by2').val(ui.item.value);
+					// 	}
+					// });
 
 					$("#content_address_street").autocomplete({
 						source: "/operator/search/address_street",
@@ -1516,17 +1516,6 @@
         	}
 
             var opt_address;
-
-            $('.deceased_year').datepicker({
-                minViewMode: 2,
-                format: 'yyyy',
-								viewMode: 'years',
-            });
-
-						// $('#content_deceased_year').datepicker({
-            //     minViewMode: 2,
-            //     format: 'yyyy'
-            // });
 
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));
