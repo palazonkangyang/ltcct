@@ -292,7 +292,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">English Name *</label>
+                                                                        <label class="col-md-3 control-label">English Name</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="english_name"
                                                                             value="{{ old('english_name') }}" id="content_english_name">
@@ -312,7 +312,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Guiyi Name *</label>
+                                                                        <label class="col-md-3 control-label">Guiyi Name</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="guiyi_name"
                                                                             value="{{ old('guiyi_name') }}" id="content_guiyi_name">
@@ -450,7 +450,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Marital Status *</label>
+                                                                        <label class="col-md-3 control-label">Marital Status</label>
                                                                         <div class="col-md-9">
                                                                            <select class="form-control" name="marital_status" id="content_marital_status">
                                                                                 <option value="">Please select</option>
@@ -463,7 +463,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Dialect *</label>
+                                                                        <label class="col-md-3 control-label">Dialect</label>
                                                                         <div class="col-md-9">
                                                                             <select class="form-control" name="dialect" id="content_dialect">
                                                                                 <option value="">Please select</option>
@@ -489,7 +489,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Nationality *</label>
+                                                                        <label class="col-md-3 control-label">Nationality</label>
                                                                         <div class="col-md-9">
                                                                             <select class="form-control" name="nationality" id="content_nationality">
                                                                                 <option value="">Please select</option>
@@ -1553,14 +1553,9 @@
 							var validationFailed = false;
 
 							var chinese_name = $("#content_chinese_name").val();
-							var english_name = $("#content_english_name").val();
-							var guiyi_name = $("#content_guiyi_name").val();
 							var contact = $("#content_contact").val();
 							var address_houseno = $("#content_address_houseno").val();
 							var address_postal = $("#content_address_postal").val();
-							var marital_status = $("#content_marital_status").val();
-							var dialect = $("#content_dialect").val();
-							var nationality = $("#content_nationality").val();
 							var authorized_password = $("#content_authorized_password").val();
 
 							if ($.trim(chinese_name).length <= 0)
