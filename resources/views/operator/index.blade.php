@@ -900,13 +900,6 @@
 
                                                                         </div><!-- end form-group -->
 
-																																				<div class="form-group">
-		                                                                        <label class="col-md-12 control-label">
-		                                                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.<br />
-		                                                                            To Confirm, please enter authorized password to proceed.
-		                                                                        </label>
-		                                                                    </div><!-- end form-group -->
-
                                                                     </div><!-- end col-md-6 -->
 
                                                                     @else
@@ -983,7 +976,6 @@
                                                                     @endif
 
                                                                     <div class="col-md-4">
-
                                                                     </div><!-- end col-md-4 -->
 
                                                                 </div><!-- end col-md-12 -->
@@ -993,12 +985,10 @@
                                                                 <hr>
 
                                                                 <div class="col-md-12">
-
                                                                     <h4>New Address</h4>
                                                                     <h5>Local Address</h5>
 
                                                                     <div class="col-md-8">
-
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - House No</label>
                                                                             <div class="col-md-3">
@@ -1020,7 +1010,6 @@
                                                                                     name="new_address_unit2"
                                                                                     value="{{ old('new_address_unit2') }}">
                                                                             </div><!-- end col-md-2 -->
-
                                                                         </div><!-- end form-group -->
 
                                                                         <div class="form-group">
@@ -1030,7 +1019,6 @@
                                                                                     name="new_address_street"
                                                                                     value="{{ old('new_address_street') }}" id="new_address_street">
                                                                             </div><!-- end col-md-8 -->
-
                                                                         </div><!-- end form-group -->
 
                                                                         <div class="form-group">
@@ -1040,7 +1028,6 @@
                                                                                     name="new_address_building"
                                                                                     value="{{ old('new_address_building') }}" id="new_address_building">
                                                                             </div><!-- end col-md-6 -->
-
                                                                         </div><!-- end form-group -->
 
                                                                         <div class="form-group">
@@ -1068,8 +1055,14 @@
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_oversea_addr_in_chinese">
                                                                             </div><!-- end col-md-6 -->
-
                                                                         </div><!-- end form-group -->
+
+																																				<div class="form-group">
+		                                                                        <label class="col-md-12">
+		                                                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.<br />
+		                                                                            To Confirm, please enter authorized password to proceed.
+		                                                                        </label>
+		                                                                    </div><!-- end form-group -->
 
                                                                     </div><!-- end col-md-6 -->
 
