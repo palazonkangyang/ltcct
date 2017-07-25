@@ -134,6 +134,13 @@ class OperatorController extends Controller
 							 ->where('devotee.devotee_id', $devotee_id)
 							 ->get();
 
+		$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+					 		       ->where('devotee.familycode_id', $familycode_id)
+					 		       ->where('devotee_id', '!=', $devotee[0]->devotee_id)
+					 		       ->orderBy('devotee_id', 'asc')
+					 		       ->select('devotee.*')
+					 		       ->addSelect('familycode.familycode')->get();
+
 		if(isset($devotee[0]->dob))
 		{
 			$devotee[0]->dob = Carbon::parse($devotee[0]->dob)->format("d/m/Y");
@@ -155,6 +162,12 @@ class OperatorController extends Controller
 	  }
 
 		// remove session data
+	  if(Session::has('$devotee_lists'))
+	  {
+	    Session::forget('$devotee_lists');
+	  }
+
+		// remove session data
 	  if(Session::has('optionaladdresses'))
 	  {
 	    Session::forget('optionaladdresses');
@@ -173,6 +186,7 @@ class OperatorController extends Controller
 	  }
 
 	  Session::put('focus_devotee', $devotee);
+		Session::put('devotee_lists', $devotee_lists);
 		Session::put('optionaladdresses', $optionaladdresses);
 		Session::put('optionalvehicles', $optionalvehicles);
 		Session::put('specialRemarks', $specialRemarks);
@@ -600,7 +614,6 @@ class OperatorController extends Controller
 		  }
 		}
 	}
-
 
 	// Edit Devotee
 	public function getEditDevotee($devotee_id)
