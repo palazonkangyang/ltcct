@@ -290,7 +290,7 @@
 
 								@if(Session::has('optionaladdresses'))
 
-								@php $optionaladdresses = Session::get('optionaladdresses'); dd('has session'); @endphp
+								@php $optionaladdresses = Session::get('optionaladdresses'); dd(count($optionaladdresses)); @endphp
 
 								<div id="opt_address">
 
