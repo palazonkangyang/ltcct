@@ -135,7 +135,7 @@ class OperatorController extends Controller
 							 ->get();
 
 		$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-					 		       ->where('devotee.familycode_id', $familycode_id)
+					 		       ->where('devotee.familycode_id', $devotee[0]->$familycode_id)
 					 		       ->where('devotee_id', '!=', $devotee[0]->devotee_id)
 					 		       ->orderBy('devotee_id', 'asc')
 					 		       ->select('devotee.*')
