@@ -522,7 +522,7 @@
                     <label class="col-md-3 control-label">Member Approved Date</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
-                            id="edit_approved_date" data-date-format="dd/mm/yyyy">
+                            id="edit_approved_date" data-date-format="dd/mm/yyyy" value="{{ old('approved_date') }}">
                     </div><!-- end col-md-9 -->
                 </div><!-- end form-group -->
 
@@ -530,7 +530,7 @@
                     <label class="col-md-3 control-label">Member Cancelled Date</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control form-control-inline date-picker" name="cancelled_date" data-provide="datepicker"
-                            id="edit_cancelled_date" data-date-format="dd/mm/yyyy">
+                            id="edit_cancelled_date" data-date-format="dd/mm/yyyy" value="{{ old('cancelled_date') }}">
                     </div><!-- end col-md-9 -->
                 </div><!-- end form-group -->
 
