@@ -810,7 +810,6 @@
                                                                             @endif
 
                                                                         </table>
-
                                                                     </div><!-- end form-group -->
 
                                                                 </div><!-- end col-md-12 -->
@@ -820,17 +819,12 @@
                                                                 <hr>
 
                                                                 <div class="col-md-12">
-
                                                                     <h4>Current Address</h4>
                                                                     <h5>Local Address</h5>
 
                                                                     @if(Session::has('focus_devotee'))
 
-                                                                    @php
-
-                                                                        $focus_devotee = Session::get('focus_devotee');
-
-                                                                    @endphp
+                                                                    @php $focus_devotee = Session::get('focus_devotee'); @endphp
 
                                                                     <div class="col-md-8" id="has_session">
                                                                         <div class="form-group">
@@ -905,6 +899,13 @@
                                                                             </div><!-- end col-md-6 -->
 
                                                                         </div><!-- end form-group -->
+
+																																				<div class="form-group">
+		                                                                        <label class="col-md-12 control-label">
+		                                                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.<br />
+		                                                                            To Confirm, please enter authorized password to proceed.
+		                                                                        </label>
+		                                                                    </div><!-- end form-group -->
 
                                                                     </div><!-- end col-md-6 -->
 
