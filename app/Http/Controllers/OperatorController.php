@@ -807,62 +807,14 @@ class OperatorController extends Controller
 			$user = User::find(Auth::user()->id);
 			$hashedPassword = $user->password;
 
-			dd($hashedPassword);
-
 	    if(Hash::check($input['authorized_password'], $hashedPassword))
 			{
-				for($i = 0; $i < count($input['devotee_id']); $i++)
-		    {
-		    	$devotee = Devotee::find($input['devotee_id'][$i]);
-
-			    $devotee->address_houseno = $input['new_address_houseno'];
-			    $devotee->address_unit1 = $input['new_address_unit1'];
-			    $devotee->address_unit2 = $input['new_address_unit2'];
-			    $devotee->address_street = $input['new_address_street'];
-			    $devotee->address_building = $input['new_address_building'];
-			    $devotee->address_postal = $input['new_address_postal'];
-			    $devotee->nationality = $input['new_nationality'];
-			    $devotee->oversea_addr_in_chinese = $input['new_oversea_addr_in_chinese'];
-					$devotee->save();
-		    }
-
-				$session_focus_devotee = Session::get('focus_devotee');
-
-				// remove session data
-				Session::forget('focus_devotee');
-				Session::forget('devotee_lists');
-
-				$focus_devotee = Devotee::join('member', 'member.member_id', '=', 'devotee.member_id')
-												 ->join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-												 ->where('devotee.devotee_id', $session_focus_devotee[0]->devotee_id)
-												 ->select('devotee.*', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date', 'familycode.familycode')
-												 ->get();
-
-				$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-				        ->where('devotee.familycode_id', $session_focus_devotee[0]->familycode_id)
-				        ->where('devotee_id', '!=', $session_focus_devotee[0]->devotee_id)
-				        ->orderBy('devotee_id', 'asc')
-				        ->select('devotee.*')
-				        ->addSelect('familycode.familycode')->get();
-
-				if(!Session::has('focus_devotee'))
-				{
-					Session::put('focus_devotee', $focus_devotee);
-				}
-
-				if(!Session::has('devotee_lists'))
-				{
-					Session::put('devotee_lists', $devotee_lists);
-				}
-
-				$request->session()->flash('success', 'Relocation Devotee(s) has been changed!');
-			  return redirect()->back();
+				dd("password is match");
 			}
 
 			else
 			{
-				$request->session()->flash('error', "Password did not match. Please Try Again");
-		    return redirect()->back()->withInput();
+				dd("password is not match");
 			}
 	}
 
