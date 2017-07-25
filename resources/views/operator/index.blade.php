@@ -1508,15 +1508,15 @@
 
             var opt_address;
 
-            $('#edit_deceased_year').datepicker({
+            $('.deceased_year').datepicker({
                 minViewMode: 2,
                 format: 'yyyy'
             });
 
-						$('#content_deceased_year').datepicker({
-                minViewMode: 2,
-                format: 'yyyy'
-            });
+						// $('#content_deceased_year').datepicker({
+            //     minViewMode: 2,
+            //     format: 'yyyy'
+            // });
 
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
                 localStorage.setItem('activeTab', $(e.target).attr('href'));
