@@ -8,11 +8,7 @@
 
             <div class="col-md-6">
 
-							<div class="form-group">
-					        <input type="hidden" name="devotee_id" value="{{ old('devotee_id') }}" id="edit_devotee_id">
-					        <input type="hidden" name="familycode_id" value="{{ old('familycode_id') }}" id="edit_familycode_id">
-					        <input type="hidden" name="member_id" value="{{ old('member_id') }}" id="edit_member_id">
-					    </div><!-- end form-group -->
+							
 
 							<div class="form-group">
 					        <label class="col-md-3 control-label">Title</label>
