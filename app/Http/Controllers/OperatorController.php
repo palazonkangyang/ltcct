@@ -807,16 +807,18 @@ class OperatorController extends Controller
 			$user = User::find(Auth::user()->id);
 			$hashedPassword = $user->password;
 
-	    if(Hash::check($input['authorized_password'], $hashedPassword))
+			if (Hash::check($input['authorized_password'], $hashedPassword))
 			{
-				dd("password is match");
+
+		    $request->session()->flash('success', 'Profile is successfully updated.');
+		    return redirect()->back();
 			}
 
 			else
-			{
-				$request->session()->flash("error", "Password did not match. Please Try Again");
-				return redirect()->back()->withInput();
-			}
+		  {
+		    $request->session()->flash('error', "Password did not match. Please Try Again");
+		    return redirect()->back()->withInput();
+		  }
 	}
 
 	public function getAutocomplete(Request $request)
