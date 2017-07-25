@@ -448,7 +448,7 @@ class OperatorController extends Controller
 
 		$input = array_except($request->all(), '_token');
 
-		dd($input);
+		// dd($input);
 
 		if(isset($input['authorized_password']))
 		{
@@ -467,11 +467,15 @@ class OperatorController extends Controller
 		      $approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
 		    }
 
+				dd($approveNewDate);
+
 		    if(isset($input['cancelled_date']))
 		    {
 		      $cancelledDate_date = str_replace('/', '-', $input['cancelled_date']);
 		      $cancelledNewDate = date("Y-m-d", strtotime($cancelledDate_date));
 		    }
+
+				dd($cancelledNewDate);
 
 				if(isset($input['edit_familycode_id']))
 		    {
