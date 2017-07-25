@@ -139,8 +139,6 @@ class OperatorController extends Controller
 			$devotee[0]->dob = Carbon::parse($devotee[0]->dob)->format("d/m/Y");
 		}
 
-
-
 		if(isset($devotee[0]->approved_date))
 		{
 			$devotee[0]->approved_date = Carbon::parse($devotee[0]->approved_date)->format("d/m/Y");
@@ -538,6 +536,8 @@ class OperatorController extends Controller
 				$devotee->nationality = $input['nationality'];
 				$devotee->familycode_id = $familycode_id;
 				$devotee->member_id = $input['member_id'];
+
+				$devotee->save();
 
 				// Update Optional Address
 				if(isset($input['address_data'][0]))
