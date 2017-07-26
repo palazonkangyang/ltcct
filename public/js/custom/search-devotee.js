@@ -35,11 +35,11 @@ $(function() {
                         "<td>" + response.devotee['address_street'] + "</td>" +
                         "<td>" + response.devotee['address_unit1'] + "</td>" +
                         "<td>" + response.devotee['guiyi_name'] + "</td>" +
-                        "<td width='100px' class='amount-col'><input type='text' class='form-control amount' name='other_amount[]'></td>" +
-                        "<td width='120px'><input type='text' class='form-control paid_till' name='other_paid_till[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'></td>" +
-                        "<td width='150px'><select class='form-control' name='other_hjgr_arr[]'><option value='hj'>hj</option><option value='gr'>gr</option>" +
+                        "<td class='amount-col'><input type='text' class='form-control amount' name='other_amount[]'></td>" +
+                        "<td><input type='text' class='form-control paid_till' name='other_paid_till[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'></td>" +
+                        "<td><select class='form-control' name='other_hjgr_arr[]'><option value='hj'>hj</option><option value='gr'>gr</option>" +
                         "</select></td>" +
-                        "<td width='80px'><select class='form-control' name='other_display[]'><option value='Y'>Y</option><option value='N'>N</option>" +
+                        "<td><select class='form-control' name='other_display[]'><option value='Y'>Y</option><option value='N'>N</option>" +
                         "</select></td>" +
                         "<td></td>" +
                         "<td></td>");
@@ -71,6 +71,19 @@ $(function() {
         var cheque_no = $("#cheque_no").val();
         var manualreceipt = $("#manualreceipt").val();
         var receipt_at = $("#receipt_at").val();
+
+        $("body").on('focus', '.other_amount', function() {
+
+          if($(this).val().length != 0)
+          {
+            if($.trim($(this).closest('tr').find('.other_paid_till').val()).length <= 0)
+            {
+              validationFailed = true;
+              errors[count++] = "Paid Till fields are empty."
+            }
+          }
+
+        });
 
         if(mode_payment == "cheque")
         {
