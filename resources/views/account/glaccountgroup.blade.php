@@ -383,10 +383,10 @@
       if(window.location.search.length)
       {
         var queryString = window.location.search;
-        // var hashtag = getParameter('tab');
         var glaccountgroup_id = getParameter('glaccountgroup_id');
 
-        // localStorage.setItem('activeTab', hashtag);
+        var hashtag = "#tab_editglaccountgroup";
+        localStorage.setItem('activeTab', hashtag);
 
         if(glaccountgroup_id)
         {
