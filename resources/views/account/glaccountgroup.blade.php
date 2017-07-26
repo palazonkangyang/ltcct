@@ -386,6 +386,7 @@
         var hashtag = "#tab_editglaccountgroup";
         var glaccountgroup_id = getParameter('glaccountgroup_id');
         localStorage.setItem('activeTab', hashtag);
+        console.log('query string');
 
       }
 
@@ -393,6 +394,7 @@
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
+        console.log('no query string');
       }
 
       if ( $('.alert-success').children().length > 0 ) {
