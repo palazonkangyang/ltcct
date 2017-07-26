@@ -152,13 +152,13 @@ class StaffController extends Controller
 
 	public function getReceipt(Request $request, $receipt_id)
 	{
-		$receipt = Receipt::join('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
-					->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-					->select('receipt.*')
-					->addSelect('devotee.chinese_name')
-					->addSelect('generaldonation.trans_no')
-					->where('receipt.receipt_id', $receipt_id)
-					->get();
+		// $receipt = Receipt::join('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
+		// 			->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+		// 			->select('receipt.*')
+		// 			->addSelect('devotee.chinese_name')
+		// 			->addSelect('generaldonation.trans_no')
+		// 			->where('receipt.receipt_id', $receipt_id)
+		// 			->get();
 
 		// get general donation devotee by generaldonation id
 		$donation_devotees = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
@@ -179,13 +179,13 @@ class StaffController extends Controller
 
 	public function getTransaction(Request $request, $generaldonation_id)
 	{
-		$receipt = Receipt::join('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
-					->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-					->select('receipt.*')
-					->addSelect('devotee.chinese_name')
-					->addSelect('generaldonation.trans_no')
-					->where('receipt.generaldonation_id', $generaldonation_id)
-					->get();
+		// $receipt = Receipt::join('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
+		// 			->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+		// 			->select('receipt.*')
+		// 			->addSelect('devotee.chinese_name')
+		// 			->addSelect('generaldonation.trans_no')
+		// 			->where('receipt.generaldonation_id', $generaldonation_id)
+		// 			->get();
 
 		$generaldonation_items = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
 									->join('receipt', 'receipt.receipt_id', '=', 'generaldonation_items.receipt_id')
