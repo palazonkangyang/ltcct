@@ -382,19 +382,17 @@
 
       if(window.location.search.length)
       {
-        // localStorage.setItem('activeTab', hashtag);
-
-        alert('Has Query String');
-
-
+        var queryString = window.location.search;
+        var hashtag = "#tab_editglaccountgroup";
+        var glaccountgroup_id = getParameter('glaccountgroup_id');
+        localStorage.setItem('activeTab', hashtag);
 
       }
 
       else{
-        // $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-        //     localStorage.setItem('activeTab', $(e.target).attr('href'));
-        // });
-        alert("No Query String");
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
       }
 
       if ( $('.alert-success').children().length > 0 ) {
