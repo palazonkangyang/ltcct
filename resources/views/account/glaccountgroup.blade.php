@@ -380,7 +380,7 @@
 
       console.log(getParameter('glaccountgroup_id'));
 
-      if(window.location.search.length)
+      if(window.location.search.length > 0)
       {
         // var queryString = window.location.search;
         var glaccountgroup_id = getParameter('glaccountgroup_id');
@@ -393,7 +393,7 @@
 
       }
 
-      else {
+      if(window.location.search.length == 0) {
         alert("no query string");
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
