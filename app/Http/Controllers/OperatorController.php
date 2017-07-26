@@ -720,8 +720,6 @@ class OperatorController extends Controller
 																'devotee.address_unit2', 'devotee.address_street', 'devotee.address_building')
 																->get();
 
-		  dd($relative_friend_lists->toArray());
-
 			// Get Receipt History
 			$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
 				         	->leftjoin('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
