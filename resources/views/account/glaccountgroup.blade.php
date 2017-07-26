@@ -363,24 +363,6 @@
   <script type="text/javascript">
     $(function() {
 
-      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-          localStorage.setItem('activeTab', $(e.target).attr('href'));
-      });
-
-      if ( $('.alert-success').children().length > 0 ) {
-          localStorage.removeItem('activeTab');
-      }
-
-      else
-      {
-          var activeTab = localStorage.getItem('activeTab');
-      }
-
-      if (activeTab) {
-          $('a[href="' + activeTab + '"]').tab('show');
-          console.log(activeTab);
-      }
-
       function getParameter(theParameter) {
         var params = window.location.search.substr(1).split('&');
 
@@ -406,6 +388,7 @@
 
         if(glaccountgroup_id)
         {
+          localStorage.setItem('activeTab', hashtag);
 
           var formData = {
               _token: $('meta[name="csrf-token"]').attr('content'),
@@ -440,6 +423,26 @@
           });
         }
 
+      }
+
+      else{
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+      }
+
+      if ( $('.alert-success').children().length > 0 ) {
+          localStorage.removeItem('activeTab');
+      }
+
+      else
+      {
+          var activeTab = localStorage.getItem('activeTab');
+      }
+
+      if (activeTab) {
+          $('a[href="' + activeTab + '"]').tab('show');
+          console.log(activeTab);
       }
 
       // Disabled Edit Devotee Tab
