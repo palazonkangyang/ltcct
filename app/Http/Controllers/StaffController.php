@@ -46,14 +46,16 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		dd($input);
+		// Delete relative and friend lists by focus devotee before saving
+		$lists = RelativeFriendLists::findorfail($input['focusdevotee_id']);
+		$lists->delete();
 
 		// Add Relative and Friend Lists
 		for($i = 0; $i < count($input["other_devotee_id"]); $i++)
 		{
 		  $list = [
 		    "donate_devotee_id" => $input['focusdevotee_id'],
-		    "relative_friends_id" =>$input["other_devotee_id"][$i],
+		    "relative_friend_devotee_id" =>$input["other_devotee_id"][$i],
 		    "year" => date('Y')
 		  ];
 
@@ -62,8 +64,6 @@ class StaffController extends Controller
 
 		$request->session()->flash('success', 'General Donation is successfully created.');
 		return redirect()->back();
-
-
 	}
 
 
