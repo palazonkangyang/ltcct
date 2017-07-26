@@ -103,94 +103,98 @@ class StaffController extends Controller
 				$same_receipt = "";
 				$count = 0;
 
-				// save receipt for same family (1 receipt for printing)
-				for($i = 0; $i < count($input["amount"]); $i++)
+				if(isset($input["amount"]))
 				{
-					$amount = array_sum($input["amount"]);
-
-					if(isset($input["amount"][$i]) && $count < 1)
+					// save receipt for same family (1 receipt for printing)
+					for($i = 0; $i < count($input["amount"]); $i++)
 					{
-					  $same_xy_receipt = 1;
-					  $prefix = "XY";
-					  $same_xy_receipt += 1;
-					  $same_xy_receipt = $prefix . $same_xy_receipt;
+						$amount = array_sum($input["amount"]);
 
-					  $receipt = [
-					    "xy_receipt" => $same_xy_receipt,
-					    "trans_date" => Carbon::now(),
-					    "description" => "Xiangyou",
-					    "amount" => $amount,
-					    "generaldonation_id" => $general_donation->generaldonation_id
-					  ];
+						if(isset($input["amount"][$i]) && $count < 1)
+						{
+						  $same_xy_receipt = 1;
+						  $prefix = "XY";
+						  $same_xy_receipt += 1;
+						  $same_xy_receipt = $prefix . $same_xy_receipt;
 
-					  $same_receipt = Receipt::create($receipt)->receipt_id;
+						  $receipt = [
+						    "xy_receipt" => $same_xy_receipt,
+						    "trans_date" => Carbon::now(),
+						    "description" => "Xiangyou",
+						    "amount" => $amount,
+						    "generaldonation_id" => $general_donation->generaldonation_id
+						  ];
 
-						$count++;
-					}
+						  $same_receipt = Receipt::create($receipt)->receipt_id;
 
-					// save receipt for same family
-					if(isset($input["amount"][$i]))
-					{
-						// Modify fields
-						$paid_till_date = str_replace('/', '-', $input['paid_till'][$i]);
-						$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+							$count++;
+						}
 
-						$data = [
-							"amount" => $input["amount"][$i],
-							"paid_till" => $new_paid_till_date,
-							"hjgr" => $input["hjgr_arr"][$i],
-							"display" => $input["display"][$i],
-							"trans_date" => Carbon::now(),
-							"generaldonation_id" => $general_donation->generaldonation_id,
-							"devotee_id" => $input["devotee_id"][$i],
-							"receipt_id" => $same_receipt
-						];
+						// save receipt for same family
+						if(isset($input["amount"][$i]))
+						{
+							// Modify fields
+							$paid_till_date = str_replace('/', '-', $input['paid_till'][$i]);
+							$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
 
-						GeneralDonationItems::create($data);
+							$data = [
+								"amount" => $input["amount"][$i],
+								"paid_till" => $new_paid_till_date,
+								"hjgr" => $input["hjgr_arr"][$i],
+								"display" => $input["display"][$i],
+								"trans_date" => Carbon::now(),
+								"generaldonation_id" => $general_donation->generaldonation_id,
+								"devotee_id" => $input["devotee_id"][$i],
+								"receipt_id" => $same_receipt
+							];
+
+							GeneralDonationItems::create($data);
+						}
 					}
 				}
 
-				// save receipt for relative and friend lists (1 receipt for printing)
-				for($i = 0; $i < count($input["other_amount"]); $i++)
+				if(isset($input["other_amount"]))
 				{
-
-					if(isset($input["other_amount"][$i]))
+					// save receipt for relative and friend lists (1 receipt for printing)
+					for($i = 0; $i < count($input["other_amount"]); $i++)
 					{
-					  $different_xy_receipt = 1;
-					  $prefix = "XY";
-					  $different_xy_receipt += 1;
-					  $different_xy_receipt = $prefix . $different_xy_receipt;
 
-					  $receipt = [
-					    "xy_receipt" => $different_xy_receipt,
-					    "trans_date" => Carbon::now(),
-					    "description" => "Xiangyou",
-					    "amount" => $input["other_amount"][$i],
-					    "generaldonation_id" => $general_donation->generaldonation_id
-					  ];
+						if(isset($input["other_amount"][$i]))
+						{
+						  $different_xy_receipt = 1;
+						  $prefix = "XY";
+						  $different_xy_receipt += 1;
+						  $different_xy_receipt = $prefix . $different_xy_receipt;
 
-					  $different_xy_receipt = Receipt::create($receipt)->receipt_id;
+						  $receipt = [
+						    "xy_receipt" => $different_xy_receipt,
+						    "trans_date" => Carbon::now(),
+						    "description" => "Xiangyou",
+						    "amount" => $input["other_amount"][$i],
+						    "generaldonation_id" => $general_donation->generaldonation_id
+						  ];
 
-						// Modify fields
-		        $paid_till = $input['other_paid_till'][$i];
-		        $paid_till_date = str_replace('/', '-', $paid_till);
-		        $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+						  $different_xy_receipt = Receipt::create($receipt)->receipt_id;
 
-		        $data = [
-		          "amount" => $input["other_amount"][$i],
-		          "paid_till" => $new_paid_till_date,
-		          "hjgr" => $input["other_hjgr_arr"][$i],
-		          "display" => $input["other_display"][$i],
-		          "trans_date" => Carbon::now(),
-		          "generaldonation_id" => $general_donation->generaldonation_id,
-		          "devotee_id" => $input["other_devotee_id"][$i],
-		          "receipt_id" => $different_xy_receipt
-		        ];
+							// Modify fields
+			        $paid_till = $input['other_paid_till'][$i];
+			        $paid_till_date = str_replace('/', '-', $paid_till);
+			        $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
 
-		        GeneralDonationItems::create($data);
+			        $data = [
+			          "amount" => $input["other_amount"][$i],
+			          "paid_till" => $new_paid_till_date,
+			          "hjgr" => $input["other_hjgr_arr"][$i],
+			          "display" => $input["other_display"][$i],
+			          "trans_date" => Carbon::now(),
+			          "generaldonation_id" => $general_donation->generaldonation_id,
+			          "devotee_id" => $input["other_devotee_id"][$i],
+			          "receipt_id" => $different_xy_receipt
+			        ];
+
+			        GeneralDonationItems::create($data);
+						}
 					}
-
-
 				}
 			}
 		}
