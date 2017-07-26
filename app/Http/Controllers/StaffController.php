@@ -46,12 +46,12 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		// Delete relative and friend lists by focus devotee before saving
-		RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
-
 		// Add Relative and Friend Lists
 		if(isset($input["other_devotee_id"]))
 		{
+			// Delete relative and friend lists by focus devotee before saving
+			RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
+
 			for($i = 0; $i < count($input["other_devotee_id"]); $i++)
 			{
 			  $list = [
@@ -95,6 +95,55 @@ class StaffController extends Controller
 		];
 
 		$general_donation = GeneralDonation::create($data);
+
+		dd($input);
+
+		if($general_donation)
+		{
+			if($input["hjgr"] == "hj")
+			{
+				if(isset($input['devotee_id']))
+				{
+					// save receipt for same family (1 receipt for printing)
+			    $same_xy_receipt = Receipt::all()->last()->receipt_id;
+			    $prefix = "XY";
+			    $same_xy_receipt += 1;
+			    $same_xy_receipt = $prefix . $same_xy_receipt;
+
+					$receipt = [
+			      "xy_receipt" => $same_xy_receipt,
+			      "trans_date" => Carbon::now(),
+			      "description" => "Xiangyou",
+			      "amount" => $input["amount"][0],
+			      "generaldonation_id" => $general_donation->generaldonation_id
+			    ];
+
+					$same_receipt = Receipt::create($receipt);
+
+					// Add all devotees for general doantion Table
+					for($i = 0; $i < count($input['devotee_id']); $i++)
+			    {
+			      // Modify fields
+			      $paid_till = $input['paid_till'][$i];
+			      $paid_till_date = str_replace('/', '-', $paid_till);
+			      $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+
+			      $data = [
+			        "amount" => $input["amount"][$i],
+			        "paid_till" => $new_paid_till_date,
+			        "hjgr" => $input["hjgr_arr"][$i],
+			        "display" => $input["display"][$i],
+			        "trans_date" => Carbon::now(),
+			        "generaldonation_id" => $general_donation->generaldonation_id,
+			        "devotee_id" => $input["devotee_id"][$i],
+			        "receipt_id" => $same_receipt->receipt_id
+			      ];
+
+			      GeneralDonationItems::create($data);
+			    }
+				}
+			}
+		}
 
 		$request->session()->flash('success', 'General Donation is successfully created.');
 		return redirect()->back();
