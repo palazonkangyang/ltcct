@@ -18,6 +18,6 @@ class JobController extends Controller
 {
   public function getJob()
   {
-    return view('job.index');
+    return view('job.manage-job');
   }
 }
