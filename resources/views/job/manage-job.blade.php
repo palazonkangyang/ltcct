@@ -141,7 +141,7 @@
 
                                     <label class="col-md-3 control-label">Job Description *</label>
                                     <div class="col-md-9">
-                                        <textarea class="form-control" name="job_description" rows="4" id="job_description">{{}}</textarea>
+                                        <textarea class="form-control" name="job_description" rows="4" id="job_description"></textarea>
                                     </div><!-- end col-md-9 -->
 
                                   </div><!-- end form-group -->
