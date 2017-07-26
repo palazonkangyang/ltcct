@@ -10,12 +10,12 @@ class GlCode extends Model
 
     protected $fillable = [
         'accountcode',
-        'description',
-        'has_parent',
-        'coalevel',
-        'haschildren',
-        'status',
-        'parent_accountid',
+        'type_name',
+        'chinese_name',
+        'price',
+        'job_id',
+        'next_sn_number',
+        'receipt_prefix',
         'glcodegroup_id'
     ];
 }
