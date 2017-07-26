@@ -394,8 +394,9 @@
 
       }
 
-
-        alert("no query string");
+      $('.nav-pills > li > a').click( function() {
+        localStorage.removeItem('activeTab');
+        
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
@@ -403,7 +404,14 @@
         var activeTab = localStorage.getItem('activeTab');
 
         console.log(activeTab);
-      
+      });
+
+
+
+
+
+
+
 
       if ( $('.alert-success').children().length > 0 ) {
           localStorage.removeItem('activeTab');
