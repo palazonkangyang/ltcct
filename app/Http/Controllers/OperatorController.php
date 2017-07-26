@@ -680,13 +680,6 @@ class OperatorController extends Controller
 					        		->select('devotee.*')
 					        		->addSelect('familycode.familycode')->get();
 
-		$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.donate_devotee_id')
-														 ->where('donate_devotee_id', $devotee_id)
-														 ->select('relative_friend_lists.*', 'devotee.*')
-														 ->get();
-
-		dd($relative_friend_lists->toArray());
-
 		$input = Input::except('_token');
 
 		$devotee = new Devotee;
@@ -714,6 +707,13 @@ class OperatorController extends Controller
 	        							->orderBy('devotee_id', 'asc')
 	        							->select('devotee.*')
 	        							->addSelect('familycode.familycode')->get();
+
+			$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.donate_devotee_id')
+																->where('donate_devotee_id', $focus_devotee[0]->devotee_id)
+																->select('relative_friend_lists.*', 'devotee.*')
+																->get();
+
+			dd($relative_friend_lists->toArray());
 
 			// Get Receipt History
 			$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
