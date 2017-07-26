@@ -363,6 +363,24 @@
   <script type="text/javascript">
     $(function() {
 
+      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+          localStorage.setItem('activeTab', $(e.target).attr('href'));
+      });
+
+      if ( $('.alert-success').children().length > 0 ) {
+          localStorage.removeItem('activeTab');
+      }
+
+      else
+      {
+          var activeTab = localStorage.getItem('activeTab');
+      }
+
+      if (activeTab) {
+          $('a[href="' + activeTab + '"]').tab('show');
+          console.log(activeTab);
+      }
+
       function getParameter(theParameter) {
         var params = window.location.search.substr(1).split('&');
 
@@ -422,22 +440,8 @@
               }
           });
         }
+
       }
-
-      // else
-      // {
-      //   localStorage.removeItem('activeTab');
-      //
-      //   $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-      //       localStorage.setItem('activeTab', $(e.target).attr('href'));
-      //   });
-      // }
-
-      localStorage.removeItem('activeTab');
-
-      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-          localStorage.setItem('activeTab', $(e.target).attr('href'));
-      });
 
       // Disabled Edit Devotee Tab
       $(".nav-tabs > li").click(function(){
@@ -519,24 +523,6 @@
       $('#glaccountgroup-table').DataTable( {
         "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
       });
-
-      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-          localStorage.setItem('activeTab', $(e.target).attr('href'));
-      });
-
-      if ( $('.alert-success').children().length > 0 ) {
-          localStorage.removeItem('activeTab');
-      }
-
-      else
-      {
-          var activeTab = localStorage.getItem('activeTab');
-      }
-
-      if (activeTab) {
-          $('a[href="' + activeTab + '"]').tab('show');
-          console.log(activeTab);
-      }
 
       $("#confirm_gl_btn").click(function() {
 
