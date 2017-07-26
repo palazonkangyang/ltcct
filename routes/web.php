@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::group(['prefix' => 'job'], function () {
     Route::get('/manage-job', ['as' => 'new-job-page', 'uses' => 'JobController@getJob']);
 
-
+		Route::post('/new-job', ['as' => 'post-glaccount-group-page', 'uses' => 'JobController@postAddNewJob']);
   });
 
 });
