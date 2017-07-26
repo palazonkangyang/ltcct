@@ -125,10 +125,7 @@ class StaffController extends Controller
 					  $same_receipt = Receipt::create($receipt)->receipt_id;
 
 						$count++;
-						dd($count);
 					}
-
-
 				}
 
 				for($i = 0; $i < count($input["amount"]); $i++)
