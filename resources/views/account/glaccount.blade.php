@@ -364,7 +364,7 @@
 
   $(function() {
 
-
+    alert(window.location.search.length);
 
     if(window.location.search.length)
     {
