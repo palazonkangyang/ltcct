@@ -394,7 +394,7 @@
 
       }
 
-      if(window.location.search.length == 0) {
+
         alert("no query string");
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
@@ -403,7 +403,7 @@
         var activeTab = localStorage.getItem('activeTab');
 
         console.log(activeTab);
-      }
+      
 
       if ( $('.alert-success').children().length > 0 ) {
           localStorage.removeItem('activeTab');
