@@ -100,7 +100,7 @@ class StaffController extends Controller
 		{
 			if($input["hjgr"] == "hj")
 			{
-				for($i = 0; $i < count($input["amount"]; $i++))
+				for($i = 0; $i < count($input["amount"]); $i++)
 				{
 					if(isset($input["amount"][$i]))
 					{
