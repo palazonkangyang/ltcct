@@ -251,7 +251,7 @@ class StaffController extends Controller
 					{
 						if(isset($input["other_amount"][$i]))
 						{
-						  $individual_xy_receipt = 1;
+						  $individual_xy_receipt = Receipt::all()->last()->receipt_id;
 						  $prefix = "XY";
 						  $individual_xy_receipt += 1;
 						  $individual_xy_receipt = $prefix . $individual_xy_receipt;
