@@ -88,7 +88,7 @@
 
                               <div class="form-group">
 
-                                <table class="table table-bordered" id="glaccountgroup-table">
+                                <table class="table table-bordered" id="joblist-table">
                                   <thead>
                                       <tr>
                                           <th>Account Group Code</th>
@@ -123,43 +123,30 @@
 
                                     <label class="col-md-3 control-label">Job Reference No *</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="name" value="" id="name">
+                                        <input type="text" class="form-control" name="job_reference_no" value="" id="name">
                                     </div><!-- end col-md-9 -->
 
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
 
-                                    <label class="col-md-3 control-label">Account Description *</label>
+                                    <label class="col-md-3 control-label">Job Name *</label>
                                     <div class="col-md-9">
-                                        <textarea class="form-control" name="description" rows="4" id="description"></textarea>
+                                        <input type="text" class="form-control" name="job_name" value="" id="job_name">
                                     </div><!-- end col-md-9 -->
 
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
 
-                                    <label class="col-md-3 control-label">Balancing Side *</label>
+                                    <label class="col-md-3 control-label">Job Description *</label>
                                     <div class="col-md-9">
-                                      <select class="form-control" name="balancesheet_side">
-                                          <option value="ap">AP</option>
-                                          <option value="ar">AR</option>
-                                      </select>
+                                        <textarea class="form-control" name="job_description" rows="4" id="job_description"></textarea>
                                     </div><!-- end col-md-9 -->
 
                                   </div><!-- end form-group -->
 
-                                  <div class="form-group">
-
-                                    <label class="col-md-3 control-label">Group Status *</label>
-                                    <div class="col-md-9">
-                                      <select class="form-control" name="status">
-                                          <option value="active">Active</option>
-                                          <option value="inactive">Inactive</option>
-                                      </select>
-                                    </div><!-- end col-md-9 -->
-
-                                  </div><!-- end form-group -->
+                                  
 
                                   <div class="form-group">
                                     <p>&nbsp;</p>
