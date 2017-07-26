@@ -661,6 +661,11 @@ class OperatorController extends Controller
 			Session::forget('devotee_lists');
 		}
 
+		if(Session::has('relative_friend_lists'))
+		{
+			Session::forget('relative_friend_lists');
+		}
+
 		$devotees = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 								->whereNull('member_id')
 								->whereNull('deceased_year')
@@ -708,13 +713,12 @@ class OperatorController extends Controller
 	        							->select('devotee.*')
 	        							->addSelect('familycode.familycode')->get();
 
+			// Get Relative and friends lists
 			$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.donate_devotee_id')
 																->where('donate_devotee_id', $focus_devotee[0]->devotee_id)
 																->select('relative_friend_lists.*', 'devotee.chinese_name', 'devotee.guiyi_name', 'devotee.address_unit1',
 																'devotee.address_unit2', 'devotee.address_street', 'devotee.address_building')
 																->get();
-
-			dd($relative_friend_lists->toArray());
 
 			// Get Receipt History
 			$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
@@ -732,6 +736,11 @@ class OperatorController extends Controller
 		if(!Session::has('devotee_lists'))
 		{
 			Session::put('devotee_lists', $devotee_lists);
+		}
+
+		if(!Session::has('relative_friend_lists'))
+		{
+			Session::put('relative_friend_lists', $relative_friend_lists);
 		}
 
 		if(!Session::has('receipts'))
