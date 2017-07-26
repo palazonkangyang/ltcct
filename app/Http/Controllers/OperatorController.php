@@ -722,11 +722,12 @@ class OperatorController extends Controller
 
 			// Get Receipt History
 			$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-				         	->leftjoin('devotee', 'devotee.devotee_id', '=', 'receipt.focusdevotee_id')
-				         	->where('receipt.focusdevotee_id', $focus_devotee[0]->devotee_id)
-				         	->orderBy('receipt_id', 'desc')
-				         	->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.hjgr as generaldonation_hjgr')
+									->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+									->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
+									->orderBy('receipt_id', 'desc')
+									->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.hjgr as generaldonation_hjgr')
 				         	->get();
+
 
 		if(!Session::has('focus_devotee'))
 		{
@@ -827,7 +828,6 @@ class OperatorController extends Controller
         	'focus_devotee' => $focus_devotee,
         	'devotee_lists' => $devotee_lists
         ));
-
 	}
 
 
