@@ -424,14 +424,20 @@
         }
       }
 
-      else
-      {
-        localStorage.removeItem('activeTab');
+      // else
+      // {
+      //   localStorage.removeItem('activeTab');
+      //
+      //   $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+      //       localStorage.setItem('activeTab', $(e.target).attr('href'));
+      //   });
+      // }
 
-        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-            localStorage.setItem('activeTab', $(e.target).attr('href'));
-        });
-      }
+      localStorage.removeItem('activeTab');
+
+      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+          localStorage.setItem('activeTab', $(e.target).attr('href'));
+      });
 
       // Disabled Edit Devotee Tab
       $(".nav-tabs > li").click(function(){
