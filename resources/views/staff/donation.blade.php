@@ -262,6 +262,7 @@
                                                                     <table class="table table-bordered" id="generaldonation_table2">
                                                                         <thead>
                                                                             <tr>
+																																								<th>#</th>
                                                                                 <th>Chinese Name</th>
                                                                                 <th>Devotee#</th>
                                                                                 <th>Block</th>
@@ -286,6 +287,7 @@
                                                                         @foreach($relative_friend_lists as $list)
 
                                                                             <tr>
+																																							<td></td>
                                                                             	<td>{{ $list->chinese_name }}</td>
 																																							<td>{{ $list->relative_friend_devotee_id }}
 																																							<input type="hidden" name="other_devotee_id[]"
