@@ -382,11 +382,11 @@
 
       if(window.location.search.length)
       {
-        localStorage.setItem('activeTab', hashtag);
-
         var queryString = window.location.search;
-        var hashtag = getParameter('tab');
+        // var hashtag = getParameter('tab');
         var glaccountgroup_id = getParameter('glaccountgroup_id');
+
+        // localStorage.setItem('activeTab', hashtag);
 
         if(glaccountgroup_id)
         {
