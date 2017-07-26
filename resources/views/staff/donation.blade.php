@@ -269,10 +269,10 @@
                                                                                 <th>Address</th>
                                                                                 <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
-                                                                                <th>Amount</th>
-                                                                                <th>Pay Till</th>
-                                                                                <th>HJ/ GR</th>
-                                                                                <th>Display</th>
+                                                                                <th width="100px">Amount</th>
+                                                                                <th width="120px">Pay Till</th>
+                                                                                <th width="100px">HJ/ GR</th>
+                                                                                <th width="80px">Display</th>
                                                                                 <th>XYReceipt</th>
                                                                                 <th>Trans Date</th>
                                                                             </tr>
@@ -292,24 +292,24 @@
 																																							<td>{{ $list->relative_friend_devotee_id }}
 																																							<input type="hidden" name="other_devotee_id[]"
 																																							value="{{ $list->relative_friend_devotee_id }}"></td>
-																																							<td>{{ $list->address_building != null ? $list->address_building : '-' }}</td>
+																																							<td>{{ isset($list->address_building) ? $list->address_building : '-' }}</td>
 																																							<td>{{ $list->address_street }}</td>
 																																							<td>{{ $list->address_unit1 }} {{ $list->address_unit2 }}</td>
 																																							<td>{{ $list->guiyi_name }}</td>
-																																							<td width="100px" class="amount-col">
+																																							<td class="amount-col">
                                                                             		<input type="text" class="form-control amount" name="other_amount[]">
                                                                             	</td>
-                                                                            	<td width="120px">
+                                                                            	<td>
                                                                             		<input type="text" class="form-control paid_till"
                                                                             			name="other_paid_till[]" data-provide="datepicker" data-date-format="dd/mm/yyyy">
                                                                             	</td>
-                                                                            	<td width="100px">
+                                                                            	<td>
                                                                             		<select class="form-control" name="other_hjgr_arr[]">
 	                                                                                    <option value="hj">hj</option>
 	                                                                                    <option value="gr">gr</option>
 	                                                                                </select>
                                                                             	</td>
-                                                                            	<td width="80px">
+                                                                            	<td>
                                                                             		<select class="form-control" name="other_display[]">
 	                                                                                    <option value="Y">Y</option>
 	                                                                                    <option value="N">N</option>
