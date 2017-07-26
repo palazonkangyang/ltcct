@@ -196,15 +196,6 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Account Code *</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" name="accountcode" value="{{ old('accountcode') }}" id="accountcode">
-                                        </div><!-- end col-md-9 -->
-
-                                      </div><!-- end form-group -->
-
-                                      <div class="form-group">
-
                                         <label class="col-md-3 control-label">Next SN Number *</label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" name="next_sn_number" value="{{ old('next_sn_number') }}" id="next_sn_number">
