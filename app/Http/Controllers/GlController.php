@@ -23,8 +23,10 @@ class GlController extends Controller
   public function getAddNewGlAccountGroup()
   {
     $glaccountgroup = GlCodeGroup::orderBy('created_at', 'desc')->get();
+    $job = Job::orderBy('created_at', 'desc')->get();
 
     return view('account.glaccountgroup', [
+      'job' => $job,
       'glaccountgroup' => $glaccountgroup
     ]);
   }
