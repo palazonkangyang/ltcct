@@ -46,8 +46,6 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		dd($input);
-
 		// Add Relative and Friend Lists
 		if(isset($input["other_devotee_id"]))
 		{
