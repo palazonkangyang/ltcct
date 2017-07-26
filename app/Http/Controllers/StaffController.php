@@ -46,8 +46,6 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		dd($input);
-
 		// Add Relative and Friend Lists
 		if(isset($input["other_devotee_id"]))
 		{
@@ -65,6 +63,9 @@ class StaffController extends Controller
 			  RelativeFriendLists::create($list);
 			}
 		}
+
+		$lists =  RelativeFriendLists::all()->get();
+		dd($lists->toArray());
 
 		// Modify Receipt At fields
 		if(isset($input['receipt_at']))
