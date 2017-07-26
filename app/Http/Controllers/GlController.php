@@ -24,10 +24,8 @@ class GlController extends Controller
   public function getAddNewGlAccountGroup()
   {
     $glaccountgroup = GlCodeGroup::orderBy('created_at', 'desc')->get();
-    $job = Job::orderBy('created_at', 'desc')->get();
 
     return view('account.glaccountgroup', [
-      'job' => $job,
       'glaccountgroup' => $glaccountgroup
     ]);
   }
@@ -118,11 +116,14 @@ class GlController extends Controller
                  ->select('glcode.*', 'glcodegroup.name as glcodegroup_name')
                  ->orderBy('created_at', 'desc')->get();
 
+    $job = Job::orderBy('created_at', 'desc')->get();
+
     $glaccountgroup = GlCodeGroup::select('glcodegroup_id', 'name')
                       ->orderBy('name', 'asc')
                       ->get();
 
     return view('account.glaccount', [
+      'job' => $job,
       'glaccount' => $glaccount,
       'glaccountgroup' => $glaccountgroup
     ]);
