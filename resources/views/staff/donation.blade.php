@@ -297,10 +297,10 @@
 																																							<td>{{ $list->address_unit1 }} {{ $list->address_unit2 }}</td>
 																																							<td>{{ $list->guiyi_name }}</td>
 																																							<td class="amount-col">
-                                                                            		<input type="text" class="form-control amount" name="other_amount[]">
+                                                                            		<input type="text" class="form-control amount other_amount" name="other_amount[]">
                                                                             	</td>
                                                                             	<td>
-                                                                            		<input type="text" class="form-control paid_till"
+                                                                            		<input type="text" class="form-control paid_till other_paid_till"
                                                                             			name="other_paid_till[]" data-provide="datepicker" data-date-format="dd/mm/yyyy">
                                                                             	</td>
                                                                             	<td>
