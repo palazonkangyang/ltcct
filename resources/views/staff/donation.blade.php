@@ -278,11 +278,57 @@
                                                                             </tr>
                                                                         </thead>
 
-                                                                        <tbody id="appendDevoteeLists">
-                                                                            <tr id="no_data">
-                                                                                <td colspan="12">No Data</td>
+																																				@if(Session::has('relative_friend_lists'))
+
+																																				@php $relative_friend_lists = Session::get('relative_friend_lists'); @endphp
+
+                                                                        @foreach($relative_friend_lists as $list)
+
+																																				<tbody id="appendDevoteeLists">
+                                                                            <tr>
+                                                                            	<td>{{ $list->chinese_name }}</td>
+																																							<td>{{ $list->donate_devotee_id }}
+																																							<input type="hidden" name="other_devotee_id[]"
+																																							value="{{ $list->donate_devotee_id }}"></td>
+																																							<td>{{ $list->address_building }}</td>
+																																							<td>{{ $list->address_street }}</td>
+																																							<td>{{ $list->address_unit1 }} {{ $list->address_unit2 }}</td>
+																																							<td>{{ $list->guiyi_name }}</td>
+																																							<td width="100px" class="amount-col">
+                                                                            		<input type="text" class="form-control amount" name="other_amount[]">
+                                                                            	</td>
+                                                                            	<td width="120px">
+                                                                            		<input type="text" class="form-control paid_till"
+                                                                            			name="other_paid_till[]" data-provide="datepicker" data-date-format="dd/mm/yyyy">
+                                                                            	</td>
+                                                                            	<td width="100px">
+                                                                            		<select class="form-control" name="other_hjgr_arr[]">
+	                                                                                    <option value="hj">hj</option>
+	                                                                                    <option value="gr">gr</option>
+	                                                                                </select>
+                                                                            	</td>
+                                                                            	<td width="80px">
+                                                                            		<select class="form-control" name="other_display[]">
+	                                                                                    <option value="Y">Y</option>
+	                                                                                    <option value="N">N</option>
+	                                                                                </select>
+                                                                            	</td>
+                                                                            	<td></td>
+                                                                            	<td></td>
                                                                             </tr>
                                                                         </tbody>
+
+																																				@endforeach
+
+																																				@else
+
+																																				<tbody id="appendDevoteeLists">
+																																						<tr id="no_data">
+																																								<td colspan="12">No Data</td>
+																																						</tr>
+																																				</tbody>
+
+																																				@endif
                                                                     </table>
 
                                                                 </div><!-- end form-group -->
