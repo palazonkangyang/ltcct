@@ -141,6 +141,14 @@ class OperatorController extends Controller
 					 		       ->select('devotee.*')
 					 		       ->addSelect('familycode.familycode')->get();
 
+		$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.donate_devotee_id')
+														 ->where('donate_devotee_id', $devotee_id)
+														 ->select('relative_friend_lists.*', 'devotee.*')
+														 ->get();
+
+	  dd($relative_friend_lists->toArray());
+
+
 		if(isset($devotee[0]->dob))
 		{
 			$devotee[0]->dob = Carbon::parse($devotee[0]->dob)->format("d/m/Y");
