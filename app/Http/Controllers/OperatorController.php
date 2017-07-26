@@ -792,6 +792,7 @@ class OperatorController extends Controller
 
 		Session::forget('focus_devotee');
 		Session::forget('devotee_lists');
+		Session::forget('relative_friend_lists');
 		Session::forget('receipts');
 		Session::forget('optionaladdresses');
 		Session::forget('optionalvehicles');
