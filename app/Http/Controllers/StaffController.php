@@ -101,7 +101,7 @@ class StaffController extends Controller
 			if($input["hjgr"] == "hj")
 			{
 				$same_receipt = "";
-				
+
 				for($i = 0; $i < count($input["amount"]); $i++)
 				{
 					if(isset($input["amount"][$i]))
@@ -120,7 +120,7 @@ class StaffController extends Controller
 					    "generaldonation_id" => $general_donation->generaldonation_id
 					  ];
 
-					  $same_receipt = Receipt::create($receipt);
+					  $same_receipt = Receipt::create($receipt)->receipt_id;
 					}
 
 					break;
@@ -142,7 +142,7 @@ class StaffController extends Controller
 							"trans_date" => Carbon::now(),
 							"generaldonation_id" => $general_donation->generaldonation_id,
 							"devotee_id" => $input["devotee_id"][$i],
-							"receipt_id" => $same_receipt->receipt_id
+							"receipt_id" => $same_receipt
 						];
 
 						GeneralDonationItems::create($data);
