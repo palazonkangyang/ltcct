@@ -385,9 +385,6 @@
         var queryString = window.location.search;
         var glaccountgroup_id = getParameter('glaccountgroup_id');
 
-        var hashtag = "#tab_editglaccountgroup";
-        localStorage.setItem('activeTab', hashtag);
-
         if(glaccountgroup_id)
         {
           var formData = {
@@ -425,7 +422,8 @@
 
       }
 
-      else{
+      else
+      {
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
