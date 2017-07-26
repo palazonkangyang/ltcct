@@ -395,8 +395,9 @@
       }
 
       $('.nav-pills > li > a').click( function() {
+        location.reload();
         localStorage.removeItem('activeTab');
-        
+
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
