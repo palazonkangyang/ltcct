@@ -163,7 +163,7 @@
 
                                         <label class="col-md-3 control-label">Price</label>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" name="price" rows="4" id="price">{{ old('price') }}</textarea>
+                                            <input class="form-control" name="price" rows="4" id="price" value="{{ old('price') }}">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -277,6 +277,24 @@
 
                                       <div class="form-group">
 
+                                        <label class="col-md-3 control-label">Type Name *</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="type_name" value="{{ old('type_name') }}" id="edit_type_name">
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Chinese Name *</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}" id="edit_chinese_name">
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
                                         <label class="col-md-3 control-label">Account Code *</label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" name="accountcode" value="{{ old('accountcode') }}" id="edit_accountcode">
@@ -286,12 +304,26 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Account Description *</label>
+                                        <label class="col-md-3 control-label">Price *</label>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" name="description" rows="4" id="edit_description">{{ old('description') }}</textarea>
+                                            <input type="text" class="form-control" name="price" value="{{ old('price') }}" id="edit_price">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Job *</label>
+                                        <div class="col-md-9">
+                                          <select class="form-control" name="job_id" id="edit_job_id" disabled>
+                                              @foreach($job as $j)
+                                              <option value="{{ $j->job_id }}">{{ $j->job_name }}</option>
+                                              @endforeach
+                                          </select>
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
 
                                       <div class="form-group">
 
@@ -308,12 +340,18 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Account Status *</label>
+                                        <label class="col-md-3 control-label">Next SN Number *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="edit_status" id="edit_status" disabled>
-                                              <option value="active">Active</option>
-                                              <option value="inactive">Inactive</option>
-                                          </select>
+                                            <input type="text" class="form-control" name="next_sn_number" value="{{ old('next_sn_number') }}" id="edit_next_sn_number">
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Receipt Prefix *</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="receipt_prefix" value="{{ old('receipt_prefix') }}" id="edit_receipt_prefix">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -443,13 +481,16 @@
 
               $("#edit_glcode_id").val(response.glaccount['glcode_id']);
               $("#edit_accountcode").val(response.glaccount['accountcode']);
-              $("#edit_description").val(response.glaccount['description']);
-              $("#edit_glcodegroup_id").val(response.glaccount['glcodegroup_id']);
-              $("#edit_status").val(response.glaccount['status']);
+              $("#edit_type_name").val(response.glaccount['type_name']);
+              $("#edit_chinese_name").val(response.glaccount['chinese_name']);
+              $("#edit_price").val(response.glaccount['price']);
+              $("#edit_job_id").val(response.glaccount['job_id']);
+              $("#edit_next_sn_number").val(response.glaccount['next_sn_number']);
+              $("#edit_receipt_prefix").val(response.glaccount['receipt_prefix']);
 
               localStorage.setItem('glocodeid', response.glaccount['glcode_id']);
               localStorage.setItem('glcodegroup_id', response.glaccount['glcodegroup_id']);
-              localStorage.setItem('status', response.glaccount['status']);
+              localStorage.setItem('job_id', response.glaccount['job_id']);
 
             },
 
@@ -492,21 +533,21 @@
     if ( $('.alert-success').children().length > 0 ) {
         localStorage.removeItem('glocodeid');
         localStorage.removeItem('glcodegroup_id');
-        localStorage.removeItem('status');
+        localStorage.removeItem('job_id');
     }
 
     else
     {
         var glocodeid = localStorage.getItem('glocodeid');
         var glcodegroup_id = localStorage.getItem('glcodegroup_id');
-        var status = localStorage.getItem('status');
+        var job_id = localStorage.getItem('job_id');
     }
 
     if(glocodeid)
     {
       $("#edit_glcode_id").val(glocodeid);
       $("#edit_glcodegroup_id").val(glcodegroup_id);
-      $("#edit_status").val(status);
+      $("#edit_job_id").val(job_id);
     }
 
     $("#update_glcode_btn").click(function() {
