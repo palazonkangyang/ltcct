@@ -282,14 +282,15 @@
 
 																																				@php $relative_friend_lists = Session::get('relative_friend_lists'); @endphp
 
+																																				<tbody id="appendDevoteeLists">
+
                                                                         @foreach($relative_friend_lists as $list)
 
-																																				<tbody id="appendDevoteeLists">
                                                                             <tr>
                                                                             	<td>{{ $list->chinese_name }}</td>
-																																							<td>{{ $list->donate_devotee_id }}
+																																							<td>{{ $list->relative_friend_devotee_id }}
 																																							<input type="hidden" name="other_devotee_id[]"
-																																							value="{{ $list->donate_devotee_id }}"></td>
+																																							value="{{ $list->relative_friend_devotee_id }}"></td>
 																																							<td>{{ $list->address_building }}</td>
 																																							<td>{{ $list->address_street }}</td>
 																																							<td>{{ $list->address_unit1 }} {{ $list->address_unit2 }}</td>
@@ -316,9 +317,9 @@
                                                                             	<td></td>
                                                                             	<td></td>
                                                                             </tr>
-                                                                        </tbody>
-
 																																				@endforeach
+
+																																				</tbody>
 
 																																				@else
 
