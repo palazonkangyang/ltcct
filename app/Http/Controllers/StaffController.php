@@ -161,7 +161,7 @@ class StaffController extends Controller
 
 						if(isset($input["other_amount"][$i]))
 						{
-						  $different_xy_receipt = 1;
+						  $different_xy_receipt = Receipt::all()->last()->receipt_id;
 						  $prefix = "XY";
 						  $different_xy_receipt += 1;
 						  $different_xy_receipt = $prefix . $different_xy_receipt;
@@ -313,7 +313,7 @@ class StaffController extends Controller
 								->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
 								->where('generaldonation.focusdevotee_id', $input['focusdevotee_id'])
 								->orderBy('receipt_id', 'desc')
-								->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt')
+								->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.hjgr as generaldonation_hjgr')
 								->get();
 
 		// store session
