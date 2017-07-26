@@ -382,14 +382,14 @@
 
       if(window.location.search.length)
       {
+        localStorage.setItem('activeTab', hashtag);
+
         var queryString = window.location.search;
         var hashtag = "#tab_editglaccountgroup";
         var glaccountgroup_id = getParameter('glaccountgroup_id');
 
         if(glaccountgroup_id)
         {
-          localStorage.setItem('activeTab', hashtag);
-
           var formData = {
               _token: $('meta[name="csrf-token"]').attr('content'),
               glaccountgroup_id: glaccountgroup_id
@@ -426,6 +426,8 @@
       }
 
       else{
+        localStorage.removeItem('activeTab');
+
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
