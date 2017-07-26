@@ -363,6 +363,76 @@
   <script type="text/javascript">
     $(function() {
 
+      function getParameter(theParameter) {
+        var params = window.location.search.substr(1).split('&');
+
+        for (var i = 0; i < params.length; i++) {
+
+          var p=params[i].split('=');
+        	if (p[0] == theParameter) {
+        	  return decodeURIComponent(p[1]);
+        	}
+
+        }
+
+        return false;
+      }
+
+      console.log(getParameter('glcode_id'));
+
+      if(window.location.search.length)
+      {
+        var queryString = window.location.search;
+        var hashtag = "#tab_editglaccountgroup";
+        var glaccountgroup_id = getParameter('glaccountgroup_id');
+
+        if(glaccountgroup_id)
+        {
+          localStorage.setItem('activeTab', hashtag);
+
+          var formData = {
+              _token: $('meta[name="csrf-token"]').attr('content'),
+              glaccountgroup_id: glaccountgroup_id
+          };
+
+          $("#edit_name").val('');
+          $("#edit_description").val('');
+
+          $.ajax({
+              type: 'GET',
+              url: "/account/edit-glaccountgroup/",
+              data: formData,
+              dataType: 'json',
+              success: function(response)
+              {
+
+                $("#edit_glcodegroup_id").val(response.glaccountgroup['glcodegroup_id']);
+                $("#edit_name").val(response.glaccountgroup['name']);
+                $("#edit_description").val(response.glaccountgroup['description']);
+                $("#edit_balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
+                $("#edit_status").val(response.glaccountgroup['status']);
+
+                localStorage.setItem('glcodegroup_id', response.glaccountgroup['glcodegroup_id']);
+                localStorage.setItem('balancesheet_side', response.glaccountgroup['balancesheet_side']);
+                localStorage.setItem('status', response.glaccountgroup['status']);
+              },
+
+              error: function (response) {
+                  console.log(response);
+              }
+          });
+        }
+      }
+
+      else
+      {
+        localStorage.removeItem('activeTab');
+
+        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+            localStorage.setItem('activeTab', $(e.target).attr('href'));
+        });
+      }
+
       // Disabled Edit Devotee Tab
       $(".nav-tabs > li").click(function(){
           if($(this).hasClass("disabled"))
@@ -388,47 +458,6 @@
         $("#edit_balancesheet_side").val(balancesheet_side);
         $("#edit_status").val(status);
       }
-
-      $("#glaccountgroup-table").on('click','.edit-glaccountgroup',function(e) {
-
-        $(".nav-tabs > li:first-child").removeClass("active");
-        $("#edit-glaccountgroup").addClass("active");
-
-        var glaccountgroup_id = $(this).attr("id");
-
-        var formData = {
-            _token: $('meta[name="csrf-token"]').attr('content'),
-            glaccountgroup_id: glaccountgroup_id
-        };
-
-        $("#edit_name").val('');
-        $("#edit_description").val('');
-
-        $.ajax({
-            type: 'GET',
-            url: "/account/edit-glaccountgroup/",
-            data: formData,
-            dataType: 'json',
-            success: function(response)
-            {
-
-              $("#edit_glcodegroup_id").val(response.glaccountgroup['glcodegroup_id']);
-              $("#edit_name").val(response.glaccountgroup['name']);
-              $("#edit_description").val(response.glaccountgroup['description']);
-              $("#edit_balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
-              $("#edit_status").val(response.glaccountgroup['status']);
-
-              localStorage.setItem('glcodegroup_id', response.glaccountgroup['glcodegroup_id']);
-              localStorage.setItem('balancesheet_side', response.glaccountgroup['balancesheet_side']);
-              localStorage.setItem('status', response.glaccountgroup['status']);
-            },
-
-            error: function (response) {
-                console.log(response);
-            }
-        });
-
-      });
 
       $("#update_gl_btn").click(function() {
         var count = 0;
