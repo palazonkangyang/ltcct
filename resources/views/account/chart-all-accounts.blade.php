@@ -66,7 +66,8 @@
                                 @php $glcodegroup_id = $gcg->glcodegroup_id; @endphp
 
                                 <li data-jstree='{ "opened" : false }'>
-                                  <a href="/account/new/{{ $gcg->$glcodegroup_id }}">{{ $gcg->name }}</a>
+                                  <a href="/account/new-glaccountgroup?glaccountgroup={{ $gcg->$glcodegroup_id }}" data-toggle="tab"
+                                    class="edit-glaccountgroup">{{ $gcg->name }}</a>
 
                                   <ul>
 
