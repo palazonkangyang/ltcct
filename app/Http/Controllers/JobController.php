@@ -47,7 +47,10 @@ class JobController extends Controller
       }
     }
 
-    $request->session()->flash('success', 'New Job has been created!');
-    return redirect()->back();
+    if($job)
+    {
+      $request->session()->flash('success', 'New Job has been created!');
+      return redirect()->back();
+    }
   }
 }
