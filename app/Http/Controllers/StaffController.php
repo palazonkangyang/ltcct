@@ -197,12 +197,108 @@ class StaffController extends Controller
 					}
 				}
 			}
+
+			else
+			{
+				$count = 0;
+
+				if(isset($input["amount"]))
+				{
+					// save receipt for same family (Individual receipt for printing)
+					for($i = 0; $i < count($input["amount"]); $i++)
+					{
+						if(isset($input["amount"][$i]))
+						{
+						  $individual_xy_receipt = Receipt::all()->last()->receipt_id;
+						  $prefix = "XY";
+						  $individual_xy_receipt += 1;
+						  $individual_xy_receipt = $prefix . $individual_xy_receipt;
+
+						  $receipt = [
+						    "xy_receipt" => $individual_xy_receipt,
+						    "trans_date" => Carbon::now(),
+						    "description" => "Xiangyou",
+						    "amount" => $input["amount"][$i],
+						    "generaldonation_id" => $general_donation->generaldonation_id
+						  ];
+
+						  $individual_receipt = Receipt::create($receipt)->receipt_id;
+
+							// Modify fields
+							$paid_till_date = str_replace('/', '-', $input['paid_till'][$i]);
+							$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+
+							$data = [
+								"amount" => $input["amount"][$i],
+								"paid_till" => $new_paid_till_date,
+								"hjgr" => $input["hjgr_arr"][$i],
+								"display" => $input["display"][$i],
+								"trans_date" => Carbon::now(),
+								"generaldonation_id" => $general_donation->generaldonation_id,
+								"devotee_id" => $input["devotee_id"][$i],
+								"receipt_id" => $individual_receipt
+							];
+
+							GeneralDonationItems::create($data);
+						}
+					}
+				}
+
+				if(isset($input["other_amount"]))
+				{
+					// save receipt for relative and friend lists (Individual receipt for printing)
+					for($i = 0; $i < count($input["other_amount"]); $i++)
+					{
+						if(isset($input["other_amount"][$i]))
+						{
+						  $individual_xy_receipt = 1;
+						  $prefix = "XY";
+						  $individual_xy_receipt += 1;
+						  $individual_xy_receipt = $prefix . $individual_xy_receipt;
+
+						  $receipt = [
+						    "xy_receipt" => $individual_xy_receipt,
+						    "trans_date" => Carbon::now(),
+						    "description" => "Xiangyou",
+						    "amount" => $input["other_amount"][$i],
+						    "generaldonation_id" => $general_donation->generaldonation_id
+						  ];
+
+						  $different_xy_receipt = Receipt::create($receipt)->receipt_id;
+
+							// Modify fields
+			        $paid_till_date = str_replace('/', '-', $input['other_paid_till'][$i]);
+			        $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+
+			        $data = [
+			          "amount" => $input["other_amount"][$i],
+			          "paid_till" => $new_paid_till_date,
+			          "hjgr" => $input["other_hjgr_arr"][$i],
+			          "display" => $input["other_display"][$i],
+			          "trans_date" => Carbon::now(),
+			          "generaldonation_id" => $general_donation->generaldonation_id,
+			          "devotee_id" => $input["other_devotee_id"][$i],
+			          "receipt_id" => $different_xy_receipt
+			        ];
+
+			        GeneralDonationItems::create($data);
+						}
+					}
+				}
+
+			}
 		}
 
 		// remove session
 		if(Session::has('relative_friend_lists'))
 		{
 		  Session::forget('relative_friend_lists');
+		}
+
+		// remove session
+		if(Session::has('receipts'))
+		{
+		  Session::forget('receipts');
 		}
 
 		// Get Relative and friends lists
@@ -212,11 +308,25 @@ class StaffController extends Controller
 															'devotee.address_unit2', 'devotee.address_street', 'devotee.address_building')
 															->get();
 
+		// Get Receipt History
+		$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+								->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+								->where('generaldonation.focusdevotee_id', $input['focusdevotee_id'])
+								->orderBy('receipt_id', 'desc')
+								->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt')
+								->get();
+
 		// store session
 		if(!Session::has('relative_friend_lists'))
 		{
 			Session::put('relative_friend_lists', $relative_friend_lists);
 		}
+
+		// store session
+    if(!Session::has('receipts'))
+    {
+      Session::put('receipts', $receipts);
+    }
 
 		$request->session()->flash('success', 'General Donation is successfully created.');
 		return redirect()->back();
