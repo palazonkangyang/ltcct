@@ -100,6 +100,8 @@ class StaffController extends Controller
 		{
 			if($input["hjgr"] == "hj")
 			{
+				$same_receipt = "";
+				
 				for($i = 0; $i < count($input["amount"]); $i++)
 				{
 					if(isset($input["amount"][$i]))
