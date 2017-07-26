@@ -195,7 +195,11 @@ class GlController extends Controller
         $glcode = GlCode::find($input['glcode_id']);
 
         $glcode->accountcode = $input['accountcode'];
-        $glcode->description = $input['description'];
+        $glcode->type_name = $input['type_name'];
+        $glcode->chinese_name = $input['chinese_name'];
+        $glcode->price = $input['price'];
+        $glcode->next_sn_number = $input['next_sn_number'];
+        $glcode->receipt_prefix = $input['receipt_prefix'];
         $result = $glcode->save();
       }
 
