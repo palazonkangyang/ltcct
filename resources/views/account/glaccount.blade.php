@@ -364,9 +364,19 @@
 
   $(function() {
 
-    console.log(urlParams.get('glcode_id'));
+    function getParameter(theParameter) {
+      var params = window.location.search.substr(1).split('&');
 
-    
+      for (var i = 0; i < params.length; i++) {
+        var p=params[i].split('=');
+      	if (p[0] == theParameter) {
+      	  return decodeURIComponent(p[1]);
+      	}
+      }
+      return false;
+    }
+
+    console.log(getParameter('glcode_id'));
 
     if ( $('.alert-success').children().length > 0 ) {
         localStorage.removeItem('activeTab');
