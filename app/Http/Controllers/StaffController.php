@@ -119,27 +119,31 @@ class StaffController extends Controller
 					  ];
 
 					  $same_receipt = Receipt::create($receipt);
+					}
 
-						// Add all devotees for general doantion Table
-					  // for($i = 0; $i < count($input['devotee_id']); $i++)
-					  // {
-					    // Modify fields
-					    $paid_till_date = str_replace('/', '-', $input['paid_till'][$i]);
-					    $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+					break;
+				}
 
-					    $data = [
-					      "amount" => $input["amount"][$i],
-					      "paid_till" => $new_paid_till_date,
-					      "hjgr" => $input["hjgr_arr"][$i],
-					      "display" => $input["display"][$i],
-					      "trans_date" => Carbon::now(),
-					      "generaldonation_id" => $general_donation->generaldonation_id,
-					      "devotee_id" => $input["devotee_id"][$i],
-					      "receipt_id" => $same_receipt->receipt_id
-					    ];
+				for($i = 0; $i < count($input["amount"]); $i++)
+				{
+					if(isset($input["amount"][$i]))
+					{
+						// Modify fields
+						$paid_till_date = str_replace('/', '-', $input['paid_till'][$i]);
+						$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
 
-					    GeneralDonationItems::create($data);
-					  // }
+						$data = [
+							"amount" => $input["amount"][$i],
+							"paid_till" => $new_paid_till_date,
+							"hjgr" => $input["hjgr_arr"][$i],
+							"display" => $input["display"][$i],
+							"trans_date" => Carbon::now(),
+							"generaldonation_id" => $general_donation->generaldonation_id,
+							"devotee_id" => $input["devotee_id"][$i],
+							"receipt_id" => $same_receipt->receipt_id
+						];
+
+						GeneralDonationItems::create($data);
 					}
 				}
 			}
