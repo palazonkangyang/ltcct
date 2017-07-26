@@ -72,11 +72,9 @@ class StaffController extends Controller
 		  $receipt_at = $input['receipt_at'];
 		}
 
-		// $trans_id = GeneralDonation::all()->last()->generaldonation_id;
-		// dd($trans_id);
-
+		$trans_id = GeneralDonation::all()->last()->generaldonation_id;
 		$prefix = "T";
-		$trans_id = 1;
+		$trans_id += 1;
 		$trans_id = $prefix . $trans_id;
 
 		$data = [
