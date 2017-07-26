@@ -12,6 +12,7 @@ use App\Models\FamilyCode;
 use App\Models\SpecialRemarks;
 use App\Models\TranslationStreet;
 use App\Models\Receipt;
+use App\Models\RelativeFriendLists;
 use Auth;
 use DB;
 use Hash;
