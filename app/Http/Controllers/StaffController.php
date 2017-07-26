@@ -64,7 +64,7 @@ class StaffController extends Controller
 			}
 		}
 
-		$lists =  RelativeFriendLists::all()->get();
+		$lists =  RelativeFriendLists::all();
 		dd($lists->toArray());
 
 		// Modify Receipt At fields
