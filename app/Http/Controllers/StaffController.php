@@ -112,7 +112,7 @@ class StaffController extends Controller
 
 						if(isset($input["amount"][$i]) && $count < 1)
 						{
-						  $same_xy_receipt = 1;
+						  $same_xy_receipt = Receipt::all()->last()->receipt_id;
 						  $prefix = "XY";
 						  $same_xy_receipt += 1;
 						  $same_xy_receipt = $prefix . $same_xy_receipt;
