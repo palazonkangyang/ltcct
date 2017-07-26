@@ -292,7 +292,7 @@
 																																							<td>{{ $list->relative_friend_devotee_id }}
 																																							<input type="hidden" name="other_devotee_id[]"
 																																							value="{{ $list->relative_friend_devotee_id }}"></td>
-																																							<td>{{ isset($list->address_building) ? $list->address_building : '-' }}</td>
+																																							<td>{{ $list->address_building != null ? $list->address_building : '-' }}</td>
 																																							<td>{{ $list->address_street }}</td>
 																																							<td>{{ $list->address_unit1 }} {{ $list->address_unit2 }}</td>
 																																							<td>{{ $list->guiyi_name }}</td>
