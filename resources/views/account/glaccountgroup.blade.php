@@ -425,12 +425,13 @@
 
       }
 
-      else
-      {
+      $("#tab_glaccountlistgroup").click(function() {
+        localStorage.removeItem('activeTab');
+
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
-      }
+      });
 
       if ( $('.alert-success').children().length > 0 ) {
           localStorage.removeItem('activeTab');
