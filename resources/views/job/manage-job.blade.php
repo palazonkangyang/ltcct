@@ -141,12 +141,10 @@
 
                                     <label class="col-md-3 control-label">Job Description *</label>
                                     <div class="col-md-9">
-                                        <textarea class="form-control" name="job_description" rows="4" id="job_description"></textarea>
+                                        <textarea class="form-control" name="job_description" rows="4" id="job_description">{{}}</textarea>
                                     </div><!-- end col-md-9 -->
 
                                   </div><!-- end form-group -->
-
-                                  
 
                                   <div class="form-group">
                                     <p>&nbsp;</p>
@@ -323,5 +321,29 @@
   </div><!-- end page-content-wrapper -->
 
 </div><!-- end page-container-fluid -->
+
+@stop
+
+@section('custom-js')
+
+<script type="text/javascript">
+  $(function() {
+
+    if ( $('.alert-success').children().length > 0 ) {
+        localStorage.removeItem('activeTab');
+    }
+
+    else
+    {
+        var activeTab = localStorage.getItem('activeTab');
+    }
+
+    if (activeTab) {
+        $('a[href="' + activeTab + '"]').tab('show');
+        console.log(activeTab);
+    }
+
+  });
+</script>
 
 @stop
