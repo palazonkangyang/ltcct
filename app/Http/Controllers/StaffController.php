@@ -49,7 +49,6 @@ class StaffController extends Controller
 		// Delete relative and friend lists by focus devotee before saving
 		RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
 
-
 		// Add Relative and Friend Lists
 		for($i = 0; $i < count($input["other_devotee_id"]); $i++)
 		{
@@ -61,6 +60,40 @@ class StaffController extends Controller
 
 		  RelativeFriendLists::create($list);
 		}
+
+		// Modify Receipt At fields
+		if(isset($input['receipt_at']))
+		{
+		  $input_receipt_at = str_replace('/', '-', $input['receipt_at']);
+		  $receipt_at = date("Y-m-d", strtotime($input_receipt_at));
+		}
+		else
+		{
+		  $receipt_at = $input['receipt_at'];
+		}
+
+		$trans_id = GeneralDonation::all()->last()->generaldonation_id;
+		dd($trans_id);
+		
+		$prefix = "T";
+		$trans_id += 1;
+		$trans_id = $prefix . $trans_id;
+
+		$data = [
+		  "trans_no" => $trans_id,
+		  "description" => "Xiangyou",
+		  "hjgr" => $input['hjgr'],
+		  "total_amount" => $input['total_amount'],
+		  "mode_payment" => $input['mode_payment'],
+		  "cheque_no" => $input['cheque_no'],
+		  "receipt_at" =>	$receipt_at,
+		  "manualreceipt" => $input['manualreceipt'],
+		  "trans_at" => Carbon::now(),
+		  "focusdevotee_id" => $input['focusdevotee_id'],
+		  "festiveevent_id" => $input['festiveevent_id']
+		];
+
+		$general_donation = GeneralDonation::create($data);
 
 		$request->session()->flash('success', 'General Donation is successfully created.');
 		return redirect()->back();
