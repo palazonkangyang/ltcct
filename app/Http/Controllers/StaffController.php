@@ -64,9 +64,6 @@ class StaffController extends Controller
 			}
 		}
 
-		$lists =  RelativeFriendLists::all();
-		dd($lists->toArray());
-
 		// Modify Receipt At fields
 		if(isset($input['receipt_at']))
 		{
@@ -200,6 +197,25 @@ class StaffController extends Controller
 					}
 				}
 			}
+		}
+
+		// remove session
+		if(Session::has('relative_friend_lists'))
+		{
+		  Session::forget('relative_friend_lists');
+		}
+
+		// Get Relative and friends lists
+		$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.relative_friend_devotee_id')
+															->where('donate_devotee_id', $input['focusdevotee_id'])
+															->select('relative_friend_lists.*', 'devotee.chinese_name', 'devotee.guiyi_name', 'devotee.address_unit1',
+															'devotee.address_unit2', 'devotee.address_street', 'devotee.address_building')
+															->get();
+
+		// store session
+		if(!Session::has('relative_friend_lists'))
+		{
+			Session::put('relative_friend_lists', $relative_friend_lists);
 		}
 
 		$request->session()->flash('success', 'General Donation is successfully created.');
