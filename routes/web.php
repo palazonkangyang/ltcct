@@ -86,4 +86,10 @@ Route::group(['middleware' => 'auth'], function () {
 
   });
 
+	Route::group(['prefix' => 'job'], function () {
+    Route::get('/manage-job', ['as' => 'new-job-page', 'uses' => 'JobController@getJob']);
+
+
+  });
+
 });
