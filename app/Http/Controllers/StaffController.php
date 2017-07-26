@@ -106,6 +106,7 @@ class StaffController extends Controller
 				// save receipt for same family (1 receipt for printing)
 				for($i = 0; $i < count($input["amount"]); $i++)
 				{
+					$amount = array_sum($input["amount"]);
 
 					if(isset($input["amount"][$i]) && $count < 1)
 					{
@@ -118,7 +119,7 @@ class StaffController extends Controller
 					    "xy_receipt" => $same_xy_receipt,
 					    "trans_date" => Carbon::now(),
 					    "description" => "Xiangyou",
-					    "amount" => $input["amount"][$i],
+					    "amount" => $amount,
 					    "generaldonation_id" => $general_donation->generaldonation_id
 					  ];
 
