@@ -101,10 +101,10 @@ class StaffController extends Controller
 			if($input["hjgr"] == "hj")
 			{
 				$same_receipt = "";
-
+				$count = 0;
+				
 				for($i = 0; $i < count($input["amount"]); $i++)
 				{
-					$count = 0;
 
 					if(isset($input["amount"][$i]) && $count < 1)
 					{
@@ -126,6 +126,7 @@ class StaffController extends Controller
 
 						$count++;
 					}
+
 				}
 
 				for($i = 0; $i < count($input["amount"]); $i++)
