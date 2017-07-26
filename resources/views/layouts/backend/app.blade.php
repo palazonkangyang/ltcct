@@ -137,7 +137,7 @@
                                                                         <a href="#">Fiscal Year</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">Jobs</a>
+                                                                        <a href="/job/manage-job">Jobs</a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#">Cost Center</a>
