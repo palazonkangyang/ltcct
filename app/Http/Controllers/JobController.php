@@ -18,8 +18,6 @@ class JobController extends Controller
 {
   public function getJob()
   {
-    return view('job.index', [
-      'glaccountgroup' => $glaccountgroup
-    ]);
+    return view('job.index');
   }
 }
