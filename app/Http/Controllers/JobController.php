@@ -26,6 +26,31 @@ class JobController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    dd($input);
+    if(isset($input['authorized_password']))
+    {
+      $user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
+
+      if (Hash::check($input['authorized_password'], $hashedPassword)) {
+        $data = [
+          "job_reference_no" => $input['job_reference_no'],
+          "job_name" => $input['job_name'],
+          "job_description" => $input['job_description']
+        ];
+
+        $job = Job::create($data);
+      }
+
+      else {
+        $request->session()->flash('error', "Password did not match. Please Try Again");
+        return redirect()->back()->withInput();
+      }
+    }
+
+    if($job)
+    {
+      $request->session()->flash('success', 'New Job has been created!');
+      return redirect()->back();
+    }
   }
 }
