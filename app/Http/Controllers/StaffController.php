@@ -50,15 +50,18 @@ class StaffController extends Controller
 		RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
 
 		// Add Relative and Friend Lists
-		for($i = 0; $i < count($input["other_devotee_id"]); $i++)
+		if(isset($input["other_devotee_id"]))
 		{
-		  $list = [
-		    "donate_devotee_id" => $input['focusdevotee_id'],
-		    "relative_friend_devotee_id" =>$input["other_devotee_id"][$i],
-		    "year" => date('Y')
-		  ];
+			for($i = 0; $i < count($input["other_devotee_id"]); $i++)
+			{
+			  $list = [
+			    "donate_devotee_id" => $input['focusdevotee_id'],
+			    "relative_friend_devotee_id" =>$input["other_devotee_id"][$i],
+			    "year" => date('Y')
+			  ];
 
-		  RelativeFriendLists::create($list);
+			  RelativeFriendLists::create($list);
+			}
 		}
 
 		// Modify Receipt At fields
