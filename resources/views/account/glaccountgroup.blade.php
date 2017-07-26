@@ -380,10 +380,13 @@
 
       console.log(getParameter('glcode_id'));
 
-      if(window.location.search.length)
+      if(window.location.search.length > 0)
       {
         var queryString = window.location.search;
         var glaccountgroup_id = getParameter('glaccountgroup_id');
+
+        var hashtag = "#tab_editglaccountgroup";
+        localStorage.setItem('activeTab', hashtag);
 
         if(glaccountgroup_id)
         {
@@ -422,7 +425,7 @@
 
       }
 
-      if(window.location.search.length == 0)
+      else
       {
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
