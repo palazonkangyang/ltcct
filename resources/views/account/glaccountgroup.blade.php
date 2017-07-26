@@ -380,7 +380,7 @@
 
       console.log(getParameter('glcode_id'));
 
-      if(window.location.search.length)
+      if(window.location.search.length > 0)
       {
         var queryString = window.location.search;
         var hashtag = "#tab_editglaccountgroup";
