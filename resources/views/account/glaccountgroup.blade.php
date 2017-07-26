@@ -378,11 +378,11 @@
         return false;
       }
 
-      console.log(getParameter('glcode_id'));
+      console.log(getParameter('glaccountgroup_id'));
 
-      if(window.location.search.length > 0)
+      if(getParameter('glaccountgroup_id'))
       {
-        var queryString = window.location.search;
+        // var queryString = window.location.search;
         var glaccountgroup_id = getParameter('glaccountgroup_id');
 
         var hashtag = "#tab_editglaccountgroup";
@@ -400,7 +400,7 @@
 
           $.ajax({
               type: 'GET',
-              url: "/account/edit-glaccountgroup/",
+              url: "/account/edit-glaccountgroup",
               data: formData,
               dataType: 'json',
               success: function(response)
