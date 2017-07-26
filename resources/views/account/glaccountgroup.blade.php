@@ -422,7 +422,7 @@
 
       }
 
-      else
+      if(window.location.search.length == 0)
       {
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
