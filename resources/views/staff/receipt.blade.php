@@ -11,7 +11,7 @@
 			text-align: right;
 		}
 	</style>
-	
+
 </head>
 <body>
 
@@ -63,7 +63,7 @@
 
 					<div class="label-left">Paid By :</div><!-- end label-left -->
 
-					<div class="label-right">{{ $receipt[0]->chinese_name }} (D - {{ $receipt[0]->focusdevotee_id }})</div><!-- end label-right -->
+					<div class="label-right">{{ $receipt[0]->chinese_name }} (D - {{ $receipt[0]->devotee_id }})</div><!-- end label-right -->
 
 				</div><!-- end label-wrapper -->
 
@@ -82,7 +82,7 @@
 					<div class="label-right"></div><!-- end label-right -->
 
 				</div><!-- end label-wrapper -->
-				
+
 			</div><!-- end middle-left-area -->
 
 			<div id="middle-left-area">
@@ -110,7 +110,7 @@
 					<div class="label-right"></div><!-- end label-right -->
 
 				</div><!-- end label-wrapper -->
-				
+
 			</div><!-- end middle-left-area -->
 
 		</div><!-- end middle-area -->
@@ -194,7 +194,7 @@
 						<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'hj'){ ?>checked="checked"<?php }?>>
 						1 Receipt Printing for same address <br />
 
-						<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'gr'){ ?>checked="checked"<?php }?>> 
+						<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'gr'){ ?>checked="checked"<?php }?>>
 						Individual Receipt Printing
 					</div><!-- end label-left -->
 
@@ -207,7 +207,7 @@
 					</div><!-- end label-left -->
 
 				</div><!-- end label-wrapper -->
-				
+
 			</div><!-- end middle-left-area -->
 
 		</div><!-- end bottom-area -->
@@ -217,10 +217,10 @@
 </html>
 
 <script type="text/javascript">
-	
+
 
 	function reprint() {
 		window.print();
 	}
-	
+
 </script>
