@@ -104,7 +104,9 @@ class StaffController extends Controller
 
 				for($i = 0; $i < count($input["amount"]); $i++)
 				{
-					if(isset($input["amount"][$i]))
+					$count = 0;
+
+					if(isset($input["amount"][$i]) && $count == 1)
 					{
 						// save receipt for same family (1 receipt for printing)
 					  $same_xy_receipt = 1;
@@ -121,9 +123,9 @@ class StaffController extends Controller
 					  ];
 
 					  $same_receipt = Receipt::create($receipt)->receipt_id;
-					}
 
-					break;
+						$count++;
+					}
 				}
 
 				for($i = 0; $i < count($input["amount"]); $i++)
