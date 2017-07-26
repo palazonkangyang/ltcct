@@ -725,8 +725,7 @@ class OperatorController extends Controller
 									->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
 									->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
 									->orderBy('receipt_id', 'desc')
-									->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id' 'generaldonation.manualreceipt',
-									'generaldonation.hjgr as generaldonation_hjgr')
+									->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id' 'generaldonation.manualreceipt', 'generaldonation.hjgr as generaldonation_hjgr')
 				         	->get();
 
 
