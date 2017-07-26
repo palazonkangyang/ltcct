@@ -72,18 +72,18 @@ $(function() {
         var manualreceipt = $("#manualreceipt").val();
         var receipt_at = $("#receipt_at").val();
 
-        $("body").on('focus', '.other_amount', function() {
-
-          if($(this).val().length != 0)
-          {
-            if($.trim($(this).closest('tr').find('.other_paid_till').val()).length <= 0)
-            {
-              validationFailed = true;
-              errors[count++] = "Paid Till fields are empty."
-            }
-          }
-
-        });
+        // $("body").on('focus', '.other_amount', function() {
+        //
+        //   if($(this).val().length != 0)
+        //   {
+        //     if($.trim($(this).closest('tr').find('.other_paid_till').val()).length <= 0)
+        //     {
+        //       validationFailed = true;
+        //       errors[count++] = "Paid Till fields are empty."
+        //     }
+        //   }
+        //
+        // });
 
         if(mode_payment == "cheque")
         {
