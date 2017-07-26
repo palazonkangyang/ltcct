@@ -66,7 +66,7 @@
                                 @php $glcodegroup_id = $gcg->glcodegroup_id; @endphp
 
                                 <li data-jstree='{ "opened" : false }'>
-                                  <a href="/account/new-glaccountgroup?glaccountgroup_id={{ $gcg->glcodegroup_id }}" data-toggle="tab"
+                                  <a href="/account/new-glaccountgroup?glaccountgroup_id={{ $gcg->glcodegroup_id }}&tab=#tab_editglaccountgroup" data-toggle="tab"
                                     class="edit-glaccountgroup">{{ $gcg->name }}</a>
 
                                   <ul>
@@ -75,7 +75,7 @@
 
                                       @if($glcodegroup_id == $gc->glcodegroup_id)
                                         <li data-jstree='{ "type" : "file" }'>
-                                          <a href="/account/new-glaccount?glcode_id={{ $gc->glcode_id }}&tab=#tab_editglaccountgroup" data-toggle="tab"
+                                          <a href="/account/new-glaccount?glcode_id={{ $gc->glcode_id }}" data-toggle="tab"
                                             class="edit-glaccount">{{ $gc->accountcode }}</a>
                                         </li>
 
