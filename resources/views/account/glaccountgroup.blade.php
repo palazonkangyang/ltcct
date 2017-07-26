@@ -406,7 +406,6 @@
 
         if(glaccountgroup_id)
         {
-          localStorage.setItem('activeTab', hashtag);
 
           var formData = {
               _token: $('meta[name="csrf-token"]').attr('content'),
