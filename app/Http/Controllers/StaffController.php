@@ -47,7 +47,7 @@ class StaffController extends Controller
 		$input = array_except($request->all(), '_token');
 
 		// Delete relative and friend lists by focus devotee before saving
-		$lists = RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id']);
+		$lists = RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->get();
 		dd($lists->toArray());
 		$lists->delete();
 
