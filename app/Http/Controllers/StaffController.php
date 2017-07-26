@@ -76,7 +76,7 @@ class StaffController extends Controller
 		// dd($trans_id);
 
 		$prefix = "T";
-		$trans_id += 1;
+		$trans_id = 1;
 		$trans_id = $prefix . $trans_id;
 
 		$data = [
