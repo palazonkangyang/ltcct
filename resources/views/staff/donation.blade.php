@@ -262,7 +262,6 @@
                                                                     <table class="table table-bordered" id="generaldonation_table2">
                                                                         <thead>
                                                                             <tr>
-                                                                                <th>#</th>
                                                                                 <th>Chinese Name</th>
                                                                                 <th>Devotee#</th>
                                                                                 <th>Block</th>
