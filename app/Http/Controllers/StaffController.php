@@ -124,7 +124,7 @@ class StaffController extends Controller
 
 					  $same_receipt = Receipt::create($receipt)->receipt_id;
 
-
+						$count++;
 					}
 				}
 
