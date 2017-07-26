@@ -134,8 +134,6 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    dd($input);
-
     if(isset($input['authorized_password']))
     {
       $user = User::find(Auth::user()->id);
@@ -144,8 +142,12 @@ class GlController extends Controller
       if (Hash::check($input['authorized_password'], $hashedPassword)) {
         $data = [
           "accountcode" => $input['accountcode'],
-          "description" => $input['description'],
-          "status" => $input['status'],
+          "type_name" => $input['type_name'],
+          "chinese_name" => $input['chinese_name'],
+          "price" => $input['price'],
+          "job_id" => $input['job_id'],
+          "next_sn_number" => $input['next_sn_number'],
+          "receipt_prefix" => $input['receipt_prefix'],
           "glcodegroup_id" => $input['glcodegroup_id']
         ];
 
