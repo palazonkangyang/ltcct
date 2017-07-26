@@ -12,7 +12,6 @@ class Receipt extends Model
         'xy_receipt',
         'trans_date',
         'description',
-        'focusdevotee_id',
         'hjgr',
         'amount',
         'manualreceipt',
