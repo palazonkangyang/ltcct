@@ -78,7 +78,7 @@
                                 <a href="#tab_newglaccount" data-toggle="tab">New GL Account</a>
                               </li>
                               <li id="edit-glaccount" class="disabled">
-                                <a href="#tab_editglaccount" data-toggle="tab">Edit GL Account Group</a>
+                                <a href="#tab_editglaccount" data-toggle="tab">Edit GL Account</a>
                               </li>
                             </ul>
 
@@ -516,19 +516,12 @@
       var validationFailed = false;
 
       var accountcode = $("#edit_accountcode").val();
-      var description = $("#edit_description").val();
       var authorized_password = $("#edit_authorized_password").val();
 
       if ($.trim(accountcode).length <= 0)
       {
           validationFailed = true;
           errors[count++] = "Account code is empty."
-      }
-
-      if ($.trim(description).length <= 0)
-      {
-          validationFailed = true;
-          errors[count++] = "Account description is empty."
       }
 
       if ($.trim(authorized_password).length <= 0)
@@ -573,19 +566,12 @@
       var validationFailed = false;
 
       var accountcode = $("#accountcode").val();
-      var description = $("#description").val();
       var authorized_password = $("#authorized_password").val();
 
       if ($.trim(accountcode).length <= 0)
       {
           validationFailed = true;
           errors[count++] = "Account code is empty."
-      }
-
-      if ($.trim(description).length <= 0)
-      {
-          validationFailed = true;
-          errors[count++] = "Account description is empty."
       }
 
       if ($.trim(authorized_password).length <= 0)
