@@ -336,8 +336,8 @@ class StaffController extends Controller
 
 	public function getReceipt(Request $request, $receipt_id)
 	{
-		$receipt = Receipt::join('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
-					->join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+		$receipt = Receipt::join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+					->join('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
 					->select('receipt.*', 'devotee.chinese_name', 'generaldonation.trans_no')
 					->where('receipt.receipt_id', $receipt_id)
 					->get();
