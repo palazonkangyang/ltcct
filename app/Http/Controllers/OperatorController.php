@@ -714,7 +714,7 @@ class OperatorController extends Controller
 	        							->addSelect('familycode.familycode')->get();
 
 			// Get Relative and friends lists
-			$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.donate_devotee_id')
+			$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.relative_friend_devotee_id')
 																->where('donate_devotee_id', $focus_devotee[0]->devotee_id)
 																->select('relative_friend_lists.*', 'devotee.chinese_name', 'devotee.guiyi_name', 'devotee.address_unit1',
 																'devotee.address_unit2', 'devotee.address_street', 'devotee.address_building')
