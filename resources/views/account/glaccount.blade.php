@@ -364,7 +364,7 @@
 
   $(function() {
 
-    if($_GET['glcode_id'])
+    if(isset($_GET['glcode_id']))
     {
       var queryString = window.location.search;
       var hashtag = "#tab_editglaccount";
