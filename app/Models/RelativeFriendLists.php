@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RelativeFriendLists extends Model
 {
-    protected $table = 'relative_friends_lists';
+    protected $table = 'relative_friend_lists';
 
     protected $primaryKey = "relative_friend_list_id";
 
