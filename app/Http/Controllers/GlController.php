@@ -6,6 +6,7 @@ use App\Http\Requests;
 use App\Models\User;
 use App\Models\GlCodeGroup;
 use App\Models\GlCode;
+use App\Models\Job;
 use Auth;
 use DB;
 use Hash;
