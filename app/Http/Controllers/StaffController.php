@@ -60,7 +60,7 @@ class StaffController extends Controller
 			    "year" => date('Y')
 			  ];
 
-			  // RelativeFriendLists::create($list);
+			  RelativeFriendLists::create($list);
 			}
 		}
 
@@ -94,9 +94,7 @@ class StaffController extends Controller
 		  "festiveevent_id" => $input['festiveevent_id']
 		];
 
-		// $general_donation = GeneralDonation::create($data);
-
-		dd($input);
+		$general_donation = GeneralDonation::create($data);
 
 		if($general_donation)
 		{
