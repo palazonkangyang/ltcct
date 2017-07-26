@@ -60,7 +60,7 @@ class StaffController extends Controller
 			    "year" => date('Y')
 			  ];
 
-			  RelativeFriendLists::create($list);
+			  // RelativeFriendLists::create($list);
 			}
 		}
 
@@ -94,7 +94,7 @@ class StaffController extends Controller
 		  "festiveevent_id" => $input['festiveevent_id']
 		];
 
-		$general_donation = GeneralDonation::create($data);
+		// $general_donation = GeneralDonation::create($data);
 
 		dd($input);
 
@@ -102,45 +102,47 @@ class StaffController extends Controller
 		{
 			if($input["hjgr"] == "hj")
 			{
-				if(isset($input['devotee_id']))
+				for($i = 0; $i < count($input["amount"]; $i++))
 				{
-					// save receipt for same family (1 receipt for printing)
-			    $same_xy_receipt = Receipt::all()->last()->receipt_id;
-			    $prefix = "XY";
-			    $same_xy_receipt += 1;
-			    $same_xy_receipt = $prefix . $same_xy_receipt;
+					if(isset($input["amount"][$i]))
+					{
+						// save receipt for same family (1 receipt for printing)
+					  $same_xy_receipt = Receipt::all()->last()->receipt_id;
+					  $prefix = "XY";
+					  $same_xy_receipt += 1;
+					  $same_xy_receipt = $prefix . $same_xy_receipt;
 
-					$receipt = [
-			      "xy_receipt" => $same_xy_receipt,
-			      "trans_date" => Carbon::now(),
-			      "description" => "Xiangyou",
-			      "amount" => $input["amount"][0],
-			      "generaldonation_id" => $general_donation->generaldonation_id
-			    ];
+					  $receipt = [
+					    "xy_receipt" => $same_xy_receipt,
+					    "trans_date" => Carbon::now(),
+					    "description" => "Xiangyou",
+					    "amount" => $input["amount"][$i],
+					    "generaldonation_id" => $general_donation->generaldonation_id
+					  ];
 
-					$same_receipt = Receipt::create($receipt);
+					  $same_receipt = Receipt::create($receipt);
 
-					// Add all devotees for general doantion Table
-					for($i = 0; $i < count($input['devotee_id']); $i++)
-			    {
-			      // Modify fields
-			      $paid_till = $input['paid_till'][$i];
-			      $paid_till_date = str_replace('/', '-', $paid_till);
-			      $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
+						// Add all devotees for general doantion Table
+					  // for($i = 0; $i < count($input['devotee_id']); $i++)
+					  // {
+					    // Modify fields
+					    $paid_till_date = str_replace('/', '-', $input['paid_till'][$i]);
+					    $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
 
-			      $data = [
-			        "amount" => $input["amount"][$i],
-			        "paid_till" => $new_paid_till_date,
-			        "hjgr" => $input["hjgr_arr"][$i],
-			        "display" => $input["display"][$i],
-			        "trans_date" => Carbon::now(),
-			        "generaldonation_id" => $general_donation->generaldonation_id,
-			        "devotee_id" => $input["devotee_id"][$i],
-			        "receipt_id" => $same_receipt->receipt_id
-			      ];
+					    $data = [
+					      "amount" => $input["amount"][$i],
+					      "paid_till" => $new_paid_till_date,
+					      "hjgr" => $input["hjgr_arr"][$i],
+					      "display" => $input["display"][$i],
+					      "trans_date" => Carbon::now(),
+					      "generaldonation_id" => $general_donation->generaldonation_id,
+					      "devotee_id" => $input["devotee_id"][$i],
+					      "receipt_id" => $same_receipt->receipt_id
+					    ];
 
-			      GeneralDonationItems::create($data);
-			    }
+					    GeneralDonationItems::create($data);
+					  // }
+					}
 				}
 			}
 		}
