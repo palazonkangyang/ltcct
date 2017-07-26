@@ -107,8 +107,7 @@
 
                                           @foreach($glaccountgroup as $gl)
                                           <tr>
-                                            <td><a href="#tab_editglaccountgroup" data-toggle="tab"
-                                                class="edit-glaccountgroup" id="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</a></td>
+                                            <td>{{ $gl->name }}</td>
                                             <td>{{ $gl->description }}</td>
                                             <td class="text-uppercase">{{ $gl->balancesheet_side }}</td>
                                             <td class="text-capitalize">{{ $gl->status }}</td>
