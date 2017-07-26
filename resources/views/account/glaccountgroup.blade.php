@@ -385,8 +385,7 @@
         // var queryString = window.location.search;
         var glaccountgroup_id = getParameter('glaccountgroup_id');
 
-        var hashtag = "#tab_editglaccountgroup";
-        localStorage.setItem('activeTab', hashtag);
+        localStorage.setItem('activeTab', '#tab_editglaccountgroup');
 
         alert("has query String");
         console.log(activeTab);
