@@ -387,6 +387,8 @@
 
         localStorage.setItem('activeTab', '#tab_editglaccountgroup');
 
+        var activeTab = localStorage.getItem('activeTab');
+
         alert("has query String");
         console.log(activeTab);
 
@@ -397,6 +399,8 @@
         $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
             localStorage.setItem('activeTab', $(e.target).attr('href'));
         });
+
+        var activeTab = localStorage.getItem('activeTab');
 
         console.log(activeTab);
       }
