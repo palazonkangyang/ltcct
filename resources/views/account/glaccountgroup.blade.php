@@ -382,53 +382,19 @@
 
       if(window.location.search.length)
       {
-        localStorage.setItem('activeTab', hashtag);
+        // localStorage.setItem('activeTab', hashtag);
 
-        var queryString = window.location.search;
-        var hashtag = "#tab_editglaccountgroup";
-        var glaccountgroup_id = getParameter('glaccountgroup_id');
+        alert('Has Query String');
 
-        if(glaccountgroup_id)
-        {
-          var formData = {
-              _token: $('meta[name="csrf-token"]').attr('content'),
-              glaccountgroup_id: glaccountgroup_id
-          };
 
-          $("#edit_name").val('');
-          $("#edit_description").val('');
-
-          $.ajax({
-              type: 'GET',
-              url: "/account/edit-glaccountgroup/",
-              data: formData,
-              dataType: 'json',
-              success: function(response)
-              {
-
-                $("#edit_glcodegroup_id").val(response.glaccountgroup['glcodegroup_id']);
-                $("#edit_name").val(response.glaccountgroup['name']);
-                $("#edit_description").val(response.glaccountgroup['description']);
-                $("#edit_balancesheet_side").val(response.glaccountgroup['balancesheet_side']);
-                $("#edit_status").val(response.glaccountgroup['status']);
-
-                localStorage.setItem('glcodegroup_id', response.glaccountgroup['glcodegroup_id']);
-                localStorage.setItem('balancesheet_side', response.glaccountgroup['balancesheet_side']);
-                localStorage.setItem('status', response.glaccountgroup['status']);
-              },
-
-              error: function (response) {
-                  console.log(response);
-              }
-          });
-        }
 
       }
 
       else{
-        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-            localStorage.setItem('activeTab', $(e.target).attr('href'));
-        });
+        // $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        //     localStorage.setItem('activeTab', $(e.target).attr('href'));
+        // });
+        alert("No Query String");
       }
 
       if ( $('.alert-success').children().length > 0 ) {
