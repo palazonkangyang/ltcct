@@ -20,6 +20,15 @@ article{
   float: left;
 }
 
+.receipt-info{
+  overflow: hidden;
+}
+
+.receipt-list{
+  margin-top: 0.2mm;
+  overflow: hidden;
+}
+
 .label-wrapper{
 	width: 11cm;
 	margin: 0.3cm;
