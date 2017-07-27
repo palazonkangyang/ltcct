@@ -388,6 +388,7 @@
 
         $(".nav-tabs > li:first-child").removeClass("active");
         $("#edit-glaccountgroup").addClass("active");
+        $("#edit-glaccountgroup").removeClass("disabled");
 
         if(glaccountgroup_id)
         {
