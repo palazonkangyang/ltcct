@@ -384,7 +384,7 @@
 
 	 									<label class="col-md-3 control-label">Address - Building</label>
 	 									<div class="col-md-9">
-	 											<input type="text" class="form-control" name="address_building" value="{{ old('address_building') }}"
+	 											<input type="text" class="form-control" name="address_building" value="{{ $focus_devotee[0]->address_building }}"
 	 													id="edit_address_building">
 	 									</div><!-- end col-md-9 -->
 
@@ -394,7 +394,7 @@
 
 	 									<label class="col-md-3 control-label">Address - Postal *</label>
 	 									<div class="col-md-9">
-	 											<input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}"
+	 											<input type="text" class="form-control" name="address_postal" value="{{ $focus_devotee[0]->address_postal }}"
 	 													id="edit_address_postal">
 	 									</div><!-- end col-md-9 -->
 
@@ -404,7 +404,8 @@
 
 	 									<label class="col-md-3 control-label">Address - Translate</label>
 	 									<div class="col-md-9">
-	 													<input type="text" class="form-control" name="address_translated" id="edit_address_translated" readonly>
+	 													<input type="text" class="form-control" name="address_translated" id="edit_address_translated"
+														value="{{ $focus_devotee[0]->address_translated }}" readonly>
 	 									</div><!-- end col-md-9 -->
 
 	 							</div><!-- end form-group -->
@@ -413,7 +414,8 @@
 
 	 									<label class="col-md-3 control-label">Oversea Addr in Chinese</label>
 	 									<div class="col-md-9">
-	 											<input type="text" class="form-control" name="oversea_addr_in_chinese" id="edit_oversea_addr_in_chinese">
+	 											<input type="text" class="form-control" name="oversea_addr_in_chinese" id="edit_oversea_addr_in_chinese"
+												value="{{ $focus_devotee[0]->oversea_addr_in_chinese }}">
 	 									</div><!-- end col-md-9 -->
 
 	 							</div><!-- end form-group -->
@@ -437,7 +439,131 @@
 
 	 						</div><!-- end col-md-6 -->
 
+							<div class="col-md-6">
 
+									<div class="form-group">
+
+										<label class="col-md-3 control-label">NRIC</label>
+										<div class="col-md-9">
+											 <input type="text" class="form-control" name="nric" value="{{ $focus_devotee[0]->nric }}" id="edit_nric">
+										 </div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
+									<div class="form-group">
+
+											<label class="col-md-3 control-label">Deceased Year</label>
+											<div class="col-md-9">
+													<input type="text" class="form-control" name="deceased_year"
+															value="{{ $focus_devotee[0]->deceased_year }}" id="edit_deceased_year">
+											</div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
+									<div class="form-group">
+
+											<label class="col-md-3 control-label">Date of Birth</label>
+											<div class="col-md-9">
+													<input type="text" class="form-control" name="dob" data-provide="datepicker" data-date-format="dd/mm/yyyy"
+													value="{{ $focus_devotee[0]->dob }}" id="edit_dob">
+											</div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
+									<div class="form-group">
+
+											<label class="col-md-3 control-label">Marital Status</label>
+											<div class="col-md-9">
+													<select class="form-control" name="marital_status" id="edit_marital_status">
+															<option value="">Please select</option>
+															<option value="single">Single</option>
+															<option value="married">Married</option>
+													</select>
+											</div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
+									<div class="form-group">
+
+											<label class="col-md-3 control-label">Dialect</label>
+											<div class="col-md-9">
+													<select class="form-control" name="dialect" id="edit_dialect">
+															<option value="">Please select</option>
+															<option value="chinese">Chinese</option>
+															<option value="others">Others</option>
+													</select>
+											</div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
+									<div class="form-group">
+
+											<label class="col-md-3 control-label">Race</label>
+											<div class="col-md-9">
+													<select class="form-control" name="race" id="edit_race">
+															<option value="">Please select</option>
+															<option value="chinese">Chinese</option>
+															<option value="others">Others</option>
+													</select>
+											</div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
+									<div class="form-group">
+
+											<label class="col-md-3 control-label">Nationality</label>
+											<div class="col-md-9">
+													<select class="form-control" name="nationality" id="edit_nationality">
+															<option value="">Please select</option>
+															<option value="singapore">Singapore</option>
+															<option value="others">Others</option>
+													</select>
+											</div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
+									<div class="form-group">
+
+											<label class="col-md-3"></label>
+											<div class="col-md-9">
+													<div class="table-scrollable" id="edit-familycode-table">
+															<table class="table table-bordered table-hover">
+
+																	<thead>
+																			<tr>
+																					<th>#</th>
+																					<th>Name</th>
+																					<th>Family Code</th>
+																			</tr>
+																	</thead>
+
+																<tbody>
+																			<tr id="edit_no_familycode">
+																					<td colspan="3">No Family Code</td>
+																			</tr>
+																	</tbody>
+															</table>
+													</div>
+											</div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
+									<div class="form-group">
+
+											<label class="col-md-3 control-label">Mailer</label>
+											<div class="col-md-2">
+													<select class="form-control" name="mailer">
+														<option value="No">No</option>
+														<option value="Yes">Yes</option>
+													</select>
+											</div><!-- end col-md-2 -->
+
+											<div class="col-md-4">
+											</div><!-- end col-md-4 -->
+
+									</div><!-- end form-group -->
+
+								</div><!-- end col-md-6 -->
 
 						@endif
 
