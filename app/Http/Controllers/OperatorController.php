@@ -690,6 +690,16 @@ class OperatorController extends Controller
 		$devotee = new Devotee;
     $focus_devotee = $devotee->focusDevotee($input)->get();
 
+		if(isset($focus_devotee[0]->dob))
+		{
+			$focus_devotee[0]->dob = Carbon::parse($focus_devotee[0]->dob)->format("d/m/Y");
+		}
+
+		if(isset($focus_devotee[0]->approved_date))
+		{
+			$focus_devotee[0]->approved_date = Carbon::parse($focus_devotee[0]->approved_date)->format("d/m/Y");
+		}
+
 		if(count($focus_devotee) == 0)
 		{
 			$request->session()->flash('error', 'There has no record. Please search again.');
