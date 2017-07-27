@@ -215,7 +215,23 @@
 
             $("#addEventRow").click(function() {
 
+              $.ajax({
+                  type: 'GET',
+                  url: "/job/get-joblists",
+                  data: formData,
+                  dataType: 'json',
+                  success: function(response)
+                  {
+                    alert(JSON.stringify(response));
+                  },
+
+                  error: function (response) {
+                      console.log(response);
+                  }
+              });
+
                 $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
+                    "<td><select name=''><option value=''>Select Job</option></select>"
                     "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                     "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +

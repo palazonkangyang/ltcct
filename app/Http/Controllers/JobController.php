@@ -26,6 +26,15 @@ class JobController extends Controller
     ]);
   }
 
+  public function getJobLists()
+  {
+    $jobs = Job::orderBy('created_at', 'desc')->get();
+
+    return response()->json(array(
+			'job' => $jobs
+		));
+  }
+
   public function postAddNewJob(Request $request)
   {
     $input = array_except($request->all(), '_token');
