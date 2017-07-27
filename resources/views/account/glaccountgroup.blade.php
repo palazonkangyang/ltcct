@@ -386,9 +386,7 @@
         var queryString = window.location.search;
         var glaccountgroup_id = getParameter('glaccountgroup_id');
 
-        $(".nav-tabs > li:first-child").removeClass("active");
-        $("#edit-glaccountgroup").addClass("active");
-        $("#edit-glaccountgroup").removeClass("disabled");
+        localStorage.setItem('activeTab', '#tab_editglaccountgroup');
 
         if(glaccountgroup_id)
         {
