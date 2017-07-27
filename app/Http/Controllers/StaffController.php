@@ -406,7 +406,7 @@ class StaffController extends Controller
 			$jobs = Job::orderBy('created_at', 'desc')->get();
 
 			return view('staff.create-festive-event', [
-				'jobs' => $jobs
+				'jobs' => $jobs,
 				'events' => $events
 			]);
 	}
