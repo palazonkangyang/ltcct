@@ -1,5 +1,5 @@
 header{
-
+  height: 30mm;
 }
 
 article{
@@ -14,6 +14,26 @@ article{
 #rightcontent{
   width: 68mm;
   float: left;
+}
+
+.label-wrapper{
+	width: 11cm;
+	margin: 0.3cm 1cm;
+	overflow: hidden;
+}
+
+.label{
+	width: 11cm;
+}
+
+.label-left{
+	width: 4cm;
+	float: left;
+}
+
+.label-right{
+	width: 5cm;
+	float: left;
 }
 
 table.receipt-table {

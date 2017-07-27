@@ -21,10 +21,6 @@
 	<section class="sheet padding-10mm">
 
 	    <!-- Write HTML just like a web page -->
-	    <article>
-
-
-			</article>
 
 			<header>
 
@@ -36,7 +32,7 @@
 				</div><!-- end leftcontent -->
 
 				<div id="rightcontent">
-					<h3>Event: {{ $festiveevent->event }}</h3>
+					<h4>Event: {{ $festiveevent->event }}</h4>
 
 					<table class="receipt-table">
 						<thead>
