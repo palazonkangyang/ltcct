@@ -38,16 +38,26 @@ $(function() {
             dataType: 'json',
             success: function(response)
             {
-
                 if(response.familycode.length != 0)
                 {
                     $("#edit_no_familycode").remove();
 
                     $.each(response.familycode, function(index, data) {
-                        $('#edit-familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='edit_familycode_id' " +
-                            "value='" + data.familycode_id + "' /></td>" +
-                            "<td>" + data.chinese_name + "</td>" +
-                            "<td>" + data.familycode + "</td></tr>");
+                        var familycode_id = "";
+
+                        if(familycode_id != data.familycode_id)
+                        {
+                          $('#edit-familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='edit_familycode_id' " +
+                              "value='" + data.familycode_id + "' /></td>" +
+                              "<td>" + data.chinese_name + "</td>" +
+                              "<td>" + data.familycode + "</td></tr>");
+                        }
+
+                        else {
+                          $('#edit-familycode-table tbody').append("<tr><td>" + data.chinese_name + "</td>");
+                        }
+
+                        familycode = data.familycode_id;
                     });
                 }
 
@@ -56,9 +66,6 @@ $(function() {
                     $('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
                         "<td colspan='3'>No Family Code</td></tr>");
                 }
-
-
-
             },
 
             error: function (response) {
