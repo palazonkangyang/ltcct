@@ -92,7 +92,22 @@
 							</tbody>
 						</table>
 
-					</div>
+						<br />
+
+						<div class="receipt-info">
+							<div class="label-wrapper">
+								<div class="label-left">Payment Mode :</div><!-- end label-left -->
+								<div class="label-right">{{ $generaldonation->mode_payment }}</div><!-- end label-right -->
+							</div><!-- end label-wrapper -->
+
+							<div class="label-wrapper">
+								<div class="label-left">Total Amount :</div><!-- end label-left -->
+								<div class="label-right">S$ {{ $sum }}</div><!-- end label-right -->
+							</div><!-- end label-wrapper -->
+
+						</div><!-- end receipt-info -->
+
+					</div><!-- end receipt-list -->
 
 				</div><!-- end leftcontent -->
 
