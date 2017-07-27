@@ -489,8 +489,8 @@
 											<div class="col-md-9">
 													<select class="form-control" name="dialect" id="edit_dialect">
 															<option value="">Please select</option>
-															<option value="chinese">Chinese</option>
-															<option value="others">Others</option>
+															<option value="chinese" <?php if ($focus_devotee[0]->dialect == "chinese") echo "selected"; ?>>Chinese</option>
+															<option value="others" <?php if ($focus_devotee[0]->dialect == "others") echo "selected"; ?>>Others</option>
 													</select>
 											</div><!-- end col-md-9 -->
 
