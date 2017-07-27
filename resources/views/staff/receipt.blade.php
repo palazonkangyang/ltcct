@@ -28,7 +28,27 @@
 
 			<article>
 				<div id="leftcontent">
-					<p>Left Content</p>
+
+					<div class="label-wrapper">
+						<div class="label-left">Receipt Date :</div><!-- end label-left -->
+						<div class="label-right">{{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</div><!-- end label-right -->
+					</div><!-- end label-wrapper -->
+
+					<div class="label-wrapper">
+						<div class="label-left">Paid By :</div><!-- end label-left -->
+						<div class="label-right">{{ $receipt[0]->chinese_name }} (D - {{ $receipt[0]->devotee_id }})</div><!-- end label-right -->
+					</div><!-- end label-wrapper -->
+
+					<div class="label-wrapper">
+						<div class="label-left">Description :</div><!-- end label-left -->
+						<div class="label-right">{{ $receipt[0]->description }}</div><!-- end label-right -->
+					</div><!-- end label-wrapper -->
+
+					<div class="label-wrapper">
+						<div class="label-left">Donation for next Event :</div><!-- end label-left -->
+						<div class="label-right"></div><!-- end label-right -->	
+					</div><!-- end label-wrapper -->
+
 				</div><!-- end leftcontent -->
 
 				<div id="rightcontent">
