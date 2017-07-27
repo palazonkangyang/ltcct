@@ -551,19 +551,54 @@
       var errors = new Array();
       var validationFailed = false;
 
+      var type_name = $("#edit_type_name").val();
+      var chinese_name = $("#edit_chinese_name").val();
       var accountcode = $("#edit_accountcode").val();
+      var price = $("#edit_price").val();
+      var next_sn_number = $("#edit_next_sn_number").val();
+      var receipt_prefix = $("#edit_receipt_prefix").val();
       var authorized_password = $("#edit_authorized_password").val();
+
+      if ($.trim(type_name).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Type Name field is empty."
+      }
+
+      if ($.trim(chinese_name).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Chinese name field is empty."
+      }
 
       if ($.trim(accountcode).length <= 0)
       {
           validationFailed = true;
-          errors[count++] = "Account code is empty."
+          errors[count++] = "Account code field is empty."
+      }
+
+      if ($.trim(price).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Price field is empty."
+      }
+
+      if ($.trim(next_sn_number).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Next sn number field is empty."
+      }
+
+      if ($.trim(receipt_prefix).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Receipt prefix field is empty."
       }
 
       if ($.trim(authorized_password).length <= 0)
       {
           validationFailed = true;
-          errors[count++] = "Authorized Pasword is empty."
+          errors[count++] = "Authorized pasword field is empty."
       }
 
       if (validationFailed)
@@ -592,7 +627,8 @@
     });
 
     $('#glaccount-table').DataTable( {
-      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+      "scrollX": true
     });
 
     $("#confirm_glcode_btn").click(function() {
