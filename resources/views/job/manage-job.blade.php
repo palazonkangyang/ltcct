@@ -251,6 +251,10 @@
         console.log(activeTab);
     }
 
+    $('#joblist-table').DataTable( {
+      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+    });
+
   });
 </script>
 
