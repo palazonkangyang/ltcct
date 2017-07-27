@@ -42,8 +42,9 @@ $(function() {
                 {
                     $("#edit_no_familycode").remove();
 
+                    var familycode_id = "";
+
                     $.each(response.familycode, function(index, data) {
-                        var familycode_id = "";
 
                         if(familycode_id != data.familycode_id)
                         {
@@ -54,12 +55,10 @@ $(function() {
                         }
 
                         else {
-                          $('#edit-familycode-table tbody').append("<tr><td>" + data.chinese_name + "</td>");
+                          $('#edit-familycode-table tbody').append("<tr><td colspan='3'>" + data.chinese_name + "</td>");
                         }
 
                         familycode = data.familycode_id;
-
-                        console.log(familycode);
                     });
                 }
 
