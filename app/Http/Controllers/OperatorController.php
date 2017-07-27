@@ -661,6 +661,21 @@ class OperatorController extends Controller
 			Session::forget('devotee_lists');
 		}
 
+		if(Session::has('optionaladdresses'))
+		{
+			Session::forget('optionaladdresses');
+		}
+
+		if(Session::has('optionalvehicles'))
+		{
+			Session::forget('optionalvehicles');
+		}
+
+		if(Session::has('specialRemarks'))
+		{
+			Session::forget('specialRemarks');
+		}
+
 		if(Session::has('relative_friend_lists'))
 		{
 			Session::forget('relative_friend_lists');
@@ -739,6 +754,10 @@ class OperatorController extends Controller
 									'generaldonation.hjgr as generaldonation_hjgr')
 				         	->get();
 
+		$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+		$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+		$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+
 
 		if(!Session::has('focus_devotee'))
 		{
@@ -748,6 +767,21 @@ class OperatorController extends Controller
 		if(!Session::has('devotee_lists'))
 		{
 			Session::put('devotee_lists', $devotee_lists);
+		}
+
+		if(!Session::has('optionaladdresses'))
+		{
+			Session::put('optionaladdresses', $optionaladdresses);
+		}
+
+		if(!Session::has('optionalvehicles'))
+		{
+			Session::put('optionalvehicles', $optionalvehicles);
+		}
+
+		if(!Session::has('specialRemarks'))
+		{
+			Session::put('specialRemarks', $specialRemarks);
 		}
 
 		if(!Session::has('relative_friend_lists'))
