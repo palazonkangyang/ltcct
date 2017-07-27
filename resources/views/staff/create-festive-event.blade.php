@@ -213,8 +213,28 @@
             });
           });
 
+          var append = $(document.createElement('div'))
+                  .attr("class", 'appendSelectBox');
+
+          $.ajax({
+              type: 'GET',
+              url: "/job/get-joblists",
+              data: '',
+              dataType: 'json',
+              success: function(response)
+              {
 
 
+                $.each(response.devotee, function(index, data) {
+                  append.after().html("<option value='" + data.job_id + "'>" + data.job_reference_no + "</option>");
+                });
+
+              },
+
+              error: function (response) {
+                  console.log(response);
+              }
+          });
 
 
             $("#addEventRow").click(function() {
@@ -230,28 +250,12 @@
                   "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
 
                 // $(this).closest(".joblist").append("");
-                $('.joblist').append("<option>1</option><option>2</option>");
+                // $('.joblist').append("<option>1</option><option>2</option>");
+                // $(this).appendTo( $(this).closest(".joblist") );
 
-              $.ajax({
-                  type: 'GET',
-                  url: "/job/get-joblists",
-                  data: '',
-                  dataType: 'json',
-                  success: function(response)
-                  {
-                    // alert(JSON.stringify(response));
-                    //
-                    // $.each(response.job, function(index, data) {
-                    //   $
-                    // });
+                append.appendTo( $(this).closest(".joblist") );
 
 
-                  },
-
-                  error: function (response) {
-                      console.log(response);
-                  }
-              });
             });
 
             $("#festive-event-table").on('click', '.removeEventRow', function() {
