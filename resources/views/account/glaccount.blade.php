@@ -627,8 +627,7 @@
     });
 
     $('#glaccount-table').DataTable( {
-      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-      "scrollX": true
+      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
     });
 
     $("#confirm_glcode_btn").click(function() {
