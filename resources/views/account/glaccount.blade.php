@@ -640,7 +640,7 @@
       if ($.trim(next_sn_number).length <= 0)
       {
           validationFailed = true;
-          errors[count++] = "Account code field is empty."
+          errors[count++] = "Next SN Number field is empty."
       }
 
       if ($.trim(receipt_prefix).length <= 0)
