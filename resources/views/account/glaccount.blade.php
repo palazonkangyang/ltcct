@@ -461,6 +461,9 @@
       var queryString = window.location.search;
       var glaccount_id = getParameter('glcode_id');
 
+      $(".nav-tabs > li:first-child").removeClass("active");
+      $("#edit-glaccount").addClass("active");
+
       if(glaccount_id)
       {
 
@@ -499,9 +502,11 @@
 
     }
 
-    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-      localStorage.setItem('activeTab', $(e.target).attr('href'));
-    });
+    else {
+      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+      });
+    }
 
 
     if ( $('.alert-success').children().length > 0 ) {
