@@ -51,7 +51,7 @@
             box-sizing: border-box;
         }
 
-				#devotees_table_paginate
+				.paging_simple_numbers
 				{
 					float: right;
 				}
