@@ -279,7 +279,7 @@
 
                                         <label class="col-md-3 control-label">Type Name *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="type_name" value="{{ old('type_name') }}" id="edit_type_name">
+                                            <input type="text" class="form-control" name="edit_type_name" value="{{ old('edit_type_name') }}" id="edit_type_name">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -288,7 +288,7 @@
 
                                         <label class="col-md-3 control-label">Chinese Name *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}" id="edit_chinese_name">
+                                            <input type="text" class="form-control" name="edit_chinese_name" value="{{ old('edit_chinese_name') }}" id="edit_chinese_name">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -297,7 +297,7 @@
 
                                         <label class="col-md-3 control-label">Account Code *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="accountcode" value="{{ old('accountcode') }}" id="edit_accountcode">
+                                            <input type="text" class="form-control" name="edit_accountcode" value="{{ old('edit_accountcode') }}" id="edit_accountcode">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -306,7 +306,7 @@
 
                                         <label class="col-md-3 control-label">Price *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="price" value="{{ old('price') }}" id="edit_price">
+                                            <input type="text" class="form-control" name="edit_price" value="{{ old('edit_price') }}" id="edit_price">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -315,7 +315,7 @@
 
                                         <label class="col-md-3 control-label">Job *</label>
                                         <div class="col-md-9">
-                                          <select class="form-control" name="job_id" id="edit_job_id" disabled>
+                                          <select class="form-control" name="edit_job_id" id="edit_job_id" disabled>
                                               @foreach($job as $j)
                                               <option value="{{ $j->job_id }}">{{ $j->job_name }}</option>
                                               @endforeach
@@ -342,7 +342,7 @@
 
                                         <label class="col-md-3 control-label">Next SN Number *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="next_sn_number" value="{{ old('next_sn_number') }}" id="edit_next_sn_number">
+                                            <input type="text" class="form-control" name="edit_next_sn_number" value="{{ old('edit_next_sn_number') }}" id="edit_next_sn_number">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -351,7 +351,7 @@
 
                                         <label class="col-md-3 control-label">Receipt Prefix *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="receipt_prefix" value="{{ old('receipt_prefix') }}" id="edit_receipt_prefix">
+                                            <input type="text" class="form-control" name="edit_receipt_prefix" value="{{ old('edit_receipt_prefix') }}" id="edit_receipt_prefix">
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->
@@ -482,7 +482,7 @@
             success: function(response)
             {
               alert(JSON.stringify(response));
-              
+
               $("#edit_glcode_id").val(response.glaccount['glcode_id']);
               $("#edit_accountcode").val(response.glaccount['accountcode']);
               $("#edit_type_name").val(response.glaccount['type_name']);
