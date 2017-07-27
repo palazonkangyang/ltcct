@@ -31,11 +31,11 @@
 			</header>
 
 			<article>
-				<div class="leftcontent">
+				<div id="leftcontent">
 					<p>Left Content</p>
 				</div><!-- end leftcontent -->
 
-				<div class="rightcontent">
+				<div id="rightcontent">
 					<p>Right Content</p>
 				</div><!-- end rightcontent -->
 			</article>
