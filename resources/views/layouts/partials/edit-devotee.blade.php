@@ -313,7 +313,7 @@
 
 	 									<label class="col-md-3 control-label">Chinese Name *</label>
 	 									<div class="col-md-9">
-	 											<input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}"
+	 											<input type="text" class="form-control" name="chinese_name" value="{{ $focus_devotee[0]->chinese_name }}"
 	 													id="edit_chinese_name">
 	 											</div><!-- end col-md-9 -->
 
@@ -323,7 +323,7 @@
 
 	 									<label class="col-md-3 control-label">English Name</label>
 	 									<div class="col-md-9">
-	 											<input type="text" class="form-control" name="english_name" value="{{ old('english_name') }}" id="edit_english_name">
+	 											<input type="text" class="form-control" name="english_name" value="{{ $focus_devotee[0]->english_name }}" id="edit_english_name">
 	 									</div><!-- end col-md-9 -->
 
 	 							</div><!-- end form-group -->
@@ -332,7 +332,7 @@
 
 	 									<label class="col-md-3 control-label">Contact # *</label>
 	 									<div class="col-md-9">
-	 											<input type="text" class="form-control" name="contact" value="{{ old('contact') }}" id="edit_contact">
+	 											<input type="text" class="form-control" name="contact" value="{{ $focus_devotee[0]->contact }}" id="edit_contact">
 	 									</div><!-- end col-md-9 -->
 
 	 							</div><!-- end form-group -->
@@ -341,7 +341,7 @@
 
 	 									<label class="col-md-3 control-label">Guiyi Name</label>
 	 									<div class="col-md-9">
-	 											<input type="text" class="form-control" name="guiyi_name" value="{{ old('guiyi_name') }}" id="edit_guiyi_name">
+	 											<input type="text" class="form-control" name="guiyi_name" value="{{ $focus_devotee[0]->guiyi_name }}" id="edit_guiyi_name">
 	 									</div><!-- end col-md-9 -->
 
 	 							</div><!-- end form-group -->
@@ -350,21 +350,21 @@
 
 	 									<label class="col-md-3 control-label">Address - House No *</label>
 	 									<div class="col-md-3">
-	 											<input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}"
+	 											<input type="text" class="form-control" name="address_houseno" value="{{ $focus_devotee[0]->address_houseno }}"
 	 													id="edit_address_houseno">
 	 									</div><!-- end col-md-3 -->
 
 	 									<label class="col-md-1 control-label">Unit</label>
 
 	 									<div class="col-md-2">
-	 											<input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}"
+	 											<input type="text" class="form-control" name="address_unit1" value="{{ $focus_devotee[0]->address_unit1 }}"
 	 													id="edit_address_unit1">
 	 									</div><!-- end col-md-2 -->
 
 	 									<label class="col-md-1">-</label>
 
 	 									<div class="col-md-2">
-	 											<input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}"
+	 											<input type="text" class="form-control" name="address_unit2" value="{{ $focus_devotee[0]->address_unit2 }}"
 	 													id="edit_address_unit2">
 	 									</div><!-- end col-md-2 -->
 
@@ -375,7 +375,7 @@
 	 									<label class="col-md-3 control-label">Address - Street *</label>
 	 									<div class="col-md-9">
 	 											<input type="text" class="form-control" name="address_street"
-	 													value="{{ old('address_street') }}" id="edit_address_street">
+	 													value="{{ $focus_devotee[0]->address_street }}" id="edit_address_street">
 	 									</div><!-- end col-md-9 -->
 
 	 							</div><!-- end form-group -->
