@@ -19,7 +19,11 @@ class JobController extends Controller
 {
   public function getJob()
   {
-    return view('job.manage-job');
+    $job = Job::orderBy('created_at', 'desc')->get();
+
+    return view('job.manage-job', [
+      'job' => $job
+    ]);
   }
 
   public function postAddNewJob(Request $request)
