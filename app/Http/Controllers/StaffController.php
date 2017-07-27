@@ -353,6 +353,8 @@ class StaffController extends Controller
 
 		$generaldonation = GeneralDonation::find($receipt[0]->generaldonation_id);
 
+		dd($generaldonation->toArray());
+
 		return view('staff.receipt', [
             'receipt' => $receipt,
             'donation_devotees' => $donation_devotees,
