@@ -12,7 +12,7 @@
 
               <div class="page-title">
 
-                  <h1>GL Account</h1>
+                  <h1>Chart All Accounts</h1>
 
               </div><!-- end page-title -->
 
