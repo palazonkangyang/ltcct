@@ -363,6 +363,10 @@
   <script type="text/javascript">
     $(function() {
 
+      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+      });
+
       function getParameter(theParameter) {
         var params = window.location.search.substr(1).split('&');
 
@@ -418,12 +422,6 @@
               }
           });
         }
-      }
-
-      else {
-        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-          localStorage.setItem('activeTab', $(e.target).attr('href'));
-        });
       }
 
       if ( $('.alert-success').children().length > 0 ) {
