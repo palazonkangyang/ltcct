@@ -90,8 +90,8 @@ class GlController extends Controller
 
         $glcodegroup = GlCodeGroup::find($input['glcodegroup_id']);
 
-        $glcodegroup->name = $input['name'];
-        $glcodegroup->description = $input['description'];
+        $glcodegroup->name = $input['edit_name'];
+        $glcodegroup->description = $input['edit_description'];
         $result = $glcodegroup->save();
       }
 
@@ -104,7 +104,7 @@ class GlController extends Controller
     if($result)
     {
       $request->session()->flash('success', 'GL account group has been updated!');
-      return redirect()->back();
+      return redirect()->route('new-glaccount-group-page');
     }
   }
 
