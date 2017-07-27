@@ -613,12 +613,6 @@
       var receipt_prefix = $("#receipt_prefix").val();
       var authorized_password = $("#authorized_password").val();
 
-      if ($.trim(accountcode).length <= 0)
-      {
-          validationFailed = true;
-          errors[count++] = "Account code is empty."
-      }
-
       if ($.trim(type_name).length <= 0)
       {
           validationFailed = true;
@@ -629,6 +623,12 @@
       {
           validationFailed = true;
           errors[count++] = "Chinese name field is empty."
+      }
+
+      if ($.trim(accountcode).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Account code is empty."
       }
 
       if ($.trim(price).length <= 0)
