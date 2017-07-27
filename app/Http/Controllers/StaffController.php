@@ -15,6 +15,7 @@ use App\Models\GeneralDonationItems;
 use App\Models\Receipt;
 use App\Models\FestiveEvent;
 use App\Models\RelativeFriendLists;
+use App\Models\Job;
 use Auth;
 use DB;
 use Hash;
