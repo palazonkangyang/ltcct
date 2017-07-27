@@ -29,12 +29,12 @@
 			<article>
 				<div id="leftcontent">
 
-					<div class="label-wrapper">
-						<div class="label-left">Receipt No :</div><!-- end label-left -->
-						<div class="label-right">{{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</div><!-- end label-right -->
-					</div><!-- end label-wrapper -->
-
 					<div class="receipt-info">
+						<div class="label-wrapper">
+							<div class="label-left">Receipt No :</div><!-- end label-left -->
+							<div class="label-right">{{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</div><!-- end label-right -->
+						</div><!-- end label-wrapper -->
+						
 						<div class="label-wrapper">
 							<div class="label-left">Receipt Date :</div><!-- end label-left -->
 							<div class="label-right">{{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</div><!-- end label-right -->
