@@ -58,7 +58,7 @@ $(function() {
                           $('#edit-familycode-table tbody').append("<tr><td colspan='3'>" + data.chinese_name + "</td>");
                         }
 
-                        familycode = data.familycode_id;
+                        familycode_id = data.familycode_id;
                     });
                 }
 
