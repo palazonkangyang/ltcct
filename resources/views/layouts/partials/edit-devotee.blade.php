@@ -476,8 +476,8 @@
 											<div class="col-md-9">
 													<select class="form-control" name="marital_status" id="edit_marital_status">
 															<option value="">Please select</option>
-															<option value="single">Single</option>
-															<option value="married">Married</option>
+															<option value="single" <?php if ($focus_devotee[0]->marital_status == "single") echo "selected"; ?>>Single</option>
+															<option value="married" <?php if ($focus_devotee[0]->marital_status == "married") echo "selected"; ?>>Married</option>
 													</select>
 											</div><!-- end col-md-9 -->
 
