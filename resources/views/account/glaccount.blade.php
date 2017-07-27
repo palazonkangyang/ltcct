@@ -606,6 +606,11 @@
       var validationFailed = false;
 
       var accountcode = $("#accountcode").val();
+      var type_name = $("#type_name").val();
+      var chinese_name = $("#chinese_name").val();
+      var price = $("#price").val();
+      var next_sn_number = $("#next_sn_number").val();
+      var receipt_prefix = $("#receipt_prefix").val();
       var authorized_password = $("#authorized_password").val();
 
       if ($.trim(accountcode).length <= 0)
@@ -614,10 +619,40 @@
           errors[count++] = "Account code is empty."
       }
 
+      if ($.trim(type_name).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Type name field is empty."
+      }
+
+      if ($.trim(chinese_name).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Chinese name field is empty."
+      }
+
+      if ($.trim(price).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Price field is empty."
+      }
+
+      if ($.trim(next_sn_number).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Account code field is empty."
+      }
+
+      if ($.trim(receipt_prefix).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Receipt Prefix field is empty."
+      }
+
       if ($.trim(authorized_password).length <= 0)
       {
           validationFailed = true;
-          errors[count++] = "Authorized Pasword is empty."
+          errors[count++] = "Authorized Pasword field is empty."
       }
 
       if (validationFailed)
