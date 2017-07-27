@@ -1,0 +1,21 @@
+header{
+
+}
+
+article{
+  overflow: hidden;
+}
+
+#leftcontent{
+  width: 120mm;
+  float: left;
+}
+
+#rightcontent{
+  width: 70px;
+  float: left;
+}
+
+footer{
+
+}

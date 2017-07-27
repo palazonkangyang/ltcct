@@ -5,6 +5,7 @@
 
 	<link href="{{ asset('/css/normalize.css') }}" rel="stylesheet" type="text/css" />
 	<link href="{{ asset('/css/paper.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('/css/print.css') }}" rel="stylesheet" type="text/css" />
 
 	<style type="text/css">
 		.right{
@@ -20,7 +21,24 @@
 	<section class="sheet padding-10mm">
 
 	    <!-- Write HTML just like a web page -->
-	    <article>This is an A5 document (landscape).</article>
+	    <article>
+
+
+			</article>
+
+			<header>
+
+			</header>
+
+			<article>
+				<div class="leftcontent">
+					<p>Left Content</p>
+				</div><!-- end leftcontent -->
+
+				<div class="rightcontent">
+					<p>Right Content</p>
+				</div><!-- end rightcontent -->
+			</article>
 
 	  </section>
 
