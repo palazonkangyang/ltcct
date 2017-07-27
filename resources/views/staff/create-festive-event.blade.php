@@ -106,7 +106,7 @@
                                                                           <option value="{{ $job->job_id }}">
                                                                             {{ $job->job_reference_no }} ({{ $job->job_name }})
                                                                           </option>
-                                                                        @endeach
+                                                                        @endforeach
                                                                       </select>
                                                                     </td>
                                                                     <td>
