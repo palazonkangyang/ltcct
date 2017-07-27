@@ -1553,6 +1553,12 @@
                 var guiyi_name = $("#guiyi_name").val();
             });
 
+						if($("#quick_search").attr('disabled')){
+							$("#edit").removeClass('disabled');
+					  }else{
+							$("#edit").addClass('disabled');
+					  }
+
 						$("#confirm_btn").click(function() {
 
 							var count = 0;
