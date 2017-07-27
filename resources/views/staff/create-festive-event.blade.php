@@ -218,7 +218,7 @@
               $.ajax({
                   type: 'GET',
                   url: "/job/get-joblists",
-                  data: formData,
+                  data: '',
                   dataType: 'json',
                   success: function(response)
                   {
