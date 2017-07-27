@@ -29,6 +29,11 @@
 			<article>
 				<div id="leftcontent">
 
+					<div class="label-wrapper">
+						<div class="label-left">Receipt No :</div><!-- end label-left -->
+						<div class="label-right">{{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</div><!-- end label-right -->
+					</div><!-- end label-wrapper -->
+
 					<div class="receipt-info">
 						<div class="label-wrapper">
 							<div class="label-left">Receipt Date :</div><!-- end label-left -->
@@ -122,7 +127,7 @@
 
 						<tbody>
 							<tr>
-								<td>{{ $festiveevent->end_at }}</td>
+								<td>{{ \Carbon\Carbon::parse($festiveevent->end_at)->format("d/m/Y") }}</td>
 								<td>{{ $festiveevent->lunar_date }}</td>
 							</tr>
 						</tbody>
