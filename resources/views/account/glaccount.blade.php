@@ -439,6 +439,10 @@
 
   $(function() {
 
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+      localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+
     function getParameter(theParameter) {
       var params = window.location.search.substr(1).split('&');
 
@@ -450,7 +454,6 @@
       	}
 
       }
-
       return false;
     }
 
@@ -461,8 +464,7 @@
       var queryString = window.location.search;
       var glaccount_id = getParameter('glcode_id');
 
-      $(".nav-tabs > li:first-child").removeClass("active");
-      $("#edit-glaccount").addClass("active");
+      localStorage.setItem('activeTab', '#tab_editglaccount');
 
       if(glaccount_id)
       {
@@ -499,15 +501,7 @@
             }
         });
       }
-
     }
-
-    else {
-      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-        localStorage.setItem('activeTab', $(e.target).attr('href'));
-      });
-    }
-
 
     if ( $('.alert-success').children().length > 0 ) {
       localStorage.removeItem('activeTab');
