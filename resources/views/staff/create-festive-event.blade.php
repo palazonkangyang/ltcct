@@ -83,7 +83,6 @@
                                                         <thead>
                                                             <tr>
                                                                 <th width='4%'>#</th>
-                                                                <th width="19%">Job</th>
                                                                 <th width='11%'>Date From 阴历</th>
                                                                 <th width='11%'>Date To 阴历</th>
                                                                 <th width='11%'>Lunar Date 阳历</th>
@@ -100,16 +99,6 @@
                                                                 @foreach($events as $event)
                                                                 <tr class="event-row">
                                                                     <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
-                                                                    <td>
-                                                                      <select class="form-control" name="job_id">
-                                                                        <option value="">Select Job</option>
-                                                                        @foreach($jobs as $job)
-                                                                          <option value="{{ $job->job_id }}">
-                                                                            {{ $job->job_reference_no }} ({{ $job->job_name }})
-                                                                          </option>
-                                                                        @endforeach
-                                                                      </select>
-                                                                    </td>
                                                                     <td>
                                                                         <input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
                                                                           value='{{ \Carbon\Carbon::parse($event->start_at)->format("d/m/Y") }}'>
@@ -213,39 +202,9 @@
             });
           });
 
-          var append = [];
-
-          $.ajax({
-              type: 'GET',
-              url: "/job/get-joblists",
-              data: '',
-              dataType: 'json',
-              success: function(response)
-              {
-
-
-
-                $.each(response.devotee, function(index, data) {
-                  append.push("<option value='" + data.job_id + "'>" + data.job_reference_no + "</option>");
-                });
-
-                console.log(append);
-
-
-              },
-
-              error: function (response) {
-                  console.log(response);
-              }
-          });
-
-
-
-
             $("#addEventRow").click(function() {
 
               $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-                  "<td><select name='' class='form-control joblist'></select>" +
                   "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                   "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                   "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
@@ -253,10 +212,6 @@
                   "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
                   "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
                   "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
-
-                // $(this).closest(".joblist").append("");
-                // $('.joblist').append("<option>1</option><option>2</option>");
-                // $(this).appendTo( $(this).closest(".joblist") );
 
             });
 
