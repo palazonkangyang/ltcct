@@ -55,7 +55,7 @@ $(function() {
                         }
 
                         else {
-                          $('#edit-familycode-table tbody').append("<tr><td colspan='3'>" + data.chinese_name + "</td>");
+                          $('#edit-familycode-table tbody').append("<tr><td></td><td>" + data.chinese_name + "</td><td></td></tr>");
                         }
 
                         familycode_id = data.familycode_id;
