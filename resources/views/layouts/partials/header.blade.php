@@ -50,6 +50,11 @@
             padding: 3px;
             box-sizing: border-box;
         }
+
+				#devotees_table_paginate
+				{
+					float: right;
+				}
     </style>
 
 </head>
