@@ -51,6 +51,7 @@ class Devotee extends Model
             'devotee.address_street',
             'devotee.address_building',
             'devotee.address_postal',
+            'devotee.address_translated',
             'devotee.oversea_addr_in_chinese',
             'devotee.nric',
             'devotee.deceased_year',
