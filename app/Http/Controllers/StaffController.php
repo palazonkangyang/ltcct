@@ -355,13 +355,12 @@ class StaffController extends Controller
 
 		$festiveevent = FestiveEvent::find($generaldonation->festiveevent_id);
 
-		dd($festiveevent->toArray());
-
 		return view('staff.receipt', [
-            'receipt' => $receipt,
-            'donation_devotees' => $donation_devotees,
-            'generaldonation' => $generaldonation
-        ]);
+			'festiveevent' => $festiveevent,
+      'receipt' => $receipt,
+      'donation_devotees' => $donation_devotees,
+      'generaldonation' => $generaldonation
+    ]);
 	}
 
 	public function getTransaction(Request $request, $generaldonation_id)
