@@ -82,15 +82,15 @@
                                                     <table class="table table-bordered" id="festive-event-table">
                                                         <thead>
                                                             <tr>
-                                                                <th width='3%'>#</th>
-                                                                <th width="10%">Job</th>
-                                                                <th width='15%'>Date From 阴历</th>
-                                                                <th width='15%'>Date To 阴历</th>
-                                                                <th width='15%'>Lunar Date 阳历</th>
-                                                                <th width='15%'>Event 节日</th>
-                                                                <th width='10%'>Time 时间</th>
-                                                                <th width='15%'>Shuwen Title 文疏</th>
-                                                                <th width='8%'>Display</th>
+                                                                <th width='4%'>#</th>
+                                                                <th width="19%">Job</th>
+                                                                <th width='11%'>Date From 阴历</th>
+                                                                <th width='11%'>Date To 阴历</th>
+                                                                <th width='11%'>Lunar Date 阳历</th>
+                                                                <th width='11%'>Event 节日</th>
+                                                                <th width='11%'>Time 时间</th>
+                                                                <th width='11%'>Shuwen Title 文疏</th>
+                                                                <th width='11%'>Display</th>
                                                             </tr>
                                                         </thead>
 
@@ -101,7 +101,8 @@
                                                                 <tr class="event-row">
                                                                     <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
                                                                     <td>
-                                                                      <select class="form-control" name="">
+                                                                      <select class="form-control" name="job_id">
+                                                                        <option value="">Select Job</option>
                                                                         @foreach($jobs as $job)
                                                                           <option value="{{ $job->job_id }}">
                                                                             {{ $job->job_reference_no }} ({{ $job->job_name }})
