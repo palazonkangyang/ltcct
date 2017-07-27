@@ -213,6 +213,8 @@
             });
           });
 
+          var append = [];
+
           $.ajax({
               type: 'GET',
               url: "/job/get-joblists",
@@ -224,7 +226,7 @@
 
 
                 $.each(response.devotee, function(index, data) {
-                  var append = "<option value='" + data.job_id + "'>" + data.job_reference_no + "</option>";
+                  append.push("<option value='" + data.job_id + "'>" + data.job_reference_no + "</option>");
                 });
 
                 console.log(append);
