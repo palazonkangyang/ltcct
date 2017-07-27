@@ -304,7 +304,7 @@
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="dob" id="dob"
-                              value="{{ $focus_devotee[0]->dob }}">
+                              value="{{ \Carbon\Carbon::parse($focus_devotee[0]->dob)->format("d/m/Y") }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
 
@@ -349,7 +349,7 @@
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="approved_date" id="approved_date"
-                                value="{{ $focus_devotee[0]->approved_date }}">
+                                value="{{ \Carbon\Carbon::parse($focus_devotee[0]->approved_date)->format("d/m/Y") }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
 
