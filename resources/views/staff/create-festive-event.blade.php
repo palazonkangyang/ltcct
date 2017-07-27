@@ -213,19 +213,24 @@
             });
           });
 
-          $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-              "<td><select name='' class='form-control joblist'></select>" +
-              "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
-              "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
-              "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
-              "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
-              "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
-              "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-              "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
 
-          $('.joblist').append("<option>1</option><option>2</option>");
+
+
 
             $("#addEventRow").click(function() {
+
+              $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
+                  "<td><select name='' class='form-control joblist'></select>" +
+                  "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
+                  "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
+                  "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
+                  "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
+                  "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
+                  "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
+                  "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
+
+                $(this).closest(".joblist").append("<option>1</option><option>2</option>");
+                // $('.joblist').append("");
 
               $.ajax({
                   type: 'GET',
