@@ -234,6 +234,9 @@
                 // $('.joblist').append("<option>1</option><option>2</option>");
                 // $(this).appendTo( $(this).closest(".joblist") );
 
+                var append = $(document.createElement('div'))
+                        .attr("class", 'appendSelectBox');
+
                 $.ajax({
                     type: 'GET',
                     url: "/job/get-joblists",
@@ -242,14 +245,13 @@
                     success: function(response)
                     {
 
-                      var append = $(document.createElement('div'))
-                              .attr("class", 'appendSelectBox');
+
 
                       $.each(response.devotee, function(index, data) {
                         append.after().html("<option value='" + data.job_id + "'>" + data.job_reference_no + "</option>");
                       });
 
-                      append.appendTo( $(this).closest(".joblist") );
+
 
                     },
 
@@ -257,6 +259,8 @@
                         console.log(response);
                     }
                 });
+
+                append.appendTo( $(this).closest(".joblist") );
 
             });
 
