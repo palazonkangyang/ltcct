@@ -36,7 +36,25 @@
 				</div><!-- end leftcontent -->
 
 				<div id="rightcontent">
-					<p>Right Content</p>
+					<h3>Event: {{ $festiveevent->event }}</h3>
+
+					<table class="receipt-table">
+						<thead>
+							<tr>
+								<th>Date To</th>
+								<th>Lunar Date</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td>{{ $festiveevent->end_at }}</td>
+								<td>{{ $festiveevent->lunar_date }}</td>
+							</tr>
+						</tbody>
+
+					</table>
+
 				</div><!-- end rightcontent -->
 			</article>
 
