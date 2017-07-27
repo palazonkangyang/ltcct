@@ -18,7 +18,7 @@
 </head>
 <body class="A5 landscape">
 
-	<section class="sheet padding-10mm">
+	<section class="sheet padding-5mm">
 
 	    <!-- Write HTML just like a web page -->
 

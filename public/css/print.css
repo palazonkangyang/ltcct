@@ -17,7 +17,7 @@ article{
 
 #rightcontent{
   width: 68mm;
-  float: left;
+  float: right;
 }
 
 .receipt-info{
@@ -52,7 +52,7 @@ article{
 table.receipt-table {
 	width: 100%;
 	font-family: verdana,arial,sans-serif;
-	font-size: 11px;
+	font-size: 9px;
 	color: #333;
 	border-width: 1px;
 	border-color: #666;
