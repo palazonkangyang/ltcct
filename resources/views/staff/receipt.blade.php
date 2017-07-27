@@ -96,13 +96,11 @@
 
 						<div class="receipt-info">
 							<div class="label-wrapper">
-								<div class="label-left">Payment Mode :</div><!-- end label-left -->
-								<div class="label-right">{{ $generaldonation->mode_payment }}</div><!-- end label-right -->
+								<div class="label">Payment Mode : {{ $generaldonation->mode_payment }}</div><!-- end label -->
 							</div><!-- end label-wrapper -->
 
 							<div class="label-wrapper">
-								<div class="label-left">Total Amount :</div><!-- end label-left -->
-								<div class="label-right">S$ {{ $sum }}</div><!-- end label-right -->
+								<div class="label">Total Amount : S$ {{ $sum }}</div><!-- end label -->
 							</div><!-- end label-wrapper -->
 
 						</div><!-- end receipt-info -->
