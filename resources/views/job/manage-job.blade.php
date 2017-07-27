@@ -91,15 +91,24 @@
                                 <table class="table table-bordered" id="joblist-table">
                                   <thead>
                                       <tr>
-                                          <th>Account Group Code</th>
-                                          <th>Account Group Description</th>
-                                          <th>Balancing Side</th>
-                                          <th>Account Group Status</th>
+                                          <th>Job Reference No</th>
+                                          <th>Name</th>
+                                          <th>Description</th>
                                       </tr>
                                   </thead>
 
                                   <tbody>
+                                    @if(count($job))
 
+                                      @foreach($job as $j)
+                                      <tr>
+                                        <td>{{ $j->job_reference_no }}</td>
+                                        <td>{{ $j->job_name }}</td>
+                                        <td>{{ $j->job_description }}</td>
+                                      </tr>
+                                      @endforeach
+
+                                    @endif
                                   </tbody>
                                 </table>
                               </div><!-- end form-group -->
@@ -193,111 +202,6 @@
                             <div class="clearfix"></div><!-- end clearfix -->
 
                           </div><!-- end tab-pane tab_newglaccount -->
-
-                          <div class="tab-pane" id="tab_editglaccountgroup">
-
-                            <div class="form-body">
-
-                              <div class="col-md-6">
-
-                                <form method="post" action="{{ URL::to('/account/update-glaccountgroup') }}"
-                                  class="form-horizontal form-bordered">
-
-                                  {!! csrf_field() !!}
-
-                                  <div class="form-group">
-                                    <input type="hidden" name="glcodegroup_id" value="" id="edit_glcodegroup_id">
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
-                                    <label class="col-md-3 control-label">Account Group Name *</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="name" value="" id="edit_name">
-                                    </div><!-- end col-md-9 -->
-
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
-                                    <label class="col-md-3 control-label">Account Description *</label>
-                                    <div class="col-md-9">
-                                        <textarea class="form-control" name="description" rows="4" id="edit_description"></textarea>
-                                    </div><!-- end col-md-9 -->
-
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
-                                    <label class="col-md-3 control-label">Balancing Side *</label>
-                                    <div class="col-md-9">
-                                      <select class="form-control" name="balancesheet_side" id="edit_balancesheet_side" disabled>
-                                          <option value="ap">AP</option>
-                                          <option value="ar">AR</option>
-                                      </select>
-                                    </div><!-- end col-md-9 -->
-
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
-                                    <label class="col-md-3 control-label">Group Status *</label>
-                                    <div class="col-md-9">
-                                      <select class="form-control" name="status" id="edit_status" disabled>
-                                          <option value="active">Active</option>
-                                          <option value="inactive">Inactive</option>
-                                      </select>
-                                    </div><!-- end col-md-9 -->
-
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-                                    <p>&nbsp;</p>
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
-                                    <div class="col-md-6">
-                                      <p>
-                                        If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                        To Confirm, please enter authorized password to proceed.
-                                      </p>
-                                    </div><!-- end col-md-6 -->
-
-                                    <div class="col-md-6">
-                                      <label class="col-md-6">Authorized Password</label>
-                                      <div class="col-md-6">
-                                        <input type="password" class="form-control" name="authorized_password" value="" id="edit_authorized_password">
-                                      </div><!-- end col-md-6 -->
-                                    </div><!-- end col-md-6 -->
-
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
-                                    <label class="col-md-3 control-label"></label>
-                                    <div class="col-md-9">
-                                      <div class="form-actions pull-right">
-                                        <button type="submit" class="btn blue" id="update_gl_btn">Update
-                                        </button>
-                                        <button type="button" class="btn default">Cancel</button>
-                                      </div><!-- end form-actions -->
-                                    </div><!-- end col-md-9 -->
-
-                                  </div><!-- end form-group -->
-
-                                </form>
-
-                              </div><!-- end col-md-6 -->
-
-                              <div class="col-md-6">
-                              </div><!-- end col-md-6 -->
-
-                            </div><!-- end form-group -->
-
-                            <div class="clearfix"></div><!-- end clearfix -->
-
-                          </div><!-- end tab-pane tab_newglaccountgroup -->
 
                         </div><!-- end tab-content -->
                     </div><!-- end tabbable-bordered -->
