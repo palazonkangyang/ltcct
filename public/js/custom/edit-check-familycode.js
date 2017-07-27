@@ -58,6 +58,8 @@ $(function() {
                         }
 
                         familycode = data.familycode_id;
+
+                        console.log(familycode);
                     });
                 }
 
