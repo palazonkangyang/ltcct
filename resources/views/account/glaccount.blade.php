@@ -459,12 +459,10 @@
     if(window.location.search.length)
     {
       var queryString = window.location.search;
-      var hashtag = "#tab_editglaccount";
       var glaccount_id = getParameter('glcode_id');
 
       if(glaccount_id)
       {
-        localStorage.setItem('activeTab', hashtag);
 
         var formData = {
             _token: $('meta[name="csrf-token"]').attr('content'),
@@ -478,7 +476,6 @@
             dataType: 'json',
             success: function(response)
             {
-
               $("#edit_glcode_id").val(response.glaccount['glcode_id']);
               $("#edit_accountcode").val(response.glaccount['accountcode']);
               $("#edit_type_name").val(response.glaccount['type_name']);
@@ -502,26 +499,23 @@
 
     }
 
-    else {
-      localStorage.removeItem('activeTab');
+    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+      localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
 
-      $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-          localStorage.setItem('activeTab', $(e.target).attr('href'));
-      });
-    }
 
     if ( $('.alert-success').children().length > 0 ) {
-        localStorage.removeItem('activeTab');
+      localStorage.removeItem('activeTab');
     }
 
     else
     {
-        var activeTab = localStorage.getItem('activeTab');
+      var activeTab = localStorage.getItem('activeTab');
     }
 
     if (activeTab) {
-        $('a[href="' + activeTab + '"]').tab('show');
-        console.log(activeTab);
+      $('a[href="' + activeTab + '"]').tab('show');
+      console.log(activeTab);
     }
 
     // Disabled Edit Devotee Tab
