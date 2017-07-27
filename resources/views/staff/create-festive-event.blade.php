@@ -83,11 +83,12 @@
                                                         <thead>
                                                             <tr>
                                                                 <th width='3%'>#</th>
+                                                                <th width="10%">Job</th>
                                                                 <th width='15%'>Date From 阴历</th>
                                                                 <th width='15%'>Date To 阴历</th>
                                                                 <th width='15%'>Lunar Date 阳历</th>
                                                                 <th width='15%'>Event 节日</th>
-                                                                <th width='15%'>Time 时间</th>
+                                                                <th width='10%'>Time 时间</th>
                                                                 <th width='15%'>Shuwen Title 文疏</th>
                                                                 <th width='8%'>Display</th>
                                                             </tr>
@@ -99,6 +100,15 @@
                                                                 @foreach($events as $event)
                                                                 <tr class="event-row">
                                                                     <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
+                                                                    <td>
+                                                                      <select class="form-control" name="">
+                                                                        @foreach()
+                                                                          <option value="{{ $job->job_id }}">
+                                                                            {{ $job->job_reference_no }} ({{ $job->job_name }})
+                                                                          </option>
+                                                                        @endeach
+                                                                      </select>
+                                                                    </td>
                                                                     <td>
                                                                         <input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
                                                                           value='{{ \Carbon\Carbon::parse($event->start_at)->format("d/m/Y") }}'>
