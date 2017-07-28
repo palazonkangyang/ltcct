@@ -348,6 +348,14 @@ class StaffController extends Controller
 			{
 				$receipt = Receipt::find($input['receipt_id']);
 
+				dd(Carbon::now());
+
+				$receipt->cancelled_date = Carbon::now();
+				$receipt->status = "cancelled";
+				$receipt->cancelled_by = Auth::user()->id;
+
+				$receipt->save();
+
 				dd($receipt->toArray());
 			}
 
