@@ -1068,6 +1068,8 @@
                 </div><!-- end form-group -->
             </div><!-- end col-md-6 -->
 
+						@if(Auth::user()->role == 3)
+
 						<div class="col-md-6">
 
 						@if(Session::has('focus_devotee'))
@@ -1103,7 +1105,8 @@
 								<div class="form-group">
                     <label class="col-md-3 control-label">Introduced By-1</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="introduced_by1" value="{{ $focus_devotee[0]->introduced_by1 }}" id="edit_introduced_by1">
+                        <input type="text" class="form-control" name="introduced_by1" value="{{ $focus_devotee[0]->introduced_by1 }}"
+													id="edit_introduced_by1">
                    	</div><!-- end col-md-9 -->
                 </div><!-- end form-group -->
 
@@ -1184,6 +1187,8 @@
                     <button type="button" class="btn default">Cancel</button>
                 </div><!-- end form-actions -->
             </div><!-- end col-md-6 -->
+
+						@endif
 
         </div><!-- end form-body -->
 
