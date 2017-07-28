@@ -71,7 +71,52 @@
 
                      <div class="portlet-body">
 
-                       <h1>Here</h1>
+                       <div class="form-body">
+
+                         <div class="form-group">
+
+                           <table class="table table-bordered">
+                     				<thead>
+                     					<tr>
+                     						<th>S/No</th>
+                     						<th>Chinese Name</th>
+                     						<th>Devotee</th>
+                     						<th>Block</th>
+                     						<th>Address</th>
+                     						<th>Unit</th>
+                     						<th>HJ/ GR</th>
+                     						<th>Receipt</th>
+                     						<th>Amount</th>
+                     					</tr>
+                     				</thead>
+
+                     				<tbody>
+
+                     					@php $count = 1; $sum= 0; @endphp
+
+                     					@foreach($donation_devotees as $donation_devotee)
+
+                     					<tr>
+                     						<td>{{ $count }}</td>
+                     						<td>{{ $donation_devotee->chinese_name }}</td>
+                     						<td>{{ $donation_devotee->devotee_id }}</td>
+                     						<td>{{ $donation_devotee->address_houseno }}</td>
+                     						<td>{{ $donation_devotee->address_street }}</td>
+                     						<td>{{ $donation_devotee->address_unit1 }} {{ $donation_devotee->address_unit2 }}</td>
+                     						<td>{{ $donation_devotee->hjgr }}</td>
+                     						<td>{{ $receipt[0]->xy_receipt }}</td>
+                     						<td>S$ {{ $donation_devotee->amount }}</td>
+                     					</tr>
+
+                     					@php $count++;  $sum += $donation_devotee->amount; @endphp
+
+                     					@endforeach
+                     				</tbody>
+                     			</table>
+
+                         </div><!-- end form-group -->
+
+                       </div><!-- end form-body -->
 
                      </div><!-- end portlet-body -->
 
