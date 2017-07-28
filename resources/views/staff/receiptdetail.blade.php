@@ -121,6 +121,16 @@
                            <p>Total Amount : S$ {{ $sum }}</p>
                          </div><!-- end form-group -->
 
+                         <div class="form-group">
+
+                           <input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'hj'){ ?>checked="checked"<?php }?>>
+               						1 Receipt Printing for same address <br />
+
+               						<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'gr'){ ?>checked="checked"<?php }?>>
+               						Individual Receipt Printing
+
+                         </div>
+
                        </div><!-- end form-body -->
 
                      </div><!-- end portlet-body -->
