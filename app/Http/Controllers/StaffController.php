@@ -414,19 +414,19 @@ class StaffController extends Controller
 		// remove session
 		if(Session::has('cancelled_date'))
 		{
-		  Session::forget('cancelled_date');
+			Session::forget('cancelled_date');
 		}
 
 		// remove session
 		if(Session::has('first_name'))
 		{
-		  Session::forget('first_name');
+			Session::forget('first_name');
 		}
 
 		// remove session
 		if(Session::has('last_name'))
 		{
-		  Session::forget('last_name');
+			Session::forget('last_name');
 		}
 
 		$receipt = Receipt::join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
@@ -447,7 +447,12 @@ class StaffController extends Controller
 
 		$festiveevent = FestiveEvent::find($generaldonation->festiveevent_id);
 
-		dd($receipt->toArray());
+		if($receipt->cancelled_date == "cancelled")
+		{
+			Session::put('cancelled_date', \Carbon\Carbon::parse($receipt[0]->cancelled_date)->format("d/m/Y"));
+			Session::put('first_name', $receipt[0]->first_name);
+			Session::put('last_name', $receipt[0]->last_name);
+		}
 
 		return view('staff.receiptdetail', [
 			'festiveevent' => $festiveevent,
