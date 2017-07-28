@@ -1068,7 +1068,14 @@
                 </div><!-- end form-group -->
             </div><!-- end col-md-6 -->
 
-            <div class="col-md-6">
+						<div class="col-md-6">
+
+						@if(Session::has('focus_devotee'))
+
+				        @php $focus_devotee = Session::get('focus_devotee'); @endphp
+
+				       @if(count($focus_devotee) > 1)
+
                 <div class="form-group">
                     <label class="col-md-3 control-label">Introduced By-1</label>
                     <div class="col-md-9">
@@ -1090,6 +1097,58 @@
                             id="edit_approved_date" data-date-format="dd/mm/yyyy" value="{{ old('approved_date') }}">
                     </div><!-- end col-md-9 -->
                 </div><!-- end form-group -->
+
+								@else
+
+								<div class="form-group">
+                    <label class="col-md-3 control-label">Introduced By-1</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="introduced_by1" value="{{ $focus_devotee[0]->introduced_by1 }}" id="edit_introduced_by1">
+                   	</div><!-- end col-md-9 -->
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Introduced By-2</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="introduced_by2" value="{{ $focus_devotee[0]->introduced_by2 }}" id="edit_introduced_by2">
+                    </div><!-- end col-md-9 -->
+                </div><!-- end form-group -->
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Member Approved Date</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
+                            id="edit_approved_date" data-date-format="dd/mm/yyyy" value="{{ $focus_devotee[0]->approved_date }}">
+                    </div><!-- end col-md-9 -->
+                </div><!-- end form-group -->
+
+								@endif
+
+						@else
+
+							<div class="form-group">
+									<label class="col-md-3 control-label">Introduced By-1</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="introduced_by1" value="{{ old('introduced_by1') }}" id="edit_introduced_by1">
+									</div><!-- end col-md-9 -->
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+									<label class="col-md-3 control-label">Introduced By-2</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="introduced_by2" value="{{ old('introduced_by2') }}" id="edit_introduced_by2">
+									</div><!-- end col-md-9 -->
+							</div><!-- end form-group -->
+
+							<div class="form-group">
+									<label class="col-md-3 control-label">Member Approved Date</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
+													id="edit_approved_date" data-date-format="dd/mm/yyyy" value="{{ old('approved_date') }}">
+									</div><!-- end col-md-9 -->
+							</div><!-- end form-group -->
+
+						@endif
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Member Cancelled Date</label>
