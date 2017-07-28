@@ -334,7 +334,7 @@ class StaffController extends Controller
 		return redirect()->back();
 	}
 
-
+	// Print Receipt
 	public function getReceipt(Request $request, $receipt_id)
 	{
 		$receipt = Receipt::join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
@@ -361,6 +361,18 @@ class StaffController extends Controller
       'donation_devotees' => $donation_devotees,
       'generaldonation' => $generaldonation
     ]);
+	}
+
+	// Get Detail for Receipt ID
+	public function getReceiptDetail($receipt_id)
+	{
+		$receipt = Receipt::join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+					->join('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+					->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.trans_no')
+					->where('receipt.receipt_id', $receipt_id)
+					->get();
+
+		dd($receipt->toArray());
 	}
 
 	public function getTransaction(Request $request, $generaldonation_id)
