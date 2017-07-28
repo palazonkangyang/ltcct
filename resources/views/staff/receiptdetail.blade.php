@@ -167,6 +167,8 @@
 
                         </div><!-- end form-group -->
 
+                        <hr>
+
                         <div class="form-group">
 
                           <div class="col-md-6">
