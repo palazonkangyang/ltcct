@@ -447,6 +447,8 @@ class StaffController extends Controller
 
 		$festiveevent = FestiveEvent::find($generaldonation->festiveevent_id);
 
+		dd($receipt->cancelled_date);
+
 		if($receipt->cancelled_date == "cancelled")
 		{
 			$cancelled_date = \Carbon\Carbon::parse($receipt[0]->cancelled_date)->format("d/m/Y");
