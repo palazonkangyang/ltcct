@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);
     Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
+		Route::get('/receipt-cancellation', ['as' => 'receipt-cancellation-page', 'uses' => 'StaffController@postReceiptCancellation']);
   });
 
 	Route::group(['prefix' => 'account'], function () {

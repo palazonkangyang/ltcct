@@ -334,6 +334,14 @@ class StaffController extends Controller
 		return redirect()->back();
 	}
 
+	// Receipt Cancellation
+	public function postReceiptCancellation(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		dd($input);
+	}
+
 	// Print Receipt
 	public function getReceipt(Request $request, $receipt_id)
 	{
