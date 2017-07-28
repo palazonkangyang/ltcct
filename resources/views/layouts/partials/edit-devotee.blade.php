@@ -1068,9 +1068,9 @@
                 </div><!-- end form-group -->
             </div><!-- end col-md-6 -->
 
-						@if(Auth::user()->role == 3)
-
 						<div class="col-md-6">
+
+						@if(Auth::user()->role == 3)
 
 						@if(Session::has('focus_devotee'))
 
@@ -1174,6 +1174,8 @@
                     </div><!-- end col-md-9 -->
                 </div><!-- end form-group -->
 
+								@endif
+
                	<div class="form-group">
                     <label class="col-md-6"></label>
                     <label class="col-md-3 control-label">Authorized Password</label>
@@ -1187,8 +1189,6 @@
                     <button type="button" class="btn default">Cancel</button>
                 </div><!-- end form-actions -->
             </div><!-- end col-md-6 -->
-
-						@endif
 
         </div><!-- end form-body -->
 
