@@ -150,8 +150,27 @@
                          @endif
 
                          <div class="form-group">
-                           <p>Payment Mode : {{ $generaldonation->mode_payment }}</p>
-                           <p>Total Amount : S$ {{ $sum }}</p>
+                           <div class="col-md-12">
+
+                             <div class="col-md-6">
+                               <p>Payment Mode : {{ $generaldonation->mode_payment }}</p>
+
+                               @if(Session::has('cancelled_date'))
+                                <p class="text-danger">(Refuned/ Returned)</p>
+
+                               @endif
+
+                             </div><!-- end col-md-6 -->
+
+                             <div class="col-md-6">
+                               @if(Session::has('cancelled_date'))
+                                <p class="text-danger">Total Amount : S$ {{ $sum }}</p>
+                               @else
+                                <p>Total Amount : S$ {{ $sum }}</p>
+                               @endif
+                             </div><!-- end col-md-6 -->
+
+                           </div><!-- end col-md-12 -->
                          </div><!-- end form-group -->
 
                          <div class="form-group">
@@ -196,6 +215,10 @@
                             </div><!-- end col-md-6 -->
 
                             <div class="col-md-6">
+                                <p class="text-danger">
+                                  This Transaction has been cancelled. <br />
+                                  No Cancellation is allowed.
+                                </p>
                             </div><!-- end col-md-6 -->
 
                           </div><!-- end form-group -->
