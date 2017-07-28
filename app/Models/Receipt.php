@@ -12,9 +12,10 @@ class Receipt extends Model
         'xy_receipt',
         'trans_date',
         'description',
-        'hjgr',
         'amount',
-        'manualreceipt',
+        'cancelled_date',
+        'status',
+        'cancelled_by',
         'generaldonation_id'
     ];
 }
