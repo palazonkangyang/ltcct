@@ -29,6 +29,10 @@ $(function() {
 			$("#edit_approved_date").attr("disabled", true);
 		}
 
+		$("#logout").click(function() {
+			localStorage.removeItem('activeTab');
+		});
+
 		var path = window.location.pathname;
 
 		$('.navbar-nav li a').each(function() {

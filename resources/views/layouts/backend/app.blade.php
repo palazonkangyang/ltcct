@@ -63,7 +63,7 @@
 
 
                                             <li>
-                                                <a href="{{ URL::to('/auth/logout') }}">
+                                                <a href="{{ URL::to('/auth/logout') }}" id="logout">
                                                     <i class="icon-key"></i> Log Out 登出 </a>
                                             </li>
                                         </ul>
