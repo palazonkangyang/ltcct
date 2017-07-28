@@ -203,6 +203,8 @@
 
                           <input type="hidden" name="receipt_id" value="{{ $receipt[0]->receipt_id }}">
 
+                          @if(Session::has('cancelled_date'))
+
                           <div class="form-group">
 
                             <div class="col-md-6">
@@ -218,24 +220,24 @@
                             </div><!-- end col-md-6 -->
 
                             <div class="col-md-6">
-                                @if(Session::has('cancelled_date'))
                                 <p class="text-danger">
                                   This Transaction has been cancelled. <br />
                                   No Cancellation is allowed.
                                 </p>
-                                @endif
                             </div><!-- end col-md-6 -->
 
                           </div><!-- end form-group -->
+
+                          @endif
 
                           <div class="form-group">
                             <div class="col-md-12">
 
                               <div class="col-md-6">
                                 <div class="form-actions">
-                                    <button type="submit" class="btn blue" id="receipt_cancel_btn">Confirm
+                                    <button type="submit" class="btn blue" id="receipt_cancel_btn">Cancel
                                     </button>
-                                    <button type="button" class="btn default">Cancel</button>
+                                    <button type="button" class="btn default">Back</button>
                                 </div><!-- end form-actions -->
                               </div><!-- end col-md-6 -->
 
