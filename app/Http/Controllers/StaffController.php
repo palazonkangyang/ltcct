@@ -411,6 +411,24 @@ class StaffController extends Controller
 	// Get Detail for Receipt ID
 	public function getReceiptDetail($receipt_id)
 	{
+		// remove session
+		if(Session::has('cancelled_date'))
+		{
+		  Session::forget('cancelled_date');
+		}
+
+		// remove session
+		if(Session::has('first_name'))
+		{
+		  Session::forget('first_name');
+		}
+
+		// remove session
+		if(Session::has('last_name'))
+		{
+		  Session::forget('last_name');
+		}
+
 		$receipt = Receipt::join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
 							 ->join('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
 							 ->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.trans_no')
