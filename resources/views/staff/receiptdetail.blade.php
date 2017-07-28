@@ -142,18 +142,11 @@
 
                          </div><!-- end form-group -->
 
-                         @if(!empty($receiptdetail))
-
-                         @if($receiptdetail[0]->status == 'cancelled')
-
-                         <div class="form-group">
-                           <p class="text-danger">
-                             This Transaction has been cancelled on {{ \Carbon\Carbon::parse($receiptdetail[0]->cancelled_date)->format("d/m/Y") }}
-                             by {{ $receiptdetail[0]->first_name }} {{ $receiptdetail[0]->last_name }}. No Printing is allowed!!
-                           </p>
-                         </div><!-- end form-group -->
-
-                         @endif
+                         @if(Session::has('cancelled_date'))
+                             <p><em>
+                               This Transaction has been cancelled by {{ Session::get('cancelled_date') }} by
+                               {{ Session::get('first_name') }} {{ Session::get('last_name') }}. No Printing is allowed!!
+                             </em></p>
                          @endif
 
                          <div class="form-group">
