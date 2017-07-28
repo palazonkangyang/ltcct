@@ -5,3 +5,7 @@
 #members_table{
   width: 1320px!important;
 }
+
+.form-group{
+  overflow: hidden;
+}
