@@ -234,8 +234,9 @@
 
                               <div class="col-md-6">
                                 <div class="form-actions">
-                                    <button type="submit" class="btn blue" id="receipt_cancel_btn">Cancel
-                                    </button>
+                                  @if(Session::has('cancelled_date'))
+                                    <button type="submit" class="btn blue" id="receipt_cancel_btn">Cancel</button>
+                                  @endif
                                     <button type="button" class="btn default">Back</button>
                                 </div><!-- end form-actions -->
                               </div><!-- end col-md-6 -->
