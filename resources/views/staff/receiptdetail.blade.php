@@ -142,6 +142,17 @@
 
                          </div><!-- end form-group -->
 
+                         @if($receipt->status == 'cancelled')
+
+                         <div class="form-group">
+                           <p>
+                             This Transaction has been cancelled on {{ \Carbon\Carbon::parse($receipt->cancelled_date)->format("d/m/Y") }}
+                             by {{ $receipt->first_name }} {{ $receipt->last_name }}. No Printing is allowed!!
+                           </p>
+                         </div><!-- end form-group -->
+
+                         @endif
+
                          <div class="form-group">
                            <p>Payment Mode : {{ $generaldonation->mode_payment }}</p>
                            <p>Total Amount : S$ {{ $sum }}</p>
