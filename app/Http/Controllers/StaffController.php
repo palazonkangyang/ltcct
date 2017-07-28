@@ -339,7 +339,26 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		dd($input);
+		if(isset($input['authorized_password']))
+		{
+			$user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
+
+			if (Hash::check($input['authorized_password'], $hashedPassword))
+			{
+				$receipt = Receipt::find($input['receipt_id']);
+
+				dd($receipt->toArray());
+			}
+
+			else
+			{
+				$request->session()->flash('error', "Password did not match. Please Try Again");
+				return redirect()->back();
+			}
+		}
+
+
 	}
 
 	// Print Receipt
