@@ -184,7 +184,8 @@
 
                         </div><!-- end form-group -->
 
-                        <form class="" action="index.html" method="post">
+                        <form class="" action="{{ URL::to('/staff/receipt-cancellation') }}" method="post">
+                          {!! csrf_field() !!}
 
                           <input type="hidden" name="receipt_id" value="{{ $receipt[0]->receipt_id }}">
 
