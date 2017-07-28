@@ -42,7 +42,7 @@
 
                <div class="col-md-9">
 
-                 <div class="form-horizontal form-row-seperated">
+                 <div class="form form-row-seperated">
 
                    <div class="portlet light">
 
