@@ -167,6 +167,38 @@
 
                         </div><!-- end form-group -->
 
+                        <div class="form-group">
+
+                          <div class="col-md-6">
+                            <label class="col-md-5 control-label">Authorized Password</label>
+                            <div class="col-md-4">
+                                <input type="password" class="form-control"
+                                    name="authorized_password" id="authorized_password">
+                            </div><!-- end col-md-9 -->
+                          </div><!-- end col-md-6 -->
+
+                          <div class="col-md-6">
+                          </div><!-- end col-md-6 -->
+
+                        </div><!-- end form-group -->
+
+                        <div class="form-group">
+                          <div class="col-md-12">
+
+                            <div class="col-md-6">
+                              <div class="form-actions">
+                                  <button type="submit" class="btn blue" id="confirm_cancelled_btn">Confirm
+                                  </button>
+                                  <button type="button" class="btn default">Cancel</button>
+                              </div><!-- end form-actions -->
+                            </div><!-- end col-md-6 -->
+
+                            <div class="col-md-6">
+                            </div><!-- end col-md-6 -->
+
+                          </div><!-- end col-md-12 -->
+                        </div><!-- end form-group -->
+
                        </div><!-- end form-body -->
 
                      </div><!-- end portlet-body -->
