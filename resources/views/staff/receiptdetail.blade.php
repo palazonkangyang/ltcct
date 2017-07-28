@@ -76,11 +76,13 @@
                          <div class="form-group">
 
                            <div class="col-md-12">
+                             <h4>Receipt Viewer : {{ $receipt[0]->chinese_name }}</h4>
+                             <br />
+                           </div><!-- end col-md-12 -->
+
+                           <div class="col-md-12">
 
                              <div class="col-md-6">
-                               <h4>Receipt Viewer : {{ $receipt[0]->chinese_name }}</h4>
-                               <br />
-                               
                                <p>Receipt Date : {{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</p>
                                <p>Paid By : {{ $receipt[0]->chinese_name }} (D - {{ $receipt[0]->devotee_id }})</p>
                                <p>Description : {{ $receipt[0]->description }}</p>
