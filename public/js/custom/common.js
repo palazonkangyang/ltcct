@@ -20,6 +20,15 @@ $(function() {
 				$("#quick_search").attr("disabled", true);
 		});
 
+		var introduced_by1 = $("#edit_introduced_by1").val();
+
+		if($.trim(introduced_by1).length > 0)
+		{
+			$("#edit_introduced_by1").attr("disabled", true);
+			$("#edit_introduced_by2").attr("disabled", true);
+			$("#edit_approved_date").attr("disabled", true);
+		}
+
 		var path = window.location.pathname;
 
 		$('.navbar-nav li a').each(function() {
