@@ -9,3 +9,7 @@
 .form-group{
   overflow: hidden;
 }
+
+.info-detail p{
+  margin: 0!important;
+}

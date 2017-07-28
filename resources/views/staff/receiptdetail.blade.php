@@ -82,14 +82,14 @@
 
                            <div class="col-md-12">
 
-                             <div class="col-md-6">
+                             <div class="col-md-6 info-detail">
                                <p>Receipt Date : {{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</p>
                                <p>Paid By : {{ $receipt[0]->chinese_name }} (D - {{ $receipt[0]->devotee_id }})</p>
                                <p>Description : {{ $receipt[0]->description }}</p>
                                <p>Donation for next Event : </p>
                              </div><!-- end col-md-6 -->
 
-                             <div class="col-md-6">
+                             <div class="col-md-6 info-detail">
                                <p>Receipt No : {{ $receipt[0]->xy_receipt }}</p>
                                <p>Transaction No : {{ $receipt[0]->trans_no }}</p>
                                <p>Attended By : </p>
