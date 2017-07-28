@@ -366,6 +366,8 @@ class StaffController extends Controller
 					Session::put('cancelled_date', $cancelled_date);
 					Session::put('first_name', $receiptdetail[0]->first_name);
 					Session::put('last_name', $receiptdetail[0]->last_name);
+
+					return redirect()->back();
 				}
 			}
 
