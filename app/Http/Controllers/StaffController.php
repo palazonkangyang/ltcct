@@ -363,9 +363,9 @@ class StaffController extends Controller
 
 					$cancelled_date = \Carbon\Carbon::parse($receiptdetail[0]->cancelled_date)->format("d/m/Y");
 
-					$request->session()->flash("cancelled_date", $cancelled_date);
-					$request->session()->flash("first_name", $receiptdetail[0]->first_name);
-					$request->session()->flash("last_name",  $receiptdetail[0]->last_name);
+					Session::put('cancelled_date', $cancelled_date);
+					Session::put('first_name', $receiptdetail[0]->first_name);
+					Session::put('last_name', $receiptdetail[0]->last_name);
 				}
 			}
 
