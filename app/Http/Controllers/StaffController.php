@@ -367,12 +367,20 @@ class StaffController extends Controller
 	public function getReceiptDetail($receipt_id)
 	{
 		$receipt = Receipt::join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-					->join('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
-					->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.trans_no')
-					->where('receipt.receipt_id', $receipt_id)
-					->get();
+							 ->join('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+							 ->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.trans_no')
+							 ->where('receipt.receipt_id', $receipt_id)
+							 ->get();
 
-		dd($receipt->toArray());
+	// get general donation devotee by generaldonation id
+	$donation_devotees = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
+											 ->select('generaldonation_items.*')
+											 ->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street', 'devotee.address_unit1',
+												'devotee.address_unit2')
+											 ->where('receipt_id', $receipt_id)
+											 ->get();
+
+		dd($donation_devotees->toArray());
 	}
 
 	public function getTransaction(Request $request, $generaldonation_id)
