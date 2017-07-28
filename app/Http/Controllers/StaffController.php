@@ -372,13 +372,15 @@ class StaffController extends Controller
 							 ->where('receipt.receipt_id', $receipt_id)
 							 ->get();
 
-	// get general donation devotee by generaldonation id
-	$donation_devotees = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
-											 ->select('generaldonation_items.*')
-											 ->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street', 'devotee.address_unit1',
-												'devotee.address_unit2')
-											 ->where('receipt_id', $receipt_id)
-											 ->get();
+	  // get general donation devotee by generaldonation id
+	  $donation_devotees = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
+											 	 ->select('generaldonation_items.*')
+											 	 ->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street', 'devotee.address_unit1',
+													'devotee.address_unit2')
+											 	 ->where('receipt_id', $receipt_id)
+											 	 ->get();
+
+	  $generaldonation = GeneralDonation::find($receipt[0]->generaldonation_id);
 
 		dd($donation_devotees->toArray());
 	}
