@@ -152,7 +152,7 @@
                          <div class="form-group">
                            <div class="col-md-12">
 
-                             <div class="col-md-6">
+                             <div class="col-md-4">
                                <p>Payment Mode : {{ $generaldonation->mode_payment }}</p>
 
                                @if(Session::has('cancelled_date'))
@@ -160,15 +160,18 @@
 
                                @endif
 
-                             </div><!-- end col-md-6 -->
+                             </div><!-- end col-md-4 -->
 
-                             <div class="col-md-6">
+                             <div class="col-md-4">
                                @if(Session::has('cancelled_date'))
-                                <p class="text-danger">Total Amount : S$ {{ $sum }}</p>
+                                <p>Total Amount : S$ <span class="text-danger">{{ $sum }}</span></p>
                                @else
                                 <p>Total Amount : S$ {{ $sum }}</p>
                                @endif
-                             </div><!-- end col-md-6 -->
+                             </div><!-- end col-md-4 -->
+
+                             <div class="col-md-4">
+                             </div><!-- end col-md-4 -->
 
                            </div><!-- end col-md-12 -->
                          </div><!-- end form-group -->
