@@ -44,7 +44,7 @@
 
                  <div class="form-horizontal form-row-seperated">
 
-                   <div class="portlet">
+                   <div class="portlet light">
 
                      <div class="validation-error">
                      </div><!-- end validation-error -->
