@@ -1572,6 +1572,15 @@
 							var address_postal = $("#content_address_postal").val();
 							var authorized_password = $("#content_authorized_password").val();
 
+							var content_nric = $("#content_nirc").val();
+							var content_dob = $("#content_dob").val();
+							var content_marital_status = $("#content_marital_status").val();
+							var content_dialect = $("#content_dialect").val();
+							var content_nationality = $("#content_nationality").val();
+							var content_introduced_by1 = $("#content_introduced_by1").val();
+							var content_introduced_by2 = $("#content_introduced_by2").val();
+							var content_approved_date = $("#content_approved_date").val();
+
 							if ($.trim(chinese_name).length <= 0)
 							{
 									validationFailed = true;
@@ -1630,6 +1639,51 @@
 							{
 									validationFailed = true;
 									errors[count++] = "Nationality field is empty."
+							}
+
+							if($.trim(content_approved_date).length > 0)
+							{
+							  if ($.trim(content_nric).length <= 0)
+							  {
+							      validationFailed = true;
+							      errors[count++] = "NRIC field is empty."
+							  }
+
+							  if ($.trim(content_dob).length <= 0)
+							  {
+							      validationFailed = true;
+							      errors[count++] = "Date of Birth field is empty."
+							  }
+
+							  if ($.trim(content_marital_status).length <= 0)
+							  {
+							      validationFailed = true;
+							      errors[count++] = "Marital Status field is empty."
+							  }
+
+							  if ($.trim(content_dialect).length <= 0)
+							  {
+							      validationFailed = true;
+							      errors[count++] = "Dialect field is empty."
+							  }
+
+							  if ($.trim(content_nationality).length <= 0)
+							  {
+							      validationFailed = true;
+							      errors[count++] = "Nationality field is empty."
+							  }
+
+							  if ($.trim(content_introduced_by1).length <= 0)
+							  {
+							      validationFailed = true;
+							      errors[count++] = "Introduced By 1 field is empty."
+							  }
+
+							  if ($.trim(content_introduced_by2).length <= 0)
+							  {
+							      validationFailed = true;
+							      errors[count++] = "Introduced By 2 field is empty."
+							  }
 							}
 
 							if ($.trim(authorized_password).length <= 0)
@@ -2103,86 +2157,6 @@
 
                 $(this).parent().parent().remove();
             });
-
-						var content_nric = $("#content_nirc").val();
-						var content_dob = $("#content_dob").val();
-						var content_marital_status = $("#content_marital_status").val();
-						var content_dialect = $("#content_dialect").val();
-						var content_nationality = $("#content_nationality").val();
-						var content_introduced_by1 = $("#content_introduced_by1").val();
-						var content_introduced_by2 = $("#content_introduced_by2").val();
-						var content_approved_date = $("#content_approved_date").val();
-
-						if($.trim(content_approved_date).length > 0)
-						{
-							var count = 0;
-							var errors = new Array();
-							var validationFailed = false;
-
-							if ($.trim(content_nric).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "NRIC field is empty."
-							}
-
-							if ($.trim(content_dob).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Date of Birth field is empty."
-							}
-
-							if ($.trim(content_marital_status).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Marital Status field is empty."
-							}
-
-							if ($.trim(content_dialect).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Dialect field is empty."
-							}
-
-							if ($.trim(content_nationality).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Nationality field is empty."
-							}
-
-							if ($.trim(content_introduced_by1).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Introduced By 1 field is empty."
-							}
-
-							if ($.trim(content_introduced_by2).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Introduced By 2 field is empty."
-							}
-
-							if (validationFailed)
-							{
-									var errorMsgs = '';
-
-									for(var i = 0; i < count; i++)
-									{
-											errorMsgs = errorMsgs + errors[i] + "<br/>";
-									}
-
-									$('html,body').animate({ scrollTop: 0 }, 'slow');
-
-									$(".validation-error").addClass("bg-danger alert alert-error")
-									$(".validation-error").html(errorMsgs);
-
-									return false;
-							}
-
-							else {
-									$(".validation-error").removeClass("bg-danger alert alert-error")
-									$(".validation-error").empty();
-							}
-						}
         });
     </script>
 
