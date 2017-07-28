@@ -356,7 +356,7 @@ class StaffController extends Controller
 
 				if($result)
 				{
-					$data = Receipt::join('user', 'user.id', '=', 'receipt.cancelled_by')
+					$receiptdetail = Receipt::join('user', 'user.id', '=', 'receipt.cancelled_by')
 									->where('receipt.receipt_id', $input['receipt_id'])
 									->select('receipt.*', 'user.first_name', 'user.last_name')
 									->get();
@@ -364,7 +364,7 @@ class StaffController extends Controller
 					// dd($data->toArray());
 
 					return redirect()->back()->with([
-						'receiptdetail' => $data
+						'receiptdetail' => $receiptdetail
 					]);
 				}
 			}
