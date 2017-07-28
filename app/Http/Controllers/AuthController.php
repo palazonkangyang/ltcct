@@ -19,7 +19,7 @@ class AuthController extends Controller
 {
 	public function __construct()
     {
-        
+
     }
 
 	public function postAuthenticate(Request $request)
@@ -28,7 +28,7 @@ class AuthController extends Controller
         $credentials = $request->only('user_name', 'password');
 
         $user = User::where('user_name', $credentials['user_name'])->first();
-  
+
         if ( !$user ) {
 
             return response()->json([
@@ -47,14 +47,14 @@ class AuthController extends Controller
                 'auth' => $auth,
                 'redirect' => '/operator/index'
             ]);
-        } 
+        }
 
         else if ($request->ajax() ) {
             return response()->json([
                 'auth' => $auth,
                 'redirect' => '/operator/index'
             ]);
-        } 
+        }
 
         else {
             if ($user->role == 3 ||  $user->role == 4 || $user->role == 5 ) {
@@ -67,7 +67,38 @@ class AuthController extends Controller
 
 	public function logout()
     {
-        Auth::logout();
-        return redirect()->intended(URL::route('login-page'));
+			// remove session data
+			if(Session::has('focus_devotee'))
+			{
+				Session::forget('focus_devotee');
+			}
+
+			if(Session::has('devotee_lists'))
+			{
+				Session::forget('devotee_lists');
+			}
+
+			if(Session::has('optionaladdresses'))
+			{
+				Session::forget('optionaladdresses');
+			}
+
+			if(Session::has('optionalvehicles'))
+			{
+				Session::forget('optionalvehicles');
+			}
+
+			if(Session::has('specialRemarks'))
+			{
+				Session::forget('specialRemarks');
+			}
+
+			if(Session::has('relative_friend_lists'))
+			{
+				Session::forget('relative_friend_lists');
+			}
+
+      Auth::logout();
+      return redirect()->intended(URL::route('login-page'));
     }
 }
