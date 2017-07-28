@@ -142,12 +142,12 @@
 
                          </div><!-- end form-group -->
 
-                         @if($receipt[0]->status == 'cancelled')
+                         @if($receiptdetail[0]->status == 'cancelled')
 
                          <div class="form-group">
                            <p class="text-danger">
-                             This Transaction has been cancelled on {{ \Carbon\Carbon::parse($receipt[0]->cancelled_date)->format("d/m/Y") }}
-                             by {{ $receipt[0]->first_name }} {{ $receipt[0]->last_name }}. No Printing is allowed!!
+                             This Transaction has been cancelled on {{ \Carbon\Carbon::parse($receiptdetail[0]->cancelled_date)->format("d/m/Y") }}
+                             by {{ $receiptdetail[0]->first_name }} {{ $receiptdetail[0]->last_name }}. No Printing is allowed!!
                            </p>
                          </div><!-- end form-group -->
 
