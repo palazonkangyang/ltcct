@@ -143,10 +143,10 @@
                          </div><!-- end form-group -->
 
                          @if(Session::has('cancelled_date'))
-                             <p><em>
+                             <p class="text-center text-danger">
                                This Transaction has been cancelled by {{ Session::get('cancelled_date') }} by
                                {{ Session::get('first_name') }} {{ Session::get('last_name') }}. No Printing is allowed!!
-                             </em></p>
+                             </p>
                          @endif
 
                          <div class="form-group">
