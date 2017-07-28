@@ -505,8 +505,8 @@
 
         <div class="col-md-6">
 
-          <div class="form-group">
-           <button type="submit" class="btn default" style="margin-right: 25px;" id="quick_search">Quick Search
+          <div class="form-group pull-right">
+           <button type="submit" class="btn default" style="margin-right: 25px;" id="quick_search"> Search
            </button>
           </div><!-- end form-group -->
 
@@ -521,7 +521,7 @@
 
               {!! csrf_field() !!}
 
-          <div class="form-group">
+          <div class="form-group pull-right">
               <button type="submit" class="btn default" id="new_search" style="width: 100px;">Reset</button>
           </div>
 

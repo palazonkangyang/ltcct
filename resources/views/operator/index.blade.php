@@ -1540,10 +1540,6 @@
                     return false;
             });
 
-            // new button
-            $("#new_search").click(function() {
-                $("#quick_search").attr("disabled", true);
-            });
 
             // quick search button
             $("#quick_search").click(function(e) {

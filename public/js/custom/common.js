@@ -7,11 +7,17 @@ $(function() {
     {
         $("#focus_devotee_form input[type=text]").attr("disabled", true);
         $("#quick_search").attr("disabled", true);
-				$("#tab_editdevotee").attr("disabled", false);
     }
 
 		$("#main-page").click(function() {
 				localStorage.removeItem('activeTab');
+		});
+
+		// new button
+		$("#new_search").click(function() {
+				localStorage.removeItem('activeTab');
+
+				$("#quick_search").attr("disabled", true);
 		});
 
 		var path = window.location.pathname;
