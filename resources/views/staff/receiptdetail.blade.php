@@ -117,8 +117,13 @@
                          </div><!-- end form-group -->
 
                          <div class="form-group">
-                           <label class="col-md-4">Payment Mode:</label>
-                           <div class="col-md-8">{{ $generaldonation->mode_payment }}</div>
+                           <div class="col-md-6">
+                             <label class="col-md-4">Payment Mode:</label>
+                             <div class="col-md-8">{{ $generaldonation->mode_payment }}</div>
+                           </div><!-- end col-md-6 -->
+
+                           <div class="col-md-6">
+                           </div><!-- end col-md-6 -->
                          </div><!-- end form-group -->
 
                          <div class="form-group">
