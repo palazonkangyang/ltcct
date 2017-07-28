@@ -354,7 +354,7 @@ class StaffController extends Controller
 
 				$result = $receipt->save();
 
-				dd($result->toArray());
+				dd($result);
 
 
 			}
