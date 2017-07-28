@@ -117,18 +117,8 @@
                          </div><!-- end form-group -->
 
                          <div class="form-group">
-                           <div class="col-md-6">
-                             <label class="col-md-4">Payment Mode:</label>
-                             <div class="col-md-8">{{ $generaldonation->mode_payment }}</div>
-                           </div><!-- end col-md-6 -->
-
-                           <div class="col-md-6">
-                           </div><!-- end col-md-6 -->
-                         </div><!-- end form-group -->
-
-                         <div class="form-group">
-                           <label class="col-md-4">Total Amount:</label>
-                           <div class="col-md-8">S$ {{ $sum }}</div>
+                           <p>Payment Mode : {{ $generaldonation->mode_payment }}</p>
+                           <p>Total Amount : S$ {{ $sum }}</p>
                          </div><!-- end form-group -->
 
                        </div><!-- end form-body -->
