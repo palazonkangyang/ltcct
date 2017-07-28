@@ -449,7 +449,8 @@ class StaffController extends Controller
 
 		if($receipt->cancelled_date == "cancelled")
 		{
-			Session::put('cancelled_date', \Carbon\Carbon::parse($receipt[0]->cancelled_date)->format("d/m/Y"));
+			$cancelled_date = \Carbon\Carbon::parse($receipt[0]->cancelled_date)->format("d/m/Y");
+			Session::put('cancelled_date', $cancelled_date);
 			Session::put('first_name', $receipt[0]->first_name);
 			Session::put('last_name', $receipt[0]->last_name);
 		}
