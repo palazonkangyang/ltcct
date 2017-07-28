@@ -357,7 +357,7 @@ class StaffController extends Controller
 				if($result)
 				{
 					$data = Receipt::join('user', 'user.id', '=', 'receipt.cancelled_by')
-									->where('receipt.cancelled_by', $input['receipt_id'])
+									->where('receipt.receipt_id', $input['receipt_id'])
 									->select('receipt.*', 'user.first_name', 'user.last_name')
 									->get();
 
