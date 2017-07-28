@@ -506,7 +506,7 @@
         <div class="col-md-6">
 
           <div class="form-group pull-right">
-           <button type="submit" class="btn default" style="margin-right: 25px;" id="quick_search"> Search
+           <button type="submit" class="btn default" style="margin-right: 25px; width:100px;" id="quick_search"> Search
            </button>
           </div><!-- end form-group -->
 
