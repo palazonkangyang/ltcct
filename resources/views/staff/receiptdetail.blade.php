@@ -123,13 +123,23 @@
 
                          <div class="form-group">
 
-                           <input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'hj'){ ?>checked="checked"<?php }?>>
-               						1 Receipt Printing for same address <br />
+                           <label>Type of Receipt Printing :</label>
 
-               						<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'gr'){ ?>checked="checked"<?php }?>>
-               						Individual Receipt Printing
+                 					<div class="radio">
+                 						<label>
+                 							<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'hj'){ ?>checked="checked"<?php }?>>
+                 							1 Receipt Printing for same address <br />
+                 						</label>
+                 				  </div><!-- end radio -->
 
-                         </div>
+                 					<div class="radio">
+                 						<label>
+                 							<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'gr'){ ?>checked="checked"<?php }?>>
+                 							Individual Receipt Printing
+                 						</label>
+                 				  </div><!-- end radio -->
+
+                        </div><!-- end form-group -->
 
                        </div><!-- end form-body -->
 
