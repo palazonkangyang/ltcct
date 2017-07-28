@@ -515,8 +515,8 @@
 											<div class="col-md-9">
 													<select class="form-control" name="nationality" id="edit_nationality">
 															<option value="">Please select</option>
-															<option value="singapore">Singapore</option>
-															<option value="others">Others</option>
+															<option value="singapore" <?php if ($focus_devotee[0]->nationality == "singapore") echo "selected"; ?>>Singapore</option>
+															<option value="others" <?php if ($focus_devotee[0]->nationality == "others") echo "selected"; ?>>Others</option>
 													</select>
 											</div><!-- end col-md-9 -->
 
