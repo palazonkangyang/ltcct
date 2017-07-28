@@ -354,9 +354,16 @@ class StaffController extends Controller
 
 				$result = $receipt->save();
 
-				dd($result);
+				if($result)
+				{
+					$data = Receipt::find($input['receipt_id']);
 
+					dd($data->toArray());
 
+					return redirect()->back()->with([
+						'receipt' => $data
+					]);
+				}
 			}
 
 			else
@@ -365,8 +372,6 @@ class StaffController extends Controller
 				return redirect()->back();
 			}
 		}
-
-
 	}
 
 	// Print Receipt
