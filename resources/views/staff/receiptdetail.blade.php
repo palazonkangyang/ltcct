@@ -142,6 +142,8 @@
 
                          </div><!-- end form-group -->
 
+                         @php dd($receipt); @endphp
+
                          @if($receipt->status == 'cancelled')
 
                          <div class="form-group">
