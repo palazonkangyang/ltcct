@@ -184,22 +184,28 @@
 
                         </div><!-- end form-group -->
 
-                        <div class="form-group">
-                          <div class="col-md-12">
+                        <form class="" action="index.html" method="post">
 
-                            <div class="col-md-6">
-                              <div class="form-actions">
-                                  <button type="submit" class="btn blue" id="confirm_cancelled_btn">Confirm
-                                  </button>
-                                  <button type="button" class="btn default">Cancel</button>
-                              </div><!-- end form-actions -->
-                            </div><!-- end col-md-6 -->
+                          <input type="hidden" name="receipt_id" value="{{ $receipt[0]->receipt_id }}">
 
-                            <div class="col-md-6">
-                            </div><!-- end col-md-6 -->
+                          <div class="form-group">
+                            <div class="col-md-12">
 
-                          </div><!-- end col-md-12 -->
-                        </div><!-- end form-group -->
+                              <div class="col-md-6">
+                                <div class="form-actions">
+                                    <button type="submit" class="btn blue" id="receipt_cancel_btn">Confirm
+                                    </button>
+                                    <button type="button" class="btn default">Cancel</button>
+                                </div><!-- end form-actions -->
+                              </div><!-- end col-md-6 -->
+
+                              <div class="col-md-6">
+                              </div><!-- end col-md-6 -->
+
+                            </div><!-- end col-md-12 -->
+                          </div><!-- end form-group -->
+
+                        </form>
 
                        </div><!-- end form-body -->
 
