@@ -566,7 +566,8 @@
                                                                                 <th>HJ/ GR</th>
                                                                                 <th>Amount</th>
                                                                                 <th>Manual Receipt</th>
-                                                                                <th>View Details</th>
+                                                                                <th>Print</th>
+																																								<th>View Details</th>
                                                                             </tr>
                                                                         </thead>
 
@@ -590,7 +591,8 @@
                                                                                     <td>{{ $receipt->generaldonation_hjgr }}</td>
                                                                                     <td>{{ $receipt->amount }}</td>
                                                                                     <td>{{ $receipt->manualreceipt }}</td>
-                                                                                    <td><a href="{{ URL::to('/staff/receipt/' . $receipt->receipt_id) }}">Detail</a></td>
+                                                                                    <td><a href="{{ URL::to('/staff/receipt/' . $receipt->receipt_id) }}">Print</a></td>
+																																										<td><a href="{{ URL::to('/staff/receiptdetail/' . $receipt->receipt_id) }}">Detail</a></td>
                                                                                 </tr>
                                                                                 @endforeach
                                                                             </tbody>
