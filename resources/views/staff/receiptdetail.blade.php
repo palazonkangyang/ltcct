@@ -75,7 +75,7 @@
 
                          <div class="form-group">
 
-                           <table class="table table-bordered">
+                           <table class="table table-bordered table-striped">
                      				<thead>
                      					<tr>
                      						<th>S/No</th>
@@ -114,6 +114,16 @@
                      				</tbody>
                      			</table>
 
+                         </div><!-- end form-group -->
+
+                         <div class="form-group">
+                           <label class="col-md-4">Payment Mode:</label>
+                           <div class="col-md-8">{{ $generaldonation->mode_payment }}</div>
+                         </div><!-- end form-group -->
+
+                         <div class="form-group">
+                           <label class="col-md-4">Total Amount:</label>
+                           <div class="col-md-8">S$ {{ $sum }}</div>
                          </div><!-- end form-group -->
 
                        </div><!-- end form-body -->
