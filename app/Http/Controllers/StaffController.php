@@ -361,7 +361,7 @@ class StaffController extends Controller
 									->select('receipt.*', 'user.first_name', 'user.last_name')
 									->get();
 
-					dd($receiptdetail->toArray());
+					dd($data->toArray());
 
 					return redirect()->back()->with([
 						'receiptdetail' => $data
