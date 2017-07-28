@@ -218,10 +218,12 @@
                             </div><!-- end col-md-6 -->
 
                             <div class="col-md-6">
+                                @if(Session::has('cancelled_date'))
                                 <p class="text-danger">
                                   This Transaction has been cancelled. <br />
                                   No Cancellation is allowed.
                                 </p>
+                                @endif
                             </div><!-- end col-md-6 -->
 
                           </div><!-- end form-group -->
