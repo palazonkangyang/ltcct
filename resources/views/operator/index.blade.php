@@ -423,7 +423,7 @@
                                                                         <label class="col-md-3 control-label">NRIC</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="nric"
-                                                                                value="{{ old('nric') }}">
+                                                                                value="{{ old('nric') }}" id="content_nirc">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -442,7 +442,7 @@
 
                                                                         <label class="col-md-3 control-label">Date of Birth</label>
                                                                         <div class="col-md-9">
-                                                                            <input type="text" class="form-control" name="dob"
+                                                                            <input type="text" class="form-control" name="dob" id="content_dob"
                                                                                 data-provide="datepicker" data-date-format="dd/mm/yyyy" value="{{ old('dob') }}">
                                                                         </div><!-- end col-md-9 -->
 
@@ -478,7 +478,7 @@
 
                                                                         <label class="col-md-3 control-label">Race</label>
                                                                         <div class="col-md-9">
-                                                                            <select class="form-control" name="race">
+                                                                            <select class="form-control" name="race" id="content_race">
                                                                                 <option value="">Please select</option>
                                                                                 <option value="chinese">Chinese</option>
                                                                                 <option value="others">Others</option>
@@ -695,7 +695,7 @@
                                                                         <label class="col-md-3 control-label">Member Approved Date</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
-																																							data-date-format="dd/mm/yyyy">
+																																							data-date-format="dd/mm/yyyy" id="content_approved_date">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -2104,6 +2104,85 @@
                 $(this).parent().parent().remove();
             });
 
+						var content_nric = $("#content_nirc").val();
+						var content_dob = $("#content_dob").val();
+						var content_marital_status = $("#content_marital_status").val();
+						var content_dialect = $("#content_dialect").val();
+						var content_nationality = $("#content_nationality").val();
+						var content_introduced_by1 = $("#content_introduced_by1").val();
+						var content_introduced_by2 = $("#content_introduced_by2").val();
+						var content_approved_date = $("#content_approved_date").val();
+
+						if($.trim(content_approved_date).length > 0)
+						{
+							var count = 0;
+							var errors = new Array();
+							var validationFailed = false;
+
+							if ($.trim(content_nric).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "NRIC field is empty."
+							}
+
+							if ($.trim(content_dob).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Date of Birth field is empty."
+							}
+
+							if ($.trim(content_marital_status).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Marital Status field is empty."
+							}
+
+							if ($.trim(content_dialect).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Dialect field is empty."
+							}
+
+							if ($.trim(content_nationality).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Nationality field is empty."
+							}
+
+							if ($.trim(content_introduced_by1).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Introduced By 1 field is empty."
+							}
+
+							if ($.trim(content_introduced_by2).length <= 0)
+							{
+									validationFailed = true;
+									errors[count++] = "Introduced By 2 field is empty."
+							}
+
+							if (validationFailed)
+							{
+									var errorMsgs = '';
+
+									for(var i = 0; i < count; i++)
+									{
+											errorMsgs = errorMsgs + errors[i] + "<br/>";
+									}
+
+									$('html,body').animate({ scrollTop: 0 }, 'slow');
+
+									$(".validation-error").addClass("bg-danger alert alert-error")
+									$(".validation-error").html(errorMsgs);
+
+									return false;
+							}
+
+							else {
+									$(".validation-error").removeClass("bg-danger alert alert-error")
+									$(".validation-error").empty();
+							}
+						}
         });
     </script>
 
