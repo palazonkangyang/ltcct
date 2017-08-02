@@ -83,6 +83,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th width='4%'>#</th>
+                                                                <th width="19%">Job</th>
                                                                 <th width='11%'>Date From 阴历</th>
                                                                 <th width='11%'>Date To 阴历</th>
                                                                 <th width='11%'>Lunar Date 阳历</th>
@@ -99,6 +100,14 @@
                                                                 @foreach($events as $event)
                                                                 <tr class="event-row">
                                                                     <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
+                                                                    <td>
+                                                                      <select class="form-control" name="job_id[]">
+                                                                        <option value="">Please Select</option>
+                                                                        <option value="1" <?php if ($event->job_id == "1") echo "selected"; ?>>Spring Festival</option>
+                                                                        <option value="2" <?php if ($event->job_id == "2") echo "selected"; ?>>Festival 1</option>
+                                                                        <option value="3" <?php if ($event->job_id == "3") echo "selected"; ?>>Festival 2</option>
+                                                                      </select>
+                                                                    </td>
                                                                     <td>
                                                                         <input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
                                                                           value='{{ \Carbon\Carbon::parse($event->start_at)->format("d/m/Y") }}'>
@@ -142,7 +151,7 @@
                                                 <hr>
 
                                                 <div class="form-actions pull-right">
-                                                    <button type="submit" class="btn blue" id="confirm_event_btn">Outdated</button>
+                                                    <button type="submit" class="btn blue" id="confirm_event_btn">Outdate</button>
                                                     <button type="button" class="btn default">Cancel</button>
                                                 </div><!-- end form-actions -->
 
@@ -205,6 +214,8 @@
             $("#addEventRow").click(function() {
 
               $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
+                  "<td><select class='form-control' name='job_id[]'><option value=''>Please Select</option><option value='1'>Spring Festival</option>" +
+                  "<option value='2'>Festival 1</option><option value='3'>Festival 2</option></select></td>" +
                   "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                   "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
                   "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +

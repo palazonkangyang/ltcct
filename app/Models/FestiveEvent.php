@@ -16,6 +16,7 @@ class FestiveEvent extends Model
         'time',
         'shuwen_title',
         'display',
+        'job_id',
         'letter_template_id'
     ];
 }

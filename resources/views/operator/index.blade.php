@@ -304,7 +304,7 @@
 
                                                                         <label class="col-md-3 control-label">Contact # *</label>
                                                                         <div class="col-md-9">
-                                                                            <input type="text" class="form-control" name="contact"
+                                                                            <input type="email" class="form-control" name="contact"
                                                                                 value="{{ old('contact') }}" id="content_contact">
                                                                         </div><!-- end col-md-9 -->
 
@@ -398,8 +398,7 @@
 
                                                                     <div class="form-group">
 
-
-                                                                      <div class="col-md-8">
+                                                                      <div class="col-md-12">
 																																				<button type="button" class="btn default check_family_code" style="margin-right: 30px;">
 	                                                                      	Check Family Code
 	                                                                      </button>
@@ -407,10 +406,7 @@
 																																				<button type="button" class="btn default address_translated_btn">
 																																					Translate Address
 																																				</button>
-                                                                      </div><!-- end col-md-8 -->
-
-																																				<div class="col-md-4">
-																																				</div><!-- end col-md-4 -->
+                                                                      </div><!-- end col-md-12 -->
 
                                                                     </div><!-- end form-group -->
 
@@ -433,7 +429,7 @@
                                                                         <label class="col-md-3 control-label">Deceased Year</label>
                                                                         <div class="col-md-9">
                                                                             <input type="text" class="deceased_year form-control" name="deceased_year"
-                                                                                data-provide="datepicker" value="{{ old('deceased_year') }}" id="content_deceased_year">
+                                                                                value="{{ old('deceased_year') }}" id="content_deceased_year">
                                                                         </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
@@ -474,6 +470,16 @@
 
                                                                     </div><!-- end form-group -->
 
+																																		<div class="form-group" id="other_dialect_field" style="display:none;">
+
+                                                                        <label class="col-md-3 control-label"></label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="text" name="other_dialect" class="form-control" value=""
+																																						placeholder="Other Dialect" id="content_other_dialect">
+                                                                        </div><!-- end col-md-9 -->
+
+                                                                    </div><!-- end form-group -->
+
                                                                     <div class="form-group">
 
                                                                         <label class="col-md-3 control-label">Race</label>
@@ -487,14 +493,25 @@
 
                                                                     </div><!-- end form-group -->
 
+																																		<div class="form-group" id="other_race_field" style="display:none;">
+
+                                                                        <label class="col-md-3 control-label"></label>
+                                                                        <div class="col-md-9">
+                                                                            <input type="text" name="other_race" class="form-control" value=""
+																																						placeholder="Other Race" id="content_other_race">
+                                                                        </div><!-- end col-md-9 -->
+
+                                                                    </div><!-- end form-group -->
+
                                                                     <div class="form-group">
 
                                                                         <label class="col-md-3 control-label">Nationality</label>
                                                                         <div class="col-md-9">
                                                                             <select class="form-control" name="nationality" id="content_nationality">
                                                                                 <option value="">Please select</option>
-                                                                                <option value="singapore">Singapore</option>
-                                                                                <option value="others">Others</option>
+																																								@foreach($countries as $country)
+                                                                                <option value="{{ $country->country_id }}">{{ $country->country_name }}</option>
+                                                                                @endforeach
                                                                             </select>
                                                                         </div><!-- end col-md-9 -->
 
@@ -509,8 +526,8 @@
                                                                                     <thead>
                                                                                         <tr>
                                                                                             <th>#</th>
-                                                                                            <th>Name</th>
                                                                                             <th>Family Code</th>
+																																														<th>Name</th>
                                                                                         </tr>
                                                                                     </thead>
                                                                                     <tbody>
@@ -549,28 +566,34 @@
 
                                                                 <div class="col-md-6">
 
-                                                                    <div class="form-group">
+                                                                    <div class="opt_address">
+																																			<div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Opt.Address
-                                                                            <span id="opt_addr_count">1</span>
-                                                                        </label>
+																																					<div class="col-md-1"></div><!-- end col-md-1 -->
 
-                                                                        <div class="col-md-3">
-                                                                            <select class="form-control" name="address_type[]">
-                                                                                <option value="home">Home</option>
-                                                                                <option value="company">Company</option>
-                                                                                <option value="stall">Stall</option>
-                                                                                <option value="office">Office</option>
-                                                                            </select>
-                                                                        </div><!-- end col-md-3 -->
+	                                                                        <label class="col-md-2 control-label">Opt.Addr
+	                                                                        </label>
 
-                                                                        <div class="col-md-5">
-                                                                            <input type="text" class="form-control" name="address_data[]">
-                                                                        </div><!-- end col-md-5 -->
+	                                                                        <div class="col-md-3">
+	                                                                            <select class="form-control address-type" name="address_type[]">
+	                                                                                <option value="home">Home</option>
+	                                                                                <option value="company">Comp</option>
+	                                                                                <option value="stall">Stall</option>
+	                                                                                <option value="office">Office</option>
+	                                                                            </select>
+	                                                                        </div><!-- end col-md-4 -->
 
-                                                                        <div class="col-md-1"></div><!-- end col-md-1 -->
+	                                                                        <div class="col-md-4 populate-address">
+	                                                                            <input type="text" class="form-control address-data" name="address_data[]">
+	                                                                        </div><!-- end col-md-4 -->
 
-                                                                    </div><!-- end form-group -->
+	                                                                        <div class="col-md-2">
+																																						<button type="button" class='fa fa-angle-double-left populate-data form-control' aria-hidden='true'>
+																																						</button>
+																																					</div><!-- end col-md-1 -->
+
+	                                                                    </div><!-- end form-group -->
+                                                                    </div><!-- end opt_address -->
 
                                                                     <div id="append_opt_address">
                                                                     </div><!-- end append_opt_address -->
@@ -590,7 +613,9 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Opt.Vehicle 1</label>
+																																				<div class="col-md-1"></div><!-- end col-md-1 -->
+
+                                                                        <label class="col-md-3 control-label">Opt.Vehicle</label>
 
                                                                         <div class="col-md-3">
                                                                             <select class="form-control" name="vehicle_type[]">
@@ -602,8 +627,6 @@
                                                                         <div class="col-md-5">
                                                                             <input type="text" class="form-control" name="vehicle_data[]">
                                                                         </div><!-- end col-md-5 -->
-
-                                                                        <div class="col-md-1"></div><!-- end col-md-1 -->
 
                                                                     </div><!-- end form-group -->
 
@@ -627,13 +650,13 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Special Remark 1</label>
+																																				<div class="col-md-1"></div><!-- end col-md-1 -->
 
-                                                                        <div class="col-md-8">
+                                                                        <label class="col-md-2 control-label">Special Remark</label>
+
+                                                                        <div class="col-md-9">
                                                                             <input type="text" class="form-control" name="special_remark[]">
-                                                                        </div><!-- end col-md-8 -->
-
-                                                                        <div class="col-md-1"></div><!-- end col-md-1 -->
+                                                                        </div><!-- end col-md-9 -->
 
                                                                     </div><!-- end form-group -->
 
@@ -657,7 +680,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-12 control-label">
+                                                                        <label class="col-md-12">
                                                                             If you have made Changes to the above. You need to CONFIRM to save the Changes.<br />
                                                                             To Confirm, please enter authorized password to proceed.
                                                                         </label>
@@ -667,6 +690,72 @@
                                                                 </div><!-- end col-md-6 -->
 
                                                                 <div class="col-md-6">
+
+																																	<div style="border: 1px solid #D5D4D4; padding: 5px; margin-bottom: 10px;">
+																																		<h4>Local Address</h4>
+
+																																		<div class="form-group">
+																																			<label class="col-md-3 control-label">House No</label>
+																																			<div class="col-md-3">
+																																					<input type="text" class="form-control" name="populate_houseno"
+																																							value="{{ old('populate_houseno') }}" id="populate_houseno">
+																																			</div><!-- end col-md-3 -->
+
+																																			<label class="col-md-1 control-label">Unit</label>
+
+																																			<div class="col-md-2">
+																																					<input type="text" class="form-control" name="populate_unit_1"
+																																							value="{{ old('populate_unit_1') }}" id="populate_unit_1">
+																																			</div><!-- end col-md-2 -->
+
+																																			<label class="col-md-1">-</label>
+
+																																			<div class="col-md-2">
+																																					<input type="text" class="form-control" name="populate_unit_2"
+																																							value="{{ old('populate_unit_2') }}" id="populate_unit_2">
+																																			</div><!-- end col-md-2 -->
+																																		</div><!-- end form-group -->
+
+																																		<div class="form-group">
+																																			<label class="col-md-3 control-label">Street</label>
+																																			<div class="col-md-9">
+																																					<input type="text" class="form-control" name="populate_street"
+																																							value="{{ old('populate_address_street') }}" id="populate_street">
+																																			</div><!-- end col-md-9 -->
+																																		</div><!-- end form-group -->
+
+																																		<div class="form-group">
+																																			<label class="col-md-3 control-label">Building</label>
+																																			<div class="col-md-9">
+																																					<input type="text" class="form-control" name="populate_building"
+																																							value="{{ old('populate_building') }}" id="populate_building">
+																																			</div><!-- end col-md-9 -->
+																																		</div><!-- end form-group -->
+
+																																		<div class="form-group">
+																																			<label class="col-md-3 control-label">Postal</label>
+																																			<div class="col-md-9">
+																																					<input type="text" class="form-control" name="populate_postal"
+																																							value="{{ old('populate_postal') }}" id="populate_postal">
+																																			</div><!-- end col-md-9 -->
+																																		</div><!-- end form-group -->
+
+																																		<div class="form-group">
+																																			<label class="col-md-3 control-label">Address Translate</label>
+																																			<div class="col-md-9">
+																																					<input type="text" class="form-control" name="populate_address_translate" readonly
+																																							value="{{ old('populate_address_translate') }}" id="populate_address_translate">
+																																			</div><!-- end col-md-9 -->
+																																		</div><!-- end form-group -->
+
+																																		<div class="form-group">
+																																			<label class="col-md-3 control-label">Oversea Addr in China</label>
+																																			<div class="col-md-9">
+																																					<input type="text" class="form-control" name="populate_oversea_addr_in_china"
+																																							value="{{ old('populate_oversea_addr_in_china') }}" id="populate_oversea_addr_in_china">
+																																			</div><!-- end col-md-9 -->
+																																		</div><!-- end form-group -->
+																																	</div>
 
 																																	@if(Auth::user()->role == 3)
 
@@ -703,12 +792,12 @@
 																																		@endif
 
                                                                     <div class="form-group">
-                                                                        <label class="col-md-6"></label>
-                                                                        <label class="col-md-3 control-label">Authorized Password</label>
-                                                                        <div class="col-md-3">
+                                                                        <label class="col-md-3"></label>
+                                                                        <label class="col-md-5 control-label">Authorized Password</label>
+                                                                        <div class="col-md-4">
                                                                             <input type="password" class="form-control"
                                                                                 name="authorized_password" id="content_authorized_password">
-                                                                        </div><!-- end col-md-9 -->
+                                                                        </div><!-- end col-md-4 -->
 
                                                                     </div><!-- end form-group -->
 
@@ -1228,6 +1317,8 @@
 @section('custom-js')
 
     <script src="{{asset('js/custom/common.js')}}"></script>
+		<script src="{{asset('js/custom/populate-address.js')}}"></script>
+		<script src="{{asset('js/custom/edit-populate-address.js')}}"></script>
     <script src="{{asset('js/custom/search-devotee.js')}}"></script>
     <script src="{{asset('js/custom/check-familycode.js')}}"></script>
     <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>
@@ -1243,6 +1334,7 @@
 					$("#opt_address .removeAddressBtn1").first().remove();
 					$("#opt_vehicle .removeVehicleBtn1").first().remove();
 					$("#special_remark .removeSpecRemarkBtn1").first().remove();
+					$("#edit_opt_address .removeAddressBtn1").first().remove();
 
 					$("#content_introduced_by1").autocomplete({
 						source: "/operator/search/autocomplete",
@@ -1297,6 +1389,22 @@
 						minLength: 1,
 					  select: function(event, ui) {
 					  	$('#new_address_street').val(ui.item.value);
+						}
+					});
+
+					$("#populate_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#populate_street').val(ui.item.value);
+						}
+					});
+
+					$("#edit_populate_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#edit_populate_street').val(ui.item.value);
 						}
 					});
 
@@ -1544,7 +1652,6 @@
                     return false;
             });
 
-
             // quick search button
             $("#quick_search").click(function(e) {
 
@@ -1558,6 +1665,86 @@
 					  }else{
 							$("#edit").addClass('disabled');
 					  }
+
+						var dialect = $("#content_dialect").val();
+
+						if(dialect == 'others')
+						{
+							$("#other_dialect_field").show();
+						}
+
+						$("#content_dialect").change(function() {
+							var dialect = $(this).val();
+
+							if(dialect == 'others')
+							{
+								$("#other_dialect_field").show();
+							}
+
+							else {
+								$("#other_dialect_field").hide();
+							}
+						});
+
+						var edit_dialect = $("#edit_dialect").val();
+
+						if(edit_dialect == 'others')
+						{
+							$("#edit_other_dialect_field").show();
+						}
+
+						$("#edit_dialect").change(function() {
+							var edit_dialect = $(this).val();
+
+							if(edit_dialect == 'others')
+							{
+								$("#edit_other_dialect_field").show();
+							}
+
+							else {
+								$("#edit_other_dialect_field").hide();
+							}
+						});
+
+						var race = $("#content_race").val();
+
+						if(race == 'others')
+						{
+							$("#other_race_field").show();
+						}
+
+						$("#content_race").change(function() {
+							var race = $(this).val();
+
+							if(race == 'others')
+							{
+								$("#other_race_field").show();
+							}
+
+							else {
+								$("#other_race_field").hide();
+							}
+						});
+
+						var edit_race = $("#edit_race").val();
+
+						if(edit_race == 'others')
+						{
+							$("#edit_other_race_field").show();
+						}
+
+						$("#edit_race").change(function() {
+							var edit_race = $(this).val();
+
+							if(edit_race == 'others')
+							{
+								$("#edit_other_race_field").show();
+							}
+
+							else {
+								$("#edit_other_race_field").hide();
+							}
+						});
 
 						$("#confirm_btn").click(function() {
 
@@ -1629,11 +1816,11 @@
 									errors[count++] = "Marital Status field is empty."
 							}
 
-							if ($.trim(dialect).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Dialect field is empty."
-							}
+							// if ($.trim(dialect).length <= 0)
+							// {
+							// 		validationFailed = true;
+							// 		errors[count++] = "Dialect field is empty."
+							// }
 
 							if ($.trim(nationality).length <= 0)
 							{
@@ -1866,6 +2053,12 @@
 							}
 						});
 
+						if ( $('.alert-success').children().length > 0 ) {
+				        localStorage.removeItem('devotee_id');
+				        localStorage.removeItem('familycode_id');
+				        localStorage.removeItem('member_id');
+				    }
+
             $("#devotees_table").on('click','.edit-devotee',function(e) {
 
 								$("#edit-familycode-table tbody").empty();
@@ -1897,8 +2090,20 @@
 
 											$.each(response.devotee, function(index, data) {
 
-												$("#edit_devotee_id").val(data.devotee_id);
-												$("#edit_member_id").val(data.member_id);
+												localStorage.setItem('devotee_id', data.devotee_id);
+					              localStorage.setItem('member_id', data.member_id);
+												localStorage.setItem('familycode_id', data.familycode_id);
+
+												if(localStorage.getItem('devotee_id'))
+										    {
+										        var devotee_id = localStorage.getItem('devotee_id');
+										        var member_id = localStorage.getItem('member_id');
+														var familycode_id = localStorage.getItem('familycode_id');
+										    }
+
+												$("#edit_devotee_id").val(devotee_id);
+												$("#edit_member_id").val(member_id);
+												$("#edit_title").val(data.title);
 												$("#edit_chinese_name").val(data.chinese_name);
 												$("#edit_english_name").val(data.english_name);
 												$("#edit_contact").val(data.contact);
@@ -1917,7 +2122,7 @@
 												$("#edit_marital_status").val(data.marital_status);
 												$("#edit_dialect").val(data.dialect);
 												$("#edit_nationality").val(data.nationality);
-												$("#edit_familycode_id").val(data.familycode_id);
+												$("#edit_familycode_id").val(familycode_id);
 
 												$("#edit_member_id").val(data.member_id);
 											});
@@ -1962,8 +2167,20 @@
 
 											$.each(response.devotee, function(index, data) {
 
-												$("#edit_devotee_id").val(data.devotee_id);
-												$("#edit_member_id").val(data.member_id);
+												localStorage.setItem('devotee_id', data.devotee_id);
+					              localStorage.setItem('member_id', data.member_id);
+												localStorage.setItem('familycode_id', data.familycode_id);
+
+												if(localStorage.getItem('devotee_id'))
+										    {
+										        var devotee_id = localStorage.getItem('devotee_id');
+										        var member_id = localStorage.getItem('member_id');
+														var familycode_id = localStorage.getItem('familycode_id');
+										    }
+
+												$("#edit_devotee_id").val(devotee_id);
+												$("#edit_member_id").val(member_id);
+												$("#edit_title").val(data.title);
 												$("#edit_chinese_name").val(data.chinese_name);
 												$("#edit_english_name").val(data.english_name);
 												$("#edit_contact").val(data.contact);
@@ -1982,7 +2199,7 @@
 												$("#edit_marital_status").val(data.marital_status);
 												$("#edit_dialect").val(data.dialect);
 												$("#edit_nationality").val(data.nationality);
-												$("#edit_familycode_id").val(data.familycode_id);
+												$("#edit_familycode_id").val(familycode_id);
 
 												$("#edit_member_id").val(data.member_id);
 												$("#edit_introduced_by1").val(data.introduced_by1);
@@ -2026,8 +2243,20 @@
 
 											$.each(response.devotee, function(index, data) {
 
-												$("#edit_devotee_id").val(data.devotee_id);
-												$("#edit_member_id").val(data.member_id);
+												localStorage.setItem('devotee_id', data.devotee_id);
+					              localStorage.setItem('member_id', data.member_id);
+												localStorage.setItem('familycode_id', data.familycode_id);
+
+												if(localStorage.getItem('devotee_id'))
+										    {
+										        var devotee_id = localStorage.getItem('devotee_id');
+										        var member_id = localStorage.getItem('member_id');
+														var familycode_id = localStorage.getItem('familycode_id');
+										    }
+
+												$("#edit_devotee_id").val(devotee_id);
+												$("#edit_member_id").val(member_id);
+												$("#edit_title").val(data.title);
 												$("#edit_chinese_name").val(data.chinese_name);
 												$("#edit_english_name").val(data.english_name);
 												$("#edit_contact").val(data.contact);
@@ -2046,7 +2275,7 @@
 												$("#edit_marital_status").val(data.marital_status);
 												$("#edit_dialect").val(data.dialect);
 												$("#edit_nationality").val(data.nationality);
-												$("#edit_familycode_id").val(data.familycode_id);
+												$("#edit_familycode_id").val(familycode_id);
 
 												$("#edit_member_id").val(data.member_id);
 												$("#edit_introduced_by1").val(data.introduced_by1);
@@ -2067,24 +2296,23 @@
 
             $("#appendAddressBtn").click(function() {
 
-                $("#append_opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address " + address_count +
-                    "</label><div class='col-md-3'>" +
-                    "<select class='form-control' name='address_type[]'><option value='home'>Home</option>" +
-                    "<option value='company'>Company</option><option value='stall'>Stall</option><option value='office'>Office</option>" +
-                    "</select></div><div class='col-md-5'><input type='text' class='form-control' name='address_data[]'></div>" +
-                    "<div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn' aria-hidden='true'></i></div></div>");
-
-                address_count++;
+                $("#append_opt_address").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn' aria-hidden='true'></i></div>" +
+										"<label class='col-md-2 control-label'>Opt.Addr</label><div class='col-md-3'>" +
+                    "<select class='form-control address-type' name='address_type[]'><option value='home'>Home</option>" +
+                    "<option value='company'>Comp</option><option value='stall'>Stall</option><option value='office'>Office</option>" +
+                    "</select></div><div class='col-md-4 populate-address'><input type='text' class='form-control address-data' name='address_data[]'></div>" +
+                    "<div class='col-md-2'><button type='button' class='fa fa-angle-double-left populate-data form-control' aria-hidden='true'>" +
+										"</button></div></div>");
             });
 
             $("#AddressBtn").click(function() {
 
-                $("#opt_address").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Address " +
-                    "</label><div class='col-md-3'>" +
-                    "<select class='form-control' name='address_type[]'><option value='home'>Home</option>" +
-                    "<option value='company'>Company</option><option value='stall'>Stall</option><option value='office'>Office</option>" +
-                    "</select></div><div class='col-md-5'><input type='text' class='form-control' name='address_data[]'></div>" +
-                    "<div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div></div>");
+                $("#edit_opt_address").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div>" +
+										"<label class='col-md-2 control-label'>Opt.Addr</label><div class='col-md-3'>" +
+                    "<select class='form-control address-type' name='address_type[]'><option value='home'>Home</option>" +
+                    "<option value='company'>Comp</option><option value='stall'>Stall</option><option value='office'>Office</option>" +
+                    "</select></div><div class='col-md-4'><input type='text' class='form-control edit-address-data' name='address_data[]'></div>" +
+                    "<div class='col-md-2'><button type='button' class='fa fa-angle-double-left edit-populate-data form-control' aria-hidden='true'></button></div></div>");
             });
 
             $("#append_opt_address").on('click', '.removeAddressBtn', function() {
@@ -2092,7 +2320,7 @@
                 $(this).parent().parent().remove();
             });
 
-            $("#opt_address").on('click', '.removeAddressBtn1', function() {
+            $("#edit_opt_address").on('click', '.removeAddressBtn1', function() {
 
                 $(this).parent().parent().remove();
             });
@@ -2101,23 +2329,22 @@
 
             $("#appendVehicleBtn").click(function() {
 
-                $("#append_opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " + vehicle_count +
-                    "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
+                $("#append_opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn' aria-hidden='true'></i></div>" +
+										"<label class='col-md-3 control-label'>Opt.Vehicle</label>" +
+                    "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
                     "<option value='ship'>Ship</option></select></div><div class='col-md-5'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
-                    "<div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn' aria-hidden='true'></i></div></div>");
-
-                vehicle_count++;
+                    "</div>");
             });
 
             $("#VehicleBtn").click(function() {
 
-                $("#opt_vehicle").append("<div class='form-group'><label class='col-md-3 control-label'>Opt.Vehicle " +
+                $("#opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div>" +
+										"<label class='col-md-3 control-label'>Opt.Vehicle " +
                     "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
                     "<option value='ship'>Ship</option></select></div><div class='col-md-5'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
-                    "<div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div></div>");
-
+                    "</div>");
             });
 
             $("#append_opt_vehicle").on('click', '.removeVehicleBtn', function() {
@@ -2134,18 +2361,18 @@
 
             $("#appendSpecRemarkBtn").click(function() {
 
-                $("#append_special_remark").append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark 1" +
-                    "</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]'></div>" +
-                    "<div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn' aria-hidden='true'></i></div></div>");
-
-                sremark_count++;
+                $("#append_special_remark").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn' aria-hidden='true'></i></div>" +
+										"<label class='col-md-2 control-label'>Special Remark</label>" +
+                    "<div class='col-md-9'><input type='text' class='form-control' name='special_remark[]'></div>" +
+                    "</div>");
             });
 
             $("#SpecRemarkBtn").click(function() {
 
-                $("#special_remark").append("<div class='form-group'><label class='col-md-3 control-label'>Special Remark" +
-                    "</label><div class='col-md-8'><input type='text' class='form-control' name='special_remark[]'></div>" +
-                    "<div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i></div></div>");
+                $("#special_remark").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i></div>" +
+										"<label class='col-md-2 control-label'>Special Remark" +
+                    "</label><div class='col-md-9'><input type='text' class='form-control' name='special_remark[]'></div>" +
+                    "</div>");
             });
 
             $("#append_special_remark").on('click', '.removeSpecRemarkBtn', function() {

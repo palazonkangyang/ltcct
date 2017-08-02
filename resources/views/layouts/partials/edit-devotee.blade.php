@@ -24,7 +24,7 @@
 
 										 <label class="col-md-3 control-label">Title</label>
 										 <div class="col-md-9">
-												 <select class="form-control" name="title">
+												 <select class="form-control" name="title" id="edit_title">
 														 <option value="mr">Mr</option>
 														 <option value="miss">Miss</option>
 														 <option value="madam">Madam</option>
@@ -144,7 +144,7 @@
 
 								 <div class="form-group">
 
-										 <div class="col-md-8">
+										 <div class="col-md-12">
 											 <button type="button" class="btn default edit_check_family_code" style="margin-right: 30px;">
 													 Check Family Code
 											 </button>
@@ -152,10 +152,7 @@
 											 <button type="button" class="btn default edit_address_translated_btn">
 													 Translate Address
 											 </button>
-										 </div><!-- end col-md-8 -->
-
-										 <div class="col-md-4">
-										 </div><!-- end col-md-4 -->
+										 </div><!-- end col-md-12 -->
 
 								 </div><!-- end form-group -->
 
@@ -217,6 +214,16 @@
 
 									 </div><!-- end form-group -->
 
+									 <div class="form-group" id="edit_other_dialect_field" style="display:none;">
+
+	 										<label class="col-md-3 control-label"></label>
+	 										<div class="col-md-9">
+	 												<input type="text" name="other_dialect" class="form-control" value=""
+	 												placeholder="Other Dialect" id="edit_other_dialect">
+	 										</div><!-- end col-md-9 -->
+
+	 								</div><!-- end form-group -->
+
 									 <div class="form-group">
 
 											 <label class="col-md-3 control-label">Race</label>
@@ -230,14 +237,25 @@
 
 									 </div><!-- end form-group -->
 
+									 <div class="form-group" id="edit_other_race_field" style="display:none;">
+
+	 										<label class="col-md-3 control-label"></label>
+	 										<div class="col-md-9">
+	 												<input type="text" name="other_race" class="form-control" value=""
+	 												placeholder="Other Race" id="edit_other_race">
+	 										</div><!-- end col-md-9 -->
+
+	 								</div><!-- end form-group -->
+
 									 <div class="form-group">
 
 											 <label class="col-md-3 control-label">Nationality</label>
 											 <div class="col-md-9">
 													 <select class="form-control" name="nationality" id="edit_nationality">
 															 <option value="">Please select</option>
-															 <option value="singapore">Singapore</option>
-															 <option value="others">Others</option>
+															 @foreach($countries as $country)
+															 <option value="{{ $country->country_id }}">{{ $country->country_name }}</option>
+															 @endforeach
 													 </select>
 											 </div><!-- end col-md-9 -->
 
@@ -300,7 +318,7 @@
 
 	 									<label class="col-md-3 control-label">Title</label>
 	 									<div class="col-md-9">
-	 											<select class="form-control" name="title">
+	 											<select class="form-control" name="title" id="edit_title">
 	 													<option value="mr">Mr</option>
 	 													<option value="miss">Miss</option>
 	 													<option value="madam">Madam</option>
@@ -422,7 +440,7 @@
 
 	 							<div class="form-group">
 
-	 									<div class="col-md-8">
+	 									<div class="col-md-12">
 	 										<button type="button" class="btn default edit_check_family_code" style="margin-right: 30px;">
 	 												Check Family Code
 	 										</button>
@@ -430,10 +448,7 @@
 	 										<button type="button" class="btn default edit_address_translated_btn">
 	 												Translate Address
 	 										</button>
-	 									</div><!-- end col-md-8 -->
-
-	 									<div class="col-md-4">
-	 									</div><!-- end col-md-4 -->
+	 									</div><!-- end col-md-12 -->
 
 	 							</div><!-- end form-group -->
 
@@ -496,6 +511,16 @@
 
 									</div><!-- end form-group -->
 
+									<div class="form-group" id="edit_other_dialect_field" style="display:none;">
+
+											<label class="col-md-3 control-label"></label>
+											<div class="col-md-9">
+													<input type="text" name="other_dialect" class="form-control" value="{{ $focus_devotee[0]->other_dialect }}"
+													placeholder="Other Dialect" id="edit_other_dialect">
+											</div><!-- end col-md-9 -->
+
+									</div><!-- end form-group -->
+
 									<div class="form-group">
 
 											<label class="col-md-3 control-label">Race</label>
@@ -509,14 +534,27 @@
 
 									</div><!-- end form-group -->
 
+									<div class="form-group" id="edit_other_race_field" style="display:none;">
+
+										 <label class="col-md-3 control-label"></label>
+										 <div class="col-md-9">
+												 <input type="text" name="other_race" class="form-control" value="{{ $focus_devotee[0]->other_race }}"
+												 placeholder="Other Race" id="edit_other_race">
+										 </div><!-- end col-md-9 -->
+
+								 </div><!-- end form-group -->
+
 									<div class="form-group">
 
 											<label class="col-md-3 control-label">Nationality</label>
 											<div class="col-md-9">
 													<select class="form-control" name="nationality" id="edit_nationality">
 															<option value="">Please select</option>
-															<option value="singapore" <?php if ($focus_devotee[0]->nationality == "singapore") echo "selected"; ?>>Singapore</option>
-															<option value="others" <?php if ($focus_devotee[0]->nationality == "others") echo "selected"; ?>>Others</option>
+															@foreach($countries as $country)
+															<option value="{{ $country->country_id }}" <?php if ($focus_devotee[0]->nationality == $country->country_id) echo "selected"; ?>>
+																{{ $country->country_name }}
+															</option>
+															@endforeach
 													</select>
 											</div><!-- end col-md-9 -->
 
@@ -551,15 +589,15 @@
 									<div class="form-group">
 
 											<label class="col-md-3 control-label">Mailer</label>
-											<div class="col-md-2">
+											<div class="col-md-3">
 													<select class="form-control" name="mailer">
 														<option value="No">No</option>
 														<option value="Yes">Yes</option>
 													</select>
-											</div><!-- end col-md-2 -->
+											</div><!-- end col-md-3 -->
 
-											<div class="col-md-4">
-											</div><!-- end col-md-4 -->
+											<div class="col-md-6">
+											</div><!-- end col-md-6 -->
 
 									</div><!-- end form-group -->
 
@@ -581,7 +619,7 @@
 
 									<label class="col-md-3 control-label">Title</label>
 									<div class="col-md-9">
-											<select class="form-control" name="title">
+											<select class="form-control" name="title" id="edit_title">
 													<option value="mr">Mr</option>
 													<option value="miss">Miss</option>
 													<option value="madam">Madam</option>
@@ -774,6 +812,16 @@
 
 								</div><!-- end form-group -->
 
+								<div class="form-group" id="edit_other_dialect_field" style="display:none;">
+
+										<label class="col-md-3 control-label"></label>
+										<div class="col-md-9">
+												<input type="text" name="other_dialect" class="form-control" value=""
+												placeholder="Other Dialect" id="edit_other_dialect">
+										</div><!-- end col-md-9 -->
+
+								</div><!-- end form-group -->
+
 								<div class="form-group">
 
 										<label class="col-md-3 control-label">Race</label>
@@ -787,14 +835,25 @@
 
 								</div><!-- end form-group -->
 
+								<div class="form-group" id="edit_other_race_field" style="display:none;">
+
+										<label class="col-md-3 control-label"></label>
+										<div class="col-md-9">
+												<input type="text" name="other_race" class="form-control" value=""
+												placeholder="Other Race" id="edit_other_race">
+										</div><!-- end col-md-9 -->
+
+								</div><!-- end form-group -->
+
 								<div class="form-group">
 
 										<label class="col-md-3 control-label">Nationality</label>
 										<div class="col-md-9">
 												<select class="form-control" name="nationality" id="edit_nationality">
 														<option value="">Please select</option>
-														<option value="singapore">Singapore</option>
-														<option value="others">Others</option>
+														@foreach($countries as $country)
+														<option value="{{ $country->country_id }}">{{ $country->country_name }}</option>
+														@endforeach
 												</select>
 										</div><!-- end col-md-9 -->
 
@@ -859,31 +918,37 @@
 
 								@if(count($optionaladdresses) > 0)
 
-								<div id="opt_address">
+								<div id="edit_opt_address">
 
 								@foreach($optionaladdresses as $optAddress)
 
 								<div class="form-group">
 
-									<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
+									<div class='col-md-1'>
+										<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
+									</div>
+
+									<label class='col-md-2 control-label'>Opt.Addr</label><!-- end col-md-2 -->
 
 									<div class='col-md-3'>
 
 										<select class='form-control' name='address_type[]'>
 											<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>Home</option>
-											<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>Company</option>
+											<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>Comp</option>
 											<option value="stall" <?php if ($optAddress->type == "stall") echo "selected"; ?>>Stall</option>
 											<option value="office" <?php if ($optAddress->type == "office") echo "selected"; ?>>Office</option>
 										</select>
 
-									</div><!-- end col-md-3 -->
+									</div><!-- end col-md-4 -->
 
-									<div class='col-md-5'>
-										<input type="text" class="form-control" name="address_data[]" value="{{ $optAddress->data }}">
-									</div><!-- end col-md-5 -->
+									<div class='col-md-4'>
+										<input type="text" class="form-control edit-address-data" name="address_data[]" value="{{ $optAddress->data }}"
+											title="{{ $optAddress->data }}">
+									</div><!-- end col-md-4 -->
 
-									<div class='col-md-1'>
-										<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
+									<div class='col-md-2'>
+										<button type='button' class='fa fa-angle-double-left edit-populate-data form-control' aria-hidden='true'
+										<?php if ($optAddress->type == "company" || $optAddress->type == "stall") echo "disabled"; ?>></button>
 									</div>
 
 								</div><!-- end form-group -->
@@ -894,26 +959,27 @@
 
 								@else
 
-								<div id="opt_address">
+								<div id="edit_opt_address">
 
 									<div class="form-group">
-										<label class='col-md-3 control-label'>Opt.Address</label><!-- end col-md-3 -->
+										<label class='col-md-3 control-label'>Opt.Addr</label><!-- end col-md-3 -->
 
 										<div class='col-md-3'>
 											<select class='form-control' name='address_type[]'>
 												<option value="home">Home</option>
-												<option value="company">Company</option>
+												<option value="company">Comp</option>
 												<option value="stall">Stall</option>
 												<option value="office">Office</option>
 											</select>
 										</div><!-- end col-md-3 -->
 
-										<div class='col-md-5'>
+										<div class='col-md-4'>
 											<input type="text" class="form-control" name="address_data[]" value="">
 										</div><!-- end col-md-5 -->
 
-										<div class='col-md-1'>
-										</div><!-- end col-md-1 -->
+										<div class='col-md-2'>
+											<button type='button' class='fa fa-angle-double-left edit-populate-data form-control' aria-hidden='true'></button>
+										</div>
 									</div><!-- end form-group -->
 
 								</div><!-- end opt_address -->
@@ -943,6 +1009,10 @@
 								@foreach($optionalvehicles as $optVehicle)
 
 								<div class='form-group'>
+									<div class='col-md-1'>
+										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
+									</div><!-- end col-md-1 -->
+
 									<label class='col-md-3 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
 
 									<div class='col-md-3'>
@@ -956,9 +1026,7 @@
 										<input type="text" class="form-control" name="vehicle_data[]" value="{{ $optVehicle->data }}">
 									</div><!-- end col-md-5 -->
 
-									<div class='col-md-1'>
-										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
-									</div><!-- end col-md-1 -->
+
 								</div><!-- end form-group -->
 
 								@endforeach
@@ -968,6 +1036,9 @@
 								@else
 
 								<div id="opt_vehicle">
+
+									<div class='col-md-1'>
+									</div><!-- end col-md-1 -->
 
 									<div class='form-group'>
 										<label class='col-md-3 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
@@ -983,8 +1054,6 @@
 											<input type="text" class="form-control" name="vehicle_data[]" value="">
 										</div><!-- end col-md-5 -->
 
-										<div class='col-md-1'>
-										</div><!-- end col-md-1 -->
 									</div><!-- end form-group -->
 
 								</div><!-- end opt_vehicle -->
@@ -1015,15 +1084,16 @@
 								@foreach($specialRemarks as $specialRemark)
 
 								<div class='form-group'>
-									<label class='col-md-3 control-label'>Special Remarks</label><!-- end col-md-3 -->
-
-									<div class='col-md-8'>
-										<input type="text" class="form-control" name="special_remark[]" value="{{ $specialRemark->data }}">
-									</div><!-- end col-md-8 -->
-
 									<div class='col-md-1'>
 										<i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
+
+									<label class='col-md-2 control-label'>Special Remarks</label><!-- end col-md-2 -->
+
+									<div class='col-md-9'>
+										<input type="text" class="form-control" name="special_remark[]" value="{{ $specialRemark->data }}">
+									</div><!-- end col-md-9 -->
+
 								</div><!-- end form-group -->
 
 								@endforeach
@@ -1033,15 +1103,17 @@
 								@else
 
 								<div id="special_remark">
+
 									<div class='form-group'>
-										<label class='col-md-3 control-label'>Special Remarks</label><!-- end col-md-3 -->
-
-										<div class='col-md-8'>
-											<input type="text" class="form-control" name="special_remark[]" value="">
-										</div><!-- end col-md-8 -->
-
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
+
+										<label class='col-md-2 control-label'>Special Remarks</label><!-- end col-md-2 -->
+
+										<div class='col-md-9'>
+											<input type="text" class="form-control" name="special_remark[]" value="">
+										</div><!-- end col-md-9 -->
+
 									</div><!-- end form-group -->
 								</div><!-- end special_remark -->
 
@@ -1061,7 +1133,7 @@
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-                    <label class="col-md-12 control-label">
+                    <label class="col-md-12">
                         If you have made Changes to the above. You need to CONFIRM to save the Changes.<br />
                         To Confirm, please enter authorized password to proceed.
                     </label>
@@ -1069,6 +1141,72 @@
             </div><!-- end col-md-6 -->
 
 						<div class="col-md-6">
+
+							<div style="border: 1px solid #D5D4D4; padding: 5px; margin-bottom: 10px;">
+								<h4>Local Address</h4>
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">House No</label>
+									<div class="col-md-3">
+											<input type="text" class="form-control" name="populate_houseno"
+													value="{{ old('populate_houseno') }}" id="edit_populate_houseno">
+									</div><!-- end col-md-3 -->
+
+									<label class="col-md-1 control-label">Unit</label>
+
+									<div class="col-md-2">
+											<input type="text" class="form-control" name="populate_unit_1"
+													value="{{ old('populate_unit_1') }}" id="edit_populate_unit_1">
+									</div><!-- end col-md-2 -->
+
+									<label class="col-md-1">-</label>
+
+									<div class="col-md-2">
+											<input type="text" class="form-control" name="populate_unit_2"
+													value="{{ old('populate_unit_2') }}" id="edit_populate_unit_2">
+									</div><!-- end col-md-2 -->
+								</div><!-- end form-group -->
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">Street</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="populate_street"
+													value="{{ old('populate_address_street') }}" id="edit_populate_street">
+									</div><!-- end col-md-9 -->
+								</div><!-- end form-group -->
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">Building</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="populate_building"
+													value="{{ old('populate_building') }}" id="edit_populate_building">
+									</div><!-- end col-md-9 -->
+								</div><!-- end form-group -->
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">Postal</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="populate_postal"
+													value="{{ old('populate_postal') }}" id="edit_populate_postal">
+									</div><!-- end col-md-9 -->
+								</div><!-- end form-group -->
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">Address Translate</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="populate_address_translate" readonly
+													value="{{ old('populate_address_translate') }}" id="edit_populate_address_translate">
+									</div><!-- end col-md-9 -->
+								</div><!-- end form-group -->
+
+								<div class="form-group">
+									<label class="col-md-3 control-label">Oversea Addr in China</label>
+									<div class="col-md-9">
+											<input type="text" class="form-control" name="populate_oversea_addr_in_china"
+													value="{{ old('populate_oversea_addr_in_china') }}" id="edit_populate_oversea_addr_in_china">
+									</div><!-- end col-md-9 -->
+								</div><!-- end form-group -->
+							</div>
 
 						@if(Auth::user()->role == 3)
 
@@ -1177,11 +1315,11 @@
 								@endif
 
                	<div class="form-group">
-                    <label class="col-md-6"></label>
-                    <label class="col-md-3 control-label">Authorized Password</label>
-                    <div class="col-md-3">
+                    <label class="col-md-3"></label>
+                    <label class="col-md-5 control-label">Authorized Password</label>
+                    <div class="col-md-4">
                         <input type="password" class="form-control" name="authorized_password" id="authorized_password">
-                    </div><!-- end col-md-9 -->
+                    </div><!-- end col-md-4 -->
                 </div><!-- end form-group -->
 
                 <div class="form-actions pull-right">

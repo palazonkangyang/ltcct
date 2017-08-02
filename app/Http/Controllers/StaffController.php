@@ -13,6 +13,7 @@ use App\Models\SpecialRemarks;
 use App\Models\GeneralDonation;
 use App\Models\GeneralDonationItems;
 use App\Models\Receipt;
+use App\Models\GlCode;
 use App\Models\FestiveEvent;
 use App\Models\RelativeFriendLists;
 use App\Models\Job;
@@ -47,6 +48,8 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
+		// dd($input);
+
 		// Add Relative and Friend Lists
 		if(isset($input["other_devotee_id"]))
 		{
@@ -77,7 +80,7 @@ class StaffController extends Controller
 		}
 
 		$trans_id = GeneralDonation::all()->last()->generaldonation_id;
-		$prefix = "T";
+		$prefix = "Tyy";
 		$trans_id += 1;
 		$trans_id = $prefix . $trans_id;
 
@@ -92,7 +95,8 @@ class StaffController extends Controller
 		  "manualreceipt" => $input['manualreceipt'],
 		  "trans_at" => Carbon::now(),
 		  "focusdevotee_id" => $input['focusdevotee_id'],
-		  "festiveevent_id" => $input['festiveevent_id']
+		  "festiveevent_id" => $input['festiveevent_id'],
+			"glcode_id" => '8'
 		];
 
 		$general_donation = GeneralDonation::create($data);
@@ -113,8 +117,18 @@ class StaffController extends Controller
 
 						if(isset($input["amount"][$i]) && $count < 1)
 						{
-						  $same_xy_receipt = Receipt::all()->last()->receipt_id;
-						  $prefix = "XY";
+							if(count(Receipt::all()) > 0)
+							{
+								$same_xy_receipt = Receipt::all()->last()->receipt_id;
+							}
+
+							else {
+								$result = GlCode::where('glcode_id', '8')->pluck('next_sn_number');
+								$same_xy_receipt = $result[0];
+							}
+
+						  $prefix = GlCode::where('glcode_id', '8')->pluck('receipt_prefix');
+							$prefix = $prefix[0];
 						  $same_xy_receipt += 1;
 						  $same_xy_receipt = $prefix . $same_xy_receipt;
 
@@ -123,7 +137,8 @@ class StaffController extends Controller
 						    "trans_date" => Carbon::now(),
 						    "description" => "Xiangyou",
 						    "amount" => $amount,
-						    "generaldonation_id" => $general_donation->generaldonation_id
+						    "generaldonation_id" => $general_donation->generaldonation_id,
+								"staff_id" => Auth::user()->id
 						  ];
 
 						  $same_receipt = Receipt::create($receipt)->receipt_id;
@@ -162,8 +177,18 @@ class StaffController extends Controller
 
 						if(isset($input["other_amount"][$i]))
 						{
-						  $different_xy_receipt = Receipt::all()->last()->receipt_id;
-						  $prefix = "XY";
+							if(count(Receipt::all()) > 0)
+							{
+								$different_xy_receipt = Receipt::all()->last()->receipt_id;
+							}
+
+							else {
+								$result = GlCode::where('glcode_id', '8')->pluck('next_sn_number');
+								$different_xy_receipt = $result[0];
+							}
+
+						  $prefix = GlCode::where('glcode_id', '8')->pluck('receipt_prefix');
+							$prefix = $prefix[0];
 						  $different_xy_receipt += 1;
 						  $different_xy_receipt = $prefix . $different_xy_receipt;
 
@@ -172,7 +197,8 @@ class StaffController extends Controller
 						    "trans_date" => Carbon::now(),
 						    "description" => "Xiangyou",
 						    "amount" => $input["other_amount"][$i],
-						    "generaldonation_id" => $general_donation->generaldonation_id
+						    "generaldonation_id" => $general_donation->generaldonation_id,
+								"staff_id" => Auth::user()->id
 						  ];
 
 						  $different_xy_receipt = Receipt::create($receipt)->receipt_id;
@@ -210,8 +236,18 @@ class StaffController extends Controller
 					{
 						if(isset($input["amount"][$i]))
 						{
-						  $individual_xy_receipt = Receipt::all()->last()->receipt_id;
-						  $prefix = "XY";
+							if(count(Receipt::all()) > 0)
+							{
+								$individual_xy_receipt = Receipt::all()->last()->receipt_id;
+							}
+
+							else {
+								$result = GlCode::where('glcode_id', '8')->pluck('next_sn_number');
+								$individual_xy_receipt = $result[0];
+							}
+
+						  $prefix = GlCode::where('glcode_id', '8')->pluck('receipt_prefix');
+							$prefix = $prefix[0];
 						  $individual_xy_receipt += 1;
 						  $individual_xy_receipt = $prefix . $individual_xy_receipt;
 
@@ -220,7 +256,8 @@ class StaffController extends Controller
 						    "trans_date" => Carbon::now(),
 						    "description" => "Xiangyou",
 						    "amount" => $input["amount"][$i],
-						    "generaldonation_id" => $general_donation->generaldonation_id
+						    "generaldonation_id" => $general_donation->generaldonation_id,
+								"staff_id" => Auth::user()->id
 						  ];
 
 						  $individual_receipt = Receipt::create($receipt)->receipt_id;
@@ -252,8 +289,18 @@ class StaffController extends Controller
 					{
 						if(isset($input["other_amount"][$i]))
 						{
-						  $individual_xy_receipt = Receipt::all()->last()->receipt_id;
-						  $prefix = "XY";
+							if(count(Receipt::all()) > 0)
+							{
+								$individual_xy_receipt = Receipt::all()->last()->receipt_id;
+							}
+
+							else {
+								$result = GlCode::where('glcode_id', '8')->pluck('next_sn_number');
+								$individual_xy_receipt = $result[0];
+							}
+
+						  $prefix = GlCode::where('glcode_id', '8')->pluck('receipt_prefix');
+							$prefix = $prefix[0];
 						  $individual_xy_receipt += 1;
 						  $individual_xy_receipt = $prefix . $individual_xy_receipt;
 
@@ -262,7 +309,8 @@ class StaffController extends Controller
 						    "trans_date" => Carbon::now(),
 						    "description" => "Xiangyou",
 						    "amount" => $input["other_amount"][$i],
-						    "generaldonation_id" => $general_donation->generaldonation_id
+						    "generaldonation_id" => $general_donation->generaldonation_id,
+								"staff_id" => Auth::user()->id
 						  ];
 
 						  $different_xy_receipt = Receipt::create($receipt)->receipt_id;
@@ -518,6 +566,8 @@ class StaffController extends Controller
 	{
 			$input = array_except($request->all(), '_token', 'display');
 
+			// dd($input);
+
 			FestiveEvent::truncate();
 
 			for($i = 0; $i < count($input["start_at"]); $i++)
@@ -530,6 +580,7 @@ class StaffController extends Controller
 				$new_end_at = str_replace('/', '-', $end_at);
 
 				$data = [
+					"job_id" => $input['job_id'][$i],
 					"event" => $input['event'][$i],
         	"start_at" => date("Y-m-d", strtotime($new_start_at)),
         	"end_at" => date("Y-m-d", strtotime($new_end_at)),
@@ -541,7 +592,6 @@ class StaffController extends Controller
 
 				FestiveEvent::create($data);
 			}
-
 
 			$events = FestiveEvent::orderBy('start_at', 'desc')->get();
 

@@ -272,7 +272,7 @@
                                       {!! csrf_field() !!}
 
                                       <div class="form-group">
-                                        <input type="hidden" name="glcode_id" value="" id="edit_glcode_id">
+                                        <input type="hidden" name="edit_glcode_id" value="" id="edit_glcode_id">
                                       </div><!-- end form-group -->
 
                                       <div class="form-group">
@@ -297,7 +297,8 @@
 
                                         <label class="col-md-3 control-label">Account Code *</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" name="edit_accountcode" value="{{ old('edit_accountcode') }}" id="edit_accountcode">
+                                            <input type="text" class="form-control" name="edit_accountcode" value="{{ old('edit_accountcode') }}"
+                                            id="edit_accountcode" readonly>
                                         </div><!-- end col-md-9 -->
 
                                       </div><!-- end form-group -->

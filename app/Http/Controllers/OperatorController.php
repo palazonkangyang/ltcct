@@ -13,6 +13,7 @@ use App\Models\SpecialRemarks;
 use App\Models\TranslationStreet;
 use App\Models\Receipt;
 use App\Models\RelativeFriendLists;
+use App\Models\Country;
 use Auth;
 use DB;
 use Hash;
@@ -44,17 +45,20 @@ class OperatorController extends Controller
         				->addSelect('familycode.familycode')
         				->get();
 
-        $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+    $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 						->whereNotNull('deceased_year')
 						->orderBy('devotee_id', 'asc')
         				->select('devotee.*')
         				->addSelect('familycode.familycode')
         				->get();
 
+		$countries = Country::all();
+
 		return view('operator.index', [
             'members' => $members,
             'devotees' => $devotees,
-            'deceased_lists' => $deceased_lists
+            'deceased_lists' => $deceased_lists,
+						'countries' => $countries
         ]);
 	}
 
@@ -128,6 +132,11 @@ class OperatorController extends Controller
 	public function getFocusDevoteeDetail(Request $request)
 	{
 	  $devotee_id = $_GET['devotee_id'];
+		// $devotee_id = 41;
+
+		Session::forget('optionaladdresses');
+		Session::forget('optionalvehicles');
+		Session::forget('optionalvehicles');
 
 	  $devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 							 ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
@@ -169,22 +178,22 @@ class OperatorController extends Controller
 	  }
 
 		// remove session data
-	  if(Session::has('optionaladdresses'))
-	  {
-	    Session::forget('optionaladdresses');
-	  }
-
-		// remove session data
-	  if(Session::has('optionalvehicles'))
-	  {
-	    Session::forget('optionalvehicles');
-	  }
-
-		// remove session data
-	  if(Session::has('specialRemarks'))
-	  {
-	    Session::forget('specialRemarks');
-	  }
+	  // if(Session::has('optionaladdresses'))
+	  // {
+	  //   Session::forget('optionaladdresses');
+	  // }
+		//
+		// // remove session data
+	  // if(Session::has('optionalvehicles'))
+	  // {
+	  //   Session::forget('optionalvehicles');
+	  // }
+		//
+		// // remove session data
+	  // if(Session::has('specialRemarks'))
+	  // {
+	  //   Session::forget('specialRemarks');
+	  // }
 
 	  Session::put('focus_devotee', $devotee);
 		Session::put('devotee_lists', $devotee_lists);
@@ -209,51 +218,53 @@ class OperatorController extends Controller
 		$approveNewDate = "";
 		$input = array_except($request->all(), '_token');
 
+		// dd($input);
+
     if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
       $hashedPassword = $user->password;
 
-      if (Hash::check($input['authorized_password'], $hashedPassword)) {
-
-		    // Modify fields
-		    if(isset($input['dob']))
+      if (Hash::check($input['authorized_password'], $hashedPassword))
+			{
+				// Modify fields
+				if(isset($input['dob']))
 				{
-					$dob_date = str_replace('/', '-', $input['dob']);
-					$dobNewDate = date("Y-m-d", strtotime($dob_date));
+				  $dob_date = str_replace('/', '-', $input['dob']);
+				  $dobNewDate = date("Y-m-d", strtotime($dob_date));
 				}
 
 				else {
-					$dobNewDate = $input['dob'];
+				  $dobNewDate = $input['dob'];
 				}
 
-				if(isset($input['approved_date']))
+				// Save Member
+				if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
 				{
-					$approvedDate_date = str_replace('/', '-', $input['approved_date']);
-					$approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
+				  if(isset($input['approved_date']))
+				  {
+				    $approvedDate_date = str_replace('/', '-', $input['approved_date']);
+				    $approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
+				  }
+
+				  else {
+				    $approveNewDate = $input['approved_date'];
+				  }
+
+				  $data = [
+				    "introduced_by1" => $input['introduced_by1'],
+				    "introduced_by2" => $input['introduced_by2'],
+				    "approved_date" => $approveNewDate
+				  ];
+
+				  $member = Member::create($data);
+				  $member_id = $member['member_id'];
 				}
 
-				else {
-					$approveNewDate = $input['approved_date'];
-				}
-
-		    // Save Member
-		    if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
-		    {
-			  	$data = [
-			    	"introduced_by1" => $input['introduced_by1'],
-			      "introduced_by2" => $input['introduced_by2'],
-						"approved_date" => $approveNewDate
-			    ];
-
-			    $member = Member::create($data);
-			    $member_id = $member['member_id'];
-		    }
-
-		   if($member_id != null && isset($input['familycode_id']))
-		   {
-		   		$data = [
-				  	"title" => $input['title'],
+				if($member_id != null && isset($input['familycode_id']))
+				{
+				  $data = [
+				    "title" => $input['title'],
 				    "chinese_name" => $input['chinese_name'],
 				    "english_name" => $input['english_name'],
 				    "contact" => $input['contact'],
@@ -271,198 +282,209 @@ class OperatorController extends Controller
 				    "dob" => $dobNewDate,
 				    "marital_status" => $input['marital_status'],
 				    "dialect" => $input['dialect'],
+						"other_dialect" => $input['other_dialect'],
+						"race" => $input['race'],
+						"other_race" => $input['other_race'],
 				    "nationality" => $input['nationality'],
 				    "familycode_id" => $input['familycode_id'],
 				    "member_id" => $member_id
 				  ];
 
 				  $devotee = Devotee::create($data);
-			    $devotee_id = $devotee->devotee_id;
-		   }
+				  $devotee_id = $devotee->devotee_id;
+				}
 
-		   elseif($member_id != null)
-		   {
-		   		// Create Family Code
-		      $familycode_id = FamilyCode::all()->last()->familycode_id;
-					$new_familycode_id = $familycode_id + 1;
-					$new_familycode = "F" . $new_familycode_id;
+				elseif($member_id != null)
+				{
+				  // Create Family Code
+				  $familycode_id = FamilyCode::all()->last()->familycode_id;
+				  $new_familycode_id = $familycode_id + 1;
+				  $new_familycode = "F" . $new_familycode_id;
 
-					$familycode_data = [
-						"familycode" => $new_familycode
-					];
+				  $familycode_data = [
+				    "familycode" => $new_familycode
+				  ];
 
-					$familycode = FamilyCode::create($familycode_data);
+				  $familycode = FamilyCode::create($familycode_data);
 
-		        	$data = [
-				        "title" => $input['title'],
-				        "chinese_name" => $input['chinese_name'],
-				        "english_name" => $input['english_name'],
-				        "contact" => $input['contact'],
-				        "guiyi_name" => $input['guiyi_name'],
-				        "address_houseno" => $input['address_houseno'],
-				        "address_unit1" => $input['address_unit1'],
-				        "address_unit2" => $input['address_unit2'],
-				        "address_street" => $input['address_street'],
-				        "address_building" => $input['address_building'],
-				        "address_postal" => $input['address_postal'],
-				        "address_translated" => $input['address_translated'],
-				        "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
-				        "nric" => $input['nric'],
-				        "deceased_year" => $input['deceased_year'],
-				        "dob" => $dobNewDate,
-				        "marital_status" => $input['marital_status'],
-				        "dialect" => $input['dialect'],
-				        "nationality" => $input['nationality'],
-				        "familycode_id" => $familycode->familycode_id,
-				        "member_id" => $member_id
-				    ];
+				 $data = [
+				   "title" => $input['title'],
+				   "chinese_name" => $input['chinese_name'],
+				   "english_name" => $input['english_name'],
+				   "contact" => $input['contact'],
+				   "guiyi_name" => $input['guiyi_name'],
+				   "address_houseno" => $input['address_houseno'],
+				   "address_unit1" => $input['address_unit1'],
+				   "address_unit2" => $input['address_unit2'],
+				   "address_street" => $input['address_street'],
+				   "address_building" => $input['address_building'],
+				   "address_postal" => $input['address_postal'],
+				   "address_translated" => $input['address_translated'],
+				   "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
+				   "nric" => $input['nric'],
+				   "deceased_year" => $input['deceased_year'],
+				   "dob" => $dobNewDate,
+				   "marital_status" => $input['marital_status'],
+					 "dialect" => $input['dialect'],
+					 "other_dialect" => $input['other_dialect'],
+					 "race" => $input['race'],
+					 "other_race" => $input['other_race'],
+				   "nationality" => $input['nationality'],
+				   "familycode_id" => $familycode->familycode_id,
+				   "member_id" => $member_id
+				 ];
 
-				    $devotee = Devotee::create($data);
-			    	$devotee_id = $devotee->devotee_id;
-		        }
+				 $devotee = Devotee::create($data);
+				 $devotee_id = $devotee->devotee_id;
+				}
 
-		        elseif(isset($input['familycode_id']))
-		        {
+				elseif(isset($input['familycode_id']))
+		    {
 
-		        	$data = [
-				        "title" => $input['title'],
-				        "chinese_name" => $input['chinese_name'],
-				        "english_name" => $input['english_name'],
-				        "contact" => $input['contact'],
-				        "guiyi_name" => $input['guiyi_name'],
-				        "address_houseno" => $input['address_houseno'],
-				        "address_unit1" => $input['address_unit1'],
-				        "address_unit2" => $input['address_unit2'],
-				        "address_street" => $input['address_street'],
-				        "address_building" => $input['address_building'],
-				        "address_postal" => $input['address_postal'],
-				        "address_translated" => $input['address_translated'],
-				        "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
-				        "nric" => $input['nric'],
-				        "deceased_year" => $input['deceased_year'],
-				        "dob" => $dobNewDate,
-				        "marital_status" => $input['marital_status'],
-				        "dialect" => $input['dialect'],
-				        "nationality" => $input['nationality'],
-				        "familycode_id" => $input['familycode_id']
-				    ];
+		      $data = [
+		        "title" => $input['title'],
+		        "chinese_name" => $input['chinese_name'],
+		        "english_name" => $input['english_name'],
+		        "contact" => $input['contact'],
+		        "guiyi_name" => $input['guiyi_name'],
+		        "address_houseno" => $input['address_houseno'],
+		        "address_unit1" => $input['address_unit1'],
+		        "address_unit2" => $input['address_unit2'],
+		        "address_street" => $input['address_street'],
+		        "address_building" => $input['address_building'],
+		        "address_postal" => $input['address_postal'],
+		        "address_translated" => $input['address_translated'],
+		        "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
+		        "nric" => $input['nric'],
+		        "deceased_year" => $input['deceased_year'],
+		        "dob" => $dobNewDate,
+		        "marital_status" => $input['marital_status'],
+						"dialect" => $input['dialect'],
+						"other_dialect" => $input['other_dialect'],
+						"race" => $input['race'],
+						"other_race" => $input['other_race'],
+		        "nationality" => $input['nationality'],
+		        "familycode_id" => $input['familycode_id']
+		    ];
 
-				    $devotee = Devotee::create($data);
-			    	$devotee_id = $devotee->devotee_id;
-		      }
-
-		      else
-		      {
-		        // Create Family Code
-		      	$familycode_id = FamilyCode::all()->last()->familycode_id;
-						$new_familycode_id = $familycode_id + 1;
-						$new_familycode = "F" . $new_familycode_id;
-
-					$familycode_data = [
-						"familycode" => $new_familycode
-					];
-
-					$familycode = FamilyCode::create($familycode_data);
-
-		        	$data = [
-				        "title" => $input['title'],
-				        "chinese_name" => $input['chinese_name'],
-				        "english_name" => $input['english_name'],
-				        "contact" => $input['contact'],
-				        "guiyi_name" => $input['guiyi_name'],
-				        "address_houseno" => $input['address_houseno'],
-				        "address_unit1" => $input['address_unit1'],
-				        "address_unit2" => $input['address_unit2'],
-				        "address_street" => $input['address_street'],
-				        "address_building" => $input['address_building'],
-				        "address_postal" => $input['address_postal'],
-				        "address_translated" => $input['address_translated'],
-				        "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
-				        "nric" => $input['nric'],
-				        "deceased_year" => $input['deceased_year'],
-				        "dob" => $dobNewDate,
-				        "marital_status" => $input['marital_status'],
-				        "dialect" => $input['dialect'],
-				        "nationality" => $input['nationality'],
-				        "familycode_id" => $familycode->familycode_id
-				    ];
-
-				    $devotee = Devotee::create($data);
-			    	$devotee_id = $devotee->devotee_id;
-		        }
-
-
-		        if($devotee_id != null)
-		        {
-		        	if(isset($input['address_data'][0]))
-		        	{
-		        		// Save Optional Address
-						for($i = 0; $i < count($input['address_type']); $i++)
-						{
-							$optional_address = [
-								"type" => $input['address_type'][$i],
-								"data" => $input['address_data'][$i],
-								"devotee_id" => $devotee_id
-							];
-
-							OptionalAddress::create($optional_address);
-						}
-		        	}
-
-		        	if(isset($input['vehicle_data'][0]))
-		        	{
-		        		// Save Optional Vehicle
-						for($i = 0; $i < count($input['vehicle_type']); $i++)
-						{
-							$optional_vehicle = [
-								"type" => $input['vehicle_type'][$i],
-								"data" => $input['vehicle_data'][$i],
-								"devotee_id" => $devotee_id
-							];
-
-							OptionalVehicle::create($optional_vehicle);
-						}
-		        	}
-
-		        	if(isset($input['special_remark'][0]))
-		        	{
-		        		// Save Special Remarks
-						for($i = 0; $i < count($input['special_remark']); $i++)
-						{
-							$specialRemark = [
-								"data" => $input['special_remark'][$i],
-								"devotee_id" => $devotee_id
-							];
-
-							SpecialRemarks::create($specialRemark);
-						}
-		        	}
-		        }
-
-		        if($member_id != null)
-		        {
-		        	$request->session()->flash('success', 'Member account has been created!');
-        			return redirect()->back();
-		        }
-
-		        else
-		        {
-					$request->session()->flash('success', 'Devotee account has been created!');
-        			return redirect()->back();
-		        }
-			}
+		    $devotee = Devotee::create($data);
+		    $devotee_id = $devotee->devotee_id;
+		  }
 
 			else
-			{
-				$request->session()->flash('error', "Password did not match. Please Try Again");
-            	return redirect()->back()->withInput();;
-			}
+		  {
+		    // Create Family Code
+		    $familycode_id = FamilyCode::all()->last()->familycode_id;
+		    $new_familycode_id = $familycode_id + 1;
+		    $new_familycode = "F" . $new_familycode_id;
+
+			  $familycode_data = [
+			    "familycode" => $new_familycode
+			  ];
+
+		  	$familycode = FamilyCode::create($familycode_data);
+
+		    $data = [
+		      "title" => $input['title'],
+		      "chinese_name" => $input['chinese_name'],
+		      "english_name" => $input['english_name'],
+		      "contact" => $input['contact'],
+		      "guiyi_name" => $input['guiyi_name'],
+		      "address_houseno" => $input['address_houseno'],
+		      "address_unit1" => $input['address_unit1'],
+		      "address_unit2" => $input['address_unit2'],
+		      "address_street" => $input['address_street'],
+		      "address_building" => $input['address_building'],
+		      "address_postal" => $input['address_postal'],
+		      "address_translated" => $input['address_translated'],
+		      "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
+		      "nric" => $input['nric'],
+		      "deceased_year" => $input['deceased_year'],
+		      "dob" => $dobNewDate,
+		      "marital_status" => $input['marital_status'],
+					"dialect" => $input['dialect'],
+					"other_dialect" => $input['other_dialect'],
+					"race" => $input['race'],
+					"other_race" => $input['other_race'],
+		      "nationality" => $input['nationality'],
+		      "familycode_id" => $familycode->familycode_id
+		    ];
+
+		    $devotee = Devotee::create($data);
+		    $devotee_id = $devotee->devotee_id;
+		    }
+
+				if($devotee_id != null)
+		    {
+		      if(isset($input['address_data'][0]))
+		      {
+		        // Save Optional Address
+				    for($i = 0; $i < count($input['address_type']); $i++)
+				    {
+				      $optional_address = [
+				        "type" => $input['address_type'][$i],
+				        "data" => $input['address_data'][$i],
+				        "devotee_id" => $devotee_id
+				      ];
+
+				      OptionalAddress::create($optional_address);
+				    }
+		      }
+
+		      if(isset($input['vehicle_data'][0]))
+		      {
+		        // Save Optional Vehicle
+				    for($i = 0; $i < count($input['vehicle_type']); $i++)
+				    {
+				      $optional_vehicle = [
+				        "type" => $input['vehicle_type'][$i],
+				        "data" => $input['vehicle_data'][$i],
+				        "devotee_id" => $devotee_id
+				      ];
+
+				      OptionalVehicle::create($optional_vehicle);
+				    }
+		      }
+
+		      if(isset($input['special_remark'][0]))
+		      {
+		        // Save Special Remarks
+		        for($i = 0; $i < count($input['special_remark']); $i++)
+		        {
+		          $specialRemark = [
+		            "data" => $input['special_remark'][$i],
+		            "devotee_id" => $devotee_id
+		          ];
+
+		          SpecialRemarks::create($specialRemark);
+		        }
+		      }
+		    }
+
+				if($member_id != null)
+		    {
+		      $request->session()->flash('success', 'Member account has been created!');
+		      return redirect()->back();
+		    }
+
+		    else
+		    {
+		      $request->session()->flash('success', 'Devotee account has been created!');
+		      return redirect()->back();
+		    }
 		}
 
 		else
 		{
+				$request->session()->flash('error', "Password did not match. Please Try Again");
+            	return redirect()->back()->withInput();
+		}
+	}
+
+		else
+		{
 			$request->session()->flash('error', "Please enter password. Please Try Again");
-            return redirect()->back()->withInput();;
+            return redirect()->back()->withInput();
 		}
 	}
 
@@ -475,6 +497,8 @@ class OperatorController extends Controller
 
 		$input = array_except($request->all(), '_token');
 
+		// dd($input);
+
 		if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
@@ -483,132 +507,163 @@ class OperatorController extends Controller
 			if (Hash::check($input['authorized_password'], $hashedPassword))
 			{
 				// Modify fields
-		    if(isset($input['dob']))
-				{
-					$dob_date = str_replace('/', '-', $input['dob']);
-					$dobNewDate = date("Y-m-d", strtotime($dob_date));
-				}
+			  if(isset($input['dob']))
+			  {
+			    $dob_date = str_replace('/', '-', $input['dob']);
+			    $dobNewDate = date("Y-m-d", strtotime($dob_date));
+			  }
 
-				else {
-					$dobNewDate = $input['dob'];
-				}
+			  else {
+			    $dobNewDate = $input['dob'];
+			  }
 
-		    if(isset($input['approved_date']))
-		    {
-		      $approvedDate_date = str_replace('/', '-', $input['approved_date']);
-		      $approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
-		    }
-
-		    if(isset($input['cancelled_date']))
-		    {
-		      $cancelledDate_date = str_replace('/', '-', $input['cancelled_date']);
-		      $cancelledNewDate = date("Y-m-d", strtotime($cancelledDate_date));
-		    }
-
-				if(isset($input['edit_familycode_id']))
-		    {
-		      $familycode_id = $input['edit_familycode_id'];
-		    }
+				if(isset($input['approved_date']))
+			  {
+			    $approvedDate_date = str_replace('/', '-', $input['approved_date']);
+			    $approveNewDate = date("Y-m-d", strtotime($approvedDate_date));
+			  }
 
 				else
-		    {
-		      $familycode_id = $input['familycode_id'];
-		    }
+				{
+					$approveNewDate = "";
+				}
 
-				if(isset($input['member_id']))
-		    {
+				if(isset($input['cancelled_date']))
+			  {
+			    $cancelledDate_date = str_replace('/', '-', $input['cancelled_date']);
+			    $cancelledNewDate = date("Y-m-d", strtotime($cancelledDate_date));
+			  }
+
+				else
+				{
+					$cancelledNewDate = "";
+				}
+
+				if(isset($input['edit_familycode_id']))
+			  {
+			    $familycode_id = $input['edit_familycode_id'];
+			  }
+
+			  else
+			  {
+			    $familycode_id = $input['familycode_id'];
+			  }
+
+				if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
+				{
+					$data = [
+					  "introduced_by1" => $input['introduced_by1'],
+					  "introduced_by2" => $input['introduced_by2'],
+					  "approved_date" => $approveNewDate,
+						"cancelled_date" => $cancelledNewDate,
+				    "reason_for_cancel" => $input['reason_for_cancel']
+					];
+
+					$member = Member::create($data);
+					$member_id = $member['member_id'];
+				}
+
+				elseif (isset($input['cancelled_date'])) {
+
 					$member = Member::find($input['member_id']);
 
-					$member->introduced_by1 = $input['introduced_by1'];
-		      $member->introduced_by2 = $input['introduced_by2'];
-		      $member->approved_date = $approveNewDate;
-		      $member->cancelled_date = $cancelledNewDate;
-		      $member->reason_for_cancel = $input['reason_for_cancel'];
+			    $member->cancelled_date = $cancelledNewDate;
+			    $member->reason_for_cancel = $input['reason_for_cancel'];
 
-					$member->save();
+			    $member->save();
+
+					$member_id = $input['member_id'];
+				}
+
+				else
+				{
+					$member_id = $input['member_id'];
 				}
 
 				$devotee = Devotee::find($input['devotee_id']);
 
-				$devotee->title = $input['title'];
-				$devotee->chinese_name = $input['chinese_name'];
-				$devotee->english_name = $input['english_name'];
-				$devotee->contact = $input['contact'];
-				$devotee->guiyi_name = $input['guiyi_name'];
-				$devotee->address_houseno = $input['address_houseno'];
-				$devotee->address_unit1 = $input['address_unit1'];
-				$devotee->address_unit2 = $input['address_unit2'];
-				$devotee->address_street = $input['address_street'];
-				$devotee->address_building = $input['address_building'];
-				$devotee->address_postal = $input['address_postal'];
-				$devotee->address_translated = $input['address_translated'];
-				$devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
-				$devotee->nric = $input['nric'];
-				$devotee->deceased_year = $input['deceased_year'];
-				$devotee->dob = $dobNewDate;
-				$devotee->marital_status = $input['marital_status'];
-				$devotee->dialect = $input['dialect'];
-				$devotee->nationality = $input['nationality'];
-				$devotee->familycode_id = $familycode_id;
-				$devotee->member_id = $input['member_id'];
+			  $devotee->title = $input['title'];
+			  $devotee->chinese_name = $input['chinese_name'];
+			  $devotee->english_name = $input['english_name'];
+			  $devotee->contact = $input['contact'];
+			  $devotee->guiyi_name = $input['guiyi_name'];
+			  $devotee->address_houseno = $input['address_houseno'];
+			  $devotee->address_unit1 = $input['address_unit1'];
+			  $devotee->address_unit2 = $input['address_unit2'];
+			  $devotee->address_street = $input['address_street'];
+			  $devotee->address_building = $input['address_building'];
+			  $devotee->address_postal = $input['address_postal'];
+			  $devotee->address_translated = $input['address_translated'];
+			  $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
+			  $devotee->nric = $input['nric'];
+			  $devotee->deceased_year = $input['deceased_year'];
+			  $devotee->dob = $dobNewDate;
+			  $devotee->marital_status = $input['marital_status'];
+			  $devotee->dialect = $input['dialect'];
+				$devotee->other_dialect = $input['other_dialect'];
+				$devotee->race = $input['race'];
+				$devotee->other_race = $input['other_race'];
+			  $devotee->nationality = $input['nationality'];
+			  $devotee->familycode_id = $familycode_id;
+			  $devotee->member_id = $member_id;
 
 				$devotee->save();
 
 				// Update Optional Address
-				if(isset($input['address_data'][0]))
-		    {
-		      //delete first before saving
-		      OptionalAddress::where('devotee_id', $input['devotee_id'])->delete();
+			  if(isset($input['address_data'][0]))
+			  {
+			    //delete first before saving
+			    OptionalAddress::where('devotee_id', $input['devotee_id'])->delete();
 
-		      for($i = 0; $i < count($input['address_type']); $i++)
-		      {
-		        $optional_address = new OptionalAddress;
-		        $optional_address->type = $input['address_type'][$i];
-		        $optional_address->data = $input['address_data'][$i];
-		        $optional_address->devotee_id = $input['devotee_id'];
+			    for($i = 0; $i < count($input['address_type']); $i++)
+			    {
+			      $optional_address = new OptionalAddress;
+			      $optional_address->type = $input['address_type'][$i];
+			      $optional_address->data = $input['address_data'][$i];
+			      $optional_address->devotee_id = $input['devotee_id'];
 
-		        $optional_address->save();
-		      }
-		    }
+			      $optional_address->save();
+			    }
+			  }
 
 				// Update Optional Vehicle
-				if(isset($input['vehicle_data'][0]))
-		    {
-		      //delete first before saving
-		      OptionalVehicle::where('devotee_id', $input['devotee_id'])->delete();
+			  if(isset($input['vehicle_data'][0]))
+			  {
+			    //delete first before saving
+			    OptionalVehicle::where('devotee_id', $input['devotee_id'])->delete();
 
-		      for($i = 0; $i < count($input['vehicle_type']); $i++)
-		      {
-		        $optional_vehicle = new OptionalVehicle;
-		        $optional_vehicle->type = $input['vehicle_type'][$i];
-		        $optional_vehicle->data = $input['vehicle_data'][$i];
-		        $optional_vehicle->devotee_id = $input['devotee_id'];
+			    for($i = 0; $i < count($input['vehicle_type']); $i++)
+			    {
+			      $optional_vehicle = new OptionalVehicle;
+			      $optional_vehicle->type = $input['vehicle_type'][$i];
+			      $optional_vehicle->data = $input['vehicle_data'][$i];
+			      $optional_vehicle->devotee_id = $input['devotee_id'];
 
-		        $optional_vehicle->save();
-		      }
-		    }
+			      $optional_vehicle->save();
+			    }
+			  }
 
 				// Update Special Remarks
-				if(isset($input['special_remark'][0]))
-		    {
-		      //delete first before saving
-		      SpecialRemarks::where('devotee_id', $input['devotee_id'])->delete();
+			  if(isset($input['special_remark'][0]))
+			  {
+			    //delete first before saving
+			    SpecialRemarks::where('devotee_id', $input['devotee_id'])->delete();
 
-		      for($i = 0; $i < count($input['special_remark']); $i++)
-		      {
-		        $special_remark = new SpecialRemarks;
-		        $special_remark->data = $input['special_remark'][$i];
-		        $special_remark->devotee_id = $input['devotee_id'];
+			    for($i = 0; $i < count($input['special_remark']); $i++)
+			    {
+			      $special_remark = new SpecialRemarks;
+			      $special_remark->data = $input['special_remark'][$i];
+			      $special_remark->devotee_id = $input['devotee_id'];
 
-		        $special_remark->save();
-		      }
-		    }
+			      $special_remark->save();
+			    }
+			  }
 
 				$devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-				           ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
-				           ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date')
-				           ->where('devotee.devotee_id', $input['devotee_id'])
-				           ->get();
+			             ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
+			             ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date')
+			             ->where('devotee.devotee_id', $input['devotee_id'])
+			             ->get();
 
 			  // remove session data
 				if(Session::has('focus_devotee'))
@@ -618,15 +673,16 @@ class OperatorController extends Controller
 
 				Session::put('focus_devotee', $devotee);
 
-		    $request->session()->flash('success', 'Profile is successfully updated.');
-		    return redirect()->back();
+				$request->session()->flash('success', 'Profile is successfully updated.');
+				return redirect()->back();
+
 			}
 
 			else
-		  {
-		    $request->session()->flash('error', "Password did not match. Please Try Again");
-		    return redirect()->back()->withInput();
-		  }
+			{
+				$request->session()->flash('error', "Password did not match. Please Try Again");
+			  return redirect()->back()->withInput();
+			}
 		}
 	}
 

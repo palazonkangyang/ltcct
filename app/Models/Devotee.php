@@ -29,6 +29,9 @@ class Devotee extends Model
         'dob',
         'marital_status',
         'dialect',
+        'other_dialect',
+        'race',
+        'other_race',
         'nationality',
         'familycode_id',
         'member_id'
@@ -58,6 +61,9 @@ class Devotee extends Model
             'devotee.dob',
             'devotee.marital_status',
             'devotee.dialect',
+            'devotee.other_dialect',
+            'devotee.race',
+            'devotee.other_race',
             'devotee.nationality',
             'devotee.familycode_id',
             'devotee.member_id',
@@ -136,6 +142,7 @@ class Devotee extends Model
         $devotee->where('address_street', '=', $input['address_street']);
         $devotee->where('address_building', '=', $input['address_building']);
         $devotee->where('address_postal', '=', $input['address_postal']);
+        $devotee->orderBy('familycode_id', 'asc');
 
         return $devotee;
     }

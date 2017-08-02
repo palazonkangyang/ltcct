@@ -50,12 +50,13 @@ $(function() {
                         {
                           $('#edit-familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='edit_familycode_id' " +
                               "value='" + data.familycode_id + "' /></td>" +
-                              "<td>" + data.chinese_name + "</td>" +
-                              "<td>" + data.familycode + "</td></tr>");
+                              "<td>" + data.familycode + "</td>" +
+                              "<td><a href='#' class='toggler' data-prod-cat='" + data.familycode_id  + "'>+ " + data.chinese_name + "</a></td></tr>");
                         }
 
                         else {
-                          $('#edit-familycode-table tbody').append("<tr><td></td><td>" + data.chinese_name + "</td><td></td></tr>");
+                          $('#edit-familycode-table tbody').append("<tr class='cat" + data.familycode_id + "' style='display:none'><td></td><td></td>" +
+                          "<td>" + data.chinese_name + "</td></tr>");
                         }
 
                         familycode_id = data.familycode_id;
@@ -75,4 +76,10 @@ $(function() {
        	});
 
     });
+
+    $("#edit-familycode-table").on('click','.toggler',function(e) {
+        e.preventDefault();
+        $('.cat'+$(this).attr('data-prod-cat')).toggle();
+    });
+
 });

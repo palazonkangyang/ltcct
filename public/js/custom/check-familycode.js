@@ -39,11 +39,24 @@ $(function() {
                 {
                     $("#no_familycode").remove();
 
-                    $.each(response.familycode, function(index, data) {
-                        $('#familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='familycode_id' " +
-                            "value='" + data.familycode_id + "' /></td>" +
-                            "<td>" + data.chinese_name + "</td>" +
-                            "<td>" + data.familycode + "</td></tr>");
+										var familycode_id = "";
+
+										$.each(response.familycode, function(index, data) {
+
+                        if(familycode_id != data.familycode_id)
+                        {
+                          $('#familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='familycode_id' " +
+                              "value='" + data.familycode_id + "' /></td>" +
+                              "<td>" + data.familycode + "</td>" +
+                              "<td><a href='#' class='toggler' data-prod-cat='" + data.familycode_id  + "'>+ " + data.chinese_name + "</a></td></tr>");
+                        }
+
+                        else {
+                          $('#familycode-table tbody').append("<tr class='cat" + data.familycode_id + "' style='display:none'><td></td><td></td>" +
+                          "<td>" + data.chinese_name + "</td></tr>");
+                        }
+
+                        familycode_id = data.familycode_id;
                     });
                 }
 
@@ -61,4 +74,10 @@ $(function() {
        	});
 
     });
+
+		$("#familycode-table").on('click','.toggler',function(e) {
+        e.preventDefault();
+        $('.cat'+$(this).attr('data-prod-cat')).toggle();
+    });
+
 });

@@ -88,6 +88,29 @@ Route::group(['middleware' => 'auth'], function () {
 
   });
 
+	Route::group(['prefix' => 'expenditure'], function () {
+		Route::get('/manage-expenditure', ['as' => 'manage-expenditure-page', 'uses' => 'ExpenditureController@getManageExpenditure']);
+		Route::get('/expenditure-detail', ['as' => 'expenditure-detail-page', 'uses' => 'ExpenditureController@getExpenditureDetail']);
+
+		Route::post('/new-expenditure', ['as' => 'new-expenditure-page', 'uses' => 'ExpenditureController@postAddNewExpenditure']);
+		Route::post('/update-expenditure', ['as' => 'update-expenditure-page', 'uses' => 'ExpenditureController@postUpdateExpenditure']);
+	});
+
+	Route::group(['prefix' => 'journalentry'], function () {
+		Route::get('/manage-journalentry', ['as' => 'manage-journalentry-page', 'uses' => 'JournalEntryController@getManageJournalEntry']);
+		Route::get('/journalentry-detail', ['as' => 'journalentry-detail-page', 'uses' => 'JournalEntryController@getJournalEntryDetail']);
+
+		Route::post('/new-journalentry', ['as' => 'new-journalentry-page', 'uses' => 'JournalEntryController@postAddNewJournalentry']);
+		Route::post('/update-journalentry', ['as' => 'update-journalentry-page', 'uses' => 'JournalEntryController@postUpdateJournalentry']);
+	});
+
+	Route::group(['prefix' => 'paid'], function () {
+		Route::get('/manage-paid', ['as' => 'manage-paid-page', 'uses' => 'PaidController@getManagePaid']);
+
+		Route::post('/new-paid', ['as' => 'new-paid-page', 'uses' => 'PaidController@postAddNewPaid']);
+	});
+
+
 	Route::group(['prefix' => 'job'], function () {
     Route::get('/manage-job', ['as' => 'new-job-page', 'uses' => 'JobController@getJob']);
 		Route::get('/get-joblists', ['as' => 'get-joblists-page', 'uses' => 'JobController@getJobLists']);

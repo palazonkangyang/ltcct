@@ -121,10 +121,10 @@
                                                                         <a href="#">Income</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">Expenditure</a>
+                                                                        <a href="/expenditure/manage-expenditure">Expenditure</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">Receive</a>
+                                                                        <a href="/paid/manage-paid">Paid</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -159,7 +159,7 @@
                                                                         <h3>Finance</h3>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">General Entry</a>
+                                                                        <a href="/journalentry/manage-journalentry">Journal Entry</a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#">Income Statement Report</a>

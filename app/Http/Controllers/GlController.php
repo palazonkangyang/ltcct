@@ -185,6 +185,8 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
+    // dd($input);
+
     if(isset($input['authorized_password']))
     {
       $user = User::find(Auth::user()->id);
@@ -192,14 +194,14 @@ class GlController extends Controller
 
       if (Hash::check($input['authorized_password'], $hashedPassword)) {
 
-        $glcode = GlCode::find($input['glcode_id']);
+        $glcode = GlCode::find($input['edit_glcode_id']);
 
-        $glcode->accountcode = $input['accountcode'];
-        $glcode->type_name = $input['type_name'];
-        $glcode->chinese_name = $input['chinese_name'];
-        $glcode->price = $input['price'];
-        $glcode->next_sn_number = $input['next_sn_number'];
-        $glcode->receipt_prefix = $input['receipt_prefix'];
+        $glcode->accountcode = $input['edit_accountcode'];
+        $glcode->type_name = $input['edit_type_name'];
+        $glcode->chinese_name = $input['edit_chinese_name'];
+        $glcode->price = $input['edit_price'];
+        $glcode->next_sn_number = $input['edit_next_sn_number'];
+        $glcode->receipt_prefix = $input['edit_receipt_prefix'];
         $result = $glcode->save();
       }
 

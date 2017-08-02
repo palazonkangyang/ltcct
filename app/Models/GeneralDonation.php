@@ -20,6 +20,7 @@ class GeneralDonation extends Model
         'trans_at',
         'focusdevotee_id',
         'festiveevent_id',
+        'glcode_id',
         'donationtype_id'
     ];
 }
