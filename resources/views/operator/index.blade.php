@@ -1781,49 +1781,49 @@
 							if ($.trim(chinese_name).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Chinese name field is empty."
+									errors[count++] = "Mandatory Chinese name field is empty."
 							}
 
 							if ($.trim(english_name).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "English name field is empty."
+									errors[count++] = "Mandatory English name field is empty."
 							}
 
 							if ($.trim(guiyi_name).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Guiyi Name field is empty."
+									errors[count++] = "Mandatory Guiyi Name field is empty."
 							}
 
 							if ($.trim(contact).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Contact field is empty."
+									errors[count++] = "Mandatory Contact field is empty."
 							}
 
 							if ($.trim(address_houseno).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Address Houseno field is empty."
+									errors[count++] = "Mandatory Address Houseno field is empty."
 							}
 
 							if ($.trim(address_street).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Address Street field is empty."
+									errors[count++] = "Mandatory Address Street field is empty."
 							}
 
 							if ($.trim(address_postal).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Address Postal field is empty."
+									errors[count++] = "Mandatory Address Postal field is empty."
 							}
 
 							if ($.trim(marital_status).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Marital Status field is empty."
+									errors[count++] = "Mandatory Marital Status field is empty."
 							}
 
 							// if ($.trim(dialect).length <= 0)
@@ -1835,7 +1835,7 @@
 							if ($.trim(nationality).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Nationality field is empty."
+									errors[count++] = "Mandatory Nationality field is empty."
 							}
 
 							if($.trim(content_approved_date).length > 0)
@@ -1843,50 +1843,50 @@
 							  if ($.trim(content_nric).length <= 0)
 							  {
 							      validationFailed = true;
-							      errors[count++] = "NRIC field is empty."
+							      errors[count++] = "Mandatory NRIC field is empty."
 							  }
 
 							  if ($.trim(content_dob).length <= 0)
 							  {
 							      validationFailed = true;
-							      errors[count++] = "Date of Birth field is empty."
+							      errors[count++] = "Mandatory Date of Birth field is empty."
 							  }
 
 							  if ($.trim(content_marital_status).length <= 0)
 							  {
 							      validationFailed = true;
-							      errors[count++] = "Marital Status field is empty."
+							      errors[count++] = "Mandatory Marital Status field is empty."
 							  }
 
 							  if ($.trim(content_dialect).length <= 0)
 							  {
 							      validationFailed = true;
-							      errors[count++] = "Dialect field is empty."
+							      errors[count++] = "Mandatory Dialect field is empty."
 							  }
 
 							  if ($.trim(content_nationality).length <= 0)
 							  {
 							      validationFailed = true;
-							      errors[count++] = "Nationality field is empty."
+							      errors[count++] = "Mandatory Nationality field is empty."
 							  }
 
 							  if ($.trim(content_introduced_by1).length <= 0)
 							  {
 							      validationFailed = true;
-							      errors[count++] = "Introduced By 1 field is empty."
+							      errors[count++] = "Mandatory Introduced By 1 field is empty."
 							  }
 
 							  if ($.trim(content_introduced_by2).length <= 0)
 							  {
 							      validationFailed = true;
-							      errors[count++] = "Introduced By 2 field is empty."
+							      errors[count++] = "Mandatory Introduced By 2 field is empty."
 							  }
 							}
 
 							if ($.trim(authorized_password).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Authorized Password field is empty."
+									errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
 							}
 
 							if (validationFailed)
@@ -1932,37 +1932,37 @@
                 if ($.trim(chinese_name).length <= 0)
                 {
                     validationFailed = true;
-                    errors[count++] = "Chinese name is empty."
+                    errors[count++] = "Mandatory Chinese name is empty."
                 }
 
                 if ($.trim(contact).length <= 0)
                 {
                     validationFailed = true;
-                    errors[count++] = "Contact field is empty."
+                    errors[count++] = "Mandatory Contact field is empty."
                 }
 
 								if ($.trim(address_houseno).length <= 0)
                 {
                     validationFailed = true;
-                    errors[count++] = "Address House No field is empty."
+                    errors[count++] = "Mandatory Address House No field is empty."
                 }
 
 								if ($.trim(address_street).length <= 0)
                 {
                     validationFailed = true;
-                    errors[count++] = "Address Street field is empty."
+                    errors[count++] = "Mandatory Address Street field is empty."
                 }
 
                 if ($.trim(address_postal).length <= 0)
                 {
                     validationFailed = true;
-                    errors[count++] = "Address Postal field is empty."
+                    errors[count++] = "Mandatory Address Postal field is empty."
                 }
 
                 if ($.trim(authorized_password).length <= 0)
                 {
                     validationFailed = true;
-                    errors[count++] = "Authorized Password field is empty."
+                    errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
                 }
 
                 if (validationFailed)
@@ -2006,37 +2006,37 @@
 							if(count_checked == 0)
 			        {
 									validationFailed = true;
-			            errors[count++] = "Devotee ID field is empty."
+			            errors[count++] = "Mandatory Devotee ID field is empty."
 			        }
 
 							if ($.trim(address_houseno).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Address House No field is empty."
+									errors[count++] = "Mandatory Address House No field is empty."
 							}
 
 							if ($.trim(address_street).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Address Street field is empty."
+									errors[count++] = "Mandatory Address Street field is empty."
 							}
 
 							if ($.trim(address_postal).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Address Postal field is empty."
+									errors[count++] = "Mandatory Address Postal field is empty."
 							}
 
 							if ($.trim(nationality).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Country field is empty."
+									errors[count++] = "Mandatory Country field is empty."
 							}
 
 							if ($.trim(authorized_password).length <= 0)
 							{
 									validationFailed = true;
-									errors[count++] = "Authorized Password field is empty."
+									errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
 							}
 
 							if (validationFailed)

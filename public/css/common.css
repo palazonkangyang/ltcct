@@ -13,3 +13,7 @@
 .info-detail p{
   margin: 0 0 10px !important;
 }
+
+#festive-event-table input[type=checkbox] {
+    zoom: 1.5!important;
+}

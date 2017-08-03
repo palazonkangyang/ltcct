@@ -113,7 +113,8 @@
 
                                             @foreach($glaccount as $gl)
                                             <tr>
-                                              <td>{{ $gl->accountcode }}</td>
+                                              <td><a href="#tab_editglaccount" data-toggle="tab"
+                                                  class="edit-item" id="{{ $gl->glcode_id }}">{{ $gl->accountcode }}</td>
                                               <td>{{ $gl->glcodegroup_name }}</td>
                                               <td>{{ $gl->type_name }}</td>
                                               <td>{{ $gl->chinese_name }}</td>
@@ -537,21 +538,90 @@
         localStorage.removeItem('glocodeid');
         localStorage.removeItem('glcodegroup_id');
         localStorage.removeItem('job_id');
+
+        localStorage.removeItem('edit_glcode_id');
+        localStorage.removeItem('edit_glcodegroup_id');
+        localStorage.removeItem('edit_job_id');
     }
 
     else
     {
+      if(localStorage.getItem('edit_glcode_id'))
+      {
+        var edit_glcode_id = localStorage.getItem('edit_glcode_id');
+        var edit_glcodegroup_id = localStorage.getItem('edit_glcodegroup_id');
+        var edit_job_id = localStorage.getItem('edit_job_id');
+
+        console.log(edit_glcode_id);
+
+        $("#edit_glcode_id").val(edit_glcode_id);
+        $("#edit_job_id").val(edit_job_id);
+        $("#edit_glcodegroup_id").val(edit_glcodegroup_id);
+      }
+
+      if(localStorage.getItem('glocodeid'))
+      {
         var glocodeid = localStorage.getItem('glocodeid');
         var glcodegroup_id = localStorage.getItem('glcodegroup_id');
         var job_id = localStorage.getItem('job_id');
+
+        console.log(glocodeid);
+
+        $("#edit_glcode_id").val(glocodeid);
+        $("#edit_glcodegroup_id").val(glcodegroup_id);
+        $("#edit_job_id").val(job_id);
+      }
     }
 
-    if(glocodeid)
-    {
-      $("#edit_glcode_id").val(glocodeid);
-      $("#edit_glcodegroup_id").val(glcodegroup_id);
-      $("#edit_job_id").val(job_id);
-    }
+    $("#glaccount-table").on('click','.edit-item',function(e) {
+
+      $(".nav-tabs > li:first-child").removeClass("active");
+      $("#edit-glaccount").addClass("active");
+
+      var glcode_id = $(this).attr("id");
+
+      var formData = {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          glcode_id: glcode_id
+      };
+
+      $.ajax({
+          type: 'GET',
+          url: "/account/glcode-detail",
+          data: formData,
+          dataType: 'json',
+          success: function(response)
+          {
+            alert(JSON.stringify(response.glcode));
+
+            localStorage.setItem('edit_glcode_id', response.glcode['glcode_id']);
+            localStorage.setItem('edit_glcodegroup_id', response.glcode['glcodegroup_id']);
+            localStorage.setItem('edit_job_id', response.glcode['job_id']);
+
+            if(localStorage.getItem('edit_glcode_id'))
+            {
+                var edit_glcode_id = localStorage.getItem('edit_glcode_id');
+                var edit_glcodegroup_id = localStorage.getItem('edit_glcodegroup_id');
+                var edit_job_id = localStorage.getItem('edit_job_id');
+            }
+
+            $("#edit_glcode_id").val(edit_glcode_id);
+            $("#edit_type_name").val(response.glcode['type_name']);
+            $("#edit_chinese_name").val(response.glcode['chinese_name']);
+            $("#edit_accountcode").val(response.glcode['accountcode']);
+            $("#edit_price").val(response.glcode['price']);
+            $("#edit_job_id").val(edit_job_id);
+            $("#edit_glcodegroup_id").val(edit_glcodegroup_id);
+            $("#edit_next_sn_number").val(response.glcode['next_sn_number']);
+            $("#edit_receipt_prefix").val(response.glcode['receipt_prefix']);
+          },
+
+          error: function (response) {
+              console.log(response);
+          }
+      });
+
+    });
 
     $("#update_glcode_btn").click(function() {
 

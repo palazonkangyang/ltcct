@@ -12,7 +12,7 @@
 
                 <div class="page-title">
 
-                    <h1>GL Account</h1>
+                    <h1>GL Account Group</h1>
 
                 </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <span>GL Account</span>
+                    <span>GL Account Group</span>
                 </li>
             </ul>
 
@@ -113,7 +113,8 @@
 
                                           @foreach($glaccountgroup as $gl)
                                           <tr>
-                                            <td>{{ $gl->name }}</td>
+                                            <td><a href="#tab_editglaccountgroup" data-toggle="tab"
+                                                class="edit-item" id="{{ $gl->glcodegroup_id }}">{{ $gl->name }}</td>
                                             <td>{{ $gl->description }}</td>
                                             <td class="text-uppercase">{{ $gl->balancesheet_side }}</td>
                                             <td class="text-capitalize">{{ $gl->status }}</td>
@@ -453,21 +454,85 @@
           localStorage.removeItem('glcodegroup_id');
           localStorage.removeItem('balancesheet_side');
           localStorage.removeItem('status');
+
+          localStorage.removeItem('edit_glcodegroup_id');
+          localStorage.removeItem('edit_balancesheet_side');
+          localStorage.removeItem('edit_status');
       }
 
       else
       {
+        if(localStorage.getItem('edit_glcodegroup_id'))
+        {
+          var edit_glcodegroup_id = localStorage.getItem('edit_glcodegroup_id');
+          var edit_status = localStorage.getItem('edit_status');
+          var edit_balancesheet_side = localStorage.getItem('edit_balancesheet_side');
+
+          console.log(edit_glcodegroup_id);
+
+          $("#edit_glcodegroup_id").val(edit_glcodegroup_id);
+          $("#edit_status").val(edit_status);
+          $("#edit_balancesheet_side").val(edit_balancesheet_side);
+        }
+
+        if(localStorage.getItem('glcodegroup_id'))
+        {
+
           var glcodegroup_id = localStorage.getItem('glcodegroup_id');
           var balancesheet_side = localStorage.getItem('balancesheet_side');
           var status = localStorage.getItem('status');
+
+          console.log(glcodegroup_id);
+
+          $("#edit_glcodegroup_id").val(glcodegroup_id);
+          $("#edit_balancesheet_side").val(balancesheet_side);
+          $("#edit_status").val(status);
+        }
       }
 
-      if(glcodegroup_id)
-      {
-        $("#edit_glcodegroup_id").val(glcodegroup_id);
-        $("#edit_balancesheet_side").val(balancesheet_side);
-        $("#edit_status").val(status);
-      }
+      $("#glaccountgroup-table").on('click','.edit-item',function(e) {
+
+        $(".nav-tabs > li:first-child").removeClass("active");
+        $("#edit-glaccountgroup").addClass("active");
+
+        var glcodegroup_id = $(this).attr("id");
+
+        var formData = {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            glcodegroup_id: glcodegroup_id
+        };
+
+        $.ajax({
+            type: 'GET',
+            url: "/account/glcodegroup-detail",
+            data: formData,
+            dataType: 'json',
+            success: function(response)
+            {
+              localStorage.setItem('edit_glcodegroup_id', response.glcodegroup['glcodegroup_id']);
+              localStorage.setItem('edit_status', response.glcodegroup['status']);
+              localStorage.setItem('edit_balancesheet_side', response.glcodegroup['balancesheet_side']);
+
+              if(localStorage.getItem('edit_glcodegroup_id'))
+              {
+                  var glcodegroup_id = localStorage.getItem('edit_glcodegroup_id');
+                  var status = localStorage.getItem('edit_status');
+                  var balancesheet_side = localStorage.getItem('edit_balancesheet_side');
+              }
+
+              $("#edit_glcodegroup_id").val(glcodegroup_id);
+              $("#edit_name").val(response.glcodegroup['name']);
+              $("#edit_description").val(response.glcodegroup['description']);
+              $("#edit_balancesheet_side").val(balancesheet_side);
+              $("#edit_status").val(status);
+            },
+
+            error: function (response) {
+                console.log(response);
+            }
+        });
+
+      });
 
       $("#update_gl_btn").click(function() {
         var count = 0;

@@ -261,7 +261,7 @@
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">Journal Entry No *</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="edit_journalentry_no" value="{{ old('edit_journalentry_no') }}" id="edit_journalentry_no">
+                                        <input type="text" class="form-control" name="edit_journalentry_no" value="{{ old('edit_journalentry_no') }}" id="edit_journalentry_no" readonly>
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 

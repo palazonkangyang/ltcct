@@ -30,6 +30,17 @@ class GlController extends Controller
     ]);
   }
 
+  public function getGlCodeGroupDetail()
+  {
+    $glcodegroup_id = $_GET['glcodegroup_id'];
+
+    $glcodegroup = GlCodeGroup::find($glcodegroup_id);
+
+    return response()->json(array(
+	    'glcodegroup' => $glcodegroup,
+	  ));
+  }
+
   // Add New GL Account Group
   public function postAddNewGlAccountGroup(Request $request)
   {
@@ -106,6 +117,17 @@ class GlController extends Controller
       $request->session()->flash('success', 'GL Account Group has been updated!');
       return redirect()->route('new-glaccount-group-page');
     }
+  }
+
+  public function getGlCodeDetail()
+  {
+    $glcode_id = $_GET['glcode_id'];
+
+    $glcode = GlCode::find($glcode_id);
+
+    return response()->json(array(
+	    'glcode' => $glcode,
+	  ));
   }
 
   // Get GL Account

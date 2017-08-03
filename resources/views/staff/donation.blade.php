@@ -111,9 +111,7 @@
                                                                             <tr>
                                                                                 <th>Chinese Name</th>
                                                                                 <th>Devotee#</th>
-                                                                                <th>Block</th>
                                                                                 <th>Address</th>
-                                                                                <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th>Amount</th>
                                                                                 <th>Pay Till</th>
@@ -142,12 +140,13 @@
                                                                             		<input type="hidden" name="devotee_id[]"
 	                                                    								value="{{ $focus_devotee[0]->devotee_id }}">
                                                                             	</td>
-                                                                            	<td>{{ $focus_devotee[0]->address_building }}</td>
-                                                                            	<td>{{ $focus_devotee[0]->address_street }}</td>
                                                                             	<td>
-                                                                            		{{ $focus_devotee[0]->address_unit1 }}
-                                                                            		{{ $focus_devotee[0]->address_unit2 }}
-                                                                            	</td>
+																																								@if(isset($focus_devotee[0]->address_unit1) && isset($focus_devotee[0]->address_unit2))
+																																									No.{{ $focus_devotee[0]->address_houseno }}, {{ $focus_devotee[0]->address_building }}, {{ $focus_devotee[0]->address_postal }}, Singapore
+																																								@else
+																																									No.{{ $focus_devotee[0]->address_houseno }}, #{{ $focus_devotee[0]->address_unit1 }}-{{ $focus_devotee[0]->address_unit2 }}, {{ $focus_devotee[0]->address_building }}, {{ $focus_devotee[0]->address_postal }}, Singapore
+																																								@endif
+																																							</td>
                                                                             	<td>{{ $focus_devotee[0]->guiyi_name }}</td>
                                                                             	<td width="100px">
                                                                             		<input type="text" class="form-control amount" name="amount[]">
@@ -181,10 +180,13 @@
                                                                             		<input type="hidden" name="devotee_id[]"
                                                                             		value="{{ $devotee->devotee_id }}">
                                                                             	</td>
-                                                                            	<td>{{ $devotee->address_building }}</td>
-                                                                            	<td>{{ $devotee->address_street }}</td>
-                                                                            	<td>{{ $devotee->address_unit1 }} {{ $devotee->address_unit2 }}
-                                                                            	</td>
+                                                                            	<td>
+																																								@if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+																																									No.{{ $devotee->address_houseno }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																								@else
+																																									No.{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																								@endif
+																																							</td>
                                                                             	<td>{{ $devotee->guiyi_name }}</td>
                                                                             	<td width="100px" class="amount-col">
                                                                             		<input type="text" class="form-control amount" name="amount[]">
@@ -265,9 +267,7 @@
 																																								<th>#</th>
                                                                                 <th>Chinese Name</th>
                                                                                 <th>Devotee#</th>
-                                                                                <th>Block</th>
                                                                                 <th>Address</th>
-                                                                                <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th width="100px">Amount</th>
                                                                                 <th width="120px">Pay Till</th>
@@ -292,9 +292,13 @@
 																																							<td>{{ $list->relative_friend_devotee_id }}
 																																							<input type="hidden" name="other_devotee_id[]"
 																																							value="{{ $list->relative_friend_devotee_id }}"></td>
-																																							<td>{{ isset($list->address_building) ? $list->address_building : '-' }}</td>
-																																							<td>{{ $list->address_street }}</td>
-																																							<td>{{ $list->address_unit1 }} {{ $list->address_unit2 }}</td>
+																																							<td>
+																																								@if(isset($list->address_unit1) && isset($list->address_unit2))
+																																									No.{{ $list->address_houseno }}, {{ $list->address_building }}, {{ $list->address_postal }}, Singapore
+																																								@else
+																																									No.{{ $list->address_houseno }}, #{{ $list->address_unit1 }}-{{ $list->address_unit2 }}, {{ $list->address_building }}, {{ $list->address_postal }}, Singapore
+																																								@endif
+																																							</td>
 																																							<td>{{ $list->guiyi_name }}</td>
 																																							<td class="amount-col">
                                                                             		<input type="text" class="form-control amount other_amount" name="other_amount[]">

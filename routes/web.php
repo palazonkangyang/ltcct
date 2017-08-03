@@ -80,6 +80,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/new-glaccount', ['as' => 'new-glaccount-page', 'uses' => 'GlController@getAddNewGlAccount']);
 		Route::get('/edit-glaccount', ['as' => 'edit-glaccount-page', 'uses' => 'GlController@EditGlAccount']);
 		Route::get('/chart-all-accounts', ['as' => 'chart-all-accounts-page', 'uses' => 'GlController@getChartAllAccounts']);
+		Route::get('/glcodegroup-detail', ['as' => 'glcodegroup-detail-page', 'uses' => 'GlController@getGlCodeGroupDetail']);
+		Route::get('/glcode-detail', ['as' => 'glcode-detail-page', 'uses' => 'GlController@getGlCodeDetail']);
 
 		Route::post('/new-glaccountgroup', ['as' => 'post-glaccount-group-page', 'uses' => 'GlController@postAddNewGlAccountGroup']);
 		Route::post('/update-glaccountgroup', ['as' => 'update-glaccount-group-page', 'uses' => 'GlController@UpdateGlAccountGroup']);
