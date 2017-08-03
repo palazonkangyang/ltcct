@@ -90,6 +90,11 @@
 
                                 <table class="table table-bordered" id="joblist-table">
                                   <thead>
+                                      <tr id="filter">
+                                          <th>Job Reference No</th>
+                                          <th>Name</th>
+                                          <th>Description</th>
+                                      </tr>
                                       <tr>
                                           <th>Job Reference No</th>
                                           <th>Name</th>
@@ -254,9 +259,31 @@
         console.log(activeTab);
     }
 
-    $('#joblist-table').DataTable( {
+    // DataTable
+    var table = $('#joblist-table').DataTable({
       "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
     });
+
+    $('#joblist-table thead tr#filter th').each( function () {
+          var title = $('#joblist-table thead th').eq( $(this).index() ).text();
+          $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+    });
+
+    // Apply the filter
+    $("#joblist-table thead input").on( 'keyup change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
+    });
+
+    function stopPropagation(evt) {
+      if (evt.stopPropagation !== undefined) {
+        evt.stopPropagation();
+      } else {
+        evt.cancelBubble = true;
+      }
+    }
 
   });
 </script>

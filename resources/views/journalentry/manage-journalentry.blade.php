@@ -93,6 +93,13 @@
 
                                 <table class="table table-bordered" id="journalentry-table">
                                   <thead>
+                                      <tr id="filter">
+                                          <th>Journal Entry No</th>
+                                          <th>Date</th>
+                                          <th>Description</th>
+                                          <th>Debit</th>
+                                          <th>Credit</th>
+                                      </tr>
                                       <tr>
                                           <th>Journal Entry No</th>
                                           <th>Date</th>
@@ -370,9 +377,31 @@
 <script type="text/javascript">
   $(function() {
 
-    $('#journalentry-table').DataTable( {
+    // DataTable
+    var table = $('#journalentry-table').DataTable({
       "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
     });
+
+    $('#journalentry-table thead tr#filter th').each( function () {
+          var title = $('#journalentry-table thead th').eq( $(this).index() ).text();
+          $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+    });
+
+    // Apply the filter
+    $("#journalentry-table thead input").on( 'keyup change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
+    });
+
+    function stopPropagation(evt) {
+      if (evt.stopPropagation !== undefined) {
+        evt.stopPropagation();
+      } else {
+        evt.cancelBubble = true;
+      }
+    }
 
     // Disabled Edit Tab
     $(".nav-tabs > li").click(function(){

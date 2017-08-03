@@ -106,8 +106,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['prefix' => 'paid'], function () {
 		Route::get('/manage-paid', ['as' => 'manage-paid-page', 'uses' => 'PaidController@getManagePaid']);
+		Route::get('/paid-detail', ['as' => 'paid-detail-page', 'uses' => 'PaidController@getPaidDetail']);
 
 		Route::post('/new-paid', ['as' => 'new-paid-page', 'uses' => 'PaidController@postAddNewPaid']);
+		Route::post('/update-paid', ['as' => 'update-paid-page', 'uses' => 'PaidController@postUpdatePaid']);
 	});
 
 

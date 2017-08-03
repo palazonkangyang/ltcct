@@ -92,10 +92,16 @@
 
                                     <table class="table table-bordered" id="glaccount-table">
                                       <thead>
+                                          <tr id="filter">
+                                              <th>Account Code</th>
+                                              <th>Account Group</th>
+                                              <th>Type Name</th>
+                                              <th>Account Group Status</th>
+                                          </tr>
                                           <tr>
                                               <th>Account Code</th>
                                               <th>Account Group</th>
-                                              <th>Account Description</th>
+                                              <th>Type Name</th>
                                               <th>Account Group Status</th>
                                           </tr>
                                       </thead>
@@ -107,7 +113,7 @@
                                             <tr>
                                               <td>{{ $gl->accountcode }}</td>
                                               <td>{{ $gl->glcodegroup_name }}</td>
-                                              <td>{{ $gl->description }}</td>
+                                              <td>{{ $gl->type_name }}</td>
                                               <td class="text-capitalize">{{ $gl->status }}</td>
                                             </tr>
                                             @endforeach
@@ -625,9 +631,31 @@
 
     });
 
-    $('#glaccount-table').DataTable( {
+    // DataTable
+    var table = $('#glaccount-table').DataTable({
       "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
     });
+
+    $('#glaccount-table thead tr#filter th').each( function () {
+          var title = $('#glaccount-table thead th').eq( $(this).index() ).text();
+          $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+    });
+
+    // Apply the filter
+    $("#glaccount-table thead input").on( 'keyup change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
+    });
+
+    function stopPropagation(evt) {
+      if (evt.stopPropagation !== undefined) {
+        evt.stopPropagation();
+      } else {
+        evt.cancelBubble = true;
+      }
+    }
 
     $("#confirm_glcode_btn").click(function() {
 

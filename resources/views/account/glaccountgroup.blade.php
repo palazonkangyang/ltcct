@@ -94,6 +94,12 @@
 
                                     <table class="table table-bordered" id="glaccountgroup-table">
                                       <thead>
+                                          <tr id="filter">
+                                              <th>Account Group Code</th>
+                                              <th>Account Group Description</th>
+                                              <th>Balancing Side</th>
+                                              <th>Account Group Status</th>
+                                          </tr>
                                           <tr>
                                               <th>Account Group Code</th>
                                               <th>Account Group Description</th>
@@ -514,9 +520,31 @@
         }
       });
 
-      $('#glaccountgroup-table').DataTable( {
+      // DataTable
+      var table = $('#glaccountgroup-table').DataTable({
         "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
       });
+
+      $('#glaccountgroup-table thead tr#filter th').each( function () {
+            var title = $('#glaccountgroup-table thead th').eq( $(this).index() ).text();
+            $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+      });
+
+      // Apply the filter
+      $("#glaccountgroup-table thead input").on( 'keyup change', function () {
+          table
+              .column( $(this).parent().index()+':visible' )
+              .search( this.value )
+              .draw();
+      });
+
+      function stopPropagation(evt) {
+        if (evt.stopPropagation !== undefined) {
+          evt.stopPropagation();
+        } else {
+          evt.cancelBubble = true;
+        }
+      }
 
       $("#confirm_gl_btn").click(function() {
 

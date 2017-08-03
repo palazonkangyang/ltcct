@@ -93,6 +93,14 @@
 
                                 <table class="table table-bordered" id="expenditure-table">
                                   <thead>
+                                      <tr id="filter">
+                                          <th>Reference No</th>
+                                          <th>Date</th>
+                                          <th>Supplier</th>
+                                          <th>Description</th>
+                                          <th>Credit Total</th>
+                                          <th>Status</th>
+                                      </tr>
                                       <tr>
                                           <th>Reference No</th>
                                           <th>Date</th>
@@ -381,9 +389,31 @@
 
   $(function() {
 
-    $('#expenditure-table').DataTable( {
+    // DataTable
+    var table = $('#expenditure-table').DataTable({
       "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
     });
+
+    $('#expenditure-table thead tr#filter th').each( function () {
+          var title = $('#expenditure-table thead th').eq( $(this).index() ).text();
+          $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+    });
+
+    // Apply the filter
+    $("#expenditure-table thead input").on( 'keyup change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
+    });
+
+    function stopPropagation(evt) {
+      if (evt.stopPropagation !== undefined) {
+        evt.stopPropagation();
+      } else {
+        evt.cancelBubble = true;
+      }
+    }
 
     // Disabled Edit Tab
     $(".nav-tabs > li").click(function(){

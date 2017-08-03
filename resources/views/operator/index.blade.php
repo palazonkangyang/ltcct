@@ -118,7 +118,6 @@
                                                                                 <th>Chinese Name</th>
                                                                                 <th>Devotee</th>
                                                                                 <th>Address</th>
-                                                                                <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th>Family Code</th>
                                                                             </tr>
@@ -126,7 +125,6 @@
                                                                                 <th>Chinese Name</th>
                                                                                 <th>Devotee</th>
                                                                                 <th>Address</th>
-                                                                                <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th>Family Code</th>
                                                                             </tr>
@@ -142,9 +140,12 @@
                                                                                     {{ $devotee->chinese_name }}</a>
                                                                                 </td>
                                                                                 <td>{{ $devotee->devotee_id }}</td>
-                                                                                <td>{{ $devotee->address_building }}</td>
                                                                                 <td>
-                                                                                    {{ $devotee->address_unit1 }} {{ $devotee->address_unit2 }}
+																																									@if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+																																										No.{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																									@else
+																																										No.{{ $devotee->address_houseno }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																									@endif
                                                                                 </td>
                                                                                 <td>{{ $devotee->guiyi_name }}</td>
                                                                                 <td>{{ $devotee->familycode }}</td>
@@ -173,7 +174,6 @@
 																																							<th>Devotee#</th>
 																																							<th>Member#</th>
 																																							<th>Address</th>
-																																							<th>Unit</th>
 																																							<th>Guiyi Name</th>
 																																							<th>Family Code</th>
 																																					</tr>
@@ -182,7 +182,6 @@
                                                                                 <th>Devotee#</th>
                                                                                 <th>Member#</th>
                                                                                 <th>Address</th>
-                                                                                <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th>Family Code</th>
                                                                             </tr>
@@ -195,9 +194,12 @@
                                                                                     id="edit-member">{{ $member->chinese_name }}</a></td>
                                                                                 <td>{{ $member->devotee_id }}</td>
                                                                                 <td>{{ $member->member_id }}</td>
-                                                                                <td>{{ $member->address_building }}</td>
                                                                                 <td>
-                                                                                    {{ $member->address_unit1 }} {{ $member->address_unit2 }}
+                                                                                    @if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+																																											No.{{ $devotee->address_houseno }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																										@else
+																																											No.{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																										@endif
                                                                                 </td>
                                                                                 <td>{{ $member->guiyi_name }}</td>
                                                                                 <td>{{ $member->familycode }}</td>
