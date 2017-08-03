@@ -107,9 +107,7 @@
                      						<th>S/No</th>
                      						<th>Chinese Name</th>
                      						<th>Devotee</th>
-                     						<th>Block</th>
                      						<th>Address</th>
-                     						<th>Unit</th>
                      						<th>HJ/ GR</th>
                      						<th>Receipt</th>
                      						<th>Amount</th>
@@ -126,9 +124,13 @@
                      						<td>{{ $count }}</td>
                      						<td>{{ $donation_devotee->chinese_name }}</td>
                      						<td>{{ $donation_devotee->devotee_id }}</td>
-                     						<td>{{ $donation_devotee->address_houseno }}</td>
-                     						<td>{{ $donation_devotee->address_street }}</td>
-                     						<td>{{ $donation_devotee->address_unit1 }} {{ $donation_devotee->address_unit2 }}</td>
+                     						<td>
+                                  @if(isset($donation_devotee->address_unit1) && isset($donation_devotee->address_unit2))
+                                    No.{{ $donation_devotee->address_houseno }}, {{ $donation_devotee->address_building }}, {{ $donation_devotee->address_postal }}, Singapore
+                                  @else
+                                    No.{{ $donation_devotee->address_houseno }}, #{{ $donation_devotee->address_unit1 }}-{{ $donation_devotee->address_unit2 }}, {{ $donation_devotee->address_building }}, {{ $donation_devotee->address_postal }}, Singapore
+                                  @endif
+                                </td>
                      						<td>{{ $donation_devotee->hjgr }}</td>
                      						<td>{{ $receipt[0]->xy_receipt }}</td>
                      						<td>S$ {{ $donation_devotee->amount }}</td>
@@ -237,7 +239,7 @@
                                   @if(!Session::has('cancelled_date'))
                                     <button type="submit" class="btn blue" id="receipt_cancel_btn">Cancel</button>
                                   @endif
-                                    <button type="button" class="btn default">Back</button>
+                                    <a href="/staff/donation" class="btn default">Back</a>
                                 </div><!-- end form-actions -->
                               </div><!-- end col-md-6 -->
 
@@ -272,5 +274,11 @@
     </div><!-- end page-content-wrapper -->
 
   </div><!-- end page-container-fluid -->
+
+@stop
+
+@section('custom-js')
+
+<script src="{{asset('js/custom/common.js')}}"></script>
 
 @stop

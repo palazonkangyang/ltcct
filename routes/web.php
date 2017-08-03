@@ -124,4 +124,11 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-job', ['as' => 'update-page', 'uses' => 'JobController@postUpdateJob']);
   });
 
+	Route::group(['prefix' => 'report'], function () {
+    Route::get('/income-report', ['as' => 'income-report-page', 'uses' => 'ReportController@getIncomeReport']);
+
+		Route::get('/report-detail', ['as' => 'report-detail-page', 'uses' => 'ReportController@getReportDetail']);
+
+  });
+
 });

@@ -162,7 +162,7 @@
                                                                         <a href="/journalentry/manage-journalentry">Journal Entry</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#">Income Statement Report</a>
+                                                                        <a href="">Income Statement Report</a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#">Trial Balance Report</a>
