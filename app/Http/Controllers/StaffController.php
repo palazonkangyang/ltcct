@@ -48,25 +48,23 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		// dd($input);
+		//Add Relative and Friend Lists
+		if(isset($input["other_devotee_id"]))
+		{
+			// Delete relative and friend lists by focus devotee before saving
+			RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
 
-		// Add Relative and Friend Lists
-		// if(isset($input["other_devotee_id"]))
-		// {
-		// 	// Delete relative and friend lists by focus devotee before saving
-		// 	RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
-		//
-		// 	for($i = 0; $i < count($input["other_devotee_id"]); $i++)
-		// 	{
-		// 	  $list = [
-		// 	    "donate_devotee_id" => $input['focusdevotee_id'],
-		// 	    "relative_friend_devotee_id" =>$input["other_devotee_id"][$i],
-		// 	    "year" => date('Y')
-		// 	  ];
-		//
-		// 	  RelativeFriendLists::create($list);
-		// 	}
-		// }
+			for($i = 0; $i < count($input["other_devotee_id"]); $i++)
+			{
+			  $list = [
+			    "donate_devotee_id" => $input['focusdevotee_id'],
+			    "relative_friend_devotee_id" =>$input["other_devotee_id"][$i],
+			    "year" => date('Y')
+			  ];
+
+			  RelativeFriendLists::create($list);
+			}
+		}
 
 		// Modify Receipt At fields
 		if(isset($input['receipt_at']))
@@ -85,8 +83,6 @@ class StaffController extends Controller
 		$trans_id = $prefix . $trans_id;
 
 		$devotee = Devotee::find($input['focusdevotee_id']);
-
-		// dd($devotee->toArray());
 
 		if(isset($devotee->member_id))
 		{
@@ -579,8 +575,6 @@ class StaffController extends Controller
 	public function postCreateFestiveEvent(Request $request)
 	{
 			$input = array_except($request->all(), '_token', 'display');
-
-			// dd($input);
 
 			FestiveEvent::truncate();
 
