@@ -94,15 +94,17 @@
                                       <thead>
                                           <tr id="filter">
                                               <th>Account Code</th>
-                                              <th>Account Group</th>
+                                              <th>Account Name</th>
                                               <th>Type Name</th>
-                                              <th>Account Group Status</th>
+                                              <th>Chinese Name</th>
+                                              <th>Account Status</th>
                                           </tr>
                                           <tr>
                                               <th>Account Code</th>
                                               <th>Account Group</th>
                                               <th>Type Name</th>
-                                              <th>Account Group Status</th>
+                                              <th>Chinese Name</th>
+                                              <th>Account Status</th>
                                           </tr>
                                       </thead>
 
@@ -114,6 +116,7 @@
                                               <td>{{ $gl->accountcode }}</td>
                                               <td>{{ $gl->glcodegroup_name }}</td>
                                               <td>{{ $gl->type_name }}</td>
+                                              <td>{{ $gl->chinese_name }}</td>
                                               <td class="text-capitalize">{{ $gl->status }}</td>
                                             </tr>
                                             @endforeach

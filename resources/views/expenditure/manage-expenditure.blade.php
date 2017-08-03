@@ -116,13 +116,9 @@
 
                                         @foreach($expenditure as $exp)
                                         <tr>
-                                          @if($exp->status == 'posted')
-                                          <td>{{ $exp->reference_no }}</td>
-                                          @else
                                           <td><a href="#tab_editexpenditure" data-toggle="tab"
                                               class="edit-item" id="{{ $exp->expenditure_id }}">{{ $exp->reference_no }}</a>
                                           </td>
-                                          @endif
                                           <td>{{ \Carbon\Carbon::parse($exp->date)->format("d/m/Y") }}</td>
                                           <td>{{ $exp->supplier }}</td>
                                           <td>{{ $exp->description }}</td>
@@ -251,7 +247,7 @@
                               <div class="col-md-6">
 
                                 <form method="post" action="{{ URL::to('/expenditure/update-expenditure') }}"
-                                  class="form-horizontal form-bordered">
+                                  class="form-horizontal form-bordered" id="expenditure-form">
 
                                   {!! csrf_field() !!}
 
@@ -297,7 +293,7 @@
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">Status *</label>
                                     <div class="col-md-9">
-                                      <select class="form-control" name="edit_status">
+                                      <select class="form-control" name="edit_status" id="edit_status">
                                         <option value="draft">Draft</option>
                                         <option value="posted">Posted</option>
                                       </select>
@@ -440,6 +436,14 @@
         var status = localStorage.getItem('status');
       }
 
+      if(status == 'posted')
+      {
+        $('#expenditure-form input').attr('readonly', 'readonly');
+        $('#expenditure-form textarea').attr('readonly', 'readonly');
+        $('#expenditure-form select').attr('disabled', true);
+        $('#expenditure-form #update_expenditure_btn').attr('disabled', true);
+      }
+
       $("#edit_expenditure_id").val(expenditure_id);
       $("#edit_status").val(status);
 
@@ -477,6 +481,21 @@
             {
                 var expenditure_id = localStorage.getItem('expenditure_id');
                 var status = localStorage.getItem('status');
+            }
+
+            if(status == 'posted')
+            {
+              $('#expenditure-form input').attr('readonly', 'readonly');
+              $('#expenditure-form textarea').attr('readonly', 'readonly');
+              $('#expenditure-form select').attr('disabled', true);
+              $('#expenditure-form #update_expenditure_btn').attr('disabled', true);
+            }
+
+            else {
+              $('#expenditure-form input').removeAttr('readonly', 'readonly');
+              $('#expenditure-form textarea').removeAttr('readonly', 'readonly');
+              $('#expenditure-form select').attr('disabled', false);
+              $('#expenditure-form #update_expenditure_btn').attr('disabled', false);
             }
 
             $("#edit_expenditure_id").val(expenditure_id);

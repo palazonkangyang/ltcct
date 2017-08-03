@@ -170,7 +170,11 @@
                                     <div class="col-md-9">
                                       <select class="form-control" name="debit">
                                         @foreach($glcode as $gl)
-                                        <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+
+                                          @if($gl->balancesheet_side == 'ap')
+                                            <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+                                          @endif
+
                                         @endforeach
                                       </select>
                                     </div><!-- end col-md-9 -->
@@ -181,7 +185,11 @@
                                     <div class="col-md-9">
                                       <select class="form-control" name="credit">
                                         @foreach($glcode as $gl)
-                                        <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+
+                                          @if($gl->balancesheet_side == 'ar')
+                                            <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+                                          @endif
+
                                         @endforeach
                                       </select>
                                     </div><!-- end col-md-9 -->
@@ -276,7 +284,11 @@
                                     <div class="col-md-9">
                                       <select class="form-control" name="edit_debit" id="edit_debit">
                                         @foreach($glcode as $gl)
-                                        <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+
+                                          @if($gl->balancesheet_side == 'ap')
+                                            <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+                                          @endif
+
                                         @endforeach
                                       </select>
                                     </div><!-- end col-md-9 -->
@@ -287,7 +299,11 @@
                                     <div class="col-md-9">
                                       <select class="form-control" name="edit_credit" id="edit_credit">
                                         @foreach($glcode as $gl)
-                                        <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+
+                                          @if($gl->balancesheet_side == 'ar')
+                                            <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+                                          @endif
+
                                         @endforeach
                                       </select>
                                     </div><!-- end col-md-9 -->

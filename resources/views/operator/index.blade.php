@@ -195,10 +195,10 @@
                                                                                 <td>{{ $member->devotee_id }}</td>
                                                                                 <td>{{ $member->member_id }}</td>
                                                                                 <td>
-                                                                                    @if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-																																											No.{{ $devotee->address_houseno }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+                                                                                    @if(isset($member->address_unit1) && isset($member->address_unit2))
+																																											No.{{ $member->address_houseno }}, {{ $member->address_building }}, {{ $member->address_postal }}, Singapore
 																																										@else
-																																											No.{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																											No.{{ $member->address_houseno }}, #{{ $member->address_unit1 }}-{{ $member->address_unit2 }}, {{ $member->address_building }}, {{ $member->address_postal }}, Singapore
 																																										@endif
                                                                                 </td>
                                                                                 <td>{{ $member->guiyi_name }}</td>
@@ -228,7 +228,6 @@
                                                                                 <th>Devotee</th>
                                                                                 <th>Member</th>
                                                                                 <th>Address</th>
-                                                                                <th>Unit</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th>Family Code</th>
                                                                             </tr>
@@ -240,11 +239,13 @@
                                                                                 <td>{{ $deceased_list->chinese_name }}</td>
                                                                                 <td>{{ $deceased_list->devotee_id }}</td>
                                                                                 <td>{{ $deceased_list->member_id }}</td>
-                                                                                <td>{{ $deceased_list->address_building }}</td>
                                                                                 <td>
-                                                                                    {{ $deceased_list->address_unit1 }}
-                                                                                    {{ $deceased_list->address_unit2 }}
-                                                                                </td>
+																																									@if(isset($deceased_list->address_unit1) && isset($deceased_list->address_unit2))
+																																										No.{{ $deceased_list->address_houseno }}, #{{ $deceased_list->address_unit1 }}-{{ $deceased_list->address_unit2 }}, {{ $deceased_list->address_building }}, {{ $deceased_list->address_postal }}, Singapore
+																																									@else
+																																										No.{{ $deceased_list->address_houseno }}, {{ $deceased_list->address_building }}, {{ $deceased_list->address_postal }}, Singapore
+																																									@endif
+																																								</td>
                                                                                 <td>{{ $deceased_list->guiyi_name }}</td>
                                                                                 <td>{{ $deceased_list->familycode }}</td>
                                                                             </tr>
@@ -306,7 +307,7 @@
 
                                                                         <label class="col-md-3 control-label">Contact # *</label>
                                                                         <div class="col-md-9">
-                                                                            <input type="email" class="form-control" name="contact"
+                                                                            <input type="text" class="form-control" name="contact"
                                                                                 value="{{ old('contact') }}" id="content_contact">
                                                                         </div><!-- end col-md-9 -->
 
@@ -843,7 +844,6 @@
                                                                                     <th>Guiyi Name</th>
                                                                                     <th>NRIC</th>
                                                                                     <th>Address</th>
-                                                                                    <th>Unit</th>
                                                                                     <th>Family Code</th>
                                                                                     <th>Member Code</th>
                                                                                 </tr>
@@ -868,10 +868,13 @@
                                                                                         <td>{{ $focus_devotee[0]->english_name }}</td>
                                                                                         <td>{{ $focus_devotee[0]->guiyi_name }}</td>
                                                                                         <td>{{ $focus_devotee[0]->nric }}</td>
-                                                                                        <td>{{ $focus_devotee[0]->address_street }}</td>
                                                                                         <td>
-                                                                                            {{ $focus_devotee[0]->address_unit1 }} - {{ $focus_devotee[0]->address_unit2 }}
-                                                                                        </td>
+																																													@if(isset($focus_devotee[0]->address_unit1) && isset($focus_devotee[0]->address_unit2))
+																																														No.{{ $focus_devotee[0]->address_houseno }}, {{ $focus_devotee[0]->address_building }}, {{ $focus_devotee[0]->address_postal }}, Singapore
+																																													@else
+																																														No.{{ $focus_devotee[0]->address_houseno }}, #{{ $focus_devotee[0]->address_unit1 }}-{{ $focus_devotee[0]->address_unit2 }}, {{ $focus_devotee[0]->address_building }}, {{ $focus_devotee[0]->address_postal }}, Singapore
+																																													@endif
+																																												</td>
                                                                                         <td>{{ $focus_devotee[0]->familycode }}</td>
                                                                                         <td>{{ $focus_devotee[0]->member_id }}</td>
                                                                                     </tr>
@@ -885,10 +888,13 @@
                                                                                         <td>{{ $devotee->english_name }}</td>
                                                                                         <td>{{ $devotee->guiyi_name }}</td>
                                                                                         <td>{{ $devotee->nric }}</td>
-                                                                                        <td>{{ $devotee->address_street }}</td>
                                                                                         <td>
-                                                                                            {{ $devotee->address_unit1 }} - {{ $devotee->address_unit2 }}
-                                                                                        </td>
+																																													@if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+																																														No.{{ $devotee->address_houseno }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																													@else
+																																														No.{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																													@endif
+																																												</td>
                                                                                         <td>{{ $devotee->familycode }}</td>
                                                                                         <td>{{ $devotee->member_id }}</td>
                                                                                     </tr>
@@ -1232,7 +1238,6 @@
 																												                      <th>Devotee#</th>
 																												                      <th>Member#</th>
 																												                      <th>Address</th>
-																												                      <th>Unit</th>
 																												                      <th>Guiyi Name</th>
 																												                      <th>Family Code</th>
 																												                  </tr>
@@ -1245,10 +1250,13 @@
 																												                           id="{{ $fd->devotee_id }}">{{ $fd->chinese_name }}</a></td>
 																												                      <td>{{ $fd->devotee_id }}</td>
 																												                      <td>{{ $fd->member_id }}</td>
-																												                      <td>{{ $fd->address_building }}</td>
 																												                      <td>
-																												                          {{ $fd->address_unit1 }} {{ $fd->address_unit2 }}
-																												                      </td>
+																																								@if(isset($fd->address_unit1) && isset($fd->address_unit2))
+																																									No.{{ $fd->address_houseno }}, {{ $fd->address_building }}, {{ $fd->address_postal }}, Singapore
+																																								@else
+																																									No.{{ $fd->address_houseno }}, #{{ $fd->address_unit1 }}-{{ $fd->address_unit2 }}, {{ $fd->address_building }}, {{ $fd->address_postal }}, Singapore
+																																								@endif
+																																							</td>
 																												                      <td>{{ $fd->guiyi_name }}</td>
 																												                      <td>{{ $fd->familycode }}</td>
 																												                  </tr>

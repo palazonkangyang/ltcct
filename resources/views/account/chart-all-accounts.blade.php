@@ -76,7 +76,7 @@
                                       @if($glcodegroup_id == $gc->glcodegroup_id)
                                         <li data-jstree='{ "type" : "file" }'>
                                           <a href="/account/new-glaccount?glcode_id={{ $gc->glcode_id }}" data-toggle="tab"
-                                            class="edit-glaccount">{{ $gc->accountcode }}</a>
+                                            class="edit-glaccount">{{ $gc->accountcode }} ({{ $gc->chinese_name }})</a>
                                         </li>
 
                                       @else
@@ -122,7 +122,7 @@
 @stop
 
 @section('custom-js')
-
+    <script src="{{asset('js/custom/common.js')}}"></script>
     <script src="{{asset('js/ui-tree.min.js')}}"></script>
 
 @stop

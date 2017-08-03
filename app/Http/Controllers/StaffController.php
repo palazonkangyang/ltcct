@@ -36,7 +36,7 @@ class StaffController extends Controller
 
 		$events = FestiveEvent::orderBy('start_at', 'asc')
 							->where('start_at', '>', $today)
-							->take(2)
+							->take(1)
 							->get();
 
 		return view('staff.donation', [
@@ -51,22 +51,22 @@ class StaffController extends Controller
 		// dd($input);
 
 		// Add Relative and Friend Lists
-		if(isset($input["other_devotee_id"]))
-		{
-			// Delete relative and friend lists by focus devotee before saving
-			RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
-
-			for($i = 0; $i < count($input["other_devotee_id"]); $i++)
-			{
-			  $list = [
-			    "donate_devotee_id" => $input['focusdevotee_id'],
-			    "relative_friend_devotee_id" =>$input["other_devotee_id"][$i],
-			    "year" => date('Y')
-			  ];
-
-			  RelativeFriendLists::create($list);
-			}
-		}
+		// if(isset($input["other_devotee_id"]))
+		// {
+		// 	// Delete relative and friend lists by focus devotee before saving
+		// 	RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
+		//
+		// 	for($i = 0; $i < count($input["other_devotee_id"]); $i++)
+		// 	{
+		// 	  $list = [
+		// 	    "donate_devotee_id" => $input['focusdevotee_id'],
+		// 	    "relative_friend_devotee_id" =>$input["other_devotee_id"][$i],
+		// 	    "year" => date('Y')
+		// 	  ];
+		//
+		// 	  RelativeFriendLists::create($list);
+		// 	}
+		// }
 
 		// Modify Receipt At fields
 		if(isset($input['receipt_at']))
@@ -84,6 +84,20 @@ class StaffController extends Controller
 		$trans_id += 1;
 		$trans_id = $prefix . $trans_id;
 
+		$devotee = Devotee::find($input['focusdevotee_id']);
+
+		// dd($devotee->toArray());
+
+		if(isset($devotee->member_id))
+		{
+			$glcode = 8;
+		}
+
+		else
+		{
+			$glocode = 12;
+		}
+
 		$data = [
 		  "trans_no" => $trans_id,
 		  "description" => "Xiangyou",
@@ -96,7 +110,7 @@ class StaffController extends Controller
 		  "trans_at" => Carbon::now(),
 		  "focusdevotee_id" => $input['focusdevotee_id'],
 		  "festiveevent_id" => $input['festiveevent_id'],
-			"glcode_id" => '8'
+			"glcode_id" => $glcode
 		];
 
 		$general_donation = GeneralDonation::create($data);
@@ -363,7 +377,7 @@ class StaffController extends Controller
 								->where('generaldonation.focusdevotee_id', $input['focusdevotee_id'])
 								->orderBy('receipt_id', 'desc')
 								->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.manualreceipt',
-								'generaldonation.hjgr as generaldonation_hjgr')
+								'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
 								->get();
 
 		// store session

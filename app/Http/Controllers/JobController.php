@@ -66,4 +66,49 @@ class JobController extends Controller
       return redirect()->back();
     }
   }
+
+  public function getJobDetail()
+  {
+    $job_id = $_GET['job_id'];
+
+    $job = Job::find($job_id);
+
+    return response()->json(array(
+	    'job' => $job,
+	  ));
+  }
+
+  public function postUpdateJob(Request $request)
+  {
+    $input = array_except($request->all(), '_token');
+
+    if(isset($input['edit_authorized_password']))
+    {
+      $user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
+
+      if (Hash::check($input['edit_authorized_password'], $hashedPassword))
+      {
+        $job = Job::find($input['edit_job_id']);
+
+        $job->job_name = $input['edit_job_name'];
+        $job->job_description = $input['edit_job_description'];
+
+        $result = $job->save();
+      }
+
+      else
+      {
+        $request->session()->flash('error', "Password did not match. Please Try Again");
+        return redirect()->back()->withInput();
+      }
+    }
+
+    if($result)
+    {
+      $request->session()->flash('success', 'Job has been updated!');
+      return redirect()->route('manage-job-page');
+    }
+
+  }
 }

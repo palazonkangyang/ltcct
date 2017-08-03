@@ -59,7 +59,7 @@ class GlController extends Controller
 
     if($glcodegroup)
     {
-      $request->session()->flash('success', 'New GL account group has been created!');
+      $request->session()->flash('success', 'New GL Account Group has been created!');
       return redirect()->route('new-glaccount-group-page');
     }
   }
@@ -103,7 +103,7 @@ class GlController extends Controller
 
     if($result)
     {
-      $request->session()->flash('success', 'GL account group has been updated!');
+      $request->session()->flash('success', 'GL Account Group has been updated!');
       return redirect()->route('new-glaccount-group-page');
     }
   }
@@ -162,7 +162,7 @@ class GlController extends Controller
 
     if($glcode)
     {
-      $request->session()->flash('success', 'New GL account group has been created!');
+      $request->session()->flash('success', 'New GL Account has been created!');
       return redirect()->back();
     }
 
@@ -213,7 +213,7 @@ class GlController extends Controller
 
     if($result)
     {
-      $request->session()->flash('success', 'GL account has been updated!');
+      $request->session()->flash('success', 'GL Account has been updated!');
       return redirect()->route('new-glaccount-page');
     }
   }

@@ -584,7 +584,7 @@
                                                                                 <tr>
                                                                                     <td>{{ $receipt->xy_receipt }}</td>
                                                                                     <td>{{ \Carbon\Carbon::parse($receipt->trans_date)->format("d/m/Y") }}</td>
-                                                                                    <td>{{ $receipt->xy_receipt }}</td>
+                                                                                    <td>{{ $receipt->trans_no }}</td>
                                                                                     <td>{{ $receipt->description }}</td>
                                                                                     <td>{{ $receipt->chinese_name }}</td>
                                                                                     <td>{{ $receipt->devotee_id }}</td>

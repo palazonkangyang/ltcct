@@ -807,7 +807,7 @@ class OperatorController extends Controller
 									->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
 									->orderBy('receipt_id', 'desc')
 									->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.manualreceipt',
-									'generaldonation.hjgr as generaldonation_hjgr')
+									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
 				         	->get();
 
 		$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();

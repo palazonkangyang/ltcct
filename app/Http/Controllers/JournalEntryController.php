@@ -21,7 +21,10 @@ class JournalEntryController extends Controller
 
   public function getManageJournalEntry()
   {
-    $glcode = GlCode::all();
+    $glcode = GlCode::join('glcodegroup', 'glcodegroup.glcodegroup_id', '=', 'glcode.glcodegroup_id')
+              ->select('glcode.*', 'glcodegroup.balancesheet_side')
+              ->get();
+
     $journalentry = JournalEntry::join('glcode as gl1', 'gl1.glcode_id', '=', 'journalentry.debit')
                     ->join('glcode as gl2', 'gl2.glcode_id', '=', 'journalentry.credit')
                     ->select('journalentry.*', 'gl1.type_name as debit_account', 'gl2.type_name as credit_account')
