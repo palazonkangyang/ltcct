@@ -960,7 +960,7 @@
 						@if(Session::has('optionaladdresses'))
 
 						@php $optionaladdresses = Session::get('optionaladdresses');
-							dd($optionaladdresses);
+
 						@endphp
 
 								@if(count($optionaladdresses) > 0)
@@ -969,59 +969,37 @@
 
 								@foreach($optionaladdresses as $optAddress)
 
-								<div class="edit_inner_opt_addr">
+								<div class="form-group">
 
-								@if($optAddress->type == 'company' && $optAddress->data != null)
+									<div class='col-md-1'>
+										<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
+									</div>
 
-									<div class="form-group">
+									<label class='col-md-2 control-label'>Opt.Addr</label><!-- end col-md-2 -->
 
-										<div class='col-md-1'>
-											<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
-										</div>
+									<div class='col-md-3'>
 
-										<label class='col-md-2 control-label'>Opt.Addr</label><!-- end col-md-2 -->
+										<select class='form-control' name='address_type[]'>
+											<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>Home</option>
+											<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>Comp</option>
+											<option value="stall" <?php if ($optAddress->type == "stall") echo "selected"; ?>>Stall</option>
+											<option value="office" <?php if ($optAddress->type == "office") echo "selected"; ?>>Office</option>
+										</select>
 
-										<div class='col-md-3'>
+									</div><!-- end col-md-4 -->
 
-											<select class='form-control' name='address_type[]'>
-												<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>Home</option>
-												<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>Comp</option>
-												<option value="stall" <?php if ($optAddress->type == "stall") echo "selected"; ?>>Stall</option>
-												<option value="office" <?php if ($optAddress->type == "office") echo "selected"; ?>>Office</option>
-											</select>
+									<div class='col-md-4'>
+										<input type="text" class="form-control edit-address-data" name="address_data[]" value="{{ $optAddress->data }}"
+											title="{{ $optAddress->data }}">
+									</div><!-- end col-md-4 -->
 
-										</div><!-- end col-md-4 -->
+									<div class='col-md-2'>
+										<button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button>
+									</div>
 
-										<div class='col-md-4'>
-											<input type="text" class="form-control edit-address-data" name="address_data[]" value="{{ $optAddress->data }}"
-												title="{{ $optAddress->data }}">
-										</div><!-- end col-md-4 -->
+								</div><!-- end form-group -->
 
-										<div class='col-md-2'>
-											<button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button>
-										</div>
 
-									</div><!-- end form-group -->
-
-									<div class="form-group" style="margin-bottom: 0;">
-
-											<div class="col-md-1"></div><!-- end col-md-1 -->
-
-											<label class="col-md-2"></label>
-
-											<div class="col-md-3">
-											</div><!-- end col-md-3 -->
-
-											<div class="col-md-4 populate-address">
-													<input type="hidden" class="form-control address-data-hidden" name="address_data_hidden[]" value="{{ $optAddress->address }}">
-											</div><!-- end col-md-4 -->
-
-											<div class="col-md-2">
-											</div><!-- end col-md-2 -->
-
-									</div><!-- end form-group -->
-
-								</div><!-- end edit_inner_opt_addr -->
 
 								@endforeach
 
