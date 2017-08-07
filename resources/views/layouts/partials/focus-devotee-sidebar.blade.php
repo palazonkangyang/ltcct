@@ -521,7 +521,7 @@
         <div class="col-md-6">
 
           <div class="form-group pull-right">
-           <button type="submit" class="btn default" id="quick_search"> Quick Search
+           <button type="submit" class="btn default" id="quick_search" style="width: 110px;"> Quick Search
            </button>
           </div><!-- end form-group -->
 
