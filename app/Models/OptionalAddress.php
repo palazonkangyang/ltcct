@@ -11,6 +11,7 @@ class OptionalAddress extends Model
     protected $fillable = [
         'type',
         'data',
+        'address',
         'address_translated',
         'devotee_id'
     ];

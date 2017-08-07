@@ -17,6 +17,7 @@ $(function() {
     	var address_street = $("#edit_address_street").val();
     	var address_building = $("#edit_address_building").val();
     	var address_postal = $("#edit_address_postal").val();
+      var oversea_addr_in_chinese = $('#edit_oversea_addr_in_chinese').val();
 
         $('#update_btn').removeAttr("disabled");
         $("#familycode-table tbody").empty();
@@ -28,7 +29,8 @@ $(function() {
         	address_unit2: address_unit2,
         	address_street: address_street,
         	address_building: address_building,
-        	address_postal: address_postal
+        	address_postal: address_postal,
+          oversea_addr_in_chinese: oversea_addr_in_chinese
         };
 
         $.ajax({
@@ -48,7 +50,7 @@ $(function() {
 
                         if(familycode_id != data.familycode_id)
                         {
-                          $('#edit-familycode-table tbody').append("<tr id='appendFamilyCode'><td><input type='radio' name='edit_familycode_id' " +
+                          $('#edit-familycode-table tbody').append("<tr id='appendRelocationFamilyCode'><td><input type='radio' name='edit_familycode_id' " +
                               "value='" + data.familycode_id + "' /></td>" +
                               "<td>" + data.familycode + "</td>" +
                               "<td><a href='#' class='toggler' data-prod-cat='" + data.familycode_id  + "'>+ " + data.chinese_name + "</a></td></tr>");
@@ -65,7 +67,7 @@ $(function() {
 
                 else
                 {
-                    $('#edit-familycode-table tbody').append("<tr id='edit_no_familycode'>" +
+                    $('#edit-familycode-table tbody').append("<tr id='relocation_no_familycode'>" +
                         "<td colspan='3'>No Family Code</td></tr>");
                 }
             },

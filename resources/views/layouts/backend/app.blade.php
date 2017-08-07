@@ -87,7 +87,7 @@
                             	<ul class="nav navbar-nav">
 
                             		<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                                        <a href="/operator/index" id="main-page"> Main Page 主页
+                                        <a href="/operator/index"> Main Page 主页
                                             <span class="arrow"></span>
                                         </a>
                                     </li>

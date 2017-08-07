@@ -14,6 +14,7 @@ use App\Models\TranslationStreet;
 use App\Models\Receipt;
 use App\Models\RelativeFriendLists;
 use App\Models\Country;
+use App\Models\FestiveEvent;
 use Auth;
 use DB;
 use Hash;
@@ -30,19 +31,25 @@ class OperatorController extends Controller
 	// Home Page
 	public function index()
 	{
-		$devotees = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-						->whereNull('member_id')
-						->whereNull('deceased_year')
-        				->select('devotee.*')
-        				->addSelect('familycode.familycode')
+		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
+								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+								->whereNull('deceased_year')
+        				->select('devotee.*', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+								->orderBy('devotee.devotee_id', 'desc')
+								->GroupBy('devotee.devotee_id')
         				->get();
 
+		// dd($devotees->toArray());
+
 		$members = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-						->whereNotNull('member_id')
-						->whereNull('deceased_year')
-						->orderBy('devotee_id', 'asc')
-        				->select('devotee.*')
+								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+								->whereNotNull('member_id')
+								->whereNull('deceased_year')
+								->orderBy('devotee_id', 'asc')
+        				->select('devotee.*', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
         				->addSelect('familycode.familycode')
+								->orderBy('devotee.devotee_id', 'desc')
+								->GroupBy('devotee.devotee_id')
         				->get();
 
     $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
@@ -62,6 +69,70 @@ class OperatorController extends Controller
         ]);
 	}
 
+	public function getDevoteeByID(Request $request, $devotee_id)
+	{
+		Session::forget('optionaladdresses');
+		Session::forget('optionalvehicles');
+		Session::forget('optionalvehicles');
+
+	  $devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+							 ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
+							 ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date')
+							 ->where('devotee.devotee_id', $devotee_id)
+							 ->get();
+
+		$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+					 		       ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+					 		       ->where('devotee_id', '!=', $devotee[0]->devotee_id)
+					 		       ->orderBy('devotee_id', 'asc')
+					 		       ->select('devotee.*')
+					 		       ->addSelect('familycode.familycode')->get();
+
+		if(isset($devotee[0]->dob))
+		{
+			$devotee[0]->dob = Carbon::parse($devotee[0]->dob)->format("d/m/Y");
+		}
+
+		if(isset($devotee[0]->approved_date))
+		{
+			$devotee[0]->approved_date = Carbon::parse($devotee[0]->approved_date)->format("d/m/Y");
+		}
+
+	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
+	  $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
+	  $specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
+
+	  // remove session data
+	  if(Session::has('focus_devotee'))
+	  {
+	    Session::forget('focus_devotee');
+	  }
+
+		// remove session data
+	  if(Session::has('devotee_lists'))
+	  {
+	    Session::forget('devotee_lists');
+	  }
+
+	  Session::put('focus_devotee', $devotee);
+		Session::put('devotee_lists', $devotee_lists);
+		Session::put('optionaladdresses', $optionaladdresses);
+		Session::put('optionalvehicles', $optionalvehicles);
+		Session::put('specialRemarks', $specialRemarks);
+
+		$today = Carbon::today();
+
+		$events = FestiveEvent::orderBy('start_at', 'asc')
+							->where('start_at', '>', $today)
+							->take(1)
+							->get();
+
+		return redirect()->route('get-donation-page', [
+			'events' => $events
+		]);
+
+	}
+
 	// Get Search Family Code
 	public function getSearchFamilyCode(Request $request)
 	{
@@ -69,11 +140,11 @@ class OperatorController extends Controller
 
 		// Find Focus Devotee
 		$devotee = new Devotee;
-        $result = $devotee->searchFamilyCode($input)->get();
+    $result = $devotee->searchFamilyCode($input)->get();
 
-        return response()->json(array(
-        	'familycode' => $result
-        ));
+    return response()->json(array(
+      'familycode' => $result
+    ));
 	}
 
 	// Get Devotee Detail
@@ -132,8 +203,9 @@ class OperatorController extends Controller
 	public function getFocusDevoteeDetail(Request $request)
 	{
 	  $devotee_id = $_GET['devotee_id'];
-		// $devotee_id = 41;
 
+		Session::forget('focus_devotee');
+		Session::forget('devotee_lists');
 		Session::forget('optionaladdresses');
 		Session::forget('optionalvehicles');
 		Session::forget('optionalvehicles');
@@ -165,41 +237,13 @@ class OperatorController extends Controller
 	  $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
 	  $specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
 
-	  // remove session data
-	  if(Session::has('focus_devotee'))
-	  {
-	    Session::forget('focus_devotee');
-	  }
-
-		// remove session data
-	  if(Session::has('devotee_lists'))
-	  {
-	    Session::forget('devotee_lists');
-	  }
-
-		// remove session data
-	  // if(Session::has('optionaladdresses'))
-	  // {
-	  //   Session::forget('optionaladdresses');
-	  // }
-		//
-		// // remove session data
-	  // if(Session::has('optionalvehicles'))
-	  // {
-	  //   Session::forget('optionalvehicles');
-	  // }
-		//
-		// // remove session data
-	  // if(Session::has('specialRemarks'))
-	  // {
-	  //   Session::forget('specialRemarks');
-	  // }
-
 	  Session::put('focus_devotee', $devotee);
 		Session::put('devotee_lists', $devotee_lists);
 		Session::put('optionaladdresses', $optionaladdresses);
 		Session::put('optionalvehicles', $optionalvehicles);
 		Session::put('specialRemarks', $specialRemarks);
+
+
 
 	  return response()->json(array(
 	    'devotee' => $devotee,
@@ -286,6 +330,7 @@ class OperatorController extends Controller
 						"race" => $input['race'],
 						"other_race" => $input['other_race'],
 				    "nationality" => $input['nationality'],
+						"mailer" => $input['mailer'],
 				    "familycode_id" => $input['familycode_id'],
 				    "member_id" => $member_id
 				  ];
@@ -330,6 +375,7 @@ class OperatorController extends Controller
 					 "race" => $input['race'],
 					 "other_race" => $input['other_race'],
 				   "nationality" => $input['nationality'],
+					 "mailer" => $input['mailer'],
 				   "familycode_id" => $familycode->familycode_id,
 				   "member_id" => $member_id
 				 ];
@@ -364,6 +410,7 @@ class OperatorController extends Controller
 						"race" => $input['race'],
 						"other_race" => $input['other_race'],
 		        "nationality" => $input['nationality'],
+						"mailer" => $input['mailer'],
 		        "familycode_id" => $input['familycode_id']
 		    ];
 
@@ -407,6 +454,7 @@ class OperatorController extends Controller
 					"race" => $input['race'],
 					"other_race" => $input['other_race'],
 		      "nationality" => $input['nationality'],
+					"mailer" => $input['mailer'],
 		      "familycode_id" => $familycode->familycode_id
 		    ];
 
@@ -416,18 +464,33 @@ class OperatorController extends Controller
 
 				if($devotee_id != null)
 		    {
-		      if(isset($input['address_data'][0]))
+		      if(isset($input['address_data_hidden'][0]))
 		      {
-		        // Save Optional Address
+						// Save Optional Address
 				    for($i = 0; $i < count($input['address_type']); $i++)
 				    {
-				      $optional_address = [
-				        "type" => $input['address_type'][$i],
-				        "data" => $input['address_data'][$i],
-				        "devotee_id" => $devotee_id
-				      ];
+				      if($input['address_type'][$i] == 'company' || $input['address_type'][$i] == 'stall')
+							{
+								$optional_address = [
+					        "type" => $input['address_type'][$i],
+					        "data" => $input['address_data'][$i],
+									"address" => $input['address_data_hidden'][$i],
+					        "devotee_id" => $devotee_id
+					      ];
 
-				      OptionalAddress::create($optional_address);
+					      OptionalAddress::create($optional_address);
+							}
+
+							else
+							{
+								$optional_address1 = [
+					        "type" => $input['address_type'][$i],
+									"address" => $input['address_data_hidden'][$i],
+					        "devotee_id" => $devotee_id
+					      ];
+
+					      OptionalAddress::create($optional_address1);
+							}
 				    }
 		      }
 
@@ -761,29 +824,23 @@ class OperatorController extends Controller
 		$devotee = new Devotee;
     $focus_devotee = $devotee->focusDevotee($input)->get();
 
-		if(isset($focus_devotee[0]->dob))
-		{
-			$focus_devotee[0]->dob = Carbon::parse($focus_devotee[0]->dob)->format("d/m/Y");
-		}
-
-		if(isset($focus_devotee[0]->approved_date))
-		{
-			$focus_devotee[0]->approved_date = Carbon::parse($focus_devotee[0]->approved_date)->format("d/m/Y");
-		}
-
 		if(count($focus_devotee) == 0)
 		{
-			$request->session()->flash('error', 'There has no record. Please search again.');
 			return redirect()->back()->withInput();
 		}
 
-		// elseif(count($focus_devotee) > 1)
-		// {
-		// 	$request->session()->flash('error', 'There has more than one record. Please search with more details.');
-		// 	return redirect()->back()->withInput();
-		// }
-
 		else {
+
+			if(isset($focus_devotee[0]->dob))
+			{
+				$focus_devotee[0]->dob = Carbon::parse($focus_devotee[0]->dob)->format("d/m/Y");
+			}
+
+			if(isset($focus_devotee[0]->approved_date))
+			{
+				$focus_devotee[0]->approved_date = Carbon::parse($focus_devotee[0]->approved_date)->format("d/m/Y");
+			}
+
 			// Get Devotee Lists for relocation
 	    $familycode_id = $focus_devotee[0]->familycode_id;
 
@@ -810,63 +867,62 @@ class OperatorController extends Controller
 									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
 				         	->get();
 
-		$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
-		$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
-		$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+			$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+			$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+			$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 
 
-		if(!Session::has('focus_devotee'))
-		{
-			Session::put('focus_devotee', $focus_devotee);
-		}
+			if(!Session::has('focus_devotee'))
+			{
+				Session::put('focus_devotee', $focus_devotee);
+			}
 
-		if(!Session::has('devotee_lists'))
-		{
-			Session::put('devotee_lists', $devotee_lists);
-		}
+			if(!Session::has('devotee_lists'))
+			{
+				Session::put('devotee_lists', $devotee_lists);
+			}
 
-		if(!Session::has('optionaladdresses'))
-		{
-			Session::put('optionaladdresses', $optionaladdresses);
-		}
+			if(!Session::has('optionaladdresses'))
+			{
+				Session::put('optionaladdresses', $optionaladdresses);
+			}
 
-		if(!Session::has('optionalvehicles'))
-		{
-			Session::put('optionalvehicles', $optionalvehicles);
-		}
+			if(!Session::has('optionalvehicles'))
+			{
+				Session::put('optionalvehicles', $optionalvehicles);
+			}
 
-		if(!Session::has('specialRemarks'))
-		{
-			Session::put('specialRemarks', $specialRemarks);
-		}
+			if(!Session::has('specialRemarks'))
+			{
+				Session::put('specialRemarks', $specialRemarks);
+			}
 
-		if(!Session::has('relative_friend_lists'))
-		{
-			Session::put('relative_friend_lists', $relative_friend_lists);
-		}
+			if(!Session::has('relative_friend_lists'))
+			{
+				Session::put('relative_friend_lists', $relative_friend_lists);
+			}
 
-		if(!Session::has('receipts'))
-		{
-			Session::put('receipts', $receipts);
-		}
+			if(!Session::has('receipts'))
+			{
+				Session::put('receipts', $receipts);
+			}
 
-		if(count($focus_devotee) > 1)
-		{
-			$request->session()->flash('error', 'There has more than one record. Please search with more details.');
+			// if(count($focus_devotee) > 1)
+			// {
+			// 	// $request->session()->flash('error', 'There has more than one record. Please search with more details.');
+			// 	return redirect()->back()->withInput()->with([
+			// 		'members' => $members,
+			// 		'devotees' => $devotees,
+			// 		'deceased_lists' => $deceased_lists,
+			// 	]);
+			// }
+
 			return redirect()->back()->withInput()->with([
 				'members' => $members,
 				'devotees' => $devotees,
 				'deceased_lists' => $deceased_lists,
 			]);
 		}
-
-		return redirect()->back()->with([
-			'members' => $members,
-			'devotees' => $devotees,
-			'deceased_lists' => $deceased_lists,
-		]);
-	}
-
 	}
 
 
@@ -874,8 +930,8 @@ class OperatorController extends Controller
 	public function getRemoveFocusDevotee(Request $request)
 	{
 		$devotees = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-						->whereNull('member_id')
-						->whereNull('deceased_year')
+								->whereNull('member_id')
+								->whereNull('deceased_year')
         				->select('devotee.*')
         				->addSelect('familycode.familycode')->paginate(50);
 
@@ -935,8 +991,28 @@ class OperatorController extends Controller
 	// Relocation Devotees
 	public function postRelocationDevotees(Request $request)
 	{
+			$relocation_familycode_id = "";
 			$input = Input::except('_token', 'address_houseno', 'address_unit1', 'address_unit2', 'address_street',
 								'address_building', 'address_postal', 'nationality', 'oversea_addr_in_chinese');
+
+			if(isset($input['relocation_familycode_id']))
+			{
+				$relocation_familycode_id = $input['relocation_familycode_id'];
+			}
+
+			if($relocation_familycode_id == "") {
+
+				$familycode_id = FamilyCode::all()->last()->familycode_id;
+				$new_familycode_id = $familycode_id + 1;
+				$new_familycode = "F" . $new_familycode_id;
+
+				$familycode_data = [
+					"familycode" => $new_familycode
+				];
+
+				$familycode = FamilyCode::create($familycode_data);
+				$relocation_familycode_id = $familycode->familycode_id;
+			}
 
 			$user = User::find(Auth::user()->id);
 			$hashedPassword = $user->password;
@@ -955,6 +1031,7 @@ class OperatorController extends Controller
 			    $devotee->address_postal = $input['new_address_postal'];
 			    $devotee->nationality = $input['new_nationality'];
 			    $devotee->oversea_addr_in_chinese = $input['new_oversea_addr_in_chinese'];
+					$devotee->familycode_id = $relocation_familycode_id;
 					$devotee->save();
 		    }
 
@@ -971,8 +1048,8 @@ class OperatorController extends Controller
 												 ->get();
 
 				$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-				        ->where('devotee.familycode_id', $session_focus_devotee[0]->familycode_id)
-				        ->where('devotee_id', '!=', $session_focus_devotee[0]->devotee_id)
+				        ->where('devotee.familycode_id', $focus_devotee[0]->familycode_id)
+				        ->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
 				        ->orderBy('devotee_id', 'asc')
 				        ->select('devotee.*')
 				        ->addSelect('familycode.familycode')->get();

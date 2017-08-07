@@ -2,7 +2,7 @@
   display: none;
 }
 
-#members_table{
+#devotees_table, #members_table, #deceased_table, #search_table{
   width: 1320px!important;
 }
 

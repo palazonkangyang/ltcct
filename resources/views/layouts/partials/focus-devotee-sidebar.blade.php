@@ -87,7 +87,7 @@
 
                           <div class="form-group">
                               <label>Street Name</label>
-                              <input type="text" class="form-control" name="address_street" value="{{ old('address_street') }}">
+                              <input type="text" class="form-control" name="address_street" value="{{ old('address_street') }}" id="address_street">
                           </div><!-- end form-group -->
 
                           <div class="form-group">
@@ -286,7 +286,7 @@
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="nationality" id="nationality"
-                                value="{{ $focus_devotee[0]->nationality }}">
+                                value="{{ $focus_devotee[0]->country_name }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
 
@@ -443,7 +443,7 @@
 
                       <div class="form-group">
                           <label>Street Name</label>
-                          <input type="text" class="form-control" name="address_street" value="{{ old('address_street') }}">
+                          <input type="text" class="form-control" name="address_street" value="{{ old('address_street') }}" id="address_street">
                       </div><!-- end form-group -->
 
                       <div class="form-group">
@@ -506,13 +506,27 @@
         <div class="col-md-6">
 
           <div class="form-group pull-right">
-           <button type="submit" class="btn default" style="margin-right: 25px; width:100px;" id="quick_search"> Search
+           <button type="button" class="btn default" style="margin-right: 25px; width:100px;" id="new"> New
+           </button>
+          </div><!-- end form-group -->
+
+        </div><!-- end col-md-6 -->
+
+        <div class="col-md-6">
+
+          <div class="form-group pull-right">
+           <button type="submit" class="btn default" id="quick_search"> Quick Search
            </button>
           </div><!-- end form-group -->
 
         </div><!-- end col-md-6 -->
 
         </form>
+
+        <div class="clearfix"></div><!-- end clearfix -->
+
+        <div class="col-md-6">
+        </div><!-- end col-md-6 -->
 
         <div class="col-md-6">
 
@@ -522,7 +536,7 @@
               {!! csrf_field() !!}
 
           <div class="form-group pull-right">
-              <button type="submit" class="btn default" id="new_search" style="width: 100px;">Reset</button>
+              <button type="submit" class="btn default" id="new_search" style="width: 110px;">New Search</button>
           </div>
 
           </form>

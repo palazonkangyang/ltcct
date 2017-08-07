@@ -33,6 +33,7 @@ class Devotee extends Model
         'race',
         'other_race',
         'nationality',
+        'mailer',
         'familycode_id',
         'member_id'
     ];
@@ -70,90 +71,110 @@ class Devotee extends Model
             'member.introduced_by1',
             'member.introduced_by2',
             'member.approved_date',
-            'familycode.familycode'
+            'familycode.familycode',
+            'country.country_name'
         );
 
         $devotee->leftjoin('member', 'devotee.member_id', '=', 'member.member_id');
         $devotee->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
+        $devotee->leftjoin('country', 'country.id', '=', 'devotee.nationality');
 
         if (\Input::get("chinese_name")) {
-            $devotee->where('chinese_name', '=', $input['chinese_name']);
+            $devotee->where('chinese_name', 'like', '%' . $input['chinese_name'] . '%');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("devotee_id")) {
             $devotee->where('devotee_id', '=', $input['devotee_id']);
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("member_id")) {
             $devotee->where('devotee.member_id', '=', $input['member_id']);
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("familycode")) {
-            $devotee->where('familycode.familycode', '=', $input['familycode']);
+            $devotee->where('familycode.familycode', 'like', '%' . $input['familycode'] . '%');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("nric")) {
-            $devotee->where('nric', '=', $input['nric']);
-        }
-
-        if (\Input::get("contact")) {
-            $devotee->where('contact', '=', $input['contact']);
-        }
-
-        if (\Input::get("address_houseno")) {
-            $devotee->where('address_houseno', '=', $input['address_houseno']);
+            $devotee->where('nric', 'like', '%' . $input['nric'] . '%');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("address_street")) {
-            $devotee->where('address_street', '=', $input['address_street']);
+            $devotee->where('address_street', 'like', '%' . $input['address_street'] . '%');
+            $devotee->orderBy('devotee.address_street', 'asc');
+        }
+
+        if (\Input::get("address_houseno")) {
+            $devotee->where('address_houseno', 'like', '%' . $input['address_houseno'] . '%');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("adress_unit1")) {
             $devotee->where('adress_unit1', '=', $input['adress_unit1']);
+            $devotee->orderBy('devotee.adress_unit1', 'asc');
         }
 
         if (\Input::get("adress_unit2")) {
             $devotee->where('adress_unit2', '=', $input['adress_unit2']);
+            $devotee->orderBy('devotee.adress_unit2', 'asc');
         }
 
         if (\Input::get("address_postal")) {
-            $devotee->where('address_postal', '=', $input['address_postal']);
+            $devotee->where('address_postal', 'like', '%' . $input['address_postal'] . '%');
+            $devotee->orderBy('devotee.address_postal', 'asc');
+        }
+
+        if (\Input::get("contact")) {
+            $devotee->where('contact', 'like', '%' . $input['contact'] . '%');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         return $devotee;
     }
 
-
+    // search family code
     public function searchFamilyCode($input)
     {
-        $devotee = DB::table('devotee');
-        $devotee->select(
-            'devotee.devotee_id',
-            'devotee.chinese_name',
-            'familycode.familycode_id',
-            'familycode.familycode'
-        );
+        if(isset($input['address_unit1']))
+        {
+          $devotee = DB::table('devotee');
+          $devotee->select(
+              'devotee.devotee_id',
+              'devotee.chinese_name',
+              'familycode.familycode_id',
+              'familycode.familycode'
+          );
 
-        $devotee->join('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
+          $devotee->join('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
 
-        $devotee->where('address_houseno', '=', $input['address_houseno']);
-        $devotee->where('address_unit1', '=', $input['address_unit1']);
-        $devotee->where('address_unit2', '=', $input['address_unit2']);
-        $devotee->where('address_street', '=', $input['address_street']);
-        $devotee->where('address_building', '=', $input['address_building']);
-        $devotee->where('address_postal', '=', $input['address_postal']);
-        $devotee->orderBy('familycode_id', 'asc');
+          $devotee->where('address_unit1', '=', $input['address_unit1']);
+          $devotee->where('address_unit2', '=', $input['address_unit2']);
+          $devotee->where('address_postal', '=', $input['address_postal']);
+          $devotee->orderBy('familycode_id', 'asc');
+        }
+
+        else
+        {
+          $devotee = DB::table('devotee');
+          $devotee->select(
+              'devotee.devotee_id',
+              'devotee.chinese_name',
+              'familycode.familycode_id',
+              'familycode.familycode'
+          );
+
+          $devotee->join('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
+
+          $devotee->where('oversea_addr_in_chinese', '=', $input['oversea_addr_in_chinese']);
+          $devotee->orderBy('familycode_id', 'asc');
+        }
 
         return $devotee;
     }
 
-    // public function optionaladdress()
-    // {
-    //     return $this->hasMany( \App\Models\OptionalAddress::class );
-    // }
-
-    // public function optionalvehicle()
-    // {
-    //     return $this->hasMany( \App\Models\OptionalVehicle::class );
-    // }
 }
