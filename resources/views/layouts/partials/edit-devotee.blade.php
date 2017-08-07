@@ -361,31 +361,31 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Title</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Title</label>
+	 									<div class="col-md-8">
 	 											<select class="form-control" name="title" id="edit_title">
 	 													<option value="mr">Mr</option>
 	 													<option value="miss">Miss</option>
 	 													<option value="madam">Madam</option>
 	 											</select>
-	 									</div><!-- end col-md-9 -->
+	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Chinese Name *</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Chinese Name</label>
+	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="chinese_name" value="{{ $focus_devotee[0]->chinese_name }}"
 	 													id="edit_chinese_name">
-	 											</div><!-- end col-md-9 -->
+	 											</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">English Name</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">English Name</label>
+	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="english_name" value="{{ $focus_devotee[0]->english_name }}" id="edit_english_name">
 	 									</div><!-- end col-md-9 -->
 
@@ -393,40 +393,40 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Contact # *</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Contact #</label>
+	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="contact" value="{{ $focus_devotee[0]->contact }}" id="edit_contact">
-	 									</div><!-- end col-md-9 -->
+	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Guiyi Name</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Guiyi Name</label>
+	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="guiyi_name" value="{{ $focus_devotee[0]->guiyi_name }}" id="edit_guiyi_name">
-	 									</div><!-- end col-md-9 -->
+	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Address - House No *</label>
-	 									<div class="col-md-3">
+	 									<label class="col-md-4">Address - House No</label>
+	 									<div style='width:14.5%;float:left; padding-left: 15px;'>
 	 											<input type="text" class="form-control" name="address_houseno" value="{{ $focus_devotee[0]->address_houseno }}"
 	 													id="edit_address_houseno">
 	 									</div><!-- end col-md-3 -->
 
-	 									<label class="col-md-1 control-label">Unit</label>
+	 									<label style='width:9.3%;float:left;'>Unit</label>
 
-	 									<div class="col-md-2">
+	 									<div style='width:16.66667%;float:left;'>
 	 											<input type="text" class="form-control" name="address_unit1" value="{{ $focus_devotee[0]->address_unit1 }}"
 	 													id="edit_address_unit1">
 	 									</div><!-- end col-md-2 -->
 
-	 									<label class="col-md-1">-</label>
+	 									<label style='width:6.2%;float:left;'>-</label>
 
-	 									<div class="col-md-2">
+	 									<div style='width:16.66667%;float:left;'>
 	 											<input type="text" class="form-control" name="address_unit2" value="{{ $focus_devotee[0]->address_unit2 }}"
 	 													id="edit_address_unit2">
 	 									</div><!-- end col-md-2 -->
@@ -435,51 +435,51 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Address - Street *</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Address - Street</label>
+	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="address_street"
 	 													value="{{ $focus_devotee[0]->address_street }}" id="edit_address_street">
-	 									</div><!-- end col-md-9 -->
+	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Address - Building</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Address - Building</label>
+	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="address_building" value="{{ $focus_devotee[0]->address_building }}"
 	 													id="edit_address_building">
-	 									</div><!-- end col-md-9 -->
+	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Address - Postal *</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Address - Postal</label>
+	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="address_postal" value="{{ $focus_devotee[0]->address_postal }}"
 	 													id="edit_address_postal">
-	 									</div><!-- end col-md-9 -->
+	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Address - Translate</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Address - Translate</label>
+	 									<div class="col-md-8">
 	 													<input type="text" class="form-control" name="address_translated" id="edit_address_translated"
 														value="" readonly>
-	 									</div><!-- end col-md-9 -->
+	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-3 control-label">Oversea Addr in Chinese</label>
-	 									<div class="col-md-9">
+	 									<label class="col-md-4">Oversea Addr in Chinese</label>
+	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="oversea_addr_in_chinese" id="edit_oversea_addr_in_chinese"
 												value="{{ $focus_devotee[0]->oversea_addr_in_chinese }}">
-	 									</div><!-- end col-md-9 -->
+	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
 
@@ -503,63 +503,63 @@
 
 									<div class="form-group">
 
-										<label class="col-md-3 control-label">NRIC</label>
-										<div class="col-md-9">
+										<label class="col-md-4">NRIC</label>
+										<div class="col-md-8">
 											 <input type="text" class="form-control" name="nric" value="{{ $focus_devotee[0]->nric }}" id="edit_nric">
-										 </div><!-- end col-md-9 -->
+										 </div><!-- end col-md-8 -->
 
 									</div><!-- end form-group -->
 
 									<div class="form-group">
 
-											<label class="col-md-3 control-label">Deceased Year</label>
-											<div class="col-md-9">
+											<label class="col-md-4">Deceased Year</label>
+											<div class="col-md-8">
 													<input type="text" class="form-control" name="deceased_year"
 															value="{{ $focus_devotee[0]->deceased_year }}" id="edit_deceased_year">
-											</div><!-- end col-md-9 -->
+											</div><!-- end col-md-8 -->
 
 									</div><!-- end form-group -->
 
 									<div class="form-group">
 
-											<label class="col-md-3 control-label">Date of Birth</label>
-											<div class="col-md-9">
+											<label class="col-md-4">Date of Birth</label>
+											<div class="col-md-8">
 													<input type="text" class="form-control" name="dob" data-provide="datepicker" data-date-format="dd/mm/yyyy"
 													value="{{ $focus_devotee[0]->dob }}" id="edit_dob">
-											</div><!-- end col-md-9 -->
+											</div><!-- end col-md-8 -->
 
 									</div><!-- end form-group -->
 
 									<div class="form-group">
 
-											<label class="col-md-3 control-label">Marital Status</label>
-											<div class="col-md-9">
+											<label class="col-md-4">Marital Status</label>
+											<div class="col-md-8">
 													<select class="form-control" name="marital_status" id="edit_marital_status">
 															<option value="">Please select</option>
 															<option value="single" <?php if ($focus_devotee[0]->marital_status == "single") echo "selected"; ?>>Single</option>
 															<option value="married" <?php if ($focus_devotee[0]->marital_status == "married") echo "selected"; ?>>Married</option>
 													</select>
-											</div><!-- end col-md-9 -->
+											</div><!-- end col-md-8 -->
 
 									</div><!-- end form-group -->
 
 									<div class="form-group">
 
-											<label class="col-md-3 control-label">Dialect</label>
-											<div class="col-md-9">
+											<label class="col-md-4">Dialect</label>
+											<div class="col-md-8">
 													<select class="form-control" name="dialect" id="edit_dialect">
 															<option value="">Please select</option>
 															<option value="chinese" <?php if ($focus_devotee[0]->dialect == "chinese") echo "selected"; ?>>Chinese</option>
 															<option value="others" <?php if ($focus_devotee[0]->dialect == "others") echo "selected"; ?>>Others</option>
 													</select>
-											</div><!-- end col-md-9 -->
+											</div><!-- end col-md-8 -->
 
 									</div><!-- end form-group -->
 
 									<div class="form-group" id="edit_other_dialect_field" style="display:none;">
 
-											<label class="col-md-3 control-label"></label>
-											<div class="col-md-9">
+											<label class="col-md-4"></label>
+											<div class="col-md-8">
 													<input type="text" name="other_dialect" class="form-control" value="{{ $focus_devotee[0]->other_dialect }}"
 													placeholder="Other Dialect" id="edit_other_dialect">
 											</div><!-- end col-md-9 -->
@@ -568,31 +568,31 @@
 
 									<div class="form-group">
 
-											<label class="col-md-3 control-label">Race</label>
-											<div class="col-md-9">
+											<label class="col-md-4">Race</label>
+											<div class="col-md-8">
 													<select class="form-control" name="race" id="edit_race">
 															<option value="">Please select</option>
 															<option value="chinese">Chinese</option>
 															<option value="others">Others</option>
 													</select>
-											</div><!-- end col-md-9 -->
+											</div><!-- end col-md-8 -->
 
 									</div><!-- end form-group -->
 
 									<div class="form-group" id="edit_other_race_field" style="display:none;">
 
-										 <label class="col-md-3 control-label"></label>
-										 <div class="col-md-9">
+										 <label class="col-md-4"></label>
+										 <div class="col-md-8">
 												 <input type="text" name="other_race" class="form-control" value="{{ $focus_devotee[0]->other_race }}"
 												 placeholder="Other Race" id="edit_other_race">
-										 </div><!-- end col-md-9 -->
+										 </div><!-- end col-md-8 -->
 
 								 </div><!-- end form-group -->
 
 									<div class="form-group">
 
-											<label class="col-md-3 control-label">Nationality</label>
-											<div class="col-md-9">
+											<label class="col-md-4">Nationality</label>
+											<div class="col-md-8">
 													<select class="form-control" name="nationality" id="edit_nationality">
 															<option value="">Please select</option>
 															@foreach($countries as $country)
@@ -601,14 +601,14 @@
 															</option>
 															@endforeach
 													</select>
-											</div><!-- end col-md-9 -->
+											</div><!-- end col-md-8 -->
 
 									</div><!-- end form-group -->
 
 									<div class="form-group">
 
-											<label class="col-md-3"></label>
-											<div class="col-md-9">
+											<label class="col-md-4"></label>
+											<div class="col-md-8">
 													<div class="table-scrollable" id="edit-familycode-table">
 															<table class="table table-bordered table-hover">
 
@@ -633,7 +633,7 @@
 
 									<div class="form-group">
 
-											<label class="col-md-3 control-label">Mailer</label>
+											<label class="col-md-4">Mailer</label>
 											<div class="col-md-3">
 													<select class="form-control" name="mailer">
 														<option value="No">No</option>
@@ -1194,65 +1194,65 @@
 								<h4>Local Address</h4>
 
 								<div class="form-group">
-									<label class="col-md-3 control-label">House No</label>
-									<div class="col-md-3">
+									<label class="col-md-4">House No</label>
+									<div style='width:14.5%;float:left; padding-left: 15px;'>
 											<input type="text" class="form-control" name="populate_houseno"
 													value="{{ old('populate_houseno') }}" id="edit_populate_houseno">
 									</div><!-- end col-md-3 -->
 
-									<label class="col-md-1 control-label">Unit</label>
+									<label style='width:9.3%;float:left;'>Unit</label>
 
-									<div class="col-md-2">
+									<div style='width:16.66667%;float:left;'>
 											<input type="text" class="form-control" name="populate_unit_1"
 													value="{{ old('populate_unit_1') }}" id="edit_populate_unit_1">
 									</div><!-- end col-md-2 -->
 
-									<label class="col-md-1">-</label>
+									<label style='width:6.2%;float:left;'>-</label>
 
-									<div class="col-md-2">
+									<div style='width:16.66667%;float:left;'>
 											<input type="text" class="form-control" name="populate_unit_2"
 													value="{{ old('populate_unit_2') }}" id="edit_populate_unit_2">
 									</div><!-- end col-md-2 -->
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-3 control-label">Street</label>
-									<div class="col-md-9">
+									<label class="col-md-4">Street</label>
+									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_street"
 													value="{{ old('populate_address_street') }}" id="edit_populate_street">
-									</div><!-- end col-md-9 -->
+									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-3 control-label">Building</label>
-									<div class="col-md-9">
+									<label class="col-md-4">Building</label>
+									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_building"
 													value="{{ old('populate_building') }}" id="edit_populate_building">
-									</div><!-- end col-md-9 -->
+									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-3 control-label">Postal</label>
-									<div class="col-md-9">
+									<label class="col-md-4">Postal</label>
+									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_postal"
 													value="{{ old('populate_postal') }}" id="edit_populate_postal">
-									</div><!-- end col-md-9 -->
+									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-3 control-label">Address Translate</label>
-									<div class="col-md-9">
+									<label class="col-md-4">Address Translate</label>
+									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_address_translate" readonly
 													value="{{ old('populate_address_translate') }}" id="edit_populate_address_translate">
-									</div><!-- end col-md-9 -->
+									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-3 control-label">Oversea Addr in China</label>
-									<div class="col-md-9">
+									<label class="col-md-4">Oversea Addr in China</label>
+									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_oversea_addr_in_china"
 													value="{{ old('populate_oversea_addr_in_china') }}" id="edit_populate_oversea_addr_in_china">
-									</div><!-- end col-md-9 -->
+									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
 							</div>
 

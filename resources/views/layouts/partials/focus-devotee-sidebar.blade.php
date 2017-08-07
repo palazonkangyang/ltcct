@@ -101,10 +101,13 @@
                               <div class="clearfix">
                               </div>
 
-                              <div class="col-md-6">
+                              <div style='width:16.66667%;float:left;'>
                                 <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
                               </div>
-                              <div class="col-md-6">
+
+                              <label style='width:6.2%;float:left;'>-</label>
+
+                              <div style='width:16.66667%;float:left;'>
                                 <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">
                               </div>
 
@@ -457,10 +460,13 @@
                           <div class="clearfix">
                           </div>
 
-                          <div class="col-md-6">
+                          <div style='width:43%;float:left;'>
                             <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
                           </div>
-                          <div class="col-md-6">
+
+                          <label style='width:7%;float:left;'>-</label>
+
+                          <div style='width:43%;float:left;'>
                             <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">
                           </div>
 

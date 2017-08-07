@@ -366,13 +366,13 @@
                                                                     <div class="form-group">
 
                                                                         <label class="col-md-4">Address - House No</label>
-                                                                        <div style='width:12%;float:left; padding-left: 15px;'>
+                                                                        <div style='width:14.5%;float:left; padding-left: 15px;'>
                                                                             <input type="text" class="form-control" name="address_houseno"
                                                                                 value="{{ old('address_houseno') }}"
                                                                                 id="content_address_houseno">
                                                                         </div><!-- end col-md-3 -->
 
-                                                                        <label style='width:8.3%;float:left;'>Unit</label>
+                                                                        <label style='width:9.3%;float:left;'>Unit</label>
 
                                                                         <div style='width:16.66667%;float:left;'>
                                                                             <input type="text" class="form-control" name="address_unit1"
@@ -585,7 +585,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-3 control-label">Mailer</label>
+                                                                        <label class="col-md-4">Mailer</label>
                                                                         <div class="col-md-2">
                                                                             <select class="form-control" name="mailer" style="width: 90px;">
 																																							<option value="No">No</option>
@@ -758,65 +758,65 @@
 																																		<h4>Local Address</h4>
 
 																																		<div class="form-group">
-																																			<label class="col-md-3">House No</label>
-																																			<div class="col-md-3">
+																																			<label class="col-md-4">House No</label>
+																																			<div style='width:14.5%;float:left; padding-left: 15px;'>
 																																					<input type="text" class="form-control" name="populate_houseno"
 																																							value="{{ old('populate_houseno') }}" id="populate_houseno">
 																																			</div><!-- end col-md-3 -->
 
-																																			<label class="col-md-1 control-label">Unit</label>
+																																			<label style='width:9.3%;float:left;'>Unit</label>
 
-																																			<div class="col-md-2">
+																																			<div style='width:16.66667%;float:left;'>
 																																					<input type="text" class="form-control" name="populate_unit_1"
 																																							value="{{ old('populate_unit_1') }}" id="populate_unit_1">
 																																			</div><!-- end col-md-2 -->
 
-																																			<label class="col-md-1">-</label>
+																																			<label style='width:6.2%;float:left;'>-</label>
 
-																																			<div class="col-md-2">
+																																			<div style='width:16.66667%;float:left;'>
 																																					<input type="text" class="form-control" name="populate_unit_2"
 																																							value="{{ old('populate_unit_2') }}" id="populate_unit_2">
 																																			</div><!-- end col-md-2 -->
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-5">Street</label>
-																																			<div class="col-md-7">
+																																			<label class="col-md-4">Street</label>
+																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_street"
 																																							value="{{ old('populate_address_street') }}" id="populate_street">
-																																			</div><!-- end col-md-7 -->
+																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-5">Building</label>
-																																			<div class="col-md-7">
+																																			<label class="col-md-4">Building</label>
+																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_building"
 																																							value="{{ old('populate_building') }}" id="populate_building">
-																																			</div><!-- end col-md-7 -->
+																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-5">Postal</label>
-																																			<div class="col-md-7">
+																																			<label class="col-md-4">Postal</label>
+																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_postal"
 																																							value="{{ old('populate_postal') }}" id="populate_postal">
-																																			</div><!-- end col-md-7 -->
+																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-5">Address Translate</label>
-																																			<div class="col-md-7">
+																																			<label class="col-md-4">Address Translate</label>
+																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_address_translate" readonly
 																																							value="{{ old('populate_address_translate') }}" id="populate_address_translate">
-																																			</div><!-- end col-md-7 -->
+																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-5">Oversea Addr in Chinese</label>
-																																			<div class="col-md-7">
+																																			<label class="col-md-4">Oversea Addr in Chinese</label>
+																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_oversea_addr_in_china"
 																																							value="{{ old('populate_oversea_addr_in_china') }}" id="populate_oversea_addr_in_china">
-																																			</div><!-- end col-md-7 -->
+																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 																																	</div>
 
@@ -892,7 +892,7 @@
                                                                     class="form-horizontal form-bordered">
                                                                     {!! csrf_field() !!}
 
-                                                                <div class="col-md-12">
+                                                                <div class="col-md-12 .relocation-devotee-table">
                                                                     <div class="form-group">
 
                                                                         <table class="table table-bordered relocation" id="relocation_table">
@@ -1528,6 +1528,12 @@
 
         $(function(){
 
+					// Disabled Edit Tab
+					$(".nav-tabs > li").click(function(){
+						if($(this).hasClass("disabled"))
+						return false;
+					});
+
 					$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
 							localStorage.setItem('activeTab', $(e.target).attr('href'));
 					});
@@ -1897,14 +1903,6 @@
         	}
 
             var opt_address;
-
-
-
-            // Disabled Edit Devotee Tab
-            $(".nav-tabs > li").click(function(){
-                if($(this).hasClass("disabled"))
-                    return false;
-            });
 
 						// $('#quick_search').on('click', function() {
 						//

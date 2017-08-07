@@ -528,7 +528,7 @@
       console.log(activeTab);
     }
 
-    // Disabled Edit Devotee Tab
+    // Disabled Edit Tab
     $(".nav-tabs > li").click(function(){
         if($(this).hasClass("disabled"))
             return false;
