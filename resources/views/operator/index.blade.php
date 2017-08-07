@@ -366,22 +366,22 @@
                                                                     <div class="form-group">
 
                                                                         <label class="col-md-4">Address - House No</label>
-                                                                        <div class="col-md-2">
+                                                                        <div style='width:12%;float:left; padding-left: 15px;'>
                                                                             <input type="text" class="form-control" name="address_houseno"
                                                                                 value="{{ old('address_houseno') }}"
                                                                                 id="content_address_houseno">
                                                                         </div><!-- end col-md-3 -->
 
-                                                                        <label class="col-md-1 control-label">Unit</label>
+                                                                        <label style='width:8.3%;float:left;'>Unit</label>
 
-                                                                        <div class="col-md-2">
+                                                                        <div style='width:16.66667%;float:left;'>
                                                                             <input type="text" class="form-control" name="address_unit1"
                                                                                 value="{{ old('address_unit1') }}" id="content_address_unit1">
                                                                         </div><!-- end col-md-2 -->
 
-                                                                        <label class="col-md-1">-</label>
+                                                                        <label style='width:6.2%;float:left;'>-</label>
 
-                                                                        <div class="col-md-2">
+                                                                        <div style='width:16.66667%;float:left;'>
                                                                             <input type="text" class="form-control" name="address_unit2"
                                                                                 value="{{ old('address_unit2') }}" id="content_address_unit2">
                                                                         </div><!-- end col-md-2 -->

@@ -17,3 +17,11 @@
 #festive-event-table input[type=checkbox] {
     zoom: 1.5!important;
 }
+
+.form-group label{
+  padding: 6px 12px;
+}
+
+#devotees_table_wrapper .col-sm-12{
+  overflow-x: scroll;
+}
