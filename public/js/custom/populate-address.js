@@ -12,7 +12,7 @@ $(function() {
 
     if($.trim(populate_unit_1).length <= 0)
     {
-      var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal + ", Singapore";
+      var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal;
 
       $(this).closest("div.inner_opt_addr").find("input[name='address_data_hidden[]']").val(full_populate_address);
       $(this).closest("div.inner_opt_addr").find(".address-data-hidden").attr('title', full_populate_address);
@@ -20,8 +20,8 @@ $(function() {
     }
     else
     {
-      var full_populate_address = populate_houseno + ", #" + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
-                          populate_postal + ", Singapore";
+      var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
+                          populate_postal;
 
       $(this).closest("div.inner_opt_addr").find("input[name='address_data_hidden[]']").val(full_populate_address);
       $(this).closest("div.inner_opt_addr").find(".address-data-hidden").attr('title', full_populate_address);
@@ -30,6 +30,7 @@ $(function() {
   });
 
   $("#append_opt_address").on('click', '.populate-data', function() {
+    // alert('here');
 
     var populate_houseno = $("#populate_houseno").val();
     var populate_unit_1 = $("#populate_unit_1").val();
@@ -49,7 +50,7 @@ $(function() {
     }
     else
     {
-      var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_streeet +  ", " +
+      var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
                           populate_postal;
 
       $(this).closest("div.inner_opt_addr").find("input[name='address_data_hidden[]']").val(full_populate_address);
