@@ -244,7 +244,7 @@
                         <label class="col-md-4">Addr - House No</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="address_houseno" id="address_houseno" value="{{ $focus_devotee[0]->address_houseno }}">
+                            <input type="text" class="form-control" name="address_houseno" id="focus_address_houseno" value="{{ $focus_devotee[0]->address_houseno }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
 
@@ -252,7 +252,7 @@
                         <label class="col-md-4">Addr - Street</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="address_street" id="address_street"
+                            <input type="text" class="form-control" name="address_street" id="focus_address_street"
                                 value="{{ $focus_devotee[0]->address_street }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
@@ -261,7 +261,7 @@
                         <label class="col-md-4">Addr - Unit</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="adress_unit" id="address_unit1"
+                            <input type="text" class="form-control" name="adress_unit" id="focus_address_unit"
                                 value="{{ $focus_devotee[0]->address_unit1 }} - {{ $focus_devotee[0]->address_unit2 }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
@@ -270,7 +270,7 @@
                         <label class="col-md-4">Addr - Postal</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="address_postal" id="address_postal"
+                            <input type="text" class="form-control" name="address_postal" id="focus_address_postal"
                                 value="{{ $focus_devotee[0]->address_postal }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
@@ -509,10 +509,10 @@
 
         @endif
 
-        <div class="col-md-12">
+        <div class="col-md-12" style="margin-bottom: 10px;">
 
-          <div class="form-group">
-           <button type="button" class="btn default"> New Devotee with same FC
+          <div class="form-group" style="margin:0 auto;">
+           <button type="button" class="btn default" id="same_familycode"> New Devotee with same FC
            </button>
           </div><!-- end form-group -->
 

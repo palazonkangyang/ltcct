@@ -63,4 +63,28 @@ $(function() {
 		if(search_table.children().length >= 2 && id == 'records'){
 			$('.nav-tabs li:eq(6) a').tab('show');
 		}
+
+		$("#same_familycode").click(function() {
+			$('.nav-tabs li:eq(3) a').tab('show');
+
+			var focus_address_houseno = $("#focus_address_houseno").val();
+			var focus_address_street = $("#focus_address_street").val();
+			var focus_address_postal = $("#focus_address_postal").val();
+			var focus_address_unit = $("#focus_address_unit").val();
+
+			var strVale = focus_address_unit;
+      arr = strVale.split('-');
+
+      for(i=0; i < arr.length; i++)
+      {
+          var focus_address_unit1 = arr[0];
+					var focus_address_unit2 = arr[1];
+      }
+
+			$("#content_address_houseno").val(focus_address_houseno);
+			$("#content_address_unit1").val(focus_address_unit1);
+			$("#content_address_unit2").val(focus_address_unit2);
+			$("#content_address_street").val(focus_address_street);
+			$("#content_address_postal").val(focus_address_postal);
+		});
 });

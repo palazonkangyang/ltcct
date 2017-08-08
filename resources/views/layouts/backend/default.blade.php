@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  	<title>LTCCT - @yield('title')</title>  
+  	<title>LTCCT - @yield('title')</title>
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   	<meta name="csrf-token" content="{{ csrf_token() }}">
@@ -20,10 +20,21 @@
     <link href="{{ asset('/css/plugins.min.css') }}" rel="stylesheet" type="text/css" />
 
     <link href="{{ asset('/css/login.min.css') }}" rel="stylesheet" id="style_components" type="text/css" />
-	
+
+    <style media="screen">
+    .acknowledge{
+      background: #fff;
+      width: 100%;
+      min-height: 300px;
+      overflow: hidden;
+      margin: 40px auto 10px;
+      padding: 10px 30px 30px;
+    }
+    </style>
+
 </head>
 
-<body class=" login">
+<body class="login">
 
 @yield('main-content')
 

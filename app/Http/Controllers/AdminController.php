@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Staff;
 use App\Models\User;
+use App\Models\Acknowledge;
 use Auth;
 use DB;
 use Hash;
@@ -30,7 +31,7 @@ class AdminController extends Controller
     public function dashboard()
     {
 
-      
+
         return view('admin/dashboard');
     }
 
@@ -209,9 +210,36 @@ class AdminController extends Controller
 		return redirect()->back();
 	}
 
-    public function logout()
-    {
-        Auth::logout();
-        return redirect()->intended(URL::route('login-page'));
-    }
+  public function logout()
+  {
+    Auth::logout();
+    return redirect()->intended(URL::route('login-page'));
+  }
+
+	public function getAcknowledge()
+	{
+		$acknowledge = Acknowledge::all();
+
+		dd($acknowledge->toArray());
+		
+		return view('admin.acknowledge');
+	}
+
+	public function postUpdateAcknowledge(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		// dd($input);
+
+		$data = [
+			"prelogin_notes" => $input['prelogin_notes'],
+			"show_prelogin" => $input['show_prelogin'],
+		];
+
+		Acknowledge::create($data);
+
+		$request->session()->flash('success', 'Acknowledge has been updated!');
+		return redirect()->back();
+
+	}
 }
