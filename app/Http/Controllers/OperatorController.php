@@ -668,55 +668,72 @@ class OperatorController extends Controller
 
 				$devotee->save();
 
-				// Update Optional Address
-			  if(isset($input['address_data'][0]))
-			  {
-			    //delete first before saving
-			    OptionalAddress::where('devotee_id', $input['devotee_id'])->delete();
+				// dd($input);
 
-			    for($i = 0; $i < count($input['address_type']); $i++)
-			    {
-			      $optional_address = new OptionalAddress;
-			      $optional_address->type = $input['address_type'][$i];
-			      $optional_address->data = $input['address_data'][$i];
-			      $optional_address->devotee_id = $input['devotee_id'];
 
-			      $optional_address->save();
-			    }
-			  }
+		      if(isset($input['address_data_hidden'][0]))
+		      {
+						//delete first before saving
+				    OptionalAddress::where('devotee_id', $input['devotee_id'])->delete();
 
-				// Update Optional Vehicle
-			  if(isset($input['vehicle_data'][0]))
-			  {
-			    //delete first before saving
-			    OptionalVehicle::where('devotee_id', $input['devotee_id'])->delete();
+						// Save Optional Address
+				    for($i = 0; $i < count($input['address_type']); $i++)
+				    {
+				      if($input['address_type'][$i] == 'company' || $input['address_type'][$i] == 'stall')
+							{
+								$optional_address = new OptionalAddress;
+					      $optional_address->type = $input['address_type'][$i];
+					      $optional_address->data = $input['address_data'][$i];
+								$optional_address->address = $input['address_data_hidden'][$i];
+					      $optional_address->devotee_id = $input['devotee_id'];
 
-			    for($i = 0; $i < count($input['vehicle_type']); $i++)
-			    {
-			      $optional_vehicle = new OptionalVehicle;
-			      $optional_vehicle->type = $input['vehicle_type'][$i];
-			      $optional_vehicle->data = $input['vehicle_data'][$i];
-			      $optional_vehicle->devotee_id = $input['devotee_id'];
+					      $optional_address->save();
+							}
 
-			      $optional_vehicle->save();
-			    }
-			  }
+							else
+							{
+								$optional_address = new OptionalAddress;
+					      $optional_address->type = $input['address_type'][$i];
+					      $optional_address->address = $input['address_data_hidden'][$i];
+					      $optional_address->devotee_id = $input['devotee_id'];
 
-				// Update Special Remarks
-			  if(isset($input['special_remark'][0]))
-			  {
-			    //delete first before saving
-			    SpecialRemarks::where('devotee_id', $input['devotee_id'])->delete();
+					      $optional_address->save();
+							}
+				    }
+		      }
 
-			    for($i = 0; $i < count($input['special_remark']); $i++)
-			    {
-			      $special_remark = new SpecialRemarks;
-			      $special_remark->data = $input['special_remark'][$i];
-			      $special_remark->devotee_id = $input['devotee_id'];
+		      if(isset($input['vehicle_data'][0]))
+		      {
+						//delete first before saving
+				    OptionalVehicle::where('devotee_id', $input['devotee_id'])->delete();
 
-			      $special_remark->save();
-			    }
-			  }
+				    for($i = 0; $i < count($input['vehicle_type']); $i++)
+				    {
+							$optional_vehicle = new OptionalVehicle;
+				      $optional_vehicle->type = $input['vehicle_type'][$i];
+				      $optional_vehicle->data = $input['vehicle_data'][$i];
+				      $optional_vehicle->devotee_id = $input['devotee_id'];
+
+				      $optional_vehicle->save();
+				    }
+		      }
+
+					// Update Special Remarks
+		      if(isset($input['special_remark'][0]))
+		      {
+						//delete first before saving
+				    SpecialRemarks::where('devotee_id', $input['devotee_id'])->delete();
+
+		        for($i = 0; $i < count($input['special_remark']); $i++)
+		        {
+							$special_remark = new SpecialRemarks;
+				      $special_remark->data = $input['special_remark'][$i];
+				      $special_remark->devotee_id = $input['devotee_id'];
+
+				      $special_remark->save();
+		        }
+		      }
+
 
 				$devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 			             ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')

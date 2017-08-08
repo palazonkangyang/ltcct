@@ -162,6 +162,24 @@ class Devotee extends Model
           $devotee->orderBy('familycode_id', 'asc');
         }
 
+        elseif(isset($input['address_postal']) && isset($input['address_unit1']) && isset($input['address_unit2']))
+        {
+          $devotee = DB::table('devotee');
+          $devotee->select(
+              'devotee.devotee_id',
+              'devotee.chinese_name',
+              'familycode.familycode_id',
+              'familycode.familycode'
+          );
+
+          $devotee->join('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
+
+          $devotee->where('address_unit1', '=', $input['address_unit1']);
+          $devotee->where('address_unit2', '=', $input['address_unit2']);
+          $devotee->where('address_postal', '=', $input['address_postal']);
+          $devotee->orderBy('familycode_id', 'asc');
+        }
+
         else
         {
           $devotee = DB::table('devotee');
@@ -174,10 +192,6 @@ class Devotee extends Model
 
           $devotee->join('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
 
-          $devotee->where('address_houseno', '=', $input['address_houseno']);
-          $devotee->where('address_unit1', '=', $input['address_unit1']);
-          $devotee->where('address_unit2', '=', $input['address_unit2']);
-          $devotee->where('address_street', '=', $input['address_street']);
           $devotee->where('address_postal', '=', $input['address_postal']);
           $devotee->orderBy('familycode_id', 'asc');
         }

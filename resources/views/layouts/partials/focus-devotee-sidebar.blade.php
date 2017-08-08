@@ -509,6 +509,15 @@
 
         @endif
 
+        <div class="col-md-12">
+
+          <div class="form-group">
+           <button type="button" class="btn default"> New Devotee with same FC
+           </button>
+          </div><!-- end form-group -->
+
+        </div><!-- end col-md-12 -->
+
         <div class="col-md-6">
 
           <div class="form-group pull-right">
