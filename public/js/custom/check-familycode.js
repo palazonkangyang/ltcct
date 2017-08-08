@@ -16,22 +16,21 @@ $(function() {
     	var address_unit1 = $("#content_address_unit1").val();
     	var address_unit2 = $("#content_address_unit2").val();
     	var address_street = $("#content_address_street").val();
-    	var address_building = $("#content_address_building").val();
     	var address_postal = $("#content_address_postal").val();
 			var oversea_addr_in_chinese = $('#content_oversea_addr_in_chinese').val();
 
 			if($.trim(oversea_addr_in_chinese).length <= 0)
       {
-				if ($.trim(address_unit1).length <= 0)
+				if ($.trim(address_houseno).length <= 0)
         {
             validationFailed = true;
-            errors[count++] = "Address Unit 1 is empty."
+            errors[count++] = "Address Houseno field is empty."
         }
 
-				if ($.trim(address_unit2).length <= 0)
+				if ($.trim(address_street).length <= 0)
         {
             validationFailed = true;
-            errors[count++] = "Address Unit 2 is empty."
+            errors[count++] = "Address Street is empty."
         }
 
         if ($.trim(address_postal).length <= 0)
@@ -68,8 +67,10 @@ $(function() {
 
         var formData = {
         	_token: $('meta[name="csrf-token"]').attr('content'),
+					address_houseno: address_houseno,
         	address_unit1: address_unit1,
         	address_unit2: address_unit2,
+					address_street: address_street,
         	address_postal: address_postal,
 					oversea_addr_in_chinese: oversea_addr_in_chinese
         };

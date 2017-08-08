@@ -43,3 +43,7 @@
 #appendAddressBtn, #appendVehicleBtn, #appendSpecRemarkBtn{
   cursor: pointer;
 }
+
+#AddressBtn, #VehicleBtn, #SpecRemarkBtn{
+  cursor: pointer;
+}

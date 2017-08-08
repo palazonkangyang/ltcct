@@ -317,7 +317,6 @@ class OperatorController extends Controller
 				    "address_unit1" => $input['address_unit1'],
 				    "address_unit2" => $input['address_unit2'],
 				    "address_street" => $input['address_street'],
-				    "address_building" => $input['address_building'],
 				    "address_postal" => $input['address_postal'],
 				    "address_translated" => $input['address_translated'],
 				    "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
@@ -362,7 +361,6 @@ class OperatorController extends Controller
 				   "address_unit1" => $input['address_unit1'],
 				   "address_unit2" => $input['address_unit2'],
 				   "address_street" => $input['address_street'],
-				   "address_building" => $input['address_building'],
 				   "address_postal" => $input['address_postal'],
 				   "address_translated" => $input['address_translated'],
 				   "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
@@ -397,7 +395,6 @@ class OperatorController extends Controller
 		        "address_unit1" => $input['address_unit1'],
 		        "address_unit2" => $input['address_unit2'],
 		        "address_street" => $input['address_street'],
-		        "address_building" => $input['address_building'],
 		        "address_postal" => $input['address_postal'],
 		        "address_translated" => $input['address_translated'],
 		        "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
@@ -441,7 +438,6 @@ class OperatorController extends Controller
 		      "address_unit1" => $input['address_unit1'],
 		      "address_unit2" => $input['address_unit2'],
 		      "address_street" => $input['address_street'],
-		      "address_building" => $input['address_building'],
 		      "address_postal" => $input['address_postal'],
 		      "address_translated" => $input['address_translated'],
 		      "oversea_addr_in_chinese" => $input['oversea_addr_in_chinese'],
@@ -1027,7 +1023,6 @@ class OperatorController extends Controller
 			    $devotee->address_unit1 = $input['new_address_unit1'];
 			    $devotee->address_unit2 = $input['new_address_unit2'];
 			    $devotee->address_street = $input['new_address_street'];
-			    $devotee->address_building = $input['new_address_building'];
 			    $devotee->address_postal = $input['new_address_postal'];
 			    $devotee->nationality = $input['new_nationality'];
 			    $devotee->oversea_addr_in_chinese = $input['new_oversea_addr_in_chinese'];
@@ -1041,11 +1036,21 @@ class OperatorController extends Controller
 				Session::forget('focus_devotee');
 				Session::forget('devotee_lists');
 
-				$focus_devotee = Devotee::join('member', 'member.member_id', '=', 'devotee.member_id')
-												 ->join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-												 ->where('devotee.devotee_id', $session_focus_devotee[0]->devotee_id)
-												 ->select('devotee.*', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date', 'familycode.familycode')
-												 ->get();
+				if($session_focus_devotee[0]->member_id != null)
+				{
+					$focus_devotee = Devotee::join('member', 'member.member_id', '=', 'devotee.member_id')
+													 ->join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+													 ->where('devotee.devotee_id', $session_focus_devotee[0]->devotee_id)
+													 ->select('devotee.*', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date', 'familycode.familycode')
+													 ->get();
+				}
+
+				else {
+					$focus_devotee = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+													 ->where('devotee.devotee_id', $session_focus_devotee[0]->devotee_id)
+													 ->select('devotee.*', 'familycode.familycode')
+													 ->get();
+				}
 
 				$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 				        ->where('devotee.familycode_id', $focus_devotee[0]->familycode_id)
@@ -1053,6 +1058,11 @@ class OperatorController extends Controller
 				        ->orderBy('devotee_id', 'asc')
 				        ->select('devotee.*')
 				        ->addSelect('familycode.familycode')->get();
+
+			  if(isset($focus_devotee[0]->dob))
+			 	{
+					$focus_devotee[0]->dob = Carbon::parse($focus_devotee[0]->dob)->format("d/m/Y");
+				}
 
 				if(!Session::has('focus_devotee'))
 				{

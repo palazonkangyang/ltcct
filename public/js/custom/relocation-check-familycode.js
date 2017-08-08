@@ -19,7 +19,6 @@ $(function() {
     	var address_unit1 = $("#new_address_unit1").val();
     	var address_unit2 = $("#new_address_unit2").val();
     	var address_street = $("#new_address_street").val();
-    	var address_building = $("#new_address_building").val();
     	var address_postal = $("#new_address_postal").val();
       var oversea_addr_in_chinese = $("#new_oversea_addr_in_chinese").val();
 
@@ -35,12 +34,6 @@ $(function() {
         {
             validationFailed = true;
             errors[count++] = "Address Street is empty."
-        }
-
-        if ($.trim(address_building).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Address Building is empty."
         }
 
         if ($.trim(address_postal).length <= 0)
@@ -81,7 +74,6 @@ $(function() {
         address_unit1: address_unit1,
         address_unit2: address_unit2,
         address_street: address_street,
-        address_building: address_building,
         address_postal: address_postal,
         oversea_addr_in_chinese: oversea_addr_in_chinese
       };

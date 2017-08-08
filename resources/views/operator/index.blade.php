@@ -98,7 +98,7 @@
                                                             <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
                                                         </li>
 																												<li id="search" id="search">
-                                                            <a href="#tab_searchresult" data-toggle="tab">Search Result  <br>全家搬迁</a>
+                                                            <a href="#tab_searchresult" data-toggle="tab">Search Result  <br>搜寻结果</a>
                                                         </li>
                                                     </ul>
 
@@ -772,7 +772,7 @@
 																																			<label class="col-md-4">Street</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_street"
-																																							value="{{ old('populate_address_street') }}" id="populate_street">
+																																							value="{{ old('populate_street') }}" id="populate_street">
 																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 
@@ -1214,7 +1214,7 @@
                                                                             </div><!-- end col-md-2 -->
 
                                                                             <div class="col-md-2">
-                                                                                <input type="number" class="form-control"
+                                                                                <input type="text" class="form-control"
                                                                                     name="new_address_unit2" id="new_address_unit2"
                                                                                     value="{{ old('new_address_unit2') }}">
                                                                             </div><!-- end col-md-2 -->

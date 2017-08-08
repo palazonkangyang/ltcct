@@ -285,8 +285,7 @@
 
 									 <div class="form-group">
 
-											 <label class="col-md-3"></label>
-											 <div class="col-md-9">
+											 <div class="col-md-12">
 													 <div class="table-scrollable" id="edit-familycode-table">
 															 <table class="table table-bordered table-hover">
 
@@ -607,8 +606,7 @@
 
 									<div class="form-group">
 
-											<label class="col-md-4"></label>
-											<div class="col-md-8">
+											<div class="col-md-12">
 													<div class="table-scrollable" id="edit-familycode-table">
 															<table class="table table-bordered table-hover">
 
@@ -969,37 +967,68 @@
 
 								@foreach($optionaladdresses as $optAddress)
 
-								<div class="form-group">
+								<div class="edit_inner_opt_addr">
+									<div class="form-group">
 
-									<div class='col-md-1'>
-										<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
-									</div>
+										<div class='col-md-1'>
+											<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
+										</div>
 
-									<label class='col-md-2 control-label'>Opt.Addr</label><!-- end col-md-2 -->
+										<label class='col-md-2 control-label'>Opt.Addr</label><!-- end col-md-2 -->
 
-									<div class='col-md-3'>
+										<div class='col-md-3'>
 
-										<select class='form-control' name='address_type[]'>
-											<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>Home</option>
-											<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>Comp</option>
-											<option value="stall" <?php if ($optAddress->type == "stall") echo "selected"; ?>>Stall</option>
-											<option value="office" <?php if ($optAddress->type == "office") echo "selected"; ?>>Office</option>
-										</select>
+											<select class='form-control edit-address-type' name='address_type[]'>
+												<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>Home</option>
+												<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>Comp</option>
+												<option value="stall" <?php if ($optAddress->type == "stall") echo "selected"; ?>>Stall</option>
+												<option value="office" <?php if ($optAddress->type == "office") echo "selected"; ?>>Office</option>
+											</select>
 
-									</div><!-- end col-md-4 -->
+										</div><!-- end col-md-4 -->
 
-									<div class='col-md-4'>
-										<input type="text" class="form-control edit-address-data" name="address_data[]" value="{{ $optAddress->data }}"
-											title="{{ $optAddress->data }}">
-									</div><!-- end col-md-4 -->
+										@if($optAddress->type == "home" || $optAddress->type == "office")
 
-									<div class='col-md-2'>
-										<button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button>
-									</div>
+										<div class='col-md-4'>
+											<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill the address on the right"
+												title="Please fill the address on the right" readonly>
+										</div><!-- end col-md-4 -->
 
-								</div><!-- end form-group -->
+										@else
+
+										<div class='col-md-4'>
+											<input type="text" class="form-control edit-address-data" name="address_data[]" value="{{ $optAddress->data }}"
+												title="{{ $optAddress->data }}">
+										</div><!-- end col-md-4 -->
+
+										@endif
+
+										<div class='col-md-2'>
+											<button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button>
+										</div>
+
+									</div><!-- end form-group -->
+
+									<div class="form-group" style="margin-bottom: 0;">
+
+								      <div class="col-md-1"></div><!-- end col-md-1 -->
+
+								      <label class="col-md-2"></label>
+
+								      <div class="col-md-3">
+								      </div><!-- end col-md-3 -->
+
+								      <div class="col-md-4 edit-populate-address">
+								          <input type="hidden" class="form-control address-data-hidden" name="address_data_hidden[]" value="{{ $optAddress->address }}">
+								      </div><!-- end col-md-4 -->
+
+								      <div class="col-md-2">
+								      </div><!-- end col-md-2 -->
+
+								  </div><!-- end form-group -->
 
 
+								</div><!-- end edit_inner_opt_addr -->
 
 								@endforeach
 
@@ -1061,7 +1090,7 @@
 										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
 
-									<label class='col-md-3 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
+									<label class='col-md-2 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
 
 									<div class='col-md-3'>
 										<select class='form-control' name='vehicle_type[]'>
@@ -1070,7 +1099,7 @@
 										</select>
 									</div><!-- end col-md-3 -->
 
-									<div class='col-md-5'>
+									<div class='col-md-6'>
 										<input type="text" class="form-control" name="vehicle_data[]" value="{{ $optVehicle->data }}">
 									</div><!-- end col-md-5 -->
 
@@ -1136,7 +1165,7 @@
 										<i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
 
-									<label class='col-md-2 control-label'>Special Remarks</label><!-- end col-md-2 -->
+									<label class='col-md-2 control-label'>Special Remark</label><!-- end col-md-2 -->
 
 									<div class='col-md-9'>
 										<input type="text" class="form-control" name="special_remark[]" value="{{ $specialRemark->data }}">
@@ -1156,7 +1185,7 @@
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
 
-										<label class='col-md-2 control-label'>Special Remarks</label><!-- end col-md-2 -->
+										<label class='col-md-2 control-label'>Special Remark</label><!-- end col-md-2 -->
 
 										<div class='col-md-9'>
 											<input type="text" class="form-control" name="special_remark[]" value="">
@@ -1220,14 +1249,6 @@
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_street"
 													value="{{ old('populate_address_street') }}" id="edit_populate_street">
-									</div><!-- end col-md-8 -->
-								</div><!-- end form-group -->
-
-								<div class="form-group">
-									<label class="col-md-4">Building</label>
-									<div class="col-md-8">
-											<input type="text" class="form-control" name="populate_building"
-													value="{{ old('populate_building') }}" id="edit_populate_building">
 									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
 

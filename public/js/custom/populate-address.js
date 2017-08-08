@@ -5,14 +5,14 @@ $(function() {
     var populate_houseno = $("#populate_houseno").val();
     var populate_unit_1 = $("#populate_unit_1").val();
     var populate_unit_2 = $("#populate_unit_2").val();
-    var populate_building = $("#populate_building").val();
+    var populate_street = $("#populate_street").val();
     var populate_postal = $("#populate_postal").val();
     var populate_address_translate = $("#populate_address_translate").val();
     var populate_oversea_addr_in_china = $("#populate_oversea_addr_in_china").val();
 
     if($.trim(populate_unit_1).length <= 0)
     {
-      var full_populate_address = "No." + populate_houseno + ", " + populate_building + ", " + populate_postal + ", Singapore";
+      var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal + ", Singapore";
 
       $(this).closest("div.inner_opt_addr").find("input[name='address_data_hidden[]']").val(full_populate_address);
       $(this).closest("div.inner_opt_addr").find(".address-data-hidden").attr('title', full_populate_address);
@@ -20,7 +20,7 @@ $(function() {
     }
     else
     {
-      var full_populate_address = "No." + populate_houseno + ", #" + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_building +  ", " +
+      var full_populate_address = populate_houseno + ", #" + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
                           populate_postal + ", Singapore";
 
       $(this).closest("div.inner_opt_addr").find("input[name='address_data_hidden[]']").val(full_populate_address);
@@ -34,14 +34,14 @@ $(function() {
     var populate_houseno = $("#populate_houseno").val();
     var populate_unit_1 = $("#populate_unit_1").val();
     var populate_unit_2 = $("#populate_unit_2").val();
-    var populate_building = $("#populate_building").val();
+    var populate_street = $("#populate_street").val();
     var populate_postal = $("#populate_postal").val();
     var populate_address_translate = $("#populate_address_translate").val();
     var populate_oversea_addr_in_china = $("#populate_oversea_addr_in_china").val();
 
     if($.trim(populate_unit_1).length <= 0)
     {
-      var full_populate_address = "No." + populate_houseno + ", " + populate_building + ", " + populate_postal + ", Singapore";
+      var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal;
 
       $(this).closest("div.inner_opt_addr").find("input[name='address_data_hidden[]']").val(full_populate_address);
       $(this).closest("div.inner_opt_addr").find(".address-data-hidden").attr('title', full_populate_address);
@@ -49,8 +49,8 @@ $(function() {
     }
     else
     {
-      var full_populate_address = "No." + populate_houseno + ", #" + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_building +  ", " +
-                          populate_postal + ", Singapore";
+      var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_streeet +  ", " +
+                          populate_postal;
 
       $(this).closest("div.inner_opt_addr").find("input[name='address_data_hidden[]']").val(full_populate_address);
       $(this).closest("div.inner_opt_addr").find(".address-data-hidden").attr('title', full_populate_address);
