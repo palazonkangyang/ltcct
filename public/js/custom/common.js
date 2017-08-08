@@ -12,10 +12,6 @@ $(function() {
     	$("#edit").removeClass("disabled");
     }
 
-		// $("#main-page").click(function() {
-		// 		localStorage.removeItem('activeTab');
-		// });
-
 		// new button
 		$("#new_search").click(function() {
 				localStorage.removeItem('activeTab');
@@ -50,16 +46,7 @@ $(function() {
 		 $('.nav-tabs li:eq(3) a').tab('show');
 	 });
 
-	//  $("#focus_devotee_form").submit(function(){
-	 //
-  //       var valid = 0;
-  //       $(this).find('input[type=text]').each(function(){
-  //           if($(this).val() != "") valid+=1;
-  //       });
-	 //
-	// 			$('.nav-tabs li:eq(6) a').tab('show');
-  //   });
-	 //
+
 		$("#quick_search").click(function() {
 			var search_table = $('#search_table');
 			var id = $("#search_table tbody").attr("id");

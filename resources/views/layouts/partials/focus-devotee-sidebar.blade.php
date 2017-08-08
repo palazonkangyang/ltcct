@@ -464,7 +464,7 @@
                             <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
                           </div>
 
-                          <label style='width:7%;float:left;'>-</label>
+                          <label style='width:7%;float:left;' class="separator">-</label>
 
                           <div style='width:43%;float:left;'>
                             <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">

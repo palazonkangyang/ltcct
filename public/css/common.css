@@ -22,6 +22,10 @@
   padding: 6px 12px;
 }
 
+.separator{
+  padding: 6px 12px !important;
+}
+
 #devotees_table_wrapper .col-sm-12, #members_table_wrapper .col-sm-12, #deceased_table_wrapper .col-sm-12,
 #tab_relocation .relocation-devotee-table{
   overflow-x: scroll;
@@ -30,4 +34,12 @@
 .mt-radio-list label{
   padding: 0px 23px!important;
   font-size: 13px;
+}
+
+.inbox-sidebar label{
+  padding: 0;
+}
+
+#appendAddressBtn, #appendVehicleBtn, #appendSpecRemarkBtn{
+  cursor: pointer;
 }

@@ -146,9 +146,9 @@
                                                                                 <td>{{ $devotee->devotee_id }}</td>
                                                                                 <td>
 																																									@if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-																																										No.{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																										{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
 																																									@else
-																																										No.{{ $devotee->address_houseno }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																										{{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
 																																									@endif
                                                                                 </td>
                                                                                 <td>{{ $devotee->guiyi_name }}</td>
@@ -205,9 +205,9 @@
                                                                                 <td>{{ $member->member_id }}</td>
                                                                                 <td>
                                                                                     @if(isset($member->address_unit1) && isset($member->address_unit2))
-																																											No.{{ $member->address_houseno }}, {{ $member->address_building }}, {{ $member->address_postal }}, Singapore
+																																										{{ $member->address_houseno }}, #{{ $member->address_unit1 }}-{{ $member->address_unit2 }}, {{ $member->address_street }}, {{ $member->address_postal }}
 																																										@else
-																																											No.{{ $member->address_houseno }}, #{{ $member->address_unit1 }}-{{ $member->address_unit2 }}, {{ $member->address_building }}, {{ $member->address_postal }}, Singapore
+																																										{{ $member->address_houseno }}, {{ $member->address_street }}, {{ $member->address_postal }}
 																																										@endif
                                                                                 </td>
                                                                                 <td>{{ $member->guiyi_name }}</td>
@@ -258,9 +258,9 @@
                                                                                 <td>{{ $deceased_list->member_id }}</td>
                                                                                 <td>
 																																									@if(isset($deceased_list->address_unit1) && isset($deceased_list->address_unit2))
-																																										No.{{ $deceased_list->address_houseno }}, #{{ $deceased_list->address_unit1 }}-{{ $deceased_list->address_unit2 }}, {{ $deceased_list->address_building }}, {{ $deceased_list->address_postal }}, Singapore
+																																									{{ $deceased_list->address_houseno }}, #{{ $deceased_list->address_unit1 }}-{{ $deceased_list->address_unit2 }}, {{ $deceased_list->address_street }}, {{ $deceased_list->address_postal }}
 																																									@else
-																																										No.{{ $deceased_list->address_houseno }}, {{ $deceased_list->address_building }}, {{ $deceased_list->address_postal }}, Singapore
+																																									{{ $deceased_list->address_houseno }}, {{ $deceased_list->address_street }}, {{ $deceased_list->address_postal }}
 																																									@endif
 																																								</td>
                                                                                 <td>{{ $deceased_list->guiyi_name }}</td>
@@ -366,7 +366,7 @@
                                                                     <div class="form-group">
 
                                                                         <label class="col-md-4">Address - House No</label>
-                                                                        <div style='width:14.5%;float:left; padding-left: 15px;'>
+                                                                        <div style='width:19.66667%;float:left; padding-left: 15px;'>
                                                                             <input type="text" class="form-control" name="address_houseno"
                                                                                 value="{{ old('address_houseno') }}"
                                                                                 id="content_address_houseno">
@@ -374,7 +374,7 @@
 
                                                                         <label style='width:9.3%;float:left;'>Unit</label>
 
-                                                                        <div style='width:16.66667%;float:left;'>
+                                                                        <div style='width:11.5%;float:left;'>
                                                                             <input type="text" class="form-control" name="address_unit1"
                                                                                 value="{{ old('address_unit1') }}" id="content_address_unit1">
                                                                         </div><!-- end col-md-2 -->
@@ -394,16 +394,6 @@
                                                                         <div class="col-md-8">
 																																						<input type="text" class="form-control" name="address_street"
                                                                                 value="{{ old('address_street') }}" id="content_address_street">
-                                                                        </div><!-- end col-md-8 -->
-
-                                                                    </div><!-- end form-group -->
-
-                                                                    <div class="form-group">
-
-                                                                        <label class="col-md-4">Address - Building</label>
-                                                                        <div class="col-md-8">
-                                                                            <input type="text" class="form-control" name="address_building"
-                                                                                value="{{ old('address_building') }}" id="content_address_building">
                                                                         </div><!-- end col-md-8 -->
 
                                                                     </div><!-- end form-group -->
@@ -614,8 +604,7 @@
 
 																																						<div class="col-md-1"></div><!-- end col-md-1 -->
 
-		                                                                        <label class="col-md-2">Opt.Addr
-		                                                                        </label>
+		                                                                        <label class="col-md-2">Opt.Addr</label>
 
 		                                                                        <div class="col-md-3">
 		                                                                            <select class="form-control address-type" name="address_type[]">
@@ -759,14 +748,14 @@
 
 																																		<div class="form-group">
 																																			<label class="col-md-4">House No</label>
-																																			<div style='width:14.5%;float:left; padding-left: 15px;'>
+																																			<div style='width:19.66667%;float:left; padding-left: 15px;'>
 																																					<input type="text" class="form-control" name="populate_houseno"
 																																							value="{{ old('populate_houseno') }}" id="populate_houseno">
 																																			</div><!-- end col-md-3 -->
 
 																																			<label style='width:9.3%;float:left;'>Unit</label>
 
-																																			<div style='width:16.66667%;float:left;'>
+																																			<div style='width:11.5%;float:left;'>
 																																					<input type="text" class="form-control" name="populate_unit_1"
 																																							value="{{ old('populate_unit_1') }}" id="populate_unit_1">
 																																			</div><!-- end col-md-2 -->
@@ -784,14 +773,6 @@
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_street"
 																																							value="{{ old('populate_address_street') }}" id="populate_street">
-																																			</div><!-- end col-md-8 -->
-																																		</div><!-- end form-group -->
-
-																																		<div class="form-group">
-																																			<label class="col-md-4">Building</label>
-																																			<div class="col-md-8">
-																																					<input type="text" class="form-control" name="populate_building"
-																																							value="{{ old('populate_building') }}" id="populate_building">
 																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 
@@ -932,9 +913,9 @@
 	                                                                                        <td>{{ $focus_devotee[0]->nric }}</td>
 	                                                                                        <td>
 																																														@if(isset($focus_devotee[0]->address_unit1) && isset($focus_devotee[0]->address_unit2))
-																																															No.{{ $focus_devotee[0]->address_houseno }}, {{ $focus_devotee[0]->address_building }}, {{ $focus_devotee[0]->address_postal }}, Singapore
+																																														{{ $focus_devotee[0]->address_houseno }}, #{{ $focus_devotee[0]->address_unit1 }}-{{ $focus_devotee[0]->address_unit2 }}, {{ $focus_devotee[0]->address_street }}, {{ $focus_devotee[0]->address_postal }}
 																																														@else
-																																															No.{{ $focus_devotee[0]->address_houseno }}, #{{ $focus_devotee[0]->address_unit1 }}-{{ $focus_devotee[0]->address_unit2 }}, {{ $focus_devotee[0]->address_building }}, {{ $focus_devotee[0]->address_postal }}, Singapore
+																																														{{ $focus_devotee[0]->address_houseno }}, {{ $focus_devotee[0]->address_street }}, {{ $focus_devotee[0]->address_postal }}
 																																														@endif
 																																													</td>
 	                                                                                        <td>{{ $focus_devotee[0]->familycode }}</td>
@@ -952,9 +933,9 @@
 	                                                                                        <td>{{ $devotee->nric }}</td>
 	                                                                                        <td>
 																																														@if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-																																															No.{{ $devotee->address_houseno }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																														{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
 																																														@else
-																																															No.{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_building }}, {{ $devotee->address_postal }}, Singapore
+																																														{{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
 																																														@endif
 																																													</td>
 	                                                                                        <td>{{ $devotee->familycode }}</td>
@@ -1039,16 +1020,6 @@
 	                                                                        </div><!-- end form-group -->
 
 	                                                                        <div class="form-group">
-	                                                                            <label class="col-md-4">Address - Building</label>
-	                                                                            <div class="col-md-8">
-	                                                                                <input type="text" class="form-control"
-	                                                                                    name="address_building" id="current_address_building"
-	                                                                                    value="{{ $focus_devotee[0]->address_building }}" readonly>
-	                                                                            </div><!-- end col-md-6 -->
-
-	                                                                        </div><!-- end form-group -->
-
-	                                                                        <div class="form-group">
 	                                                                            <label class="col-md-4">Address - Postal</label>
 	                                                                            <div class="col-md-2">
 	                                                                                <input type="text" class="form-control"
@@ -1115,15 +1086,6 @@
 	                                                                        </div><!-- end form-group -->
 
 	                                                                        <div class="form-group">
-	                                                                            <label class="col-md-4">Address - Building</label>
-	                                                                            <div class="col-md-8">
-	                                                                                <input type="text" class="form-control"
-	                                                                                    name="address_building" id="current_address_building">
-	                                                                            </div><!-- end col-md-6 -->
-
-	                                                                        </div><!-- end form-group -->
-
-	                                                                        <div class="form-group">
 	                                                                            <label class="col-md-4">Address - Postal</label>
 	                                                                            <div class="col-md-2">
 	                                                                                <input type="text" class="form-control"
@@ -1186,15 +1148,6 @@
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_street" id="current_address_street">
                                                                             </div><!-- end col-md-8 -->
-
-                                                                        </div><!-- end form-group -->
-
-                                                                        <div class="form-group">
-                                                                            <label class="col-md-4">Address - Building</label>
-                                                                            <div class="col-md-8">
-                                                                                <input type="text" class="form-control"
-                                                                                    name="address_building" id="current_address_building">
-                                                                            </div><!-- end col-md-6 -->
 
                                                                         </div><!-- end form-group -->
 
@@ -1274,15 +1227,6 @@
                                                                                     name="new_address_street"
                                                                                     value="{{ old('new_address_street') }}" id="new_address_street">
                                                                             </div><!-- end col-md-8 -->
-                                                                        </div><!-- end form-group -->
-
-                                                                        <div class="form-group">
-                                                                            <label class="col-md-4">Address - Building</label>
-                                                                            <div class="col-md-8">
-                                                                                <input type="text" class="form-control"
-                                                                                    name="new_address_building"
-                                                                                    value="{{ old('new_address_building') }}" id="new_address_building">
-                                                                            </div><!-- end col-md-6 -->
                                                                         </div><!-- end form-group -->
 
                                                                         <div class="form-group">
@@ -1438,9 +1382,9 @@
 																												                      <td>{{ $fd->member_id }}</td>
 																												                      <td>
 																																								@if(isset($fd->address_unit1) && isset($fd->address_unit2))
-																																									No.{{ $fd->address_houseno }}, {{ $fd->address_building }}, {{ $fd->address_postal }}, Singapore
+																																								{{ $fd->address_houseno }}, #{{ $fd->address_unit1 }}-{{ $fd->address_unit2 }}, {{ $fd->address_street }}, {{ $fd->address_postal }}
 																																								@else
-																																									No.{{ $fd->address_houseno }}, #{{ $fd->address_unit1 }}-{{ $fd->address_unit2 }}, {{ $fd->address_building }}, {{ $fd->address_postal }}, Singapore
+																																								{{ $fd->address_houseno }}, {{ $fd->address_street }}, {{ $fd->address_postal }}
 																																								@endif
 																																							</td>
 																												                      <td>{{ $fd->guiyi_name }}</td>
@@ -2303,7 +2247,6 @@
 				        localStorage.removeItem('member_id');
 				    }
 
-            var address_count = 2;
 
             $("#appendAddressBtn").click(function() {
 
@@ -2317,7 +2260,7 @@
 										"<div class='form-group' style='margin-bottom: 0;'><div class='col-md-1'></div>" +
 										"<label class='col-md-2'></label><div class='col-md-3'>" +
 		                "</div><div class='col-md-4 populate-address'><input type='hidden' class='form-control address-data-hidden' name='address_data_hidden[]'></div>" +
-		                "<div class='col-md-2'></div></div></div>");
+		                "<div class='col-md-2'></div></div></div></div>");
             });
 
             $("#AddressBtn").click(function() {
@@ -2331,16 +2274,12 @@
             });
 
             $("#append_opt_address").on('click', '.removeAddressBtn', function() {
-
                 $(this).parent().parent().parent().remove();
             });
 
             $("#edit_opt_address").on('click', '.removeAddressBtn1', function() {
-
                 $(this).parent().parent().remove();
             });
-
-            var vehicle_count = 2;
 
             $("#appendVehicleBtn").click(function() {
 
@@ -2363,16 +2302,12 @@
             });
 
             $("#append_opt_vehicle").on('click', '.removeVehicleBtn', function() {
-
                 $(this).parent().parent().remove();
             });
 
             $("#opt_vehicle").on('click', '.removeVehicleBtn1', function() {
-
                 $(this).parent().parent().remove();
             });
-
-            var sremark_count = 2;
 
             $("#appendSpecRemarkBtn").click(function() {
 
@@ -2391,12 +2326,10 @@
             });
 
             $("#append_special_remark").on('click', '.removeSpecRemarkBtn', function() {
-
                 $(this).parent().parent().remove();
             });
 
             $("#special_remark").on('click', '.removeSpecRemarkBtn1', function() {
-
                 $(this).parent().parent().remove();
             });
         });
