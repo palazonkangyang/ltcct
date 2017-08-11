@@ -30,14 +30,11 @@ class AuthController extends Controller
     $user = User::where('user_name', $credentials['user_name'])->first();
 
     if ( !$user ) {
-      return response()->json([
-        'auth' => $auth,
-        'redirect' => ''
-     ]);
-
+			$request->session()->flash('error', 'Username doesn\'t exit!');
+			return redirect()->back();
     }
 
-    if (Auth::attempt(['user_name' => $credentials['user_name'], 'password' => $credentials['password']])) {
+    elseif (Auth::attempt(['user_name' => $credentials['user_name'], 'password' => $credentials['password']])) {
       $auth = true;
     }
 
@@ -60,13 +57,16 @@ class AuthController extends Controller
             ]);
         }
 
-        else {
-            if ($user->role == 3 ||  $user->role == 4 || $user->role == 5 ) {
-                return redirect()->intended(URL::route('main-page'));
-            }else{
-            return redirect()->intended(URL::route('all-accounts-page'));
-        }
-        }
+        // else {
+        //     if ($user->role == 3 ||  $user->role == 4 || $user->role == 5 ) {
+        //         return redirect()->intended(URL::route('main-page'));
+        //     }else{
+        //     return redirect()->intended(URL::route('main-page'));
+        // }
+        // }
+				else{
+					return redirect()->intended(URL::route('main-page'));
+				}
 	}
 
 	public function logout()

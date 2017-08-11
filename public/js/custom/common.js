@@ -108,6 +108,20 @@ $(function() {
         }
     });
 
+    $("#edit-dialog-box").dialog({
+     autoOpen: false,
+     modal: true,
+     buttons : {
+          "No, Mistake" : function() {
+              $(this).dialog("close");
+          },
+          "Yes, Cancel" : function() {
+            window.location.reload(true);
+            $(this).dialog("close");
+          }
+        }
+    });
+
     $("#cancel_btn").on("click", function(e) {
       e.preventDefault();
       $("#dialog-box").dialog("open");
@@ -115,6 +129,6 @@ $(function() {
 
   $("#edit_cancel_btn").on("click", function(e) {
     e.preventDefault();
-    $("#dialog-box").dialog("open");
+    $("#edit-dialog-box").dialog("open");
 });
 });

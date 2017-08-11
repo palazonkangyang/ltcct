@@ -86,6 +86,7 @@
                             <div class="hor-menu">
                             	<ul class="nav navbar-nav">
 
+                                @if(Auth::user()->role != 4)
                             		<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
                                         <a href="/operator/index"> Main Page 主页
                                             <span class="arrow"></span>
@@ -177,6 +178,40 @@
                                                 </li>
                                             </ul>
                                         </li>
+                                        @endif
+
+                                        @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
+                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                            <a href="javascript:;"> Manage Account 管理会员
+                                                <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                <li aria-haspopup="true" class=" ">
+                                                    <a href="/admin/all-accounts">All Accounts 会员列表</a>
+                                                </li>
+                                                <li aria-haspopup="true" class=" ">
+                                                    <a href="/admin/add-account">Add New Account 新增会员</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                            <a href="javascript:;"> System Settings
+                                                <span class="arrow"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pull-left">
+                                                <li aria-haspopup="true" class=" ">
+                                                    <a href="/admin/prelogin-note">Prelogin Notes</a>
+                                                </li>
+                                                <li aria-haspopup="true" class=" ">
+                                                    <a href="/admin/all-dialects">Dialect</a>
+                                                </li>
+                                                <li aria-haspopup="true" class=" ">
+                                                    <a href="/admin/">Race</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        @endif
 
                                 </ul><!-- end nav navbar-nav -->
                             </div><!-- end hor-menu -->

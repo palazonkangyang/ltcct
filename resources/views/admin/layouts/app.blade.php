@@ -79,47 +79,138 @@
 
 					<div class="page-header-menu">
 
-						<div class="container">
+						<div class="container-fluid">
 
+              <div class="hor-menu">
+                <ul class="nav navbar-nav">
 
+                  <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
+                          <a href="/operator/index"> Main Page 主页
+                              <span class="arrow"></span>
+                          </a>
+                      </li>
 
-                            <div class="hor-menu">
-                            	<ul class="nav navbar-nav">
+                      <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
+                          <a href="/staff/donation" class="nav-link  "> General Donation 乐捐
+                              <span class="arrow"></span>
+                          </a>
+                      </li>
 
-                            		<li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown active">
-                                        <a href="javascript:;"> Main Page 管理员主页
-                                            <span class="arrow"></span>
-                                        </a>
+                      <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
+                          <a href="/staff/create-festive-event"> Event Calendar 庆典节目表
+                              <span class="arrow"></span>
+                          </a>
+                      </li>
 
+                      <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
+                              <a href="javascript:;"> Fund Account
+                                  <span class="arrow"></span>
+                              </a>
+                              <ul class="dropdown-menu" style="min-width: 710px">
+                                  <li>
+                                      <div class="mega-menu-content">
+                                          <div class="row">
+                                              <div class="col-md-4">
+                                                  <ul class="mega-menu-submenu">
+                                                      <li>
+                                                          <h3>Income & Expenditure</h3>
+                                                      </li>
+                                                      <li>
+                                                          <a href="#">Income</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="/expenditure/manage-expenditure">Expenditure</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="/paid/manage-paid">Paid</a>
+                                                      </li>
+                                                  </ul>
+                                              </div>
+                                              <div class="col-md-4">
+                                                  <ul class="mega-menu-submenu">
+                                                      <li>
+                                                          <h3>Setting</h3>
+                                                      </li>
+                                                      <li>
+                                                          <a href="#">Fiscal Year</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="/job/manage-job">Jobs</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="#">Cost Center</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="/account/new-glaccountgroup">GL Account Group</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="/account/new-glaccount">GL Accounts</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="/account/chart-all-accounts">Chart All Accounts</a>
+                                                      </li>
+                                                  </ul>
+                                              </div>
+                                              <div class="col-md-4">
+                                                  <ul class="mega-menu-submenu">
+                                                      <li>
+                                                          <h3>Finance</h3>
+                                                      </li>
+                                                      <li>
+                                                          <a href="/journalentry/manage-journalentry">Journal Entry</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="">Income Statement Report</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="#">Trial Balance Report</a>
+                                                      </li>
+                                                      <li>
+                                                          <a href="#">Cashflow Statement Report</a>
+                                                      </li>
+                                                  </ul>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </li>
+                              </ul>
+                          </li>
 
-                                    </li>
+                          @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                              <a href="javascript:;"> Manage Account 管理会员
+                                  <span class="arrow"></span>
+                              </a>
+                              <ul class="dropdown-menu pull-left">
+                                  <li aria-haspopup="true" class=" ">
+                                      <a href="/admin/all-accounts">All Accounts 会员列表</a>
+                                  </li>
+                                  <li aria-haspopup="true" class=" ">
+                                      <a href="/admin/add-account">Add New Account 新增会员</a>
+                                  </li>
+                              </ul>
+                          </li>
 
-                                    <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
-                                        <a href="javascript:;"> Manage Account 管理会员
-                                            <span class="arrow"></span>
-                                        </a>
+                          <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                              <a href="javascript:;"> System Settings
+                                  <span class="arrow"></span>
+                              </a>
+                              <ul class="dropdown-menu pull-left">
+                                  <li aria-haspopup="true" class=" ">
+                                      <a href="/admin/prelogin-note">Prelogin Notes</a>
+                                  </li>
+                                  <li aria-haspopup="true" class=" ">
+                                      <a href="/admin/all-dialects">Dialect</a>
+                                  </li>
+                                  <li aria-haspopup="true" class=" ">
+                                      <a href="/admin/all-race">Race</a>
+                                  </li>
+                              </ul>
+                          </li>
+                          @endif
 
-                                        <ul class="dropdown-menu pull-left">
-                                            <li>
-                                                <a href="{{ URL::to('/admin/all-accounts') }}">All Accounts 会员列表</a>
-                                            </li>
-
-                                            <li>
-                                                <a href="{{ URL::to('/admin/add-account') }}">Add New Account 新增会员</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                                            <a href="{{ URL::to('/admin/acknowledge') }}"> Acknowledge
-                                                <span class="arrow"></span>
-                                            </a>
-
-
-                                        </li>
-
-                                </ul><!-- end nav navbar-nav -->
-                            </div><!-- end hor-menu -->
+                  </ul><!-- end nav navbar-nav -->
+              </div><!-- end hor-menu -->
 
 						</div><!-- end container -->
 
@@ -168,6 +259,8 @@
             });
         })
     </script>
+
+    @yield('script-js')
 
 
 </body>

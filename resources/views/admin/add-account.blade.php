@@ -3,11 +3,11 @@
 @section('main-content')
 
 	<div class="page-container">
-                        
+
         <div class="page-content-wrapper">
-            
+
             <div class="page-head">
-                
+
                 <div class="container">
 
                 	<div class="page-title">
@@ -41,7 +41,7 @@
                             @foreach($errors->all() as $error)
                                 <p>{{ $error }}</p>
                             @endforeach
-                            
+
                         </div>
 
                     @endif
@@ -67,18 +67,18 @@
                                         <div class="caption font-red-sunglo">
                                             <i class="icon-settings font-red-sunglo"></i>
                                             <span class="caption-subject bold uppercase"> Add New Account</span>
-                                        </div><!-- end caption font-red-sunglo -->                                        
-                                        
+                                        </div><!-- end caption font-red-sunglo -->
+
                                     </div><!-- end portlet-title -->
 
 
                                     <div class="portlet-body form">
-                                        
+
                                         <form role="form" method="post" action="{{ URL::to('/admin/add-account') }}">
                                             {!! csrf_field() !!}
-                                            
+
                                             <div class="form-body">
-                                                
+
                                                 <div class="form-group">
                                                     <label>First Name</label>
 
@@ -87,7 +87,7 @@
                                                             <i class="fa fa-envelope"></i>
                                                         </span>
 
-                                                        <input type="text" class="form-control" placeholder="First Name" name="first_name">
+                                                        <input type="text" class="form-control" placeholder="First Name" name="first_name" value="{{ old('first_name') }}">
                                                     </div><!-- end input-group -->
 
                                                 </div><!-- end form-group -->
@@ -100,7 +100,7 @@
                                                             <i class="fa fa-envelope"></i>
                                                         </span>
 
-                                                        <input type="text" class="form-control" placeholder="Last Name" name="last_name">
+                                                        <input type="text" class="form-control" placeholder="Last Name" name="last_name" value="{{ old('last_name') }}">
                                                     </div><!-- end input-group -->
 
                                                 </div><!-- end form-group -->
@@ -113,39 +113,42 @@
                                                             <i class="fa fa-envelope"></i>
                                                         </span>
 
-                                                        <input type="text" class="form-control" placeholder="User Name" name="user_name">
+                                                        <input type="text" class="form-control" placeholder="User Name" name="user_name"
+																													value="{{ old('user_name') }}">
                                                     </div><!-- end input-group -->
 
                                                 </div><!-- end form-group -->
-                                                                    
+
                                                 <div class="form-group">
                                                     <label>Password</label>
-                                                    
+
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
                                                             <i class="fa fa-user font-red"></i>
                                                         </span>
 
-                                                        <input type="password" class="form-control" placeholder="Password" name="password">                                    
+                                                        <input type="password" class="form-control" placeholder="Password" name="password">
                                                     </div><!-- end input-group -->
                                                 </div><!-- end form-group -->
 
                                                 <div class="form-group">
                                                     <label>Confirm Password</label>
-                                                    
+
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
                                                             <i class="fa fa-user font-red"></i>
                                                         </span>
 
-                                                        <input type="password" class="form-control" placeholder="Confirm Password" name="confirm_password">                                                        
+                                                        <input type="password" class="form-control" placeholder="Confirm Password" name="confirm_password">
                                                     </div><!-- end input-group -->
                                                 </div><!-- end form-group -->
 
                                                 <div class="form-group">
                                                     <label>Role</label>
-                                                    
+
+
                                                     <div class="mt-radio-inline">
+																												@if(Auth::user()->role == 1)
                                                         <label class="mt-radio">
                                                             <input type="radio" name="role" value="1" checked> Super Admin
                                                             <span></span>
@@ -160,14 +163,16 @@
                                                             <input type="radio" name="role" value="3"> Supervisor
                                                             <span></span>
                                                         </label>
-                                                            
+
                                                         <label class="mt-radio">
                                                             <input type="radio" name="role" value="4"> Account Officer
                                                             <span></span>
                                                         </label>
-                                                            
+
+																												@endif
+
                                                         <label class="mt-radio">
-                                                            <input type="radio" name="role" value="5"> Operator
+                                                            <input type="radio" name="role" value="5" @if(old('role') ==  5) checked="checked" @endif> Operator
                                                             <span></span>
                                                         </label>
 
@@ -188,7 +193,7 @@
 
                                 </div><!-- end portlet light -->
 
-                                            
+
 
                             </div><!-- end col-md-6 -->
 

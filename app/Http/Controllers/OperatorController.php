@@ -33,18 +33,19 @@ class OperatorController extends Controller
 	{
 		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-        				->select('devotee.*', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+								->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+        				->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 								->orderBy('devotee.devotee_id', 'desc')
 								->GroupBy('devotee.devotee_id')
         				->get();
 
 		$members = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-								->whereNotNull('member_id')
+								->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+								->whereNotNull('devotee.member_id')
 								->whereNull('deceased_year')
 								->orderBy('devotee_id', 'asc')
-        				->select('devotee.*', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
-        				->addSelect('familycode.familycode')
+        				->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 								->orderBy('devotee.devotee_id', 'desc')
 								->GroupBy('devotee.devotee_id')
         				->get();

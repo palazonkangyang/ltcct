@@ -12,7 +12,7 @@
 
                 	<div class="page-title">
 
-                        <h1>Edit Account</h1>
+                        <h1>Devotee</h1>
 
                     </div><!-- end page-title -->
 
@@ -121,6 +121,7 @@
                                                                                 <th>Address</th>
                                                                                 <th>Guiyi Name</th>
 																																								<th>Contact</th>
+																																								<th>Paid Till</th>
 																																								<th>Mailer</th>
 																																								<th>Last Trans Date</th>
                                                                                 <th>Family Code</th>
@@ -132,24 +133,27 @@
                                                                                 <th>Address</th>
                                                                                 <th>Guiyi Name</th>
 																																								<th>Contact</th>
+																																								<th>Paid Till</th>
 																																								<th>Mailer</th>
 																																								<th>Last Trans Date</th>
                                                                                 <th>Family Code</th>
                                                                             </tr>
                                                                         </thead>
 
-                                                                        @php $date = \Carbon\Carbon::now()->subDays(365);
-																																				 @endphp
+                                                                        @php
+																																					$date = \Carbon\Carbon::now()->subDays(365);
+																																					$now = \Carbon\Carbon::now();
+
+																																				@endphp
 
                                                                         <tbody>
                                                                             @foreach($devotees as $devotee)
-
                                                                             <tr>
                                                                                 <td>
-																																									@if($devotee->deceased_year == null)
-																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee" id="{{ $devotee->devotee_id }}">{{ $devotee->chinese_name }}</a>
-																																									@else
+																																									@if($devotee->deceased_year != null)
 																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee text-danger" id="{{ $devotee->devotee_id }}">{{ $devotee->chinese_name }}</a>
+																																									@else
+																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee" id="{{ $devotee->devotee_id }}">{{ $devotee->chinese_name }}</a>
 																																									@endif
                                                                                 </td>
                                                                                 <td>
@@ -160,8 +164,11 @@
 																																									@endif
 																																								</td>
 																																								<td>
-
-																																											<span>{{ $devotee->member_id }}</span>
+																																									@if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
+																																									<span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
+																																									@else
+																																									<span>{{ $devotee->member_id }}</span>
+																																									@endif
 																																								</td>
                                                                                 <td>
 																																									@if(isset($devotee->oversea_addr_in_chinese))
@@ -174,6 +181,15 @@
                                                                                 </td>
                                                                                 <td>{{ $devotee->guiyi_name }}</td>
 																																								<td>{{ $devotee->contact }}</td>
+																																								<td>
+																																									@if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+																																									<span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+																																									@elseif(isset($devotee->paytill_date))
+																																									<span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+																																									@else
+																																									<span>{{ $devotee->paytill_date }}</span>
+																																									@endif
+																																								</td>
 																																								<td>{{ $devotee->mailer }}</td>
 																																								<td>
 																																									@if(isset($devotee->lasttransaction_at))
@@ -210,6 +226,7 @@
 																																						<th>Address</th>
 																																						<th>Guiyi Name</th>
 																																						<th>Contact</th>
+																																						<th>Paid Till</th>
 																																						<th>Mailer</th>
 																																						<th>Last Trans Date</th>
 																																						<th>Family Code</th>
@@ -221,6 +238,7 @@
 																																							<th>Address</th>
 																																							<th>Guiyi Name</th>
 																																							<th>Contact</th>
+																																							<th>Paid Till</th>
 																																							<th>Mailer</th>
 																																							<th>Last Trans Date</th>
 																																							<th>Family Code</th>
@@ -244,7 +262,13 @@
 																																									<span class="text-danger">{{ $member->devotee_id }}</span>
 																																									@endif
 																																								</td>
-                                                                                <td>{{ $member->member_id }}</td>
+                                                                                <td>
+																																									@if(\Carbon\Carbon::parse($member->lasttransaction_at)->lt($date))
+																																									<span style="color: #a5a5a5;">{{ $member->member_id }}</span>
+																																									@else
+																																									<span>{{ $member->member_id }}</span>
+																																									@endif
+																																								</td>
                                                                                 <td>
 																																										@if(isset($member->oversea_addr_in_chinese))
 																																										{{ $member->oversea_addr_in_chinese }}
@@ -256,6 +280,15 @@
                                                                                 </td>
                                                                                 <td>{{ $member->guiyi_name }}</td>
 																																								<td>{{ $member->contact }}</td>
+																																								<td>
+																																									@if(isset($member->paytill_date) && \Carbon\Carbon::parse($member->paytill_date)->lt($now))
+																																									<span class="text-danger">{{ \Carbon\Carbon::parse($member->paytill_date)->format("d/m/Y") }}</span>
+																																									@elseif(isset($member->paytill_date))
+																																									<span>{{ \Carbon\Carbon::parse($member->paytill_date)->format("d/m/Y") }}</span>
+																																									@else
+																																								</td>
+																																								<span>{{ $member->paytill_date }}</span>
+																																								@endif
 																																								<td>{{ $member->mailer }}</td>
 																																								<td>
 																																									@if(isset($member->lasttransaction_at))
@@ -2160,6 +2193,9 @@
 								var address_houseno = $("#edit_address_houseno").val();
 								var address_street = $("#edit_address_street").val();
                 var address_postal = $("#edit_address_postal").val();
+								var nric = $("#edit_nric").val();
+								var dob = $("#edit_dob").val();
+								var marital_status = $("#edit_marital_status").val();
                 var authorized_password = $("#authorized_password").val();
 
                 if ($.trim(chinese_name).length <= 0)
@@ -2190,6 +2226,24 @@
                 {
                     validationFailed = true;
                     errors[count++] = "Mandatory Address Postal field is empty."
+                }
+
+								if ($.trim(nric).length <= 0)
+                {
+                    validationFailed = true;
+                    errors[count++] = "Mandatory NRIC field is empty."
+                }
+
+								if ($.trim(dob).length <= 0)
+                {
+                    validationFailed = true;
+                    errors[count++] = "Mandatory Date of Birth field is empty."
+                }
+
+								if ($.trim(marital_status).length <= 0)
+                {
+                    validationFailed = true;
+                    errors[count++] = "Mandatory Marital Status field is empty."
                 }
 
                 if ($.trim(authorized_password).length <= 0)

@@ -30,15 +30,27 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::group(['prefix' => 'admin'], function () {
 
 		// Get Route
-		Route::get('/acknowledge', ['as' => 'acknowledge-page', 'uses' => 'AdminController@getAcknowledge']);
+		Route::get('/prelogin-note', ['as' => 'prelogin-note-page', 'uses' => 'AdminController@getPreLoginNote']);
 		Route::get('/dashboard', ['as' => 'dashboard-page', 'uses' => 'AdminController@dashboard']);
     Route::get('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@getAddAccount']);
 		Route::get('/all-accounts', ['as' => 'all-accounts-page', 'uses' => 'AdminController@getAllAccounts']);
 		Route::get('/account/edit/{id}', ['as' => 'all-account-page', 'uses' => 'AdminController@getEditAccount']);
 		Route::get('/account/delete/{id}', ['as' => 'all-account-page', 'uses' => 'AdminController@deleteAccount']);
+		Route::get('/add-dialect', ['as' => 'add-dialect-page', 'uses' => 'AdminController@getAddDialect']);
+		Route::get('/all-dialects', ['as' => 'all-dialects-page', 'uses' => 'AdminController@getAllDialects']);
+		Route::get('/dialect/edit/{id}', ['as' => 'edit-dialect-page', 'uses' => 'AdminController@getEditDialect']);
+		Route::get('/dialect/delete/{id}', ['as' => 'delete-dialect-page', 'uses' => 'AdminController@deleteDialect']);
+		Route::get('/add-race', ['as' => 'add-race-page', 'uses' => 'AdminController@getAddRace']);
+		Route::get('/all-race', ['as' => 'all-race-page', 'uses' => 'AdminController@getAllRace']);
+		Route::get('/race/edit/{id}', ['as' => 'edit-race-page', 'uses' => 'AdminController@getEditRace']);
+		Route::get('/race/delete/{id}', ['as' => 'delete-race-page', 'uses' => 'AdminController@deleteRace']);
 
-		Route::post('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@postAddAccount']);
+		Route::post('/add-account', ['as' => 'save-account-page', 'uses' => 'AdminController@postAddAccount']);
 		Route::post('/change-account', ['as' => 'change-account-page', 'uses' => 'AdminController@changeAccount']);
+		Route::post('/add-dialect', ['as' => 'save-dialect-page', 'uses' => 'AdminController@postAddDialect']);
+		Route::post('/update-dialect', ['as' => 'update-dialect-page', 'uses' => 'AdminController@updateDialect']);
+		Route::post('/add-race', ['as' => 'save-race-page', 'uses' => 'AdminController@postAddRace']);
+		Route::post('/update-race', ['as' => 'update-race-page', 'uses' => 'AdminController@updateRace']);
 		Route::post('/update-acknowledge', ['as' => 'update-acknowledge-page', 'uses' => 'AdminController@postUpdateAcknowledge']);
   });
 

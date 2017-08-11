@@ -34,6 +34,9 @@
                       </li>
                   </ul>
 
+                  <div class="validation-error">
+                  </div><!-- end validation-error -->
+
                   @if($errors->any())
 
                       <div class="alert alert-danger">
@@ -86,7 +89,7 @@
                                           <div class="form-group">
                                               <label>Prelogin Notes</label>
 
-                                              <textarea name="prelogin_notes" class="form-control" rows="5">{{ $acknowledge[0]->prelogin_notes }}</textarea>
+                                              <textarea name="prelogin_notes" class="form-control" rows="5" id="prelogin_notes">{{ $acknowledge[0]->prelogin_notes }}</textarea>
 
                                           </div><!-- end form-group -->
 
@@ -94,7 +97,7 @@
 
                                               <div class="mt-checkbox-list">
                                                 <label class="mt-checkbox">
-                                                  <input value="1" name="show_prelogin" type="checkbox">
+                                                  <input value="1" name="show_prelogin" type="checkbox" @if(old('show_prelogin',$acknowledge[0]->show_prelogin)=="1") checked @endif>
                                                   <span></span>
                                                 </label>
                                               </div><!-- end mt-checkbox-list -->
@@ -104,7 +107,7 @@
                                         </div><!-- end form-body -->
 
                                         <div class="form-actions">
-                                            <button type="submit" class="btn blue">Update</button>
+                                            <button type="submit" class="btn blue" id="update">Update</button>
                                             <button type="button" class="btn default">Cancel</button>
                                         </div><!-- end form-actions -->
 
@@ -127,5 +130,54 @@
       </div><!-- end page-content-wrapper -->
 
   </div><!-- end page-container -->
+
+@stop
+
+@section('script-js')
+
+  <script type="text/javascript">
+    $(function() {
+
+      $("#update").click(function() {
+
+        var count = 0;
+        var errors = new Array();
+        var validationFailed = false;
+
+        var prelogin_notes = $("#prelogin_notes").val();
+
+        if ($.trim(prelogin_notes).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Prelogin note is empty."
+        }
+
+        if (validationFailed)
+        {
+            var errorMsgs = '';
+
+            for(var i = 0; i < count; i++)
+            {
+                errorMsgs = errorMsgs + errors[i] + "<br/>";
+            }
+
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+            $(".validation-error").addClass("bg-danger alert alert-error")
+            $(".validation-error").html(errorMsgs);
+
+            return false;
+        }
+
+        else {
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
+        }
+
+      });
+
+    });
+  </script>
+
 
 @stop

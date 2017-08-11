@@ -84,7 +84,7 @@
                                                             <tr>
                                                                 <th width='4%'>#</th>
                                                                 <th width="15%">Job</th>
-                                                                <th width='11%'>Date From 阴历</th>
+                                                                <th width='11%'>Job Date 阴历</th>
                                                                 <th width='11%'>Date To 阴历</th>
                                                                 <th width='11%'>Lunar Date 阳历</th>
                                                                 <th width='15%'>Event 节日</th>
@@ -110,11 +110,11 @@
                                                                     </td>
                                                                     <td>
                                                                         <input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
-                                                                          value='{{ \Carbon\Carbon::parse($event->start_at)->format("d/m/Y") }}'>
+                                                                          value='{{ \Carbon\Carbon::parse($event->start_at)->format("d/m/Y") }}' id="job_date">
                                                                     </td>
                                                                     <td>
                                                                         <input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
-                                                                        value='{{ \Carbon\Carbon::parse($event->end_at)->format("d/m/Y") }}'>
+                                                                        value='{{ \Carbon\Carbon::parse($event->end_at)->format("d/m/Y") }}' id="end_at">
                                                                     </td>
                                                                     <td>
                                                                         <input type='text' class='form-control' name='lunar_date[]' value='{{ $event->lunar_date }}'>
@@ -151,7 +151,7 @@
                                                 <hr>
 
                                                 <div class="form-actions pull-right">
-                                                    <button type="submit" class="btn blue" id="confirm_event_btn">Outdate</button>
+                                                    <button type="submit" class="btn blue" id="confirm_event_btn">Updated</button>
                                                     <button type="button" class="btn default">Cancel</button>
                                                 </div><!-- end form-actions -->
 
@@ -310,6 +310,33 @@
   									$(".validation-error").empty();
   							}
             });
+
+        //     $("body").on('focus', '.event-row', function() {
+        //
+        //       $("#job_date").datepicker({
+        //        onSelect: function (date) {
+        //            var date2 = $('#job_date').datepicker('getDate');
+        //            date2.setDate(date2.getDate() + 1);
+        //            $('#end_at').datepicker('setDate', date2);
+        //            //sets minDate to dt1 date + 1
+        //            $('#end_at').datepicker('option', 'minDate', date2);
+        //        }
+        //     });
+        //
+        //     $('#end_at').datepicker({
+        //     onClose: function () {
+        //         var dt1 = $('#job_date').datepicker('getDate');
+        //         console.log(dt1);
+        //         var dt2 = $('#end_at').datepicker('getDate');
+        //         if (dt2 <= dt1) {
+        //             var minDate = $('#end_at').datepicker('option', 'minDate');
+        //             $('#end_at').datepicker('setDate', minDate);
+        //         }
+        //     }
+        // });
+        //
+        //
+        //  });
         });
     </script>
 

@@ -1360,6 +1360,8 @@
 
 						@endif
 
+						@if(isset($focus_devotee[0]->approved_date))
+
                 <div class="form-group">
                     <label class="col-md-3 control-label">Member Cancelled Date</label>
                     <div class="col-md-9">
@@ -1383,6 +1385,8 @@
 
 								@endif
 
+								@endif
+
                	<div class="form-group">
                     <label class="col-md-3"></label>
                     <label class="col-md-5 control-label">Authorized Password</label>
@@ -1393,9 +1397,14 @@
 
                 <div class="form-actions pull-right">
                     <button type="submit" class="btn blue" id="update_btn" disabled>Update</button>
-                    <button type="button" class="btn default">Cancel</button>
+                    <button type="button" class="btn default" id="edit_cancel_btn">Cancel</button>
                 </div><!-- end form-actions -->
             </div><!-- end col-md-6 -->
+
+						<div id="edit-dialog-box" title="System Alert">
+								You have NOT Saved this New Devotee Record 1
+								Do you want to Cancel this record?
+						</div>
 
         </div><!-- end form-body -->
 

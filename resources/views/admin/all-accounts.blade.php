@@ -3,11 +3,11 @@
 @section('main-content')
 
 	<div class="page-container">
-                        
+
         <div class="page-content-wrapper">
-            
+
             <div class="page-head">
-                
+
                 <div class="container">
 
                 	<div class="page-title">
@@ -33,6 +33,26 @@
                         </li>
                     </ul>
 
+										@if($errors->any())
+
+												<div class="alert alert-danger">
+
+														@foreach($errors->all() as $error)
+																<p>{{ $error }}</p>
+														@endforeach
+
+												</div>
+
+										@endif
+
+										@if(Session::has('success'))
+												<div class="alert alert-success"><em> {{ Session::get('success') }}</em></div>
+										@endif
+
+										 @if(Session::has('error'))
+												<div class="alert alert-danger"><em> {{ Session::get('error') }}</em></div>
+										@endif
+
                     <div class="page-content-inner">
 
                         <div class="mt-bootstrap-tables">
@@ -50,43 +70,42 @@
                                                 <span class="caption-subject font-dark bold uppercase">All Accounts</span>
                                             </div><!-- end caption -->
                                         </div><!-- end portlet-title -->
-                                        
+
                                         <div class="portlet-body">
-                                            
-                                            <table class="table table-bordered">
+
+                                            <table class="table table-bordered" id="all-accounts-table">
                                                 <thead>
-                                                    <tr>
-                                                    	<th>#</th>
-                                                        <th>First Name</th>
-                                                        <th>Last Name</th>
-                                                        <th>User Name</th>
-                                                        <th>Role</th>
-                                                        <th>Actions</th>
-                                                    </tr>
+																									<tr id="filter">
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>User Name</th>
+                                                    <th>Role</th>
+                                                    <th>Actions</th>
+																									</tr>
+                                                  <tr>
+                                                    <th>First Name</th>
+                                                    <th>Last Name</th>
+                                                    <th>User Name</th>
+                                                    <th>Role</th>
+                                                    <th>Actions</th>
+                                                  </tr>
                                                 </thead>
-
-                                                @php
-
-                                                	$count = 1;
-
-                                               	@endphp
 
                                                 <tbody>
                                                 	@foreach($staffs as $staff)
 
                                                 	<tr>
-                                                		<td>{{ $count++ }}</td>
                                                 		<td>{{ $staff-> first_name }}</td>
                                                 		<td>{{ $staff-> last_name }}</td>
                                                 		<td>{{ $staff-> user_name }}</td>
                                                 		<td>{{ $staff-> role_name }}</td>
                                                 		<td>
                                                 			<a href="{{ URL::to('/admin/account/edit/' . $staff->id) }}" class="btn btn-outline btn-circle btn-sm purple">
-                                                				<i class="fa fa-edit"></i> Edit 
+                                                				<i class="fa fa-edit"></i> Edit
                                                 			</a>
 
                                                 			<a href="{{ URL::to('/admin/account/delete/' . $staff->id) }}" class="btn btn-outline btn-circle dark btn-sm black">
-                                                				<i class="fa fa-trash-o"></i> Delete 
+                                                				<i class="fa fa-trash-o"></i> Delete
                                                 			</a>
                                                 		</td>
                                                 	</tr>
@@ -115,5 +134,46 @@
         </div><!-- end page-content-wrapper -->
 
     </div><!-- end page-container -->
+
+@stop
+
+@section('script-js')
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+
+		$(function() {
+			// DataTable
+			var table = $('#all-accounts-table').DataTable({
+				"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+				"order": [[ 0, "desc" ]]
+			});
+
+			$('#all-accounts-table thead tr#filter th').each( function () {
+						var title = $('#all-accounts-table thead th').eq( $(this).index() ).text();
+						$(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+			});
+
+			// Apply the filter
+			$("#all-accounts-table thead input").on( 'keyup change', function () {
+					table
+							.column( $(this).parent().index()+':visible' )
+							.search( this.value )
+							.draw();
+			});
+
+			function stopPropagation(evt) {
+				if (evt.stopPropagation !== undefined) {
+					evt.stopPropagation();
+				} else {
+					evt.cancelBubble = true;
+				}
+			}
+		});
+	</script>
 
 @stop
