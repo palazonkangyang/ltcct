@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
 use App\Models\Job;
+use App\Models\FestiveEvent;
+use App\Models\GlCode;
 use Auth;
 use DB;
 use Hash;
@@ -114,5 +116,37 @@ class JobController extends Controller
       return redirect()->route('manage-job-page');
     }
 
+  }
+
+  public function deleteJob(Request $request, $id)
+  {
+    $job = job::find($id);
+
+    $festiveevent = FestiveEvent::where('job_id', $job->job_id)->get();
+    $glcode = GlCode::where('job_id', $job->job_id)->get();
+
+    // dd($glcode->toArray());
+
+    if(count($festiveevent) > 0)
+    {
+      $request->session()->flash('error', 'Selected Job cannot be deleted. This job is selected in Festive Event.');
+      return redirect()->back();
+    }
+
+    if(count($glcode)  > 0)
+    {
+      $request->session()->flash('error', 'Selected Job cannot be deleted. This job is selected in GL Account.');
+      return redirect()->back();
+    }
+
+    if (!$job) {
+      $request->session()->flash('error', 'Selected Dialect is not found.');
+      return redirect()->back();
+  	}
+
+    $job->delete();
+
+		$request->session()->flash('success', 'Selected Job has been deleted.');
+    return redirect()->back();
   }
 }

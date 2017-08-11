@@ -553,7 +553,7 @@
 															@foreach($dialects as $dialect)
 															<option value="{{ $dialect->dialect_id }}" <?php if ($focus_devotee[0]->dialect == $dialect->dialect_id) echo "selected"; ?>>{{ $dialect->dialect_name }}</option>
 															@endforeach
-															<option value="others">Others</option>
+															<option value="other_dialect">Others</option>
 													</select>
 											</div><!-- end col-md-8 -->
 
@@ -563,7 +563,7 @@
 
 											<label class="col-md-4"></label>
 											<div class="col-md-8">
-													<input type="text" name="other_dialect" class="form-control" value="{{ $focus_devotee[0]->other_dialect }}"
+													<input type="text" name="other_dialect" class="form-control" value="{{ old('other_dialect') }}"
 													placeholder="Other Dialect" id="edit_other_dialect">
 											</div><!-- end col-md-9 -->
 
@@ -578,7 +578,7 @@
 															@foreach($races as $race)
 															<option value="{{ $race->race_id }}" <?php if ($focus_devotee[0]->race == $race->race_id) echo "selected"; ?>>{{ $race->race_name }}</option>
 															@endforeach
-															<option value="others">Others</option>
+															<option value="other_race">Others</option>
 													</select>
 											</div><!-- end col-md-8 -->
 
@@ -588,7 +588,7 @@
 
 										 <label class="col-md-4"></label>
 										 <div class="col-md-8">
-												 <input type="text" name="other_race" class="form-control" value="{{ $focus_devotee[0]->other_race }}"
+												 <input type="text" name="other_race" class="form-control" value="{{ old('other_race') }}"
 												 placeholder="Other Race" id="edit_other_race">
 										 </div><!-- end col-md-8 -->
 
@@ -865,7 +865,7 @@
 
 										<label class="col-md-3 control-label"></label>
 										<div class="col-md-9">
-												<input type="text" name="other_dialect" class="form-control" value="{{ old() }}"
+												<input type="text" name="other_dialect" class="form-control" value="{{ old('other_dialect') }}"
 												placeholder="Other Dialect" id="edit_other_dialect">
 										</div><!-- end col-md-9 -->
 
@@ -888,7 +888,7 @@
 
 										<label class="col-md-3 control-label"></label>
 										<div class="col-md-9">
-												<input type="text" name="other_race" class="form-control" value=""
+												<input type="text" name="other_race" class="form-control" value="{{ old('other_race') }}"
 												placeholder="Other Race" id="edit_other_race">
 										</div><!-- end col-md-9 -->
 

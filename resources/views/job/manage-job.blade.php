@@ -97,11 +97,13 @@
                                           <th>Job Reference No</th>
                                           <th>Name</th>
                                           <th>Description</th>
+                                          <th>Action</th>
                                       </tr>
                                       <tr>
                                           <th>Job Reference No</th>
                                           <th>Name</th>
                                           <th>Description</th>
+                                          <th>Action</th>
                                       </tr>
                                   </thead>
 
@@ -115,6 +117,15 @@
                                         </td>
                                         <td>{{ $j->job_name }}</td>
                                         <td>{{ $j->job_description }}</td>
+                                        <td>
+                                          <a href="{{ URL::to('/job/edit/' . $j->job_id) }}" class="btn btn-outline btn-circle btn-sm purple">
+                                            <i class="fa fa-edit"></i> Edit
+                                          </a>
+
+                                          <a href="{{ URL::to('/job/delete/' . $j->job_id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-job">
+                                            <i class="fa fa-trash-o"></i> Delete
+                                          </a>
+                                        </td>
                                       </tr>
                                       @endforeach
 
@@ -513,6 +524,14 @@
           $(".validation-error").empty();
       }
     });
+
+    $("#joblist-table").on('click', '.delete-job', function() {
+      if (!confirm("Do you confirm you want to delete this record? Note that this process is irreversable.")){
+        return false;
+      }
+    });
+
+    $("#filter input[type=text]:last").css("display", "none");
 
   });
 </script>

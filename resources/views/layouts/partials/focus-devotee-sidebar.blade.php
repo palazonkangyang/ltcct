@@ -362,7 +362,7 @@
 
                         <div class="col-md-8">
                             <input type="text" class="form-control" name="dialect" id="dialect"
-                                value="{{ $focus_devotee[0]->dialect }}">
+                                value="{{ $focus_devotee[0]->dialect_name }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
 

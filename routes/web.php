@@ -135,6 +135,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/manage-job', ['as' => 'manage-job-page', 'uses' => 'JobController@getJob']);
 		Route::get('/get-joblists', ['as' => 'get-joblists-page', 'uses' => 'JobController@getJobLists']);
 		Route::get('/job-detail', ['as' => 'job-detail-page', 'uses' => 'JobController@getJobDetail']);
+		Route::get('/delete/{id}', ['as' => 'delete-job-page', 'uses' => 'JobController@deleteJob']);
 
 		Route::post('/new-job', ['as' => 'new-job-page', 'uses' => 'JobController@postAddNewJob']);
 		Route::post('/update-job', ['as' => 'update-page', 'uses' => 'JobController@postUpdateJob']);

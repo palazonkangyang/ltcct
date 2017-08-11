@@ -45,6 +45,7 @@ class Devotee extends Model
 
         $devotee->select(
             'devotee.*',
+            'dialect.dialect_name',
             'member.introduced_by1',
             'member.introduced_by2',
             'member.approved_date',
@@ -55,6 +56,7 @@ class Devotee extends Model
         $devotee->leftjoin('member', 'devotee.member_id', '=', 'member.member_id');
         $devotee->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
         $devotee->leftjoin('country', 'country.id', '=', 'devotee.nationality');
+        $devotee->leftjoin('dialect', 'devotee.dialect', '=', 'dialect.dialect_id');
 
         if (\Input::get("chinese_name")) {
             $devotee->where('chinese_name', 'like', '%' . $input['chinese_name'] . '%');

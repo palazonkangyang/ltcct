@@ -2221,6 +2221,10 @@
 								var nric = $("#edit_nric").val();
 								var dob = $("#edit_dob").val();
 								var marital_status = $("#edit_marital_status").val();
+								var edit_dialect = $('#edit_dialect').val();
+								var edit_other_dialect = $("#edit_other_dialect").val();
+								var edit_race = $("#edit_race").val();
+								var edit_other_race = $("#edit_other_race").val();
                 var authorized_password = $("#authorized_password").val();
 
                 if ($.trim(chinese_name).length <= 0)
@@ -2270,6 +2274,24 @@
                     validationFailed = true;
                     errors[count++] = "Mandatory Marital Status field is empty."
                 }
+
+								if(edit_dialect == "other_dialect")
+								{
+									if ($.trim(edit_other_dialect).length <= 0)
+									{
+											validationFailed = true;
+											errors[count++] = "Mandatory Other Dialect field is empty."
+									}
+								}
+
+								if(edit_race == "other_race")
+								{
+									if ($.trim(edit_other_race).length <= 0)
+									{
+											validationFailed = true;
+											errors[count++] = "Mandatory Other Race field is empty."
+									}
+								}
 
                 if ($.trim(authorized_password).length <= 0)
                 {

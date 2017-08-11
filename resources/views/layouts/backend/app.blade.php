@@ -207,7 +207,7 @@
                                                     <a href="/admin/all-dialects">Dialect</a>
                                                 </li>
                                                 <li aria-haspopup="true" class=" ">
-                                                    <a href="/admin/">Race</a>
+                                                    <a href="/admin/all-race">Race</a>
                                                 </li>
                                             </ul>
                                         </li>

@@ -223,7 +223,6 @@
                   "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
                   "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
                   "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
-
             });
 
             $("#festive-event-table").on('click', '.removeEventRow', function() {
