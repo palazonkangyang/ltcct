@@ -596,7 +596,9 @@
                                                                         <div class="col-md-8">
                                                                             <select class="form-control" name="dialect" id="content_dialect">
                                                                                 <option value="">Please select</option>
-                                                                                <option value="chinese">Chinese</option>
+																																								@foreach($dialects as $dialect)
+                                                                                <option value="{{ $dialect->dialect_id }}">{{ $dialect->dialect_name }}</option>
+                                                                                @endforeach
                                                                                 <option value="others">Others</option>
                                                                             </select>
                                                                         </div><!-- end col-md-9 -->
@@ -619,7 +621,9 @@
                                                                         <div class="col-md-8">
                                                                             <select class="form-control" name="race" id="content_race">
                                                                                 <option value="">Please select</option>
-                                                                                <option value="chinese">Chinese</option>
+																																								@foreach($races as $race)
+                                                                                <option value="{{ $race->race_id }}">{{ $race->race_name }}</option>
+                                                                                @endforeach
                                                                                 <option value="others">Others</option>
                                                                             </select>
                                                                         </div><!-- end col-md-9 -->

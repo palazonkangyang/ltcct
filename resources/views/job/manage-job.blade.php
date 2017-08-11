@@ -140,15 +140,6 @@
 
                                   <div class="form-group">
 
-                                    <label class="col-md-3 control-label">Job Reference No *</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="job_reference_no" value="" id="name">
-                                    </div><!-- end col-md-9 -->
-
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
                                     <label class="col-md-3 control-label">Job Name *</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="job_name" value="{{ old('job_name') }}" id="job_name">
@@ -158,7 +149,7 @@
 
                                   <div class="form-group">
 
-                                    <label class="col-md-3 control-label">Job Description *</label>
+                                    <label class="col-md-3 control-label">Job Description</label>
                                     <div class="col-md-9">
                                         <textarea class="form-control" name="job_description" rows="4" id="job_description">{{ old('job_description') }}</textarea>
                                     </div><!-- end col-md-9 -->
@@ -192,7 +183,7 @@
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-9">
                                       <div class="form-actions pull-right">
-                                        <button type="submit" class="btn blue" id="confirm_gl_btn">Confirm
+                                        <button type="submit" class="btn blue" id="confirm_job_btn">Confirm
                                         </button>
                                         <button type="button" class="btn default">Cancel</button>
                                       </div><!-- end form-actions -->
@@ -230,7 +221,7 @@
 
                                   <div class="form-group">
 
-                                    <label class="col-md-3 control-label">Job Reference No *</label>
+                                    <label class="col-md-3 control-label">Job Reference No</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="edit_job_reference_no" value="{{ old('edit_job_reference_no') }}" id="edit_job_reference_no" readonly>
                                     </div><!-- end col-md-9 -->
@@ -248,7 +239,7 @@
 
                                   <div class="form-group">
 
-                                    <label class="col-md-3 control-label">Job Description *</label>
+                                    <label class="col-md-3 control-label">Job Description</label>
                                     <div class="col-md-9">
                                         <textarea class="form-control" name="edit_job_description" rows="4" id="edit_job_description">{{ old('edit_job_description') }}</textarea>
                                     </div><!-- end col-md-9 -->
@@ -331,6 +322,7 @@
 @section('custom-js')
 
 <script src="{{asset('js/custom/common.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
@@ -434,13 +426,13 @@
 
     });
 
-    $("#update_job_btn").click(function() {
+    $("#confirm_job_btn").click(function() {
       var count = 0;
       var errors = new Array();
       var validationFailed = false;
 
-      var job_name = $("#edit_job_name").val();
-      var job_description = $("#edit_job_description").val();
+      var job_name = $("#job_name").val();
+      var authorized_password = $("#authorized_password").val();
 
       if ($.trim(job_name).length <= 0)
       {
@@ -448,10 +440,54 @@
           errors[count++] = "Job Name field is empty."
       }
 
-      if ($.trim(job_description).length <= 0)
+      if ($.trim(authorized_password).length <= 0)
       {
           validationFailed = true;
-          errors[count++] = "Job Description field is empty."
+          errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
+      }
+
+      if (validationFailed)
+      {
+          var errorMsgs = '';
+
+          for(var i = 0; i < count; i++)
+          {
+              errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
+
+          return false;
+      }
+
+      else
+      {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+      }
+    });
+
+    $("#update_job_btn").click(function() {
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+
+      var job_name = $("#edit_job_name").val();
+      var authorized_password = $("#edit_authorized_password").val();
+
+      if ($.trim(job_name).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Job Name field is empty."
+      }
+
+      if ($.trim(authorized_password).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
       }
 
       if (validationFailed)

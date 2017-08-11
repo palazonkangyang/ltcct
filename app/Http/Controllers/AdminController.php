@@ -22,19 +22,14 @@ class AdminController extends Controller
 
 	public function index()
 	{
-
 		$staff = Staff::get()->first();
-
-		// dd($staff->toArray());
 
 		return view('admin/homepage');
 	}
 
     public function dashboard()
     {
-
-
-        return view('admin/dashboard');
+      return view('admin/dashboard');
     }
 
 	// Get All Accounts

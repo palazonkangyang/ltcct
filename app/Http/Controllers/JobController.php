@@ -45,8 +45,12 @@ class JobController extends Controller
       $hashedPassword = $user->password;
 
       if (Hash::check($input['authorized_password'], $hashedPassword)) {
+        $job_id = Job::all()->last()->job_id;
+        $job_id += 1;
+        $job_reference_no = "J-" . $job_id;
+
         $data = [
-          "job_reference_no" => $input['job_reference_no'],
+          "job_reference_no" => $job_reference_no,
           "job_name" => $input['job_name'],
           "job_description" => $input['job_description']
         ];

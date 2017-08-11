@@ -15,6 +15,8 @@ use App\Models\Receipt;
 use App\Models\RelativeFriendLists;
 use App\Models\Country;
 use App\Models\FestiveEvent;
+use App\Models\Dialect;
+use App\Models\Race;
 use Auth;
 use DB;
 use Hash;
@@ -58,12 +60,16 @@ class OperatorController extends Controller
         							->get();
 
 		$countries = Country::all();
+		$dialects = Dialect::all();
+		$races = Race::all();
 
 		return view('operator.index', [
             'members' => $members,
             'devotees' => $devotees,
             'deceased_lists' => $deceased_lists,
-						'countries' => $countries
+						'countries' => $countries,
+						'dialects' => $dialects,
+						'races' => $races
         ]);
 	}
 
