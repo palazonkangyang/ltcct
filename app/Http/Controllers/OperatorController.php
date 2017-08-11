@@ -29,7 +29,6 @@ use Carbon\Carbon;
 
 class OperatorController extends Controller
 {
-
 	// Home Page
 	public function index()
 	{
