@@ -246,8 +246,6 @@ class OperatorController extends Controller
 		Session::put('optionalvehicles', $optionalvehicles);
 		Session::put('specialRemarks', $specialRemarks);
 
-
-
 	  return response()->json(array(
 	    'devotee' => $devotee,
 	    'optionaladdresses' => $optionaladdresses,
@@ -274,6 +272,56 @@ class OperatorController extends Controller
 
       if (Hash::check($input['authorized_password'], $hashedPassword))
 			{
+				if(isset($input['other_dialect']))
+				{
+					$result = Dialect::where('dialect_name', $input['other_dialect'])->first();
+
+					if($result)
+					{
+						$request->session()->flash('error', "Dialect Name is already exist.");
+						return redirect()->back()->withInput();
+					}
+					else
+					{
+						$data = [
+							'dialect_name' => $input['other_dialect']
+						];
+
+						$dialect = Dialect::create($data);
+						$dialect_id = $dialect->dialect_id;
+					}
+				}
+
+				else
+				{
+					$dialect_id = $input['dialect'];
+				}
+
+				if(isset($input['other_race']))
+				{
+					$race_result = Race::where('race_name', $input['other_race'])->first();
+
+					if($result)
+					{
+						$request->session()->flash('error', "Race Name is already exist.");
+						return redirect()->back()->withInput();
+					}
+					else
+					{
+						$data = [
+							'race_name' => $input['other_race']
+						];
+
+						$race = Race::create($data);
+						$race_id = $race->race_id;
+					}
+				}
+
+				else
+				{
+					$race_id = $input['race'];
+				}
+
 				// Modify fields
 				if(isset($input['dob']))
 				{
@@ -327,10 +375,8 @@ class OperatorController extends Controller
 				    "deceased_year" => $input['deceased_year'],
 				    "dob" => $dobNewDate,
 				    "marital_status" => $input['marital_status'],
-				    "dialect" => $input['dialect'],
-						"other_dialect" => $input['other_dialect'],
-						"race" => $input['race'],
-						"other_race" => $input['other_race'],
+				    "dialect" => $dialect_id,
+						"race" => $race_id,
 				    "nationality" => $input['nationality'],
 						"mailer" => $input['mailer'],
 				    "familycode_id" => $input['familycode_id'],
@@ -371,10 +417,8 @@ class OperatorController extends Controller
 				   "deceased_year" => $input['deceased_year'],
 				   "dob" => $dobNewDate,
 				   "marital_status" => $input['marital_status'],
-					 "dialect" => $input['dialect'],
-					 "other_dialect" => $input['other_dialect'],
-					 "race" => $input['race'],
-					 "other_race" => $input['other_race'],
+					 "dialect" => $dialect_id,
+					 "race" => $race_id,
 				   "nationality" => $input['nationality'],
 					 "mailer" => $input['mailer'],
 				   "familycode_id" => $familycode->familycode_id,
@@ -405,10 +449,8 @@ class OperatorController extends Controller
 		        "deceased_year" => $input['deceased_year'],
 		        "dob" => $dobNewDate,
 		        "marital_status" => $input['marital_status'],
-						"dialect" => $input['dialect'],
-						"other_dialect" => $input['other_dialect'],
-						"race" => $input['race'],
-						"other_race" => $input['other_race'],
+						"dialect" => $dialect_id,
+						"race" => $race_id,
 		        "nationality" => $input['nationality'],
 						"mailer" => $input['mailer'],
 		        "familycode_id" => $input['familycode_id']
@@ -448,10 +490,8 @@ class OperatorController extends Controller
 		      "deceased_year" => $input['deceased_year'],
 		      "dob" => $dobNewDate,
 		      "marital_status" => $input['marital_status'],
-					"dialect" => $input['dialect'],
-					"other_dialect" => $input['other_dialect'],
-					"race" => $input['race'],
-					"other_race" => $input['other_race'],
+					"dialect" => $dialect_id,
+					"race" => $race_id,
 		      "nationality" => $input['nationality'],
 					"mailer" => $input['mailer'],
 		      "familycode_id" => $familycode->familycode_id
@@ -686,8 +726,6 @@ class OperatorController extends Controller
 
 		$input = array_except($request->all(), '_token');
 
-		// dd($input);
-
 		if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
@@ -695,6 +733,56 @@ class OperatorController extends Controller
 
 			if (Hash::check($input['authorized_password'], $hashedPassword))
 			{
+				if(isset($input['other_dialect']))
+				{
+				  $result = Dialect::where('dialect_name', $input['other_dialect'])->first();
+
+				  if($result)
+				  {
+				    $request->session()->flash('error', "Dialect Name is already exist.");
+				    return redirect()->back()->withInput();
+				  }
+				  else
+				  {
+				    $data = [
+				      'dialect_name' => $input['other_dialect']
+				    ];
+
+				    $dialect = Dialect::create($data);
+				    $dialect_id = $dialect->dialect_id;
+				  }
+				}
+
+				else
+				{
+				  $dialect_id = $input['dialect'];
+				}
+
+				if(isset($input['other_race']))
+				{
+				  $race_result = Race::where('race_name', $input['other_race'])->first();
+
+				  if($result)
+				  {
+				    $request->session()->flash('error', "Race Name is already exist.");
+				    return redirect()->back()->withInput();
+				  }
+				  else
+				  {
+				    $data = [
+				      'race_name' => $input['other_race']
+				    ];
+
+				    $race = Race::create($data);
+				    $race_id = $race->race_id;
+				  }
+				}
+
+				else
+				{
+				  $race_id = $input['race'];
+				}
+
 				// Modify fields
 			  if(isset($input['dob']))
 			  {
@@ -788,18 +876,13 @@ class OperatorController extends Controller
 			  $devotee->deceased_year = $input['deceased_year'];
 			  $devotee->dob = $dobNewDate;
 			  $devotee->marital_status = $input['marital_status'];
-			  $devotee->dialect = $input['dialect'];
-				$devotee->other_dialect = $input['other_dialect'];
-				$devotee->race = $input['race'];
-				$devotee->other_race = $input['other_race'];
+			  $devotee->dialect = $dialect_id;
+				$devotee->race = $race_id;
 			  $devotee->nationality = $input['nationality'];
 			  $devotee->familycode_id = $familycode_id;
 			  $devotee->member_id = $member_id;
 
 				$devotee->save();
-
-				// dd($input);
-
 
 		      if(isset($input['address_data_hidden'][0]))
 		      {
@@ -864,7 +947,6 @@ class OperatorController extends Controller
 		        }
 		      }
 
-
 				$devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 			             ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 			             ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date')
@@ -881,7 +963,6 @@ class OperatorController extends Controller
 
 				$request->session()->flash('success', 'Profile is successfully updated.');
 				return redirect()->back();
-
 			}
 
 			else

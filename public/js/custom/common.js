@@ -48,10 +48,10 @@ $(function() {
 
 
 		$("#quick_search").click(function() {
-			localStorage.removeItem('activeTab');
-
-			var search_table = $('#search_table');
-			var id = $("#search_table tbody").attr("id");
+			// localStorage.removeItem('activeTab');
+      //
+			// var search_table = $('#search_table');
+			// var id = $("#search_table tbody").attr("id");
 
 			$('.nav-tabs li:eq(6) a').tab('show');
 		});

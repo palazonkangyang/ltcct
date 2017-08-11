@@ -599,7 +599,7 @@
 																																								@foreach($dialects as $dialect)
                                                                                 <option value="{{ $dialect->dialect_id }}">{{ $dialect->dialect_name }}</option>
                                                                                 @endforeach
-                                                                                <option value="others">Others</option>
+                                                                                <option value="other_dialect">Others</option>
                                                                             </select>
                                                                         </div><!-- end col-md-9 -->
 
@@ -609,7 +609,7 @@
 
                                                                         <label class="col-md-4"></label>
                                                                         <div class="col-md-8">
-                                                                            <input type="text" name="other_dialect" class="form-control" value=""
+                                                                            <input type="text" name="other_dialect" class="form-control" value="{{ old('other_dialect') }}"
 																																						placeholder="Other Dialect" id="content_other_dialect">
                                                                         </div><!-- end col-md-9 -->
 
@@ -624,7 +624,7 @@
 																																								@foreach($races as $race)
                                                                                 <option value="{{ $race->race_id }}">{{ $race->race_name }}</option>
                                                                                 @endforeach
-                                                                                <option value="others">Others</option>
+                                                                                <option value="other_race">Others</option>
                                                                             </select>
                                                                         </div><!-- end col-md-9 -->
 
@@ -634,7 +634,7 @@
 
                                                                         <label class="col-md-4"></label>
                                                                         <div class="col-md-8">
-                                                                            <input type="text" name="other_race" class="form-control" value=""
+                                                                            <input type="text" name="other_race" class="form-control" value="{{ old('other_race') }}"
 																																						placeholder="Other Race" id="content_other_race">
                                                                         </div><!-- end col-md-8 -->
 
@@ -1980,7 +1980,7 @@
 
 						var dialect = $("#content_dialect").val();
 
-						if(dialect == 'others')
+						if(dialect == 'other_dialect')
 						{
 							$("#other_dialect_field").show();
 						}
@@ -1988,7 +1988,7 @@
 						$("#content_dialect").change(function() {
 							var dialect = $(this).val();
 
-							if(dialect == 'others')
+							if(dialect == 'other_dialect')
 							{
 								$("#other_dialect_field").show();
 							}
@@ -2000,7 +2000,7 @@
 
 						var edit_dialect = $("#edit_dialect").val();
 
-						if(edit_dialect == 'others')
+						if(edit_dialect == 'other_dialect')
 						{
 							$("#edit_other_dialect_field").show();
 						}
@@ -2008,7 +2008,7 @@
 						$("#edit_dialect").change(function() {
 							var edit_dialect = $(this).val();
 
-							if(edit_dialect == 'others')
+							if(edit_dialect == 'other_dialect')
 							{
 								$("#edit_other_dialect_field").show();
 							}
@@ -2020,7 +2020,7 @@
 
 						var race = $("#content_race").val();
 
-						if(race == 'others')
+						if(race == 'other_race')
 						{
 							$("#other_race_field").show();
 						}
@@ -2028,7 +2028,7 @@
 						$("#content_race").change(function() {
 							var race = $(this).val();
 
-							if(race == 'others')
+							if(race == 'other_race')
 							{
 								$("#other_race_field").show();
 							}
@@ -2040,7 +2040,7 @@
 
 						var edit_race = $("#edit_race").val();
 
-						if(edit_race == 'others')
+						if(edit_race == 'other_race')
 						{
 							$("#edit_other_race_field").show();
 						}
@@ -2048,7 +2048,7 @@
 						$("#edit_race").change(function() {
 							var edit_race = $(this).val();
 
-							if(edit_race == 'others')
+							if(edit_race == 'other_race')
 							{
 								$("#edit_other_race_field").show();
 							}
@@ -2076,6 +2076,9 @@
 							var content_dob = $("#content_dob").val();
 							var content_marital_status = $("#content_marital_status").val();
 							var content_dialect = $("#content_dialect").val();
+							var content_other_dialect = $("#content_other_dialect").val();
+							var content_race = $("#content_race").val();
+							var content_other_race = $("#content_other_race").val();
 							var content_nationality = $("#content_nationality").val();
 							var content_introduced_by1 = $("#content_introduced_by1").val();
 							var content_introduced_by2 = $("#content_introduced_by2").val();
@@ -2111,6 +2114,24 @@
 								{
 										validationFailed = true;
 										errors[count++] = "Mandatory Address Postal field is empty."
+								}
+							}
+
+							if(content_dialect == "other_dialect")
+							{
+								if ($.trim(content_other_dialect).length <= 0)
+								{
+										validationFailed = true;
+										errors[count++] = "Mandatory Other Dialect field is empty."
+								}
+							}
+
+							if(content_race == "other_race")
+							{
+								if ($.trim(content_other_race).length <= 0)
+								{
+										validationFailed = true;
+										errors[count++] = "Mandatory Other Race field is empty."
 								}
 							}
 

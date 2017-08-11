@@ -229,8 +229,9 @@
 											 <div class="col-md-9">
 													 <select class="form-control" name="dialect" id="edit_dialect">
 															 <option value="">Please select</option>
-															 <option value="chinese">Chinese</option>
-															 <option value="others">Others</option>
+															 @foreach($dialects as $dialect)
+															 <option value="{{ $dialect->dialect_id }}">{{ $dialect->dialect_name }}</option>
+															 @endforeach
 													 </select>
 											 </div><!-- end col-md-9 -->
 
@@ -252,8 +253,9 @@
 											 <div class="col-md-9">
 													 <select class="form-control" name="race" id="edit_race">
 															 <option value="">Please select</option>
-															 <option value="chinese">Chinese</option>
-															 <option value="others">Others</option>
+															 @foreach($races as $race)
+															 <option value="{{ $race->race_id }}">{{ $race->race_name }}</option>
+															 @endforeach
 													 </select>
 											 </div><!-- end col-md-9 -->
 
@@ -548,8 +550,10 @@
 											<div class="col-md-8">
 													<select class="form-control" name="dialect" id="edit_dialect">
 															<option value="">Please select</option>
-															<option value="chinese" <?php if ($focus_devotee[0]->dialect == "chinese") echo "selected"; ?>>Chinese</option>
-															<option value="others" <?php if ($focus_devotee[0]->dialect == "others") echo "selected"; ?>>Others</option>
+															@foreach($dialects as $dialect)
+															<option value="{{ $dialect->dialect_id }}" <?php if ($focus_devotee[0]->dialect == $dialect->dialect_id) echo "selected"; ?>>{{ $dialect->dialect_name }}</option>
+															@endforeach
+															<option value="others">Others</option>
 													</select>
 											</div><!-- end col-md-8 -->
 
@@ -571,7 +575,9 @@
 											<div class="col-md-8">
 													<select class="form-control" name="race" id="edit_race">
 															<option value="">Please select</option>
-															<option value="chinese">Chinese</option>
+															@foreach($races as $race)
+															<option value="{{ $race->race_id }}" <?php if ($focus_devotee[0]->race == $race->race_id) echo "selected"; ?>>{{ $race->race_name }}</option>
+															@endforeach
 															<option value="others">Others</option>
 													</select>
 											</div><!-- end col-md-8 -->
@@ -849,7 +855,7 @@
 												<select class="form-control" name="dialect" id="edit_dialect">
 														<option value="">Please select</option>
 														<option value="chinese">Chinese</option>
-														<option value="others">Others</option>
+														<option value="other_dialect">Others</option>
 												</select>
 										</div><!-- end col-md-9 -->
 
@@ -859,7 +865,7 @@
 
 										<label class="col-md-3 control-label"></label>
 										<div class="col-md-9">
-												<input type="text" name="other_dialect" class="form-control" value=""
+												<input type="text" name="other_dialect" class="form-control" value="{{ old() }}"
 												placeholder="Other Dialect" id="edit_other_dialect">
 										</div><!-- end col-md-9 -->
 
@@ -1090,7 +1096,7 @@
 										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
 
-									<label class='col-md-2 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
+									<label class='col-md-2'>Opt.Vehicle</label><!-- end col-md-3 -->
 
 									<div class='col-md-3'>
 										<select class='form-control' name='vehicle_type[]'>
@@ -1118,7 +1124,7 @@
 									</div><!-- end col-md-1 -->
 
 									<div class='form-group'>
-										<label class='col-md-3 control-label'>Opt.Vehicle</label><!-- end col-md-3 -->
+										<label class='col-md-2'>Opt.Vehicle</label><!-- end col-md-3 -->
 
 										<div class='col-md-3'>
 											<select class='form-control' name='vehicle_type[]'>
@@ -1127,7 +1133,7 @@
 											</select>
 										</div><!-- end col-md-3 -->
 
-										<div class='col-md-5'>
+										<div class='col-md-6'>
 											<input type="text" class="form-control" name="vehicle_data[]" value="">
 										</div><!-- end col-md-5 -->
 
