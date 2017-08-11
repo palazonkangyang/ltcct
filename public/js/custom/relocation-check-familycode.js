@@ -24,22 +24,10 @@ $(function() {
 
       if($.trim(oversea_addr_in_chinese).length <= 0)
       {
-        if ($.trim(address_houseno).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Address Houseno is empty."
-        }
-
-        if ($.trim(address_street).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Address Street is empty."
-        }
-
         if ($.trim(address_postal).length <= 0)
         {
             validationFailed = true;
-            errors[count++] = "Address Postal is empty."
+            errors[count++] = "Check Family Code.. Address Postal is empty."
         }
       }
 

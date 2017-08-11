@@ -7,6 +7,19 @@
   </div><!--  end logo -->
 
 	<div class="col-md-12">
+		<div class="validation-error">
+		</div><!-- end validation-error -->
+
+		@if(Session::has('success'))
+				<div class="alert alert-success"><em> {{ Session::get('success') }}</em></div>
+		@endif
+
+		@if(Session::has('error'))
+				<div class="alert alert-danger"><em> {{ Session::get('error') }}</em></div>
+		@endif
+	</div><!-- end col-md-12 -->
+
+	<div class="col-md-12">
 		<div class="col-md-4">
 			<div class="content">
 
@@ -23,17 +36,19 @@
 	           	<div class="form-group">
 	                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
 	                <label class="control-label visible-ie8 visible-ie9">User Name</label>
-	                <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="User Name" name="user_name" />
+	                <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off"
+										placeholder="User Name" name="user_name" id="user_name" />
 	           	</div><!-- end form-group -->
 
 	            <div class="form-group">
 	                <label class="control-label visible-ie8 visible-ie9">Password</label>
-	                <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" />
+	                <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off"
+										placeholder="Password" name="password" id="password" />
 	            </div><!-- end form-group -->
 
 	            <div class="form-actions">
-	                <button type="submit" class="btn green uppercase">Login 登入</button>
-	                <button type="button" class="btn green uppercase pull-right">Clear</button>
+	                <button type="submit" class="btn green uppercase" id="login_btn">Login 登入</button>
+	                <button type="reset" class="btn green uppercase pull-right">Clear</button>
 	            </div><!-- end form-actions -->
 	        </form>
 
@@ -43,14 +58,35 @@
 		<div class="col-md-8">
 
 			<div class="acknowledge">
+
 				<h3 class="form-title font-green">Prelogin Notes</h3>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-					aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-					Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-					occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-			</div>
+
+				@if($acknowledge[0]->show_prelogin != 0)
+
+				<div class="form-body">
+
+					<div class="form-group">
+
+						<p>{{ $acknowledge[0]->prelogin_notes }}</p>
+
+					</div><!-- end form-group -->
+
+					<div class="form-group">
+
+						<div class="mt-checkbox-list">
+							<label class="mt-checkbox">
+								<input value="1" name="" type="checkbox" id="terms"> Read & Acknowledge
+								<span></span>
+							</label>
+						</div><!-- end mt-checkbox-list -->
+
+					</div><!-- end form-group -->
+
+				</div><!-- end form-body -->
+
+
+				@endif
+			</div><!-- end acknowledge -->
 
 		</div><!-- end col-md-8 -->
 	</div><!-- end col-md-12 -->

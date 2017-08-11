@@ -25,24 +25,28 @@ class AuthController extends Controller
 	public function postAuthenticate(Request $request)
 	{
 		$auth = false;
-        $credentials = $request->only('user_name', 'password');
+    $credentials = $request->only('user_name', 'password');
 
-        $user = User::where('user_name', $credentials['user_name'])->first();
+    $user = User::where('user_name', $credentials['user_name'])->first();
 
-        if ( !$user ) {
+    if ( !$user ) {
+      return response()->json([
+        'auth' => $auth,
+        'redirect' => ''
+     ]);
 
-            return response()->json([
-                'auth' => $auth,
-                'redirect' => ''
-            ]);
+    }
 
-        }
+    if (Auth::attempt(['user_name' => $credentials['user_name'], 'password' => $credentials['password']])) {
+      $auth = true;
+    }
 
-        if (Auth::attempt(['user_name' => $credentials['user_name'], 'password' => $credentials['password']])) {
-            $auth = true;
-        }
+		else {
+			$request->session()->flash('error', 'Username and Password didn\'t match!');
+			return redirect()->back();
+		}
 
-        if ($request->ajax() ) {
+    if ($request->ajax() ) {
             return response()->json([
                 'auth' => $auth,
                 'redirect' => '/operator/index'

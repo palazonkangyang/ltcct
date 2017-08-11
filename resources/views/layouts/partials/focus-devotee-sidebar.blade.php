@@ -45,17 +45,17 @@
 
                           <div class="form-group">
                               <label>Devotee ID</label>
-                              <input type="text" class="form-control" name="devotee_id" value="{{ old('devotee_id') }}">
+                              <input type="number" class="form-control" name="devotee_id" value="{{ old('devotee_id') }}" min="1">
                           </div><!-- end form-group -->
 
                           <div class="form-group">
                               <label>Member ID</label>
-                              <input type="text" class="form-control" name="member_id" value="{{ old('member_id') }}">
+                              <input type="number" class="form-control" name="member_id" value="{{ old('member_id') }}" min="1">
                           </div><!-- end form-group -->
 
                           <div class="form-group">
                               <label>Bridging ID</label>
-                              <input type="text" class="form-control" name="bridging_id" value="{{ old('bridging_id') }}">
+                              <input type="number" class="form-control" name="bridging_id" value="{{ old('bridging_id') }}" min="1">
                           </div><!-- end form-group -->
 
                           <div class="form-group">
@@ -140,7 +140,7 @@
 
                           <div class="form-group">
                               <label>Phone No</label>
-                              <input type="text" class="form-control" name="contact" value="{{ old('contact') }}">
+                              <input type="number" class="form-control" name="contact" value="{{ old('contact') }}" min="1">
                           </div><!-- end form-group -->
 
                       </div><!-- end col-md-9 -->
@@ -158,16 +158,24 @@
 
                 <div class="col-md-12">
 
-                    <div class="row form-horizontal">
+                    <div class="row">
 
                         <div class="col-md-6">
 
                             <div class="form-group">
-                                <label class="col-md-12">Devotee ID : <span id="devodee_id">{{ $focus_devotee[0]->devotee_id }}</span></label>
+                                <label class="col-md-12">Devotee ID :
+                                  @if(isset($focus_devotee[0]->specialremarks_id))
+                                    <span id="devodee_id" class="text-danger">{{ $focus_devotee[0]->devotee_id }}</span>
+                                  @else
+                                    <span id="devodee_id">{{ $focus_devotee[0]->devotee_id }}</span>
+                                  @endif
+                                </label>
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                                <label class="col-md-12">Member ID : <span id="member_id">{{ $focus_devotee[0]->member_id }}</span></label>
+                                <label class="col-md-12">Member ID :
+                                  <span id="member_id">{{ $focus_devotee[0]->member_id }}</span>
+                                </label>
                             </div><!-- end form-group -->
 
                         </div><!-- end col-md-6 -->
@@ -175,15 +183,44 @@
                         <div class="col-md-6">
 
                             <div class="form-group">
-                                <label class="col-md-12">Family Code : <span id="family_code">{{ $focus_devotee[0]->familycode }}</span></label>
+                                <label class="col-md-12">Family Code :
+                                  <span id="family_code">{{ $focus_devotee[0]->familycode }}</span>
+                                </label>
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                                <label class="col-md-12">Bridging ID : <span id="bridging_id">0</span></label>
+                                <label class="col-md-12">Bridging ID :
+                                  <span id="bridging_id">0</span>
+                                </label>
                             </div><!-- end form-group -->
 
                         </div><!-- end col-md-6 -->
                     </div><!-- end row -->
+
+                    <div class="clearfix">
+                    </div><!-- end clearfix -->
+
+                    @if(Session::has('focusdevotee_specialremarks'))
+
+                    @php
+
+                      $focusdevotee_specialremarks = Session::get('focusdevotee_specialremarks');
+
+                    @endphp
+
+                      @if(count($focusdevotee_specialremarks) > 0)
+
+                        <div class="form-group">
+                          <label class="col-md-12"><b>Special Remarks</b></label>
+
+                          @foreach($focusdevotee_specialremarks as $specialremark)
+                          <span class="text-danger" style="display: block; margin-bottom: 10px;">{{ $specialremark->data }}</span>
+                          @endforeach
+                        </div><!-- end col-md-12 -->
+
+                      @endif
+
+                    @endif
 
                 </div><!-- end col-md-12 -->
 
@@ -404,17 +441,17 @@
 
                       <div class="form-group">
                           <label>Devotee ID</label>
-                          <input type="text" class="form-control" name="devotee_id" value="{{ old('devotee_id') }}">
+                          <input type="number" class="form-control" name="devotee_id" value="{{ old('devotee_id') }}" min="1">
                       </div><!-- end form-group -->
 
                       <div class="form-group">
                           <label>Member ID</label>
-                          <input type="text" class="form-control" name="member_id" value="{{ old('member_id') }}">
+                          <input type="number" class="form-control" name="member_id" value="{{ old('member_id') }}" min="1">
                       </div><!-- end form-group -->
 
                       <div class="form-group">
                           <label>Bridging ID</label>
-                          <input type="text" class="form-control" name="bridging_id" value="{{ old('bridging_id') }}">
+                          <input type="number" class="form-control" name="bridging_id" value="{{ old('bridging_id') }}" min="1">
                       </div><!-- end form-group -->
 
                       <div class="form-group">
@@ -499,7 +536,7 @@
 
                       <div class="form-group">
                           <label>Phone No</label>
-                          <input type="text" class="form-control" name="contact" value="{{ old('contact') }}">
+                          <input type="number" class="form-control" name="contact" value="{{ old('contact') }}" min="1">
                       </div><!-- end form-group -->
 
                   </div><!-- end col-md-9 -->

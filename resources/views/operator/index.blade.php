@@ -117,41 +117,71 @@
                                                                             <tr id="filter">
                                                                                 <th>Chinese Name</th>
                                                                                 <th>Devotee</th>
+																																								<th>Member</th>
                                                                                 <th>Address</th>
                                                                                 <th>Guiyi Name</th>
+																																								<th>Contact</th>
+																																								<th>Mailer</th>
+																																								<th>Last Trans Date</th>
                                                                                 <th>Family Code</th>
                                                                             </tr>
                                                                             <tr>
                                                                                 <th>Chinese Name</th>
                                                                                 <th>Devotee</th>
+																																								<th>Member</th>
                                                                                 <th>Address</th>
                                                                                 <th>Guiyi Name</th>
+																																								<th>Contact</th>
+																																								<th>Mailer</th>
+																																								<th>Last Trans Date</th>
                                                                                 <th>Family Code</th>
                                                                             </tr>
                                                                         </thead>
 
-                                                                        @php $count = 1; @endphp
+                                                                        @php $date = \Carbon\Carbon::now()->subDays(365);
+																																				 @endphp
 
                                                                         <tbody>
                                                                             @foreach($devotees as $devotee)
+
                                                                             <tr>
                                                                                 <td>
-																																									@if($devotee->specialremarks_devotee_id == null)
+																																									@if($devotee->deceased_year == null)
 																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee" id="{{ $devotee->devotee_id }}">{{ $devotee->chinese_name }}</a>
 																																									@else
-																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee text-danger"
-																																										id="{{ $devotee->devotee_id }}">{{ $devotee->chinese_name }}</a>
+																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee text-danger" id="{{ $devotee->devotee_id }}">{{ $devotee->chinese_name }}</a>
 																																									@endif
                                                                                 </td>
-                                                                                <td>{{ $devotee->devotee_id }}</td>
                                                                                 <td>
-																																									@if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+																																									@if($devotee->specialremarks_devotee_id == null)
+																																									<span>{{ $devotee->devotee_id }}</span>
+																																									@else
+																																									<span class="text-danger">{{ $devotee->devotee_id }}</span>
+																																									@endif
+																																								</td>
+																																								<td>
+
+																																											<span>{{ $devotee->member_id }}</span>
+																																								</td>
+                                                                                <td>
+																																									@if(isset($devotee->oversea_addr_in_chinese))
+																																										{{ $devotee->oversea_addr_in_chinese }}
+																																									@elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
 																																										{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
 																																									@else
 																																										{{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
 																																									@endif
                                                                                 </td>
                                                                                 <td>{{ $devotee->guiyi_name }}</td>
+																																								<td>{{ $devotee->contact }}</td>
+																																								<td>{{ $devotee->mailer }}</td>
+																																								<td>
+																																									@if(isset($devotee->lasttransaction_at))
+																																									{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+																																									@else
+																																									{{ $devotee->lasttransaction_at }}
+																																									@endif
+																																								</td>
                                                                                 <td>{{ $devotee->familycode }}</td>
                                                                             </tr>
                                                                             @endforeach
@@ -174,20 +204,26 @@
                                                                     <table class="table table-bordered" id="members_table">
                                                                         <thead>
 																																					<tr id="filter">
-																																							<th>Chinese Name</th>
-																																							<th>Devotee#</th>
-																																							<th>Member#</th>
-																																							<th>Address</th>
-																																							<th>Guiyi Name</th>
-																																							<th>Family Code</th>
+																																						<th>Chinese Name</th>
+																																						<th>Devotee</th>
+																																						<th>Member</th>
+																																						<th>Address</th>
+																																						<th>Guiyi Name</th>
+																																						<th>Contact</th>
+																																						<th>Mailer</th>
+																																						<th>Last Trans Date</th>
+																																						<th>Family Code</th>
 																																					</tr>
                                                                             <tr>
-                                                                                <th>Chinese Name</th>
-                                                                                <th>Devotee#</th>
-                                                                                <th>Member#</th>
-                                                                                <th>Address</th>
-                                                                                <th>Guiyi Name</th>
-                                                                                <th>Family Code</th>
+																																							<th>Chinese Name</th>
+																																							<th>Devotee</th>
+																																							<th>Member</th>
+																																							<th>Address</th>
+																																							<th>Guiyi Name</th>
+																																							<th>Contact</th>
+																																							<th>Mailer</th>
+																																							<th>Last Trans Date</th>
+																																							<th>Family Code</th>
                                                                             </tr>
                                                                         </thead>
 
@@ -195,22 +231,39 @@
                                                                             @foreach($members as $member)
                                                                             <tr>
                                                                                 <td>
-																																									@if($devotee->specialremarks_devotee_id == null)
+																																									@if($devotee->deceased_year == null)
 																																									<a href="/operator/devotee/{{ $member->devotee_id }}" id="edit-member">{{ $member->chinese_name }}</a>
 																																									@else
-																																									<a href="/operator/devotee/{{ $member->devotee_id }}" id="edit-member text-danger">{{ $member->chinese_name }}</a>
+																																									<a href="/operator/devotee/{{ $member->devotee_id }}" id="edit-member" class="text-danger">{{ $member->chinese_name }}</a>
 																																									@endif
 																																								</td>
-                                                                                <td>{{ $member->devotee_id }}</td>
+                                                                                <td>
+																																									@if($member->specialremarks_devotee_id == null)
+																																									<span>{{ $member->devotee_id }}</span>
+																																									@else
+																																									<span class="text-danger">{{ $member->devotee_id }}</span>
+																																									@endif
+																																								</td>
                                                                                 <td>{{ $member->member_id }}</td>
                                                                                 <td>
-                                                                                    @if(isset($member->address_unit1) && isset($member->address_unit2))
+																																										@if(isset($member->oversea_addr_in_chinese))
+																																										{{ $member->oversea_addr_in_chinese }}
+                                                                                    @elseif(isset($member->address_unit1) && isset($member->address_unit2))
 																																										{{ $member->address_houseno }}, #{{ $member->address_unit1 }}-{{ $member->address_unit2 }}, {{ $member->address_street }}, {{ $member->address_postal }}
 																																										@else
 																																										{{ $member->address_houseno }}, {{ $member->address_street }}, {{ $member->address_postal }}
 																																										@endif
                                                                                 </td>
                                                                                 <td>{{ $member->guiyi_name }}</td>
+																																								<td>{{ $member->contact }}</td>
+																																								<td>{{ $member->mailer }}</td>
+																																								<td>
+																																									@if(isset($member->lasttransaction_at))
+																																									{{ \Carbon\Carbon::parse($member->lasttransaction_at)->format("d/m/Y") }}
+																																									@else
+																																									{{ $member->lasttransaction_at }}
+																																									@endif
+																																								</td>
                                                                                 <td>{{ $member->familycode }}</td>
                                                                             </tr>
                                                                             @endforeach
@@ -233,20 +286,24 @@
                                                                     <table class="table table-bordered" id="deceased_table">
                                                                         <thead>
 																																						<tr id="filter">
-																																								<th>Chinese Name</th>
-																																								<th>Devotee#</th>
-																																								<th>Member#</th>
-																																								<th>Address</th>
-																																								<th>Guiyi Name</th>
-																																								<th>Family Code</th>
+																																							<th>Chinese Name</th>
+																																							<th>Devotee</th>
+																																							<th>Member</th>
+																																							<th>Address</th>
+																																							<th>Guiyi Name</th>
+																																							<th>Contact</th>
+																																							<th>Last Trans Date</th>
+																																							<th>Family Code</th>
 																																						</tr>
                                                                             <tr>
-                                                                                <th>Chinese Name</th>
-                                                                                <th>Devotee</th>
-                                                                                <th>Member</th>
-                                                                                <th>Address</th>
-                                                                                <th>Guiyi Name</th>
-                                                                                <th>Family Code</th>
+																																							<th>Chinese Name</th>
+																																							<th>Devotee</th>
+																																							<th>Member</th>
+																																							<th>Address</th>
+																																							<th>Guiyi Name</th>
+																																							<th>Contact</th>
+																																							<th>Last Trans Date</th>
+																																							<th>Family Code</th>
                                                                             </tr>
                                                                         </thead>
 
@@ -257,13 +314,23 @@
                                                                                 <td>{{ $deceased_list->devotee_id }}</td>
                                                                                 <td>{{ $deceased_list->member_id }}</td>
                                                                                 <td>
-																																									@if(isset($deceased_list->address_unit1) && isset($deceased_list->address_unit2))
+																																									@if(isset($deceased_list->oversea_addr_in_chinese))
+																																									{{ $deceased_list->oversea_addr_in_chinese }}
+																																									@elseif(isset($deceased_list->address_unit1) && isset($deceased_list->address_unit2))
 																																									{{ $deceased_list->address_houseno }}, #{{ $deceased_list->address_unit1 }}-{{ $deceased_list->address_unit2 }}, {{ $deceased_list->address_street }}, {{ $deceased_list->address_postal }}
 																																									@else
 																																									{{ $deceased_list->address_houseno }}, {{ $deceased_list->address_street }}, {{ $deceased_list->address_postal }}
 																																									@endif
 																																								</td>
                                                                                 <td>{{ $deceased_list->guiyi_name }}</td>
+																																								<td>{{ $deceased_list->contact }}</td>
+																																								<td>
+																																									@if(isset($deceased_list->lasttransaction_at))
+																																									{{ \Carbon\Carbon::parse($deceased_list->lasttransaction_at)->format("d/m/Y") }}
+																																									@else
+																																									{{ $deceased_list->lasttransaction_at }}
+																																									@endif
+																																								</td>
                                                                                 <td>{{ $deceased_list->familycode }}</td>
                                                                             </tr>
                                                                             @endforeach
@@ -303,7 +370,7 @@
 																														</div><!-- end form-body -->
 
                                                             <form method="post" action="{{ URL::to('/operator/new-devotee') }}"
-                                                                class="form-horizontal form-bordered">
+                                                                class="form-horizontal form-bordered" id="new-devotee-form">
                                                                 {!! csrf_field() !!}
 
                                                             <div class="form-body">
@@ -847,9 +914,14 @@
 
                                                                     <div class="form-actions pull-right">
                                                                         <button type="submit" class="btn blue" id="confirm_btn" disabled>Confirm</button>
-                                                                        <button type="button" class="btn default">Cancel</button>
+                                                                        <button type="button" class="btn default" id="cancel_btn">Cancel</button>
                                                                     </div><!-- end form-actions -->
                                                                 </div><!-- end col-md-6 -->
+
+																																<div id="dialog-box" title="System Alert">
+																																	  You have NOT Saved this New Devotee Record
+																																		Do you want to Cancel this record?
+																																</div>
 
                                                             </div><!-- end form-body -->
 
@@ -879,14 +951,16 @@
                                                                         <table class="table table-bordered relocation" id="relocation_table">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th>#</th>
-                                                                                    <th>Chinese Name</th>
-                                                                                    <th>English Name</th>
-                                                                                    <th>Guiyi Name</th>
-                                                                                    <th>NRIC</th>
-                                                                                    <th>Address</th>
-                                                                                    <th>Family Code</th>
-                                                                                    <th>Member Code</th>
+																																									<th></th>
+																																									<th>Chinese Name</th>
+																																									<th>Devotee</th>
+																																									<th>Member</th>
+																																									<th>Address</th>
+																																									<th>Guiyi Name</th>
+																																									<th>Contact</th>
+																																									<th>Mailer</th>
+																																									<th>Last Trans Date</th>
+																																									<th>Family Code</th>
                                                                                 </tr>
                                                                             </thead>
 
@@ -896,7 +970,6 @@
 
                                                                                 $devotee_lists = Session::get('devotee_lists');
                                                                                 $focus_devotee = Session::get('focus_devotee');
-
                                                                             @endphp
 
 	                                                                            @if(count($focus_devotee) == 1)
@@ -908,18 +981,22 @@
 	                                                                                        <td><input type="checkbox" name="relocation_devotee_id[]"
 	                                                                                            value="{{ $focus_devotee[0]->devotee_id }}" /></td>
 	                                                                                        <td>{{ $focus_devotee[0]->chinese_name }}</td>
-	                                                                                        <td>{{ $focus_devotee[0]->english_name }}</td>
-	                                                                                        <td>{{ $focus_devotee[0]->guiyi_name }}</td>
-	                                                                                        <td>{{ $focus_devotee[0]->nric }}</td>
+	                                                                                        <td>{{ $focus_devotee[0]->devotee_id }}</td>
+	                                                                                        <td>{{ $focus_devotee[0]->member_id }}</td>
 	                                                                                        <td>
-																																														@if(isset($focus_devotee[0]->address_unit1) && isset($focus_devotee[0]->address_unit2))
+																																														@if(isset($focus_devotee[0]->oversea_addr_in_chinese))
+																																														{{ $focus_devotee[0]->oversea_addr_in_chinese }}
+																																														@elseif(isset($focus_devotee[0]->address_unit1) && isset($focus_devotee[0]->address_unit2))
 																																														{{ $focus_devotee[0]->address_houseno }}, #{{ $focus_devotee[0]->address_unit1 }}-{{ $focus_devotee[0]->address_unit2 }}, {{ $focus_devotee[0]->address_street }}, {{ $focus_devotee[0]->address_postal }}
 																																														@else
 																																														{{ $focus_devotee[0]->address_houseno }}, {{ $focus_devotee[0]->address_street }}, {{ $focus_devotee[0]->address_postal }}
 																																														@endif
 																																													</td>
+																																													<td>{{ $focus_devotee[0]->guiyi_name }}</td>
+																																													<td>{{ $focus_devotee[0]->contact }}</td>
+																																													<td>{{ $focus_devotee[0]->mailer }}</td>
+																																													<td>{{ \Carbon\Carbon::parse($focus_devotee[0]->lasttransaction_at)->format("d/m/Y") }}</td>
 	                                                                                        <td>{{ $focus_devotee[0]->familycode }}</td>
-	                                                                                        <td>{{ $focus_devotee[0]->member_id }}</td>
 	                                                                                    </tr>
 	                                                                                </tr>
 
@@ -928,18 +1005,22 @@
 	                                                                                        <td><input type="checkbox" name="devotee_id[]"
 	                                                                                            value="{{ $devotee->devotee_id }}" /></td>
 	                                                                                        <td>{{ $devotee->chinese_name }}</td>
-	                                                                                        <td>{{ $devotee->english_name }}</td>
-	                                                                                        <td>{{ $devotee->guiyi_name }}</td>
-	                                                                                        <td>{{ $devotee->nric }}</td>
+	                                                                                        <td>{{ $devotee->devotee_id }}</td>
+	                                                                                        <td>{{ $devotee->member_id }}</td>
 	                                                                                        <td>
-																																														@if(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+																																														@if(isset($devotee->oversea_addr_in_chinese))
+																																														{{ $devotee->oversea_addr_in_chinese }}
+																																														@elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
 																																														{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
 																																														@else
 																																														{{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
 																																														@endif
 																																													</td>
+																																													<td>{{ $devotee->guiyi_name }}</td>
+																																													<td>{{ $devotee->contact }}</td>
+																																													<td>{{ $devotee->mailer }}</td>
+																																													<td>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</td>
 	                                                                                        <td>{{ $devotee->familycode }}</td>
-	                                                                                        <td>{{ $devotee->member_id }}</td>
 	                                                                                    </tr>
 	                                                                                @endforeach
 	                                                                            </tbody>
@@ -1355,20 +1436,26 @@
 																												          <table class="table table-bordered" id="search_table">
 																												              <thead>
 																																					<tr id="filter">
-																																							<th>Chinese Name</th>
-																																							<th>Devotee#</th>
-																																							<th>Member#</th>
-																																							<th>Address</th>
-																																							<th>Guiyi Name</th>
-																																							<th>Family Code</th>
+																																						<th>Chinese Name</th>
+																																						<th>Devotee</th>
+																																						<th>Member</th>
+																																						<th>Address</th>
+																																						<th>Guiyi Name</th>
+																																						<th>Contact</th>
+																																						<th>Mailer</th>
+																																						<th>Last Trans Date</th>
+																																						<th>Family Code</th>
 																																					</tr>
 																												                  <tr>
-																												                      <th>Chinese Name</th>
-																												                      <th>Devotee#</th>
-																												                      <th>Member#</th>
-																												                      <th>Address</th>
-																												                      <th>Guiyi Name</th>
-																												                      <th>Family Code</th>
+																																						<th>Chinese Name</th>
+																																						<th>Devotee</th>
+																																						<th>Member</th>
+																																						<th>Address</th>
+																																						<th>Guiyi Name</th>
+																																						<th>Contact</th>
+																																						<th>Mailer</th>
+																																						<th>Last Trans Date</th>
+																																						<th>Family Code</th>
 																												                  </tr>
 																												              </thead>
 
@@ -1381,13 +1468,18 @@
 																												                      <td>{{ $fd->devotee_id }}</td>
 																												                      <td>{{ $fd->member_id }}</td>
 																												                      <td>
-																																								@if(isset($fd->address_unit1) && isset($fd->address_unit2))
+																																								@if(isset($fd->oversea_addr_in_chinese))
+																																								{{ $fd->oversea_addr_in_chinese }}
+																																								@elseif(isset($fd->address_unit1) && isset($fd->address_unit2))
 																																								{{ $fd->address_houseno }}, #{{ $fd->address_unit1 }}-{{ $fd->address_unit2 }}, {{ $fd->address_street }}, {{ $fd->address_postal }}
 																																								@else
 																																								{{ $fd->address_houseno }}, {{ $fd->address_street }}, {{ $fd->address_postal }}
 																																								@endif
 																																							</td>
 																												                      <td>{{ $fd->guiyi_name }}</td>
+																																							<td>{{ $fd->contact }}</td>
+																																							<td>{{ $fd->mailer }}</td>
+																																							<td></td>
 																												                      <td>{{ $fd->familycode }}</td>
 																												                  </tr>
 																												                  @endforeach
@@ -1510,7 +1602,7 @@
 					});
 
 					$("#content_introduced_by2").autocomplete({
-						source: "/operator/search/autocomplete2",
+						source: "/operator/search/autocomplete",
 						minLength: 1,
 					  select: function(event, ui) {
 					  	$('#content_introduced_by2').val(ui.item.value);
@@ -1526,7 +1618,7 @@
 					});
 
 					$("#edit_introduced_by2").autocomplete({
-						source: "/operator/search/autocomplete2",
+						source: "/operator/search/autocomplete",
 						minLength: 1,
 					  select: function(event, ui) {
 					  	$('#edit_introduced_by2').val(ui.item.value);
@@ -1822,7 +1914,8 @@
 
 					// DataTable
           var search_table = $('#search_table').DataTable({
-              "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+              "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+							"bSort": false
           });
 
 					$('#search_table thead tr#filter th').each( function () {
@@ -1847,34 +1940,6 @@
         	}
 
             var opt_address;
-
-						// $('#quick_search').on('click', function() {
-						//
-						//
-						// 		alert('change tab');
-						//
-						// 		// $('.nav-tabs a[href="#tab_searchresult"]').tab('show');
-						//
-						// 		$(".nav-tabs > li:first-child").removeClass("active");
-						// 		$('#search').addClass('active');
-						// });
-
-						// if($("#quick_search").attr('disabled')){
-						// 	// $("#edit").removeClass('disabled');
-						// 	// $('.nav-tabs li:eq(6) a').tab('show');
-						//
-						//
-					  // }else{
-						// 	$("#edit").addClass('disabled');
-					  // }
-
-						// var search_table = $("#search_table");
-						//
-						// if(search_table.children().length >= 3){
-						// 	localStorage.removeItem('activeTab');
-						// 	alert('has childern');
-						// 	$('.nav-tabs li:eq(6) a').tab('show');
-						// }
 
 						var dialect = $("#content_dialect").val();
 
@@ -1981,80 +2046,74 @@
 
 							if ($.trim(chinese_name).length <= 0)
 							{
-							    validationFailed = true;
-							    errors[count++] = "Mandatory Chinese name field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Chinese name field is empty."
 							}
 
 							if ($.trim(contact).length <= 0)
 							{
-							    validationFailed = true;
-							    errors[count++] = "Mandatory Contact field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Contact field is empty."
 							}
 
 							if($.trim(oversea_addr_in_chinese).length <= 0)
 							{
 								if ($.trim(address_houseno).length <= 0)
 								{
-								    validationFailed = true;
-								    errors[count++] = "Mandatory Address Houseno field is empty."
+										validationFailed = true;
+										errors[count++] = "Mandatory Address Houseno field is empty."
 								}
 
 								if ($.trim(address_street).length <= 0)
 								{
-								    validationFailed = true;
-								    errors[count++] = "Mandatory Address Street field is empty."
+										validationFailed = true;
+										errors[count++] = "Mandatory Address Street field is empty."
 								}
 
 								if ($.trim(address_postal).length <= 0)
 								{
-								    validationFailed = true;
-								    errors[count++] = "Mandatory Address Postal field is empty."
+										validationFailed = true;
+										errors[count++] = "Mandatory Address Postal field is empty."
 								}
 							}
 
 							if($.trim(content_approved_date).length > 0)
 							{
-							  if ($.trim(content_nric).length <= 0)
-							  {
-							      validationFailed = true;
-							      errors[count++] = "Mandatory NRIC field is empty."
-							  }
+								if ($.trim(content_nric).length <= 0)
+								{
+										validationFailed = true;
+										errors[count++] = "Mandatory NRIC field is empty."
+								}
 
-							  if ($.trim(content_dob).length <= 0)
-							  {
-							      validationFailed = true;
-							      errors[count++] = "Mandatory Date of Birth field is empty."
-							  }
+								if ($.trim(content_dob).length <= 0)
+								{
+										validationFailed = true;
+										errors[count++] = "Mandatory Date of Birth field is empty."
+								}
 
-							  if ($.trim(content_marital_status).length <= 0)
-							  {
-							      validationFailed = true;
-							      errors[count++] = "Mandatory Marital Status field is empty."
-							  }
+								if ($.trim(content_marital_status).length <= 0)
+								{
+										validationFailed = true;
+										errors[count++] = "Mandatory Marital Status field is empty."
+								}
 
-							  if ($.trim(content_dialect).length <= 0)
-							  {
-							      validationFailed = true;
-							      errors[count++] = "Mandatory Dialect field is empty."
-							  }
+								if ($.trim(content_nationality).length <= 0)
+								{
+										validationFailed = true;
+										errors[count++] = "Mandatory Nationality field is empty."
+								}
 
-							  if ($.trim(content_nationality).length <= 0)
-							  {
-							      validationFailed = true;
-							      errors[count++] = "Mandatory Nationality field is empty."
-							  }
+								if ($.trim(content_introduced_by1).length <= 0)
+								{
+										validationFailed = true;
+										errors[count++] = "Mandatory Introduced By 1 field is empty."
+								}
 
-							  if ($.trim(content_introduced_by1).length <= 0)
-							  {
-							      validationFailed = true;
-							      errors[count++] = "Mandatory Introduced By 1 field is empty."
-							  }
-
-							  if ($.trim(content_introduced_by2).length <= 0)
-							  {
-							      validationFailed = true;
-							      errors[count++] = "Mandatory Introduced By 2 field is empty."
-							  }
+								if ($.trim(content_introduced_by2).length <= 0)
+								{
+										validationFailed = true;
+										errors[count++] = "Mandatory Introduced By 2 field is empty."
+								}
 							}
 
 							if ($.trim(authorized_password).length <= 0)
@@ -2081,10 +2140,10 @@
 							}
 
 							else
-				      {
-				          $(".validation-error").removeClass("bg-danger alert alert-error")
-				          $(".validation-error").empty();
-				      }
+							{
+									$(".validation-error").removeClass("bg-danger alert alert-error")
+									$(".validation-error").empty();
+							}
 
 						});
 

@@ -48,14 +48,17 @@ $(function() {
 
 
 		$("#quick_search").click(function() {
+			localStorage.removeItem('activeTab');
+
 			var search_table = $('#search_table');
 			var id = $("#search_table tbody").attr("id");
 
-	    if(search_table.children().length >= 2 && id == 'no-record'){
-				localStorage.removeItem('activeTab');
-				$('.nav-tabs li:eq(6) a').tab('show');
-	    }
+			$('.nav-tabs li:eq(6) a').tab('show');
 		});
+
+    if($("#quick_search").prop('disabled') == false){
+      $("#same_familycode").attr("disabled", true);
+    }
 
 		var search_table = $('#search_table');
 		var id = $("#search_table tbody").attr("id");
@@ -86,5 +89,32 @@ $(function() {
 			$("#content_address_unit2").val(focus_address_unit2);
 			$("#content_address_street").val(focus_address_street);
 			$("#content_address_postal").val(focus_address_postal);
+
+      $(".check_family_code").click();
+
 		});
+
+    $("#dialog-box").dialog({
+     autoOpen: false,
+     modal: true,
+     buttons : {
+          "No, Mistake" : function() {
+              $(this).dialog("close");
+          },
+          "Yes, Cancel" : function() {
+            $('#new-devotee-form')[0].reset();
+            $(this).dialog("close");
+          }
+        }
+    });
+
+    $("#cancel_btn").on("click", function(e) {
+      e.preventDefault();
+      $("#dialog-box").dialog("open");
+  });
+
+  $("#edit_cancel_btn").on("click", function(e) {
+    e.preventDefault();
+    $("#dialog-box").dialog("open");
+});
 });

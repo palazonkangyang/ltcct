@@ -80,9 +80,13 @@
                                         <div class="form-body">
 
                                           <div class="form-group">
+                                              <input type="hidden" name="id" value="{{ $acknowledge[0]->id }}">
+                                          </div><!-- end form-group -->
+
+                                          <div class="form-group">
                                               <label>Prelogin Notes</label>
 
-                                              <textarea name="prelogin_notes" class="form-control" rows="5"></textarea>
+                                              <textarea name="prelogin_notes" class="form-control" rows="5">{{ $acknowledge[0]->prelogin_notes }}</textarea>
 
                                           </div><!-- end form-group -->
 

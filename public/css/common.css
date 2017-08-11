@@ -47,3 +47,7 @@
 #AddressBtn, #VehicleBtn, #SpecRemarkBtn{
   cursor: pointer;
 }
+
+.no-height{
+  height: auto!important;
+}

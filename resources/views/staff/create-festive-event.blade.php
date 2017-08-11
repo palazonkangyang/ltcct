@@ -83,11 +83,11 @@
                                                         <thead>
                                                             <tr>
                                                                 <th width='4%'>#</th>
-                                                                <th width="19%">Job</th>
+                                                                <th width="15%">Job</th>
                                                                 <th width='11%'>Date From 阴历</th>
                                                                 <th width='11%'>Date To 阴历</th>
                                                                 <th width='11%'>Lunar Date 阳历</th>
-                                                                <th width='11%'>Event 节日</th>
+                                                                <th width='15%'>Event 节日</th>
                                                                 <th width='11%'>Time 时间</th>
                                                                 <th width='11%'>Shuwen Title 文疏</th>
                                                                 <th width='11%'>Display</th>
@@ -131,7 +131,7 @@
                                                                     </td>
                                                                     <td class="display-row">
                                                                         <input type='hidden' name='display_hidden[]' value='' class="display-hidden">
-                                                                        <input type='checkbox' name='display[]' value='' class='form-control'
+                                                                        <input type='checkbox' name='display[]' value='' class='form-control no-height'
                                                                           <?php if ($event->display == '1'){ ?>checked="checked"<?php }?>>
                                                                     </td>
                                                                 </tr>

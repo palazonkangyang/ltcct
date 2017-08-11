@@ -8,8 +8,12 @@ $(function() {
 	// check family code
     $(".edit_check_family_code").click(function() {
 
-        $("#edit_no_familycode").remove();
-        $("#edit-familycode-table tbody").empty();
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+
+      $("#edit_no_familycode").remove();
+      $("#edit-familycode-table tbody").empty();
 
     	var address_houseno = $("#edit_address_houseno").val();
     	var address_unit1 = $("#edit_address_unit1").val();
@@ -18,6 +22,37 @@ $(function() {
     	var address_building = $("#edit_address_building").val();
     	var address_postal = $("#edit_address_postal").val();
       var oversea_addr_in_chinese = $('#edit_oversea_addr_in_chinese').val();
+
+      if($.trim(oversea_addr_in_chinese).length <= 0)
+      {
+        if ($.trim(address_postal).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Check Family Code.. Address Postal is empty."
+        }
+      }
+
+      if (validationFailed)
+      {
+          var errorMsgs = '';
+
+          for(var i = 0; i < count; i++)
+          {
+              errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
+
+          return false;
+      }
+
+      else {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+      }
 
         $('#update_btn').removeAttr("disabled");
         $("#familycode-table tbody").empty();

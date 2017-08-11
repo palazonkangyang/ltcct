@@ -33,13 +33,10 @@ class OperatorController extends Controller
 	{
 		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-								->whereNull('deceased_year')
         				->select('devotee.*', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 								->orderBy('devotee.devotee_id', 'desc')
 								->GroupBy('devotee.devotee_id')
         				->get();
-
-		// dd($devotees->toArray());
 
 		$members = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
@@ -53,11 +50,11 @@ class OperatorController extends Controller
         				->get();
 
     $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-						->whereNotNull('deceased_year')
-						->orderBy('devotee_id', 'asc')
-        				->select('devotee.*')
-        				->addSelect('familycode.familycode')
-        				->get();
+											->whereNotNull('deceased_year')
+											->orderBy('devotee_id', 'desc')
+        							->select('devotee.*')
+        							->addSelect('familycode.familycode')
+        							->get();
 
 		$countries = Country::all();
 
@@ -520,23 +517,150 @@ class OperatorController extends Controller
 		      }
 		    }
 
+				// remove session data
+				if(Session::has('focus_devotee'))
+				{
+				  Session::forget('focus_devotee');
+				}
+
+				if(Session::has('focusdevotee_specialremarks'))
+				{
+				  Session::forget('focusdevotee_specialremarks');
+				}
+
+				if(Session::has('devotee_lists'))
+				{
+				  Session::forget('devotee_lists');
+				}
+
+				if(Session::has('optionaladdresses'))
+				{
+				  Session::forget('optionaladdresses');
+				}
+
+				if(Session::has('optionalvehicles'))
+				{
+				  Session::forget('optionalvehicles');
+				}
+
+				if(Session::has('specialRemarks'))
+				{
+				  Session::forget('specialRemarks');
+				}
+
+				if(Session::has('relative_friend_lists'))
+				{
+				  Session::forget('relative_friend_lists');
+				}
+
+				$focus_devotee = Devotee::join('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
+													->select('devotee.*', 'familycode.familycode')
+													->where('devotee_id', $devotee_id)->get();
+
+				$focusdevotee_specialremarks = Devotee::leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+				          ->where('devotee.devotee_id', $focus_devotee[0]->devotee_id)
+				          ->get();
+
+				$focus_devotee[0]->specialremarks_id = $focusdevotee_specialremarks[0]->devotee_id;
+
+				// dd($focus_devotee[0]->specialremarks_id);
+
+				if(isset($focus_devotee[0]->dob))
+				{
+				  $focus_devotee[0]->dob = Carbon::parse($focus_devotee[0]->dob)->format("d/m/Y");
+				}
+
+				if(isset($focus_devotee[0]->approved_date))
+				{
+				  $focus_devotee[0]->approved_date = Carbon::parse($focus_devotee[0]->approved_date)->format("d/m/Y");
+				}
+
+				// Get Devotee Lists for relocation
+				$familycode_id = $focus_devotee[0]->familycode_id;
+
+				$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+				                  ->where('devotee.familycode_id', $familycode_id)
+				                  ->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
+				                  ->orderBy('devotee_id', 'asc')
+				                  ->select('devotee.*')
+				                  ->addSelect('familycode.familycode')->get();
+
+
+
+				// Get Relative and friends lists
+				$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.relative_friend_devotee_id')
+				                          ->where('donate_devotee_id', $focus_devotee[0]->devotee_id)
+				                          ->select('relative_friend_lists.*', 'devotee.chinese_name', 'devotee.guiyi_name', 'devotee.address_unit1',
+				                          'devotee.address_unit2', 'devotee.address_street', 'devotee.address_building')
+				                          ->get();
+
+				$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+				$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+				$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+
+				if(!Session::has('focus_devotee'))
+				{
+					Session::put('focus_devotee', $focus_devotee);
+				}
+
+				if(!Session::has('focusdevotee_specialremarks'))
+				{
+				  Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
+				}
+
+				if(!Session::has('devotee_lists'))
+				{
+				  Session::put('devotee_lists', $devotee_lists);
+				}
+
+				if(!Session::has('optionaladdresses'))
+				{
+				  Session::put('optionaladdresses', $optionaladdresses);
+				}
+
+				if(!Session::has('optionalvehicles'))
+				{
+				  Session::put('optionalvehicles', $optionalvehicles);
+				}
+
+				if(!Session::has('specialRemarks'))
+				{
+				  Session::put('specialRemarks', $specialRemarks);
+				}
+
+				if(!Session::has('relative_friend_lists'))
+				{
+				  Session::put('relative_friend_lists', $relative_friend_lists);
+				}
+
+				$today = Carbon::today();
+
+				$events = FestiveEvent::orderBy('start_at', 'asc')
+									->where('start_at', '>', $today)
+									->take(1)
+									->get();
+
 				if($member_id != null)
 		    {
 		      $request->session()->flash('success', 'Member account has been created!');
-		      return redirect()->back();
+					return redirect()->route('get-donation-page', [
+						'events' => $events
+					]);
 		    }
 
 		    else
 		    {
 		      $request->session()->flash('success', 'Devotee account has been created!');
-		      return redirect()->back();
+					return redirect()->route('get-donation-page', [
+						'events' => $events
+					]);
 		    }
 		}
 
 		else
 		{
-				$request->session()->flash('error', "Password did not match. Please Try Again");
-            	return redirect()->back()->withInput();
+			$request->session()->flash('error', "Password did not match. Please Try Again");
+      return redirect()->back()->withInput();
 		}
 	}
 
@@ -788,6 +912,11 @@ class OperatorController extends Controller
 			Session::forget('focus_devotee');
 		}
 
+		if(Session::has('focusdevotee_specialremarks'))
+		{
+			Session::forget('focusdevotee_specialremarks');
+		}
+
 		if(Session::has('devotee_lists'))
 		{
 			Session::forget('devotee_lists');
@@ -814,8 +943,6 @@ class OperatorController extends Controller
 		}
 
 		$devotees = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-								->whereNull('member_id')
-								->whereNull('deceased_year')
         				->select('devotee.*')
         				->addSelect('familycode.familycode')->get();
 
@@ -840,6 +967,107 @@ class OperatorController extends Controller
 		if(count($focus_devotee) == 0)
 		{
 			return redirect()->back()->withInput();
+		}
+
+		elseif(count($focus_devotee) == 1)
+		{
+			$focusdevotee_specialremarks = Devotee::leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+								->where('devotee.devotee_id', $focus_devotee[0]->devotee_id)
+								->get();
+
+			$focus_devotee[0]->specialremarks_id = $focusdevotee_specialremarks[0]->devotee_id;
+
+			if(isset($focus_devotee[0]->dob))
+			{
+				$focus_devotee[0]->dob = Carbon::parse($focus_devotee[0]->dob)->format("d/m/Y");
+			}
+
+			if(isset($focus_devotee[0]->approved_date))
+			{
+				$focus_devotee[0]->approved_date = Carbon::parse($focus_devotee[0]->approved_date)->format("d/m/Y");
+			}
+
+			// Get Devotee Lists for relocation
+	    $familycode_id = $focus_devotee[0]->familycode_id;
+
+	    $devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+	        							->where('devotee.familycode_id', $familycode_id)
+	        							->where('devotee_id', '!=', $focus_devotee[0]->devotee_id)
+	        							->orderBy('devotee_id', 'asc')
+	        							->select('devotee.*')
+	        							->addSelect('familycode.familycode')->get();
+
+			// Get Relative and friends lists
+			$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.relative_friend_devotee_id')
+																->where('donate_devotee_id', $focus_devotee[0]->devotee_id)
+																->select('relative_friend_lists.*', 'devotee.chinese_name', 'devotee.guiyi_name', 'devotee.address_unit1',
+																'devotee.address_unit2', 'devotee.address_street', 'devotee.address_building')
+																->get();
+
+			// Get Receipt History
+			$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+									->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+									->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
+									->orderBy('receipt_id', 'desc')
+									->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.manualreceipt',
+									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
+				         	->get();
+
+			$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+			$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+			$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
+
+
+			if(!Session::has('focus_devotee'))
+			{
+				Session::put('focus_devotee', $focus_devotee);
+			}
+
+			if(!Session::has('focusdevotee_specialremarks'))
+			{
+				Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
+			}
+
+			if(!Session::has('devotee_lists'))
+			{
+				Session::put('devotee_lists', $devotee_lists);
+			}
+
+			if(!Session::has('optionaladdresses'))
+			{
+				Session::put('optionaladdresses', $optionaladdresses);
+			}
+
+			if(!Session::has('optionalvehicles'))
+			{
+				Session::put('optionalvehicles', $optionalvehicles);
+			}
+
+			if(!Session::has('specialRemarks'))
+			{
+				Session::put('specialRemarks', $specialRemarks);
+			}
+
+			if(!Session::has('relative_friend_lists'))
+			{
+				Session::put('relative_friend_lists', $relative_friend_lists);
+			}
+
+			if(!Session::has('receipts'))
+			{
+				Session::put('receipts', $receipts);
+			}
+
+			$today = Carbon::today();
+
+			$events = FestiveEvent::orderBy('start_at', 'asc')
+								->where('start_at', '>', $today)
+								->take(1)
+								->get();
+
+			return redirect()->route('get-donation-page', [
+				'events' => $events
+			]);
 		}
 
 		else {
@@ -935,9 +1163,9 @@ class OperatorController extends Controller
 				'devotees' => $devotees,
 				'deceased_lists' => $deceased_lists,
 			]);
+
 		}
 	}
-
 
 	// New Search Devotee
 	public function getRemoveFocusDevotee(Request $request)
@@ -1108,8 +1336,8 @@ class OperatorController extends Controller
 
 			$results = array();
 
-			$queries = Member::where('introduced_by1', 'like', '%'.$member.'%')
-								 ->orwhere('introduced_by2', 'like', '%'.$member.'%')
+			$queries = Devotee::where('member_id', 'like', '%'.$member.'%')
+								 ->whereNotNull('member_id')
 								 ->take(5)
 								 ->get();
 
@@ -1117,7 +1345,7 @@ class OperatorController extends Controller
 			{
 				$results[] = [
 					'id' => $query->member_id,
-					'value' => $query->introduced_by1
+					'value' => $query->member_id
 				];
 			}
 			return response()->json($results);

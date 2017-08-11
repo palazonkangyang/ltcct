@@ -192,10 +192,13 @@ class AdminController extends Controller
 	// Admin Login
 	public function login()
 	{
-		return view('admin.login');
+		$acknowledge = Acknowledge::all();
+
+		return view('admin.login', [
+			'acknowledge' => $acknowledge
+		]);
 	}
-
-
+	
 	// Login Authentication
 	public function postLogin(Request $request)
 	{
@@ -220,23 +223,25 @@ class AdminController extends Controller
 	{
 		$acknowledge = Acknowledge::all();
 
-		dd($acknowledge->toArray());
-		
-		return view('admin.acknowledge');
+		return view('admin.acknowledge', [
+			'acknowledge' => $acknowledge
+		]);
 	}
 
 	public function postUpdateAcknowledge(Request $request)
 	{
 		$input = array_except($request->all(), '_token');
 
-		// dd($input);
+		if(!isset($input['show_prelogin']))
+		{
+			$input['show_prelogin'] = 0;
+		}
 
-		$data = [
-			"prelogin_notes" => $input['prelogin_notes'],
-			"show_prelogin" => $input['show_prelogin'],
-		];
+		$acknowledge = Acknowledge::find($input['id']);
+		$acknowledge->prelogin_notes = $input['prelogin_notes'];
+		$acknowledge->show_prelogin = $input['show_prelogin'];
 
-		Acknowledge::create($data);
+		$acknowledge->save();
 
 		$request->session()->flash('success', 'Acknowledge has been updated!');
 		return redirect()->back();

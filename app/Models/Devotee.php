@@ -35,7 +35,8 @@ class Devotee extends Model
         'nationality',
         'mailer',
         'familycode_id',
-        'member_id'
+        'member_id',
+        'lasttransaction_at'
     ];
 
     public function focusDevotee($input)
@@ -43,31 +44,7 @@ class Devotee extends Model
         $devotee = DB::table('devotee');
 
         $devotee->select(
-            'devotee.devotee_id',
-            'devotee.title',
-            'devotee.chinese_name',
-            'devotee.english_name',
-            'devotee.contact',
-            'devotee.guiyi_name',
-            'devotee.address_houseno',
-            'devotee.address_unit1',
-            'devotee.address_unit2',
-            'devotee.address_street',
-            'devotee.address_building',
-            'devotee.address_postal',
-            'devotee.address_translated',
-            'devotee.oversea_addr_in_chinese',
-            'devotee.nric',
-            'devotee.deceased_year',
-            'devotee.dob',
-            'devotee.marital_status',
-            'devotee.dialect',
-            'devotee.other_dialect',
-            'devotee.race',
-            'devotee.other_race',
-            'devotee.nationality',
-            'devotee.familycode_id',
-            'devotee.member_id',
+            'devotee.*',
             'member.introduced_by1',
             'member.introduced_by2',
             'member.approved_date',
@@ -106,7 +83,9 @@ class Devotee extends Model
 
         if (\Input::get("address_street")) {
             $devotee->where('address_street', 'like', '%' . $input['address_street'] . '%');
-            $devotee->orderBy('devotee.address_street', 'asc');
+            $devotee->orderBy('devotee.address_postal', 'asc');
+            $devotee->orderBy('devotee.address_unit1', 'asc');
+            $devotee->orderBy('devotee.address_unit2', 'asc');
         }
 
         if (\Input::get("address_houseno")) {
@@ -116,17 +95,17 @@ class Devotee extends Model
 
         if (\Input::get("adress_unit1")) {
             $devotee->where('adress_unit1', '=', $input['adress_unit1']);
-            $devotee->orderBy('devotee.adress_unit1', 'asc');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("adress_unit2")) {
             $devotee->where('adress_unit2', '=', $input['adress_unit2']);
-            $devotee->orderBy('devotee.adress_unit2', 'asc');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("address_postal")) {
             $devotee->where('address_postal', 'like', '%' . $input['address_postal'] . '%');
-            $devotee->orderBy('devotee.address_postal', 'asc');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
         if (\Input::get("contact")) {
@@ -140,12 +119,6 @@ class Devotee extends Model
     // search family code
     public function searchFamilyCode($input)
     {
-        // $input['address_houseno'] = 88;
-        // $input['address_unit1'] = 77;
-        // $input['address_unit2'] = 11;
-        // $input['address_street'] = "Ang Mo Kio Street 11";
-        // $input['address_postal'] = 102547;
-
         if(isset($input['oversea_addr_in_chinese']))
         {
           $devotee = DB::table('devotee');
