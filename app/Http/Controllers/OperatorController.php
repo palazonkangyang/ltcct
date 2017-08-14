@@ -58,7 +58,7 @@ class OperatorController extends Controller
         							->addSelect('familycode.familycode')
         							->get();
 
-		$countries = Country::all();
+		$countries = Country::orderBy('country_name', 'asc')->get();
 		$dialects = Dialect::all();
 		$races = Race::all();
 

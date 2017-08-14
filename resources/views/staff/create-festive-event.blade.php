@@ -186,157 +186,184 @@
 
 @section('custom-js')
 
-    <script src="{{asset('js/custom/common.js')}}"></script>
-
     <script type="text/javascript">
-        $(function() {
+      $(function() {
 
-          $("form").submit(function () {
+        $("form").submit(function () {
 
-            var this_master = $(this);
+          var this_master = $(this);
 
-            this_master.find('input[type="checkbox"]').each( function () {
-                var checkbox_this = $(this);
-                var display_hidden = checkbox_this.closest('.display-row').find('.display-hidden');
+          this_master.find('input[type="checkbox"]').each( function () {
+              var checkbox_this = $(this);
+              var display_hidden = checkbox_this.closest('.display-row').find('.display-hidden');
 
-                if( checkbox_this.is(":checked") == true ) {
-                    display_hidden.attr('value','1');
-                }
+              if( checkbox_this.is(":checked") == true ) {
+                  display_hidden.attr('value','1');
+              }
 
-                else {
-                    display_hidden.prop('checked', true);
-                    //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
-                    display_hidden.attr('value','0');
-                }
-            });
+              else {
+                  display_hidden.prop('checked', true);
+                  //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
+                  display_hidden.attr('value','0');
+              }
           });
+        });
 
-            $("#addEventRow").click(function() {
+        $("#addEventRow").click(function() {
 
-              $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-                  "<td><select class='form-control' name='job_id[]'><option value=''>Please Select</option><option value='1'>Spring Festival</option>" +
-                  "<option value='2'>Festival 1</option><option value='3'>Festival 2</option></select></td>" +
-                  "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
-                  "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value=''></td>" +
-                  "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
-                  "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
-                  "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
-                  "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-                  "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
-            });
+          $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
+              "<td><select class='form-control' name='job_id[]'><option value=''>Please Select</option><option value='1'>Spring Festival</option>" +
+              "<option value='2'>Festival 1</option><option value='3'>Festival 2</option></select></td>" +
+              "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value='' id='job_date'></td>" +
+              "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value='' id='end_at'></td>" +
+              "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
+              "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
+              "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
+              "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
+              "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
+        });
 
-            $("#festive-event-table").on('click', '.removeEventRow', function() {
+        $("#festive-event-table").on('click', '.removeEventRow', function() {
+          if (!confirm("Do you confirm you want to delete this record? Note that this process is irreversable.")){
+            return false;
+          }
+          else{
+            $(this).parent().parent().remove();
+          }
+        });
 
-                $(this).parent().parent().remove();
-            });
+        $("#confirm_event_btn").click(function() {
 
-            $("#confirm_event_btn").click(function() {
+            var count = 0;
+            var errors = new Array();
+            var validationFailed = false;
 
-                var count = 0;
-                var errors = new Array();
-                var validationFailed = false;
+            $(".alert-success").remove();
 
-                $("input:text[name^='start_at']").each(function() {
+            $("input:text[name^='start_at']").each(function() {
 
-                    if (!$.trim($(this).val()).length) {
+                if (!$.trim($(this).val()).length) {
 
-                        validationFailed = true;
-                        errors[count++] = "Date From fields are empty.";
-                        return false;
-                    }
-                });
-
-                $("input:text[name^='end_at']").each(function() {
-
-                    if (!$.trim($(this).val()).length) {
-
-                        validationFailed = true;
-                        errors[count++] = "Date To fields are empty.";
-                        return false;
-                    }
-                });
-
-                $("input:text[name^='lunar_date']").each(function() {
-
-                    if (!$.trim($(this).val()).length) {
-
-                        validationFailed = true;
-                        errors[count++] = "Lunar Date fields are empty.";
-                        return false;
-                    }
-                });
-
-                $("input:text[name^='event']").each(function() {
-
-                    if (!$.trim($(this).val()).length) {
-
-                        validationFailed = true;
-                        errors[count++] = "Event fields are empty.";
-                        return false;
-                    }
-                });
-
-                $("input:text[name^='time']").each(function() {
-
-                    if (!$.trim($(this).val()).length) {
-
-                        validationFailed = true;
-                        errors[count++] = "Time fields are empty.";
-                        return false;
-                    }
-                });
-
-                if (validationFailed)
-                {
-                    var errorMsgs = '';
-
-                    for(var i = 0; i < count; i++)
-                    {
-                        errorMsgs = errorMsgs + errors[i] + "<br/>";
-                    }
-
-                    $('html,body').animate({ scrollTop: 0 }, 'slow');
-
-                    $(".validation-error").addClass("bg-danger alert alert-error")
-                    $(".validation-error").html(errorMsgs);
-
+                    validationFailed = true;
+                    errors[count++] = "Job Date fields are empty.";
                     return false;
                 }
-
-                else
-                {
-  									$(".validation-error").removeClass("bg-danger alert alert-error")
-  									$(".validation-error").empty();
-  							}
             });
 
-        //     $("body").on('focus', '.event-row', function() {
-        //
-        //       $("#job_date").datepicker({
-        //        onSelect: function (date) {
-        //            var date2 = $('#job_date').datepicker('getDate');
-        //            date2.setDate(date2.getDate() + 1);
-        //            $('#end_at').datepicker('setDate', date2);
-        //            //sets minDate to dt1 date + 1
-        //            $('#end_at').datepicker('option', 'minDate', date2);
-        //        }
-        //     });
-        //
-        //     $('#end_at').datepicker({
-        //     onClose: function () {
-        //         var dt1 = $('#job_date').datepicker('getDate');
-        //         console.log(dt1);
-        //         var dt2 = $('#end_at').datepicker('getDate');
-        //         if (dt2 <= dt1) {
-        //             var minDate = $('#end_at').datepicker('option', 'minDate');
-        //             $('#end_at').datepicker('setDate', minDate);
-        //         }
-        //     }
-        // });
-        //
-        //
-        //  });
+            $("input:text[name^='end_at']").each(function() {
+
+                if (!$.trim($(this).val()).length) {
+
+                    validationFailed = true;
+                    errors[count++] = "Date To fields are empty.";
+                    return false;
+                }
+            });
+
+            $("input:text[name^='lunar_date']").each(function() {
+
+                if (!$.trim($(this).val()).length) {
+
+                    validationFailed = true;
+                    errors[count++] = "Lunar Date fields are empty.";
+                    return false;
+                }
+            });
+
+            $("input:text[name^='event']").each(function() {
+
+                if (!$.trim($(this).val()).length) {
+
+                    validationFailed = true;
+                    errors[count++] = "Event fields are empty.";
+                    return false;
+                }
+            });
+
+            $("input:text[name^='time']").each(function() {
+
+                if (!$.trim($(this).val()).length) {
+
+                    validationFailed = true;
+                    errors[count++] = "Time fields are empty.";
+                    return false;
+                }
+            });
+
+            $('#festive-event-table .event-row td').each(function () {
+
+                if($(this).hasClass("has-error"))
+                {
+                  validationFailed = true;
+                  errors[count++] = "Date To should be greater than Job Date.";
+                  return false;
+                }
+
+            });
+
+            if (validationFailed)
+            {
+                var errorMsgs = '';
+
+                for(var i = 0; i < count; i++)
+                {
+                    errorMsgs = errorMsgs + errors[i] + "<br/>";
+                }
+
+                $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+                $(".validation-error").addClass("bg-danger alert alert-error")
+                $(".validation-error").html(errorMsgs);
+
+                return false;
+            }
+
+            else
+            {
+                $(".validation-error").removeClass("bg-danger alert alert-error")
+                $(".validation-error").empty();
+            }
         });
+
+        $("body").delegate('#job_date', 'focus', function() {
+
+          $(this).on("changeDate",function (){
+            var job_date = $(this).val();
+            var end_at = $(this).closest("tr").find("#end_at").val();
+
+            if(end_at == "")
+            {
+
+            }
+            else if (job_date > end_at) {
+              $(this).closest('td').next('td').addClass('has-error');
+            }
+            else
+            {
+              $(this).closest('td').next('td').removeClass("has-error");
+            }
+          });
+        });
+
+        $("body").delegate('#end_at', 'focus', function() {
+
+          $(this).on("changeDate",function (){
+            var job_date = $(this).closest("tr").find("#job_date").val();
+            var end_at = $(this).val();
+
+            if(job_date > end_at)
+            {
+              $(this).parent().addClass('has-error');
+            }
+
+            else
+            {
+              $(this).parent().removeClass("has-error");
+            }
+          });
+
+        });
+      });
     </script>
 
 @stop

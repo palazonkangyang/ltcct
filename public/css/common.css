@@ -48,6 +48,10 @@
   cursor: pointer;
 }
 
+.removeEventRow{
+  cursor: pointer;
+}
+
 .no-height{
   height: auto!important;
 }

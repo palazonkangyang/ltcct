@@ -178,15 +178,15 @@
 
                           @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                           <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                              <a href="javascript:;"> Manage Account 管理会员
+                              <a href="javascript:;"> Staffs 员工
                                   <span class="arrow"></span>
                               </a>
                               <ul class="dropdown-menu pull-left">
                                   <li aria-haspopup="true" class=" ">
-                                      <a href="/admin/all-accounts">All Accounts 会员列表</a>
+                                      <a href="/admin/all-accounts">All Staffs 员工列表</a>
                                   </li>
                                   <li aria-haspopup="true" class=" ">
-                                      <a href="/admin/add-account">Add New Account 新增会员</a>
+                                      <a href="/admin/add-account">Add New Staff 新增员工</a>
                                   </li>
                               </ul>
                           </li>
