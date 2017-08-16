@@ -220,7 +220,7 @@
               "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
               "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
               "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-              "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control'></td></tr>");
+              "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control no-height'></td></tr>");
         });
 
         $("#festive-event-table").on('click', '.removeEventRow', function() {
@@ -331,6 +331,9 @@
             var job_date = $(this).val();
             var end_at = $(this).closest("tr").find("#end_at").val();
 
+            var start_date = job_date.split("/").reverse().join("-");
+            var end_date = end_at.split("/").reverse().join("-");
+
             // alert(job_date);
             // alert(end_at);
 
@@ -338,7 +341,7 @@
             {
 
             }
-            else if (job_date > end_at) {
+            else if (new Date(job_date) > new Date(end_at)) {
               $(this).closest('td').next('td').addClass('has-error');
             }
             else

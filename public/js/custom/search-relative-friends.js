@@ -1,18 +1,8 @@
 $(function() {
 
-  // if ( $('#search_devotee_lists td:first').text() == 'No Result Record!' ) {
-  //   alert($(this).text());
-  //   $('#insert_devotee').attr('disabled', false);
-  //   $('#insert_devotee').attr('disabled', false);
-  // }
-  //
-  // else
-  // {
-  //   $('#insert_devotee').attr('disabled', true);
-  //   $('#insert_devotee').attr('disabled', true);
-  // }
-
   $("#search_detail_btn").click(function() {
+
+    $("#search_devotee_lists tbody").empty();
 
     var count = 0;
     var errors = new Array();
@@ -71,6 +61,11 @@ $(function() {
           $.each(response.devotee, function(index, data) {
             $('#search_devotee_lists tbody').append("<tr><td><a class='search-member' id='" + data.devotee_id + "'>" + data.chinese_name + "</a></td></tr>");
           });
+        }
+
+        else
+        {
+          $('#search_devotee_lists tbody').append("<tr><td>No Result Found!</td></tr>")
         }
       },
       error: function (response) {
