@@ -94,6 +94,14 @@ $(function() {
 
 		});
 
+    $( "#dialog-box" ).dialog({
+      autoOpen: false
+    });
+
+    $( "#edit-dialog-box" ).dialog({
+      autoOpen: false
+    });
+
     $("#dialog-box").dialog({
      autoOpen: false,
      modal: true,

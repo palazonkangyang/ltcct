@@ -17,6 +17,7 @@ use App\Models\GlCode;
 use App\Models\FestiveEvent;
 use App\Models\RelativeFriendLists;
 use App\Models\Job;
+use App\Models\SettingGeneralDonation;
 use Auth;
 use DB;
 use Hash;
@@ -47,24 +48,6 @@ class StaffController extends Controller
 	public function postDonation(Request $request)
 	{
 		$input = array_except($request->all(), '_token');
-
-		//Add Relative and Friend Lists
-		if(isset($input["other_devotee_id"]))
-		{
-			// Delete relative and friend lists by focus devotee before saving
-			RelativeFriendLists::where('donate_devotee_id', $input['focusdevotee_id'])->delete();
-
-			for($i = 0; $i < count($input["other_devotee_id"]); $i++)
-			{
-			  $list = [
-			    "donate_devotee_id" => $input['focusdevotee_id'],
-			    "relative_friend_devotee_id" =>$input["other_devotee_id"][$i],
-			    "year" => date('Y')
-			  ];
-
-			  RelativeFriendLists::create($list);
-			}
-		}
 
 		// Modify Receipt At fields
 		if(isset($input['receipt_at']))
@@ -349,23 +332,10 @@ class StaffController extends Controller
 		}
 
 		// remove session
-		if(Session::has('relative_friend_lists'))
-		{
-		  Session::forget('relative_friend_lists');
-		}
-
-		// remove session
 		if(Session::has('receipts'))
 		{
 		  Session::forget('receipts');
 		}
-
-		// Get Relative and friends lists
-		$relative_friend_lists = RelativeFriendLists::leftjoin('devotee', 'devotee.devotee_id', '=', 'relative_friend_lists.relative_friend_devotee_id')
-															->where('donate_devotee_id', $input['focusdevotee_id'])
-															->select('relative_friend_lists.*', 'devotee.chinese_name', 'devotee.guiyi_name', 'devotee.address_unit1',
-															'devotee.address_unit2', 'devotee.address_street', 'devotee.address_building')
-															->get();
 
 		// Get Receipt History
 		$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
@@ -377,18 +347,153 @@ class StaffController extends Controller
 								->get();
 
 		// store session
-		if(!Session::has('relative_friend_lists'))
-		{
-			Session::put('relative_friend_lists', $relative_friend_lists);
-		}
-
-		// store session
     if(!Session::has('receipts'))
     {
       Session::put('receipts', $receipts);
     }
 
 		$request->session()->flash('success', 'General Donation is successfully created.');
+		return redirect()->back();
+	}
+
+	public function postSameFamilySetting(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		SettingGeneralDonation::where('focusdevotee_id', $input['focusdevotee_id'])
+												 ->where('address_code', 'same')
+												 ->delete();
+
+		if(isset($input['focusdevotee_id']))
+		{
+			for($i = 0; $i < count($input['devotee_id']); $i++)
+			{
+				$list = [
+					"focusdevotee_id" => $input['focusdevotee_id'],
+	        "xiangyou_ciji_id" => $input['hidden_xiangyou_ciji_id'][$i],
+	        "yuejuan_id" => $input['hidden_yuejuan_id'][$i],
+					"devotee_id" => $input['devotee_id'][$i],
+	        "address_code" => "same",
+	        "year" => date('Y'),
+				];
+
+				SettingGeneralDonation::create($list);
+			}
+		}
+
+		if(Session::has('xianyou_same_family'))
+		{
+			Session::forget('xianyou_same_family');
+		}
+
+		if(Session::has('setting_samefamily'))
+		{
+			Session::forget('setting_samefamily');
+		}
+
+		$devotee = Devotee::find($input['focusdevotee_id']);
+
+		$xianyou_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+													 ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+													 ->where('devotee.familycode_id', $devotee->familycode_id)
+													 ->where('devotee.devotee_id', '!=', $input['focusdevotee_id'])
+													 ->where('setting_generaldonation.address_code', '=', 'same')
+													 ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+													 ->select('devotee.*', 'familycode.familycode')
+													 ->get();
+
+		$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+											 		->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
+													->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+													->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+											 		->where('devotee.devotee_id', '!=', $input['focusdevotee_id'])
+											 		->where('devotee.familycode_id', $devotee->familycode_id)
+											 		->where('setting_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
+											 		->where('setting_generaldonation.address_code', '=', 'same')
+											 		->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+											 		->get();
+
+		if(!Session::has('xianyou_same_family'))
+		{
+			Session::put('xianyou_same_family', $xianyou_same_family);
+		}
+
+		if(!Session::has('setting_samefamily'))
+		{
+			Session::put('setting_samefamily', $setting_samefamily);
+		}
+
+		$request->session()->flash('success', 'Setting for same address is successfully created.');
+		return redirect()->back();
+	}
+
+	public function postDifferentFamilySetting(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		SettingGeneralDonation::where('focusdevotee_id', $input['focusdevotee_id'])
+												 ->where('address_code', 'different')
+												 ->delete();
+
+		if(isset($input['focusdevotee_id']))
+		{
+			for($i = 0; $i < count($input['devotee_id']); $i++)
+			{
+				$list = [
+					"focusdevotee_id" => $input['focusdevotee_id'],
+	        "xiangyou_ciji_id" => $input['hidden_xiangyou_ciji_id'][$i],
+	        "yuejuan_id" => $input['hidden_yuejuan_id'][$i],
+					"devotee_id" => $input['devotee_id'][$i],
+	        "address_code" => "different",
+	        "year" => date('Y'),
+				];
+
+				SettingGeneralDonation::create($list);
+			}
+		}
+
+		if(Session::has('xianyou_different_family'))
+		{
+			Session::forget('xianyou_different_family');
+		}
+
+		if(Session::has('setting_differentfamily'))
+		{
+			Session::forget('setting_differentfamily');
+		}
+
+		$devotee = Devotee::find($input['focusdevotee_id']);
+
+		$xianyou_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+																->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+																->where('setting_generaldonation.address_code', '=', 'different')
+																->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+																->where('setting_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
+																->select('devotee.*', 'familycode.familycode')
+																->get();
+
+		$setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+															 ->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
+															 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+															 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+															 ->where('setting_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
+															 ->where('setting_generaldonation.address_code', '=', 'different')
+															 ->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode',
+															 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+															 ->GroupBy('devotee.devotee_id')
+															 ->get();
+
+		if(!Session::has('xianyou_different_family'))
+		{
+			Session::put('xianyou_different_family', $xianyou_different_family);
+		}
+
+		if(!Session::has('setting_differentfamily'))
+		{
+			Session::put('setting_differentfamily', $setting_differentfamily);
+		}
+
+		$request->session()->flash('success', 'Setting for different address is successfully created.');
 		return redirect()->back();
 	}
 
@@ -450,7 +555,7 @@ class StaffController extends Controller
 		$donation_devotees = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
 							->select('generaldonation_items.*')
 							->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street', 'devotee.address_unit1',
-								'devotee.address_unit2')
+								'devotee.address_unit2', 'devotee.address_postal', 'devotee.oversea_addr_in_chinese')
 							->where('receipt_id', $receipt_id)
 							->get();
 
@@ -497,7 +602,7 @@ class StaffController extends Controller
 	  $donation_devotees = GeneralDonationItems::join('devotee', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
 											 	 ->select('generaldonation_items.*')
 											 	 ->addSelect('devotee.chinese_name', 'devotee.address_houseno', 'devotee.address_street', 'devotee.address_unit1',
-													'devotee.address_unit2')
+													'devotee.address_unit2', 'devotee.address_postal', 'devotee.oversea_addr_in_chinese')
 											 	 ->where('receipt_id', $receipt_id)
 											 	 ->get();
 
@@ -548,16 +653,58 @@ class StaffController extends Controller
 		]);
 	}
 
-
-	public function getSearchDevotee(Request $request)
+	public function getInsertDevotee(Request $request)
 	{
 		$devotee_id = $_GET['devotee_id'];
 
-		$devotee = Devotee::find($devotee_id);
+		$devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+							 ->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
+							 ->select('devotee.*', 'member.paytill_date', 'familycode.familycode')
+							 ->where('devotee.devotee_id', $devotee_id)
+							 ->get();
+
+		if(isset($devotee[0]->lasttransaction_at))
+		{
+			$devotee[0]->lasttransaction_at = \Carbon\Carbon::parse($devotee[0]->lasttransaction_at)->format("d/m/Y");
+		}
+
+		if(isset($devotee[0]->paytill_date))
+		{
+			$devotee[0]->paytill_date = \Carbon\Carbon::parse($devotee[0]->paytill_date)->format("d/m/Y");
+		}
 
 		return response()->json([
 			'devotee' => $devotee
 		]);
+	}
+
+
+	public function getSearchDevoteeID(Request $request)
+	{
+		$devotee_id = $_GET['devotee_id'];
+
+		$devotee = Devotee::leftjoin('country', 'devotee.nationality', '=', 'country.id')
+							 ->select('devotee.*', 'country.country_name')
+							 ->where('devotee.devotee_id', $devotee_id)
+							 ->get();
+
+		return response()->json([
+			'devotee' => $devotee
+		]);
+	}
+
+	public function getSearchDevotee(Request $request)
+	{
+
+		$input = array_except($request->all(), '_token');
+
+		// Find Devotee List
+		$devotee = new Devotee;
+    $result = $devotee->searchDevotee($input)->get();
+
+		return response()->json(array(
+      'devotee' => $result
+    ));
 	}
 
 

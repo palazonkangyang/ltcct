@@ -125,10 +125,12 @@
                      						<td>{{ $donation_devotee->chinese_name }}</td>
                      						<td>{{ $donation_devotee->devotee_id }}</td>
                      						<td>
-                                  @if(isset($donation_devotee->address_unit1) && isset($donation_devotee->address_unit2))
-                                    No.{{ $donation_devotee->address_houseno }}, {{ $donation_devotee->address_building }}, {{ $donation_devotee->address_postal }}, Singapore
+                                  @if(isset($donation_devotee->oversea_addr_in_chinese))
+                                    {{ $donation_devotee->oversea_addr_in_chinese }}
+                                  @elseif(isset($donation_devotee->address_unit1) && isset($donation_devotee->address_unit2))
+                                    {{ $donation_devotee->address_houseno }}, #{{ $donation_devotee->address_unit1 }}-{{ $donation_devotee->address_unit2 }}, {{ $donation_devotee->address_street }}, {{ $donation_devotee->address_postal }}
                                   @else
-                                    No.{{ $donation_devotee->address_houseno }}, #{{ $donation_devotee->address_unit1 }}-{{ $donation_devotee->address_unit2 }}, {{ $donation_devotee->address_building }}, {{ $donation_devotee->address_postal }}, Singapore
+                                    {{ $donation_devotee->address_houseno }}, {{ $donation_devotee->address_street }}, {{ $donation_devotee->address_postal }}
                                   @endif
                                 </td>
                      						<td>{{ $donation_devotee->hjgr }}</td>

@@ -640,8 +640,8 @@
 											<label class="col-md-4">Mailer</label>
 											<div class="col-md-3">
 													<select class="form-control" name="mailer">
-														<option value="No">No</option>
-														<option value="Yes">Yes</option>
+														<option value="No" <?php if ($focus_devotee[0]->mailer == "No") echo "selected"; ?>>No</option>
+														<option value="Yes" <?php if ($focus_devotee[0]->mailer == "Yes") echo "selected"; ?>>Yes</option>
 													</select>
 											</div><!-- end col-md-3 -->
 

@@ -48,6 +48,10 @@
   cursor: pointer;
 }
 
+.removeDevotee{
+  cursor: pointer;
+}
+
 .removeEventRow{
   cursor: pointer;
 }

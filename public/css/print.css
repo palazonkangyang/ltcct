@@ -49,6 +49,16 @@ article{
 	float: left;
 }
 
+.rightlabel-left{
+	width: 3cm;
+	float: left;
+}
+
+.rightlabel-right{
+	width: 3cm;
+	float: left;
+}
+
 table.receipt-table {
 	width: 100%;
 	font-family: verdana,arial,sans-serif;
@@ -67,7 +77,7 @@ table.receipt-table th {
 }
 table.receipt-table td {
 	border-width: 1px;
-	padding: 8px;
+	padding: 3px;
 	border-style: solid;
 	border-color: #666;
 	background-color: #fff;

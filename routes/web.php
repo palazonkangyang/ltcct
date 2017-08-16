@@ -79,6 +79,8 @@ Route::group(['middleware' => 'auth'], function () {
 
   Route::group(['prefix' => 'staff'], function () {
     Route::get('/search-devotee', ['as' => 'search-devotee-page', 'uses' => 'StaffController@getSearchDevotee']);
+		Route::get('/search-devotee-id', ['as' => 'search-devotee-id-page', 'uses' => 'StaffController@getSearchDevoteeID']);
+		Route::get('/insert-devotee', ['as' => 'insert-devotee-page', 'uses' => 'StaffController@getInsertDevotee']);
     Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
     Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
 		Route::get('/receiptdetail/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceiptDetail']);
@@ -87,6 +89,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);
     Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
+		Route::post('/samefamily-setting', ['as' => 'post-samefamily-setting-page', 'uses' => 'StaffController@postSameFamilySetting']);
+		Route::post('/differentfamily-setting', ['as' => 'post-differentfamily-setting-page', 'uses' => 'StaffController@postDifferentFamilySetting']);
 		Route::post('/receipt-cancellation', ['as' => 'receipt-cancellation-page', 'uses' => 'StaffController@postReceiptCancellation']);
   });
 

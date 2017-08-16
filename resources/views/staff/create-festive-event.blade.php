@@ -83,10 +83,10 @@
                                                         <thead>
                                                             <tr>
                                                                 <th width='4%'>#</th>
-                                                                <th width="15%">Job</th>
-                                                                <th width='11%'>Job Date 阴历</th>
-                                                                <th width='11%'>Date To 阴历</th>
-                                                                <th width='11%'>Lunar Date 阳历</th>
+                                                                <th width="13%">Job</th>
+                                                                <th width='10%'>Job Date 阴历</th>
+                                                                <th width='10%'>Date To 阴历</th>
+                                                                <th width='15%'>Lunar Date 阳历</th>
                                                                 <th width='15%'>Event 节日</th>
                                                                 <th width='11%'>Time 时间</th>
                                                                 <th width='11%'>Shuwen Title 文疏</th>

@@ -397,7 +397,7 @@
                         <label class="col-md-4">Mailer (Y/N)</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" name="mailer" value="{{ $focus_devotee[0]->mailer }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
 

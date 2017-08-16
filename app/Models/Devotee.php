@@ -49,14 +49,17 @@ class Devotee extends Model
             'member.introduced_by1',
             'member.introduced_by2',
             'member.approved_date',
+            'member.paytill_date',
             'familycode.familycode',
-            'country.country_name'
+            'country.country_name',
+            'specialremarks.devotee_id as specialremarks_devotee_id'
         );
 
         $devotee->leftjoin('member', 'devotee.member_id', '=', 'member.member_id');
         $devotee->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id');
         $devotee->leftjoin('country', 'country.id', '=', 'devotee.nationality');
         $devotee->leftjoin('dialect', 'devotee.dialect', '=', 'dialect.dialect_id');
+        $devotee->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id');
 
         if (\Input::get("chinese_name")) {
             $devotee->where('chinese_name', 'like', '%' . $input['chinese_name'] . '%');
@@ -64,7 +67,7 @@ class Devotee extends Model
         }
 
         if (\Input::get("devotee_id")) {
-            $devotee->where('devotee_id', '=', $input['devotee_id']);
+            $devotee->where('devotee.devotee_id', '=', $input['devotee_id']);
             $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
@@ -172,6 +175,29 @@ class Devotee extends Model
         }
 
         return $devotee;
+    }
+
+    public function searchDevotee($input)
+    {
+      $devotee = DB::table('devotee');
+      $devotee->select(
+          'devotee.*'
+      );
+
+      if ($input['devotee_id']) {
+          $devotee->where('devotee_id', $input['devotee_id']);
+      }
+
+      if($input['member_id']) {
+          $devotee->where('member_id', $input['member_id']);
+      }
+
+      if($input['chinese_name'])
+      {
+        $devotee->where('chinese_name', 'like', '%' . $input['chinese_name'] . '%');
+      }
+
+      return $devotee;
     }
 
 }

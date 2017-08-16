@@ -19,7 +19,7 @@ $(function() {
 
       $("#edit_populate_unit_1").val(arr[0]);
       $("#edit_populate_unit_2").val(arr[1]);
-      
+
       $("#edit_populate_street").val(array[2]);
       $("#edit_populate_postal").val(array[3]);
     });

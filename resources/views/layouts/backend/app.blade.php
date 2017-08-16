@@ -32,22 +32,14 @@
 
                                 <ul class="nav navbar-nav pull-right">
 
-
-
-
                                     <!-- BEGIN INBOX DROPDOWN -->
                                     <li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
 
 
                                         <ul
-
                                             <li>
 
                                                 <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
-
-
-
-
                                                     </ul>
                                                 </li>
                                             </ul>
