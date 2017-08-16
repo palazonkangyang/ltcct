@@ -2,6 +2,13 @@
 
 @section('main-content')
 
+@php
+		$xianyou_same_family = Session::get('xianyou_same_family');
+		$focus_devotee = Session::get('focus_devotee');
+		$date = \Carbon\Carbon::now()->subDays(365);
+		$now = \Carbon\Carbon::now();
+@endphp
+
 	<div class="page-container-fluid">
 
 		<div class="page-content-wrapper">
@@ -131,15 +138,6 @@
 
                                                                         @if(Session::has('devotee_lists'))
 
-                                                                            @php
-
-                                                                                $xianyou_same_family = Session::get('xianyou_same_family');
-                                                                                $focus_devotee = Session::get('focus_devotee');
-																																								$date = \Carbon\Carbon::now()->subDays(365);
-																																								$now = \Carbon\Carbon::now();
-
-                                                                            @endphp
-
                                                                         <tbody id="has_session">
 
                                                                             <tr>
@@ -194,7 +192,7 @@
 	                                                                                </select>
                                                                             	</td>
                                                                             	<td width="80px">
-                                                                            		<select class="form-control" name="display[]">
+                                                                            		<select class="form-control display" name="display[]">
 	                                                                                    <option value="Y">Y</option>
 	                                                                                    <option value="N">N</option>
 	                                                                                </select>
@@ -257,7 +255,7 @@
 	                                                                                </select>
                                                                             	</td>
                                                                             	<td width="80px">
-                                                                            		<select class="form-control" name="display[]">
+                                                                            		<select class="form-control display" name="display[]">
 	                                                                                    <option value="Y">Y</option>
 	                                                                                    <option value="N">N</option>
 	                                                                                </select>
@@ -368,7 +366,7 @@
 	                                                                                </select>
                                                                             	</td>
                                                                             	<td>
-                                                                            		<select class="form-control" name="other_display[]">
+                                                                            		<select class="form-control display" name="other_display[]">
 	                                                                                    <option value="Y">Y</option>
 	                                                                                    <option value="N">N</option>
 	                                                                                </select>
@@ -1255,6 +1253,34 @@
 								//DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
 								hidden_yuejuan_id.attr('value','0');
 						}
+				});
+			});
+
+			$("body").delegate('.amount', 'focus', function() {
+
+				$(this).on("change",function (){
+					var amount = $(this).val();
+
+					if(amount > 5)
+					{
+						$(this).closest('tr').find(".display").val('Y');
+					}
+					else
+					{
+						$(this).closest('tr').find(".display").val('N');
+					}
+
+					// if(end_at == "")
+					// {
+					//
+					// }
+					// else if (job_date > end_at) {
+					// 	$(this).closest('td').next('td').addClass('has-error');
+					// }
+					// else
+					// {
+					// 	$(this).closest('td').next('td').removeClass("has-error");
+					// }
 				});
 			});
 

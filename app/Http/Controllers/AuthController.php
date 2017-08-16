@@ -82,6 +82,26 @@ class AuthController extends Controller
 				Session::forget('devotee_lists');
 			}
 
+			if(Session::has('xianyou_same_family'))
+			{
+				Session::forget('xianyou_same_family');
+			}
+
+			if(Session::has('xianyou_different_family'))
+			{
+				Session::forget('xianyou_different_family');
+			}
+
+			if(Session::has('setting_samefamily'))
+			{
+				Session::forget('setting_samefamily');
+			}
+
+			if(Session::has('setting_differentfamily'))
+			{
+				Session::forget('setting_differentfamily');
+			}
+
 			if(Session::has('optionaladdresses'))
 			{
 				Session::forget('optionaladdresses');
@@ -97,9 +117,9 @@ class AuthController extends Controller
 				Session::forget('specialRemarks');
 			}
 
-			if(Session::has('relative_friend_lists'))
+			if(!Session::has('receipts'))
 			{
-				Session::forget('relative_friend_lists');
+				Session::put('receipts', $receipts);
 			}
 
       Auth::logout();
