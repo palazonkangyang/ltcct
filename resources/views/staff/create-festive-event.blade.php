@@ -331,6 +331,9 @@
             var job_date = $(this).val();
             var end_at = $(this).closest("tr").find("#end_at").val();
 
+            // alert(job_date);
+            // alert(end_at);
+
             if(end_at == "")
             {
 

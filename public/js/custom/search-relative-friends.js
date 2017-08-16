@@ -147,6 +147,45 @@ $(function() {
   $("#insert_devotee").click(function() {
       var devotee_id = $("#search_devotee_lists").find('.highlight').attr('id');
 
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+
+      $('#different_familycode_table .append-devotee-id').each( function () {
+
+        var id = $(this).val();
+
+        if(devotee_id == id)
+        {
+          validationFailed = true;
+          errors[count++] = "This devotee id is already selected."
+        }
+
+      });
+
+      if (validationFailed)
+      {
+          var errorMsgs = '';
+
+          for(var i = 0; i < count; i++)
+          {
+              errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
+
+          return false;
+      }
+
+      else
+      {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+      }
+
       var formData = {
         _token: $('meta[name="csrf-token"]').attr('content'),
         devotee_id: devotee_id,
@@ -176,7 +215,7 @@ $(function() {
                 "<td class='checkbox-col'><input type='checkbox' name='yuejuan_id[]' value='" + data.devotee_id + "' class='different yuejuan_id'>" +
                 "<input type='hidden' class='form-control hidden_yuejuan_id' name='hidden_yuejuan_id[]' value=''></td>" +
                 "<td>" + data.chinese_name +"</td>" +
-                "<td><input type='hidden' name='devotee_id[]' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
+                "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
                 "<td>" + $.trim(data.member_id) + "</td>" +
                 "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
                 "<td>" + $.trim(data.guiyi_name) + "</td>" +
@@ -186,14 +225,13 @@ $(function() {
                 "<td>" + data.lasttransaction_at + "</td>" +
                 "<td>" + data.familycode + "</td>");
           });
-
-
         },
         error: function (response) {
             console.log(response);
         }
 
       });
+
   });
 
   // remove row

@@ -64,7 +64,7 @@
 
                       <div class="caption font-red-sunglo">
                           <i class="icon-settings font-red-sunglo"></i>
-                          <span class="caption-subject bold uppercase"> Add New Dialect</span>
+                          <span class="caption-subject bold uppercase"> Add New Race</span>
                       </div><!-- end caption font-red-sunglo -->
 
                   </div><!-- end portlet-title -->
@@ -80,7 +80,7 @@
                       <table class="table table-bordered" id="all-race-table">
                           <thead>
                             <tr id="filter">
-                              <th width="70%">Dialect Name</th>
+                              <th width="70%">Race Name</th>
                               <th width="30%">Actions</th>
                             </tr>
                             <tr>

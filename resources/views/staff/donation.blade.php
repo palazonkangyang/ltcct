@@ -874,7 +874,7 @@
 																																			@endif
 																																		</td>
 																																    <td>
-																																      <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
+																																      <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}" class="append-devotee-id">
 																																			@if($devotee->specialremarks_devotee_id == null)
 																																			<span>{{ $devotee->devotee_id }}</span>
 																																			@else
