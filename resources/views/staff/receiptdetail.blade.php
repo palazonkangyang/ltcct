@@ -92,7 +92,7 @@
                              <div class="col-md-6 info-detail">
                                <p>Receipt No : {{ $receipt[0]->xy_receipt }}</p>
                                <p>Transaction No : {{ $receipt[0]->trans_no }}</p>
-                               <p>Attended By : </p>
+                               <p>Attended By : {{ $receipt[0]->first_name }} {{ $receipt[0]->last_name }}</p>
                              </div><!-- end col-md-6 -->
 
                            </div><!-- end col-md-12 -->

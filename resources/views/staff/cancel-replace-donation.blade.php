@@ -9,7 +9,6 @@
 		$now = \Carbon\Carbon::now();
 @endphp
 
-
 	<div class="page-container-fluid">
 
 		<div class="page-content-wrapper">
@@ -140,6 +139,7 @@
                                                                         @if(Session::has('devotee_lists'))
 
                                                                         <tbody id="has_session">
+
                                                                             <tr>
                                                                             	<td>
 																																								@if($focus_devotee[0]->deceased_year != null)
@@ -193,9 +193,9 @@
                                                                             	</td>
                                                                             	<td width="80px">
                                                                             		<select class="form-control display" name="display[]">
-																																									<option value="N">N</option>
-	                                                                                <option value="Y">Y</option>
-	                                                                              </select>
+	                                                                                    <option value="Y">Y</option>
+	                                                                                    <option value="N">N</option>
+	                                                                                </select>
                                                                             	</td>
                                                                             	<td></td>
                                                                             	<td></td>
@@ -256,9 +256,9 @@
                                                                             	</td>
                                                                             	<td width="80px">
                                                                             		<select class="form-control display" name="display[]">
-																																									<option value="N">N</option>
-																																									<option value="Y">Y</option>
-	                                                                              </select>
+	                                                                                    <option value="Y">Y</option>
+	                                                                                    <option value="N">N</option>
+	                                                                                </select>
                                                                             	</td>
                                                                             	<td></td>
                                                                             	<td></td>
@@ -367,9 +367,9 @@
                                                                             	</td>
                                                                             	<td>
                                                                             		<select class="form-control display" name="other_display[]">
-																																									<option value="N">N</option>
-	                                                                                <option value="Y">Y</option>
-	                                                                              </select>
+	                                                                                    <option value="Y">Y</option>
+	                                                                                    <option value="N">N</option>
+	                                                                                </select>
                                                                             	</td>
                                                                             	<td></td>
                                                                             	<td></td>

@@ -30,7 +30,7 @@ class AuthController extends Controller
     $user = User::where('user_name', $credentials['user_name'])->first();
 
     if ( !$user ) {
-			$request->session()->flash('error', 'Username doesn\'t exit!');
+			$request->session()->flash('error', 'Unauthorised User Access !! INVALID User ID or Password !!');
 			return redirect()->back();
     }
 
@@ -39,7 +39,7 @@ class AuthController extends Controller
     }
 
 		else {
-			$request->session()->flash('error', 'Username and Password didn\'t match!');
+			$request->session()->flash('error', 'Unauthorised User Access !! INVALID User ID or Password !!');
 			return redirect()->back();
 		}
 

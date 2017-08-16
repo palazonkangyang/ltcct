@@ -30,7 +30,7 @@
 
 	            <div class="alert alert-danger display-hide">
 	                <button class="close" data-close="alert"></button>
-	                <span> Enter any username and password. </span>
+	                <span> Enter any username and password.</span>
 	            </div><!-- end alert alert-danger display-hide -->
 
 	           	<div class="form-group">

@@ -41,7 +41,7 @@ class StaffController extends Controller
 							->get();
 
 		return view('staff.donation', [
-			'events' => $events
+			'events' => $events,
 		]);
 	}
 
@@ -74,7 +74,7 @@ class StaffController extends Controller
 
 		else
 		{
-			$glocode = 12;
+			$glcode = 12;
 		}
 
 		$data = [
@@ -142,13 +142,8 @@ class StaffController extends Controller
 						// save receipt for same family
 						if(isset($input["amount"][$i]))
 						{
-							// Modify fields
-							$paid_till_date = str_replace('/', '-', $input['paid_till'][$i]);
-							$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
-
 							$data = [
 								"amount" => $input["amount"][$i],
-								"paid_till" => $new_paid_till_date,
 								"hjgr" => $input["hjgr_arr"][$i],
 								"display" => $input["display"][$i],
 								"trans_date" => Carbon::now(),
@@ -196,14 +191,8 @@ class StaffController extends Controller
 
 						  $different_xy_receipt = Receipt::create($receipt)->receipt_id;
 
-							// Modify fields
-			        $paid_till = $input['other_paid_till'][$i];
-			        $paid_till_date = str_replace('/', '-', $paid_till);
-			        $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
-
 			        $data = [
 			          "amount" => $input["other_amount"][$i],
-			          "paid_till" => $new_paid_till_date,
 			          "hjgr" => $input["other_hjgr_arr"][$i],
 			          "display" => $input["other_display"][$i],
 			          "trans_date" => Carbon::now(),
@@ -255,13 +244,8 @@ class StaffController extends Controller
 
 						  $individual_receipt = Receipt::create($receipt)->receipt_id;
 
-							// Modify fields
-							$paid_till_date = str_replace('/', '-', $input['paid_till'][$i]);
-							$new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
-
 							$data = [
 								"amount" => $input["amount"][$i],
-								"paid_till" => $new_paid_till_date,
 								"hjgr" => $input["hjgr_arr"][$i],
 								"display" => $input["display"][$i],
 								"trans_date" => Carbon::now(),
@@ -308,13 +292,8 @@ class StaffController extends Controller
 
 						  $different_xy_receipt = Receipt::create($receipt)->receipt_id;
 
-							// Modify fields
-			        $paid_till_date = str_replace('/', '-', $input['other_paid_till'][$i]);
-			        $new_paid_till_date = date("Y-m-d", strtotime($paid_till_date));
-
 			        $data = [
 			          "amount" => $input["other_amount"][$i],
-			          "paid_till" => $new_paid_till_date,
 			          "hjgr" => $input["other_hjgr_arr"][$i],
 			          "display" => $input["other_display"][$i],
 			          "trans_date" => Carbon::now(),
@@ -327,7 +306,6 @@ class StaffController extends Controller
 						}
 					}
 				}
-
 			}
 		}
 
@@ -498,6 +476,50 @@ class StaffController extends Controller
 	}
 
 	// Receipt Cancellation
+	// public function postReceiptCancellation(Request $request)
+	// {
+	// 	$input = array_except($request->all(), '_token');
+	//
+	// 	if(isset($input['authorized_password']))
+	// 	{
+	// 		$user = User::find(Auth::user()->id);
+  //     $hashedPassword = $user->password;
+	//
+	// 		if (Hash::check($input['authorized_password'], $hashedPassword))
+	// 		{
+	// 			$receipt = Receipt::find($input['receipt_id']);
+	//
+	// 			$receipt->cancelled_date = Carbon::now();
+	// 			$receipt->status = "cancelled";
+	// 			$receipt->cancelled_by = Auth::user()->id;
+	//
+	// 			$result = $receipt->save();
+	//
+	// 			if($result)
+	// 			{
+	// 				$receiptdetail = Receipt::join('user', 'user.id', '=', 'receipt.cancelled_by')
+	// 								->where('receipt.receipt_id', $input['receipt_id'])
+	// 								->select('receipt.*', 'user.first_name', 'user.last_name')
+	// 								->get();
+	//
+	// 				$cancelled_date = \Carbon\Carbon::parse($receiptdetail[0]->cancelled_date)->format("d/m/Y");
+	//
+	// 				Session::put('cancelled_date', $cancelled_date);
+	// 				Session::put('first_name', $receiptdetail[0]->first_name);
+	// 				Session::put('last_name', $receiptdetail[0]->last_name);
+	//
+	// 				return redirect()->back();
+	// 			}
+	// 		}
+	//
+	// 		else
+	// 		{
+	// 			$request->session()->flash('error', "Password did not match. Please Try Again");
+	// 			return redirect()->back();
+	// 		}
+	// 	}
+	// }
+
 	public function postReceiptCancellation(Request $request)
 	{
 		$input = array_except($request->all(), '_token');
@@ -519,18 +541,18 @@ class StaffController extends Controller
 
 				if($result)
 				{
-					$receiptdetail = Receipt::join('user', 'user.id', '=', 'receipt.cancelled_by')
-									->where('receipt.receipt_id', $input['receipt_id'])
-									->select('receipt.*', 'user.first_name', 'user.last_name')
-									->get();
+					// $generaldonation_items = GeneralDonationItems::where('receipt')
+					$devotee_cancellation_lists = Devotee::leftjoin('generaldonation_items', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
+																				->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+																				->where('generaldonation_items.receipt_id', '=', $receipt->receipt_id)
+																				->select('devotee.*', 'generaldonation_items.amount', 'generaldonation_items.hjgr',
+																				'generaldonation_items.display', 'member.paytill_date')
+																				->get();
+				  // dd($devotee_cancellation_lists);
 
-					$cancelled_date = \Carbon\Carbon::parse($receiptdetail[0]->cancelled_date)->format("d/m/Y");
+					Session::put('devotee_cancellation_lists', $devotee_cancellation_lists);
 
-					Session::put('cancelled_date', $cancelled_date);
-					Session::put('first_name', $receiptdetail[0]->first_name);
-					Session::put('last_name', $receiptdetail[0]->last_name);
-
-					return redirect()->back();
+					return redirect()->route('get-donation-page');
 				}
 			}
 
@@ -592,9 +614,10 @@ class StaffController extends Controller
 			Session::forget('last_name');
 		}
 
-		$receipt = Receipt::join('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-							 ->join('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
-							 ->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.trans_no')
+		$receipt = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+							 ->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+							 ->leftjoin('user', 'receipt.staff_id', '=', 'user.id')
+							 ->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name')
 							 ->where('receipt.receipt_id', $receipt_id)
 							 ->get();
 
@@ -750,7 +773,7 @@ class StaffController extends Controller
 
 			$events = FestiveEvent::orderBy('start_at', 'desc')->get();
 
-			$request->session()->flash('success', 'Event Calender has been outdated!');
+			$request->session()->flash('success', 'Event Calender has been updated!');
 
 			return redirect()->back()->with([
 				'events' => $events

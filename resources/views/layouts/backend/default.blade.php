@@ -58,6 +58,9 @@
 
       $("#login_btn").click(function() {
 
+        $(".validation-error").empty();
+        $(".alert-danger").remove();
+
         var count = 0;
         var errors = new Array();
         var validationFailed = false;
