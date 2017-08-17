@@ -96,6 +96,7 @@
                                             <span class="arrow"></span>
                                         </a>
                                     </li>
+                                    @endif
 
                                     <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
                                             <a href="javascript:;"> Fund Account
@@ -170,9 +171,8 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        @endif
 
-                                        @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
+                                        @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                                         <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                                             <a href="javascript:;"> Staffs 员工
                                                 <span class="arrow"></span>

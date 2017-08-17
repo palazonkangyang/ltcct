@@ -65,7 +65,14 @@ class AuthController extends Controller
         // }
         // }
 				else{
-					return redirect()->intended(URL::route('main-page'));
+					if ($user->role == 4) {
+	                return redirect()->intended(URL::route('manage-job-page'));
+	        }
+					else
+					{
+	            return redirect()->intended(URL::route('main-page'));
+	        }
+
 				}
 	}
 
@@ -117,9 +124,9 @@ class AuthController extends Controller
 				Session::forget('specialRemarks');
 			}
 
-			if(!Session::has('receipts'))
+			if(Session::has('receipts'))
 			{
-				Session::put('receipts', $receipts);
+				Session::forget('receipts');
 			}
 
       Auth::logout();
