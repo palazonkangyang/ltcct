@@ -25,7 +25,7 @@
     .acknowledge{
       background: #fff;
       width: 100%;
-      min-height: 300px;
+      min-height: 410px;
       overflow: hidden;
       margin: 10px auto 10px;
       padding: 10px 30px 30px;
