@@ -84,6 +84,7 @@
               <div class="hor-menu">
                 <ul class="nav navbar-nav">
 
+                  @if(Auth::user()->role != 4)
                   <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
                           <a href="/operator/index"> Main Page 主页
                               <span class="arrow"></span>
@@ -101,6 +102,7 @@
                               <span class="arrow"></span>
                           </a>
                       </li>
+                      @endif
 
                       <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
                               <a href="javascript:;"> Fund Account
@@ -176,7 +178,7 @@
                               </ul>
                           </li>
 
-                          @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                          @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
                           <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                               <a href="javascript:;"> Staffs 员工
                                   <span class="arrow"></span>
@@ -190,6 +192,9 @@
                                   </li>
                               </ul>
                           </li>
+                          @endif
+
+                          @if(Auth::user()->role == 1 || Auth::user()->role == 2)
 
                           <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                               <a href="javascript:;"> System Settings

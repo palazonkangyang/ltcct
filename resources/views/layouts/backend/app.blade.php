@@ -172,7 +172,7 @@
                                             </ul>
                                         </li>
 
-                                        @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                                        @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
                                         <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                                             <a href="javascript:;"> Staffs 员工
                                                 <span class="arrow"></span>
@@ -186,7 +186,9 @@
                                                 </li>
                                             </ul>
                                         </li>
+                                        @endif
 
+                                        @if(Auth::user()->role == 1 || Auth::user()->role == 2)
                                         <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
                                             <a href="javascript:;"> System Settings
                                                 <span class="arrow"></span>
