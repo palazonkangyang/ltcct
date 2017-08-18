@@ -24,7 +24,7 @@
 
           <ul class="page-breadcrumb breadcrumb">
               <li>
-                  <a href="/admin/dashboard">Home</a>
+                  <a href="/operator/index">Home</a>
                   <i class="fa fa-circle"></i>
               </li>
               <li>
@@ -84,7 +84,7 @@
                               <th width="30%">Actions</th>
                             </tr>
                             <tr>
-                              <th>Dialect Name</th>
+                              <th>Race Name</th>
                               <th>Actions</th>
                             </tr>
                           </thead>

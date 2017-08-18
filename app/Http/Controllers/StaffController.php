@@ -47,6 +47,23 @@ class StaffController extends Controller
 
 	public function postDonation(Request $request)
 	{
+		if(Session::has('cancellation_focusdevotee_xiangyou'))
+		{
+		  Session::forget('cancellation_focusdevotee_xiangyou');
+		}
+
+		if(Session::has('cancellation_sameaddr_xiangyou'))
+		{
+			Session::forget('cancellation_sameaddr_xiangyou');
+		}
+
+		if(Session::has('cancellation_differentaddr_xiangyou'))
+		{
+			Session::forget('cancellation_differentaddr_xiangyou');
+		}
+
+		$c = Session::get('cancellation_differentaddr_xiangyou');
+
 		$input = array_except($request->all(), '_token');
 
 		// Modify Receipt At fields
@@ -542,15 +559,97 @@ class StaffController extends Controller
 				if($result)
 				{
 					// $generaldonation_items = GeneralDonationItems::where('receipt')
-					$devotee_cancellation_lists = Devotee::leftjoin('generaldonation_items', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
+					$cancellation_lists = Devotee::leftjoin('generaldonation_items', 'devotee.devotee_id', '=', 'generaldonation_items.devotee_id')
 																				->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 																				->where('generaldonation_items.receipt_id', '=', $receipt->receipt_id)
 																				->select('devotee.*', 'generaldonation_items.amount', 'generaldonation_items.hjgr',
 																				'generaldonation_items.display', 'member.paytill_date')
 																				->get();
-				  // dd($devotee_cancellation_lists);
 
-					Session::put('devotee_cancellation_lists', $devotee_cancellation_lists);
+					$focus_devotee = Session::get('focus_devotee');
+
+					$xianyou_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+			                           ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+			                           ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+			                           ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+			                           ->where('devotee.familycode_id', $focus_devotee[0]->familycode_id)
+			                           ->where('devotee.devotee_id', '!=', $focus_devotee[0]->devotee_id)
+			                           ->where('setting_generaldonation.address_code', '=', 'same')
+			                           ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+			                           ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+			                           ->get();
+
+					$xianyou_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+													            ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+													            ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+													            ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+													            ->where('devotee.devotee_id', '!=', $focus_devotee[0]->devotee_id)
+													            ->where('setting_generaldonation.address_code', '=', 'different')
+													            ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+													            ->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+													            ->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+													            ->GroupBy('devotee.devotee_id')
+													            ->get();
+
+					if(Session::has('cancellation_focusdevotee_xiangyou'))
+					{
+						Session::forget('cancellation_focusdevotee_xiangyou');
+					}
+
+					if(Session::has('cancellation_sameaddr_xiangyou'))
+					{
+						Session::forget('cancellation_sameaddr_xiangyou');
+					}
+
+					if(Session::has('cancellation_differentaddr_xiangyou'))
+					{
+						Session::forget('cancellation_differentaddr_xiangyou');
+					}
+
+					for($i = 0; $i < count($cancellation_lists); $i++)
+					{
+						if($cancellation_lists[$i]->devotee_id == $focus_devotee[0]->devotee_id)
+						{
+							$focus_devotee[0]->amount = $cancellation_lists[$i]->amount;
+							$focus_devotee[0]->hjgr = $cancellation_lists[$i]->hjgr;
+							$focus_devotee[0]->display = $cancellation_lists[$i]->display;
+						}
+						else {
+							$focus_devotee[0]->amount = null;
+							$focus_devotee[0]->hjgr = null;
+							$focus_devotee[0]->display = null;
+						}
+					}
+
+					for($i = 0; $i < count($cancellation_lists); $i++)
+					{
+						for($j = 0; $j < count($xianyou_same_family); $j++)
+						{
+							if($cancellation_lists[$i]->devotee_id == $xianyou_same_family[$j]->devotee_id)
+							{
+								$xianyou_same_family[$j]->amount = $cancellation_lists[$i]->amount;
+								$xianyou_same_family[$j]->hjgr = $cancellation_lists[$i]->hjgr;
+								$xianyou_same_family[$j]->display = $cancellation_lists[$i]->display;
+							}
+						}
+					}
+
+					for($i = 0; $i < count($cancellation_lists); $i++)
+					{
+						for($j = 0; $j < count($xianyou_different_family); $j++)
+						{
+							if($cancellation_lists[$i]->devotee_id == $xianyou_different_family[$j]->devotee_id)
+							{
+								$xianyou_different_family[$j]->amount = $cancellation_lists[$i]->amount;
+								$xianyou_different_family[$j]->hjgr = $cancellation_lists[$i]->hjgr;
+								$xianyou_different_family[$j]->display = $cancellation_lists[$i]->display;
+							}
+						}
+					}
+
+					Session::put('cancellation_focusdevotee_xiangyou', $focus_devotee);
+					Session::put('cancellation_sameaddr_xiangyou', $xianyou_same_family);
+					Session::put('cancellation_differentaddr_xiangyou', $xianyou_different_family);
 
 					return redirect()->route('get-donation-page');
 				}

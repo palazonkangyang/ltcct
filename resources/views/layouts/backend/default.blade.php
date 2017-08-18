@@ -27,8 +27,16 @@
       width: 100%;
       min-height: 300px;
       overflow: hidden;
-      margin: 40px auto 10px;
+      margin: 10px auto 10px;
       padding: 10px 30px 30px;
+    }
+
+    .version{
+      overflow: hidden;
+      background: #fff;
+      padding: 20px;
+      width: 400px;
+      margin: 10px 0;
     }
     </style>
 

@@ -66,6 +66,11 @@ class Devotee extends Model
             $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
+        if (\Input::get("english_name")) {
+            $devotee->where('english_name', 'like', '%' . $input['english_name'] . '%');
+            $devotee->orderBy('devotee.devotee_id', 'asc');
+        }
+
         if (\Input::get("devotee_id")) {
             $devotee->where('devotee.devotee_id', '=', $input['devotee_id']);
             $devotee->orderBy('devotee.devotee_id', 'asc');

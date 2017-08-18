@@ -26,7 +26,7 @@
 
                     <ul class="page-breadcrumb breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="/operator/index">Home</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
@@ -151,16 +151,16 @@
                                                                             <tr>
                                                                                 <td>
 																																									@if($devotee->deceased_year != null)
-																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee text-danger" id="{{ $devotee->devotee_id }}">{{ $devotee->chinese_name }}</a>
+																																									<span class="text-danger">{{ $devotee->chinese_name }}</span>
 																																									@else
-																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee" id="{{ $devotee->devotee_id }}">{{ $devotee->chinese_name }}</a>
+																																									<span>{{ $devotee->chinese_name }}</span>
 																																									@endif
                                                                                 </td>
                                                                                 <td>
 																																									@if($devotee->specialremarks_devotee_id == null)
-																																									<span>{{ $devotee->devotee_id }}</span>
+																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee" id="{{ $devotee->devotee_id }}">{{ $devotee->devotee_id }}</a>
 																																									@else
-																																									<span class="text-danger">{{ $devotee->devotee_id }}</span>
+																																									<a href="/operator/devotee/{{ $devotee->devotee_id }}" class="edit-devotee text-danger" id="{{ $devotee->devotee_id }}">{{ $devotee->devotee_id }}</a>
 																																									@endif
 																																								</td>
 																																								<td>
@@ -249,17 +249,17 @@
                                                                             @foreach($members as $member)
                                                                             <tr>
                                                                                 <td>
-																																									@if($devotee->deceased_year == null)
-																																									<a href="/operator/devotee/{{ $member->devotee_id }}" id="edit-member">{{ $member->chinese_name }}</a>
+																																									@if($member->deceased_year == null)
+																																									<span>{{ $member->chinese_name }}</span>
 																																									@else
-																																									<a href="/operator/devotee/{{ $member->devotee_id }}" id="edit-member" class="text-danger">{{ $member->chinese_name }}</a>
+																																									<span class="text-danger">{{ $member->chinese_name }}</span>
 																																									@endif
 																																								</td>
                                                                                 <td>
 																																									@if($member->specialremarks_devotee_id == null)
-																																									<span>{{ $member->devotee_id }}</span>
+																																									<a href="/operator/devotee/{{ $member->devotee_id }}" id="edit-member">{{ $member->devotee_id }}</a>
 																																									@else
-																																									<span class="text-danger">{{ $member->devotee_id }}</span>
+																																									<a href="/operator/devotee/{{ $member->devotee_id }}" id="edit-member" class="text-danger">{{ $member->devotee_id }}</a>
 																																									@endif
 																																								</td>
                                                                                 <td>
@@ -325,6 +325,8 @@
 																																							<th>Address</th>
 																																							<th>Guiyi Name</th>
 																																							<th>Contact</th>
+																																							<th>Paid Till</th>
+																																							<th>Mailer</th>
 																																							<th>Last Trans Date</th>
 																																							<th>Family Code</th>
 																																						</tr>
@@ -335,6 +337,8 @@
 																																							<th>Address</th>
 																																							<th>Guiyi Name</th>
 																																							<th>Contact</th>
+																																							<th>Paid Till</th>
+																																							<th>Mailer</th>
 																																							<th>Last Trans Date</th>
 																																							<th>Family Code</th>
                                                                             </tr>
@@ -343,9 +347,27 @@
                                                                         <tbody>
                                                                             @foreach($deceased_lists as $deceased_list)
                                                                             <tr>
-                                                                                <td><span class="text-danger">{{ $deceased_list->chinese_name }}</span></td>
-                                                                                <td>{{ $deceased_list->devotee_id }}</td>
-                                                                                <td>{{ $deceased_list->member_id }}</td>
+																																							<td>
+																																								@if($deceased_list->deceased_year == null)
+																																								<span>{{ $deceased_list->chinese_name }}</span>
+																																								@else
+																																								<span class="text-danger">{{ $deceased_list->chinese_name }}</span>
+																																								@endif
+																																							</td>
+																																							<td>
+																																								@if($deceased_list->specialremarks_devotee_id == null)
+																																								<a href="/operator/devotee/{{ $deceased_list->devotee_id }}" id="edit-deceased-member">{{ $deceased_list->devotee_id }}</a>
+																																								@else
+																																								<a href="/operator/devotee/{{ $deceased_list->devotee_id }}" id="edit-deceased-member" class="text-danger">{{ $deceased_list->devotee_id }}</a>
+																																								@endif
+																																							</td>
+																																							<td>
+																																								@if(\Carbon\Carbon::parse($deceased_list->lasttransaction_at)->lt($date))
+																																								<span style="color: #a5a5a5;">{{ $deceased_list->member_id }}</span>
+																																								@else
+																																								<span>{{ $deceased_list->member_id }}</span>
+																																								@endif
+																																							</td>
                                                                                 <td>
 																																									@if(isset($deceased_list->oversea_addr_in_chinese))
 																																									{{ $deceased_list->oversea_addr_in_chinese }}
@@ -357,6 +379,16 @@
 																																								</td>
                                                                                 <td>{{ $deceased_list->guiyi_name }}</td>
 																																								<td>{{ $deceased_list->contact }}</td>
+																																								<td>
+																																									@if(isset($deceased_list->paytill_date) && \Carbon\Carbon::parse($deceased_list->paytill_date)->lt($now))
+																																									<span class="text-danger">{{ \Carbon\Carbon::parse($deceased_list->paytill_date)->format("d/m/Y") }}</span>
+																																									@elseif(isset($deceased_list->paytill_date))
+																																									<span>{{ \Carbon\Carbon::parse($deceased_list->paytill_date)->format("d/m/Y") }}</span>
+																																									@else
+																																								</td>
+																																								<span>{{ $deceased_list->paytill_date }}</span>
+																																								@endif
+																																								<td>{{ $deceased_list->mailer }}</td>
 																																								<td>
 																																									@if(isset($deceased_list->lasttransaction_at))
 																																									{{ \Carbon\Carbon::parse($deceased_list->lasttransaction_at)->format("d/m/Y") }}
@@ -1479,6 +1511,7 @@
 																																						<th>Address</th>
 																																						<th>Guiyi Name</th>
 																																						<th>Contact</th>
+																																						<th>Paid Till</th>
 																																						<th>Mailer</th>
 																																						<th>Last Trans Date</th>
 																																						<th>Family Code</th>
@@ -1490,6 +1523,7 @@
 																																						<th>Address</th>
 																																						<th>Guiyi Name</th>
 																																						<th>Contact</th>
+																																						<th>Paid Till</th>
 																																						<th>Mailer</th>
 																																						<th>Last Trans Date</th>
 																																						<th>Family Code</th>
@@ -1500,10 +1534,26 @@
 																																					@foreach($focus_devotee as $fd)
 																												                  <tr>
 																												                      <td>
-																																								<a href="/operator/devotee/{{ $fd->devotee_id }}">{{ $fd->chinese_name }}</a>
+																																								@if($fd->deceased_year == null)
+																																			          <span>{{ $fd->chinese_name }}</span>
+																																			          @else
+																																			          <span class="text-danger">{{ $fd->chinese_name }}</span>
+																																			          @endif
 																																							</td>
-																												                      <td>{{ $fd->devotee_id }}</td>
-																												                      <td>{{ $fd->member_id }}</td>
+																												                      <td>
+																																								@if($fd->specialremarks_devotee_id == null)
+																																			          <a href="/operator/devotee/{{ $fd->devotee_id }}">{{ $fd->devotee_id }}</a>
+																																			          @else
+																																			          <a href="/operator/devotee/{{ $fd->devotee_id }}" class="text-danger">{{ $fd->devotee_id }}</a>
+																																			          @endif
+																																							</td>
+																												                      <td>
+																																								@if(\Carbon\Carbon::parse($fd->lasttransaction_at)->lt($date))
+																																			          <span style="color: #a5a5a5;">{{ $fd->member_id }}</span>
+																																			          @else
+																																			          <span>{{ $fd->member_id }}</span>
+																																			          @endif
+																																							</td>
 																												                      <td>
 																																								@if(isset($fd->oversea_addr_in_chinese))
 																																								{{ $fd->oversea_addr_in_chinese }}
@@ -1515,9 +1565,24 @@
 																																							</td>
 																												                      <td>{{ $fd->guiyi_name }}</td>
 																																							<td>{{ $fd->contact }}</td>
-																																							<td>{{ $fd->mailer }}</td>
-																																							<td></td>
-																												                      <td>{{ $fd->familycode }}</td>
+																																							<td>
+																																			          @if(isset($fd->paytill_date) && \Carbon\Carbon::parse($fd->paytill_date)->lt($now))
+																																			          <span class="text-danger">{{ \Carbon\Carbon::parse($fd->paytill_date)->format("d/m/Y") }}</span>
+																																			          @elseif(isset($fd->paytill_date))
+																																			          <span>{{ \Carbon\Carbon::parse($fd->paytill_date)->format("d/m/Y") }}</span>
+																																			          @else
+																																			        </td>
+																																			        <span>{{ $fd->paytill_date }}</span>
+																																			        @endif
+																																			        <td>{{ $fd->mailer }}</td>
+																																			        <td>
+																																			          @if(isset($fd->lasttransaction_at))
+																																			          {{ \Carbon\Carbon::parse($fd->lasttransaction_at)->format("d/m/Y") }}
+																																			          @else
+																																			          {{ $fd->lasttransaction_at }}
+																																			          @endif
+																																			        </td>
+																																			        <td>{{ $fd->familycode }}</td>
 																												                  </tr>
 																												                  @endforeach
 																												              </tbody>
@@ -1529,13 +1594,16 @@
 																												          <table class="table table-bordered" id="search_table">
 																												              <thead>
 																												                  <tr>
-																												                      <th>Chinese Name</th>
-																												                      <th>Devotee#</th>
-																												                      <th>Member#</th>
-																												                      <th>Address</th>
-																												                      <th>Unit</th>
-																												                      <th>Guiyi Name</th>
-																												                      <th>Family Code</th>
+																																						<th>Chinese Name</th>
+																																						<th>Devotee</th>
+																																						<th>Member</th>
+																																						<th>Address</th>
+																																						<th>Guiyi Name</th>
+																																						<th>Contact</th>
+																																						<th>Paid Till</th>
+																																						<th>Mailer</th>
+																																						<th>Last Trans Date</th>
+																																						<th>Family Code</th>
 																												                  </tr>
 																												              </thead>
 
@@ -1891,7 +1959,7 @@
 					$("#devotees_table thead input").on( 'keyup change', function () {
 							table
 									.column( $(this).parent().index()+':visible' )
-									.search( this.value )
+									.search( this.value, true, false )
 									.draw();
 					});
 
@@ -1918,7 +1986,7 @@
           $("#members_table thead input").on( 'keyup change', function () {
               member_table
                 .column( $(this).parent().index()+':visible' )
-                .search( this.value )
+                .search( this.value, true, false )
                 .draw();
           });
 
@@ -1943,11 +2011,19 @@
 
           // Apply the filter
           $("#deceased_table thead input").on( 'keyup change', function () {
-              member_table
+              deceased_table
                 .column( $(this).parent().index()+':visible' )
-                .search( this.value )
+                .search( this.value, true, false )
                 .draw();
           });
+
+					function stopPropagation3(evt) {
+            if (evt.stopPropagation !== undefined) {
+                    evt.stopPropagation();
+            } else {
+                    evt.cancelBubble = true;
+            }
+        	}
 
 					// DataTable
           var search_table = $('#search_table').DataTable({
@@ -1964,7 +2040,7 @@
           $("#search_table thead input").on( 'keyup change', function () {
               search_table
                 .column( $(this).parent().index()+':visible' )
-                .search( this.value )
+                .search( this.value, true, false )
                 .draw();
           });
 

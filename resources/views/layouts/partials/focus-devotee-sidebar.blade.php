@@ -4,11 +4,7 @@
 
         @if(Session::has('focus_devotee'))
 
-            @php
-
-                $focus_devotee = Session::get('focus_devotee');
-
-            @endphp
+            @php $focus_devotee = Session::get('focus_devotee'); @endphp
 
             @if(count($focus_devotee) > 1)
 
@@ -41,6 +37,11 @@
                           <div class="form-group">
                               <label>Name (in Chinese)</label>
                               <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}">
+                          </div><!-- end form-group -->
+
+                          <div class="form-group">
+                              <label>English Name</label>
+                              <input type="text" class="form-control" name="english_name" value="{{ old('english_name') }}">
                           </div><!-- end form-group -->
 
                           <div class="form-group">
@@ -437,6 +438,11 @@
                       <div class="form-group">
                           <label>Name (in Chinese)</label>
                           <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}">
+                      </div><!-- end form-group -->
+
+                      <div class="form-group">
+                          <label>English Name</label>
+                          <input type="text" class="form-control" name="english_name" value="{{ old('english_name') }}">
                       </div><!-- end form-group -->
 
                       <div class="form-group">

@@ -443,8 +443,9 @@
 @section('custom-js')
 
 <script src="{{asset('js/custom/common.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>\\
 
 <script type="text/javascript">
 
@@ -592,8 +593,6 @@
           dataType: 'json',
           success: function(response)
           {
-            alert(JSON.stringify(response.glcode));
-
             localStorage.setItem('edit_glcode_id', response.glcode['glcode_id']);
             localStorage.setItem('edit_glcodegroup_id', response.glcode['glcodegroup_id']);
             localStorage.setItem('edit_job_id', response.glcode['job_id']);
@@ -705,8 +704,8 @@
     });
 
     // DataTable
-    var table = $('#glaccount-table').DataTable({
-      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+    var member_table = $('#glaccount-table').DataTable({
+        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
     });
 
     $('#glaccount-table thead tr#filter th').each( function () {
@@ -716,10 +715,10 @@
 
     // Apply the filter
     $("#glaccount-table thead input").on( 'keyup change', function () {
-        table
-            .column( $(this).parent().index()+':visible' )
-            .search( this.value )
-            .draw();
+        member_table
+          .column( $(this).parent().index()+':visible' )
+          .search( this.value )
+          .draw();
     });
 
     function stopPropagation(evt) {

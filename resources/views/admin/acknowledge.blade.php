@@ -8,7 +8,7 @@
 
           <div class="page-head">
 
-              <div class="container">
+              <div class="container-fluid">
 
                 <div class="page-title">
 
@@ -22,11 +22,11 @@
 
           <div class="page-content">
 
-              <div class="container">
+              <div class="container-fluid">
 
                   <ul class="page-breadcrumb breadcrumb">
                       <li>
-                          <a href="/admin/dashboard">Home</a>
+                          <a href="/operator/index">Home</a>
                           <i class="fa fa-circle"></i>
                       </li>
                       <li>
@@ -89,7 +89,7 @@
                                           <div class="form-group">
                                               <label>Prelogin Notes</label>
 
-                                              <textarea name="prelogin_notes" class="form-control" rows="5" id="prelogin_notes">{{ $acknowledge[0]->prelogin_notes }}</textarea>
+                                              <textarea name="prelogin_notes" class="form-control ckeditor" rows="5" id="prelogin_notes">{{ $acknowledge[0]->prelogin_notes }}</textarea>
 
                                           </div><!-- end form-group -->
 
@@ -135,6 +135,8 @@
 
 @section('script-js')
 
+  <script src="http://live.bookabirdie.com/components/ckeditor/ckeditor.js"></script>
+  
   <script type="text/javascript">
     $(function() {
 

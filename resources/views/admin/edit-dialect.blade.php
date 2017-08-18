@@ -32,6 +32,9 @@
               </li>
           </ul>
 
+          <div class="validation-error">
+          </div><!-- end validation-error -->
+
           @if($errors->any())
 
               <div class="alert alert-danger">
@@ -85,7 +88,8 @@
                         <div class="form-group">
                             <div class="col-md-6">
                               <label>Dialect Name</label>
-                              <input name="dialect_name" class="form-control" placeholder="" type="text" value="{{ old( 'dialect_name', $dialect->dialect_name) }}">
+                              <input name="dialect_name" class="form-control" placeholder="" type="text"
+                              value="{{ old( 'dialect_name', $dialect->dialect_name) }}" id="dialect_name">
                             </div><!-- end col-md-6 -->
 
                             <div class="col-md-6">
@@ -98,7 +102,7 @@
                       </div><!-- end form-body -->
 
                       <div class="form-actions">
-                          <button type="submit" class="btn blue">Update</button>
+                          <button type="submit" class="btn blue" id="update-dialect-btn">Update</button>
                           <button type="reset" class="btn default">Cancel</button>
                       </div><!-- end form-actions -->
 
@@ -121,5 +125,52 @@
     </div><!-- end page-content-wrapper -->
 
   </div><!-- end page-container -->
+
+@stop
+
+@section('script-js')
+
+  <script type="text/javascript">
+
+    $(function() {
+      $("#update-dialect-btn").click(function() {
+
+        var count = 0;
+        var errors = new Array();
+        var validationFailed = false;
+        var alphanumers = /^[a-zA-Z0-9_ -]+$/;
+
+        if(!alphanumers.test($("#dialect_name").val())){
+          validationFailed = true;
+          errors[count++] = "Dialect Name cannot fill special Character.";
+        }
+
+        if (validationFailed)
+        {
+            var errorMsgs = '';
+
+            for(var i = 0; i < count; i++)
+            {
+                errorMsgs = errorMsgs + errors[i] + "<br/>";
+            }
+
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+            $(".validation-error").addClass("bg-danger alert alert-error")
+            $(".validation-error").html(errorMsgs);
+
+            return false;
+        }
+
+        else
+        {
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
+        }
+
+      });
+    });
+
+  </script>
 
 @stop

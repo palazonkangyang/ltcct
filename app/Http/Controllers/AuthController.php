@@ -65,14 +65,7 @@ class AuthController extends Controller
         // }
         // }
 				else{
-					if ($user->role == 4) {
-	                return redirect()->intended(URL::route('manage-job-page'));
-	        }
-					else
-					{
-	            return redirect()->intended(URL::route('main-page'));
-	        }
-
+					return redirect()->intended(URL::route('main-page'));
 				}
 	}
 

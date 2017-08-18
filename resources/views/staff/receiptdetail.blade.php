@@ -83,10 +83,10 @@
                            <div class="col-md-12">
 
                              <div class="col-md-6 info-detail">
-                               <p>Receipt Date : {{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</p>
-                               <p>Paid By : {{ $receipt[0]->chinese_name }} (D - {{ $receipt[0]->devotee_id }})</p>
-                               <p>Description : {{ $receipt[0]->description }}</p>
-                               <p>Donation for next Event : {{ $festiveevent->event }}</p>
+                               <p>Receipt Date (日期) : {{ \Carbon\Carbon::parse($receipt[0]->trans_date)->format("d/m/Y") }}</p>
+                               <p>Paid By (付款者) : {{ $receipt[0]->chinese_name }} (D - {{ $receipt[0]->devotee_id }})</p>
+                               <p>Description (项目) : 香油</p>
+                               <p>Donation for Next Event (法会香油) : {{ $festiveevent->event }}</p>
                              </div><!-- end col-md-6 -->
 
                              <div class="col-md-6 info-detail">
@@ -239,9 +239,10 @@
                               <div class="col-md-6">
                                 <div class="form-actions">
                                   @if(!Session::has('cancelled_date'))
-                                    <button type="submit" class="btn blue" id="receipt_cancel_btn">Cancel</button>
+                                    <button type="submit" class="btn blue" id="receipt_cancel_btn">Cancel & Replace Transaction</button>
+                                    <a href="/staff/cancel-transaction/{{ $receipt[0]->receipt_id }}" class="btn default">Cancel Transaction</a>
                                   @endif
-                                    <a href="/staff/donation" class="btn default">Back</a>
+                                  <a href="/staff/donation" class="btn default">Back</a>
                                 </div><!-- end form-actions -->
                               </div><!-- end col-md-6 -->
 
@@ -282,5 +283,50 @@
 @section('custom-js')
 
 <script src="{{asset('js/custom/common.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+  $(function() {
+
+    $("#receipt_cancel_btn").click(function() {
+
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+      var authorized_password = $("#authorized_password").val();
+
+      if ($.trim(authorized_password).length <= 0)
+      {
+          validationFailed = true;
+          errors[count++] = "Unauthorised User Access !! Changes will NOT be Saved !! Please re-enter Authorised User Access to save Changes !!"
+      }
+
+      if (validationFailed)
+      {
+          var errorMsgs = '';
+
+          for(var i = 0; i < count; i++)
+          {
+              errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
+
+          return false;
+      }
+
+      else
+      {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+      }
+
+    });
+  });
+</script>
 
 @stop

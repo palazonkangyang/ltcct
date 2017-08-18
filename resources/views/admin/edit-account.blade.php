@@ -34,6 +34,9 @@
                         </li>
                     </ul>
 
+										<div class="validation-error">
+										</div><!-- end validation-error -->
+
                     @if($errors->any())
 
                         <div class="alert alert-danger">
@@ -97,7 +100,7 @@
                                                     <label>Last Name</label>
 
                                                     <input type="text" class="form-control" name="last_name"
-                                                        value="{{ old( 'first_name', $staff->last_name) }}">
+                                                        value="{{ old( 'last_name', $staff->last_name) }}">
 
                                                 </div><!-- end form-group -->
 
@@ -105,21 +108,21 @@
                                                     <label>User Name</label>
 
                                                     <input type="text" class="form-control" name="user_name"
-                                                            value="{{ old( 'first_name', $staff->user_name) }}">
+                                                            value="{{ old( 'user_name', $staff->user_name) }}">
 
                                                 </div><!-- end form-group -->
 
                                                 <div class="form-group">
                                                     <label>Password</label>
 
-                                                    <input type="password" class="form-control" name="password">
+                                                    <input type="password" class="form-control" name="password" id="password">
 
                                                 </div><!-- end form-group -->
 
                                                 <div class="form-group">
                                                     <label>Confirm Password</label>
 
-                                                    <input type="password" class="form-control" name="confirm_password">
+                                                    <input type="password" class="form-control" name="confirm_password" id="confirm_password">
 
                                                 </div><!-- end form-group -->
 
@@ -164,7 +167,7 @@
                                             </div><!-- end form-body -->
 
                                             <div class="form-actions">
-                                                <button type="submit" class="btn blue">Update</button>
+                                                <button type="submit" class="btn blue" id="update-account-btn">Update</button>
                                                 <button type="button" class="btn default">Cancel</button>
                                             </div><!-- end form-actions -->
 
@@ -189,5 +192,57 @@
         </div><!-- end page-content-wrapper -->
 
     </div><!-- end page-container -->
+
+@stop
+
+@section('script-js')
+
+<script type="text/javascript">
+	$(function() {
+
+		$("#update-account-btn").click(function() {
+
+			var count = 0;
+			var errors = new Array();
+			var validationFailed = false;
+
+			var password = $("#password").val();
+			var confirm_password = $("#confirm_password").val();
+
+			if ($.trim(password).length > 0)
+      {
+				if ($.trim(confirm_password).length <= 0)
+				{
+						validationFailed = true;
+						errors[count++] = "Confirm Password should not be empty.";
+				}
+      }
+
+			if (validationFailed)
+			{
+					var errorMsgs = '';
+
+					for(var i = 0; i < count; i++)
+					{
+							errorMsgs = errorMsgs + errors[i] + "<br/>";
+					}
+
+					$('html,body').animate({ scrollTop: 0 }, 'slow');
+
+					$(".validation-error").addClass("bg-danger alert alert-error")
+					$(".validation-error").html(errorMsgs);
+
+					return false;
+			}
+
+			else
+			{
+					$(".validation-error").removeClass("bg-danger alert alert-error")
+					$(".validation-error").empty();
+			}
+		});
+
+	});
+</script>
 
 @stop

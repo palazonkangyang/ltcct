@@ -152,6 +152,10 @@ class OperatorController extends Controller
 			$devotee[0]->approved_date = Carbon::parse($devotee[0]->approved_date)->format("d/m/Y");
 		}
 
+		$focusdevotee_specialremarks = Devotee::leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+		          ->where('devotee.devotee_id', $devotee_id)
+		          ->get();
+
 		$xianyou_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
                            ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
                            ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
@@ -208,6 +212,7 @@ class OperatorController extends Controller
 	  $specialRemarks = SpecialRemarks::where('devotee_id', $devotee_id)->get();
 
 	  Session::put('focus_devotee', $devotee);
+		Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
 		Session::put('devotee_lists', $devotee_lists);
 		Session::put('xianyou_same_family', $xianyou_same_family);
 		Session::put('xianyou_different_family', $xianyou_different_family);
@@ -1423,9 +1428,24 @@ class OperatorController extends Controller
 				Session::put('specialRemarks', $specialRemarks);
 			}
 
-			if(!Session::has('relative_friend_lists'))
+			if(!Session::has('xianyou_same_family'))
 			{
-				Session::put('relative_friend_lists', $relative_friend_lists);
+				Session::put('xianyou_same_family', "");
+			}
+
+			if(!Session::has('xianyou_different_family'))
+			{
+				Session::put('xianyou_different_family', "");
+			}
+
+			if(!Session::has('setting_samefamily'))
+			{
+				Session::put('setting_samefamily', "");
+			}
+
+			if(!Session::has('setting_differentfamily'))
+			{
+				Session::put('setting_differentfamily', "");
 			}
 
 			if(!Session::has('receipts'))

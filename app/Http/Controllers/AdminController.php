@@ -136,36 +136,54 @@ class AdminController extends Controller
 	{
 		$input = Input::except('_token');
 
-    $validator = $this->validate($request, [
-      'user_name'	=> 'required|string',
-      'password' => 'required',
-      'confirm_password' => 'required',
-      'role' => 'required'
-    ]);
+    // $validator = $this->validate($request, [
+    //   'user_name'	=> 'required|string',
+    //   'role' => 'required'
+    // ]);
+		//
+    // if ($validator && $validator->fails()) {
+    //   return redirect()->back()
+    //         ->withErrors($validator)
+    //         ->withInput();
+    // }
 
-    if ($validator && $validator->fails()) {
-      return redirect()->back()
-            ->withErrors($validator)
-            ->withInput();
-    }
+    if(isset($input['password']) && isset($input['confirm_password']))
+		{
+			if ($input['password'] != $input['confirm_password']) {
 
-    if ($input['password'] != $input['confirm_password']) {
+	      $request->session()->flash('error', "Password don't match. Please Try Again");
+	      return redirect()->back()->withInput();
+	    }
 
-      $request->session()->flash('error', "Password don't match. Please Try Again");
-      return redirect()->back()->withInput();
-    }
+			else
+			{
+				$staff = User::find($input['staff_id']);
 
-    $staff = User::find($input['staff_id']);
+		    $staff->first_name = $input['first_name'];
+		    $staff->last_name = $input['last_name'];
+		    $staff->user_name = $input['user_name'];
+		    $staff->password = Hash::make($input['password']);
+		    $staff->role = $input['role'];
+		    $staff->save();
+			}
 
-    $staff->first_name = $input['first_name'];
-    $staff->last_name = $input['last_name'];
-    $staff->user_name = $input['user_name'];
-    $staff->password = Hash::make($input['password']);
-    $staff->role = $input['role'];
-    $staff->save();
+			$request->session()->flash('success', 'User account has been updated!');
+	    return redirect()->route('all-accounts-page');
+		}
 
-    $request->session()->flash('success', 'User account has been updated!');
-    return redirect()->route('all-accounts-page');
+		else {
+			$staff = User::find($input['staff_id']);
+
+			$staff->first_name = $input['first_name'];
+			$staff->last_name = $input['last_name'];
+			$staff->user_name = $input['user_name'];
+			$staff->password = Hash::make($input['password']);
+			$staff->role = $input['role'];
+			$staff->save();
+
+			$request->session()->flash('success', 'User account has been updated!');
+			return redirect()->route('all-accounts-page');
+		}
 	}
 
 	// Delete Account

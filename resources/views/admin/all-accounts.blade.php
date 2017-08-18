@@ -25,7 +25,7 @@
 
                     <ul class="page-breadcrumb breadcrumb">
                         <li>
-                            <a href="/admin/dashboard">Home</a>
+                            <a href="/operator/index">Home</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
@@ -104,7 +104,7 @@
                                                 				<i class="fa fa-edit"></i> Edit
                                                 			</a>
 
-                                                			<a href="{{ URL::to('/admin/account/delete/' . $staff->id) }}" class="btn btn-outline btn-circle dark btn-sm black">
+                                                			<a href="{{ URL::to('/admin/account/delete/' . $staff->id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-account">
                                                 				<i class="fa fa-trash-o"></i> Delete
                                                 			</a>
                                                 		</td>
@@ -173,6 +173,14 @@
 					evt.cancelBubble = true;
 				}
 			}
+
+			$("#all-accounts-table").on('click', '.delete-account', function() {
+        if (!confirm("Do you confirm you want to delete this record? Note that this process is irreversable.")){
+          return false;
+        }
+      });
+
+			$("#filter input[type=text]:last").css("display", "none");
 		});
 	</script>
 
