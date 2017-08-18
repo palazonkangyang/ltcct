@@ -35,7 +35,7 @@
       overflow: hidden;
       background: #fff;
       padding: 20px;
-      width: 400px;
+      width: 100%;
       margin: 10px 0;
     }
     </style>
