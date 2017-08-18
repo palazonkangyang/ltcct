@@ -32,6 +32,9 @@
               </li>
           </ul>
 
+          <div class="validation-error">
+          </div><!-- end validation-error -->
+
           @if($errors->any())
 
               <div class="alert alert-danger">
@@ -79,7 +82,8 @@
                         <div class="form-group">
                             <div class="col-md-6">
                               <label>Race Name</label>
-                              <input name="race_name" class="form-control" placeholder="" type="text" value="{{ old('race_name') }}">
+                              <input name="race_name" class="form-control" placeholder="" type="text"
+                              value="{{ old('race_name') }}" id="race_name">
                             </div><!-- end col-md-6 -->
 
                             <div class="col-md-6">
@@ -92,7 +96,7 @@
                       </div><!-- end form-body -->
 
                       <div class="form-actions">
-                          <button type="submit" class="btn blue">Create</button>
+                          <button type="submit" class="btn blue" id="create-race-btn">Create</button>
                           <button type="reset" class="btn default">Cancel</button>
                       </div><!-- end form-actions -->
 
@@ -115,5 +119,64 @@
     </div><!-- end page-content-wrapper -->
 
   </div><!-- end page-container -->
+
+@stop
+
+@section('script-js')
+
+  <script type="text/javascript">
+
+    $(function() {
+      $("#create-race-btn").click(function() {
+
+        $(".alert-success").remove();
+        $(".validation-error").empty();
+
+        var count = 0;
+        var errors = new Array();
+        var validationFailed = false;
+        var race_name = $("#race_name").val();
+        var alphanumers = /^[a-zA-Z0-9_ -]+$/;
+
+        if(race_name != "")
+        {
+          if(!alphanumers.test(race_name)){
+            validationFailed = true;
+            errors[count++] = "Race Name cannot be special Character.";
+          }
+        }
+
+        if ($.trim(race_name).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Race Name is empty."
+        }
+
+        if (validationFailed)
+        {
+            var errorMsgs = '';
+
+            for(var i = 0; i < count; i++)
+            {
+                errorMsgs = errorMsgs + errors[i] + "<br/>";
+            }
+
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+            $(".validation-error").addClass("bg-danger alert alert-error")
+            $(".validation-error").html(errorMsgs);
+
+            return false;
+        }
+
+        else
+        {
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
+        }
+      });
+    });
+
+  </script>
 
 @stop

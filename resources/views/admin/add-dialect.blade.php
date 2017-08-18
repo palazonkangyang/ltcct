@@ -32,6 +32,9 @@
               </li>
           </ul>
 
+          <div class="validation-error">
+          </div><!-- end validation-error -->
+
           @if($errors->any())
 
               <div class="alert alert-danger">
@@ -79,7 +82,8 @@
                         <div class="form-group">
                             <div class="col-md-6">
                               <label>Dialect Name</label>
-                              <input name="dialect_name" class="form-control" placeholder="" type="text" value="{{ old('dialect_name') }}">
+                              <input name="dialect_name" class="form-control" placeholder="" type="text"
+                              value="{{ old('dialect_name') }}" id="dialect_name">
                             </div><!-- end col-md-6 -->
 
                             <div class="col-md-6">
@@ -92,7 +96,7 @@
                       </div><!-- end form-body -->
 
                       <div class="form-actions">
-                          <button type="submit" class="btn blue">Create</button>
+                          <button type="submit" class="btn blue" id="create-dialect-btn">Create</button>
                           <button type="reset" class="btn default">Cancel</button>
                       </div><!-- end form-actions -->
 
@@ -115,5 +119,55 @@
     </div><!-- end page-content-wrapper -->
 
   </div><!-- end page-container -->
+
+@stop
+
+@section('script-js')
+
+  <script type="text/javascript">
+
+    $(function() {
+      $("#create-dialect-btn").click(function() {
+
+        $(".alert-success").remove();
+        $(".validation-error").empty();
+
+        var count = 0;
+        var errors = new Array();
+        var validationFailed = false;
+        var dialect_name = $("#dialect_name").val();
+
+        if ($.trim(dialect_name).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Dialect Name is empty."
+        }
+
+        if (validationFailed)
+        {
+            var errorMsgs = '';
+
+            for(var i = 0; i < count; i++)
+            {
+                errorMsgs = errorMsgs + errors[i] + "<br/>";
+            }
+
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+            $(".validation-error").addClass("bg-danger alert alert-error")
+            $(".validation-error").html(errorMsgs);
+
+            return false;
+        }
+
+        else
+        {
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
+        }
+      });
+    });
+
+  </script>
 
 @stop

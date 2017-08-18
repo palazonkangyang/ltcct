@@ -135,14 +135,18 @@
     $(function() {
       $("#update-dialect-btn").click(function() {
 
+        $(".alert-success").remove();
+        $(".validation-error").empty();
+
         var count = 0;
         var errors = new Array();
         var validationFailed = false;
-        var alphanumers = /^[a-zA-Z0-9_ -]+$/;
+        var dialect_name = $("#dialect_name").val();
 
-        if(!alphanumers.test($("#dialect_name").val())){
-          validationFailed = true;
-          errors[count++] = "Dialect Name cannot fill special Character.";
+        if ($.trim(dialect_name).length <= 0)
+        {
+            validationFailed = true;
+            errors[count++] = "Dialect Name is empty."
         }
 
         if (validationFailed)
@@ -167,7 +171,6 @@
             $(".validation-error").removeClass("bg-danger alert alert-error")
             $(".validation-error").empty();
         }
-
       });
     });
 
