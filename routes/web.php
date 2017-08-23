@@ -80,18 +80,22 @@ Route::group(['middleware' => 'auth'], function () {
   Route::group(['prefix' => 'staff'], function () {
     Route::get('/search-devotee', ['as' => 'search-devotee-page', 'uses' => 'StaffController@getSearchDevotee']);
 		Route::get('/search-devotee-id', ['as' => 'search-devotee-id-page', 'uses' => 'StaffController@getSearchDevoteeID']);
+		Route::get('/transaction-detail', ['as' => 'transaction-detail-page', 'uses' => 'StaffController@getTransactionDetail']);
 		Route::get('/insert-devotee', ['as' => 'insert-devotee-page', 'uses' => 'StaffController@getInsertDevotee']);
     Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
     Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
-		Route::get('/receiptdetail/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceiptDetail']);
+		Route::get('/generaldonation/{generaldonation_id}', ['as' => 'receipt-detail-page', 'uses' => 'StaffController@getReceiptDetail']);
     Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
 		Route::get('/create-festive-event', ['as' => 'create-festive-event-page', 'uses' => 'StaffController@getCreateFestiveEvent']);
+		Route::get('/print', ['as' => 'print-page', 'uses' => 'StaffController@getPrint']);
 
 		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);
     Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
 		Route::post('/samefamily-setting', ['as' => 'post-samefamily-setting-page', 'uses' => 'StaffController@postSameFamilySetting']);
 		Route::post('/differentfamily-setting', ['as' => 'post-differentfamily-setting-page', 'uses' => 'StaffController@postDifferentFamilySetting']);
 		Route::post('/receipt-cancellation', ['as' => 'receipt-cancellation-page', 'uses' => 'StaffController@postReceiptCancellation']);
+		Route::post('/cancel-replace-transaction', ['as' => 'cancel-replace-transaction-page', 'uses' => 'StaffController@postCancelReplaceTransaction']);
+		Route::post('/reprint-detail', ['as' => 'reprint-detail-page', 'uses' => 'StaffController@ReprintDetail']);
   });
 
 	Route::group(['prefix' => 'account'], function () {

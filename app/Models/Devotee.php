@@ -1,7 +1,6 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 use DB;
 
 class Devotee extends Model
@@ -15,6 +14,7 @@ class Devotee extends Model
         'chinese_name',
         'english_name',
         'contact',
+        'email',
         'guiyi_name',
         'address_houseno',
         'address_unit1',

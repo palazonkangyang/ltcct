@@ -1675,6 +1675,14 @@
 						return false;
 					});
 
+					// Disabled Quick Search Button
+			    var chinese_name = $("#chinese_name").val();
+
+			    if(chinese_name)
+			    {
+						$('.nav-tabs li:eq(6) a').tab('show');
+			    }
+
 					$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
 							localStorage.setItem('activeTab', $(e.target).attr('href'));
 					});

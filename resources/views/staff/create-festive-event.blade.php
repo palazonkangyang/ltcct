@@ -101,8 +101,7 @@
                                                                 <tr class="event-row">
                                                                     <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
                                                                     <td>
-                                                                      <select class="form-control" name="job_id[]">
-                                                                        <option value="">Please Select</option>
+                                                                      <select class="form-control" name="job_id[]" id="job_id">
                                                                         <option value="1" <?php if ($event->job_id == "1") echo "selected"; ?>>Spring Festival</option>
                                                                         <option value="2" <?php if ($event->job_id == "2") echo "selected"; ?>>Festival 1</option>
                                                                         <option value="3" <?php if ($event->job_id == "3") echo "selected"; ?>>Festival 2</option>
@@ -212,7 +211,7 @@
         $("#addEventRow").click(function() {
 
           $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-              "<td><select class='form-control' name='job_id[]'><option value=''>Please Select</option><option value='1'>Spring Festival</option>" +
+              "<td><select class='form-control' name='job_id[]' id='job_id'><option value='1'>Spring Festival</option>" +
               "<option value='2'>Festival 1</option><option value='3'>Festival 2</option></select></td>" +
               "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value='' id='job_date'></td>" +
               "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value='' id='end_at'></td>" +

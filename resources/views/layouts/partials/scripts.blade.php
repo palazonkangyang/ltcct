@@ -16,9 +16,9 @@
         <script src="{{ asset('/js/jquery.flot.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/jquery.flot.resize.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/jquery.flot.categories.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('/js/jquery.easypiechart.min.js') }}" type="text/javascript"></script>
+        <!-- <script src="{{ asset('/js/jquery.easypiechart.min.js') }}" type="text/javascript"></script> -->
         <script src="{{ asset('/js/jquery.sparkline.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('/js/jquery.vmap.js') }}" type="text/javascript"></script>
+        <!-- <script src="{{ asset('/js/jquery.vmap.js') }}" type="text/javascript"></script> -->
 
         <script src="{{ asset('/js/jstree.min.js') }}" type="text/javascript"></script>
 
@@ -26,7 +26,7 @@
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
         <script src="{{ asset('/js/bootstrap-timepicker.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
-        <script src="{{ asset('/js/components-date-time-pickers.min.js') }}" type="text/javascript"></script>
+        <!-- <script src="{{ asset('/js/components-date-time-pickers.min.js') }}" type="text/javascript"></script> -->
         <script src="{{ asset('/js/table-datatables-scroller.min.js') }}" type="text/javascript"></script>
 
         <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>

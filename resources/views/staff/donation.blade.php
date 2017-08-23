@@ -104,6 +104,9 @@
                                                   </li>
 
 																									<li class="pull-right">
+                                                    <a href="#tab_transactiondetail" data-toggle="tab">Search <br> 交易详情 </a>
+                                                  </li>
+																									<li class="pull-right">
                                                     <a href="#tab_relative_friends" data-toggle="tab">Relative & Friends <br> 亲戚朋友 </a>
                                                   </li>
 																									<li class="pull-right">
@@ -118,7 +121,7 @@
                                                     		<div class="form-body">
 
                                                     			<form method="post" action="{{ URL::to('/staff/donation') }}"
-                                                    				class="form-horizontal form-bordered" id="">
+                                                    				class="form-horizontal form-bordered" id="donation-form">
 
                                                     				{!! csrf_field() !!}
 
@@ -134,10 +137,10 @@
 																																								<th>Member#</th>
                                                                                 <th>Address</th>
                                                                                 <th>Guiyi Name</th>
-                                                                                <th>Amount</th>
-                                                                                <th>Pay Till</th>
-                                                                                <th>HJ/ GR</th>
-                                                                                <th>Display</th>
+                                                                                <th width="80px">Amount</th>
+                                                                                <th width="80px">Pay Till</th>
+                                                                                <th width="100px">HJ/ GR</th>
+                                                                                <th width="80px">Display</th>
                                                                                 <th>XYReceipt</th>
                                                                                 <th>Trans Date</th>
                                                                             </tr>
@@ -146,71 +149,6 @@
                                                                         @if(Session::has('devotee_lists'))
 
                                                                         <tbody id="has_session">
-                                                                            @if(count($cancellation_focusdevotee) > 0)
-
-																																						<tr>
-                                                                            	<td>
-																																								@if($cancellation_focusdevotee[0]->deceased_year != null)
-																																								<span class="text-danger">{{ $cancellation_focusdevotee[0]->chinese_name }}</span>
-																																								@else
-																																								<span>{{ $cancellation_focusdevotee[0]->chinese_name }}</span>
-																																								@endif
-																																							</td>
-                                                                            	<td>
-																																								@if($cancellation_focusdevotee[0]->specialremarks_devotee_id == null)
-																																								<span>{{ $cancellation_focusdevotee[0]->devotee_id }}</span>
-																																								@else
-																																								<span class="text-danger">{{ $cancellation_focusdevotee[0]->devotee_id }}</span>
-																																								@endif
-                                                                            		<input type="hidden" name="devotee_id[]" value="{{ $focus_devotee[0]->devotee_id }}">
-                                                                            	</td>
-																																							<td>
-																																								@if(\Carbon\Carbon::parse($cancellation_focusdevotee[0]->lasttransaction_at)->lt($date))
-																																								<span style="color: #a5a5a5">{{ $cancellation_focusdevotee[0]->member_id }}</span>
-																																								@else
-																																								<span>{{ $cancellation_focusdevotee[0]->member_id }}</span>
-																																								@endif
-																																							</td>
-                                                                            	<td>
-																																								@if(isset($cancellation_focusdevotee[0]->oversea_addr_in_chinese))
-																																									{{ $cancellation_focusdevotee[0]->oversea_addr_in_chinese }}
-																																								@elseif(isset($cancellation_focusdevotee[0]->address_unit1) && isset($cancellation_focusdevotee[0]->address_unit2))
-																																									{{ $cancellation_focusdevotee[0]->address_houseno }}, #{{ $cancellation_focusdevotee[0]->address_unit1 }}-{{ $cancellation_focusdevotee[0]->address_unit2 }}, {{ $cancellation_focusdevotee[0]->address_street }}, {{ $cancellation_focusdevotee[0]->address_postal }}
-																																								@else
-																																									{{ $cancellation_focusdevotee[0]->address_houseno }}, {{ $cancellation_focusdevotee[0]->address_street }}, {{ $cancellation_focusdevotee[0]->address_postal }}
-																																								@endif
-																																							</td>
-                                                                            	<td>{{ $cancellation_focusdevotee[0]->guiyi_name }}</td>
-                                                                            	<td width="100px" class="amount-col">
-                                                                            		<input type="text" class="form-control amount" name="amount[]" value="{{ $cancellation_focusdevotee[0]->amount }}">
-                                                                            	</td>
-                                                                            	<td width="80px">
-																																								@if(isset($cancellation_focusdevotee[0]->paytill_date) && \Carbon\Carbon::parse($cancellation_focusdevotee[0]->paytill_date)->lt($now))
-																																								<span class="text-danger">{{ \Carbon\Carbon::parse($cancellation_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-																																								@elseif(isset($cancellation_focusdevotee[0]->paytill_date))
-																																								<span>{{ \Carbon\Carbon::parse($cancellation_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-																																								@else
-																																								<span>{{ $cancellation_focusdevotee[0]->paytill_date }}</span>
-																																								@endif
-                                                                            	</td>
-                                                                            	<td width="120px">
-                                                                            		<select class="form-control" name="hjgr_arr[]">
-	                                                                                <option value="hj" <?php if ($cancellation_focusdevotee[0]->hjgr == 'hj') echo "selected"; ?>>合家</option>
-	                                                                              	<option value="gr" <?php if ($cancellation_focusdevotee[0]->hjgr == 'gr') echo "selected"; ?>>个人</option>
-	                                                                              </select>
-                                                                            	</td>
-                                                                            	<td width="80px">
-                                                                            		<select class="form-control display" name="display[]">
-																																									<option value="N" <?php if ($cancellation_focusdevotee[0]->display == 'N') echo "selected"; ?>>N</option>
-	                                                                                <option value="Y" <?php if ($cancellation_focusdevotee[0]->display == 'Y') echo "selected"; ?>>Y</option>
-	                                                                              </select>
-                                                                            	</td>
-                                                                            	<td></td>
-                                                                            	<td></td>
-                                                                            </tr>
-
-																																						@else
-
 																																						<tr>
                                                                             	<td>
 																																								@if($focus_devotee[0]->deceased_year != null)
@@ -221,9 +159,9 @@
 																																							</td>
                                                                             	<td>
 																																								@if($focus_devotee[0]->specialremarks_devotee_id == null)
-																																								<span>{{ $focus_devotee[0]->devotee_id }}</span>
+																																								<span id="devotee">{{ $focus_devotee[0]->devotee_id }}</span>
 																																								@else
-																																								<span class="text-danger">{{ $focus_devotee[0]->devotee_id }}</span>
+																																								<span class="text-danger" id="devotee">{{ $focus_devotee[0]->devotee_id }}</span>
 																																								@endif
                                                                             		<input type="hidden" name="devotee_id[]" value="{{ $focus_devotee[0]->devotee_id }}">
                                                                             	</td>
@@ -244,7 +182,7 @@
 																																								@endif
 																																							</td>
                                                                             	<td>{{ $focus_devotee[0]->guiyi_name }}</td>
-                                                                            	<td width="100px" class="amount-col">
+                                                                            	<td width="80px" class="amount-col">
                                                                             		<input type="text" class="form-control amount" name="amount[]">
                                                                             	</td>
                                                                             	<td width="80px">
@@ -256,8 +194,8 @@
 																																								<span>{{ $focus_devotee[0]->paytill_date }}</span>
 																																								@endif
                                                                             	</td>
-                                                                            	<td width="120px">
-                                                                            		<select class="form-control" name="hjgr_arr[]">
+                                                                            	<td width="100px">
+                                                                            		<select class="form-control hjgr" name="hjgr_arr[]">
 	                                                                                    <option value="hj">合家</option>
 	                                                                                    <option value="gr">个人</option>
 	                                                                                </select>
@@ -272,76 +210,7 @@
                                                                             	<td></td>
                                                                             </tr>
 
-																																						@endif
-
-                                                                            @if(count($cancellation_sameaddr_xiangyou) > 0)
-
-																																						@foreach($cancellation_sameaddr_xiangyou as $xs_family)
-
-                                                                            <tr>
-                                                                            	<td>
-																																								@if($xs_family->deceased_year != null)
-																																								<span class="text-danger">{{ $xs_family->chinese_name }}</span>
-																																								@else
-																																								<span>{{ $xs_family->chinese_name }}</span>
-																																								@endif
-																																							</td>
-                                                                            	<td>
-																																								@if($xs_family->specialremarks_devotee_id == null)
-																																								<span>{{ $xs_family->devotee_id }}</span>
-																																								@else
-																																								<span class="text-danger">{{ $xs_family->devotee_id }}</span>
-																																								@endif
-                                                                            		<input type="hidden" name="devotee_id[]" value="{{ $xs_family->devotee_id }}">
-                                                                            	</td>
-																																							<td>
-																																								@if(\Carbon\Carbon::parse($xs_family->lasttransaction_at)->lt($date))
-																																								<span style="color: #a5a5a5">{{ $xs_family->member_id }}</span>
-																																								@else
-																																								<span>{{ $xs_family->member_id }}</span>
-																																								@endif
-																																							</td>
-                                                                            	<td>
-																																								@if(isset($xs_family->oversea_addr_in_chinese))
-																																									{{ $xs_family->oversea_addr_in_chinese }}
-																																								@elseif(isset($xs_family->address_unit1) && isset($xs_family->address_unit2))
-																																									{{ $xs_family->address_houseno }}, #{{ $xs_family->address_unit1 }}-{{ $xs_family->address_unit2 }}, {{ $xs_family->address_street }}, {{ $xs_family->address_postal }}
-																																								@else
-																																									{{ $xs_family->address_houseno }}, {{ $xs_family->address_street }}, {{ $xs_family->address_postal }}
-																																								@endif
-																																							</td>
-                                                                            	<td>{{ $xs_family->guiyi_name }}</td>
-                                                                            	<td width="100px" class="amount-col">
-                                                                            		<input type="text" class="form-control amount" name="amount[]" value="{{ $xs_family->amount }}">
-                                                                            	</td>
-                                                                            	<td width="80px">
-																																								@if(isset($xs_family->paytill_date) && \Carbon\Carbon::parse($xs_family->paytill_date)->lt($now))
-																																								<span class="text-danger">{{ \Carbon\Carbon::parse($xs_family->paytill_date)->format("d/m/Y") }}</span>
-																																								@elseif(isset($xs_family->paytill_date))
-																																								<span>{{ \Carbon\Carbon::parse($xs_family->paytill_date)->format("d/m/Y") }}</span>
-																																								@else
-																																								<span>{{ $xs_family->paytill_date }}</span>
-																																								@endif
-                                                                            	</td>
-                                                                            	<td width="100px">
-                                                                            		<select class="form-control" name="hjgr_arr[]">
-	                                                                                    <option value="hj" <?php if ($xs_family->hjgr == 'hj') echo "selected"; ?>>合家</option>
-	                                                                                    <option value="gr" <?php if ($xs_family->hjgr == 'gr') echo "selected"; ?>>个人</option>
-	                                                                                </select>
-                                                                            	</td>
-                                                                            	<td width="80px">
-                                                                            		<select class="form-control display" name="display[]">
-																																									<option value="N" <?php if ($xs_family->display == 'N') echo "selected"; ?>>N</option>
-																																									<option value="Y" <?php if ($xs_family->display == 'Y') echo "selected"; ?>>Y</option>
-	                                                                              </select>
-                                                                            	</td>
-                                                                            	<td></td>
-                                                                            	<td></td>
-                                                                            </tr>
-
-                                                                            @endforeach
-
-																																						@else
+                                                                            @if(count($xianyou_same_family) > 0)
 
 																																						@foreach($xianyou_same_family as $xs_family)
 
@@ -355,9 +224,9 @@
 																																							</td>
                                                                             	<td>
 																																								@if($xs_family->specialremarks_devotee_id == null)
-																																								<span>{{ $xs_family->devotee_id }}</span>
+																																								<span id="devotee">{{ $xs_family->devotee_id }}</span>
 																																								@else
-																																								<span class="text-danger">{{ $xs_family->devotee_id }}</span>
+																																								<span class="text-danger" id="devotee">{{ $xs_family->devotee_id }}</span>
 																																								@endif
                                                                             		<input type="hidden" name="devotee_id[]" value="{{ $xs_family->devotee_id }}">
                                                                             	</td>
@@ -378,7 +247,7 @@
 																																								@endif
 																																							</td>
                                                                             	<td>{{ $xs_family->guiyi_name }}</td>
-                                                                            	<td width="100px" class="amount-col">
+                                                                            	<td width="80px" class="amount-col">
                                                                             		<input type="text" class="form-control amount" name="amount[]">
                                                                             	</td>
                                                                             	<td width="80px">
@@ -391,7 +260,7 @@
 																																								@endif
                                                                             	</td>
                                                                             	<td width="100px">
-                                                                            		<select class="form-control" name="hjgr_arr[]">
+                                                                            		<select class="form-control hjgr" name="hjgr_arr[]">
 	                                                                                    <option value="hj">合家</option>
 	                                                                                    <option value="gr">个人</option>
 	                                                                                </select>
@@ -440,7 +309,7 @@
 																																								<th>Member#</th>
                                                                                 <th>Address</th>
                                                                                 <th>Guiyi Name</th>
-                                                                                <th width="100px">Amount</th>
+                                                                                <th width="80px">Amount</th>
                                                                                 <th width="80px">Pay Till</th>
                                                                                 <th width="100px">HJ/ GR</th>
                                                                                 <th width="80px">Display</th>
@@ -453,74 +322,7 @@
 
 																																				<tbody id="appendDevoteeLists">
 
-																																					@if(count($cancellation_differentaddr_xiangyou) > 0)
-
-																																					@foreach($cancellation_differentaddr_xiangyou as $list)
-
-                                                                            <tr>
-                                                                            	<td>
-																																								@if($list->deceased_year != null)
-																																								<span class="text-danger">{{ $list->chinese_name }}</span>
-																																								@else
-																																								<span>{{ $list->chinese_name }}</span>
-																																								@endif
-																																							</td>
-																																							<td>
-																																								@if($list->specialremarks_devotee_id == null)
-																																								<span>{{ $list->devotee_id }}</span>
-																																								@else
-																																								<span class="text-danger">{{ $list->devotee_id }}</span>
-																																								@endif
-																																							<input type="hidden" name="other_devotee_id[]"
-																																							value="{{ $list->devotee_id }}">
-																																							</td>
-																																							<td>
-																																								@if(\Carbon\Carbon::parse($list->lasttransaction_at)->lt($date))
-																																								<span style="color: #a5a5a5">{{ $list->member_id }}</span>
-																																								@else
-																																								<span>{{ $list->member_id }}</span>
-																																								@endif
-																																							</td>
-																																							<td>
-																																								@if(isset($list->oversea_addr_in_chinese))
-																																									{{ $list->oversea_addr_in_chinese }}
-																																								@elseif(isset($list->address_unit1) && isset($list->address_unit2))
-																																									{{ $list->address_houseno }}, #{{ $list->address_unit1 }}-{{ $list->address_unit2 }}, {{ $list->address_street }}, {{ $list->address_postal }}
-																																								@else
-																																									{{ $list->address_houseno }}, {{ $list->address_street }}, {{ $list->address_postal }}
-																																								@endif
-																																							</td>
-																																							<td>{{ $list->guiyi_name }}</td>
-																																							<td class="amount-col">
-                                                                            		<input type="text" class="form-control amount other_amount" name="other_amount[]" value="{{ $list->amount }}">
-                                                                            	</td>
-                                                                            	<td>
-																																								@if(isset($list->paytill_date) && \Carbon\Carbon::parse($list->paytill_date)->lt($now))
-																																								<span class="text-danger">{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
-																																								@elseif(isset($list->paytill_date))
-																																								<span>{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
-																																								@else
-																																								<span>{{ $list->paytill_date }}</span>
-																																								@endif
-                                                                            	</td>
-                                                                            	<td>
-                                                                            		<select class="form-control" name="other_hjgr_arr[]">
-	                                                                                    <option value="hj" <?php if ($list->hjgr == 'hj') echo "selected"; ?>>合家</option>
-	                                                                                    <option value="gr" <?php if ($list->hjgr == 'gr') echo "selected"; ?>>个人</option>
-	                                                                                </select>
-                                                                            	</td>
-                                                                            	<td>
-                                                                            		<select class="form-control display" name="other_display[]">
-																																									<option value="N" <?php if ($list->display == 'N') echo "selected"; ?>>N</option>
-	                                                                                <option value="Y" <?php if ($list->display == 'Y') echo "selected"; ?>>Y</option>
-	                                                                              </select>
-                                                                            	</td>
-                                                                            	<td></td>
-                                                                            	<td></td>
-                                                                            </tr>
-																																					@endforeach
-
-                                                                        	@else
+																																					@if(count($xianyou_different_family) > 0)
 
 																																					@foreach($xianyou_different_family as $list)
 
@@ -534,12 +336,11 @@
 																																							</td>
 																																							<td>
 																																								@if($list->specialremarks_devotee_id == null)
-																																								<span>{{ $list->devotee_id }}</span>
+																																								<span id="devotee">{{ $list->devotee_id }}</span>
 																																								@else
-																																								<span class="text-danger">{{ $list->devotee_id }}</span>
+																																								<span class="text-danger" id="devotee">{{ $list->devotee_id }}</span>
 																																								@endif
-																																							<input type="hidden" name="other_devotee_id[]"
-																																							value="{{ $list->devotee_id }}">
+																																							<input type="hidden" name="other_devotee_id[]" value="{{ $list->devotee_id }}">
 																																							</td>
 																																							<td>
 																																								@if(\Carbon\Carbon::parse($list->lasttransaction_at)->lt($date))
@@ -571,7 +372,7 @@
 																																								@endif
                                                                             	</td>
                                                                             	<td>
-                                                                            		<select class="form-control" name="other_hjgr_arr[]">
+                                                                            		<select class="form-control hjgr" name="other_hjgr_arr[]">
 	                                                                                    <option value="hj">合家</option>
 	                                                                                    <option value="gr">个人</option>
 	                                                                                </select>
@@ -626,8 +427,8 @@
 
 	                                                    					<div class="form-group">
 
-		                                                                        <label class="col-md-4">Transation No:</label>
-		                                                                        <div class="col-md-8"></div><!-- end col-md-8 -->
+		                                                                        <label class="col-md-3">Transation No:</label>
+		                                                                        <label class="col-md-9" id="trans_info"></label><!-- end col-md-8 -->
 
 		                                                                    </div><!-- end form-group -->
 
@@ -746,13 +547,13 @@
 
 		                                                                    </div><!-- end form-group -->
 
-																																				<div class="form-group">
+																																				<div class="form-group" style="display: none">
 
 						                                                           		<label class="col-md-12">Event</label>
 
 						                                                           	</div><!-- end form-group -->
 
-																																				<div class="form-group">
+																																				<div class="form-group" style="display: none">
 
 																																					<div class="col-md-12">
 
@@ -822,8 +623,7 @@
 
                                                                 <div class="form-group portlet-body">
 
-                                                                    <table class="table table-bordered order-column"
-                                                                        id="receipt_history_table sample_1">
+                                                                    <table class="table table-bordered order-column" id="receipt_history_table">
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>XY Receipt</th>
@@ -835,7 +635,6 @@
                                                                                 <th>HJ/ GR</th>
                                                                                 <th>Amount</th>
                                                                                 <th>Manual Receipt</th>
-                                                                                <th>Print</th>
 																																								<th>View Details</th>
                                                                             </tr>
                                                                         </thead>
@@ -856,12 +655,17 @@
                                                                                     <td>{{ $receipt->trans_no }}</td>
                                                                                     <td>{{ $receipt->description }}</td>
                                                                                     <td>{{ $receipt->chinese_name }}</td>
-                                                                                    <td>{{ $receipt->devotee_id }}</td>
-                                                                                    <td>{{ $receipt->generaldonation_hjgr }}</td>
-                                                                                    <td>{{ $receipt->amount }}</td>
+                                                                                    <td>{{ $receipt->focusdevotee_id }}</td>
+                                                                                    <td>
+																																											@if($receipt->hjgr == "hj")
+																																											合家
+																																											@else
+																																											个人
+																																											@endif
+																																										</td>
+                                                                                    <td>{{ $receipt->total_amount }}</td>
                                                                                     <td>{{ $receipt->manualreceipt }}</td>
-                                                                                    <td><a href="{{ URL::to('/staff/receipt/' . $receipt->receipt_id) }}">Print</a></td>
-																																										<td><a href="{{ URL::to('/staff/receiptdetail/' . $receipt->receipt_id) }}">Detail</a></td>
+																																										<td><a href="#tab_transactiondetail" data-toggle="tab" id="{{ $receipt->trans_no }}" class="receipt-id">Detail</a></td>
                                                                                 </tr>
                                                                                 @endforeach
                                                                             </tbody>
@@ -882,418 +686,16 @@
                                                     	</div><!-- end tab-pane -->
 
 																											<div class="tab-pane" id="tab_samefamily">
-
-																												<div class="form-body">
-																													<form method="post" action="{{ URL::to('/staff/samefamily-setting') }}"
-																												    class="form-horizontal form-bordered" id="samefamily_form">
-
-																														{!! csrf_field() !!}
-
-																														<div class="form-group">
-
-																															<table class="table table-bordered" id="same_familycode_table">
-																																<thead>
-																								                    <tr>
-																																			<th>#</th>
-																																			<th>#</th>
-																								                      <th>Chinese Name</th>
-																								                      <th>Devotee#</th>
-																																			<th>Member#</th>
-																								                      <th>Address</th>
-																								                      <th>Guiyi Name</th>
-																								                      <th>Contact</th>
-																								                      <th>Pay Till</th>
-																								                      <th>Mailer</th>
-																								                      <th>Last Trans</th>
-																								                      <th>Family Code</th>
-																								                    </tr>
-																								                </thead>
-
-																																@if(Session::has('setting_samefamily'))
-
-																																@php
-
-																						                        $setting_samefamily = Session::get('setting_samefamily');
-																						                        $focus_devotee = Session::get('focus_devotee');
-																																		$setting_generaldonation = Session::get('setting_generaldonation');
-																						                    @endphp
-
-																																<tbody id="has_session">
-
-																																	@foreach($setting_samefamily as $devotee)
-																							                    <tr>
-																																		<td class="checkbox-col">
-																																			<input type="checkbox" class="form-control same xiangyou_ciji_id" name="xiangyou_ciji_id[]"
-																																			value="1" <?php if ($devotee->xiangyou_ciji_id == '1'){ ?>checked="checked"<?php }?>>
-																																			<input type="hidden" class="form-control hidden_xiangyou_ciji_id" name="hidden_xiangyou_ciji_id[]"
-																																			value="">
-																																		</td>
-																																		<td class="checkbox-col">
-																																			<input type="checkbox" class="form-control same yuejuan_id" name="yuejuan_id[]"
-																																			value="1" <?php if ($devotee->yuejuan_id == '1'){ ?>checked="checked"<?php }?>>
-																																			<input type="hidden" class="form-control hidden_yuejuan_id" name="hidden_yuejuan_id[]"
-																																			value="0">
-																																		</td>
-																							                      <td>
-																																			@if($devotee->deceased_year != null)
-																																			<span class="text-danger">{{ $devotee->chinese_name }}</span>
-																																			@else
-																																			<span>{{ $devotee->chinese_name }}</span>
-																																			@endif
-																																		</td>
-																							                      <td>
-																																			<input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
-																																			@if($devotee->specialremarks_devotee_id == null)
-																																			<span>{{ $devotee->devotee_id }}</span>
-																																			@else
-																																			<span class="text-danger">{{ $devotee->devotee_id }}</span>
-																																			@endif
-																																		</td>
-																																		<td>
-																																			@if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
-																																			<span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
-																																			@else
-																																			<span>{{ $devotee->member_id }}</span>
-																																			@endif
-																																		</td>
-																							                      <td>
-																																			@if(isset($devotee->oversea_addr_in_chinese))
-																																				{{ $devotee->oversea_addr_in_chinese }}
-																																			@elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-																																				{{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-																																			@else
-																																				{{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-																																			@endif
-																							                      </td>
-																							                      <td>{{ $devotee->guiyi_name }}</td>
-																							                      <td>{{ $devotee->contact }}</td>
-																							                      <td>
-																																			@if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-																																			<span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-																																			@elseif(isset($devotee->paytill_date))
-																																			<span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-																																			@else
-																																			<span>{{ $devotee->paytill_date }}</span>
-																																			@endif
-																																		</td>
-																							                      <td>{{ $devotee->mailer }}</td>
-																							                      <td>
-																																			@if(isset($devotee->lasttransaction_at))
-																																			{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
-																																			@else
-																																			{{ $devotee->lasttransaction_at }}
-																																			@endif
-																																		</td>
-																							                      <td>{{ $devotee->familycode }}</td>
-																							                    </tr>
-																							                    @endforeach
-
-																																</tbody>
-
-																																@else
-
-																																<tbody id="no_session">
-																																		<tr>
-																																		<td colspan="12">No Data</td>
-																																	</tr>
-																																</tbody>
-
-																																@endif
-																															</table>
-
-																														</div><!-- end form-group -->
-
-																														@php $focus_devotee = Session::get('focus_devotee'); @endphp
-
-																														<div class="form-group">
-																															@if(count($focus_devotee) > 0)
-																																<input type="hidden" name="focusdevotee_id" value="{{ $focus_devotee[0]->devotee_id }}">
-																															@else
-																																<input type="hidden" name="focusdevotee_id" value="">
-																															@endif
-																														</div><!-- end form-group -->
-
-																														<div class="form-actions">
-																																<button type="submit" class="btn blue" id="update_sameaddr_btn">Update</button>
-																																<button type="reset" class="btn default" id="cancel_samefamily_btn">Cancel</button>
-																														</div><!-- end form-actions -->
-
-																														<div class="clearfix"></div><!-- end clearfix -->
-
-																													</form>
-																												</div><!-- end form-body -->
-
+																												@include('layouts.partials.tab-xiangyou-samefamily')
 																											</div><!-- end tab-pane tab_samefamily -->
 
 																											<div class="tab-pane" id="tab_relative_friends">
-																												<div class="form-body">
-																													<form method="post" action="{{ URL::to('/staff/differentfamily-setting') }}"
-																												    class="form-horizontal form-bordered" id="differentfamily_form">
-
-																														{!! csrf_field() !!}
-
-																														<div class="form-group">
-
-																															<table class="table table-bordered" id="different_familycode_table">
-																																<thead>
-																								                    <tr>
-																																			<th>#</th>
-																																			<th>#</th>
-																																			<th>#</th>
-																								                      <th>Chinese Name</th>
-																								                      <th>Devotee#</th>
-																																			<th>Member#</th>
-																								                      <th>Address</th>
-																								                      <th>Guiyi Name</th>
-																								                      <th>Contact</th>
-																								                      <th>Pay Till</th>
-																								                      <th>Mailer</th>
-																								                      <th>Last Trans</th>
-																								                      <th>Family Code</th>
-																								                    </tr>
-																								                </thead>
-
-																																<tbody id="appendDifferentFamilyCodeTable">
-
-																																	@if(Session::has('setting_differentfamily'))
-
-																																	@php
-
-																																	    $setting_differentfamily = Session::get('setting_differentfamily');
-																																	    $focus_devotee = Session::get('focus_devotee');
-																																	    $setting_generaldonation = Session::get('setting_generaldonation');
-																																	@endphp
-
-																																  @foreach($setting_differentfamily as $devotee)
-																																  <tr>
-																																    <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
-																																    <td class="checkbox-col">
-																																      <input type="checkbox" class="form-control same xiangyou_ciji_id" name="xiangyou_ciji_id[]"
-																																      value="1" <?php if ($devotee->xiangyou_ciji_id == '1'){ ?>checked="checked"<?php }?>>
-																																      <input type="hidden" class="form-control hidden_xiangyou_ciji_id" name="hidden_xiangyou_ciji_id[]"
-																																      value="">
-																																    </td>
-																																    <td class="checkbox-col">
-																																      <input type="checkbox" class="form-control same yuejuan_id" name="yuejuan_id[]"
-																																      value="1" <?php if ($devotee->yuejuan_id == '1'){ ?>checked="checked"<?php }?>>
-																																      <input type="hidden" class="form-control hidden_yuejuan_id" name="hidden_yuejuan_id[]"
-																																      value="0">
-																																    </td>
-																																    <td>
-																																			@if($devotee->deceased_year != null)
-																																			<span class="text-danger">{{ $devotee->chinese_name }}</span>
-																																			@else
-																																			<span>{{ $devotee->chinese_name }}</span>
-																																			@endif
-																																		</td>
-																																    <td>
-																																      <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}" class="append-devotee-id">
-																																			@if($devotee->specialremarks_devotee_id == null)
-																																			<span>{{ $devotee->devotee_id }}</span>
-																																			@else
-																																			<span class="text-danger">{{ $devotee->devotee_id }}</span>
-																																			@endif
-																																		</td>
-																																    <td>
-																																			@if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
-																																			<span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
-																																			@else
-																																			<span>{{ $devotee->member_id }}</span>
-																																			@endif
-																																		</td>
-																																    <td>
-																																      @if(isset($devotee->oversea_addr_in_chinese))
-																																        {{ $devotee->oversea_addr_in_chinese }}
-																																      @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-																																        {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-																																      @else
-																																        {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-																																      @endif
-																																    </td>
-																																    <td>{{ $devotee->guiyi_name }}</td>
-																																    <td>{{ $devotee->contact }}</td>
-																																    <td>
-																																			@if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-																																			<span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-																																			@elseif(isset($devotee->paytill_date))
-																																			<span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-																																			@else
-																																			<span>{{ $devotee->paytill_date }}</span>
-																																			@endif
-																																		</td>
-																																    <td>{{ $devotee->mailer }}</td>
-																																    <td>
-																																      @if(isset($devotee->lasttransaction_at))
-																																      {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
-																																      @else
-																																      {{ $devotee->lasttransaction_at }}
-																																      @endif
-																																    </td>
-																																    <td>{{ $devotee->familycode }}</td>
-																																  </tr>
-																																  @endforeach
-
-																																	@else
-
-																																	<tr>
-																																		<td colspan="12">No Data</td>
-																																	</tr>
-
-																																	@endif
-
-																																</tbody>
-																															</table>
-																														</div><!-- end form-group -->
-
-																														<div class="col-md-4">
-
-																															<div class="form-group">
-																																<label class="col-md-5">Devotee ID</label>
-																																<div class="col-md-7">
-																																		<input type="text" class="form-control" id="search_devotee_id">
-																																</div><!-- end col-md-7 -->
-																															</div><!-- end form-group -->
-
-																															<div class="form-group">
-																																<label class="col-md-5">Member ID</label>
-																																<div class="col-md-7">
-																																		<input type="text" class="form-control" id="search_member_id">
-																																</div><!-- end col-md-7 -->
-																															</div><!-- end form-group -->
-
-																															<div class="form-group">
-																																<label class="col-md-5">Chinese Name</label>
-																																<div class="col-md-7">
-																																		<input type="text" class="form-control" id="search_chinese_name">
-																																</div><!-- end col-md-7 -->
-																															</div><!-- end form-group -->
-
-																															<div class="form-actions">
-																																	<button type="button" class="btn default" id="insert_devotee" style="padding: 7px; 15px;">Insert</button>
-																																	<button type="button" class="btn default" id="search_detail_btn" style="padding: 7px; 15px;">Detail</button>
-																															</div><!-- end form-actions -->
-
-																														</div><!-- end col-md-4 -->
-
-																														<div class="col-md-2">
-
-																															<table class="table table-bordered" id="search_devotee_lists">
-																																<tbody>
-																																	<tr class="no-record">
-																																		<td>No Result Record!</td>
-																																	</tr>
-																																</tbody>
-																															</table>
-
-																														</div><!-- end col-md-2 -->
-
-																														<div class="col-md-6">
-
-																															<div class="col-md-12">
-																																<div class="form-group">
-																																	<label class="col-md-3">Title</label>
-																																	<div class="col-md-6">
-																																			<input type="text" class="form-control" id="search_title">
-																																	</div><!-- end col-md-6 -->
-																																	<label class="col-md-3">Devotee ID</label>
-																																</div><!-- end form-group -->
-
-																																<div class="form-group">
-																																	<label class="col-md-3">Chinese Name</label>
-																																	<div class="col-md-6">
-																																			<input type="text" class="form-control" id="searchby_chinese_name">
-																																	</div><!-- end col-md-6 -->
-																																	<div class="col-md-3">
-																																			<input type="text" class="form-control" id="searchby_devotee_id">
-																																	</div><!-- end col-md-3 -->
-																																</div><!-- end form-group -->
-
-																																<div class="form-group">
-																																	<label class="col-md-3">English Name</label>
-																																	<div class="col-md-6">
-																																			<input type="text" class="form-control" id="search_english_name">
-																																	</div><!-- end col-md-6 -->
-																																	<label class="col-md-3">Member ID</label>
-																																</div><!-- end form-group -->
-
-																																<div class="form-group">
-																																	<label class="col-md-3">Guiyi Name</label>
-																																	<div class="col-md-6">
-																																			<input type="text" class="form-control" id="search_guiyi_name">
-																																	</div><!-- end col-md-6 -->
-																																	<div class="col-md-3">
-																																			<input type="text" class="form-control" id="searchby_member_id">
-																																	</div><!-- end col-md-3 -->
-																																</div><!-- end form-group -->
-
-																																<div class="form-group">
-																																	<label class="col-md-3">Contact#</label>
-																																	<div class="col-md-6">
-																																			<input type="text" class="form-control" id="search_contact">
-																																	</div><!-- end col-md-8 -->
-																																</div><!-- end form-group -->
-																															</div><!-- end col-md-12 -->
-
-																															<div class="col-md-12">
-
-																																<div class="form-group">
-																																	<label class="col-md-3">Addr - House no</label>
-																																	<div class="col-md-3">
-																																			<input type="text" class="form-control" id="search_address_houseno">
-																																	</div><!-- end col-md-4 -->
-
-																																	<label class="col-md-1">Unit</label>
-																																	<div class="col-md-5">
-																																			<input type="text" class="form-control" id="search_address_unit">
-																																	</div><!-- end col-md-4 -->
-																																</div><!-- end form-group -->
-
-																																<div class="form-group">
-																																	<label class="col-md-3">Address - Street</label>
-																																	<div class="col-md-9">
-																																			<input type="text" class="form-control" id="search_address_street">
-																																	</div><!-- end col-md-9 -->
-																																</div><!-- end form-group -->
-
-																																<div class="form-group">
-																																	<label class="col-md-3">Address - Postal</label>
-																																	<div class="col-md-3">
-																																			<input type="text" class="form-control" id="search_address_postal">
-																																	</div><!-- end col-md-3 -->
-
-																																	<label class="col-md-2">Country</label>
-																																	<div class="col-md-4">
-																																			<input type="text" class="form-control" id="search_country">
-																																	</div><!-- end col-md-3 -->
-																																</div><!-- end form-group -->
-
-																															</div><!-- end col-md-12 -->
-
-																														</div><!-- end col-md-6 -->
-
-																														<div class="clearfix">
-																														</div><!-- end clearfix -->
-
-																														@php $focus_devotee = Session::get('focus_devotee'); @endphp
-
-																														<div class="form-group">
-																															@if(count($focus_devotee) > 0)
-																																<input type="hidden" name="focusdevotee_id" value="{{ $focus_devotee[0]->devotee_id }}">
-																															@else
-																																<input type="hidden" name="focusdevotee_id" value="">
-																															@endif
-																														</div><!-- end form-group -->
-
-																														<div class="form-actions">
-																																<button type="submit" class="btn blue" id="update_differentaddr_btn">Update</button>
-																																<button type="button" class="btn default" id="cancel_differentaddr_btn">Cancel</button>
-																														</div><!-- end form-actions -->
-
-																														<div class="clearfix"></div><!-- end clearfix -->
-
-																														</form>
-																												</div><!-- end form-body -->
+																												@include('layouts.partials.tab-xiangyou-relative-friends')
 																											</div><!-- end tab-pane tab_relative_friends -->
+
+																											<div class="tab-pane" id="tab_transactiondetail">
+																												@include('layouts.partials.tab-xiangyou-transactiondetail')
+																											</div><!-- end tab-pane tab_transactiondetail -->
 
                                                     </div><!-- end tab-content -->
 
@@ -1325,15 +727,16 @@
 
 @section('custom-js')
 
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-	<script src="{{asset('js/custom/common.js')}}"></script>
-	<script src="{{asset('js/custom/search-devotee.js')}}"></script>
-	<script src="{{asset('js/custom/search-relative-friends.js')}}"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="{{asset('js/custom/common.js')}}"></script>
+<script src="{{asset('js/custom/search-devotee.js')}}"></script>
+<script src="{{asset('js/custom/search-relative-friends.js')}}"></script>
+<script src="{{asset('js/custom/transaction-detail.js')}}"></script>
 
 	<script type="text/javascript">
 		$(function() {
 
-			$(".total").text(0);
+			// $(".total").text(0);
 
 			// Disabled Edit Tab
 			$(".nav-tabs > li").click(function(){

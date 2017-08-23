@@ -17,6 +17,7 @@ use App\Models\Country;
 use App\Models\FestiveEvent;
 use App\Models\Dialect;
 use App\Models\Race;
+use App\Models\GeneralDonation;
 use App\Models\SettingGeneralDonation;
 use Auth;
 use DB;
@@ -186,6 +187,7 @@ class OperatorController extends Controller
 													->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
 													->where('devotee.familycode_id', $devotee[0]->familycode_id)
 													->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+													->GroupBy('devotee.devotee_id')
 													->get();
 
 		$setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
@@ -199,12 +201,19 @@ class OperatorController extends Controller
 											         ->get();
 
 		// Get Receipt History
-		$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-								->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+		// $receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
+		// 						->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+		// 						->where('generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
+		// 						->orderBy('receipt_id', 'desc')
+		// 						->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.manualreceipt',
+		// 							'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
+		// 						->get();
+
+		$receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+								->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
 								->where('generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
-								->orderBy('receipt_id', 'desc')
-								->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.manualreceipt',
-									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
+								->GroupBy('generaldonation.generaldonation_id')
+								->select('generaldonation.*', 'devotee.chinese_name')
 								->get();
 
 	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
@@ -735,6 +744,7 @@ class OperatorController extends Controller
 														->where('devotee.devotee_id', '!=', $focus_devotee[0]->devotee_id)
 														->where('devotee.familycode_id', $familycode_id)
 														->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+														->GroupBy('devotee.devotee_id')
 														->get();
 
 		 $setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
@@ -1265,6 +1275,8 @@ class OperatorController extends Controller
 														->where('devotee.devotee_id', '!=', $focus_devotee[0]->devotee_id)
 														->where('devotee.familycode_id', $familycode_id)
 														->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+														->orderBy('devotee.devotee_id', 'desc')
+														->GroupBy('devotee.devotee_id')
 														->get();
 
 			$setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
@@ -1277,76 +1289,28 @@ class OperatorController extends Controller
 																 ->GroupBy('devotee.devotee_id')
 		 														 ->get();
 
-			// dd($setting_differentfamily->toArray());
-
-			// Get Receipt History
-			$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
-									->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+			$receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+									->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
 									->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
-									->orderBy('receipt_id', 'desc')
-									->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.manualreceipt',
-									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
-				         	->get();
+									->GroupBy('generaldonation.generaldonation_id')
+									->select('generaldonation.*', 'devotee.chinese_name')
+									->get();
 
 			$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 			$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 			$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 
-
-			if(!Session::has('focus_devotee'))
-			{
-				Session::put('focus_devotee', $focus_devotee);
-			}
-
-			if(!Session::has('focusdevotee_specialremarks'))
-			{
-				Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
-			}
-
-			if(!Session::has('devotee_lists'))
-			{
-				Session::put('devotee_lists', $devotee_lists);
-			}
-
-			if(!Session::has('xianyou_same_family'))
-			{
-				Session::put('xianyou_same_family', $xianyou_same_family);
-			}
-
-			if(!Session::has('xianyou_different_family'))
-			{
-				Session::put('xianyou_different_family', $xianyou_different_family);
-			}
-
-			if(!Session::has('setting_samefamily'))
-			{
-				Session::put('setting_samefamily', $setting_samefamily);
-			}
-
-			if(!Session::has('setting_differentfamily'))
-			{
-				Session::put('setting_differentfamily', $setting_differentfamily);
-			}
-
-			if(!Session::has('optionaladdresses'))
-			{
-				Session::put('optionaladdresses', $optionaladdresses);
-			}
-
-			if(!Session::has('optionalvehicles'))
-			{
-				Session::put('optionalvehicles', $optionalvehicles);
-			}
-
-			if(!Session::has('specialRemarks'))
-			{
-				Session::put('specialRemarks', $specialRemarks);
-			}
-
-			if(!Session::has('receipts'))
-			{
-				Session::put('receipts', $receipts);
-			}
+			Session::put('focus_devotee', $focus_devotee);
+			Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
+			Session::put('devotee_lists', $devotee_lists);
+			Session::put('xianyou_same_family', $xianyou_same_family);
+			Session::put('xianyou_different_family', $xianyou_different_family);
+			Session::put('setting_samefamily', $setting_samefamily);
+			Session::put('setting_differentfamily', $setting_differentfamily);
+			Session::put('optionaladdresses', $optionaladdresses);
+			Session::put('optionalvehicles', $optionalvehicles);
+			Session::put('specialRemarks', $specialRemarks);
+			Session::put('receipts', $receipts);
 
 			$today = Carbon::today();
 
@@ -1505,13 +1469,12 @@ class OperatorController extends Controller
 		Session::forget('optionalvehicles');
 		Session::forget('specialRemarks');
 
-        return redirect()->back()->with([
-        	'members' => $members,
-        	'devotees' => $devotees,
-        	'deceased_lists' => $deceased_lists
-        ]);
+    return redirect()->route('main-page')->with([
+      'members' => $members,
+      'devotees' => $devotees,
+      'deceased_lists' => $deceased_lists
+   ]);
 	}
-
 
 	// Get JSON by Focus Devotee
 	public function getJSONFocusDevotee(Request $request)

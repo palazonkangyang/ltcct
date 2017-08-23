@@ -5,7 +5,6 @@ $(function() {
         $(this).closest ('tr').remove ();
     });
 
-
     // do the validation for the form
     $("#confirm_donation_btn").click(function() {
 

@@ -1,9 +1,9 @@
 body{
-  font-size: 13px;
+  font-size: 11px;
 }
 
 header{
-  height: 30mm;
+  height: 20mm;
 }
 
 article{
@@ -11,12 +11,13 @@ article{
 }
 
 #leftcontent{
-  width: 120mm;
+  width: 128mm;
+  margin-right: 1mm;
   float: left;
 }
 
 #rightcontent{
-  width: 68mm;
+  width: 70mm;
   float: right;
 }
 
@@ -25,13 +26,35 @@ article{
 }
 
 .receipt-list{
-  margin-top: 0.2mm;
+  margin-top: 3.2mm;
   overflow: hidden;
+  min-height: 200px;
 }
 
 .label-wrapper{
-	width: 11cm;
-	margin: 0.3cm;
+	width: 74mm;
+	margin: 0.1cm 0;
+	overflow: hidden;
+  float: left;
+}
+
+.label-wrapper2{
+	width: 54mm;
+	margin: 0.1cm 0;
+	overflow: hidden;
+  float: left;
+}
+
+.right-wrapper{
+	width: 60mm;
+	margin: 0.1cm 0;
+	overflow: hidden;
+  float: left;
+}
+
+.label-rightwrapper{
+	width: 100%;
+	margin: 0.3cm 0;
 	overflow: hidden;
 }
 
@@ -40,12 +63,17 @@ article{
 }
 
 .label-left{
-	width: 5cm;
+	width: 30mm;
 	float: left;
 }
 
 .label-right{
-	width: 4cm;
+	width: 42mm;
+	float: left;
+}
+
+.label-right2{
+	width: 24mm;
 	float: left;
 }
 
@@ -57,30 +85,32 @@ article{
 .rightlabel-right{
 	width: 3cm;
 	float: left;
+  text-align: right;
 }
 
 table.receipt-table {
-	width: 100%;
+	width: 95%;
 	font-family: verdana,arial,sans-serif;
 	font-size: 9px;
 	color: #333;
-	border-width: 1px;
+	/*border-width: 1px;
 	border-color: #666;
-	border-collapse: collapse;
+	border-collapse: collapse;*/
 }
 table.receipt-table th {
 	border-width: 1px;
-	padding: 8px;
-	border-style: solid;
+	padding: 1px;
+	/*border-style: solid;
 	border-color: #666;
-	background-color: #dedede;
+	background-color: #dedede;*/
 }
 table.receipt-table td {
 	border-width: 1px;
-	padding: 3px;
-	border-style: solid;
+	padding: 1px;
+  text-align: center;
+	/*border-style: solid;
 	border-color: #666;
-	background-color: #fff;
+	background-color: #fff;*/
 }
 
 footer{

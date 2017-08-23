@@ -1,16 +1,14 @@
 $(function() {
 
-		// Disabled Quick Search Button
-    var chinese_name = $("#chinese_name").val();
+	var chinese_name = $("#chinese_name").val();
 
-    if(chinese_name)
-    {
-			$("#focus_devotee_form input[type=text]").attr("disabled", true);
-			$("#quick_search").attr("disabled", true);
-			$('.nav-tabs li:eq(6) a').tab('show');
+	if(chinese_name)
+	{
+		$("#focus_devotee_form input[type=text]").attr("disabled", true);
+		$("#quick_search").attr("disabled", true);
 
-    	$("#edit").removeClass("disabled");
-    }
+		$("#edit").removeClass("disabled");
+	}
 
 		// new button
 		$("#new_search").click(function() {

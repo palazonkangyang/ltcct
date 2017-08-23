@@ -67,14 +67,14 @@
 
                       <div class="caption font-red-sunglo">
                           <i class="icon-settings font-red-sunglo"></i>
-                          <span class="caption-subject bold uppercase"> Add New Dialect</span>
+                          <span class="caption-subject bold uppercase"> Edit Dialect</span>
                       </div><!-- end caption font-red-sunglo -->
 
                   </div><!-- end portlet-title -->
 
                   <div class="portlet-body form">
 
-                    <form role="form" method="post" action="{{ URL::to('/admin/update-dialect') }}">
+                    <form id="dialect-form" role="form" method="post" action="{{ URL::to('/admin/update-dialect') }}">
                         {!! csrf_field() !!}
 
                       <div class="form-body">
@@ -82,7 +82,6 @@
                         <div class="form-group">
                             <input type="hidden" class="form-control" name="dialect_id"
                                 value="{{ $dialect->dialect_id }}">
-
                         </div><!-- end form-group -->
 
                         <div class="form-group">
@@ -103,7 +102,7 @@
 
                       <div class="form-actions">
                           <button type="submit" class="btn blue" id="update-dialect-btn">Update</button>
-                          <button type="reset" class="btn default">Cancel</button>
+                          <button type="button" class="btn default" id="cancel-dialect-btn">Cancel</button>
                       </div><!-- end form-actions -->
 
                     </form>
@@ -130,9 +129,11 @@
 
 @section('script-js')
 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript">
 
     $(function() {
+      
       $("#update-dialect-btn").click(function() {
 
         $(".alert-success").remove();

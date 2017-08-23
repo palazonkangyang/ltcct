@@ -4,7 +4,7 @@
 
     <meta charset="utf-8" />
     <title>Metronic Admin Theme #1 | Blank Page Layout</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=11">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Preview page of Metronic Admin Theme #1 for blank page layout" name="description" />
     <meta content="" name="author" />
@@ -32,10 +32,8 @@
     <!-- Date Time Picker -->
     <link href="{{ asset('/css/bootstrap-datepicker3.min.css') }}" rel="stylesheet" type="text/css" />
 		<link href="{{ asset('/css/bootstrap-timepicker.min.css') }}" rel="stylesheet" type="text/css">
-		<link href="{{ asset('/css/ootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
-
+		<link href="{{ asset('/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 		<link href="{{ asset('/css/common.css') }}" rel="stylesheet" type="text/css" />
 
     <style type="text/css">

@@ -13,9 +13,12 @@ class Receipt extends Model
         'trans_date',
         'description',
         'amount',
+        'hjgr',
+        'display',
         'cancelled_date',
         'status',
         'cancelled_by',
+        'devotee_id',
         'generaldonation_id',
         'staff_id'
     ];
