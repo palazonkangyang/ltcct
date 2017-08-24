@@ -135,38 +135,41 @@ class StaffController extends Controller
 				}
 			}
 
-			for($i = 0; $i < count($input['other_amount']); $i++)
+			if(isset($input['other_amount']))
 			{
-				if(isset($input['other_amount'][$i]))
+				for($i = 0; $i < count($input['other_amount']); $i++)
 				{
-					if(count(Receipt::all()) > 0)
+					if(isset($input['other_amount'][$i]))
 					{
-						$same_xy_receipt = Receipt::all()->last()->receipt_id;
+						if(count(Receipt::all()) > 0)
+						{
+							$same_xy_receipt = Receipt::all()->last()->receipt_id;
+						}
+
+						else {
+							$result = GlCode::where('glcode_id', '8')->pluck('next_sn_number');
+							$same_xy_receipt = $result[0];
+						}
+
+						$prefix = GlCode::where('glcode_id', '8')->pluck('receipt_prefix');
+						$prefix = $prefix[0];
+						$same_xy_receipt += 1;
+						$same_xy_receipt = $prefix . $same_xy_receipt;
+
+						$receipt = [
+							"xy_receipt" => $same_xy_receipt,
+							"trans_date" => Carbon::now(),
+							"description" => "General Donation - 香油",
+							"amount" => $input['other_amount'][$i],
+							"hjgr" => $input['other_hjgr_arr'][$i],
+							"display" => $input['other_display'][$i],
+							"devotee_id" => $input['other_devotee_id'][$i],
+							"generaldonation_id" => $general_donation->generaldonation_id,
+							"staff_id" => Auth::user()->id
+						];
+
+						Receipt::create($receipt);
 					}
-
-					else {
-						$result = GlCode::where('glcode_id', '8')->pluck('next_sn_number');
-						$same_xy_receipt = $result[0];
-					}
-
-					$prefix = GlCode::where('glcode_id', '8')->pluck('receipt_prefix');
-					$prefix = $prefix[0];
-					$same_xy_receipt += 1;
-					$same_xy_receipt = $prefix . $same_xy_receipt;
-
-					$receipt = [
-						"xy_receipt" => $same_xy_receipt,
-						"trans_date" => Carbon::now(),
-						"description" => "General Donation - 香油",
-						"amount" => $input['other_amount'][$i],
-						"hjgr" => $input['other_hjgr_arr'][$i],
-						"display" => $input['other_display'][$i],
-						"devotee_id" => $input['other_devotee_id'][$i],
-						"generaldonation_id" => $general_donation->generaldonation_id,
-						"staff_id" => Auth::user()->id
-					];
-
-					Receipt::create($receipt);
 				}
 			}
 		}
@@ -223,8 +226,6 @@ class StaffController extends Controller
 		$paid_by = Devotee::where('devotee.devotee_id', $result[0]->focusdevotee_id)
 							 ->select('chinese_name', 'devotee_id')
 							 ->get();
-
-		// dd($receipts->toArray());
 
 		return view('staff.print', [
 			'receipts' => $result,
@@ -872,6 +873,7 @@ class StaffController extends Controller
 			$receipts[0]->start_at = \Carbon\Carbon::parse($receipts[0]->start_at)->format("d/m/Y");
 
 			$samefamily_no = 0;
+			$print_format = 'hj';
 
 			$paid_by = Devotee::where('devotee.devotee_id', $receipts[0]->focusdevotee_id)
 								 ->select('chinese_name', 'devotee_id')
