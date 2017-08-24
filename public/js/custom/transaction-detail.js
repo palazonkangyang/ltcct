@@ -101,6 +101,12 @@ $(function() {
     var receipt_no = $("#receipt_no").val();
     var trans_no = $("#trans_no").val();
 
+    if(($.trim(receipt_no).length > 0) && ($.trim(trans_no).length > 0))
+    {
+      validationFailed = true;
+      errors[count++] = "Receipt No or Transaction No can only search one time."
+    }
+
     if (($.trim(receipt_no).length <= 0) && ($.trim(trans_no).length <= 0))
     {
         validationFailed = true;

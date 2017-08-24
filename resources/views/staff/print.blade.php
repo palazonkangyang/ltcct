@@ -201,7 +201,7 @@
 	        </div><!-- end label-wrapper -->
 
 	        <div class="label-rightwrapper">
-	          <div class="rightlabel-left" style="color: #fff;">Event Date (法会日期)</div><!-- end label-left -->
+	          <div class="rightlabel-left" style="color: #fff;">&nbsp;</div><!-- end label-left -->
 	          <div class="rightlabel-right">{{ $receipts[0]->lunar_date }}</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 
@@ -388,7 +388,7 @@
         </div><!-- end label-wrapper -->
 
         <div class="label-rightwrapper">
-          <div class="rightlabel-left" style="color: #fff;">Event Date (法会日期)</div><!-- end label-left -->
+          <div class="rightlabel-left" style="color: #fff;">&nbsp;</div><!-- end label-left -->
           <div class="rightlabel-right">{{ $receipts[$i]->lunar_date }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
@@ -572,7 +572,7 @@
         </div><!-- end label-wrapper -->
 
         <div class="label-rightwrapper">
-          <div class="rightlabel-left" style="color: #fff;">Event Date (法会日期)</div><!-- end label-left -->
+          <div class="rightlabel-left" style="color: #fff;">&nbsp;</div><!-- end label-left -->
           <div class="rightlabel-right">{{ $receipt->lunar_date }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
