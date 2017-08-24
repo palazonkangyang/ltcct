@@ -11,7 +11,7 @@ article{
 }
 
 #leftcontent{
-  width: 115mm;
+  width: 113mm;
   margin-right: 1mm;
   float: left;
 }
@@ -28,7 +28,11 @@ article{
 .receipt-list{
   margin-top: 3.2mm;
   overflow: hidden;
-  min-height: 195px;
+  max-height: 225px;
+}
+
+hr{
+  width: 97%;
 }
 
 .label-wrapper{
@@ -89,7 +93,7 @@ article{
 }
 
 table.receipt-table {
-	width: 95%;
+	width: 100%;
 	font-family: verdana,arial,sans-serif;
 	font-size: 9px;
 	color: #333;

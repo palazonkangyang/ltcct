@@ -215,7 +215,7 @@ class StaffController extends Controller
 
 		for($i = 0; $i < count($result); $i++)
 		{
-			if($result[0]->familycode_id == $familycode_id)
+			if($result[$i]->familycode_id == $familycode_id)
 			{
 				$samefamily_no += 1;
 			}

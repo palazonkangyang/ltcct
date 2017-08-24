@@ -46,7 +46,7 @@
 
 	    <div id="leftcontent">
 
-	      <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+	      <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
 	        OFFICIAL RECEIPT - 正式收据
 	      </div>
 
@@ -105,10 +105,10 @@
 								<th width="1%">S/No</th>
 	              <th width="15%">Chinese Name</th>
 	              <th width="5%">Devotee</th>
-	              <th width="30%">Address</th>
+	              <th width="48%">Address</th>
 	              <th width="11%">HJ/ GR</th>
-	              <th width="15%">Receipt</th>
-	              <th width="18%">Amount</th>
+	              <th width="10%">Receipt</th>
+	              <th width="10%">Amount</th>
 	            </tr>
 	          </thead>
 
@@ -141,7 +141,7 @@
 	                @endif
 	              </td>
 	              <td>{{ $receipt->xy_receipt }}</td>
-	              <td>S$ {{ number_format( $receipt->amount, 2) }}</td>
+	              <td>{{ number_format( $receipt->amount, 2) }}</td>
 	            </tr>
 
 	            @php $devotee_count++; $rowno++;  $sum += $receipt->amount; @endphp
@@ -219,7 +219,7 @@
 	          <p><b>No of Set(s) / 份数</b></p>
 	        </div>
 
-	        <div style="width: 22mm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
+	        <div style="width: 22mm; float: left; border: 1px solid black; height: 2cm; line-height: 2cm; text-align: center; vertical-align: middle;">
 	          <span style="font-size: 45px; font-weight: bold;">{{ $samefamily_no }}</span>
 	        </div>
 	      </div><!-- end receipt-info -->
@@ -257,7 +257,7 @@
 
     <div id="leftcontent">
 
-      <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+      <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
         OFFICIAL RECEIPT - 正式收据
       </div>
 
@@ -334,7 +334,7 @@
                 @endif
               </td>
               <td>{{ $receipts[$i]->xy_receipt }}</td>
-              <td>S$ {{ number_format( $receipts[$i]->amount, 2) }}</td>
+              <td>{{ number_format( $receipts[$i]->amount, 2) }}</td>
             </tr>
           </tbody>
         </table>
@@ -406,7 +406,7 @@
           <p><b>No of Set(s) / 份数</b></p>
         </div>
 
-        <div style="width: 22mm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
+        <div style="width: 22mm; float: left; border: 1px solid black; height: 2cm; line-height: 2cm; text-align: center; vertical-align: middle;">
           <span style="font-size: 45px; font-weight: bold;">1</span>
         </div>
       </div><!-- end receipt-info -->
@@ -439,7 +439,7 @@
 
     <div id="leftcontent">
 
-      <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+      <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
         OFFICIAL RECEIPT - 正式收据
       </div>
 
@@ -487,10 +487,10 @@
 							<th width="1%">S/No</th>
               <th width="15%">Chinese Name</th>
               <th width="5%">Devotee</th>
-              <th width="30%">Address</th>
+              <th width="37%">Address</th>
               <th width="11%">HJ/ GR</th>
-              <th width="15%">Receipt</th>
-              <th width="18%">Amount</th>
+              <th width="12%">Receipt</th>
+              <th width="10%">Amount</th>
             </tr>
           </thead>
 
@@ -516,7 +516,7 @@
                 @endif
               </td>
               <td>{{ $receipt->xy_receipt }}</td>
-              <td>S$ {{ number_format( $receipt->amount, 2) }}</td>
+              <td>{{ number_format( $receipt->amount, 2) }}</td>
             </tr>
 
             @php  $sum = $receipt->amount; @endphp
@@ -590,7 +590,7 @@
           <p><b>No of Set(s) / 份数</b></p>
         </div>
 
-        <div style="width: 22mm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
+        <div style="width: 22mm; float: left; border: 1px solid black; height: 2cm; line-height: 2cm; text-align: center; vertical-align: middle;">
           <span style="font-size: 45px; font-weight: bold;">1</span>
         </div>
       </div><!-- end receipt-info -->
