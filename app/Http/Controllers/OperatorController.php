@@ -214,6 +214,7 @@ class OperatorController extends Controller
 								->where('generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
 								->GroupBy('generaldonation.generaldonation_id')
 								->select('generaldonation.*', 'devotee.chinese_name')
+								->orderBy('generaldonation.generaldonation_id', 'desc')
 								->get();
 
 	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
@@ -763,7 +764,8 @@ class OperatorController extends Controller
 								->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
 								->orderBy('receipt_id', 'desc')
 								->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.manualreceipt',
-									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
+									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no', 'generaldonation.generaldonation_id')
+								->orderBy('generaldonation.generaldonation_id', 'desc')
 								->get();
 
 				$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
@@ -1294,6 +1296,7 @@ class OperatorController extends Controller
 									->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
 									->GroupBy('generaldonation.generaldonation_id')
 									->select('generaldonation.*', 'devotee.chinese_name')
+									->orderBy('generaldonation.generaldonation_id', 'desc')
 									->get();
 
 			$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
@@ -1359,7 +1362,8 @@ class OperatorController extends Controller
 									->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
 									->orderBy('receipt_id', 'desc')
 									->select('receipt.*', 'devotee.chinese_name', 'devotee.devotee_id', 'generaldonation.manualreceipt',
-									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no')
+									'generaldonation.hjgr as generaldonation_hjgr', 'generaldonation.trans_no as trans_no', 'generaldonation.generaldonation_id')
+									->orderBy('generaldonation.generaldonation_id', 'desc')
 				         	->get();
 
 			$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
@@ -1666,6 +1670,7 @@ class OperatorController extends Controller
 	public function getAddressTranslate(Request $request)
 	{
 		$address_street = $_GET['address_street'];
+		// $address_street = "Bishan Avenue 4";
 
 		$address_translate = TranslationStreet::where('english', $address_street)
 												 ->get();

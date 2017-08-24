@@ -18,6 +18,7 @@ use App\Models\FestiveEvent;
 use App\Models\RelativeFriendLists;
 use App\Models\Job;
 use App\Models\SettingGeneralDonation;
+use App\Models\Amount;
 use Auth;
 use DB;
 use Hash;
@@ -40,8 +41,11 @@ class StaffController extends Controller
 							->take(1)
 							->get();
 
+		$amount = Amount::all();
+
 		return view('staff.donation', [
 			'events' => $events,
+			'amount' => $amount
 		]);
 	}
 
@@ -178,12 +182,56 @@ class StaffController extends Controller
 								->where('generaldonation.focusdevotee_id', $input['focusdevotee_id'])
 								->GroupBy('generaldonation.generaldonation_id')
 								->select('generaldonation.*', 'devotee.chinese_name')
+								->orderBy('generaldonation.generaldonation_id', 'desc')
 								->get();
 
 		Session::put('receipts', $receipts);
 
-		$request->session()->flash('success', 'General Donation is successfully created.');
-	  return redirect()->back();
+		$generaldonation_id = $general_donation->generaldonation_id;
+		$hjgr = $general_donation->hjgr;
+
+		$result = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+							 ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
+							 ->leftjoin('user', 'receipt.staff_id', '=', 'user.id')
+							 ->leftjoin('festiveevent', 'generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
+							 ->where('generaldonation.generaldonation_id', '=', $generaldonation_id)
+							 ->select('receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
+							 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
+							 	'generaldonation.focusdevotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name',
+							 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
+							 ->get();
+
+		for($i = 0; $i < count($result); $i++)
+		{
+			$result[$i]->trans_date = \Carbon\Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
+			$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
+		}
+
+		$familycode_id = $receipts[0]->familycode_id;
+		$samefamily_no = 0;
+
+		for($i = 0; $i < count($result); $i++)
+		{
+			if($result[0]->familycode_id == $familycode_id)
+			{
+				$samefamily_no += 1;
+			}
+
+			$familycode_id = $result[$i]->familycode_id;
+		}
+
+		$paid_by = Devotee::where('devotee.devotee_id', $result[0]->focusdevotee_id)
+							 ->select('chinese_name', 'devotee_id')
+							 ->get();
+
+		// dd($receipts->toArray());
+
+		return view('staff.print', [
+			'receipts' => $result,
+			'print_format' => $hjgr,
+			'samefamily_no' => $samefamily_no,
+			'paid_by' => $paid_by
+		]);
 	}
 
 	public function postSameFamilySetting(Request $request)
@@ -807,43 +855,67 @@ class StaffController extends Controller
 
 		// dd($input);
 
-		$receipts = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
-							 ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
-							 ->leftjoin('user', 'receipt.staff_id', '=', 'user.id')
-							 ->leftjoin('festiveevent', 'generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
-							 ->where('generaldonation.trans_no', '=', $input['trans_no'])
-							 ->select('receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
-							 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
-							 	'generaldonation.focusdevotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name',
-							 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
-							 ->get();
-
-		for($i = 0; $i < count($receipts); $i++)
+		if(isset($input['receipt_no']))
 		{
-			$receipts[$i]->trans_date = \Carbon\Carbon::parse($receipts[$i]->trans_date)->format("d/m/Y");
-			$receipts[$i]->start_at = \Carbon\Carbon::parse($receipts[$i]->start_at)->format("d/m/Y");
+			$receipts = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+								 ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
+								 ->leftjoin('user', 'receipt.staff_id', '=', 'user.id')
+								 ->leftjoin('festiveevent', 'generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
+								 ->where('receipt.xy_receipt', '=', $input['receipt_no'])
+								 ->select('receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
+								 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
+								 	'generaldonation.focusdevotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name',
+								 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
+								 ->get();
+
+			$receipts[0]->trans_date = \Carbon\Carbon::parse($receipts[0]->trans_date)->format("d/m/Y");
+			$receipts[0]->start_at = \Carbon\Carbon::parse($receipts[0]->start_at)->format("d/m/Y");
+
+			$samefamily_no = 0;
+
+			$paid_by = Devotee::where('devotee.devotee_id', $receipts[0]->focusdevotee_id)
+								 ->select('chinese_name', 'devotee_id')
+								 ->get();
 		}
 
-		$familycode_id = $receipts[0]->familycode_id;
-		$samefamily_no = 0;
-
-		for($i = 1; $i < count($receipts); $i++)
+		if(isset($input['trans_no']))
 		{
-			if($receipts[0]->familycode_id == $familycode_id)
+			$receipts = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+								 ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
+								 ->leftjoin('user', 'receipt.staff_id', '=', 'user.id')
+								 ->leftjoin('festiveevent', 'generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
+								 ->where('generaldonation.trans_no', '=', $input['trans_no'])
+								 ->select('receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
+								 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
+								 	'generaldonation.focusdevotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name',
+								 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
+								 ->get();
+
+			for($i = 0; $i < count($receipts); $i++)
 			{
-				$samefamily_no += 1;
+				$receipts[$i]->trans_date = \Carbon\Carbon::parse($receipts[$i]->trans_date)->format("d/m/Y");
+				$receipts[$i]->start_at = \Carbon\Carbon::parse($receipts[$i]->start_at)->format("d/m/Y");
 			}
 
-			$familycode_id = $receipts[$i]->familycode_id;
+			$familycode_id = $receipts[0]->familycode_id;
+			$samefamily_no = 0;
+
+			for($i = 0; $i < count($receipts); $i++)
+			{
+				if($receipts[$i]->familycode_id == $familycode_id)
+				{
+					$samefamily_no += 1;
+				}
+
+				$familycode_id = $receipts[$i]->familycode_id;
+			}
+
+			$print_format = $input['hjgr'];
+
+			$paid_by = Devotee::where('devotee.devotee_id', $receipts[0]->focusdevotee_id)
+								 ->select('chinese_name', 'devotee_id')
+								 ->get();
 		}
-
-		$print_format = $input['hjgr'];
-
-
-
-		$paid_by = Devotee::where('devotee.devotee_id', $receipts[0]->focusdevotee_id)
-							 ->select('chinese_name', 'devotee_id')
-							 ->get();
 
 		return view('staff.print', [
 			'receipts' => $receipts,
@@ -855,51 +927,50 @@ class StaffController extends Controller
 
 	public function getCreateFestiveEvent()
 	{
-			$events = FestiveEvent::orderBy('start_at', 'asc')->get();
-			$jobs = Job::orderBy('created_at', 'desc')->get();
+		$events = FestiveEvent::orderBy('start_at', 'asc')->get();
+		$jobs = Job::orderBy('created_at', 'desc')->get();
 
-			return view('staff.create-festive-event', [
-				'jobs' => $jobs,
-				'events' => $events
-			]);
+		return view('staff.create-festive-event', [
+			'jobs' => $jobs,
+			'events' => $events
+		]);
 	}
 
 	public function postCreateFestiveEvent(Request $request)
 	{
-			$input = array_except($request->all(), '_token', 'display');
+		$input = array_except($request->all(), '_token', 'display');
 
-			FestiveEvent::truncate();
+		FestiveEvent::truncate();
 
-			for($i = 0; $i < count($input["start_at"]); $i++)
-			{
+		for($i = 0; $i < count($input["start_at"]); $i++)
+		{
+			$start_at = $input["start_at"][$i];
+			$new_start_at = str_replace('/', '-', $start_at);
 
-				$start_at = $input["start_at"][$i];
-				$new_start_at = str_replace('/', '-', $start_at);
+			$end_at = $input['end_at'][$i];
+			$new_end_at = str_replace('/', '-', $end_at);
 
-				$end_at = $input['end_at'][$i];
-				$new_end_at = str_replace('/', '-', $end_at);
+			$data = [
+				"job_id" => $input['job_id'][$i],
+				"event" => $input['event'][$i],
+        "start_at" => date("Y-m-d", strtotime($new_start_at)),
+        "end_at" => date("Y-m-d", strtotime($new_end_at)),
+				"lunar_date" => $input['lunar_date'][$i],
+				"time" => $input['time'][$i],
+				"shuwen_title" => $input['shuwen_title'][$i],
+				"display" => $input['display_hidden'][$i]
+      ];
 
-				$data = [
-					"job_id" => $input['job_id'][$i],
-					"event" => $input['event'][$i],
-        	"start_at" => date("Y-m-d", strtotime($new_start_at)),
-        	"end_at" => date("Y-m-d", strtotime($new_end_at)),
-					"lunar_date" => $input['lunar_date'][$i],
-					"time" => $input['time'][$i],
-					"shuwen_title" => $input['shuwen_title'][$i],
-					"display" => $input['display_hidden'][$i]
-      	];
+			FestiveEvent::create($data);
+		}
 
-				FestiveEvent::create($data);
-			}
+		$events = FestiveEvent::orderBy('start_at', 'desc')->get();
 
-			$events = FestiveEvent::orderBy('start_at', 'desc')->get();
+		$request->session()->flash('success', 'Event Calender has been updated!');
 
-			$request->session()->flash('success', 'Event Calender has been updated!');
-
-			return redirect()->back()->with([
-				'events' => $events
-			]);
+		return redirect()->back()->with([
+			'events' => $events
+		]);
 	}
 
 }

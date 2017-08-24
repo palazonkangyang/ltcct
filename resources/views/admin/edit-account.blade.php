@@ -107,7 +107,7 @@
                                                 <div class="form-group">
                                                     <label>User Name</label>
 
-                                                    <input type="text" class="form-control" name="user_name"
+                                                    <input type="text" class="form-control" name="user_name" id="user_name"
                                                             value="{{ old( 'user_name', $staff->user_name) }}">
 
                                                 </div><!-- end form-group -->
@@ -206,8 +206,15 @@
 			var errors = new Array();
 			var validationFailed = false;
 
+			var user_name = $("#user_name").val();
 			var password = $("#password").val();
 			var confirm_password = $("#confirm_password").val();
+
+			if ($.trim(user_name).length <= 0)
+			{
+					validationFailed = true;
+					errors[count++] = "User Name should not be empty.";
+			}
 
 			if ($.trim(password).length > 0)
       {

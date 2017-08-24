@@ -1,5 +1,5 @@
 body{
-  font-size: 11px;
+  font-size: 9px;
 }
 
 header{
@@ -11,13 +11,13 @@ article{
 }
 
 #leftcontent{
-  width: 128mm;
+  width: 115mm;
   margin-right: 1mm;
   float: left;
 }
 
 #rightcontent{
-  width: 70mm;
+  width: 72mm;
   float: right;
 }
 
@@ -28,18 +28,18 @@ article{
 .receipt-list{
   margin-top: 3.2mm;
   overflow: hidden;
-  min-height: 200px;
+  min-height: 195px;
 }
 
 .label-wrapper{
-	width: 74mm;
+	width: 65mm;
 	margin: 0.1cm 0;
 	overflow: hidden;
   float: left;
 }
 
 .label-wrapper2{
-	width: 54mm;
+	width: 48mm;
 	margin: 0.1cm 0;
 	overflow: hidden;
   float: left;
@@ -63,27 +63,27 @@ article{
 }
 
 .label-left{
-	width: 30mm;
+	width: 25mm;
 	float: left;
 }
 
 .label-right{
-	width: 42mm;
+	width: 31mm;
 	float: left;
 }
 
 .label-right2{
-	width: 24mm;
+	width: 23mm;
 	float: left;
 }
 
 .rightlabel-left{
-	width: 3cm;
+	width: 45mm;
 	float: left;
 }
 
 .rightlabel-right{
-	width: 3cm;
+	width: 27mm;
 	float: left;
   text-align: right;
 }

@@ -26,6 +26,7 @@
     <link href="{{ asset('/css/layout.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/default.min.css') }}" rel="stylesheet" type="text/css" id="style_color" />
     <link href="{{ asset('/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 		<style type="text/css">
         tfoot input {

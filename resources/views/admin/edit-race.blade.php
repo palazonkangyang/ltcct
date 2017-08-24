@@ -103,8 +103,13 @@
 
                       <div class="form-actions">
                           <button type="submit" class="btn blue" id="update-race-btn">Update</button>
-                          <button type="reset" class="btn default">Cancel</button>
+                          <button type="reset" class="btn default" id="cancel-race-btn">Cancel</button>
                       </div><!-- end form-actions -->
+
+                      <div id="dialog-box" title="System Alert" style="display:none;">
+                          You have NOT Saved this Race Record
+                          Do you want to Cancel this record?
+                      </div>
 
                     </form>
 
@@ -130,6 +135,7 @@
 
 @section('script-js')
 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript">
 
     $(function() {
@@ -180,6 +186,29 @@
             $(".validation-error").removeClass("bg-danger alert alert-error")
             $(".validation-error").empty();
         }
+      });
+
+      $( "#dialog-box" ).dialog({
+        autoOpen: false
+      });
+
+      $("#dialog-box").dialog({
+       autoOpen: false,
+       modal: true,
+       buttons : {
+            "No, Mistake" : function() {
+                $(this).dialog("close");
+            },
+            "Yes, Cancel" : function() {
+              window.location.reload(true);
+              $(this).dialog("close");
+            }
+          }
+      });
+
+      $("#cancel-race-btn").on("click", function(e) {
+        e.preventDefault();
+        $("#dialog-box").dialog("open");
       });
     });
 

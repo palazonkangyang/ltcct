@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Acknowledge;
 use App\Models\Dialect;
 use App\Models\Race;
+use App\Models\Amount;
 use Auth;
 use DB;
 use Hash;
@@ -426,5 +427,27 @@ class AdminController extends Controller
 
 		$request->session()->flash('success', 'Selected Race has been deleted.');
     return redirect()->back();
+	}
+
+	public function getMinimumAmount()
+	{
+		$amount = Amount::all();
+
+		return view('admin.minimum-amount', [
+			'amount' => $amount
+		]);
+	}
+
+	public function postUpdateMinimumAmount(Request $request)
+	{
+	  $input = array_except($request->all(), '_token');
+
+		$amount = Amount::find($input['amount_id']);
+		$amount->minimum_amount = $input['minimum_amount'];
+
+	  $amount->save();
+
+	  $request->session()->flash('success', 'Minimum Amount has been updated!');
+	  return redirect()->back();
 	}
 }

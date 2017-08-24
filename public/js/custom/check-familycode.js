@@ -19,14 +19,14 @@ $(function() {
     	var address_postal = $("#content_address_postal").val();
 			var oversea_addr_in_chinese = $('#content_oversea_addr_in_chinese').val();
 
-			if($.trim(oversea_addr_in_chinese).length <= 0)
-      {
-        if ($.trim(address_postal).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Check Family Code.. Address Postal is empty."
-        }
-      }
+			// if($.trim(oversea_addr_in_chinese).length <= 0)
+      // {
+      //   if ($.trim(address_postal).length <= 0)
+      //   {
+      //       validationFailed = true;
+      //       errors[count++] = "Check Family Code.. Address Postal is empty."
+      //   }
+      // }
 
       if (validationFailed)
       {

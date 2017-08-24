@@ -26,6 +26,8 @@
     $devotee_count = 0;
     $receipt_no = 0;
 
+		dd($samefamily_no);
+
   @endphp
 
   @if($print_format == 'hj')
@@ -100,13 +102,13 @@
         <table class="receipt-table">
           <thead>
             <tr>
-              <th>S/No</th>
-              <th>Chinese Name</th>
-              <th>Devotee</th>
-              <th>Address</th>
-              <th width="50px">HJ/ GR</th>
-              <th>Receipt</th>
-              <th>Amount</th>
+							<th width="1%">S/No</th>
+              <th width="15%">Chinese Name</th>
+              <th width="5%">Devotee</th>
+              <th width="30%">Address</th>
+              <th width="11%">HJ/ GR</th>
+              <th width="15%">Receipt</th>
+              <th width="18%">Amount</th>
             </tr>
           </thead>
 
@@ -139,7 +141,7 @@
                 @endif
               </td>
               <td>{{ $receipt->xy_receipt }}</td>
-              <td>S$ {{ $receipt->amount }}</td>
+              <td>S$ {{ number_format( $receipt->amount, 2) }}</td>
             </tr>
 
             @php $devotee_count++; $rowno++;  $sum += $receipt->amount; @endphp
@@ -155,11 +157,11 @@
       <div style="overflow: hidden;">
 
         <div style="float:left; width: 60%;">
-          <p style="font-size: 13px; font-weight: bold;">Payment Mode (付款方式) : {{ $receipt->mode_payment }}</p>
+          <p style="font-size: 12px; font-weight: bold;">Payment Mode (付款方式) : {{ $receipt->mode_payment }}</p>
         </div>
 
         <div class="float: right: width: 40%;">
-          <p style="font-size: 13px; font-weight: bold;">Total Amount (总额) S$ {{ $receipt->amount }}</p>
+          <p style="font-size: 12px; font-weight: bold;">Total Amount (总额) S$ {{ number_format( $sum, 2) }}</p>
         </div>
 
       </div>
@@ -210,26 +212,26 @@
       </div><!-- end receipt-info -->
 
       <div class="receipt-info">
-        <div class="" style="width: 3cm; float: left;">
+        <div class="" style="width: 49mm; float: left;">
           <p><b>Paid By (付款者)</b></p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
           D - {{ $paid_by[0]->devotee_id }}</p>
           <p><b>No of Set(s) / 份数</b></p>
         </div>
 
-        <div style="width: 3cm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
+        <div style="width: 22mm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
           <span style="font-size: 45px; font-weight: bold;">{{ $samefamily_no }}</span>
         </div>
       </div><!-- end receipt-info -->
 
       <div class="receipt-info">
         <div class="label-rightwrapper">
-          <div class="rightlabel-left">Total Amount (总额)</div><!-- end label-left -->
-          <div class="rightlabel-right">{{ $sum }}</div><!-- end label-right -->
+          <div class="rightlabel-left"><b>Total Amount (总额)</b></div><!-- end label-left -->
+          <div class="rightlabel-right">S$ {{ number_format( $sum, 2) }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-rightwrapper">
-          <div class="rightlabel-left">Receipt No (收据)</div><!-- end label-left -->
+          <div class="rightlabel-left"><b>Receipt No (收据)</b></div><!-- end label-left -->
           <div class="rightlabel-right">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
       </div><!-- end receipt-info -->
@@ -271,7 +273,7 @@
 
         <div class="label-wrapper">
           <div class="label-left">Paid By (付款者)</div><!-- end label-left -->
-          <div class="label-right">{{ $receipts[$i]->chinese_name }} (D - {{ $receipts[$i]->focusdevotee_id }})</div><!-- end label-right -->
+          <div class="label-right">{{ $receipts[0]->chinese_name }} (D - {{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-wrapper2">
@@ -298,13 +300,13 @@
         <table class="receipt-table">
           <thead>
             <tr>
-              <th>S/No</th>
-              <th>Chinese Name</th>
-              <th>Devotee</th>
-              <th>Address</th>
-              <th width="50px">HJ/ GR</th>
-              <th>Receipt</th>
-              <th>Amount</th>
+							<th width="1%">S/No</th>
+              <th width="15%">Chinese Name</th>
+              <th width="5%">Devotee</th>
+              <th width="30%">Address</th>
+              <th width="11%">HJ/ GR</th>
+              <th width="15%">Receipt</th>
+              <th width="18%">Amount</th>
             </tr>
           </thead>
 
@@ -330,7 +332,7 @@
                 @endif
               </td>
               <td>{{ $receipts[$i]->xy_receipt }}</td>
-              <td>S$ {{ $receipts[$i]->amount }}</td>
+              <td>S$ {{ number_format( $receipts[$i]->amount, 2) }}</td>
             </tr>
           </tbody>
         </table>
@@ -340,11 +342,11 @@
       <div style="overflow: hidden;">
 
         <div style="float:left; width: 60%;">
-          <p style="font-size: 13px; font-weight: bold;">Payment Mode (付款方式) : {{ $receipts[$i]->mode_payment }}</p>
+          <p style="font-size: 12px; font-weight: bold;">Payment Mode (付款方式) : {{ $receipts[$i]->mode_payment }}</p>
         </div>
 
         <div class="float: right: width: 40%;">
-          <p style="font-size: 13px; font-weight: bold;">Total Amount (总额) S$ {{ $receipts[$i]->amount }}</p>
+          <p style="font-size: 12px; font-weight: bold;">Total Amount (总额) S$ {{ number_format( $receipts[$i]->amount, 2) }}</p>
         </div>
 
       </div>
@@ -395,26 +397,26 @@
       </div><!-- end receipt-info -->
 
       <div class="receipt-info">
-        <div class="" style="width: 3cm; float: left;">
+        <div class="" style="width: 49mm; float: left;">
           <p><b>Paid By (付款者)</b></p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
           D - {{ $paid_by[0]->devotee_id }}</p>
           <p><b>No of Set(s) / 份数</b></p>
         </div>
 
-        <div style="width: 3cm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
+        <div style="width: 22mm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
           <span style="font-size: 45px; font-weight: bold;">1</span>
         </div>
       </div><!-- end receipt-info -->
 
       <div class="receipt-info">
         <div class="label-rightwrapper">
-          <div class="rightlabel-left">Total Amount (总额)</div><!-- end label-left -->
-          <div class="rightlabel-right">{{ $receipts[$i]->amount }}</div><!-- end label-right -->
+          <div class="rightlabel-left"><b>Total Amount (总额)</b></div><!-- end label-left -->
+          <div class="rightlabel-right"><b>S$ {{ number_format( $receipts[$i]->amount, 2) }}</b></div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-rightwrapper">
-          <div class="rightlabel-left">Receipt No (收据)</div><!-- end label-left -->
+          <div class="rightlabel-left"><b>Receipt No (收据)</b></div><!-- end label-left -->
           <div class="rightlabel-right">{{ $receipts[$i]->xy_receipt }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
       </div><!-- end receipt-info -->
@@ -453,7 +455,7 @@
 
         <div class="label-wrapper">
           <div class="label-left">Paid By (付款者)</div><!-- end label-left -->
-          <div class="label-right">{{ $receipt->chinese_name }} (D - {{ $receipt->focusdevotee_id }})</div><!-- end label-right -->
+          <div class="label-right">{{ $receipts[0]->chinese_name }} (D - {{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-wrapper2">
@@ -480,13 +482,13 @@
         <table class="receipt-table">
           <thead>
             <tr>
-              <th>S/No</th>
-              <th>Chinese Name</th>
-              <th>Devotee</th>
-              <th>Address</th>
-              <th width="50px">HJ/ GR</th>
-              <th>Receipt</th>
-              <th>Amount</th>
+							<th width="1%">S/No</th>
+              <th width="15%">Chinese Name</th>
+              <th width="5%">Devotee</th>
+              <th width="30%">Address</th>
+              <th width="11%">HJ/ GR</th>
+              <th width="15%">Receipt</th>
+              <th width="18%">Amount</th>
             </tr>
           </thead>
 
@@ -512,7 +514,7 @@
                 @endif
               </td>
               <td>{{ $receipt->xy_receipt }}</td>
-              <td>S$ {{ $receipt->amount }}</td>
+              <td>S$ {{ number_format( $receipt->amount, 2) }}</td>
             </tr>
 
             @php  $sum = $receipt->amount; @endphp
@@ -524,11 +526,11 @@
       <div style="overflow: hidden;">
 
         <div style="float:left; width: 60%;">
-          <p style="font-size: 13px; font-weight: bold;">Payment Mode (付款方式) : {{ $receipt->mode_payment }}</p>
+          <p style="font-size: 12px; font-weight: bold;">Payment Mode (付款方式) : {{ $receipt->mode_payment }}</p>
         </div>
 
         <div class="float: right: width: 40%;">
-          <p style="font-size: 13px; font-weight: bold;">Total Amount (总额) S$ {{ $receipt->amount }}</p>
+          <p style="font-size: 12px; font-weight: bold;">Total Amount (总额) S$ {{ number_format( $receipt->amount, 2) }}</p>
         </div>
 
       </div>
@@ -579,26 +581,26 @@
       </div><!-- end receipt-info -->
 
       <div class="receipt-info">
-        <div class="" style="width: 3cm; float: left;">
+        <div class="" style="width: 49mm; float: left;">
           <p><b>Paid By (付款者)</b></p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
           D - {{ $paid_by[0]->devotee_id }}</p>
           <p><b>No of Set(s) / 份数</b></p>
         </div>
 
-        <div style="width: 3cm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
+        <div style="width: 22mm; float: left; border: 1px solid black; line-height: 2cm; text-align: center; vertical-align: middle;">
           <span style="font-size: 45px; font-weight: bold;">1</span>
         </div>
       </div><!-- end receipt-info -->
 
       <div class="receipt-info">
         <div class="label-rightwrapper">
-          <div class="rightlabel-left">Total Amount (总额)</div><!-- end label-left -->
-          <div class="rightlabel-right">{{ $receipt->amount }}</div><!-- end label-right -->
+          <div class="rightlabel-left"><b>Total Amount (总额)</b></div><!-- end label-left -->
+          <div class="rightlabel-right"><b>S$ {{ number_format( $receipt->amount, 2) }}</b></div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-rightwrapper">
-          <div class="rightlabel-left">Receipt No (收据)</div><!-- end label-left -->
+          <div class="rightlabel-left"><b>Receipt No (收据)</b></div><!-- end label-left -->
           <div class="rightlabel-right">{{ $receipt->xy_receipt }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
       </div><!-- end receipt-info -->

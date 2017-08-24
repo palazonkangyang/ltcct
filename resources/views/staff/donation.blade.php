@@ -587,6 +587,7 @@
 	                                                    			<input type="hidden" name="focusdevotee_id"
 	                                                    				value="{{ $focus_devotee[0]->devotee_id }}">
 	                                                    			<input type="hidden" name="total_amount" id="total_amount" value="">
+																														<input type="hidden" name="minimum_amount" id="minimum_amount" value="{{ $amount[0]->minimum_amount }}">
 	                                                    		</div>
 
 	                                                    		@else
@@ -595,6 +596,7 @@
 	                                                    			<input type="hidden" name="focusdevotee_id"
 	                                                    				value="">
 	                                                    			<input type="hidden" name="total_amount" id="total_amount" value="">
+																														<input type="hidden" name="minimum_amount" id="minimum_amount" value="{{ $amount[0]->minimum_amount }}">
 	                                                    		</div>
 
 	                                                    		@endif
@@ -869,10 +871,13 @@
 
 			$("body").delegate('.amount', 'focus', function() {
 
-				$(this).on("change",function (){
-					var amount = $(this).val();
+				var minimum_amount = parseInt($("#minimum_amount").val());
 
-					if(amount > 5)
+				$(this).on("change",function (){
+
+					var amount = parseInt($(this).val());
+
+					if(amount > minimum_amount)
 					{
 						$(this).closest('tr').find(".display").val('Y');
 					}

@@ -679,7 +679,7 @@
                                                                             <select class="form-control" name="nationality" id="content_nationality">
                                                                                 <option value="">Please select</option>
 																																								@foreach($countries as $country)
-                                                                                <option value="{{ $country->id }}"<?php if ($country->id == 202) echo "selected"; ?>>{{ $country->country_name }}</option>
+                                                                                <option value="{{ $country->id }}">{{ $country->country_name }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div><!-- end col-md-8 -->
@@ -1669,6 +1669,10 @@
 
         $(function(){
 
+					$("#logout").click(function() {
+						localStorage.removeItem('activeTab');
+					});
+
 					// Disabled Edit Tab
 					$(".nav-tabs > li").click(function(){
 						if($(this).hasClass("disabled"))
@@ -1795,6 +1799,8 @@
 							var address_houseno = $("#content_address_houseno").val();
 							var address_postal = $("#content_address_postal").val();
 							var address_street = $("#content_address_street").val();
+							var address_unit1 = $("#content_address_unit1").val();
+							var address_unit2 = $("#content_address_unit2").val();
 
 							if ($.trim(address_houseno).length <= 0)
 							{
@@ -1848,16 +1854,21 @@
 					      dataType: 'json',
 					      success: function(response)
 					      {
-									if($.trim(address_unit1).length <= 0)
+
+									if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
 									{
-										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
+										var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal;
+
+										alert(full_address);
 
 										$("#address_translated").val(full_address);
 									}
 									else
 									{
-										var full_address = response.address_translate[0]['chinese'] + ", No." + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
-																				address_postal + ", Singapore";
+										var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address_translate[0]['chinese'] +  ", " +
+																				address_postal;
+
+										alert(full_address);
 
 										$("#address_translated").val(full_address);
 									}
@@ -2151,6 +2162,8 @@
 							var chinese_name = $("#content_chinese_name").val();
 							var contact = $("#content_contact").val();
 							var address_houseno = $("#content_address_houseno").val();
+							var address_unit1 = $("#content_address_unit1").val();
+							var address_unit2 = $("#content_address_unit2").val();
 							var address_street = $("#content_address_street").val();
 							var address_postal = $("#content_address_postal").val();
 							var oversea_addr_in_chinese = $("#content_oversea_addr_in_chinese").val();
@@ -2167,6 +2180,42 @@
 							var content_introduced_by1 = $("#content_introduced_by1").val();
 							var content_introduced_by2 = $("#content_introduced_by2").val();
 							var content_approved_date = $("#content_approved_date").val();
+
+							if($.trim(address_street).length > 0)
+							{
+								alert('here');
+								var formData = {
+						      _token: $('meta[name="csrf-token"]').attr('content'),
+						      address_street: address_street,
+						    };
+
+						    $.ajax({
+						      type: 'GET',
+						      url: "/operator/address-translate",
+						      data: formData,
+						      dataType: 'json',
+						      success: function(response)
+						      {
+						        if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
+						        {
+						          var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal;
+
+						          $("#address_translated").val(full_address);
+						        }
+						        else
+						        {
+						          var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address_translate[0]['chinese'] +  ", " +
+						                              address_postal;
+
+						          $("#address_translated").val(full_address);
+						        }
+						      },
+
+						      error: function (response) {
+						        console.log(response);
+						      }
+						   });
+							}
 
 							if ($.trim(chinese_name).length <= 0)
 							{

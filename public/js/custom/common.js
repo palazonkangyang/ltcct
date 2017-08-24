@@ -62,23 +62,36 @@ $(function() {
 			var focus_address_street = $("#focus_address_street").val();
 			var focus_address_postal = $("#focus_address_postal").val();
 			var focus_address_unit = $("#focus_address_unit").val();
+			var focus_oversea_addr_in_chinese = $("#focus_oversea_addr_in_chinese").val();
 
-			var strVale = focus_address_unit;
-      arr = strVale.split('-');
+			// alert(focus_oversea_addr_in_chinese);
 
-      for(i=0; i < arr.length; i++)
-      {
-          var focus_address_unit1 = arr[0];
-					var focus_address_unit2 = arr[1];
-      }
+			if($.trim(focus_address_houseno).length > 0)
+			{
+				var strVale = focus_address_unit;
+	      arr = strVale.split('-');
 
-			$("#content_address_houseno").val(focus_address_houseno);
-			$("#content_address_unit1").val(focus_address_unit1);
-			$("#content_address_unit2").val(focus_address_unit2);
-			$("#content_address_street").val(focus_address_street);
-			$("#content_address_postal").val(focus_address_postal);
+	      for(i = 0; i < arr.length; i++)
+	      {
+	          var focus_address_unit1 = arr[0];
+						var focus_address_unit2 = arr[1];
+	      }
 
-      $(".check_family_code").click();
+				$("#content_address_houseno").val(focus_address_houseno);
+				$("#content_address_unit1").val(focus_address_unit1);
+				$("#content_address_unit2").val(focus_address_unit2);
+				$("#content_address_street").val(focus_address_street);
+				$("#content_address_postal").val(focus_address_postal);
+
+	      $(".check_family_code").click();
+			}
+
+			else
+			{
+				$("#content_oversea_addr_in_chinese").val(focus_oversea_addr_in_chinese);
+
+				$(".check_family_code").click();
+			}
 
 		});
 
@@ -98,7 +111,7 @@ $(function() {
               $(this).dialog("close");
           },
           "Yes, Cancel" : function() {
-            $('#new-devotee-form')[0].reset();
+            window.location.reload(true);
             $(this).dialog("close");
           }
         }

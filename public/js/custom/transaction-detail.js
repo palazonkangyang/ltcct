@@ -144,8 +144,6 @@ $(function() {
       {
         $('#transaction-table tbody').empty();
 
-        alert(JSON.stringify(response));
-
         if(response.msg != null)
         {
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");

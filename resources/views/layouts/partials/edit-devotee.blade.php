@@ -469,7 +469,7 @@
 	 									<label class="col-md-4">Address - Translate</label>
 	 									<div class="col-md-8">
 	 													<input type="text" class="form-control" name="address_translated" id="edit_address_translated"
-														value="" readonly>
+														value="{{ $focus_devotee[0]->address_translated }}" readonly>
 	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->

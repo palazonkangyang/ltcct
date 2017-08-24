@@ -87,7 +87,7 @@
                         <div class="form-group">
                             <div class="col-md-6">
                               <label>Dialect Name</label>
-                              <input name="dialect_name" class="form-control" placeholder="" type="text"
+                              <input name="dialect_name" class="form-control" type="text"
                               value="{{ old( 'dialect_name', $dialect->dialect_name) }}" id="dialect_name">
                             </div><!-- end col-md-6 -->
 
@@ -104,6 +104,11 @@
                           <button type="submit" class="btn blue" id="update-dialect-btn">Update</button>
                           <button type="button" class="btn default" id="cancel-dialect-btn">Cancel</button>
                       </div><!-- end form-actions -->
+
+                      <div id="dialog-box" title="System Alert" style="display:none;">
+                          You have NOT Saved this Dialect Record
+                          Do you want to Cancel this record?
+                      </div>
 
                     </form>
 
@@ -133,7 +138,7 @@
   <script type="text/javascript">
 
     $(function() {
-      
+
       $("#update-dialect-btn").click(function() {
 
         $(".alert-success").remove();
@@ -172,6 +177,29 @@
             $(".validation-error").removeClass("bg-danger alert alert-error")
             $(".validation-error").empty();
         }
+      });
+
+      $( "#dialog-box" ).dialog({
+        autoOpen: false
+      });
+
+      $("#dialog-box").dialog({
+       autoOpen: false,
+       modal: true,
+       buttons : {
+            "No, Mistake" : function() {
+                $(this).dialog("close");
+            },
+            "Yes, Cancel" : function() {
+              window.location.reload(true);
+              $(this).dialog("close");
+            }
+          }
+      });
+
+      $("#cancel-dialect-btn").on("click", function(e) {
+          e.preventDefault();
+          $("#dialog-box").dialog("open");
       });
     });
 

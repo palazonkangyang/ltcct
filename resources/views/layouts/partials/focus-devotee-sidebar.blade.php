@@ -317,7 +317,7 @@
                         <label class="col-md-4">Other Addr - Chinese</label>
 
                         <div class="col-md-8">
-                            <input type="text" class="form-control" name="oversea_addr_in_chinese" id="oversea_addr_in_chinese"
+                            <input type="text" class="form-control" name="oversea_addr_in_chinese" id="focus_oversea_addr_in_chinese"
                                 value="{{ $focus_devotee[0]->oversea_addr_in_chinese }}">
                         </div><!-- end col-md-8 -->
                     </div><!-- end form-group -->
