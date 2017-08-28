@@ -85,7 +85,13 @@
 
 	        <div class="label-wrapper">
 	          <div class="label-left">Description (项目)</div><!-- end label-left -->
-	          <div class="label-right">香油</div><!-- end label-right -->
+	          <div class="label-right">
+							@if($receipts[0]->description == 'General Donation - 香油')
+							香油
+							@elseif($receipts[0]->description == 'General Donation - 慈济')
+							慈济
+							@endif
+						</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 
 	        <div class="label-wrapper2">
@@ -182,7 +188,13 @@
 
 	        <div class="label-rightwrapper">
 	          <div class="rightlabel-left">Description (项目)</div><!-- end label-left -->
-	          <div class="rightlabel-right">香油</div><!-- end label-right -->
+	          <div class="rightlabel-right">
+							@if($receipts[0]->description == 'General Donation - 香油')
+							香油
+							@elseif($receipts[0]->description == 'General Donation - 慈济')
+							慈济
+							@endif
+						</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 	      </div><!-- end receipt-info -->
 
@@ -285,7 +297,13 @@
 
         <div class="label-wrapper">
           <div class="label-left">Description (项目)</div><!-- end label-left -->
-          <div class="label-right">香油</div><!-- end label-right -->
+          <div class="label-right">
+						@if($receipts[0]->description == 'General Donation - 香油')
+						香油
+						@elseif($receipts[0]->description == 'General Donation - 慈济')
+						慈济
+						@endif
+					</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-wrapper2">
@@ -369,7 +387,13 @@
 
         <div class="label-rightwrapper">
           <div class="rightlabel-left">Description (项目)</div><!-- end label-left -->
-          <div class="rightlabel-right">香油</div><!-- end label-right -->
+          <div class="rightlabel-right">
+						@if($receipts[0]->description == 'General Donation - 香油')
+						香油
+						@elseif($receipts[0]->description == 'General Donation - 慈济')
+						慈济
+						@endif
+					</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
       </div><!-- end receipt-info -->
 
@@ -467,7 +491,13 @@
 
         <div class="label-wrapper">
           <div class="label-left">Description (项目)</div><!-- end label-left -->
-          <div class="label-right">香油</div><!-- end label-right -->
+          <div class="label-right">
+						@if($receipts[0]->description == 'General Donation - 香油')
+						香油
+						@elseif($receipts[0]->description == 'General Donation - 慈济')
+						慈济
+						@endif
+					</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-wrapper2">
@@ -553,7 +583,13 @@
 
         <div class="label-rightwrapper">
           <div class="rightlabel-left">Description (项目)</div><!-- end label-left -->
-          <div class="rightlabel-right">香油</div><!-- end label-right -->
+          <div class="rightlabel-right">
+						@if($receipts[0]->description == 'General Donation - 香油')
+						香油
+						@elseif($receipts[0]->description == 'General Donation - 慈济')
+						慈济
+						@endif
+					</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
       </div><!-- end receipt-info -->
 
@@ -617,3 +653,6 @@
 
 </body>
 </html>
+
+<script type="text/javascript">
+</script>

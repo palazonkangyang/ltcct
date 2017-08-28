@@ -169,6 +169,11 @@
                                                             <span></span>
                                                         </label>
 
+																												<label class="mt-radio">
+                                                            <input type="radio" name="role" value="6"> Account Supervisor
+                                                            <span></span>
+                                                        </label>
+
 																												@endif
 
                                                         <label class="mt-radio">

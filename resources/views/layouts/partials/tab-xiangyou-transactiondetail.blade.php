@@ -55,7 +55,7 @@
         <div class="form-group">
           <label class="col-md-4">Description (项目)</label>
           <label class="col-md-1">:</label>
-          <label class="col-md-4" id="description">香油</label>
+          <label class="col-md-4" id="description"></label>
         </div><!-- end form-group -->
 
         <div class="form-group">
@@ -155,6 +155,12 @@
     </div><!-- end form-group -->
    </div><!-- end col-md-12 -->
 
+   </form>
+
+   <form method="post" action="{{ URL::to('/staff/cancel-transaction') }}"
+     class="form-horizontal form-bordered" id="">
+     {!! csrf_field() !!}
+
    <div class="col-md-12">
      <br />
      <div class="form-group">
@@ -170,12 +176,18 @@
 
    <div class="col-md-12">
 
+       <div class="form-group">
+         <input type="hidden" name="transaction_no" value="" id="hidden_transaction_no">
+       </div><!-- end form-group -->
+
      <div class="form-group">
        <div class="form-actions">
         <button type="button" class="btn blue" id="cancel-replace-btn">Cancel & Replace Transaction</button>
-        <button type="button" class="btn default" id="cancel-transaction">Cancel Transaction</button>
+        <button type="submit" class="btn default" id="cancel-transaction">Cancel Transaction</button>
       </div><!-- end form-actions -->
      </div><!-- end form-group -->
+
+    </form>
 
    </div><!-- end col-md-12 -->
 

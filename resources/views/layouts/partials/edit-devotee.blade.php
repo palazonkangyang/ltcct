@@ -171,9 +171,9 @@
 													 Check Family Code
 											 </button>
 
-											 <button type="button" class="btn default edit_address_translated_btn">
+											 <!-- <button type="button" class="btn default edit_address_translated_btn">
 													 Translate Address
-											 </button>
+											 </button> -->
 										 </div><!-- end col-md-12 -->
 
 								 </div><!-- end form-group -->
@@ -491,9 +491,9 @@
 	 												Check Family Code
 	 										</button>
 
-	 										<button type="button" class="btn default edit_address_translated_btn">
+	 										<!-- <button type="button" class="btn default edit_address_translated_btn">
 	 												Translate Address
-	 										</button>
+	 										</button> -->
 	 									</div><!-- end col-md-12 -->
 
 	 							</div><!-- end form-group -->
@@ -1120,10 +1120,10 @@
 
 								<div id="opt_vehicle">
 
-									<div class='col-md-1'>
-									</div><!-- end col-md-1 -->
-
 									<div class='form-group'>
+										<div class='col-md-1'>
+										</div><!-- end col-md-1 -->
+
 										<label class='col-md-2'>Opt.Vehicle</label><!-- end col-md-3 -->
 
 										<div class='col-md-3'>
@@ -1135,7 +1135,7 @@
 
 										<div class='col-md-6'>
 											<input type="text" class="form-control" name="vehicle_data[]" value="">
-										</div><!-- end col-md-5 -->
+										</div><!-- end col-md-6 -->
 
 									</div><!-- end form-group -->
 
@@ -1191,7 +1191,7 @@
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
 
-										<label class='col-md-2 control-label'>Special Remark</label><!-- end col-md-2 -->
+										<label class='col-md-2'>Special Remark</label><!-- end col-md-2 -->
 
 										<div class='col-md-9'>
 											<input type="text" class="form-control" name="special_remark[]" value="">
@@ -1402,7 +1402,7 @@
                 </div><!-- end form-group -->
 
                 <div class="form-actions pull-right">
-                    <button type="submit" class="btn blue" id="update_btn" disabled>Update</button>
+                    <button type="submit" class="btn blue" id="update_btn">Update</button>
                     <button type="button" class="btn default" id="edit_cancel_btn">Cancel</button>
                 </div><!-- end form-actions -->
             </div><!-- end col-md-6 -->

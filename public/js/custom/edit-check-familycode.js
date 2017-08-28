@@ -19,7 +19,6 @@ $(function() {
     	var address_unit1 = $("#edit_address_unit1").val();
     	var address_unit2 = $("#edit_address_unit2").val();
     	var address_street = $("#edit_address_street").val();
-    	var address_building = $("#edit_address_building").val();
     	var address_postal = $("#edit_address_postal").val();
       var oversea_addr_in_chinese = $('#edit_oversea_addr_in_chinese').val();
 
@@ -63,7 +62,6 @@ $(function() {
         	address_unit1: address_unit1,
         	address_unit2: address_unit2,
         	address_street: address_street,
-        	address_building: address_building,
         	address_postal: address_postal,
           oversea_addr_in_chinese: oversea_addr_in_chinese
         };

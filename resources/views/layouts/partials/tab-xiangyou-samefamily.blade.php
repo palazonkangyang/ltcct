@@ -9,8 +9,8 @@
       <table class="table table-bordered" id="same_familycode_table">
         <thead>
             <tr>
-              <th>#</th>
-              <th>#</th>
+              <th>香/ 慈</th>
+              <th>月捐</th>
               <th>Chinese Name</th>
               <th>Devotee#</th>
               <th>Member#</th>

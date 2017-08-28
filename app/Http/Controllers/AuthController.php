@@ -65,7 +65,12 @@ class AuthController extends Controller
         // }
         // }
 				else{
-					return redirect()->intended(URL::route('main-page'));
+					if ($user->role == 4 ||  $user->role == 6) {
+	          return redirect()->intended(URL::route('manage-expenditure-page'));
+	        }
+					else{
+	          return redirect()->intended(URL::route('main-page'));
+	        }
 				}
 	}
 

@@ -122,5 +122,63 @@
 
       });
 
+      $(document).keypress(function(e) {
+          if(e.which == 13) {
+            $(".validation-error").empty();
+            $(".alert-danger").remove();
+
+            var count = 0;
+            var errors = new Array();
+            var validationFailed = false;
+
+            var user_name = $("#user_name").val();
+            var password = $("#password").val();
+
+            if ($.trim(user_name).length <= 0)
+            {
+                validationFailed = true;
+                errors[count++] = "Username is empty."
+            }
+
+            if ($.trim(password).length <= 0)
+            {
+                validationFailed = true;
+                errors[count++] = "Password is empty."
+            }
+
+            if ( $('.acknowledge').children().length > 1 ) {
+
+              if($('#terms').prop('checked') == false)
+              {
+                validationFailed = true;
+                errors[count++] = "Read and Acknowledge field is empty."
+              }
+
+            }
+
+            if (validationFailed)
+            {
+                var errorMsgs = '';
+
+                for(var i = 0; i < count; i++)
+                {
+                    errorMsgs = errorMsgs + errors[i] + "<br/>";
+                }
+
+                $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+                $(".validation-error").addClass("bg-danger alert alert-error")
+                $(".validation-error").html(errorMsgs);
+
+                return false;
+            }
+
+            else {
+                $(".validation-error").removeClass("bg-danger alert alert-error")
+                $(".validation-error").empty();
+            }
+          }
+      });
+
     });
 </script>

@@ -1078,7 +1078,7 @@
 
 																														<div class="clearfix"></div><!-- end clearfix -->
 
-																														</form>
+
 																												</div><!-- end form-body -->
 																											</div><!-- end tab-pane tab_relative_friends -->
 

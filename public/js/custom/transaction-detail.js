@@ -35,8 +35,21 @@ $(function() {
             $("#receipt").text(response.transaction[0].xy_receipt);
           }
 
+          if(response.transaction[0].description == "General Donation - 慈济")
+          {
+            description = '慈济';
+          }
+          else if (response.transaction[0].description == "General Donation - 香油") {
+            description = "香油";
+          }
+          else
+          {
+
+          }
+
           $("#trans_no").val(response.transaction[0].trans_no);
           $('#receipt_date').text(response.transaction[0].trans_date);
+          $("#description").text(description);
           $("#paid_by").text(response.focusdevotee + " (D - " + response.transaction[0].focusdevotee_id + ")");
           $("#donation_event").text(response.transaction[0].event);
           $("#transaction_no").text(response.transaction[0].trans_no);
@@ -74,6 +87,7 @@ $(function() {
         {
           $("#receipt").text('');
           $('#receipt_date').text('');
+          $("#description").text('');
           $("#paid_by").text('');
           $("#donation_event").text('');
           $("#transaction_no").text('');
@@ -237,11 +251,12 @@ $(function() {
     var trans_no = $("#trans_no").val();
     var amount = $("#amount").text();
     var authorized_password = $("#authorized_password").val();
+    var description = $("#description").text();
 
     if ($.trim(authorized_password).length <= 0)
     {
-        validationFailed = true;
-        errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes.";
+      validationFailed = true;
+      errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes.";
     }
 
     if(amount == 0)
@@ -252,24 +267,23 @@ $(function() {
 
     if (validationFailed)
     {
-        var errorMsgs = '';
+      var errorMsgs = '';
 
-        for(var i = 0; i < count; i++)
-        {
-            errorMsgs = errorMsgs + errors[i] + "<br/>";
-        }
+      for(var i = 0; i < count; i++)
+      {
+        errorMsgs = errorMsgs + errors[i] + "<br/>";
+      }
 
-        $('html,body').animate({ scrollTop: 0 }, 'slow');
+      $('html,body').animate({ scrollTop: 0 }, 'slow');
+      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").html(errorMsgs);
 
-        $(".validation-error").addClass("bg-danger alert alert-error")
-        $(".validation-error").html(errorMsgs);
-
-        return false;
+      return false;
     }
 
     else {
-        $(".validation-error").removeClass("bg-danger alert alert-error")
-        $(".validation-error").empty();
+      $(".validation-error").removeClass("bg-danger alert alert-error")
+      $(".validation-error").empty();
     }
 
     var formData = {
@@ -289,8 +303,6 @@ $(function() {
       success: function(response)
       {
         // location.reload();
-        $('.nav-tabs li:eq(0) a').tab('show');
-
         $('#transaction-table tbody').empty();
         $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
 
@@ -303,35 +315,79 @@ $(function() {
         $("#payment_mode").text('');
         $("#amount").text('');
 
-        $.each(response.receipt, function(index, data) {
+        if(description == "香油")
+        {
+          $('.nav-tabs li:eq(0) a').tab('show');
 
-          $("#generaldonation_table tbody tr").each(function() {
-            var devotee = $(this).find("#devotee").text();
+          $.each(response.receipt, function(index, data) {
 
-            if(devotee == data.devotee_id)
-            {
-              $(this).find('.amount').val(data.amount);
-              $(this).find('.hjgr').val(data.hjgr);
-              $(this).find('.display').val(data.display);
-            }
+            $("#generaldonation_table tbody tr").each(function() {
+              var devotee = $(this).find("#devotee").text();
+
+              if(devotee == data.devotee_id)
+              {
+                $(this).find('.amount').val(data.amount);
+                $(this).find('.hjgr').val(data.hjgr);
+                $(this).find('.display').val(data.display);
+              }
+            });
+
+            $("#generaldonation_table2 tbody tr").each(function() {
+              var devotee = $(this).find("#devotee").text();
+
+              if(devotee == data.devotee_id)
+              {
+                $(this).find('.amount').val(data.amount);
+                $(this).find('.hjgr').val(data.hjgr);
+                $(this).find('.display').val(data.display);
+              }
+            });
           });
 
-          $("#generaldonation_table2 tbody tr").each(function() {
-            var devotee = $(this).find("#devotee").text();
+          $(".total").html(amount);
+          $("#total_amount").val(amount);
+        }
 
-            if(devotee == data.devotee_id)
-            {
-              $(this).find('.amount').val(data.amount);
-              $(this).find('.hjgr').val(data.hjgr);
-              $(this).find('.display').val(data.display);
-            }
+        else if (description == "慈济") {
+          $('.nav-tabs li:eq(1) a').tab('show');
+
+          $.each(response.receipt, function(index, data) {
+
+            $("#ciji_generaldonation_table tbody tr").each(function() {
+              var devotee = $(this).find("#devotee").text();
+
+              if(devotee == data.devotee_id)
+              {
+                $(this).find('.ciji-amount').val(data.amount);
+                $(this).find('.ciji-hjgr').val(data.hjgr);
+                $(this).find('.ciji-display').val(data.display);
+              }
+            });
+
+            $("#ciji_generaldonation_table2 tbody tr").each(function() {
+              var devotee = $(this).find("#devotee").text();
+
+              if(devotee == data.devotee_id)
+              {
+                $(this).find('.ciji-amount').val(data.amount);
+                $(this).find('.ciji-hjgr').val(data.hjgr);
+                $(this).find('.ciji-display').val(data.display);
+              }
+            });
           });
-        });
+
+          $(".ciji_total").html(amount);
+          $("#ciji_total_amount").val(amount);
+        }
+
+        else
+        {
+
+        }
 
         $("#authorized_password").val('');
         $("#trans_no").val('');
-        $(".total").html(amount);
-        $("#total_amount").val(amount);
+
 
         if(trans_no != "")
         {
@@ -357,6 +413,78 @@ $(function() {
       }
     });
 
+  });
+
+  $("#cancel-transaction").click(function() {
+
+    $(".alert-success").remove();
+    $(".validation-error").empty();
+
+    var count = 0;
+    var errors = new Array();
+    var validationFailed = false;
+
+    var trans_no = $("#trans_no").val();
+    var authorized_password = $("#authorized_password").val();
+
+    if($.trim(trans_no).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Transaction No field is empty.";
+    }
+
+    else
+    {
+      $("#hidden_transaction_no").val(trans_no);
+    }
+
+    if ($.trim(authorized_password).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes.";
+    }
+
+    if (validationFailed)
+    {
+      var errorMsgs = '';
+
+      for(var i = 0; i < count; i++)
+      {
+        errorMsgs = errorMsgs + errors[i] + "<br/>";
+      }
+
+      $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").html(errorMsgs);
+
+      return false;
+    }
+
+    else {
+      $(".validation-error").removeClass("bg-danger alert alert-error")
+      $(".validation-error").empty();
+    }
+
+    // var formData = {
+    //   _token: $('meta[name="csrf-token"]').attr('content'),
+    //   trans_no: trans_no,
+    //   authorized_password
+    // };
+    //
+    // $.ajax({
+    //   type: 'POST',
+    //   url: "/staff/cancel-transaction",
+    //   data: formData,
+    //   dataType: 'json',
+    //   success: function(response)
+    //   {
+    //     $("#search_detail").click();
+    //   },
+    //   error: function (response) {
+    //       console.log(response);
+    //   }
+    // });
   });
 
   $('#reprint-btn').click(function() {

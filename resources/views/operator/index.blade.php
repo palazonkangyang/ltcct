@@ -568,9 +568,9 @@
 	                                                                      	Check Family Code
 	                                                                      </button>
 
-																																				<button type="button" class="btn default address_translated_btn">
+																																				<!-- <button type="button" class="btn default address_translated_btn">
 																																					Translate Address
-																																				</button>
+																																				</button> -->
                                                                       </div><!-- end col-md-12 -->
 
                                                                     </div><!-- end form-group -->
@@ -1387,7 +1387,7 @@
                                                                                     value="{{ old('new_address_postal') }}" id="new_address_postal">
                                                                             </div><!-- end col-md-2 -->
 
-                                                                            <label class="col-md-2">Country *</label>
+                                                                            <label class="col-md-2">Country</label>
                                                                             <div class="col-md-4">
                                                                                 <select class="form-control" name="new_nationality" id="new_nationality">
                                                                                     <option value="">Please select</option>
@@ -1669,6 +1669,15 @@
 
         $(function(){
 
+					// var url = document.location.toString();
+					//
+					// if (url.match('#')) {
+					// 	localStorage.removeItem('activeTab');
+					//   $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+					// }
+					//
+					// console.log(url);
+
 					$("#logout").click(function() {
 						localStorage.removeItem('activeTab');
 					});
@@ -1680,12 +1689,12 @@
 					});
 
 					// Disabled Quick Search Button
-			    var chinese_name = $("#chinese_name").val();
-
-			    if(chinese_name)
-			    {
-						$('.nav-tabs li:eq(6) a').tab('show');
-			    }
+			    // var chinese_name = $("#chinese_name").val();
+					//
+			    // if(chinese_name)
+			    // {
+					// 	$('.nav-tabs li:eq(6) a').tab('show');
+			    // }
 
 					$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
 							localStorage.setItem('activeTab', $(e.target).attr('href'));
@@ -1789,179 +1798,6 @@
 					  	$('#edit_populate_street').val(ui.item.value);
 						}
 					});
-
-					$(".address_translated_btn").click(function() {
-
-							var count = 0;
-							var errors = new Array();
-							var validationFailed = false;
-
-							var address_houseno = $("#content_address_houseno").val();
-							var address_postal = $("#content_address_postal").val();
-							var address_street = $("#content_address_street").val();
-							var address_unit1 = $("#content_address_unit1").val();
-							var address_unit2 = $("#content_address_unit2").val();
-
-							if ($.trim(address_houseno).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Houseno is empty."
-							}
-
-							if ($.trim(address_postal).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Postal is empty."
-							}
-
-							if ($.trim(address_street).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Street is empty."
-							}
-
-							if (validationFailed)
-							{
-									var errorMsgs = '';
-
-									for(var i = 0; i < count; i++)
-									{
-											errorMsgs = errorMsgs + errors[i] + "<br/>";
-									}
-
-									$('html,body').animate({ scrollTop: 0 }, 'slow');
-
-									$(".validation-error").addClass("bg-danger alert alert-error")
-									$(".validation-error").html(errorMsgs);
-
-									return false;
-							}
-
-							else {
-									$(".validation-error").removeClass("bg-danger alert alert-error")
-									$(".validation-error").empty();
-							}
-
-							var formData = {
-			        	_token: $('meta[name="csrf-token"]').attr('content'),
-			        	address_street: address_street,
-			        };
-
-							$.ajax({
-					    	type: 'GET',
-					      url: "/operator/address-translate",
-					      data: formData,
-					      dataType: 'json',
-					      success: function(response)
-					      {
-
-									if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
-									{
-										var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal;
-
-										alert(full_address);
-
-										$("#address_translated").val(full_address);
-									}
-									else
-									{
-										var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address_translate[0]['chinese'] +  ", " +
-																				address_postal;
-
-										alert(full_address);
-
-										$("#address_translated").val(full_address);
-									}
-					      },
-
-					      error: function (response) {
-					      	console.log(response);
-					      }
-					   });
- 					});
-
-					$(".edit_address_translated_btn").click(function() {
-
-							var count = 0;
-							var errors = new Array();
-							var validationFailed = false;
-
-							var address_houseno = $("#edit_address_houseno").val();
-							var address_postal = $("#edit_address_postal").val();
-							var address_street = $("#edit_address_street").val();
-
-							if ($.trim(address_houseno).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Houseno is empty."
-							}
-
-							if ($.trim(address_postal).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Postal is empty."
-							}
-
-							if ($.trim(address_street).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Address Street is empty."
-							}
-
-							if (validationFailed)
-							{
-									var errorMsgs = '';
-
-									for(var i = 0; i < count; i++)
-									{
-											errorMsgs = errorMsgs + errors[i] + "<br/>";
-									}
-
-									$('html,body').animate({ scrollTop: 0 }, 'slow');
-
-									$(".validation-error").addClass("bg-danger alert alert-error")
-									$(".validation-error").html(errorMsgs);
-
-									return false;
-							}
-
-							else {
-									$(".validation-error").removeClass("bg-danger alert alert-error")
-									$(".validation-error").empty();
-							}
-
-							var formData = {
-			        	_token: $('meta[name="csrf-token"]').attr('content'),
-			        	address_street: address_street,
-			        };
-
-							$.ajax({
-					    	type: 'GET',
-					      url: "/operator/address-translate",
-					      data: formData,
-					      dataType: 'json',
-					      success: function(response)
-					      {
-									if($.trim(address_unit1).length <= 0)
-									{
-										var full_address = "No." + address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_building + ", " + address_postal + ", Singapore";
-
-										$("#edit_address_translated").val(full_address);
-									}
-									else
-									{
-										var full_address = response.address_translate[0]['chinese'] + ", No." + address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + address_building +  ", " +
-																				address_postal + ", Singapore";
-
-										$("#edit_address_translated").val(full_address);
-									}
-					      },
-
-					      error: function (response) {
-					      	console.log(response);
-					      }
-					   });
- 					});
 
 					// DataTable
 					var table = $('#devotees_table').DataTable({
@@ -2153,7 +1989,7 @@
 							}
 						});
 
-						$("#confirm_btn").click(function() {
+						$("#confirm_btn").click(function(e) {
 
 							var count = 0;
 							var errors = new Array();
@@ -2183,7 +2019,6 @@
 
 							if($.trim(address_street).length > 0)
 							{
-								alert('here');
 								var formData = {
 						      _token: $('meta[name="csrf-token"]').attr('content'),
 						      address_street: address_street,
@@ -2336,11 +2171,59 @@
 									$(".validation-error").empty();
 							}
 
+							localStorage.removeItem('activeTab');
+						});
+
+						var edit_address_houseno = $("#edit_address_houseno").val();
+						var edit_address_street = $("#edit_address_street").val();
+						var edit_address_unit1 = $("#edit_address_unit1").val();
+						var edit_address_unit2 = $("#edit_address_unit2").val();
+						var edit_address_postal = $("#edit_address_postal").val();
+
+						$("#edit_address_houseno").focusout(function() {
+
+							if(edit_address_houseno != $(this).val())
+							{
+								$("#update_btn").attr('disabled', true);
+							}
+						});
+
+						$("#edit_address_street").focusout(function() {
+
+							if(edit_address_street != $(this).val())
+							{
+								$("#update_btn").attr('disabled', true);
+							}
+						});
+
+						$("#edit_address_unit1").focusout(function() {
+
+							if(edit_address_unit1 != $(this).val())
+							{
+								$("#update_btn").attr('disabled', true);
+							}
+						});
+
+						$("#edit_address_unit2").focusout(function() {
+
+							if(edit_address_unit2 != $(this).val())
+							{
+								$("#update_btn").attr('disabled', true);
+							}
+						});
+
+						$("#edit_address_postal").focusout(function() {
+
+							if(edit_address_postal != $(this).val())
+							{
+								$("#update_btn").attr('disabled', true);
+							}
 						});
 
             $("#update_btn").click(function() {
 
 								$(".alert-danger").remove();
+								$(".alert-success").remove();
 
                 var count = 0;
                 var errors = new Array();
@@ -2350,6 +2233,8 @@
                 var contact = $("#edit_contact").val();
 								var address_houseno = $("#edit_address_houseno").val();
 								var address_street = $("#edit_address_street").val();
+								var address_unit1 = $("#edit_address_unit1").val();
+								var address_unit2 = $("#edit_address_unit2").val();
                 var address_postal = $("#edit_address_postal").val();
 								var nric = $("#edit_nric").val();
 								var dob = $("#edit_dob").val();
@@ -2359,6 +2244,41 @@
 								var edit_race = $("#edit_race").val();
 								var edit_other_race = $("#edit_other_race").val();
                 var authorized_password = $("#authorized_password").val();
+
+								if($.trim(address_street).length > 0)
+								{
+									var formData = {
+							      _token: $('meta[name="csrf-token"]').attr('content'),
+							      address_street: address_street,
+							    };
+
+							    $.ajax({
+							      type: 'GET',
+							      url: "/operator/address-translate",
+							      data: formData,
+							      dataType: 'json',
+							      success: function(response)
+							      {
+							        if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
+							        {
+							          var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal;
+
+							          $("#edit_address_translated").val(full_address);
+							        }
+							        else
+							        {
+							          var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address_translate[0]['chinese'] +  ", " +
+							                              address_postal;
+
+							          $("#edit_address_translated").val(full_address);
+							        }
+							      },
+
+							      error: function (response) {
+							        console.log(response);
+							      }
+							   });
+								}
 
                 if ($.trim(chinese_name).length <= 0)
                 {
@@ -2388,24 +2308,6 @@
                 {
                     validationFailed = true;
                     errors[count++] = "Mandatory Address Postal field is empty."
-                }
-
-								if ($.trim(nric).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Mandatory NRIC field is empty."
-                }
-
-								if ($.trim(dob).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Mandatory Date of Birth field is empty."
-                }
-
-								if ($.trim(marital_status).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Mandatory Marital Status field is empty."
                 }
 
 								if(edit_dialect == "other_dialect")
@@ -2496,12 +2398,6 @@
 										validationFailed = true;
 										errors[count++] = "Mandatory Address Postal field is empty."
 								}
-							}
-
-							if ($.trim(nationality).length <= 0)
-							{
-									validationFailed = true;
-									errors[count++] = "Mandatory Country field is empty."
 							}
 
 							if ($.trim(authorized_password).length <= 0)

@@ -5,6 +5,11 @@
 @php
 		$xianyou_same_family = Session::get('xianyou_same_family');
 		$xianyou_different_family = Session::get('xianyou_different_family');
+		$yuejuan_same_family = Session::get('yuejuan_same_family');
+		$yuejuan_different_family = Session::get('yuejuan_different_family');
+		$focusdevotee_amount = Session::get('focusdevotee_amount');
+		$samefamily_amount = Session::get('samefamily_amount');
+		$differentfamily_amount = Session::get('differentfamily_amount');
 
 		$cancellation_focusdevotee = Session::get('cancellation_focusdevotee_xiangyou');
 		$cancellation_sameaddr_xiangyou = Session::get('cancellation_sameaddr_xiangyou');
@@ -93,10 +98,10 @@
                                                   <li class="active">
                                                     <a href="#tab_xiangyou" data-toggle="tab">Xiangyou <br>香油</a>
                                                   </li>
-                                                  <li class="disabled">
+                                                  <li>
                                                     <a href="#tab_ciji" data-toggle="tab">Ciji <br> 慈济</a>
                                                   </li>
-                                                  <li class="disabled">
+                                                  <li>
                                                     <a href="#tab_yuejuan" data-toggle="tab">Yuejuan <br> 月捐 </a>
                                                   </li>
                                                   <li class="disabled">
@@ -606,10 +611,10 @@
 	                                                    			<div class="col-md-12">
 
 	                                                    				<div class="form-actions">
-	                                                                        <button type="submit" class="btn blue" id="confirm_donation_btn">Confirm
-	                                                                        </button>
-	                                                                        <button type="button" class="btn default">Cancel</button>
-	                                                                    </div><!-- end form-actions -->
+	                                                              <button type="submit" class="btn blue" id="confirm_donation_btn">Confirm
+	                                                              </button>
+	                                                              <button type="button" class="btn default">Cancel</button>
+	                                                            </div><!-- end form-actions -->
 
 	                                                    			</div><!-- end col-md-12 -->
 
@@ -652,7 +657,7 @@
                                                                             <tbody>
                                                                                 @foreach($receipts as $receipt)
                                                                                 <tr>
-                                                                                    <td>{{ $receipt->xy_receipt }}</td>
+                                                                                    <td>{{ $receipt->receipt_no }}</td>
                                                                                     <td>{{ \Carbon\Carbon::parse($receipt->trans_date)->format("d/m/Y") }}</td>
                                                                                     <td>{{ $receipt->trans_no }}</td>
                                                                                     <td>{{ $receipt->description }}</td>
@@ -686,6 +691,14 @@
                                                             </div><!-- end form-body -->
 
                                                     	</div><!-- end tab-pane -->
+
+																											<div class="tab-pane" id="tab_ciji">
+																												@include('layouts.partials.tab-ciji')
+																											</div><!-- end tab-pane tab_ciji -->
+
+																											<div class="tab-pane" id="tab_yuejuan">
+																												@include('layouts.partials.tab-yuejuan')
+																											</div><!-- end tab-pane tab_ciji -->
 
 																											<div class="tab-pane" id="tab_samefamily">
 																												@include('layouts.partials.tab-xiangyou-samefamily')
@@ -734,11 +747,17 @@
 <script src="{{asset('js/custom/search-devotee.js')}}"></script>
 <script src="{{asset('js/custom/search-relative-friends.js')}}"></script>
 <script src="{{asset('js/custom/transaction-detail.js')}}"></script>
+<script src="{{asset('js/custom/ciji.js')}}"></script>
+<script src="{{asset('js/custom/yuejuan.js')}}"></script>
 
 	<script type="text/javascript">
 		$(function() {
 
 			// $(".total").text(0);
+			window.onhashchange = function() {
+			 alert('back now');
+			}
+
 
 			// Disabled Edit Tab
 			$(".nav-tabs > li").click(function(){

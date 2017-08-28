@@ -93,10 +93,13 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);
     Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
+		Route::post('/postcijidoantion', ['as' => 'post-ciji-donation-page', 'uses' => 'StaffController@postCijiDonation']);
+		Route::post('/postyuejuandoantion', ['as' => 'post-yuejuan-donation-page', 'uses' => 'StaffController@postYuejuanDonation']);
 		Route::post('/samefamily-setting', ['as' => 'post-samefamily-setting-page', 'uses' => 'StaffController@postSameFamilySetting']);
 		Route::post('/differentfamily-setting', ['as' => 'post-differentfamily-setting-page', 'uses' => 'StaffController@postDifferentFamilySetting']);
 		Route::post('/receipt-cancellation', ['as' => 'receipt-cancellation-page', 'uses' => 'StaffController@postReceiptCancellation']);
 		Route::post('/cancel-replace-transaction', ['as' => 'cancel-replace-transaction-page', 'uses' => 'StaffController@postCancelReplaceTransaction']);
+		Route::post('/cancel-transaction', ['as' => 'cancel-transaction-page', 'uses' => 'StaffController@postCancelTransaction']);
 		Route::post('/reprint-detail', ['as' => 'reprint-detail-page', 'uses' => 'StaffController@ReprintDetail']);
 		Route::get('/reprint-generaldonation', ['as' => 'reprint-generaldonation-page', 'uses' => 'StaffController@ReprintGeneralDonation']);
   });

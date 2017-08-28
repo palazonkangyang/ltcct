@@ -66,6 +66,11 @@ class AdminController extends Controller
       {
         $users[$key]['role_name'] = "Operator";
       }
+
+			else
+      {
+        $users[$key]['role_name'] = "Account Supervisor";
+      }
   	}
 
 		return view('admin.all-accounts', [
