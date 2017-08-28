@@ -60,7 +60,7 @@
   cursor: pointer;
 }
 
-.no-height{
+.no-height, .same{
   height: auto!important;
 }
 
