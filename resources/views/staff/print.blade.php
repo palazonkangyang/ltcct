@@ -22,8 +22,6 @@
 
     $count = count($receipts);
     $familycode = $receipts[0]->familycode_id;
-		$flag_familymorethan8 = 0;
-    $count_family8 = 0;
     $count_receipt = 0;
     $devotee_count = 0;
     $receipt_no = 0;
@@ -34,7 +32,7 @@
 
   @foreach($receipts as $receipt)
 
-  @if($receipts[0]->familycode_id == $familycode  && $flag_familymorethan8 < 1)
+  @if($receipts[0]->familycode_id == $familycode  && $count_receipt < 1)
 
   @php $count_receipt++; @endphp
 
@@ -124,59 +122,39 @@
 
 	            @php $rowno = 1; $sum= 0; @endphp
 
-							@if ($count > 8)
+	            @foreach($receipts as $receipt)
 
-							@php
-								$flag_familymorethan8 = 1;
-								$startno = 0;
-								$endno = 8;
-							@endphp
-
-							@else
-
-							@php
-								$flag_familymorethan8 = 0;
-								$startno = 0;
-								$endno = $count;
-
-								dd($receipts);
-							@endphp
-
-							@endif
-
-	            @for($i = $startno; $i < $endno; $i++)
-
-	            @if($receipts[$count_family8]->familycode_id == $receipts[$i]->familycode_id)
+	            @if($receipts[0]->familycode_id == $receipt->familycode_id)
 
 	            <tr>
 	              <td>{{ $rowno }}</td>
-	              <td>{{ $receipts[$i]->chinese_name }}</td>
-	              <td>{{ $receipts[$i]->devotee_id }}</td>
+	              <td>{{ $receipt->chinese_name }}</td>
+	              <td>{{ $receipt->devotee_id }}</td>
 	              <td>
-	                @if(isset($receipts[$i]->oversea_addr_in_chinese))
-	                  {{ $receipts[$i]->oversea_addr_in_chinese }}
-	                @elseif(isset($receipts[$i]->address_unit1) && isset($receipts[$i]->address_unit2))
-	                  {{ $receipts[$i]->address_houseno }}, #{{ $receipts[$i]->address_unit1 }}-{{ $receipts[$i]->address_unit2 }}, {{ $receipts[$i]->address_street }}, {{ $receipts[$i]->address_postal }}
+	                @if(isset($receipt->oversea_addr_in_chinese))
+	                  {{ $receipt->oversea_addr_in_chinese }}
+	                @elseif(isset($receipt->address_unit1) && isset($receipt->address_unit2))
+	                  {{ $receipt->address_houseno }}, #{{ $receipt->address_unit1 }}-{{ $receipt->address_unit2 }}, {{ $receipt->address_street }}, {{ $receipt->address_postal }}
 	                @else
-	                  {{ $receipts[$i]->address_houseno }}, {{ $receipts[$i]->address_street }}, {{ $receipts[$i]->address_postal }}
+	                  {{ $receipt->address_houseno }}, {{ $receipt->address_street }}, {{ $receipt->address_postal }}
 	                @endif
 	              </td>
 	              <td>
-	                @if($receipts[$i]->hjgr == 'hj')
+	                @if($receipt->hjgr == 'hj')
 	                  合家
 	                @else
 	                  个人
 	                @endif
 	              </td>
-	              <td>{{ $receipts[$i]->xy_receipt }}</td>
-	              <td>{{ number_format( $receipts[$i]->amount, 2) }}</td>
+	              <td>{{ $receipt->xy_receipt }}</td>
+	              <td>{{ number_format( $receipt->amount, 2) }}</td>
 	            </tr>
 
-	            @php $devotee_count++; $rowno++;  $sum += $receipts[$i]->amount; $count_family8++; @endphp
+	            @php $devotee_count++; $rowno++;  $sum += $receipt->amount; @endphp
 
 	            @endif
 
-	            @endfor
+	            @endforeach
 	          </tbody>
 	        </table>
 
@@ -254,7 +232,7 @@
 	        </div>
 
 	        <div style="width: 22mm; float: left; border: 1px solid black; height: 2cm; line-height: 2cm; text-align: center; vertical-align: middle;">
-	          <span style="font-size: 45px; font-weight: bold;">{{ $count_family8 }}</span>
+	          <span style="font-size: 45px; font-weight: bold;">{{ $samefamily_no }}</span>
 	        </div>
 	      </div><!-- end receipt-info -->
 
@@ -677,9 +655,4 @@
 </html>
 
 <script type="text/javascript">
-
-	$(function() {
-		
-	});
-
 </script>
