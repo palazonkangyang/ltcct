@@ -184,8 +184,6 @@ class StaffController extends Controller
 			}
 		}
 
-		// dd();
-
 		Session::forget('yuejuan_receipts');
 
 		$yuejuan_receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
@@ -253,9 +251,27 @@ class StaffController extends Controller
 						 		->select('chinese_name', 'devotee_id')
 						 		->get();
 
+		if($samefamily_no > 8)
+		{
+			$loop = intval(round($samefamily_no / 8, 0));
+			$modulus = $samefamily_no % 8;
+		}
+
+		else
+		{
+			$loop = 1;
+			$modulus = 0;
+		}
+
+		if($modulus > 0)
+		{
+			$loop = $loop + 1;
+		}
+
 		return view('staff.print', [
 			'receipts' => $result,
 			'print_format' => $hjgr,
+			'loop' => $loop,
 			'samefamily_no' => $samefamily_no,
 			'paid_by' => $paid_by
 		]);
@@ -447,9 +463,27 @@ class StaffController extends Controller
 					 		   ->select('chinese_name', 'devotee_id')
 					 		   ->get();
 
+			if($samefamily_no > 8)
+			{
+				$loop = intval(round($samefamily_no / 8, 0));
+				$modulus = $samefamily_no % 8;
+			}
+
+			else
+			{
+				$loop = 1;
+				$modulus = 0;
+			}
+
+			if($modulus > 0)
+			{
+				$loop = $loop + 1;
+			}
+
 			return view('staff.print', [
 				'receipts' => $result,
 				'print_format' => $hjgr,
+				'loop' => $loop,
 				'samefamily_no' => $samefamily_no,
 				'paid_by' => $paid_by
 			]);
@@ -644,9 +678,27 @@ class StaffController extends Controller
 							 ->select('chinese_name', 'devotee_id')
 							 ->get();
 
+		if($samefamily_no > 8)
+		{
+			$loop = intval(round($samefamily_no / 8, 0));
+			$modulus = $samefamily_no % 8;
+		}
+
+		else
+		{
+			$loop = 1;
+			$modulus = 0;
+		}
+
+		if($modulus > 0)
+		{
+			$loop = $loop + 1;
+		}
+
 		return view('staff.print', [
 			'receipts' => $result,
 			'print_format' => $hjgr,
+			'loop' => $loop,
 			'samefamily_no' => $samefamily_no,
 			'paid_by' => $paid_by
 		]);
@@ -697,11 +749,14 @@ class StaffController extends Controller
 
 		$xianyou_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 													 ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+													 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+											 		 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 													 ->where('devotee.familycode_id', $devotee->familycode_id)
 													 ->where('devotee.devotee_id', '!=', $input['focusdevotee_id'])
 													 ->where('setting_generaldonation.address_code', '=', 'same')
 													 ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
-													 ->select('devotee.*', 'familycode.familycode')
+													 ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+													 ->GroupBy('devotee.devotee_id')
 													 ->get();
 
 		$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
@@ -1396,6 +1451,7 @@ class StaffController extends Controller
 	public function ReprintDetail(Request $request)
 	{
 		$input = array_except($request->all(), '_token');
+		$total_amount = 0;
 
 		// dd($input);
 
@@ -1436,10 +1492,13 @@ class StaffController extends Controller
 								 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
 								 ->get();
 
+			// dd(count($receipts));
+
 			for($i = 0; $i < count($receipts); $i++)
 			{
 				$receipts[$i]->trans_date = \Carbon\Carbon::parse($receipts[$i]->trans_date)->format("d/m/Y");
 				$receipts[$i]->start_at = \Carbon\Carbon::parse($receipts[$i]->start_at)->format("d/m/Y");
+
 			}
 
 			$familycode_id = $receipts[0]->familycode_id;
@@ -1450,6 +1509,7 @@ class StaffController extends Controller
 				if($receipts[$i]->familycode_id == $familycode_id)
 				{
 					$samefamily_no += 1;
+					$total_amount += intval($receipts[$i]->amount);
 				}
 
 				$familycode_id = $receipts[$i]->familycode_id;
@@ -1462,10 +1522,29 @@ class StaffController extends Controller
 								 ->get();
 		}
 
+		if($samefamily_no > 8)
+		{
+			$loop = intval(round($samefamily_no / 8, 0));
+			$modulus = $samefamily_no % 8;
+		}
+
+		else
+		{
+			$loop = 1;
+			$modulus = 0;
+		}
+
+		if($modulus > 0)
+		{
+			$loop = $loop + 1;
+		}
+
 		return view('staff.print', [
 			'receipts' => $receipts,
 			'print_format' => $print_format,
 			'samefamily_no' => $samefamily_no,
+			'loop' => $loop,
+			'total_amount' => number_format($total_amount, 2),
 			'paid_by' => $paid_by
 		]);
 	}

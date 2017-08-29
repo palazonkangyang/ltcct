@@ -907,6 +907,10 @@
 				});
 			});
 
+			window.onbeforeunload = function() {
+        
+			}
+
  		});
 	</script>
 
