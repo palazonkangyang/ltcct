@@ -52,6 +52,7 @@ class StaffController extends Controller
 	public function postYuejuanDonation(Request $request)
 	{
 		$input = array_except($request->all(), '_token');
+		$total_amount = 0;
 
 		// dd($input);
 
@@ -203,8 +204,6 @@ class StaffController extends Controller
 			{
 				$data = Receipt::where('generaldonation_id', $yuejuan_receipts[$i]->generaldonation_id)->pluck('xy_receipt');
 
-
-
 				$receipt_count = count($data);
 				$yuejuan_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
 			}
@@ -242,6 +241,7 @@ class StaffController extends Controller
 			if($result[$i]->familycode_id == $familycode_id)
 			{
 				$samefamily_no += 1;
+				$total_amount += intval($result[$i]->amount);
 			}
 
 			$familycode_id = $result[$i]->familycode_id;
@@ -273,6 +273,7 @@ class StaffController extends Controller
 			'print_format' => $hjgr,
 			'loop' => $loop,
 			'samefamily_no' => $samefamily_no,
+			'total_amount' => number_format($total_amount, 2),
 			'paid_by' => $paid_by
 		]);
 
@@ -281,6 +282,7 @@ class StaffController extends Controller
 	public function postCijiDonation(Request $request)
 	{
 		$input = array_except($request->all(), '_token');
+		$total_amount = 0;
 
 		// Modify Receipt At fields
 	  if(isset($input['receipt_at']))
@@ -454,6 +456,7 @@ class StaffController extends Controller
 				if($result[$i]->familycode_id == $familycode_id)
 				{
 					$samefamily_no += 1;
+					$total_amount += intval($result[$i]->amount);
 				}
 
 				$familycode_id = $result[$i]->familycode_id;
@@ -485,6 +488,7 @@ class StaffController extends Controller
 				'print_format' => $hjgr,
 				'loop' => $loop,
 				'samefamily_no' => $samefamily_no,
+				'total_amount' => number_format($total_amount, 2),
 				'paid_by' => $paid_by
 			]);
 	}
@@ -492,6 +496,7 @@ class StaffController extends Controller
 	public function postDonation(Request $request)
 	{
 		$input = array_except($request->all(), '_token');
+		$total_amount = 0;
 
 		// Modify Receipt At fields
 	  if(isset($input['receipt_at']))
@@ -669,6 +674,7 @@ class StaffController extends Controller
 			if($result[$i]->familycode_id == $familycode_id)
 			{
 				$samefamily_no += 1;
+				$total_amount += intval($result[$i]->amount);
 			}
 
 			$familycode_id = $result[$i]->familycode_id;
@@ -700,6 +706,7 @@ class StaffController extends Controller
 			'print_format' => $hjgr,
 			'loop' => $loop,
 			'samefamily_no' => $samefamily_no,
+			'total_amount' => number_format($total_amount, 2),
 			'paid_by' => $paid_by
 		]);
 	}
