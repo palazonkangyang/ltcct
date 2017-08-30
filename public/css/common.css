@@ -64,6 +64,10 @@
   height: auto!important;
 }
 
+.hover{
+  background: #ddd;
+}
+
 .highlight{
   text-decoration: underline;
 }

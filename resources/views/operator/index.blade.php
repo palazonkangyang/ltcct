@@ -759,27 +759,21 @@
 		                                                                        <div class="col-md-2">
 																																							<button type="button" class='fa fa-angle-double-right populate-data form-control' aria-hidden='true'>
 																																							</button>
-																																						</div><!-- end col-md-1 -->
-
-		                                                                    </div><!-- end form-group -->
-
-																																				<div class="form-group" style="margin-bottom: 0;">
-
-																																						<div class="col-md-1"></div><!-- end col-md-1 -->
-
-		                                                                        <label class="col-md-2"></label>
-
-		                                                                        <div class="col-md-3">
-		                                                                        </div><!-- end col-md-3 -->
-
-		                                                                        <div class="col-md-4 populate-address">
-		                                                                            <input type="hidden" class="form-control address-data-hidden" name="address_data_hidden[]">
-		                                                                        </div><!-- end col-md-4 -->
-
-		                                                                        <div class="col-md-2">
 																																						</div><!-- end col-md-2 -->
 
+																																						<div class="col-md-12">
+																																							<input type="hidden" class="form-control address-houseno-hidden">
+																																				      <input type="hidden" class="form-control address-unit1-hidden">
+																																				      <input type="hidden" class="form-control address-unit2-hidden">
+																																				      <input type="hidden" class="form-control address-street-hidden">
+																																				      <input type="hidden" class="form-control address-postal-hidden">
+																																							<input type="hidden" class="form-control address-oversea-hidden">
+																																							<input type="hidden" class="form-control address-translate-hidden">
+																																				      <input type="hidden" class="form-control address-data-hidden" name="address_data_hidden[]">
+																																						</div>
+
 		                                                                    </div><!-- end form-group -->
+
 																																			</div><!-- end inner_opt_addr -->
                                                                     </div><!-- end opt_address -->
 
@@ -2440,16 +2434,15 @@
             $("#appendAddressBtn").click(function() {
 
                 $("#append_opt_address").append("<div class='inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn' aria-hidden='true'></i></div>" +
-										"<label class='col-md-2 control-label'>Opt.Addr</label><div class='col-md-3'>" +
-                    "<select class='form-control address-type' name='address_type[]'><option value='home'>Home</option>" +
-                    "<option value='company'>Comp</option><option value='stall'>Stall</option><option value='office'>Office</option>" +
-                    "</select></div><div class='col-md-4'><input type='text' class='form-control address-data' name='address_data[]' readonly value='Please fill the address on the right' title='Please fill the address on the right'></div>" +
-                    "<div class='col-md-2'><button type='button' class='fa fa-angle-double-right populate-data form-control' aria-hidden='true'>" +
-										"</button></div></div>" +
-										"<div class='form-group' style='margin-bottom: 0;'><div class='col-md-1'></div>" +
-										"<label class='col-md-2'></label><div class='col-md-3'>" +
-		                "</div><div class='col-md-4 populate-address'><input type='hidden' class='form-control address-data-hidden' name='address_data_hidden[]'></div>" +
-		                "<div class='col-md-2'></div></div></div></div>");
+								"<label class='col-md-2'>Opt.Addr</label><div class='col-md-3'><select class='form-control address-type' name='address_type[]''>" +
+								"<option value='home'>Home</option><option value='company'>Comp</option><option value='stall'>Stall</option><option value='office'>Office</option>" +
+								"</select></div><div class='col-md-4 populate-address'><input type='text' class='form-control address-data' name='address_data[]' readonly  value='Please fill the address on the right' title='Please fill the address on the right'>" +
+								"</div><div class='col-md-2'><button type='button' class='fa fa-angle-double-right populate-data form-control' aria-hidden='true'></button></div>" +
+								"<div class='col-md-12'><input type='hidden' class='form-control address-houseno-hidden'><input type='hidden' class='form-control address-unit1-hidden'>" +
+								"<input type='hidden' class='form-control address-unit2-hidden'><input type='hidden' class='form-control address-street-hidden'>" +
+								"<input type='hidden' class='form-control address-postal-hidden'><input type='hidden' class='form-control address-oversea-hidden'>" +
+								"<input type='hidden' class='form-control address-translate-hidden'><input type='hidden' class='form-control address-data-hidden' name='address_data_hidden[]'></div>" +
+								"</div></div>");
             });
 
             $("#AddressBtn").click(function() {
