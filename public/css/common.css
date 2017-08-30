@@ -52,6 +52,10 @@
   cursor: pointer;
 }
 
+.removeAddressBtn, .removeVehicleBtn, .removeSpecRemarkBtn{
+  cursor: pointer;
+}
+
 .removeDevotee{
   cursor: pointer;
 }

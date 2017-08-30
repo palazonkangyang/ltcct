@@ -730,9 +730,11 @@
 
                                                                 <hr>
 
-                                                                <h4>Optional</h4>
+
 
                                                                 <div class="col-md-6">
+
+																																	<h5>Optional Address</h5>
 
                                                                     <div class="opt_address">
 																																			<div class="inner_opt_addr">
@@ -740,18 +742,16 @@
 
 																																						<div class="col-md-1"></div><!-- end col-md-1 -->
 
-		                                                                        <label class="col-md-2">Opt.Addr</label>
-
 		                                                                        <div class="col-md-3">
 		                                                                            <select class="form-control address-type" name="address_type[]">
-		                                                                                <option value="home">Home</option>
-		                                                                                <option value="company">Comp</option>
-		                                                                                <option value="stall">Stall</option>
-		                                                                                <option value="office">Office</option>
+		                                                                                <option value="home">宅址</option>
+		                                                                                <option value="company">公司</option>
+		                                                                                <option value="stall">小贩</option>
+		                                                                                <option value="office">办公址</option>
 		                                                                            </select>
 		                                                                        </div><!-- end col-md-3 -->
 
-		                                                                        <div class="col-md-4 populate-address">
+		                                                                        <div class="col-md-6 populate-address">
 		                                                                            <input type="text" class="form-control address-data" name="address_data[]" readonly
 																																									value="Please fill the address on the right" title="Please fill the address on the right">
 		                                                                        </div><!-- end col-md-4 -->
@@ -767,7 +767,7 @@
 																																				      <input type="hidden" class="form-control address-unit2-hidden">
 																																				      <input type="hidden" class="form-control address-street-hidden">
 																																				      <input type="hidden" class="form-control address-postal-hidden">
-																																							<input type="hidden" class="form-control address-oversea-hidden">
+																																							<input type="hidden" class="form-control address-oversea-hidden" name="address_oversea_hidden[]">
 																																							<input type="hidden" class="form-control address-translate-hidden">
 																																				      <input type="hidden" class="form-control address-data-hidden" name="address_data_hidden[]">
 																																						</div>
@@ -793,11 +793,11 @@
 
                                                                     </div><!-- end form-group -->
 
+																																		<h5>Optional Vehicle</h5>
+
                                                                     <div class="form-group">
 
 																																				<div class="col-md-1"></div><!-- end col-md-1 -->
-
-                                                                        <label class="col-md-2">Opt.Vehicle</label>
 
                                                                         <div class="col-md-3">
                                                                             <select class="form-control" name="vehicle_type[]">
@@ -806,9 +806,9 @@
                                                                             </select>
                                                                         </div><!-- end col-md-2 -->
 
-                                                                        <div class="col-md-6">
+                                                                        <div class="col-md-8">
                                                                             <input type="text" class="form-control" name="vehicle_data[]">
-                                                                        </div><!-- end col-md-6 -->
+                                                                        </div><!-- end col-md-8 -->
 
                                                                     </div><!-- end form-group -->
 
@@ -830,15 +830,15 @@
 
                                                                     </div><!-- end form-group -->
 
+																																		<h5>Special Remark</h5>
+
                                                                     <div class="form-group">
 
 																																				<div class="col-md-1"></div><!-- end col-md-1 -->
 
-                                                                        <label class="col-md-2">Special Remark</label>
-
-                                                                        <div class="col-md-9">
+                                                                        <div class="col-md-11">
                                                                             <input type="text" class="form-control" name="special_remark[]">
-                                                                        </div><!-- end col-md-9 -->
+                                                                        </div><!-- end col-md-11 -->
 
                                                                     </div><!-- end form-group -->
 
@@ -1647,6 +1647,7 @@
 
 @section('custom-js')
 
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{{asset('js/custom/common.js')}}"></script>
 		<script src="{{asset('js/custom/populate-address.js')}}"></script>
 		<script src="{{asset('js/custom/edit-populate-address.js')}}"></script>
@@ -1654,7 +1655,6 @@
     <script src="{{asset('js/custom/check-familycode.js')}}"></script>
     <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>
 		<script src="{{asset('js/custom/relocation-check-familycode.js')}}"></script>
-		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
@@ -2230,6 +2230,7 @@
 								var address_unit1 = $("#edit_address_unit1").val();
 								var address_unit2 = $("#edit_address_unit2").val();
                 var address_postal = $("#edit_address_postal").val();
+								var oversea_addr_in_chinese = $("#edit_oversea_addr_in_chinese").val();
 								var nric = $("#edit_nric").val();
 								var dob = $("#edit_dob").val();
 								var marital_status = $("#edit_marital_status").val();
@@ -2286,23 +2287,26 @@
                     errors[count++] = "Mandatory Contact field is empty."
                 }
 
-								if ($.trim(address_houseno).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Mandatory Address House No field is empty."
-                }
+								if($.trim(oversea_addr_in_chinese).length <= 0)
+								{
+									if ($.trim(address_houseno).length <= 0)
+	                {
+	                    validationFailed = true;
+	                    errors[count++] = "Mandatory Address House No field is empty."
+	                }
 
-								if ($.trim(address_street).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Mandatory Address Street field is empty."
-                }
+									if ($.trim(address_street).length <= 0)
+	                {
+	                    validationFailed = true;
+	                    errors[count++] = "Mandatory Address Street field is empty."
+	                }
 
-                if ($.trim(address_postal).length <= 0)
-                {
-                    validationFailed = true;
-                    errors[count++] = "Mandatory Address Postal field is empty."
-                }
+	                if ($.trim(address_postal).length <= 0)
+	                {
+	                    validationFailed = true;
+	                    errors[count++] = "Mandatory Address Postal field is empty."
+	                }
+								}
 
 								if(edit_dialect == "other_dialect")
 								{
@@ -2434,25 +2438,29 @@
             $("#appendAddressBtn").click(function() {
 
                 $("#append_opt_address").append("<div class='inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn' aria-hidden='true'></i></div>" +
-								"<label class='col-md-2'>Opt.Addr</label><div class='col-md-3'><select class='form-control address-type' name='address_type[]''>" +
-								"<option value='home'>Home</option><option value='company'>Comp</option><option value='stall'>Stall</option><option value='office'>Office</option>" +
-								"</select></div><div class='col-md-4 populate-address'><input type='text' class='form-control address-data' name='address_data[]' readonly  value='Please fill the address on the right' title='Please fill the address on the right'>" +
+								"<div class='col-md-3'><select class='form-control address-type' name='address_type[]''>" +
+								"<option value='home'>宅址</option><option value='company'>公司</option><option value='stall'>小贩</option><option value='office'>办公址</option>" +
+								"</select></div><div class='col-md-6 populate-address'><input type='text' class='form-control address-data' name='address_data[]' readonly  value='Please fill the address on the right' title='Please fill the address on the right'>" +
 								"</div><div class='col-md-2'><button type='button' class='fa fa-angle-double-right populate-data form-control' aria-hidden='true'></button></div>" +
 								"<div class='col-md-12'><input type='hidden' class='form-control address-houseno-hidden'><input type='hidden' class='form-control address-unit1-hidden'>" +
 								"<input type='hidden' class='form-control address-unit2-hidden'><input type='hidden' class='form-control address-street-hidden'>" +
-								"<input type='hidden' class='form-control address-postal-hidden'><input type='hidden' class='form-control address-oversea-hidden'>" +
+								"<input type='hidden' class='form-control address-postal-hidden'><input type='hidden' class='form-control address-oversea-hidden' name='address_oversea_hidden[]'>" +
 								"<input type='hidden' class='form-control address-translate-hidden'><input type='hidden' class='form-control address-data-hidden' name='address_data_hidden[]'></div>" +
 								"</div></div>");
             });
 
             $("#AddressBtn").click(function() {
 
-                $("#edit_opt_address").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div>" +
-										"<label class='col-md-2'>Opt.Addr</label><div class='col-md-3'>" +
-                    "<select class='form-control address-type' name='address_type[]'><option value='home'>Home</option>" +
-                    "<option value='company'>Comp</option><option value='stall'>Stall</option><option value='office'>Office</option>" +
-                    "</select></div><div class='col-md-4'><input type='text' class='form-control edit-address-data' name='address_data[]'></div>" +
-                    "<div class='col-md-2'><button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button></div></div>");
+							$("#edit_opt_address").append("<div class='edit_inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div>" +
+							"<div class='col-md-3'><select class='form-control edit-address-type' name='address_type[]'><option value='home'>宅址</option><option value='company'>公司</option>" +
+							"<option value='stall'>小贩</option><option value='office'>办公址</option></select></div>" +
+							"<div class='col-md-6'><input type='text' class='form-control edit-address-data' name='address_data[]' value='Please fill the address on the right' readonly></div>" +
+							"<div class='col-md-2'><button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button></div>" +
+							"<div class='col-md-12'><input type='hidden' class='form-control edit-address-houseno-hidden'><input type='hidden' class='form-control edit-address-unit1-hidden'>" +
+							"<input type='hidden' class='form-control edit-address-unit2-hidden'><input type='hidden' class='form-control edit-address-street-hidden'>" +
+							"<input type='hidden' class='form-control edit-address-postal-hidden'><input type='hidden' class='form-control edit-address-oversea-hidden' name='address_oversea_hidden[]'>" +
+							"<input type='hidden' class='form-control edit-address-translate-hidden'><input type='hidden' class='form-control edit-address-data-hidden' name='address_data_hidden[]'></div>" +
+							"</div></div>");
             });
 
             $("#append_opt_address").on('click', '.removeAddressBtn', function() {
@@ -2466,9 +2474,8 @@
             $("#appendVehicleBtn").click(function() {
 
                 $("#append_opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn' aria-hidden='true'></i></div>" +
-										"<label class='col-md-2'>Opt.Vehicle</label>" +
                     "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
-                    "<option value='ship'>Ship</option></select></div><div class='col-md-6'>" +
+                    "<option value='ship'>Ship</option></select></div><div class='col-md-8'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
                     "</div>");
             });
@@ -2476,9 +2483,8 @@
             $("#VehicleBtn").click(function() {
 
                 $("#opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div>" +
-										"<label class='col-md-2'>Opt.Vehicle " +
-                    "</label><div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
-                    "<option value='ship'>Ship</option></select></div><div class='col-md-6'>" +
+                    "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
+                    "<option value='ship'>Ship</option></select></div><div class='col-md-8'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
                     "</div>");
             });
@@ -2494,16 +2500,13 @@
             $("#appendSpecRemarkBtn").click(function() {
 
                 $("#append_special_remark").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn' aria-hidden='true'></i></div>" +
-										"<label class='col-md-2'>Special Remark</label>" +
-                    "<div class='col-md-9'><input type='text' class='form-control' name='special_remark[]'></div>" +
-                    "</div>");
+                    "<div class='col-md-11'><input type='text' class='form-control' name='special_remark[]'></div></div>");
             });
 
             $("#SpecRemarkBtn").click(function() {
 
                 $("#special_remark").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i></div>" +
-										"<label class='col-md-2'>Special Remark" +
-                    "</label><div class='col-md-9'><input type='text' class='form-control' name='special_remark[]'></div>" +
+                    "</label><div class='col-md-11'><input type='text' class='form-control' name='special_remark[]'></div>" +
                     "</div>");
             });
 

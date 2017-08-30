@@ -22,11 +22,11 @@ $(function() {
 
       if(amount > minimum_amount)
       {
-        $(this).closest('tr').find(".display").val('Y');
+        $(this).closest('tr').find(".ciji-display").val('Y');
       }
       else
       {
-        $(this).closest('tr').find(".display").val('N');
+        $(this).closest('tr').find(".ciji-display").val('N');
       }
     });
   });

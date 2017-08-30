@@ -957,9 +957,9 @@
 
 					<hr>
 
-					<h4>Optional</h4>
-
           <div class="col-md-6">
+
+						<h5>Optional Address</h5>
 
 						@if(Session::has('optionaladdresses'))
 
@@ -980,29 +980,27 @@
 											<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
 										</div>
 
-										<label class='col-md-2 control-label'>Opt.Addr</label><!-- end col-md-2 -->
-
 										<div class='col-md-3'>
 
 											<select class='form-control edit-address-type' name='address_type[]'>
-												<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>Home</option>
-												<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>Comp</option>
-												<option value="stall" <?php if ($optAddress->type == "stall") echo "selected"; ?>>Stall</option>
-												<option value="office" <?php if ($optAddress->type == "office") echo "selected"; ?>>Office</option>
+												<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>宅址</option>
+												<option value="company" <?php if ($optAddress->type == "company") echo "selected"; ?>>公司</option>
+												<option value="stall" <?php if ($optAddress->type == "stall") echo "selected"; ?>>小贩</option>
+												<option value="office" <?php if ($optAddress->type == "office") echo "selected"; ?>>办公址</option>
 											</select>
 
-										</div><!-- end col-md-4 -->
+										</div><!-- end col-md-3 -->
 
 										@if($optAddress->type == "home" || $optAddress->type == "office")
 
-										<div class='col-md-4'>
+										<div class='col-md-6'>
 											<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill the address on the right"
 												title="Please fill the address on the right" readonly>
-										</div><!-- end col-md-4 -->
+										</div><!-- end col-md-6 -->
 
 										@else
 
-										<div class='col-md-4'>
+										<div class='col-md-6'>
 											<input type="text" class="form-control edit-address-data" name="address_data[]" value="{{ $optAddress->data }}"
 												title="{{ $optAddress->data }}">
 										</div><!-- end col-md-4 -->
@@ -1013,59 +1011,67 @@
 											<button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button>
 										</div>
 
+										<div class="col-md-12">
+											<input type="hidden" class="form-control edit-address-houseno-hidden">
+											<input type="hidden" class="form-control edit-address-unit1-hidden">
+											<input type="hidden" class="form-control edit-address-unit2-hidden">
+											<input type="hidden" class="form-control edit-address-street-hidden">
+											<input type="hidden" class="form-control edit-address-postal-hidden">
+											<input type="hidden" class="form-control edit-address-oversea-hidden" name="address_oversea_hidden[]"
+												value="{{ $optAddress->oversea_address }}">
+											<input type="hidden" class="form-control edit-address-translate-hidden">
+											<input type="hidden" class="form-control edit-address-data-hidden" name="address_data_hidden[]"
+												value="{{ $optAddress->address }}">
+										</div>
+
 									</div><!-- end form-group -->
-
-									<div class="form-group" style="margin-bottom: 0;">
-
-								      <div class="col-md-1"></div><!-- end col-md-1 -->
-
-								      <label class="col-md-2"></label>
-
-								      <div class="col-md-3">
-								      </div><!-- end col-md-3 -->
-
-								      <div class="col-md-4 edit-populate-address">
-								          <input type="hidden" class="form-control address-data-hidden" name="address_data_hidden[]" value="{{ $optAddress->address }}">
-								      </div><!-- end col-md-4 -->
-
-								      <div class="col-md-2">
-								      </div><!-- end col-md-2 -->
-
-								  </div><!-- end form-group -->
-
-
 								</div><!-- end edit_inner_opt_addr -->
 
 								@endforeach
 
-								</div><!-- end opt_address -->
+								</div><!-- end edit_opt_address -->
 
 								@else
 
 								<div id="edit_opt_address">
+									<div class="edit_inner_opt_addr">
+										<div class="form-group">
 
-									<div class="form-group">
-										<label class='col-md-3 control-label'>Opt.Addr</label><!-- end col-md-3 -->
+											<div class='col-md-1'>
+											</div><!-- end col-md-1 -->
 
-										<div class='col-md-3'>
-											<select class='form-control' name='address_type[]'>
-												<option value="home">Home</option>
-												<option value="company">Comp</option>
-												<option value="stall">Stall</option>
-												<option value="office">Office</option>
-											</select>
-										</div><!-- end col-md-3 -->
+											<div class='col-md-3'>
+												<select class='form-control edit-address-type' name='address_type[]'>
+													<option value="home">宅址</option>
+													<option value="company">公司</option>
+													<option value="stall">小贩</option>
+													<option value="office">办公址</option>
+												</select>
+											</div><!-- end col-md-3 -->
 
-										<div class='col-md-4'>
-											<input type="text" class="form-control" name="address_data[]" value="">
-										</div><!-- end col-md-5 -->
+											<div class='col-md-6'>
+												<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill the address on the right"
+													title="Please fill the address on the right" readonly>
+											</div><!-- end col-md-6 -->
 
-										<div class='col-md-2'>
-											<button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button>
-										</div>
-									</div><!-- end form-group -->
+											<div class='col-md-2'>
+												<button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button>
+											</div>
 
-								</div><!-- end opt_address -->
+											<div class="col-md-12">
+												<input type="hidden" class="form-control edit-address-houseno-hidden">
+												<input type="hidden" class="form-control edit-address-unit1-hidden">
+												<input type="hidden" class="form-control edit-address-unit2-hidden">
+												<input type="hidden" class="form-control edit-address-street-hidden">
+												<input type="hidden" class="form-control edit-address-postal-hidden">
+												<input type="hidden" class="form-control edit-address-oversea-hidden" name="address_oversea_hidden[]">
+												<input type="hidden" class="form-control edit-address-translate-hidden">
+												<input type="hidden" class="form-control edit-address-data-hidden" name="address_data_hidden[]">
+											</div>
+										</div><!-- end form-group -->
+									</div><!-- end edit_inner_opt_addr -->
+
+								</div><!-- end edit_opt_address -->
 
 								@endif
 								@endif
@@ -1073,13 +1079,14 @@
 								<div class="form-group">
                     <div class="col-md-1"></div><!-- end col-md-1 -->
 
-                    <div class="col-md-5">
+                    <div class="col-md-5" style="margin-bottom: 15px;">
                         <i class="fa fa-plus-circle" aria-hidden="true" id="AddressBtn"></i>
                     </div><!-- end col-md-5 -->
 
                     <div class="col-md-6"></div><!-- end col-md-6 -->
                 </div><!-- end form-group -->
 
+								<h5>Optional Vehicle</h5>
 
 								@if(Session::has('optionalvehicles'))
 
@@ -1096,8 +1103,6 @@
 										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
 
-									<label class='col-md-2'>Opt.Vehicle</label><!-- end col-md-3 -->
-
 									<div class='col-md-3'>
 										<select class='form-control' name='vehicle_type[]'>
 											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>Car</option>
@@ -1105,10 +1110,9 @@
 										</select>
 									</div><!-- end col-md-3 -->
 
-									<div class='col-md-6'>
+									<div class='col-md-8'>
 										<input type="text" class="form-control" name="vehicle_data[]" value="{{ $optVehicle->data }}">
-									</div><!-- end col-md-5 -->
-
+									</div><!-- end col-md-8 -->
 
 								</div><!-- end form-group -->
 
@@ -1124,8 +1128,6 @@
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
 
-										<label class='col-md-2'>Opt.Vehicle</label><!-- end col-md-3 -->
-
 										<div class='col-md-3'>
 											<select class='form-control' name='vehicle_type[]'>
 												<option value="car">Car</option>
@@ -1133,9 +1135,9 @@
 											</select>
 										</div><!-- end col-md-3 -->
 
-										<div class='col-md-6'>
+										<div class='col-md-8'>
 											<input type="text" class="form-control" name="vehicle_data[]" value="">
-										</div><!-- end col-md-6 -->
+										</div><!-- end col-md-8 -->
 
 									</div><!-- end form-group -->
 
@@ -1148,13 +1150,15 @@
                     <div class="col-md-1">
                     </div><!-- end col-md-1 -->
 
-                    <div class="col-md-5">
+                    <div class="col-md-5" style="margin-bottom: 15px;">
                         <i class="fa fa-plus-circle" aria-hidden="true" id="VehicleBtn"></i>
                     </div><!-- end col-md-5 -->
 
                     <div class="col-md-6">
                     </div><!-- end col-md-6 -->
                 </div><!-- end form-group -->
+
+								<h5>Special Remark</h5>
 
 								@if(Session::has('specialRemarks'))
 
@@ -1171,11 +1175,9 @@
 										<i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
 
-									<label class='col-md-2 control-label'>Special Remark</label><!-- end col-md-2 -->
-
-									<div class='col-md-9'>
+									<div class='col-md-11'>
 										<input type="text" class="form-control" name="special_remark[]" value="{{ $specialRemark->data }}">
-									</div><!-- end col-md-9 -->
+									</div><!-- end col-md-11 -->
 
 								</div><!-- end form-group -->
 
@@ -1191,9 +1193,7 @@
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
 
-										<label class='col-md-2'>Special Remark</label><!-- end col-md-2 -->
-
-										<div class='col-md-9'>
+										<div class='col-md-11'>
 											<input type="text" class="form-control" name="special_remark[]" value="">
 										</div><!-- end col-md-9 -->
 

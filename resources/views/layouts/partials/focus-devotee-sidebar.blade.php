@@ -203,13 +203,10 @@
 
                     @if(Session::has('focusdevotee_specialremarks'))
 
-                    @php
-
-                      $focusdevotee_specialremarks = Session::get('focusdevotee_specialremarks');
-
+                    @php $focusdevotee_specialremarks = Session::get('focusdevotee_specialremarks');
                     @endphp
 
-                      @if(count($focusdevotee_specialremarks) > 0)
+                      @if($focusdevotee_specialremarks[0]->specialremarks_id != null)
 
                         <div class="form-group">
                           <label class="col-md-12"><b>Special Remarks</b></label>

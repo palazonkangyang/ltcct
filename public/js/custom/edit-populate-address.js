@@ -1,33 +1,103 @@
 $(function() {
 
-  $(".edit_inner_opt_addr").on('click', '.edit-populate-data', function() {
+  function edit_populate()
+  {
+    var populate_houseno = $('#edit_populate_houseno').val();
+    var populate_unit_1 = $('#edit_populate_unit_1').val();
+    var populate_unit_2 = $('#edit_populate_unit_2').val();
+    var populate_street = $('#edit_populate_street').val();
+    var populate_postal = $('#edit_populate_postal').val();
 
-    var array = $(this).closest(".edit_inner_opt_addr").find("input[name='address_data_hidden[]']").val().split(",");
+    if($.trim(populate_unit_1).length <= 0)
+    {
+      var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal;
 
-    alert(array);
+      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_populate_address);
+    }
+    else
+    {
+      var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
+                          populate_postal;
 
-    $.each(array,function(i){
-      $("#edit_populate_houseno").val(array[0]);
+      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_populate_address);
+    }
+  }
 
-      var strVale = array[1];
-      arr = strVale.split('-');
+  $("#edit_populate_houseno").on('keyup', function() {
+    edit_populate();
 
-      for(i=0; i < arr.length; i++)
-      {
-          console.log(arr[i]);
-      }
-
-      $("#edit_populate_unit_1").val(arr[0]);
-      $("#edit_populate_unit_2").val(arr[1]);
-
-      $("#edit_populate_street").val(array[2]);
-      $("#edit_populate_postal").val(array[3]);
-    });
-
-
+    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-houseno-hidden").val($(this).val());
   });
 
-  $(".edit_inner_opt_addr").on('change', '.edit-address-type', function() {
+  $("#edit_populate_unit_1").on('keyup', function() {
+    edit_populate();
+
+    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-unit1-hidden").val($(this).val());
+  });
+
+  $("#edit_populate_unit_2").on('keyup', function() {
+    edit_populate();
+
+    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-unit2-hidden").val($(this).val());
+  });
+
+  $("#edit_populate_street").on('keyup', function() {
+    edit_populate();
+
+    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-street-hidden").val($(this).val());
+  });
+
+  $("#edit_populate_postal").on('keyup', function() {
+    edit_populate();
+
+    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-postal-hidden").val($(this).val());
+  });
+
+  $("#edit_populate_oversea_addr_in_china").on('keyup', function() {
+    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-oversea-hidden").val($(this).val());
+  });
+
+  $("#edit_opt_address").on('mouseover', '.edit-populate-data', function() {
+
+    $(".edit_inner_opt_addr").find('button').removeClass('hover');
+    $(this).addClass('hover');
+
+    var address = $(this).closest(".edit_inner_opt_addr").find("input[name='address_data_hidden[]']").val();
+
+    if(address.length > 0)
+    {
+      var array = $(this).closest(".edit_inner_opt_addr").find("input[name='address_data_hidden[]']").val().split(",");
+
+      $.each(array,function(i){
+        $("#edit_populate_houseno").val(array[0]);
+
+        var strVale = array[1];
+        arr = strVale.split('-');
+
+        $("#edit_populate_unit_1").val(arr[0]);
+        $("#edit_populate_unit_2").val(arr[1]);
+
+        $("#edit_populate_street").val(array[2]);
+        $("#edit_populate_postal").val(array[3]);
+        $("#edit_populate_oversea_addr_in_china").val('');
+      });
+    }
+
+    else
+    {
+      var oversea_address = $(this).closest(".edit_inner_opt_addr").find("input[name='address_oversea_hidden[]']").val().split(",");
+
+      $("#edit_populate_unit_1").val('');
+      $("#edit_populate_unit_2").val('');
+      $("#edit_populate_houseno").val('');
+      $("#edit_populate_street").val('');
+      $("#edit_populate_postal").val('');
+
+      $("#edit_populate_oversea_addr_in_china").val(oversea_address);
+    }
+  });
+
+  $("#edit_opt_address").on('change', '.edit-address-type', function() {
     var value = $(this).val();
 
     if(value == "home" || value == "office") {
@@ -50,21 +120,21 @@ $(function() {
 
   });
 
-  $("#edit_append_opt_address").on('change', '.address-type', function() {
-    var value = $(this).val();
-
-    alert(value);
-
-    if(value == "company" || value == "stall") {
-      $(this).closest("div.form-group").find(".populate-data").attr('disabled', true);
-      $(this).closest("div.form-group").find("input[name='address_data[]']").val('');
-    }
-
-    else {
-      $(this).closest("div.form-group").find(".populate-data").attr('disabled', false);
-    }
-
-  });
+  // $("#edit_append_opt_address").on('change', '.address-type', function() {
+  //   var value = $(this).val();
+  //
+  //   alert(value);
+  //
+  //   if(value == "company" || value == "stall") {
+  //     $(this).closest("div.form-group").find(".populate-data").attr('disabled', true);
+  //     $(this).closest("div.form-group").find("input[name='address_data[]']").val('');
+  //   }
+  //
+  //   else {
+  //     $(this).closest("div.form-group").find(".populate-data").attr('disabled', false);
+  //   }
+  //
+  // });
 
   $(".edit_inner_opt_addr").on('focusout', '.edit-address-data', function() {
 

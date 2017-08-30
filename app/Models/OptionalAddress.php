@@ -12,6 +12,7 @@ class OptionalAddress extends Model
         'type',
         'data',
         'address',
+        'oversea_address',
         'address_translated',
         'devotee_id'
     ];

@@ -288,11 +288,11 @@
 
                                                                         @else
 
-                                                                            <tbody id="no_session">
-                                                                                <tr>
-	                                                                            	<td colspan="12">No Data</td>
-	                                                                            </tr>
-                                                                            </tbody>
+                                                                        <tbody id="no_session">
+                                                                          <tr>
+	                                                                          <td colspan="12">No Data</td>
+	                                                                        </tr>
+                                                                        </tbody>
 
                                                                         @endif
 
@@ -308,19 +308,19 @@
 
                                                                     <table class="table table-bordered" id="generaldonation_table2">
                                                                         <thead>
-                                                                            <tr>
-                                                                                <th>Chinese Name</th>
-                                                                                <th>Devotee#</th>
-																																								<th>Member#</th>
-                                                                                <th>Address</th>
-                                                                                <th>Guiyi Name</th>
-                                                                                <th width="80px">Amount</th>
-                                                                                <th width="80px">Pay Till</th>
-                                                                                <th width="100px">HJ/ GR</th>
-                                                                                <th width="80px">Display</th>
-                                                                                <th>XYReceipt</th>
-                                                                                <th>Trans Date</th>
-                                                                            </tr>
+                                                                          <tr>
+                                                                            <th>Chinese Name</th>
+                                                                            <th>Devotee#</th>
+																																						<th>Member#</th>
+                                                                            <th>Address</th>
+                                                                        		<th>Guiyi Name</th>
+                                                                            <th width="80px">Amount</th>
+                                                                            <th width="80px">Pay Till</th>
+                                                                            <th width="100px">HJ/ GR</th>
+                                                                            <th width="80px">Display</th>
+                                                                            <th>XYReceipt</th>
+                                                                            <th>Trans Date</th>
+                                                                          </tr>
                                                                         </thead>
 
 																																				@if(Session::has('xianyou_different_family'))
@@ -399,11 +399,11 @@
 
 																																				@else
 
-																																				<tbody id="appendDevoteeLists">
-																																						<tr id="no_data">
-																																								<td colspan="12">No Data</td>
-																																						</tr>
-																																				</tbody>
+																																				<tbody id="no_session">
+                                                                          <tr>
+	                                                                          <td colspan="12">No Data</td>
+	                                                                        </tr>
+                                                                        </tbody>
 
 																																				@endif
                                                                     </table>
@@ -908,7 +908,7 @@
 			});
 
 			window.onbeforeunload = function() {
-        
+
 			}
 
  		});

@@ -472,8 +472,6 @@ class OperatorController extends Controller
 		$approveNewDate = "";
 		$input = array_except($request->all(), '_token');
 
-		// dd($input);
-
     if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
@@ -712,17 +710,34 @@ class OperatorController extends Controller
 
 				if($devotee_id != null)
 		    {
-		      if(isset($input['address_data_hidden'][0]))
-		      {
+
 						// Save Optional Address
 				    for($i = 0; $i < count($input['address_type']); $i++)
 				    {
 				      if($input['address_type'][$i] == 'company' || $input['address_type'][$i] == 'stall')
 							{
+								if(isset($input['address_data_hidden'][$i]))
+								{
+									$address = $input['address_data_hidden'][$i];
+								}
+								else
+								{
+									$address = null;
+								}
+
+								if (isset($input['address_oversea_hidden'][$i])) {
+									$oversea_address = $input['address_oversea_hidden'][$i];
+								}
+								else
+								{
+									$oversea_address = null;
+								}
+
 								$optional_address = [
 					        "type" => $input['address_type'][$i],
 					        "data" => $input['address_data'][$i],
-									"address" => $input['address_data_hidden'][$i],
+									"address" => $address,
+									"oversea_address" => $oversea_address,
 					        "devotee_id" => $devotee_id
 					      ];
 
@@ -731,16 +746,34 @@ class OperatorController extends Controller
 
 							else
 							{
+								if(isset($input['address_data_hidden'][$i]))
+								{
+									$address = $input['address_data_hidden'][$i];
+								}
+								else
+								{
+									$address = null;
+								}
+
+								if (isset($input['address_oversea_hidden'][$i])) {
+									$oversea_address = $input['address_oversea_hidden'][$i];
+								}
+								else
+								{
+									$oversea_address = null;
+								}
+
 								$optional_address1 = [
 					        "type" => $input['address_type'][$i],
-									"address" => $input['address_data_hidden'][$i],
+									"address" => $address,
+									"oversea_address" => $oversea_address,
 					        "devotee_id" => $devotee_id
 					      ];
 
 					      OptionalAddress::create($optional_address1);
 							}
 				    }
-		      }
+
 
 		      if(isset($input['vehicle_data'][0]))
 		      {
@@ -1134,76 +1167,112 @@ class OperatorController extends Controller
 			  $devotee->nationality = $input['nationality'];
 			  $devotee->familycode_id = $familycode_id;
 			  $devotee->member_id = $member_id;
-
 				$devotee->save();
 
-		      if(isset($input['address_data_hidden'][0]))
-		      {
-						//delete first before saving
-				    OptionalAddress::where('devotee_id', $input['devotee_id'])->delete();
+			//delete first before saving
+			OptionalAddress::where('devotee_id', $input['devotee_id'])->delete();
 
-						// Save Optional Address
-				    for($i = 0; $i < count($input['address_type']); $i++)
-				    {
-				      if($input['address_type'][$i] == 'company' || $input['address_type'][$i] == 'stall')
-							{
-								$optional_address = new OptionalAddress;
-					      $optional_address->type = $input['address_type'][$i];
-					      $optional_address->data = $input['address_data'][$i];
-								$optional_address->address = $input['address_data_hidden'][$i];
-					      $optional_address->devotee_id = $input['devotee_id'];
+			// Save Optional Address
+			for($i = 0; $i < count($input['address_type']); $i++)
+			{
+				if($input['address_type'][$i] == 'company' || $input['address_type'][$i] == 'stall')
+				{
+					if(isset($input['address_data_hidden'][$i]))
+					{
+						$address = $input['address_data_hidden'][$i];
+					}
+					else
+					{
+						$address = null;
+					}
 
-					      $optional_address->save();
-							}
+					if (isset($input['address_oversea_hidden'][$i])) {
+						$oversea_address = $input['address_oversea_hidden'][$i];
+					}
+					else
+					{
+						$oversea_address = null;
+					}
 
-							else
-							{
-								$optional_address = new OptionalAddress;
-					      $optional_address->type = $input['address_type'][$i];
-					      $optional_address->address = $input['address_data_hidden'][$i];
-					      $optional_address->devotee_id = $input['devotee_id'];
+					$optional_address = new OptionalAddress;
+				  $optional_address->type = $input['address_type'][$i];
+				  $optional_address->data = $input['address_data'][$i];
+					$optional_address->address = $address;
+					$optional_address->oversea_address = $oversea_address;
+				  $optional_address->devotee_id = $input['devotee_id'];
 
-					      $optional_address->save();
-							}
-				    }
-		      }
+				  $optional_address->save();
+				}
 
-		      if(isset($input['vehicle_data'][0]))
-		      {
-						//delete first before saving
-				    OptionalVehicle::where('devotee_id', $input['devotee_id'])->delete();
+				else
+				{
+					if(isset($input['address_data_hidden'][$i]))
+					{
+						$address = $input['address_data_hidden'][$i];
+					}
+					else
+					{
+						$address = null;
+					}
 
-				    for($i = 0; $i < count($input['vehicle_type']); $i++)
-				    {
-							$optional_vehicle = new OptionalVehicle;
-				      $optional_vehicle->type = $input['vehicle_type'][$i];
-				      $optional_vehicle->data = $input['vehicle_data'][$i];
-				      $optional_vehicle->devotee_id = $input['devotee_id'];
+					if (isset($input['address_oversea_hidden'][$i])) {
+						$oversea_address = $input['address_oversea_hidden'][$i];
+					}
+					else
+					{
+						$oversea_address = null;
+					}
 
-				      $optional_vehicle->save();
-				    }
-		      }
+					$optional_address = new OptionalAddress;
+				  $optional_address->type = $input['address_type'][$i];
+				  $optional_address->address = $address;
+					$optional_address->oversea_address = $oversea_address;
+				  $optional_address->devotee_id = $input['devotee_id'];
 
-					// Update Special Remarks
-		      if(isset($input['special_remark'][0]))
-		      {
-						//delete first before saving
-				    SpecialRemarks::where('devotee_id', $input['devotee_id'])->delete();
+				  $optional_address->save();
+				}
+			}
 
-		        for($i = 0; $i < count($input['special_remark']); $i++)
-		        {
-							$special_remark = new SpecialRemarks;
-				      $special_remark->data = $input['special_remark'][$i];
-				      $special_remark->devotee_id = $input['devotee_id'];
 
-				      $special_remark->save();
-		        }
-		      }
+		  if(isset($input['vehicle_data'][0]))
+		  {
+				//delete first before saving
+				OptionalVehicle::where('devotee_id', $input['devotee_id'])->delete();
 
-				$devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+				for($i = 0; $i < count($input['vehicle_type']); $i++)
+				{
+					$optional_vehicle = new OptionalVehicle;
+				  $optional_vehicle->type = $input['vehicle_type'][$i];
+				  $optional_vehicle->data = $input['vehicle_data'][$i];
+				  $optional_vehicle->devotee_id = $input['devotee_id'];
+
+				  $optional_vehicle->save();
+				}
+		  }
+
+			// Update Special Remarks
+		  if(isset($input['special_remark'][0]))
+		  {
+				//delete first before saving
+				SpecialRemarks::where('devotee_id', $input['devotee_id'])->delete();
+
+		    for($i = 0; $i < count($input['special_remark']); $i++)
+		    {
+					$special_remark = new SpecialRemarks;
+				  $special_remark->data = $input['special_remark'][$i];
+				  $special_remark->devotee_id = $input['devotee_id'];
+
+				  $special_remark->save();
+		     }
+		   }
+
+			 $devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 			             ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
-			             ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date')
+									 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+			             ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date',
+									 'specialremarks.devotee_id as specialremarks_devotee_id')
 			             ->where('devotee.devotee_id', $input['devotee_id'])
+									 ->GroupBy('devotee.devotee_id')
 			             ->get();
 
 				if(isset($devotee[0]->dob))
