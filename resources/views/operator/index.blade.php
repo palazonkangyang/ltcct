@@ -1647,8 +1647,8 @@
 
 @section('custom-js')
 
+		<script src="{{asset('js/custom/common.js')}}"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="{{asset('js/custom/common.js')}}"></script>
 		<script src="{{asset('js/custom/populate-address.js')}}"></script>
 		<script src="{{asset('js/custom/edit-populate-address.js')}}"></script>
     <script src="{{asset('js/custom/search-devotee.js')}}"></script>
@@ -1662,15 +1662,6 @@
     <script type="text/javascript">
 
         $(function(){
-
-					// var url = document.location.toString();
-					//
-					// if (url.match('#')) {
-					// 	localStorage.removeItem('activeTab');
-					//   $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
-					// }
-					//
-					// console.log(url);
 
 					$("#logout").click(function() {
 						localStorage.removeItem('activeTab');

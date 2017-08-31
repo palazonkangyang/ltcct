@@ -614,7 +614,7 @@
 
     <div id="rightcontent">
 
-      <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+      <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px; font-size: 12px; font-weight: bold">
         OFFICIAL RECEIPT - 正式收据
       </div>
 
@@ -663,10 +663,10 @@
 
       <div class="receipt-info">
         <div class="" style="width: 49mm; float: left;">
-          <p><b>Paid By (付款者)</b></p>
+          <p style="font-size: 12px; font-weight: bold">Paid By (付款者)</p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
           D - {{ $paid_by[0]->devotee_id }}</p>
-          <p><b>No of Set(s) / 份数</b></p>
+          <p style="font-size: 12px; font-weight: bold">No of Set(s) / 份数</p>
         </div>
 
         <div style="width: 22mm; float: left; border: 1px solid black; height: 2cm; line-height: 2cm; text-align: center; vertical-align: middle;">
@@ -674,7 +674,7 @@
         </div>
       </div><!-- end receipt-info -->
 
-      <div class="receipt-info">
+      <div class="receipt-info" style="font-size: 12px; font-weight: bold">
         <div class="label-rightwrapper">
           <div class="rightlabel-left"><b>Total Amount (总额)</b></div><!-- end label-left -->
           <div class="rightlabel-right"><b>S$ {{ number_format( $receipt->amount, 2) }}</b></div><!-- end label-right -->
