@@ -67,8 +67,8 @@ $(function() {
 
         else
         {
-          $(".validation-error").removeClass("bg-danger alert alert-error")
-          $(".validation-error").empty();
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
         }
 
         window.location.reload(true);
