@@ -35,17 +35,17 @@ $(function() {
 
         if(mode_payment == "receipt")
         {
-            if ($.trim(manualreceipt).length <= 0)
-            {
+          if ($.trim(manualreceipt).length <= 0)
+          {
                 validationFailed = true;
                 errors[count++] = "Manual Receipt is empty."
-            }
+          }
 
-            if ($.trim(receipt_at).length <= 0)
-            {
-                validationFailed = true;
-                errors[count++] = "Date Of Receipt is empty."
-            }
+          if ($.trim(receipt_at).length <= 0)
+          {
+            validationFailed = true;
+            errors[count++] = "Date Of Receipt is empty."
+          }
         }
 
         if (validationFailed)
@@ -72,6 +72,5 @@ $(function() {
         }
 
         window.location.reload(true);
-
     });
 });
