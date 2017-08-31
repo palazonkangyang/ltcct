@@ -140,31 +140,77 @@ $(function() {
   });
 
   $("#insert_devotee").click(function() {
-      var devotee_id = $("#search_devotee_lists").find('.highlight').attr('id');
 
-      var count = 0;
-      var errors = new Array();
-      var validationFailed = false;
+    $(".alert-success").remove();
+    $(".validation-error").empty();
 
-      $('#different_familycode_table .append-devotee-id').each( function () {
+    var devotee_id = $("#search_devotee_lists").find('.highlight').attr('id');
 
-        var id = $(this).val();
+    var count = 0;
+    var errors = new Array();
+    var validationFailed = false;
 
-        if(devotee_id == id)
+    $('#different_familycode_table .append-devotee-id').each( function () {
+
+      var id = $(this).val();
+
+      if(devotee_id == id)
+      {
+        validationFailed = true;
+        errors[count++] = "This devotee id is already selected."
+      }
+    });
+
+    if (validationFailed)
+    {
+      var errorMsgs = '';
+
+      for(var i = 0; i < count; i++)
+      {
+        errorMsgs = errorMsgs + errors[i] + "<br/>";
+      }
+
+      $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").html(errorMsgs);
+
+      return false;
+    }
+
+    else
+    {
+      $(".validation-error").removeClass("bg-danger alert alert-error")
+      $(".validation-error").empty();
+    }
+
+    var formData = {
+      _token: $('meta[name="csrf-token"]').attr('content'),
+      devotee_id: devotee_id,
+    };
+
+    $.ajax({
+      type: 'GET',
+      url: "/staff/insert-devotee",
+      data: formData,
+      dataType: 'json',
+      success: function(response)
+      {
+        var familycode = $("#family_code").text();
+
+        if(familycode == response.devotee[0]['familycode'])
         {
           validationFailed = true;
-          errors[count++] = "This devotee id is already selected."
+          errors[count++] = "Same Family Code cannot be selected.";
         }
 
-      });
-
-      if (validationFailed)
-      {
+        if (validationFailed)
+        {
           var errorMsgs = '';
 
           for(var i = 0; i < count; i++)
           {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
+            errorMsgs = errorMsgs + errors[i] + "<br/>";
           }
 
           $('html,body').animate({ scrollTop: 0 }, 'slow');
@@ -173,52 +219,40 @@ $(function() {
           $(".validation-error").html(errorMsgs);
 
           return false;
-      }
+        }
 
-      else
-      {
+        else
+        {
           $(".validation-error").removeClass("bg-danger alert alert-error")
           $(".validation-error").empty();
-      }
+        }
 
-      var formData = {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        devotee_id: devotee_id,
-      };
+        $.each(response.devotee, function(index, data) {
 
-      $.ajax({
-        type: 'GET',
-        url: "/staff/insert-devotee",
-        data: formData,
-        dataType: 'json',
-        success: function(response)
-        {
-          $.each(response.devotee, function(index, data) {
+          if(data.address_unit1 != null && data.address_unit2 != null)
+          {
+            var full_address = data.address_houseno + ", #" + data.address_unit1 + "-" + data.address_unit2 + ", " + data.address_street + ", " + data.address_postal;
+          }
+          else
+          {
+            var full_address = data.address_houseno + ", " + data.address_street + ", " + data.address_postal;
+          }
 
-            if(data.address_unit1 != null && data.address_unit2 != null)
-            {
-              var full_address = data.address_houseno + ", #" + data.address_unit1 + "-" + data.address_unit2 + ", " + data.address_street + ", " + data.address_postal;
-            }
-            else
-            {
-              var full_address = data.address_houseno + ", " + data.address_street + ", " + data.address_postal;
-            }
-
-            $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
-                "<td class='checkbox-col'><input type='checkbox' name='xiangyou_ciji_id[]' value='" + data.devotee_id + "' class='different xiangyou_ciji_id'>" +
-                "<input type='hidden' class='form-control hidden_xiangyou_ciji_id' name='hidden_xiangyou_ciji_id[]'  value=''></td>" +
-                "<td class='checkbox-col'><input type='checkbox' name='yuejuan_id[]' value='" + data.devotee_id + "' class='different yuejuan_id'>" +
-                "<input type='hidden' class='form-control hidden_yuejuan_id' name='hidden_yuejuan_id[]' value=''></td>" +
-                "<td>" + data.chinese_name +"</td>" +
-                "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
-                "<td>" + $.trim(data.member_id) + "</td>" +
-                "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
-                "<td>" + $.trim(data.guiyi_name) + "</td>" +
-                "<td>" + $.trim(data.contact) + "</td>" +
-                "<td>" + $.trim(data.paytill_date) + "</td>" +
-                "<td>" + data.mailer + "</td>" +
-                "<td>" + data.lasttransaction_at + "</td>" +
-                "<td>" + data.familycode + "</td>");
+          $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
+            "<td class='checkbox-col'><input type='checkbox' name='xiangyou_ciji_id[]' value='" + data.devotee_id + "' class='different xiangyou_ciji_id'>" +
+            "<input type='hidden' class='form-control hidden_xiangyou_ciji_id' name='hidden_xiangyou_ciji_id[]'  value=''></td>" +
+            "<td class='checkbox-col'><input type='checkbox' name='yuejuan_id[]' value='" + data.devotee_id + "' class='different yuejuan_id'>" +
+            "<input type='hidden' class='form-control hidden_yuejuan_id' name='hidden_yuejuan_id[]' value=''></td>" +
+            "<td>" + data.chinese_name +"</td>" +
+            "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
+            "<td>" + $.trim(data.member_id) + "</td>" +
+            "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
+            "<td>" + $.trim(data.guiyi_name) + "</td>" +
+            "<td>" + $.trim(data.contact) + "</td>" +
+            "<td>" + $.trim(data.paytill_date) + "</td>" +
+            "<td>" + data.mailer + "</td>" +
+            "<td>" + data.lasttransaction_at + "</td>" +
+            "<td>" + data.familycode + "</td>");
           });
         },
         error: function (response) {
@@ -226,48 +260,64 @@ $(function() {
         }
 
       });
-
   });
 
   // remove row
   $("#different_familycode_table").on('click', '.removeDevotee', function() {
+    if (!confirm("Are you sure you want to delete this devotee from Relative and Friends List? This process is irreversible.")){
+      return false;
+    }
+
+    else{
       $(this).closest('tr').remove();
+    }
+
   });
 
   $("#update_differentaddr_btn").click(function() {
+
+    $(".alert-success").remove();
+    $(".validation-error").empty();
 
     var count = 0;
     var errors = new Array();
     var validationFailed = false;
 
-    checked = $("#different_familycode_table input[type=checkbox]:checked").length;
+    var focusdevotee_id = $("#focusdevotee_id").val();
 
-    if(!checked) {
+    if ($.trim(focusdevotee_id).length <= 0)
+    {
       validationFailed = true;
-      errors[count++] = "You must check at least one checkbox.";
+      errors[count++] = "Please select focus devotee.";
+    }
+
+    if($("#different_familycode_table tbody").children().length == 0)
+    {
+      validationFailed = true;
+      errors[count++] = "There is no devotee in the table.";
     }
 
     if (validationFailed)
     {
-        var errorMsgs = '';
+      var errorMsgs = '';
 
-        for(var i = 0; i < count; i++)
-        {
-            errorMsgs = errorMsgs + errors[i] + "<br/>";
-        }
+      for(var i = 0; i < count; i++)
+      {
+        errorMsgs = errorMsgs + errors[i] + "<br/>";
+      }
 
-        $('html,body').animate({ scrollTop: 0 }, 'slow');
+      $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-        $(".validation-error").addClass("bg-danger alert alert-error")
-        $(".validation-error").html(errorMsgs);
+      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").html(errorMsgs);
 
-        return false;
+      return false;
     }
 
     else
     {
-        $(".validation-error").removeClass("bg-danger alert alert-error")
-        $(".validation-error").empty();
+      $(".validation-error").removeClass("bg-danger alert alert-error")
+      $(".validation-error").empty();
     }
 
   });

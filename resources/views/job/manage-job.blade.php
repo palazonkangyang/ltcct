@@ -12,7 +12,7 @@
 
             <div class="page-title">
 
-                <h1>GL Account</h1>
+                <h1>Job</h1>
 
             </div><!-- end page-title -->
 
@@ -118,10 +118,6 @@
                                         <td>{{ $j->job_name }}</td>
                                         <td>{{ $j->job_description }}</td>
                                         <td>
-                                          <a href="{{ URL::to('/job/edit/' . $j->job_id) }}" class="btn btn-outline btn-circle btn-sm purple">
-                                            <i class="fa fa-edit"></i> Edit
-                                          </a>
-
                                           <a href="{{ URL::to('/job/delete/' . $j->job_id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-job">
                                             <i class="fa fa-trash-o"></i> Delete
                                           </a>

@@ -47,6 +47,15 @@ class JobController extends Controller
       $hashedPassword = $user->password;
 
       if (Hash::check($input['authorized_password'], $hashedPassword)) {
+
+        $result = Job::where('job_name', $input['job_name'])->first();
+
+        if($result)
+    		{
+    			$request->session()->flash('error', "Job Name is already exist.");
+    			return redirect()->back()->withInput();
+    		}
+
         $job_id = Job::all()->last()->job_id;
         $job_id += 1;
         $job_reference_no = "J-" . $job_id;
@@ -57,19 +66,16 @@ class JobController extends Controller
           "job_description" => $input['job_description']
         ];
 
-        $job = Job::create($data);
+        Job::create($data);
+
+        $request->session()->flash('success', 'New Job has been created!');
+        return redirect()->back();
       }
 
       else {
         $request->session()->flash('error', "Password did not match. Please Try Again");
         return redirect()->back()->withInput();
       }
-    }
-
-    if($job)
-    {
-      $request->session()->flash('success', 'New Job has been created!');
-      return redirect()->back();
     }
   }
 
@@ -95,12 +101,25 @@ class JobController extends Controller
 
       if (Hash::check($input['edit_authorized_password'], $hashedPassword))
       {
+        $result = Job::where('job_name', $input['edit_job_name'])
+                   ->where('job_id', '!=', $input['edit_job_id'])
+                   ->first();
+
+        if($result)
+        {
+          $request->session()->flash('error', "Job Name is already exist.");
+          return redirect()->back()->withInput();
+        }
+
         $job = Job::find($input['edit_job_id']);
 
         $job->job_name = $input['edit_job_name'];
         $job->job_description = $input['edit_job_description'];
 
-        $result = $job->save();
+        $job->save();
+
+        $request->session()->flash('success', 'Job has been updated!');
+        return redirect()->route('manage-job-page');
       }
 
       else
@@ -109,13 +128,6 @@ class JobController extends Controller
         return redirect()->back()->withInput();
       }
     }
-
-    if($result)
-    {
-      $request->session()->flash('success', 'Job has been updated!');
-      return redirect()->route('manage-job-page');
-    }
-
   }
 
   public function deleteJob(Request $request, $id)

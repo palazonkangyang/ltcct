@@ -365,9 +365,9 @@
 	 									<label class="col-md-4">Title</label>
 	 									<div class="col-md-8">
 	 											<select class="form-control" name="title" id="edit_title">
-	 													<option value="mr">Mr</option>
-	 													<option value="miss">Miss</option>
-	 													<option value="madam">Madam</option>
+	 													<option value="mr" <?php if ($focus_devotee[0]->title == "mr") echo "selected"; ?>>Mr</option>
+	 													<option value="miss" <?php if ($focus_devotee[0]->title == "miss") echo "selected"; ?>>Miss</option>
+	 													<option value="madam" <?php if ($focus_devotee[0]->title == "madam") echo "selected"; ?>>Madam</option>
 	 											</select>
 	 									</div><!-- end col-md-8 -->
 

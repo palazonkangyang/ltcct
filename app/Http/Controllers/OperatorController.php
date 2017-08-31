@@ -825,9 +825,17 @@ class OperatorController extends Controller
 				if(Session::has('yuejuan_different_family')) { Session::forget('yuejuan_different_family'); }
 				if(Session::has('xianyou_different_family')) { Session::forget('xianyou_different_family'); }
 
-				$focus_devotee = Devotee::join('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
-													->select('devotee.*', 'familycode.familycode')
-													->where('devotee_id', $devotee_id)->get();
+				// $focus_devotee = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
+				// 									->select('devotee.*', 'familycode.familycode')
+				// 									->where('devotee_id', $devotee_id)->get();
+
+				$focus_devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+									 ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
+									 ->leftjoin('dialect', 'devotee.dialect', '=', 'dialect.dialect_id')
+									 ->select('devotee.*', 'dialect.dialect_name', 'familycode.familycode', 'member.introduced_by1',
+										'member.introduced_by2', 'member.approved_date', 'member.paytill_date')
+									 ->where('devotee.devotee_id', $devotee_id)
+									 ->get();
 
 				$focusdevotee_specialremarks = Devotee::leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 				          ->where('devotee.devotee_id', $focus_devotee[0]->devotee_id)
@@ -911,60 +919,43 @@ class OperatorController extends Controller
 				$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 				$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 
-				if(!Session::has('focus_devotee'))
+				$focudevotee_amount = [];
+
+				if(isset($focus_devotee[0]->paytill_date))
 				{
-					Session::put('focus_devotee', $focus_devotee);
+					$amount = [];
+
+					$myArray = explode('-', $focus_devotee[0]->paytill_date);
+
+					$count = 1;
+					for($j = 1; $j <= 10; $j++)
+					{
+						$dt = Carbon::create($myArray[0], $myArray[1], $myArray[2], 0);
+						$dt = $dt->addYears($count);
+
+						$format = Carbon::parse($dt)->format("Y-m");
+
+						$fee = 24 * $j;
+						$amount[$j] = number_format($fee, 2) . ' --- ' . $format;
+
+						$count++;
+					}
+					array_push($focudevotee_amount, $amount);
 				}
 
-				if(!Session::has('focusdevotee_specialremarks'))
-				{
-				  Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
-				}
 
-				if(!Session::has('devotee_lists'))
-				{
-				  Session::put('devotee_lists', $devotee_lists);
-				}
-
-				if(!Session::has('xianyou_same_family'))
-				{
-				  Session::put('xianyou_same_family', $xianyou_same_family);
-				}
-
-				if(!Session::has('xianyou_different_family'))
-				{
-				  Session::put('xianyou_different_family', $xianyou_different_family);
-				}
-
-				if(!Session::has('setting_samefamily'))
-				{
-				  Session::put('setting_samefamily', $setting_samefamily);
-				}
-
-				if(!Session::has('setting_differentfamily'))
-				{
-				  Session::put('setting_differentfamily', $setting_differentfamily);
-				}
-
-				if(!Session::has('optionaladdresses'))
-				{
-				  Session::put('optionaladdresses', $optionaladdresses);
-				}
-
-				if(!Session::has('optionalvehicles'))
-				{
-				  Session::put('optionalvehicles', $optionalvehicles);
-				}
-
-				if(!Session::has('specialRemarks'))
-				{
-				  Session::put('specialRemarks', $specialRemarks);
-				}
-
-				if(!Session::has('receipts'))
-				{
-				  Session::put('receipts', $receipts);
-				}
+				Session::put('focus_devotee', $focus_devotee);
+				Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
+				Session::put('devotee_lists', $devotee_lists);
+				Session::put('xianyou_same_family', $xianyou_same_family);
+				Session::put('xianyou_different_family', $xianyou_different_family);
+				Session::put('setting_samefamily', $setting_samefamily);
+				Session::put('setting_differentfamily', $setting_differentfamily);
+				Session::put('optionaladdresses', $optionaladdresses);
+				Session::put('optionalvehicles', $optionalvehicles);
+				Session::put('specialRemarks', $specialRemarks);
+				Session::put('receipts', $receipts);
+				Session::put('focusdevotee_amount', $focudevotee_amount);
 
 				$today = Carbon::today();
 

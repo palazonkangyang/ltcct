@@ -83,14 +83,14 @@
                                                         <thead>
                                                             <tr>
                                                                 <th width='4%'>#</th>
-                                                                <th width="13%">Job</th>
+                                                                <th width="16%">Job</th>
                                                                 <th width='10%'>Job Date 阴历</th>
                                                                 <th width='10%'>Date To 阴历</th>
                                                                 <th width='15%'>Lunar Date 阳历</th>
-                                                                <th width='15%'>Event 节日</th>
+                                                                <th width='18%'>Event 节日</th>
                                                                 <th width='11%'>Time 时间</th>
                                                                 <th width='11%'>Shuwen Title 文疏</th>
-                                                                <th width='11%'>Display</th>
+                                                                <th width='5%'>Display</th>
                                                             </tr>
                                                         </thead>
 
@@ -102,6 +102,7 @@
                                                                     <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
                                                                     <td>
                                                                       <select class="form-control" name="job_id[]" id="job_id">
+                                                                        <option value="">Please Select</option>
                                                                         <option value="1" <?php if ($event->job_id == "1") echo "selected"; ?>>Spring Festival</option>
                                                                         <option value="2" <?php if ($event->job_id == "2") echo "selected"; ?>>Festival 1</option>
                                                                         <option value="3" <?php if ($event->job_id == "3") echo "selected"; ?>>Festival 2</option>
@@ -130,7 +131,7 @@
                                                                     </td>
                                                                     <td class="display-row">
                                                                         <input type='hidden' name='display_hidden[]' value='' class="display-hidden">
-                                                                        <input type='checkbox' name='display[]' value='' class='form-control no-height'
+                                                                        <input type='checkbox' name='display[]' value='' class='no-height'
                                                                           <?php if ($event->display == '1'){ ?>checked="checked"<?php }?>>
                                                                     </td>
                                                                 </tr>
@@ -210,8 +211,14 @@
 
         $("#addEventRow").click(function() {
 
+          var $options = $(".job").clone();
+
+          console.log($options);
+
+          // $("#festive-event-table").append();
+
           $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-              "<td><select class='form-control' name='job_id[]' id='job_id'><option value='1'>Spring Festival</option>" +
+              "<td><select class='form-control' name='job_id[]' id='job_id'><option value=''>Please Select</option><option value=''>Please Select</option><option value='1'>Spring Festival</option>" +
               "<option value='2'>Festival 1</option><option value='3'>Festival 2</option></select></td>" +
               "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value='' id='job_date'></td>" +
               "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value='' id='end_at'></td>" +
@@ -219,7 +226,7 @@
               "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
               "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
               "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-              "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='form-control no-height'></td></tr>");
+              "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='no-height'></td></tr>");
         });
 
         $("#festive-event-table").on('click', '.removeEventRow', function() {
@@ -239,65 +246,70 @@
 
             $(".alert-success").remove();
 
+            $("select").each(function() {
+              var $optText = $(this).find('option:selected');
+
+              if ($optText.val() == "") {
+                validationFailed = true;
+                errors[count++] = "Job fields are empty.";
+                return false;
+              }
+            });
+
             $("input:text[name^='start_at']").each(function() {
 
-                if (!$.trim($(this).val()).length) {
-
-                    validationFailed = true;
-                    errors[count++] = "Job Date fields are empty.";
-                    return false;
-                }
+              if (!$.trim($(this).val()).length) {
+                validationFailed = true;
+                errors[count++] = "Job Date fields are empty.";
+                return false;
+              }
             });
 
             $("input:text[name^='end_at']").each(function() {
 
-                if (!$.trim($(this).val()).length) {
+              if (!$.trim($(this).val()).length) {
 
-                    validationFailed = true;
-                    errors[count++] = "Date To fields are empty.";
-                    return false;
-                }
+                validationFailed = true;
+                errors[count++] = "Date To fields are empty.";
+                return false;
+              }
             });
 
             $("input:text[name^='lunar_date']").each(function() {
 
-                if (!$.trim($(this).val()).length) {
-
-                    validationFailed = true;
-                    errors[count++] = "Lunar Date fields are empty.";
-                    return false;
-                }
+              if (!$.trim($(this).val()).length) {
+                validationFailed = true;
+                errors[count++] = "Lunar Date fields are empty.";
+                return false;
+              }
             });
 
             $("input:text[name^='event']").each(function() {
 
-                if (!$.trim($(this).val()).length) {
-
-                    validationFailed = true;
-                    errors[count++] = "Event fields are empty.";
-                    return false;
-                }
+              if (!$.trim($(this).val()).length) {
+                validationFailed = true;
+                errors[count++] = "Event fields are empty.";
+                return false;
+              }
             });
 
             $("input:text[name^='time']").each(function() {
 
-                if (!$.trim($(this).val()).length) {
-
-                    validationFailed = true;
-                    errors[count++] = "Time fields are empty.";
-                    return false;
-                }
+              if (!$.trim($(this).val()).length) {
+                validationFailed = true;
+                errors[count++] = "Time fields are empty.";
+                return false;
+              }
             });
 
             $('#festive-event-table .event-row td').each(function () {
 
-                if($(this).hasClass("has-error"))
-                {
-                  validationFailed = true;
-                  errors[count++] = "Date To should be greater than Job Date.";
-                  return false;
-                }
-
+              if($(this).hasClass("has-error"))
+              {
+                validationFailed = true;
+                errors[count++] = "Date To should be greater than Job Date.";
+                return false;
+              }
             });
 
             if (validationFailed)
@@ -333,20 +345,30 @@
             var start_date = job_date.split("/").reverse().join("-");
             var end_date = end_at.split("/").reverse().join("-");
 
-            // alert(job_date);
-            // alert(end_at);
+            // alert(start_date);
+            // alert(end_date);
 
-            if(end_at == "")
+            if(start_date <= end_date)
             {
+              alert('End date should be bigger than start date');
+            }
 
-            }
-            else if (new Date(job_date) > new Date(end_at)) {
-              $(this).closest('td').next('td').addClass('has-error');
-            }
             else
             {
-              $(this).closest('td').next('td').removeClass("has-error");
+              alert('here');
             }
+
+            // if(end_at == "")
+            // {
+            //
+            // }
+            // else if (new Date(job_date) > new Date(end_at)) {
+            //   $(this).closest('td').next('td').addClass('has-error');
+            // }
+            // else
+            // {
+            //   $(this).closest('td').next('td').removeClass("has-error");
+            // }
           });
         });
 

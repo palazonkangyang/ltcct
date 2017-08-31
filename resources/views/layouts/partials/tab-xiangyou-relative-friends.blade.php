@@ -30,23 +30,22 @@
           @if(Session::has('setting_differentfamily'))
 
           @php
-
-              $setting_differentfamily = Session::get('setting_differentfamily');
-              $focus_devotee = Session::get('focus_devotee');
-              $setting_generaldonation = Session::get('setting_generaldonation');
+            $setting_differentfamily = Session::get('setting_differentfamily');
+            $focus_devotee = Session::get('focus_devotee');
+            $setting_generaldonation = Session::get('setting_generaldonation');
           @endphp
 
           @foreach($setting_differentfamily as $devotee)
           <tr>
             <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
             <td class="checkbox-col">
-              <input type="checkbox" class="form-control same xiangyou_ciji_id" name="xiangyou_ciji_id[]"
+              <input type="checkbox" class="same xiangyou_ciji_id" name="xiangyou_ciji_id[]"
               value="1" <?php if ($devotee->xiangyou_ciji_id == '1'){ ?>checked="checked"<?php }?>>
               <input type="hidden" class="form-control hidden_xiangyou_ciji_id" name="hidden_xiangyou_ciji_id[]"
               value="">
             </td>
             <td class="checkbox-col">
-              <input type="checkbox" class="form-control same yuejuan_id" name="yuejuan_id[]"
+              <input type="checkbox" class="same yuejuan_id" name="yuejuan_id[]"
               value="1" <?php if ($devotee->yuejuan_id == '1'){ ?>checked="checked"<?php }?>>
               <input type="hidden" class="form-control hidden_yuejuan_id" name="hidden_yuejuan_id[]"
               value="0">
@@ -108,7 +107,7 @@
           @else
 
           <tr>
-            <td colspan="12">No Data</td>
+            <td colspan="12">No Result Found</td>
           </tr>
 
           @endif
@@ -250,9 +249,9 @@
 
     <div class="form-group">
       @if(count($focus_devotee) > 0)
-        <input type="hidden" name="focusdevotee_id" value="{{ $focus_devotee[0]->devotee_id }}">
+        <input type="hidden" name="focusdevotee_id" value="{{ $focus_devotee[0]->devotee_id }}" id="focusdevotee_id">
       @else
-        <input type="hidden" name="focusdevotee_id" value="">
+        <input type="hidden" name="focusdevotee_id" value="" id="focusdevotee_id">
       @endif
     </div><!-- end form-group -->
 

@@ -1,6 +1,6 @@
 
   <form method="post" action="{{ URL::to('/staff/postyuejuandoantion') }}"
-  class="form-horizontal form-bordered" id="yuejuan-donation-form">
+  class="form-horizontal form-bordered" id="yuejuan-donation-form" target="_blank">
 
   {!! csrf_field() !!}
 
@@ -74,6 +74,11 @@
                         <option value=""></option>
                         <option value="0">10.00 -- Entrance Fee</option>
                         @endif
+                    </select>
+                  @else
+                    <select class="form-control yuejuan-amount" name="amount[]">
+                      <option value=""></option>
+                      <option value="0">10.00 -- Entrance Fee</option>
                     </select>
                   @endif
                 </td>

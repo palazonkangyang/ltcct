@@ -125,7 +125,7 @@
 
                                                     		<div class="form-body">
 
-                                                    			<form method="post" action="{{ URL::to('/staff/donation') }}"
+                                                    			<form target="_blank" method="post" action="{{ URL::to('/staff/donation') }}"
                                                     				class="form-horizontal form-bordered" id="donation-form">
 
                                                     				{!! csrf_field() !!}

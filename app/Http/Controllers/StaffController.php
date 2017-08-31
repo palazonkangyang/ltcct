@@ -986,6 +986,7 @@ class StaffController extends Controller
 				// Session::put('cancelled_date', $cancelled_date);
 				// Session::put('first_name', $cancellation_receipts[0]->first_name);
 				// Session::put('last_name', $cancellation_receipts[0]->last_name);
+				$request->session()->flash('success', 'The transaction is successfully cancelled.');
 
 				return redirect()->back()->with([
 					'cancelled_date' => $cancelled_date,

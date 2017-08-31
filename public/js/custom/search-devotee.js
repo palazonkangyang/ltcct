@@ -50,20 +50,28 @@ $(function() {
 
         if (validationFailed)
         {
-            var errorMsgs = '';
+          var errorMsgs = '';
 
-            for(var i = 0; i < count; i++)
-            {
-                errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
+          for(var i = 0; i < count; i++)
+          {
+            errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
 
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-            $(".validation-error").addClass("bg-danger alert alert-error")
-            $(".validation-error").html(errorMsgs);
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
 
-            return false;
+          return false;
         }
+
+        else
+        {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+        }
+
+        window.location.reload(true);
 
     });
 });

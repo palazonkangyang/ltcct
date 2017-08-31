@@ -212,4 +212,8 @@ $(function() {
 	   e.preventDefault();
 	    $("#edit-dialog-box").dialog("open");
 	});
+
+	$(".hylink").click(function() {
+		localStorage.removeItem('activeTab');
+	});
 });

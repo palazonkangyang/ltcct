@@ -55,7 +55,7 @@
 
 		  <div id="leftcontent">
 
-		    <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+		    <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px; font-size: 12px; font-weight: bold">
 		      OFFICIAL RECEIPT - 正式收据
 		    </div>
 
@@ -97,7 +97,7 @@
 		        <div class="label-right2">{{ $receipts[0]->trans_no }}</div><!-- end label-right -->
 		      </div><!-- end label-wrapper -->
 
-		      <div class="label-wrapper">
+		      <div class="label-wrapper" style="font-size: 11px; font-weight: bold">
 		        <div class="label-left">Description (项目)</div><!-- end label-left -->
 		        <div class="label-right">
 		          @if($receipts[0]->description == 'General Donation - 香油')
@@ -212,9 +212,9 @@
 
 		  </div><!-- end leftcontent -->
 
-		  <div id="rightcontent">
+		  <div id="rightcontent" style="font-size: 11px">
 
-		    <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+		    <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px; font-size: 12px; font-weight: bold">
 		      OFFICIAL RECEIPT - 正式收据
 		    </div>
 
@@ -224,7 +224,7 @@
 		        <div class="rightlabel-right">{{ $receipts[0]->trans_date }}</div><!-- end label-right -->
 		      </div><!-- end label-wrapper -->
 
-		      <div class="label-rightwrapper">
+		      <div class="label-rightwrapper" style="font-size: 11px; font-weight: bold">
 		        <div class="rightlabel-left">Description (项目)</div><!-- end label-left -->
 		        <div class="rightlabel-right">
 		          @if($receipts[0]->description == 'General Donation - 香油')
@@ -240,7 +240,7 @@
 		    <hr>
 
 		    <div class="receipt-info">
-		      <div class="label-rightwrapper">
+		      <div class="label-rightwrapper" style="font-size: 12px; font-weight: bold">
 		        <div class="rightlabel-left">Next Event (下个法会)</div><!-- end label-left -->
 		        <div class="rightlabel-right">{{ $receipts[0]->event }}</div><!-- end label-right -->
 		      </div><!-- end label-wrapper -->
@@ -263,10 +263,10 @@
 
 		    <div class="receipt-info">
 		      <div class="" style="width: 49mm; float: left;">
-		        <p><b>Paid By (付款者)</b></p>
+		        <p style="font-size: 12px; font-weight: bold">Paid By (付款者)</p>
 		        <p>{{ $paid_by[0]->chinese_name }}<br />
 		        D - {{ $paid_by[0]->devotee_id }}</p>
-		        <p><b>No of Set(s) / 份数</b></p>
+		        <p style="font-size: 12px; font-weight: bold">No of Set(s) / 份数</p>
 		      </div>
 
 		      <div style="width: 22mm; float: left; border: 1px solid black; height: 2cm; line-height: 2cm; text-align: center; vertical-align: middle;">
@@ -275,12 +275,12 @@
 		    </div><!-- end receipt-info -->
 
 		    <div class="receipt-info">
-		      <div class="label-rightwrapper">
+		      <div class="label-rightwrapper" style="font-size: 12px; font-weight: bold">
 		        <div class="rightlabel-left"><b>Total Amount (总额)</b></div><!-- end label-left -->
 		        <div class="rightlabel-right">S$ {{ $total_amount }}</div><!-- end label-right -->
 		      </div><!-- end label-wrapper -->
 
-		      <div class="label-rightwrapper">
+		      <div class="label-rightwrapper" style="font-size: 12px; font-weight: bold">
 		        <div class="rightlabel-left"><b>Receipt No (收据)</b></div><!-- end label-left -->
 		        @if($count > 8)
 		          <div class="rightlabel-right">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
@@ -312,7 +312,7 @@
 
     <div id="leftcontent">
 
-      <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+      <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px; font-size: 12px; font-weight: bold">
         OFFICIAL RECEIPT - 正式收据
       </div>
 
@@ -339,7 +339,7 @@
         </div><!-- end label-wrapper -->
 
         <div class="label-wrapper">
-          <div class="label-left">Description (项目)</div><!-- end label-left -->
+          <div class="label-left" style="font-size: 11px; font-weight: bold">Description (项目)</div><!-- end label-left -->
           <div class="label-right">
 						@if($receipts[0]->description == 'General Donation - 香油')
 						香油
@@ -416,9 +416,9 @@
 
     </div><!-- end leftcontent -->
 
-    <div id="rightcontent">
+    <div id="rightcontent" style="font-size: 11px;">
 
-      <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+      <div style="border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px; font-size: 12px; font-weight: bold">
         OFFICIAL RECEIPT - 正式收据
       </div>
 
@@ -428,7 +428,7 @@
           <div class="rightlabel-right">{{ $receipts[$i]->trans_date }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
-        <div class="label-rightwrapper">
+        <div class="label-rightwrapper" style="font-size: 11px; font-weight: bold">
           <div class="rightlabel-left">Description (项目)</div><!-- end label-left -->
           <div class="rightlabel-right">
 						@if($receipts[0]->description == 'General Donation - 香油')
@@ -444,7 +444,7 @@
       <hr>
 
       <div class="receipt-info">
-        <div class="label-rightwrapper">
+        <div class="label-rightwrapper" style="font-size: 12px; font-weight: bold">
           <div class="rightlabel-left">Next Event (下个法会)</div><!-- end label-left -->
           <div class="rightlabel-right">{{ $receipts[$i]->event }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
@@ -467,10 +467,10 @@
 
       <div class="receipt-info">
         <div class="" style="width: 49mm; float: left;">
-          <p><b>Paid By (付款者)</b></p>
+          <p style="font-size: 12px; font-weight: bold">Paid By (付款者)</p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
           D - {{ $paid_by[0]->devotee_id }}</p>
-          <p><b>No of Set(s) / 份数</b></p>
+          <p style="font-size: 12px; font-weight: bold">No of Set(s) / 份数</p>
         </div>
 
         <div style="width: 22mm; float: left; border: 1px solid black; height: 2cm; line-height: 2cm; text-align: center; vertical-align: middle;">
@@ -478,14 +478,14 @@
         </div>
       </div><!-- end receipt-info -->
 
-      <div class="receipt-info">
+      <div class="receipt-info" style="font-size: 12px; font-weight: bold">
         <div class="label-rightwrapper">
-          <div class="rightlabel-left"><b>Total Amount (总额)</b></div><!-- end label-left -->
-          <div class="rightlabel-right"><b>S$ {{ number_format( $receipts[$i]->amount, 2) }}</b></div><!-- end label-right -->
+          <div class="rightlabel-left">Total Amount (总额)</div><!-- end label-left -->
+          <div class="rightlabel-right">S$ {{ number_format( $receipts[$i]->amount, 2) }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-rightwrapper">
-          <div class="rightlabel-left"><b>Receipt No (收据)</b></div><!-- end label-left -->
+          <div class="rightlabel-left">Receipt No (收据)</div><!-- end label-left -->
           <div class="rightlabel-right">{{ $receipts[$i]->xy_receipt }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
       </div><!-- end receipt-info -->
@@ -506,7 +506,7 @@
 
     <div id="leftcontent">
 
-      <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px;">
+      <div style="width: 97%; border: 1px solid black; line-height: 0.5cm; text-align: center; vertical-align: middle; margin-bottom: 10px; font-size: 12px; font-weight: bold">
         OFFICIAL RECEIPT - 正式收据
       </div>
 
@@ -532,7 +532,7 @@
           <div class="label-right2">{{ $receipt->trans_no }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
-        <div class="label-wrapper">
+        <div class="label-wrapper" style="font-size: 11px; font-weight: bold">
           <div class="label-left">Description (项目)</div><!-- end label-left -->
           <div class="label-right">
 						@if($receipts[0]->description == 'General Donation - 香油')
@@ -624,7 +624,7 @@
           <div class="rightlabel-right">{{ $receipt->trans_date }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
-        <div class="label-rightwrapper">
+        <div class="label-rightwrapper" style="font-size: 11px; font-weight: bold">
           <div class="rightlabel-left">Description (项目)</div><!-- end label-left -->
           <div class="rightlabel-right">
 						@if($receipts[0]->description == 'General Donation - 香油')
@@ -640,7 +640,7 @@
       <hr>
 
       <div class="receipt-info">
-        <div class="label-rightwrapper">
+        <div class="label-rightwrapper" style="font-size: 12px; font-weight: bold">
           <div class="rightlabel-left">Next Event (下个法会)</div><!-- end label-left -->
           <div class="rightlabel-right">{{ $receipt->event }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->

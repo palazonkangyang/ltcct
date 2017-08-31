@@ -1,6 +1,6 @@
 
   <form method="post" action="{{ URL::to('/staff/postcijidoantion') }}"
-  class="form-horizontal form-bordered" id="ciji-donation-form">
+  class="form-horizontal form-bordered" id="ciji-donation-form" target="_blank">
 
   {!! csrf_field() !!}
 
