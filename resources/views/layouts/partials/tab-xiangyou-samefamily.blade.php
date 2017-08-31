@@ -38,13 +38,13 @@
           @foreach($setting_samefamily as $devotee)
           <tr>
             <td class="checkbox-col">
-              <input type="checkbox" class="form-control same xiangyou_ciji_id" name="xiangyou_ciji_id[]"
+              <input type="checkbox" class="same xiangyou_ciji_id" name="xiangyou_ciji_id[]"
               value="1" <?php if ($devotee->xiangyou_ciji_id == '1'){ ?>checked="checked"<?php }?>>
               <input type="hidden" class="form-control hidden_xiangyou_ciji_id" name="hidden_xiangyou_ciji_id[]"
               value="">
             </td>
             <td class="checkbox-col">
-              <input type="checkbox" class="form-control same yuejuan_id" name="yuejuan_id[]"
+              <input type="checkbox" class="same yuejuan_id" name="yuejuan_id[]"
               value="1" <?php if ($devotee->yuejuan_id == '1'){ ?>checked="checked"<?php }?>>
               <input type="hidden" class="form-control hidden_yuejuan_id" name="hidden_yuejuan_id[]"
               value="0">
