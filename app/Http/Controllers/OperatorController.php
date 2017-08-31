@@ -1277,15 +1277,21 @@ class OperatorController extends Controller
 				$optionalvehicles = OptionalVehicle::where('devotee_id', '=', $input['devotee_id'])->get();
 				$special_remark = SpecialRemarks::where('devotee_id', '=', $input['devotee_id'])->get();
 
+				$focusdevotee_specialremarks = Devotee::leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+				          ->where('devotee.devotee_id', $input['devotee_id'])
+				          ->get();
+
 				Session::forget('focus_devotee');
 				Session::forget('optionaladdresses');
 				Session::forget('optionalvehicles');
 				Session::forget('specialRemarks');
+				Session::forget('focusdevotee_specialremarks');
 
 				Session::put('focus_devotee', $devotee);
 				Session::put('optionaladdresses', $optionaladdresses);
 				Session::put('optionalvehicles', $optionalvehicles);
 				Session::put('specialRemarks', $special_remark);
+				Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
 
 				$request->session()->flash('success', 'Profile is successfully updated.');
 				return redirect()->back();

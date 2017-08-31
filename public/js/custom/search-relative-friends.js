@@ -201,7 +201,7 @@ $(function() {
         if(familycode == response.devotee[0]['familycode'])
         {
           validationFailed = true;
-          errors[count++] = "Same Family Code cannot be selected.";
+          errors[count++] = "Same Family Code cannot be inserted.";
         }
 
         if (validationFailed)
