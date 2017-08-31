@@ -122,7 +122,9 @@
 @stop
 
 @section('custom-js')
-    <script src="{{asset('js/custom/common.js')}}"></script>
-    <script src="{{asset('js/ui-tree.min.js')}}"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="{{asset('js/custom/common.js')}}"></script>
+  <script src="{{asset('js/ui-tree.min.js')}}"></script>
 
 @stop

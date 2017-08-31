@@ -74,6 +74,11 @@ class StaffController extends Controller
 
 		$devotee = Devotee::find($input['focusdevotee_id']);
 
+		if(empty($input['festiveevent_id']))
+		{
+			$input['festiveevent_id'] = 0;
+		}
+
 		$data = [
 	    "trans_no" => $trans_id,
 	    "description" => "General Donation - 月捐",
@@ -311,6 +316,11 @@ class StaffController extends Controller
 	  // {
 	  //   $glcode = 12;
 	  // }
+
+		if(empty($input['festiveevent_id']))
+		{
+			$input['festiveevent_id'] = 0;
+		}
 
 		$data = [
 	    "trans_no" => $trans_id,

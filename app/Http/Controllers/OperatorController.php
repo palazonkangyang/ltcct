@@ -90,6 +90,7 @@ class OperatorController extends Controller
 		Session::forget('optionaladdresses');
 		Session::forget('receipts');
 		Session::forget('ciji_receipts');
+		Session::forget('yuejuan_receipts');
 		Session::forget('focusdevotee_amount');
 		Session::forget('samefamily_amount');
 		Session::forget('differentfamily_amount');
@@ -1164,6 +1165,7 @@ class OperatorController extends Controller
 			  $devotee->marital_status = $input['marital_status'];
 			  $devotee->dialect = $dialect_id;
 				$devotee->race = $race_id;
+				$devotee->mailer = $input['mailer'];
 			  $devotee->nationality = $input['nationality'];
 			  $devotee->familycode_id = $familycode_id;
 			  $devotee->member_id = $member_id;
