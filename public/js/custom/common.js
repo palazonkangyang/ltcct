@@ -47,15 +47,16 @@ $(function() {
 			localStorage.removeItem('samefamilycode');
 		}
 
-		if(tab && path == '/operator/index')
+		if(tab == 1 && path == '/operator/index')
 		{
 			$('.nav-tabs li:eq(6) a').tab('show');
 			localStorage.removeItem('tab');
 		}
 
-		if(newtab)
+		if(newtab == 1)
 		{
 			$('.nav-tabs li:eq(0) a').tab('show');
+			localStorage.removeItem('newtab');
 		}
 	});
 
