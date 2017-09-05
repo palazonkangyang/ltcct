@@ -18,7 +18,7 @@
               <th>Address</th>
               <th>Guiyi Name</th>
               <th>Contact</th>
-              <th>Pay Till</th>
+              <th>Paid Till</th>
               <th>Mailer</th>
               <th>Last Trans</th>
               <th>Family Code</th>

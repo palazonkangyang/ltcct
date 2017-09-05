@@ -156,7 +156,7 @@
                                                                         <a href="/journalentry/manage-journalentry" class="hylink">Journal Entry</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#" class="hylink">Income Statement Report</a>
+                                                                        <a href="/report/income-report" class="hylink">Income Statement Report</a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#" class="hylink">Trial Balance Report</a>

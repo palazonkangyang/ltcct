@@ -1105,8 +1105,8 @@
 
 									<div class='col-md-3'>
 										<select class='form-control' name='vehicle_type[]'>
-											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>Car</option>
-											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>Ship</option>
+											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>车辆</option>
+											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>船只</option>
 										</select>
 									</div><!-- end col-md-3 -->
 
@@ -1130,8 +1130,8 @@
 
 										<div class='col-md-3'>
 											<select class='form-control' name='vehicle_type[]'>
-												<option value="car">Car</option>
-												<option value="ship">Ship</option>
+												<option value="car">车辆</option>
+												<option value="ship">船只</option>
 											</select>
 										</div><!-- end col-md-3 -->
 

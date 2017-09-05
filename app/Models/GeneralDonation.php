@@ -15,6 +15,7 @@ class GeneralDonation extends Model
     'total_amount',
     'mode_payment',
     'cheque_no',
+    'nets_no',
     'receipt_at',
     'manualreceipt',
     'trans_at',

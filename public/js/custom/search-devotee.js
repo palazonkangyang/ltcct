@@ -14,6 +14,7 @@ $(function() {
 
         var mode_payment = $("input[name=mode_payment]:checked").val();
         var cheque_no = $("#cheque_no").val();
+        var nets_no = $("#nets_no").val();
         var manualreceipt = $("#manualreceipt").val();
         var receipt_at = $("#receipt_at").val();
 				var total_amount = $("#total_amount").val();
@@ -26,52 +27,60 @@ $(function() {
 
         if(mode_payment == "cheque")
         {
-            if ($.trim(cheque_no).length <= 0)
-            {
-                validationFailed = true;
-                errors[count++] = "Cheque No is empty."
-            }
+          if ($.trim(cheque_no).length <= 0)
+          {
+            validationFailed = true;
+            errors[count++] = "Cheque No is empty."
+          }
+        }
+
+        if(mode_payment == "nets")
+        {
+          if ($.trim(nets_no).length <= 0)
+          {
+            validationFailed = true;
+            errors[count++] = "Nets No is empty."
+          }
         }
 
         if(mode_payment == "receipt")
         {
-            if ($.trim(manualreceipt).length <= 0)
-            {
-                validationFailed = true;
-                errors[count++] = "Manual Receipt is empty."
-            }
+          if ($.trim(manualreceipt).length <= 0)
+          {
+            validationFailed = true;
+            errors[count++] = "Manual Receipt is empty."
+          }
 
-            if ($.trim(receipt_at).length <= 0)
-            {
-                validationFailed = true;
-                errors[count++] = "Date Of Receipt is empty."
-            }
+          if ($.trim(receipt_at).length <= 0)
+          {
+            validationFailed = true;
+            errors[count++] = "Date Of Receipt is empty."
+          }
         }
 
         if (validationFailed)
         {
-            var errorMsgs = '';
+          var errorMsgs = '';
 
-            for(var i = 0; i < count; i++)
-            {
-                errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
+          for(var i = 0; i < count; i++)
+          {
+            errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
 
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-            $(".validation-error").addClass("bg-danger alert alert-error")
-            $(".validation-error").html(errorMsgs);
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
 
-            return false;
-        }
+          return false;
+      }
 
-        else
-        {
-            $(".validation-error").removeClass("bg-danger alert alert-error")
-            $(".validation-error").empty();
-        }
+      else
+      {
+        $(".validation-error").removeClass("bg-danger alert alert-error")
+        $(".validation-error").empty();
+      }
 
-        window.location.reload(true);
-
+      setTimeout(function(){ window.location.reload(true); }, 1000);
     });
 });

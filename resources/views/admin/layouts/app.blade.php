@@ -86,19 +86,19 @@
 
                   @if(Auth::user()->role != 4)
                   <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                          <a href="/operator/index"> Main Page 主页
+                          <a href="/operator/index" class="hylink"> Main Page 主页
                               <span class="arrow"></span>
                           </a>
                       </li>
 
                       <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
-                          <a href="/staff/donation" class="nav-link  "> General Donation 乐捐
+                          <a href="/staff/donation" class="nav-link hylink"> General Donation 乐捐
                               <span class="arrow"></span>
                           </a>
                       </li>
 
                       <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
-                          <a href="/staff/create-festive-event"> Event Calendar 庆典节目表
+                          <a href="/staff/create-festive-event" class="hylink"> Event Calendar 庆典节目表
                               <span class="arrow"></span>
                           </a>
                       </li>
@@ -118,13 +118,13 @@
                                                           <h3>Income & Expenditure</h3>
                                                       </li>
                                                       <li>
-                                                          <a href="#">Income</a>
+                                                          <a href="#" class="hylink">Income</a>
                                                       </li>
                                                       <li>
-                                                          <a href="/expenditure/manage-expenditure">Expenditure</a>
+                                                          <a href="/expenditure/manage-expenditure" class="hylink">Expenditure</a>
                                                       </li>
                                                       <li>
-                                                          <a href="/paid/manage-paid">Paid</a>
+                                                          <a href="/paid/manage-paid" class="hylink">Paid</a>
                                                       </li>
                                                   </ul>
                                               </div>
@@ -134,22 +134,22 @@
                                                           <h3>Setting</h3>
                                                       </li>
                                                       <li>
-                                                          <a href="#">Fiscal Year</a>
+                                                          <a href="#" class="hylink">Fiscal Year</a>
                                                       </li>
                                                       <li>
-                                                          <a href="/job/manage-job">Jobs</a>
+                                                          <a href="/job/manage-job" class="hylink">Jobs</a>
                                                       </li>
                                                       <li>
-                                                          <a href="#">Cost Center</a>
+                                                          <a href="#" class="hylink">Cost Center</a>
                                                       </li>
                                                       <li>
-                                                          <a href="/account/new-glaccountgroup">GL Account Group</a>
+                                                          <a href="/account/new-glaccountgroup" class="hylink">GL Account Group</a>
                                                       </li>
                                                       <li>
-                                                          <a href="/account/new-glaccount">GL Accounts</a>
+                                                          <a href="/account/new-glaccount" class="hylink">GL Accounts</a>
                                                       </li>
                                                       <li>
-                                                          <a href="/account/chart-all-accounts">Chart All Accounts</a>
+                                                          <a href="/account/chart-all-accounts" class="hylink">Chart All Accounts</a>
                                                       </li>
                                                   </ul>
                                               </div>
@@ -159,16 +159,16 @@
                                                           <h3>Finance</h3>
                                                       </li>
                                                       <li>
-                                                          <a href="/journalentry/manage-journalentry">Journal Entry</a>
+                                                          <a href="/journalentry/manage-journalentry" class="hylink">Journal Entry</a>
                                                       </li>
                                                       <li>
-                                                          <a href="">Income Statement Report</a>
+                                                          <a href="/report/income-report" class="hylink">Income Statement Report</a>
                                                       </li>
                                                       <li>
-                                                          <a href="#">Trial Balance Report</a>
+                                                          <a href="#" class="hylink">Trial Balance Report</a>
                                                       </li>
                                                       <li>
-                                                          <a href="#">Cashflow Statement Report</a>
+                                                          <a href="#" class="hylink">Cashflow Statement Report</a>
                                                       </li>
                                                   </ul>
                                               </div>

@@ -82,7 +82,7 @@ class Devotee extends Model
         }
 
         if (\Input::get("familycode")) {
-            $devotee->where('familycode.familycode', 'like', '%' . $input['familycode'] . '%');
+            $devotee->where('familycode.familycode', '=', $input['familycode']);
             $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 

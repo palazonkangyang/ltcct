@@ -31,6 +31,7 @@ $(function() {
 
     var mode_payment = $("input[name=yuejuan_mode_payment]:checked").val();
     var cheque_no = $("#yuejuan_cheque_no").val();
+    var nets_no = $("#yuejuan_nets_no").val();
     var manualreceipt = $("#yuejuan_manualreceipt").val();
     var receipt_at = $("#yuejuan_receipt_at").val();
     var total_amount = $("#yuejuan_total_amount").val();
@@ -43,51 +44,61 @@ $(function() {
 
     if(mode_payment == "cheque")
     {
-        if ($.trim(cheque_no).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Cheque No is empty."
-        }
+      if ($.trim(cheque_no).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Cheque No is empty."
+      }
+    }
+
+    if(mode_payment == "nets")
+    {
+      if ($.trim(nets_no).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Nets No is empty."
+      }
     }
 
     if(mode_payment == "receipt")
     {
-        if ($.trim(manualreceipt).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Manual Receipt is empty."
-        }
+      if ($.trim(manualreceipt).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Manual Receipt is empty."
+      }
 
-        if ($.trim(receipt_at).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Date Of Receipt is empty."
-        }
+      if ($.trim(receipt_at).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Date Of Receipt is empty."
+      }
     }
 
     if (validationFailed)
     {
-        var errorMsgs = '';
+      var errorMsgs = '';
 
-        for(var i = 0; i < count; i++)
-        {
-            errorMsgs = errorMsgs + errors[i] + "<br/>";
-        }
+      for(var i = 0; i < count; i++)
+      {
+        errorMsgs = errorMsgs + errors[i] + "<br/>";
+      }
 
-        $('html,body').animate({ scrollTop: 0 }, 'slow');
+      $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-        $(".validation-error").addClass("bg-danger alert alert-error")
-        $(".validation-error").html(errorMsgs);
+      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").html(errorMsgs);
 
-        return false;
+      return false;
     }
 
     else
     {
-        $(".validation-error").removeClass("bg-danger alert alert-error")
-        $(".validation-error").empty();
+      $(".validation-error").removeClass("bg-danger alert alert-error")
+      $(".validation-error").empty();
     }
 
+    setTimeout(function(){ window.location.reload(true); }, 1000);
   });
 
   $("#yuejuan_receipt_history_table").on('click', '.receipt-id', function() {
@@ -141,7 +152,7 @@ $(function() {
           $("#description").text(description);
           $('#receipt_date').text(response.transaction[0].trans_date);
           $("#paid_by").text(response.focusdevotee + " (D - " + response.transaction[0].focusdevotee_id + ")");
-          $("#donation_event").text(response.transaction[0].event);
+          $("#donation_event").text((response.transaction[0].event !=null ? response.transaction[0].event : ''));
           $("#transaction_no").text(response.transaction[0].trans_no);
           $("#attended_by").text(response.transaction[0].first_name + " " + response.transaction[0].last_name);
           $("#payment_mode").text(response.transaction[0].mode_payment);

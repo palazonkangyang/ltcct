@@ -102,13 +102,13 @@
                               <div class="clearfix">
                               </div>
 
-                              <div style='width:16.66667%;float:left;'>
+                              <div style='width:43%;float:left;'>
                                 <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
                               </div>
 
-                              <label style='width:6.2%;float:left;'>-</label>
+                              <label style='width:7%;float:left;' class="separator">-</label>
 
-                              <div style='width:16.66667%;float:left;'>
+                              <div style='width:43%;float:left;'>
                                 <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">
                               </div>
 
@@ -141,7 +141,7 @@
 
                           <div class="form-group">
                               <label>Phone No</label>
-                              <input type="number" class="form-control" name="contact" value="{{ old('contact') }}" min="1">
+                              <input type="text" class="form-control" name="contact" value="{{ old('contact') }}">
                           </div><!-- end form-group -->
 
                       </div><!-- end col-md-9 -->
@@ -539,7 +539,7 @@
 
                       <div class="form-group">
                           <label>Phone No</label>
-                          <input type="number" class="form-control" name="contact" value="{{ old('contact') }}" min="1">
+                          <input type="text" class="form-control" name="contact" value="{{ old('contact') }}" id="phone_no">
                       </div><!-- end form-group -->
 
                   </div><!-- end col-md-9 -->

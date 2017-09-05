@@ -143,7 +143,7 @@
                                                                                 <th>Address</th>
                                                                                 <th>Guiyi Name</th>
                                                                                 <th width="80px">Amount</th>
-                                                                                <th width="80px">Pay Till</th>
+                                                                                <th width="80px">Paid Till</th>
                                                                                 <th width="100px">HJ/ GR</th>
                                                                                 <th width="80px">Display</th>
                                                                                 <th>XYReceipt</th>
@@ -154,66 +154,6 @@
                                                                         @if(Session::has('devotee_lists'))
 
                                                                         <tbody id="has_session">
-																																						<tr>
-                                                                            	<td>
-																																								@if($focus_devotee[0]->deceased_year != null)
-																																								<span class="text-danger">{{ $focus_devotee[0]->chinese_name }}</span>
-																																								@else
-																																								<span>{{ $focus_devotee[0]->chinese_name }}</span>
-																																								@endif
-																																							</td>
-                                                                            	<td>
-																																								@if($focus_devotee[0]->specialremarks_devotee_id == null)
-																																								<span id="devotee">{{ $focus_devotee[0]->devotee_id }}</span>
-																																								@else
-																																								<span class="text-danger" id="devotee">{{ $focus_devotee[0]->devotee_id }}</span>
-																																								@endif
-                                                                            		<input type="hidden" name="devotee_id[]" value="{{ $focus_devotee[0]->devotee_id }}">
-                                                                            	</td>
-																																							<td>
-																																								@if(\Carbon\Carbon::parse($focus_devotee[0]->lasttransaction_at)->lt($date))
-																																								<span style="color: #a5a5a5">{{ $focus_devotee[0]->member_id }}</span>
-																																								@else
-																																								<span>{{ $focus_devotee[0]->member_id }}</span>
-																																								@endif
-																																							</td>
-                                                                            	<td>
-																																								@if(isset($focus_devotee[0]->oversea_addr_in_chinese))
-																																									{{ $focus_devotee[0]->oversea_addr_in_chinese }}
-																																								@elseif(isset($focus_devotee[0]->address_unit1) && isset($focus_devotee[0]->address_unit2))
-																																									{{ $focus_devotee[0]->address_houseno }}, #{{ $focus_devotee[0]->address_unit1 }}-{{ $focus_devotee[0]->address_unit2 }}, {{ $focus_devotee[0]->address_street }}, {{ $focus_devotee[0]->address_postal }}
-																																								@else
-																																									{{ $focus_devotee[0]->address_houseno }}, {{ $focus_devotee[0]->address_street }}, {{ $focus_devotee[0]->address_postal }}
-																																								@endif
-																																							</td>
-                                                                            	<td>{{ $focus_devotee[0]->guiyi_name }}</td>
-                                                                            	<td width="80px" class="amount-col">
-                                                                            		<input type="text" class="form-control amount" name="amount[]">
-                                                                            	</td>
-                                                                            	<td width="80px">
-																																								@if(isset($focus_devotee[0]->paytill_date) && \Carbon\Carbon::parse($focus_devotee[0]->paytill_date)->lt($now))
-																																								<span class="text-danger">{{ \Carbon\Carbon::parse($focus_devotee[0]->paytill_date)->format("d/m/Y") }}</span>
-																																								@elseif(isset($focus_devotee[0]->paytill_date))
-																																								<span>{{ \Carbon\Carbon::parse($focus_devotee[0]->paytill_date)->format("d/m/Y") }}</span>
-																																								@else
-																																								<span>{{ $focus_devotee[0]->paytill_date }}</span>
-																																								@endif
-                                                                            	</td>
-                                                                            	<td width="100px">
-                                                                            		<select class="form-control hjgr" name="hjgr_arr[]">
-	                                                                                    <option value="hj">合家</option>
-	                                                                                    <option value="gr">个人</option>
-	                                                                                </select>
-                                                                            	</td>
-                                                                            	<td width="80px">
-                                                                            		<select class="form-control display" name="display[]">
-																																									<option value="N">N</option>
-	                                                                                <option value="Y">Y</option>
-	                                                                              </select>
-                                                                            	</td>
-                                                                            	<td></td>
-                                                                            	<td></td>
-                                                                            </tr>
 
                                                                             @if(count($xianyou_same_family) > 0)
 
@@ -315,7 +255,7 @@
                                                                             <th>Address</th>
                                                                         		<th>Guiyi Name</th>
                                                                             <th width="80px">Amount</th>
-                                                                            <th width="80px">Pay Till</th>
+                                                                            <th width="80px">Paid Till</th>
                                                                             <th width="100px">HJ/ GR</th>
                                                                             <th width="80px">Display</th>
                                                                             <th>XYReceipt</th>
@@ -485,6 +425,8 @@
 				                                                                        </div><!-- end col-md-6 -->
 
 				                                                                        <div class="col-md-6">
+																																									<input type="text" name="nets_no" value=""
+				                                                                        		class="form-control input-small" id="nets_no">
 				                                                                        </div><!-- end col-md-6 -->
 
 				                                                                        <div class="clearfix"></div>
@@ -651,14 +593,13 @@
                                                                             @php
 
                                                                                 $receipts = Session::get('receipts');
-
                                                                             @endphp
 
                                                                             <tbody>
                                                                                 @foreach($receipts as $receipt)
                                                                                 <tr>
                                                                                     <td>{{ $receipt->receipt_no }}</td>
-                                                                                    <td>{{ \Carbon\Carbon::parse($receipt->trans_date)->format("d/m/Y") }}</td>
+                                                                                    <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
                                                                                     <td>{{ $receipt->trans_no }}</td>
                                                                                     <td>{{ $receipt->description }}</td>
                                                                                     <td>{{ $receipt->chinese_name }}</td>

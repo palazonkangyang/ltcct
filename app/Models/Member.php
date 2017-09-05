@@ -13,6 +13,8 @@ class Member extends Model
         'introduced_by2',
         'approved_date',
         'cancelled_date',
-        'reason_for_cancel'
+        'reason_for_cancel',
+        'paytill_date',
+        'member'
     ];
 }

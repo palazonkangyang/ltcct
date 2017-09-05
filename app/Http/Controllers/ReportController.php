@@ -20,7 +20,42 @@ class ReportController extends Controller
 
   public function getIncomeReport()
   {
-    return view('report.income-report');
+    $non_members = GeneralDonation::leftjoin('glcode', 'generaldonation.glcode_id', '=', 'glcode.glcode_id')
+                    ->where('generaldonation.glcode_id', 112)
+                    ->select(DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 1, generaldonation.total_amount, 0)) AS Jan'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 2, generaldonation.total_amount, 0)) AS Feb'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 3, generaldonation.total_amount, 0)) AS Mar'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 4, generaldonation.total_amount, 0)) AS Apr'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 5, generaldonation.total_amount, 0)) AS May'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 6, generaldonation.total_amount, 0)) AS Jun'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 7, generaldonation.total_amount, 0)) AS July'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 8, generaldonation.total_amount, 0)) AS Aug'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 9, generaldonation.total_amount, 0)) AS Sep'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 10, generaldonation.total_amount, 0)) AS Oct'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 11, generaldonation.total_amount, 0)) AS Nov'),
+                    DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 12, generaldonation.total_amount, 0)) AS December'))
+                    ->get();
+
+    $members = GeneralDonation::leftjoin('glcode', 'generaldonation.glcode_id', '=', 'glcode.glcode_id')
+              ->where('generaldonation.glcode_id', 119)
+              ->select(DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 1, generaldonation.total_amount, 0)) AS Jan'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 2, generaldonation.total_amount, 0)) AS Feb'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 3, generaldonation.total_amount, 0)) AS Mar'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 4, generaldonation.total_amount, 0)) AS Apr'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 5, generaldonation.total_amount, 0)) AS May'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 6, generaldonation.total_amount, 0)) AS Jun'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 7, generaldonation.total_amount, 0)) AS July'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 8, generaldonation.total_amount, 0)) AS Aug'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 9, generaldonation.total_amount, 0)) AS Sep'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 10, generaldonation.total_amount, 0)) AS Oct'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 11, generaldonation.total_amount, 0)) AS Nov'),
+              DB::raw('SUM(IF(MONTH(generaldonation.trans_at) = 12, generaldonation.total_amount, 0)) AS December'))
+              ->get();
+
+    return view('report.income-report', [
+      'members' => $members,
+      'non_members' => $non_members
+    ]);
   }
 
   public function getReportDetail(Request $request)
@@ -58,7 +93,7 @@ class ReportController extends Controller
                          ->GroupBy('month')
                          ->get();
 
-    $donation_nonmember = GeneralDonation::join('glcode', 'glcode.glcode_id', 'generaldonation.glcode_id')
+      $donation_nonmember = GeneralDonation::join('glcode', 'glcode.glcode_id', 'generaldonation.glcode_id')
                        ->select(DB::raw('sum(total_amount) as `total_amount`'), DB::raw('MONTH(trans_at) month'), 'glcode.type_name')
                        ->where('generaldonation.glcode_id', '=', 12)
                        ->GroupBy('month')

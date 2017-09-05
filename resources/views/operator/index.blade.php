@@ -801,8 +801,8 @@
 
                                                                         <div class="col-md-3">
                                                                             <select class="form-control" name="vehicle_type[]">
-                                                                                <option value="car">Car</option>
-                                                                                <option value="ship">Ship</option>
+                                                                                <option value="car">车辆</option>
+                                                                                <option value="ship">船只</option>
                                                                             </select>
                                                                         </div><!-- end col-md-2 -->
 
@@ -1008,7 +1008,7 @@
                                                                     class="form-horizontal form-bordered">
                                                                     {!! csrf_field() !!}
 
-                                                                <div class="col-md-12 .relocation-devotee-table">
+                                                                <div class="col-md-12 relocation-devotee-table">
                                                                     <div class="form-group">
 
                                                                         <table class="table table-bordered relocation" id="relocation_table">
@@ -1030,7 +1030,6 @@
                                                                             @if(Session::has('devotee_lists'))
 
                                                                             @php
-
                                                                                 $devotee_lists = Session::get('devotee_lists');
                                                                                 $focus_devotee = Session::get('focus_devotee');
                                                                             @endphp
@@ -1059,13 +1058,15 @@
 																																													<td>{{ $focus_devotee[0]->contact }}</td>
 																																													<td>{{ $focus_devotee[0]->mailer }}</td>
 																																													<td>{{ \Carbon\Carbon::parse($focus_devotee[0]->lasttransaction_at)->format("d/m/Y") }}</td>
-	                                                                                        <td>{{ $focus_devotee[0]->familycode }}</td>
+	                                                                                        <td>{{ $focus_devotee[0]->familycode }}
+																																														<input type="hidden" name="familycode_id" value="{{ $focus_devotee[0]->familycode_id }}">
+																																													</td>
 	                                                                                    </tr>
 	                                                                                </tr>
 
 	                                                                                @foreach($devotee_lists as $devotee)
 	                                                                                    <tr>
-	                                                                                        <td><input type="checkbox" name="devotee_id[]"
+	                                                                                        <td><input type="checkbox" name="relocation_devotee_id[]"
 	                                                                                            value="{{ $devotee->devotee_id }}" /></td>
 	                                                                                        <td>{{ $devotee->chinese_name }}</td>
 	                                                                                        <td>{{ $devotee->devotee_id }}</td>
@@ -1467,7 +1468,7 @@
                                                                     <div class="col-md-6">
 
                                                                         <div class="form-actions pull-right">
-                                                                            <button type="submit" class="btn blue" id="confirm_relocation_btn">Confirm
+                                                                            <button type="submit" class="btn blue" id="confirm_relocation_btn" disabled>Confirm
                                                                             </button>
                                                                             <button type="button" class="btn default">Cancel</button>
                                                                         </div><!-- end form-actions -->
@@ -1488,7 +1489,7 @@
 
 																												  <div class="form-body">
 
-																												      <div class="form-group">
+																												      <div class="form-group" style="overflow-x: scroll">
 
 																												        @if(Session::has('focus_devotee'))
 
@@ -1498,18 +1499,6 @@
 
 																												          <table class="table table-bordered" id="search_table">
 																												              <thead>
-																																					<tr id="filter">
-																																						<th>Chinese Name</th>
-																																						<th>Devotee</th>
-																																						<th>Member</th>
-																																						<th>Address</th>
-																																						<th>Guiyi Name</th>
-																																						<th>Contact</th>
-																																						<th>Paid Till</th>
-																																						<th>Mailer</th>
-																																						<th>Last Trans Date</th>
-																																						<th>Family Code</th>
-																																					</tr>
 																												                  <tr>
 																																						<th>Chinese Name</th>
 																																						<th>Devotee</th>
@@ -1662,6 +1651,14 @@
     <script type="text/javascript">
 
         $(function(){
+
+					$("#content_contact").keypress(function (e) {
+				     //if the letter is not digit then display error and don't type anything
+				     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+				        //display error message
+				        return false;
+						}
+					});
 
 					$("#logout").click(function() {
 						localStorage.removeItem('activeTab');
@@ -1866,31 +1863,33 @@
         	}
 
 					// DataTable
-          var search_table = $('#search_table').DataTable({
-              "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-							"bSort": false
-          });
+          // $('#search_table').DataTable({
+          //     // "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+					// 		// "bSort": false
+          // });
 
-					$('#search_table thead tr#filter th').each( function () {
-                var title = $('#search_table thead th').eq( $(this).index() ).text();
-                $(this).html( '<input type="text" class="form-control" onclick="stopPropagation4(event);" placeholder="" />' );
-          });
+					// $('#search_table thead tr#filter th').each( function () {
+          //       var title = $('#search_table thead th').eq( $(this).index() ).text();
+          //       $(this).html( '<input type="text" class="form-control" onclick="stopPropagation4(event);" placeholder="" />' );
+          // });
+					//
+          // //Apply the filter
+          // $("#search_table thead input").on( 'keyup change', function () {
+          //     search_table
+          //       .column( $(this).parent().index()+':visible' )
+          //       .search( this.value, true, false )
+          //       .draw();
+          // });
 
-          // Apply the filter
-          $("#search_table thead input").on( 'keyup change', function () {
-              search_table
-                .column( $(this).parent().index()+':visible' )
-                .search( this.value, true, false )
-                .draw();
-          });
-
-					function stopPropagation4(evt) {
-            if (evt.stopPropagation !== undefined) {
-                    evt.stopPropagation();
-            } else {
-                    evt.cancelBubble = true;
-            }
-        	}
+					// function stopPropagation4(evt) {
+					//
+          //   if (evt.stopPropagation !== undefined) {
+          //     evt.stopPropagation();
+          //   }
+					// 	else {
+          //     evt.cancelBubble = true;
+          //   }
+        	// }
 
             var opt_address;
 
@@ -2164,6 +2163,7 @@
 						var edit_address_unit1 = $("#edit_address_unit1").val();
 						var edit_address_unit2 = $("#edit_address_unit2").val();
 						var edit_address_postal = $("#edit_address_postal").val();
+						var edit_oversea_addr_in_chinese = $("#edit_oversea_addr_in_chinese").val();
 
 						$("#edit_address_houseno").focusout(function() {
 
@@ -2200,6 +2200,14 @@
 						$("#edit_address_postal").focusout(function() {
 
 							if(edit_address_postal != $(this).val())
+							{
+								$("#update_btn").attr('disabled', true);
+							}
+						});
+
+						$("#edit_oversea_addr_in_chinese").focusout(function() {
+
+							if(edit_oversea_addr_in_chinese != $(this).val())
 							{
 								$("#update_btn").attr('disabled', true);
 							}
@@ -2465,8 +2473,8 @@
             $("#appendVehicleBtn").click(function() {
 
                 $("#append_opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn' aria-hidden='true'></i></div>" +
-                    "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
-                    "<option value='ship'>Ship</option></select></div><div class='col-md-8'>" +
+                    "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
+                    "<option value='ship'>船只</option></select></div><div class='col-md-8'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
                     "</div>");
             });
@@ -2474,8 +2482,8 @@
             $("#VehicleBtn").click(function() {
 
                 $("#opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div>" +
-                    "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>Car</option>" +
-                    "<option value='ship'>Ship</option></select></div><div class='col-md-8'>" +
+                    "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
+                    "<option value='ship'>船只</option></select></div><div class='col-md-8'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
                     "</div>");
             });

@@ -12,7 +12,7 @@
 
               <div class="page-title">
 
-                  <h1>Income Report</h1>
+                  <h1>Income Statement Report</h1>
 
               </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
                   <i class="fa fa-circle"></i>
               </li>
               <li>
-                  <span>Income Report</span>
+                  <span>Income Statement Report</span>
               </li>
           </ul>
 
@@ -72,52 +72,61 @@
                       <div class="form-body">
 
                         <div class="col-md-12">
-                            <div class="form-group">
-
-                              <label class="col-md-1 control-label">From</label>
-
-                              <div class="col-md-2">
-                                <input type="text" class="form-control" name="from_date" value="{{ old('from_date') }}"
-                                data-provide="datepicker" data-date-format="dd/mm/yyyy" id="from_date">
-                              </div><!-- end -->
-
-                              <div class="col-md-1">
-                                <label class="col-md-1 control-label">To</label>
-                              </div><!-- end -->
-
-                              <div class="col-md-2">
-                                <input type="text" class="form-control" name="to_date" value="{{ old('to_date') }}"
-                                data-provide="datepicker" data-date-format="dd/mm/yyyy" id="to_date">
-                              </div><!-- end -->
-
-                              <div class="col-md-2">
-                                <button type="button" class="btn blue" id="report">Report</button>
-                              </div><!-- end -->
-                            </div><!-- end form-group -->
-                        </div><!-- end col-md-12 -->
-
-                        <div class="col-md-12">
                           <table class="table table-bordered table-striped" id="report-table">
                             <thead>
                      					<tr>
-                     						<th></th>
-                                <th>Jan</th>
-                                <th>Feb</th>
-                                <th>Mar</th>
-                                <th>Apr</th>
-                                <th>May</th>
-                                <th>Jun</th>
-                                <th>July</th>
-                                <th>Aug</th>
-                                <th>Sep</th>
-                                <th>Oct</th>
-                                <th>Nov</th>
-                                <th>Dec</th>
+                     						<th width="28%">REVENUE 收入</th>
+                                <th width="6%">JAN</th>
+                                <th width="6%">FEB</th>
+                                <th width="6%">MAR</th>
+                                <th width="6%">APR</th>
+                                <th width="6%">MAY</th>
+                                <th width="6%">JUN</th>
+                                <th width="6%">JULY</th>
+                                <th width="6%">AUG</th>
+                                <th width="6%">SEP</th>
+                                <th width="6%">OCT</th>
+                                <th width="6%">NOV</th>
+                                <th width="6%">DEC</th>
                      					</tr>
                      				</thead>
 
                             <tbody>
+                              <tr>
+                                <td>General Donation 香油</td>
+                                <td colspan="12"></td>
+                              </tr>
+                              <tr>
+                                <td>Donation (Member) 香油-會員</td>
+                                <td>{{ number_format($members[0]->Jan, 2) }}</td>
+                                <td>{{ number_format($members[0]->Feb, 2) }}</td>
+                                <td>{{ number_format($members[0]->Mar, 2) }}</td>
+                                <td>{{ number_format($members[0]->Apr, 2) }}</td>
+                                <td>{{ number_format($members[0]->May, 2) }}</td>
+                                <td>{{ number_format($members[0]->Jun, 2) }}</td>
+                                <td>{{ number_format($members[0]->July, 2) }}</td>
+                                <td>{{ number_format($members[0]->Aug, 2) }}</td>
+                                <td>{{ number_format($members[0]->Sep, 2) }}</td>
+                                <td>{{ number_format($members[0]->Oct, 2) }}</td>
+                                <td>{{ number_format($members[0]->Nov, 2) }}</td>
+                                <td>{{ number_format($members[0]->December, 2) }}</td>
+                              </tr>
 
+                              <tr>
+                                <td>Donation (non-member) 香油-非會員</td>
+                                <td>{{ number_format($non_members[0]->Jan, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->Feb, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->Mar, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->Apr, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->May, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->Jun, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->July, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->Aug, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->Sep, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->Oct, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->Nov, 2) }}</td>
+                                <td>{{ number_format($non_members[0]->December, 2) }}</td>
+                              </tr>
                             </tbody>
                           </table>
                         </div><!-- end col-md-12 -->

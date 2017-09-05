@@ -44,14 +44,14 @@ $(function() {
           }
           else
           {
-
+            description = "月捐";
           }
 
           $("#trans_no").val(response.transaction[0].trans_no);
           $('#receipt_date').text(response.transaction[0].trans_date);
           $("#description").text(description);
           $("#paid_by").text(response.focusdevotee + " (D - " + response.transaction[0].focusdevotee_id + ")");
-          $("#donation_event").text(response.transaction[0].event);
+          $("#donation_event").text((response.transaction[0].event !=null ? response.transaction[0].event : ''));
           $("#transaction_no").text(response.transaction[0].trans_no);
           $("#attended_by").text(response.transaction[0].first_name + " " + response.transaction[0].last_name);
           $("#payment_mode").text(response.transaction[0].mode_payment);
@@ -123,30 +123,30 @@ $(function() {
 
     if (($.trim(receipt_no).length <= 0) && ($.trim(trans_no).length <= 0))
     {
-        validationFailed = true;
-        errors[count++] = "At least one field should not be empty."
+      validationFailed = true;
+      errors[count++] = "At least one field should not be empty."
     }
 
     if (validationFailed)
     {
-        var errorMsgs = '';
+      var errorMsgs = '';
 
-        for(var i = 0; i < count; i++)
-        {
-            errorMsgs = errorMsgs + errors[i] + "<br/>";
-        }
+      for(var i = 0; i < count; i++)
+      {
+        errorMsgs = errorMsgs + errors[i] + "<br/>";
+      }
 
-        $('html,body').animate({ scrollTop: 0 }, 'slow');
+      $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-        $(".validation-error").addClass("bg-danger alert alert-error")
-        $(".validation-error").html(errorMsgs);
+      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").html(errorMsgs);
 
-        return false;
+      return false;
     }
 
     else {
-        $(".validation-error").removeClass("bg-danger alert alert-error")
-        $(".validation-error").empty();
+      $(".validation-error").removeClass("bg-danger alert alert-error")
+      $(".validation-error").empty();
     }
 
     var formData = {
@@ -185,9 +185,22 @@ $(function() {
             $("#receipt").text(response.transaction[0].xy_receipt);
           }
 
+          if(response.transaction[0].description == "General Donation - 慈济")
+          {
+            description = '慈济';
+          }
+          else if (response.transaction[0].description == "General Donation - 香油") {
+            description = "香油";
+          }
+          else
+          {
+            description = "月捐";
+          }
+
+          $("#description").text(description);
           $('#receipt_date').text(response.transaction[0].trans_date);
           $("#paid_by").text(response.focusdevotee + " (D - " + response.transaction[0].focusdevotee_id + ")");
-          $("#donation_event").text(response.transaction[0].event);
+          $("#donation_event").text((response.transaction[0].event !=null ? response.transaction[0].event : ''));
           $("#transaction_no").text(response.transaction[0].trans_no);
           $("#attended_by").text(response.transaction[0].first_name + " " + response.transaction[0].last_name);
           $("#payment_mode").text(response.transaction[0].mode_payment);
@@ -302,7 +315,6 @@ $(function() {
       dataType: 'json',
       success: function(response)
       {
-        // location.reload();
         $('#transaction-table tbody').empty();
         $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
 

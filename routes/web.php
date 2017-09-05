@@ -144,7 +144,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-paid', ['as' => 'update-paid-page', 'uses' => 'PaidController@postUpdatePaid']);
 	});
 
-
 	Route::group(['prefix' => 'job'], function () {
     Route::get('/manage-job', ['as' => 'manage-job-page', 'uses' => 'JobController@getJob']);
 		Route::get('/get-joblists', ['as' => 'get-joblists-page', 'uses' => 'JobController@getJobLists']);

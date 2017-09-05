@@ -8,9 +8,14 @@ $(function() {
 	// check family code
     $(".relocation_check_family_code").click(function() {
 
+      $(".alert-success").remove();
+      $(".validation-error").empty();
+
       var count = 0;
       var errors = new Array();
       var validationFailed = false;
+
+      var count_checked = $("[name='relocation_devotee_id[]']:checked").length; // count the checked rows
 
       $("#relocation_no_familycode").remove();
       $("#relocation-familycode-table tbody").empty();
@@ -24,10 +29,10 @@ $(function() {
 
       if($.trim(oversea_addr_in_chinese).length <= 0)
       {
-        if ($.trim(address_postal).length <= 0)
+        if ($.trim(address_houseno).length <= 0 || $.trim(address_unit1).length <= 0 || $.trim(address_unit2).length <= 0 || $.trim(address_street).length <= 0 || $.trim(address_postal).length <= 0)
         {
             validationFailed = true;
-            errors[count++] = "Check Family Code.. Address Postal is empty."
+            errors[count++] = "Check Family Code.. Local Address or Oversea Address in Chinese should not be empty."
         }
       }
 
@@ -51,7 +56,11 @@ $(function() {
       else {
           $(".validation-error").removeClass("bg-danger alert alert-error")
           $(".validation-error").empty();
+
+          $("#confirm_relocation_btn").removeAttr('disabled');
       }
+
+
 
       $("#familycode-table tbody").empty();
       $("#edit-familycode-table tbody").empty();
