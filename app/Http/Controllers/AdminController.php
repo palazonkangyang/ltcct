@@ -9,6 +9,7 @@ use App\Models\Acknowledge;
 use App\Models\Dialect;
 use App\Models\Race;
 use App\Models\Amount;
+use App\Models\MembershipFee;
 use Auth;
 use DB;
 use Hash;
@@ -17,6 +18,7 @@ use Input;
 use Session;
 use View;
 use URL;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -141,17 +143,6 @@ class AdminController extends Controller
 	public function changeAccount(Request $request)
 	{
 		$input = Input::except('_token');
-
-    // $validator = $this->validate($request, [
-    //   'user_name'	=> 'required|string',
-    //   'role' => 'required'
-    // ]);
-		//
-    // if ($validator && $validator->fails()) {
-    //   return redirect()->back()
-    //         ->withErrors($validator)
-    //         ->withInput();
-    // }
 
     if(isset($input['password']) && isset($input['confirm_password']))
 		{
@@ -434,6 +425,101 @@ class AdminController extends Controller
     return redirect()->back();
 	}
 
+	public function getMemebershipFee()
+	{
+		$membership = MembershipFee::all();
+
+		return view('admin.membership-fee', [
+			'membership' => $membership
+		]);
+	}
+
+	public function postUpdateMemebershipFee(Request $request)
+	{
+	  $input = array_except($request->all(), '_token');
+
+		$membership = MembershipFee::find($input['membership_fee_id']);
+		$membership->membership_fee = $input['membership_fee'];
+	  $membership->save();
+
+		$yuejuan_same_family = Session::get('yuejuan_same_family');
+		$yuejuan_different_family = Session::get('yuejuan_different_family');
+
+		if(count($yuejuan_same_family) > 0)
+		{
+			Session::forget('samefamily_amount');
+
+			$samefamily_amount = [];
+
+			for($i = 0; $i < count($yuejuan_same_family); $i++)
+			{
+				$amount = [];
+
+				if(isset($yuejuan_same_family[$i]->paytill_date))
+				{
+					$myArray = explode('-', $yuejuan_same_family[$i]->paytill_date);
+
+					$count = 1;
+					for($j = 1; $j <= 10; $j++)
+					{
+						$dt = Carbon::create($myArray[0], $myArray[1], $myArray[2], 0);
+						$dt = $dt->addYears($count);
+
+						$format = Carbon::parse($dt)->format("Y-m");
+
+						$fee = $membership->membership_fee * $j;
+						$amount[$j] = number_format($fee, 2) . ' --- ' . $format;
+
+						$count++;
+					}
+
+				}
+
+				array_push($samefamily_amount, $amount);
+			}
+
+			Session::put('samefamily_amount', $samefamily_amount);
+		}
+
+		if(count($yuejuan_different_family) > 0)
+		{
+			Session::forget('differentfamily_amount');
+
+			$differentfamily_amount = [];
+
+			for($i = 0; $i < count($yuejuan_different_family); $i++)
+			{
+				$amount = [];
+
+				if(isset($yuejuan_different_family[$i]->paytill_date))
+				{
+					$myArray = explode('-', $yuejuan_different_family[$i]->paytill_date);
+
+					$count = 1;
+					for($j = 1; $j <= 10; $j++)
+					{
+						$dt = Carbon::create($myArray[0], $myArray[1], $myArray[2], 0);
+						$dt = $dt->addYears($count);
+
+						$format = Carbon::parse($dt)->format("Y-m");
+
+						$fee = $membership->membership_fee * $j;
+						$amount[$j] = number_format($fee, 2) . ' --- ' . $format;
+
+						$count++;
+					}
+				}
+
+				array_push($differentfamily_amount, $amount);
+			}
+
+			Session::put('differentfamily_amount', $differentfamily_amount);
+		}
+
+	  $request->session()->flash('success', 'Membership Fee has been updated!');
+	  return redirect()->back();
+	}
+
 	public function getMinimumAmount()
 	{
 		$amount = Amount::all();
@@ -449,7 +535,6 @@ class AdminController extends Controller
 
 		$amount = Amount::find($input['amount_id']);
 		$amount->minimum_amount = $input['minimum_amount'];
-
 	  $amount->save();
 
 	  $request->session()->flash('success', 'Minimum Amount has been updated!');

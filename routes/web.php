@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/race/edit/{id}', ['as' => 'edit-race-page', 'uses' => 'AdminController@getEditRace']);
 		Route::get('/race/delete/{id}', ['as' => 'delete-race-page', 'uses' => 'AdminController@deleteRace']);
 		Route::get('/minimum-amount', ['as' => 'minimum-amount-page', 'uses' => 'AdminController@getMinimumAmount']);
+		Route::get('/membership-fee', ['as' => 'membership-fee-page', 'uses' => 'AdminController@getMemebershipFee']);
 
 		Route::post('/add-account', ['as' => 'save-account-page', 'uses' => 'AdminController@postAddAccount']);
 		Route::post('/change-account', ['as' => 'change-account-page', 'uses' => 'AdminController@changeAccount']);
@@ -54,6 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-race', ['as' => 'update-race-page', 'uses' => 'AdminController@updateRace']);
 		Route::post('/update-acknowledge', ['as' => 'update-acknowledge-page', 'uses' => 'AdminController@postUpdateAcknowledge']);
 		Route::post('/update-minimum-amount', ['as' => 'update-minimum-amount-page', 'uses' => 'AdminController@postUpdateMinimumAmount']);
+		Route::post('/update-membership-fee', ['as' => 'update-membership-fee-page', 'uses' => 'AdminController@postUpdateMemebershipFee']);
   });
 
   Route::group(['prefix' => 'operator'], function () {

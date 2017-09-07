@@ -35,6 +35,8 @@
 
         <tbody id="has_session">
 
+          @if(count($xianyou_focusdevotee) > 0)
+
           <tr>
             <td class="checkbox-col">
               <input type="checkbox" class="same xiangyou_ciji_id" name="xiangyou_ciji_id[]"
@@ -100,6 +102,76 @@
             </td>
             <td>{{ $xianyou_focusdevotee[0]->familycode }}</td>
           </tr>
+
+          @else
+
+          <tr>
+            <td class="checkbox-col">
+              <input type="checkbox" class="same xiangyou_ciji_id" name="xiangyou_ciji_id[]"
+              value="1">
+              <input type="hidden" class="form-control hidden_xiangyou_ciji_id" name="hidden_xiangyou_ciji_id[]"
+              value="">
+            </td>
+            <td class="checkbox-col">
+              <input type="checkbox" class="same yuejuan_id" name="yuejuan_id[]"
+              value="1">
+              <input type="hidden" class="form-control hidden_yuejuan_id" name="hidden_yuejuan_id[]"
+              value="0">
+            </td>
+            <td>
+              @if($xianyou_focusdevotee[0]->deceased_year != null)
+              <span class="text-danger">{{ $xianyou_focusdevotee[0]->chinese_name }}</span>
+              @else
+              <span>{{ $xianyou_focusdevotee[0]->chinese_name }}</span>
+              @endif
+            </td>
+            <td>
+              <input type="hidden" name="devotee_id[]" value="{{ $xianyou_focusdevotee[0]->devotee_id }}">
+              @if($xianyou_focusdevotee[0]->specialremarks_devotee_id == null)
+              <span>{{ $xianyou_focusdevotee[0]->devotee_id }}</span>
+              @else
+              <span class="text-danger">{{ $xianyou_focusdevotee[0]->devotee_id }}</span>
+              @endif
+            </td>
+            <td>
+              @if(\Carbon\Carbon::parse($xianyou_focusdevotee[0]->lasttransaction_at)->lt($date))
+              <span style="color: #a5a5a5">{{ $xianyou_focusdevotee[0]->member_id }}</span>
+              @else
+              <span>{{ $xianyou_focusdevotee[0]->member_id }}</span>
+              @endif
+            </td>
+            <td>
+              @if(isset($xianyou_focusdevotee[0]->oversea_addr_in_chinese))
+                {{ $xianyou_focusdevotee[0]->oversea_addr_in_chinese }}
+              @elseif(isset($xianyou_focusdevotee[0]->address_unit1) && isset($xianyou_focusdevotee[0]->address_unit2))
+                {{ $xianyou_focusdevotee[0]->address_houseno }}, #{{ $xianyou_focusdevotee[0]->address_unit1 }}-{{ $xianyou_focusdevotee[0]->address_unit2 }}, {{ $xianyou_focusdevotee[0]->address_street }}, {{ $xianyou_focusdevotee[0]->address_postal }}
+              @else
+                {{ $xianyou_focusdevotee[0]->address_houseno }}, {{ $xianyou_focusdevotee[0]->address_street }}, {{ $xianyou_focusdevotee[0]->address_postal }}
+              @endif
+            </td>
+            <td>{{ $xianyou_focusdevotee[0]->guiyi_name }}</td>
+            <td>{{ $xianyou_focusdevotee[0]->contact }}</td>
+            <td>
+              @if(isset($xianyou_focusdevotee[0]->paytill_date) && \Carbon\Carbon::parse($xianyou_focusdevotee[0]->paytill_date)->lt($now))
+              <span class="text-danger">{{ \Carbon\Carbon::parse($xianyou_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
+              @elseif(isset($xianyou_focusdevotee[0]->paytill_date))
+              <span>{{ \Carbon\Carbon::parse($xianyou_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
+              @else
+              <span>{{ $xianyou_focusdevotee[0]->paytill_date }}</span>
+              @endif
+            </td>
+            <td>{{ $xianyou_focusdevotee[0]->mailer }}</td>
+            <td>
+              @if(isset($xianyou_focusdevotee[0]->lasttransaction_at))
+              {{ \Carbon\Carbon::parse($xianyou_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}
+              @else
+              {{ $xianyou_focusdevotee[0]->lasttransaction_at }}
+              @endif
+            </td>
+            <td>{{ $xianyou_focusdevotee[0]->familycode }}</td>
+          </tr>
+
+          @endif
 
           @foreach($setting_samefamily as $devotee)
           <tr>
@@ -175,7 +247,7 @@
 
         <tbody id="no_session">
             <tr>
-            <td colspan="12">No Data</td>
+            <td colspan="12">No Result Found</td>
           </tr>
         </tbody>
 

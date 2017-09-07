@@ -103,9 +103,9 @@
                                                                     <td>
                                                                       <select class="form-control" name="job_id[]" id="job_id">
                                                                         <option value="">Please Select</option>
-                                                                        <option value="1" <?php if ($event->job_id == "1") echo "selected"; ?>>Spring Festival</option>
-                                                                        <option value="2" <?php if ($event->job_id == "2") echo "selected"; ?>>Festival 1</option>
-                                                                        <option value="3" <?php if ($event->job_id == "3") echo "selected"; ?>>Festival 2</option>
+                                                                        @foreach($jobs as $job)
+                                                                        <option value="{{ $job->job_id }}" <?php if ($job->job_id == $event->job_id) echo "selected"; ?>>{{ $job->job_name }}</option>
+                                                                        @endforeach
                                                                       </select>
                                                                     </td>
                                                                     <td>
@@ -157,6 +157,45 @@
 
                                                 </form>
 
+                                                <table style="display: none;">
+                                                  <tr class="event-row" id="event">
+                                                    <td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>
+                                                    <td>
+                                                      <select class="form-control" name="job_id[]" id="job_id">
+                                                        <option value="">Please Select</option>
+                                                        @foreach($jobs as $job)
+                                                          <option value="{{ $job->job_id }}">{{ $job->job_name }}</option>
+                                                        @endforeach
+                                                      </select>
+                                                    </td>
+                                                    <td>
+                                                      <input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
+                                                        value='' id="job_date">
+                                                    </td>
+                                                    <td>
+                                                      <input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy'
+                                                        value='' id="end_at">
+                                                    </td>
+                                                    <td>
+                                                      <input type='text' class='form-control' name='lunar_date[]' value=''>
+                                                    </td>
+                                                    <td>
+                                                      <input type='text' class='form-control' name='event[]' value=''>
+                                                    </td>
+                                                    <td>
+                                                      <input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]'
+                                                        value=''>
+                                                    </td>
+                                                    <td>
+                                                      <input type='text' class='form-control' name='shuwen_title[]' value=''>
+                                                    </td>
+                                                    <td class="display-row">
+                                                      <input type='hidden' name='display_hidden[]' value='' class="display-hidden">
+                                                      <input type='checkbox' name='display[]' value='' class='no-height'>
+                                                    </td>
+                                                  </tr>
+                                                </table>
+
                                                 <div class="clearfix">
                                                 </div><!-- end clearfix -->
 
@@ -186,6 +225,7 @@
 
 @section('custom-js')
 
+    <script src="{{asset('js/custom/common.js')}}"></script>
     <script type="text/javascript">
       $(function() {
 
@@ -211,31 +251,19 @@
 
         $("#addEventRow").click(function() {
 
-          var $options = $(".job").clone();
-
-          console.log($options);
-
-          // $("#festive-event-table").append();
-
-          $("#festive-event-table").append("<tr class='event-row'><td><i class='fa fa-minus-circle removeEventRow' aria-hidden='true'></i></td>" +
-              "<td><select class='form-control' name='job_id[]' id='job_id'><option value=''>Please Select</option><option value=''>Please Select</option><option value='1'>Spring Festival</option>" +
-              "<option value='2'>Festival 1</option><option value='3'>Festival 2</option></select></td>" +
-              "<td><input type='text' class='form-control' name='start_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value='' id='job_date'></td>" +
-              "<td><input type='text' class='form-control' name='end_at[]' data-provide='datepicker' data-date-format='dd/mm/yyyy' value='' id='end_at'></td>" +
-              "<td><input type='text' class='form-control' name='lunar_date[]' value=''></td>" +
-              "<td><input type='text' class='form-control' name='event[]' value=''></td>" +
-              "<td><input type='text' class='form-control timepicker timepicker-no-seconds' data-provide='timepicker' name='time[]' value=''></td>" +
-              "<td><input type='text' class='form-control' name='shuwen_title[]' value=''></td>" +
-              "<td><input type='hidden' name='display_hidden[]' value=''><input type='checkbox' name='display[]' value='' class='no-height'></td></tr>");
+          $("#event").clone().appendTo("#festive-event-table");
+          $('#festive-event-table tr:last').removeAttr('id');
         });
 
         $("#festive-event-table").on('click', '.removeEventRow', function() {
           if (!confirm("Do you confirm you want to delete this record? Note that this process is irreversable.")){
             return false;
           }
+
           else{
             $(this).parent().parent().remove();
           }
+
         });
 
         $("#confirm_event_btn").click(function() {
@@ -246,7 +274,7 @@
 
             $(".alert-success").remove();
 
-            $("select").each(function() {
+            $("#festive-event-table select").each(function() {
               var $optText = $(this).find('option:selected');
 
               if ($optText.val() == "") {
@@ -256,7 +284,7 @@
               }
             });
 
-            $("input:text[name^='start_at']").each(function() {
+            $("#festive-event-table input:text[name^='start_at']").each(function() {
 
               if (!$.trim($(this).val()).length) {
                 validationFailed = true;
@@ -265,17 +293,16 @@
               }
             });
 
-            $("input:text[name^='end_at']").each(function() {
+            $("#festive-event-table input:text[name^='end_at']").each(function() {
 
               if (!$.trim($(this).val()).length) {
-
                 validationFailed = true;
                 errors[count++] = "Date To fields are empty.";
                 return false;
               }
             });
 
-            $("input:text[name^='lunar_date']").each(function() {
+            $("#festive-event-table input:text[name^='lunar_date']").each(function() {
 
               if (!$.trim($(this).val()).length) {
                 validationFailed = true;
@@ -284,7 +311,7 @@
               }
             });
 
-            $("input:text[name^='event']").each(function() {
+            $("#festive-event-table input:text[name^='event']").each(function() {
 
               if (!$.trim($(this).val()).length) {
                 validationFailed = true;
@@ -293,7 +320,7 @@
               }
             });
 
-            $("input:text[name^='time']").each(function() {
+            $("#festive-event-table input:text[name^='time']").each(function() {
 
               if (!$.trim($(this).val()).length) {
                 validationFailed = true;
@@ -314,25 +341,25 @@
 
             if (validationFailed)
             {
-                var errorMsgs = '';
+              var errorMsgs = '';
 
-                for(var i = 0; i < count; i++)
-                {
-                    errorMsgs = errorMsgs + errors[i] + "<br/>";
-                }
+              for(var i = 0; i < count; i++)
+              {
+                errorMsgs = errorMsgs + errors[i] + "<br/>";
+              }
 
-                $('html,body').animate({ scrollTop: 0 }, 'slow');
+              $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-                $(".validation-error").addClass("bg-danger alert alert-error")
-                $(".validation-error").html(errorMsgs);
+              $(".validation-error").addClass("bg-danger alert alert-error")
+              $(".validation-error").html(errorMsgs);
 
-                return false;
+              return false;
             }
 
             else
             {
-                $(".validation-error").removeClass("bg-danger alert alert-error")
-                $(".validation-error").empty();
+              $(".validation-error").removeClass("bg-danger alert alert-error")
+              $(".validation-error").empty();
             }
         });
 
@@ -345,31 +372,22 @@
             var start_date = job_date.split("/").reverse().join("-");
             var end_date = end_at.split("/").reverse().join("-");
 
-            // alert(start_date);
-            // alert(end_date);
-
-            if(start_date <= end_date)
+            if(end_date == "")
             {
-              alert('End date should be bigger than start date');
+              $(this).closest("tr").find("#end_at").parent().removeClass('has-error');
+            }
+
+            else if(new Date(start_date) < new Date(end_date))
+            {
+              $(this).closest("tr").find("#end_at").parent().removeClass('has-error');
             }
 
             else
             {
-              alert('here');
+              $(this).closest("tr").find("#end_at").parent().addClass('has-error');
             }
-
-            // if(end_at == "")
-            // {
-            //
-            // }
-            // else if (new Date(job_date) > new Date(end_at)) {
-            //   $(this).closest('td').next('td').addClass('has-error');
-            // }
-            // else
-            // {
-            //   $(this).closest('td').next('td').removeClass("has-error");
-            // }
           });
+
         });
 
         $("body").delegate('#end_at', 'focus', function() {
@@ -378,7 +396,15 @@
             var job_date = $(this).closest("tr").find("#job_date").val();
             var end_at = $(this).val();
 
-            if(job_date > end_at)
+            var start_date = job_date.split("/").reverse().join("-");
+            var end_date = end_at.split("/").reverse().join("-");
+
+            if(end_at == "")
+            {
+              $(this).parent().removeClass("has-error");
+            }
+
+            else if(new Date(start_date) > new Date(end_date))
             {
               $(this).parent().addClass('has-error');
             }

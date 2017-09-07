@@ -106,10 +106,6 @@
 
           @else
 
-          <tr>
-            <td colspan="12">No Result Found</td>
-          </tr>
-
           @endif
 
         </tbody>

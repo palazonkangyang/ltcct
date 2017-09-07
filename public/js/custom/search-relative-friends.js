@@ -1,5 +1,48 @@
 $(function() {
 
+  $("#search_devotee_id").focusout(function() {
+
+    if($(this).val() == "" && $("#search_member_id").val() == "" && $("#search_chinese_name").val() == "")
+    {
+      clearData();
+    }
+  });
+
+  $("#search_member_id").focusout(function() {
+
+    if($(this).val() == "" && $("#search_devotee_id").val() == "" && $("#search_chinese_name").val() == "")
+    {
+      clearData();
+    }
+  });
+
+  $("#search_chinese_name").focusout(function() {
+
+    if($(this).val() == "" && $("#search_devotee_id").val() == "" && $("#search_member_id").val() == "")
+    {
+      clearData();
+    }
+  });
+
+  function clearData(){
+    $("#search_devotee_lists tbody").empty();
+    $('#search_devotee_lists tbody').append("<tr><td>No Result Found!</td></tr>");
+
+    $("#searchby_devotee_id").val('');
+    $("#searchby_member_id").val('');
+    $("#search_title").val('');
+    $("#searchby_chinese_name").val('');
+    $("#search_english_name").val('');
+    $("#search_guiyi_name").val('');
+    $("#search_contact").val('');
+    $("#search_address_houseno").val('');
+    $("#search_address_unit").val('');
+    $("#search_address_street").val('');
+    $("#search_address_postal").val('');
+    $("#search_country").val('');
+  }
+
+
   $("#search_detail_btn").click(function() {
 
     $("#search_devotee_lists tbody").empty();
@@ -65,7 +108,7 @@ $(function() {
 
         else
         {
-          $('#search_devotee_lists tbody').append("<tr><td>No Result Found!</td></tr>")
+          $('#search_devotee_lists tbody').append("<tr><td>No Result Found!</td></tr>");
         }
       },
       error: function (response) {

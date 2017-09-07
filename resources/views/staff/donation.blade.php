@@ -4,6 +4,7 @@
 
 @php
 		$xianyou_same_family = Session::get('xianyou_same_family');
+		$xianyou_same_focusdevotee = Session::get('xianyou_same_focusdevotee');
 		$xianyou_different_family = Session::get('xianyou_different_family');
 		$yuejuan_same_family = Session::get('yuejuan_same_family');
 		$yuejuan_different_family = Session::get('yuejuan_different_family');
@@ -109,13 +110,13 @@
                                                   </li>
 
 																									<li class="pull-right">
-                                                    <a href="#tab_transactiondetail" data-toggle="tab">Search <br> 交易详情 </a>
+                                                    <a href="#tab_transactiondetail" data-toggle="tab">Search <br> 交易详情</a>
                                                   </li>
 																									<li class="pull-right">
-                                                    <a href="#tab_relative_friends" data-toggle="tab">Relative & Friends <br> 亲戚朋友 </a>
+                                                    <a href="#tab_relative_friends" data-toggle="tab">Relative & Friends <br> 亲戚朋友</a>
                                                   </li>
 																									<li class="pull-right">
-                                                    <a href="#tab_samefamily" data-toggle="tab">Same Family Code <br> 同址善信 </a>
+                                                    <a href="#tab_samefamily" data-toggle="tab">Same Family Code <br> 同址善信</a>
                                                   </li>
                                                 </ul>
 
@@ -151,9 +152,74 @@
                                                                             </tr>
                                                                         </thead>
 
-                                                                        @if(Session::has('devotee_lists'))
+                                                                        @if(count($xianyou_same_focusdevotee) > 0 || count($xianyou_same_family) > 0)
 
                                                                         <tbody id="has_session">
+
+																																					@if(count($xianyou_same_focusdevotee) > 0)
+
+																													                <tr>
+																													                  <td>
+																													                    @if($xianyou_same_focusdevotee[0]->deceased_year != null)
+																													                    <span class="text-danger">{{ $xianyou_same_focusdevotee[0]->chinese_name }}</span>
+																													                    @else
+																													                    <span>{{ $xianyou_same_focusdevotee[0]->chinese_name }}</span>
+																													                    @endif
+																													                  </td>
+																													                  <td>
+																													                    @if($xianyou_same_focusdevotee[0]->specialremarks_devotee_id == null)
+																													                    <span id="devotee">{{ $xianyou_same_focusdevotee[0]->devotee_id }}</span>
+																													                    @else
+																													                    <span class="text-danger" id="devotee">{{ $xianyou_same_focusdevotee[0]->devotee_id }}</span>
+																													                    @endif
+																													                    <input type="hidden" name="devotee_id[]" value="{{ $xianyou_same_focusdevotee[0]->devotee_id }}">
+																													                  </td>
+																													                  <td>
+																													                    @if(\Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->lasttransaction_at)->lt($date))
+																													                    <span style="color: #a5a5a5">{{ $xianyou_same_focusdevotee[0]->member_id }}</span>
+																													                    @else
+																													                    <span>{{ $xianyou_same_focusdevotee[0]->member_id }}</span>
+																													                    @endif
+																													                  </td>
+																													                  <td>
+																													                    @if(isset($xianyou_same_focusdevotee[0]->oversea_addr_in_chinese))
+																													                      {{ $xianyou_same_focusdevotee[0]->oversea_addr_in_chinese }}
+																													                    @elseif(isset($xianyou_same_focusdevotee[0]->address_unit1) && isset($xianyou_same_focusdevotee[0]->address_unit2))
+																													                      {{ $xianyou_same_focusdevotee[0]->address_houseno }}, #{{ $xianyou_same_focusdevotee[0]->address_unit1 }}-{{ $xianyou_same_focusdevotee[0]->address_unit2 }}, {{ $xianyou_same_focusdevotee[0]->address_street }}, {{ $xianyou_same_focusdevotee[0]->address_postal }}
+																													                    @else
+																													                      {{ $xianyou_same_focusdevotee[0]->address_houseno }}, {{ $xianyou_same_focusdevotee[0]->address_street }}, {{ $xianyou_same_focusdevotee[0]->address_postal }}
+																													                    @endif
+																													                  </td>
+																													                  <td>{{ $xianyou_same_focusdevotee[0]->guiyi_name }}</td>
+																													                  <td width="80px" class="amount-col">
+																													                    <input type="text" class="form-control amount" name="amount[]">
+																													                  </td>
+																													                  <td width="80px">
+																													                    @if(isset($xs_family->paytill_date) && \Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->paytill_date)->lt($now))
+																													                    <span class="text-danger">{{ \Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
+																													                    @elseif(isset($xianyou_same_focusdevotee[0]->paytill_date))
+																													                    <span>{{ \Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
+																													                    @else
+																													                    <span>{{ $xianyou_same_focusdevotee[0]->paytill_date }}</span>
+																													                    @endif
+																													                  </td>
+																													                  <td width="100px">
+																													                    <select class="form-control ciji-hjgr" name="hjgr_arr[]">
+																													                          <option value="hj">合家</option>
+																													                          <option value="gr">个人</option>
+																													                      </select>
+																													                  </td>
+																													                  <td width="80px">
+																													                    <select class="form-control ciji-display" name="display[]">
+																													                      <option value="N">N</option>
+																													                      <option value="Y">Y</option>
+																													                    </select>
+																													                  </td>
+																													                  <td></td>
+																													                  <td></td>
+																													                </tr>
+
+																													                @endif
 
                                                                             @if(count($xianyou_same_family) > 0)
 
@@ -230,7 +296,7 @@
 
                                                                         <tbody id="no_session">
                                                                           <tr>
-	                                                                          <td colspan="12">No Data</td>
+	                                                                          <td colspan="12">No Result Found</td>
 	                                                                        </tr>
                                                                         </tbody>
 
@@ -263,11 +329,9 @@
                                                                           </tr>
                                                                         </thead>
 
-																																				@if(Session::has('xianyou_different_family'))
+																																				@if(count($xianyou_different_family) > 0)
 
 																																				<tbody id="appendDevoteeLists">
-
-																																					@if(count($xianyou_different_family) > 0)
 
 																																					@foreach($xianyou_different_family as $list)
 
@@ -331,9 +395,8 @@
                                                                             	<td></td>
                                                                             	<td></td>
                                                                             </tr>
-																																					@endforeach
 
-																																					@endif
+																																					@endforeach
 
 																																				</tbody>
 
@@ -341,7 +404,7 @@
 
 																																				<tbody id="no_session">
                                                                           <tr>
-	                                                                          <td colspan="12">No Data</td>
+	                                                                          <td colspan="12">No Result Found</td>
 	                                                                        </tr>
                                                                         </tbody>
 

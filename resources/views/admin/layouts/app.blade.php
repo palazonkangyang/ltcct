@@ -211,6 +211,9 @@
                                       <a href="/admin/all-race">Race</a>
                                   </li>
                                   <li aria-haspopup="true" class=" ">
+                                      <a href="/admin/membership-fee">Membership Fee</a>
+                                  </li>
+                                  <li aria-haspopup="true" class=" ">
                                       <a href="/admin/minimum-amount">Minimum Amount</a>
                                   </li>
                               </ul>

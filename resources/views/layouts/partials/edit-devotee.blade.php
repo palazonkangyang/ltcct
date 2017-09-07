@@ -1226,7 +1226,7 @@
 						<div class="col-md-6">
 
 							<div style="border: 1px solid #D5D4D4; padding: 5px; margin-bottom: 10px;">
-								<h4>Local Address</h4>
+								<h5>Local Address</h5>
 
 								<div class="form-group">
 									<label class="col-md-4">House No</label>
@@ -1275,7 +1275,7 @@
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-4">Oversea Addr in China</label>
+									<label class="col-md-4">Oversea Addr in Chinese</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_oversea_addr_in_china"
 													value="{{ old('populate_oversea_addr_in_china') }}" id="edit_populate_oversea_addr_in_china">

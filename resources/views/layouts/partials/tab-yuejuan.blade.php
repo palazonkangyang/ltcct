@@ -25,10 +25,9 @@
               </tr>
           </thead>
 
-          @if(Session::has('devotee_lists'))
+          @if(count($yuejuan_same_family) > 0)
 
           <tbody id="has_session">
-              @if(count($yuejuan_same_family) > 0)
 
               @php $i = 0; @endphp
               @foreach($yuejuan_same_family as $yj_family)
@@ -110,17 +109,15 @@
               @php $i++; @endphp
               @endforeach
 
-              @endif
-
           </tbody>
 
           @else
 
-              <tbody id="no_session">
-                  <tr>
-                  <td colspan="12">No Data</td>
-                </tr>
-              </tbody>
+          <tbody id="no_session">
+            <tr>
+              <td colspan="12">No Result Found</td>
+            </tr>
+          </tbody>
 
           @endif
 
@@ -149,11 +146,9 @@
             </tr>
           </thead>
 
-          @if(Session::has('yuejuan_different_family'))
+          @if(count($yuejuan_different_family) > 0)
 
           <tbody id="appendDevoteeLists">
-
-            @if(count($yuejuan_different_family) > 0)
 
             @php $i = 0; @endphp
             @foreach($yuejuan_different_family as $list)
@@ -235,15 +230,13 @@
               @php $i++; @endphp
             @endforeach
 
-            @endif
-
           </tbody>
 
           @else
 
           <tbody id="appendDevoteeLists">
               <tr id="no_data">
-                  <td colspan="12">No Data</td>
+                  <td colspan="12">No Result Found</td>
               </tr>
           </tbody>
 
@@ -415,7 +408,7 @@
       <input type="hidden" name="focusdevotee_id"
         value="{{ $focus_devotee[0]->devotee_id }}">
       <input type="hidden" name="total_amount" id="yuejuan_total_amount" value="">
-      <input type="hidden" name="minimum_amount" id="minimum_amount" value="{{ $amount[0]->minimum_amount }}">
+      <input type="hidden" name="membership_fee" id="membership_fee" value="{{ $membership[0]->membership_fee }}">
     </div>
 
     @else
@@ -423,7 +416,7 @@
     <div class="form-group">
       <input type="hidden" name="focusdevotee_id" value="">
       <input type="hidden" name="total_amount" id="yuejuan_total_amount" value="">
-      <input type="hidden" name="minimum_amount" id="minimum_amount" value="{{ $amount[0]->minimum_amount }}">
+      <input type="hidden" name="membership_fee" id="membership_fee" value="{{ $membership[0]->membership_fee }}">
     </div>
 
     @endif

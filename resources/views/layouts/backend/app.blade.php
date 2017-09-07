@@ -204,6 +204,9 @@
                                                     <a href="/admin/all-race" class="hylink">Race</a>
                                                 </li>
                                                 <li aria-haspopup="true">
+                                                    <a href="/admin/membership-fee" class="hylink">Membership Fee</a>
+                                                </li>
+                                                <li aria-haspopup="true">
                                                     <a href="/admin/minimum-amount" class="hylink">Minimum Amount</a>
                                                 </li>
                                             </ul>

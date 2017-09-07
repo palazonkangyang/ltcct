@@ -90,6 +90,8 @@ $(function() {
 
 		$("#logout").click(function() {
 			localStorage.removeItem('activeTab');
+			localStorage.removeItem('tab');
+			localStorage.removeItem('newtab');
 		});
 
 		var path = window.location.pathname;
@@ -220,14 +222,16 @@ $(function() {
     $("#cancel_btn").on("click", function(e) {
       e.preventDefault();
       $("#dialog-box").dialog("open");
-  });
+  	});
 
-  $("#edit_cancel_btn").on("click", function(e) {
-	   e.preventDefault();
-	    $("#edit-dialog-box").dialog("open");
-	});
+	  $("#edit_cancel_btn").on("click", function(e) {
+		   e.preventDefault();
+		   $("#edit-dialog-box").dialog("open");
+		});
 
-	$(".hylink").click(function() {
-		localStorage.removeItem('activeTab');
-	});
+		$(".hylink").click(function() {
+			localStorage.removeItem('activeTab');
+			localStorage.removeItem('tab');
+			localStorage.removeItem('newtab');
+		});
 });

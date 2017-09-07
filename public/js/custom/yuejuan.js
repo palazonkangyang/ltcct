@@ -2,6 +2,7 @@ $(function() {
 
   $('body').on('input', '.yuejuan-amount-col', function(){
       var sum = 0;
+      var membership_fee = $("#membership_fee").val();
 
     $(".yuejuan-amount").each(function(){
 
@@ -15,7 +16,7 @@ $(function() {
         sum += 10;
       }
       else{
-        sum += parseInt(amount * 24);
+        sum += parseInt(amount * membership_fee);
       }
 
       $(".yuejuan_total").html(sum);

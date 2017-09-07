@@ -1014,7 +1014,7 @@
                                                                         <table class="table table-bordered relocation" id="relocation_table">
                                                                             <thead>
                                                                                 <tr>
-																																									<th></th>
+																																									<th><input type="checkbox" id="checkAll" /></th>
 																																									<th>Chinese Name</th>
 																																									<th>Devotee</th>
 																																									<th>Member</th>
@@ -1094,7 +1094,7 @@
 
 																																							<tbody id="more_devotee">
 																																								<tr>
-																																									<td>No data</td>
+																																									<td>No Result Found</td>
 																																								</tr>
 	                                                                            </tbody>
 
@@ -1102,7 +1102,7 @@
 
                                                                             @else
 
-                                                                            <tbody id="no_session">
+                                                                            <tbody id="No Result Found">
 																																							<tr>
 																																								<td>No data</td>
 																																							</tr>
@@ -1166,21 +1166,11 @@
 
 	                                                                        <div class="form-group">
 	                                                                            <label class="col-md-4">Address - Postal</label>
-	                                                                            <div class="col-md-2">
+	                                                                            <div class="col-md-3">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_postal" id="current_address_postal"
 	                                                                                    value="{{ $focus_devotee[0]->address_postal }}" readonly>
 	                                                                            </div><!-- end col-md-2 -->
-
-	                                                                            <label class="col-md-2">Country *</label>
-	                                                                            <div class="col-md-4">
-	                                                                                <select class="form-control" name="nationality" disabled>
-	                                                                                    <option value="">Please select</option>
-																																											@foreach($countries as $country)
-			                                                                                <option value="{{ $country->id }}" <?php if ($focus_devotee[0]->nationality == $country->id) echo "selected"; ?>>{{ $country->country_name }}</option>
-			                                                                                @endforeach
-	                                                                                </select>
-	                                                                            </div><!-- end col-md-3 -->
 
 	                                                                        </div><!-- end form-group -->
 
@@ -1232,20 +1222,10 @@
 
 	                                                                        <div class="form-group">
 	                                                                            <label class="col-md-4">Address - Postal</label>
-	                                                                            <div class="col-md-2">
+	                                                                            <div class="col-md-3">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_postal" id="current_address_postal">
 	                                                                            </div><!-- end col-md-2 -->
-
-	                                                                            <label class="col-md-2">Country *</label>
-	                                                                            <div class="col-md-4">
-	                                                                                <select class="form-control" name="nationality">
-	                                                                                    <option value="">Please select</option>
-																																											@foreach($countries as $country)
-			                                                                                <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-			                                                                                @endforeach
-	                                                                                </select>
-	                                                                            </div><!-- end col-md-3 -->
 
 	                                                                        </div><!-- end form-group -->
 
@@ -1298,19 +1278,9 @@
 
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Postal</label>
-                                                                            <div class="col-md-2">
+                                                                            <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_postal" id="current_address_postal">
-                                                                            </div><!-- end col-md-2 -->
-
-                                                                            <label class="col-md-2">Country *</label>
-                                                                            <div class="col-md-4">
-                                                                                <select class="form-control" name="nationality">
-                                                                                    <option value="">Please select</option>
-																																										@foreach($countries as $country)
-		                                                                                <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-		                                                                                @endforeach
-                                                                                </select>
                                                                             </div><!-- end col-md-3 -->
 
                                                                         </div><!-- end form-group -->
@@ -1376,20 +1346,10 @@
 
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Address - Postal</label>
-                                                                            <div class="col-md-2">
+                                                                            <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_postal"
                                                                                     value="{{ old('new_address_postal') }}" id="new_address_postal">
-                                                                            </div><!-- end col-md-2 -->
-
-                                                                            <label class="col-md-2">Country</label>
-                                                                            <div class="col-md-4">
-                                                                                <select class="form-control" name="new_nationality" id="new_nationality">
-                                                                                    <option value="">Please select</option>
-																																										@foreach($countries as $country)
-		                                                                                <option value="{{ $country->id }}">{{ $country->country_name }}</option>
-		                                                                                @endforeach
-                                                                                </select>
                                                                             </div><!-- end col-md-3 -->
 
                                                                         </div><!-- end form-group -->
@@ -2433,6 +2393,9 @@
 				        localStorage.removeItem('member_id');
 				    }
 
+						$("#checkAll").click(function () {
+							$('#relocation_table input:checkbox').not(this).prop('checked', this.checked);
+						});
 
             $("#appendAddressBtn").click(function() {
 

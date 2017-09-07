@@ -12,7 +12,7 @@
 
                 <div class="page-title">
 
-                      <h1>Acknowledge</h1>
+                      <h1>Membership Fee</h1>
 
                   </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
                           <i class="fa fa-circle"></i>
                       </li>
                       <li>
-                          <span>Acknowledge</span>
+                          <span>Membership Fee</span>
                       </li>
                   </ul>
 
@@ -69,7 +69,7 @@
 
                                       <div class="caption font-red-sunglo">
                                           <i class="icon-settings font-red-sunglo"></i>
-                                          <span class="caption-subject bold uppercase">Acknowledge</span>
+                                          <span class="caption-subject bold uppercase">Membership Fee</span>
                                       </div><!-- end caption font-red-sunglo -->
 
                                   </div><!-- end portlet-title -->
@@ -77,38 +77,35 @@
 
                                   <div class="portlet-body form">
 
-                                    <form role="form" method="post" action="{{ URL::to('/admin/update-acknowledge') }}">
+                                    <form role="form" method="post" action="{{ URL::to('/admin/update-membership-fee') }}">
                                         {!! csrf_field() !!}
 
                                         <div class="form-body">
 
                                           <div class="form-group">
-                                              <input type="hidden" name="id" value="{{ $acknowledge[0]->id }}">
+                                              <input type="hidden" name="membership_fee_id" value="{{ $membership[0]->membership_fee_id }}">
                                           </div><!-- end form-group -->
 
                                           <div class="form-group">
-                                              <label>Prelogin Notes</label>
+                                            <div class="col-md-2">
+                                              <label>Membership Fee</label>
 
-                                              <textarea name="prelogin_notes" class="form-control ckeditor" rows="5" id="prelogin_notes">{{ $acknowledge[0]->prelogin_notes }}</textarea>
+                                              <input type="text" class="form-control" name="membership_fee"
+                                                value="{{ old( 'membership_fee', $membership[0]->membership_fee) }}" id="membership_fee">
+                                            </div><!-- end col-md-2 -->
 
-                                          </div><!-- end form-group -->
+                                            <div class="col-md-10">
+                                            </div><!-- end col-md-10 -->
 
-                                          <div class="form-group">
-
-                                              <div class="mt-checkbox-list">
-                                                <label class="mt-checkbox">
-                                                  <input value="1" name="show_prelogin" type="checkbox" @if(old('show_prelogin',$acknowledge[0]->show_prelogin)=="1") checked @endif>
-                                                  <span></span>
-                                                </label>
-                                              </div><!-- end mt-checkbox-list -->
-
+                                            <div class="clearfix">
+                                            </div><!-- end clearfix -->
                                           </div><!-- end form-group -->
 
                                         </div><!-- end form-body -->
 
                                         <div class="form-actions">
                                             <button type="submit" class="btn blue" id="update">Update</button>
-                                            <button type="button" class="btn default">Cancel</button>
+                                            <button type="button" class="btn default" id="cancel">Cancel</button>
                                         </div><!-- end form-actions -->
 
                                     </form>
@@ -135,8 +132,6 @@
 
 @section('script-js')
 
-  <script src="http://live.bookabirdie.com/components/ckeditor/ckeditor.js"></script>
-  <script src="{{asset('js/custom/common.js')}}"></script>
   <script type="text/javascript">
     $(function() {
 
@@ -146,38 +141,40 @@
         var errors = new Array();
         var validationFailed = false;
 
-        var prelogin_notes = $("#prelogin_notes").val();
+        $(".alert-success").remove();
+        $(".validation-error").empty();
 
-        if ($.trim(prelogin_notes).length <= 0)
+        var membership_fee = $("#membership_fee").val();
+
+        if ($.trim(membership_fee).length <= 0)
         {
-            validationFailed = true;
-            errors[count++] = "Prelogin note is empty."
+          validationFailed = true;
+          errors[count++] = "Membership Fee field is empty."
         }
 
         if (validationFailed)
         {
-            var errorMsgs = '';
+          var errorMsgs = '';
 
-            for(var i = 0; i < count; i++)
-            {
-                errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
+          for(var i = 0; i < count; i++)
+          {
+            errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
 
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-            $(".validation-error").addClass("bg-danger alert alert-error")
-            $(".validation-error").html(errorMsgs);
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
 
-            return false;
+          return false;
         }
 
-        else {
-            $(".validation-error").removeClass("bg-danger alert alert-error")
-            $(".validation-error").empty();
+        else
+        {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
         }
-
       });
-
     });
   </script>
 

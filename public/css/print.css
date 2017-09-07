@@ -1,9 +1,9 @@
 body{
-  font-size: 10px;
+  font-size: 12px;
 }
 
 header{
-  height: 20mm;
+  height: 25mm;
 }
 
 article{
@@ -97,27 +97,16 @@ table.receipt-table {
 	width: 100%;
 	font-family: verdana,arial,sans-serif;
 	font-size: 9px;
-	color: #333;
-	/*border-width: 1px;
-	border-color: #666;
-	border-collapse: collapse;*/
+	color: #000;
 }
+
 table.receipt-table th {
 	border-width: 1px;
 	padding: 1px;
-	/*border-style: solid;
-	border-color: #666;
-	background-color: #dedede;*/
 }
+
 table.receipt-table td {
 	border-width: 1px;
 	padding: 1px;
   text-align: center;
-	/*border-style: solid;
-	border-color: #666;
-	background-color: #fff;*/
-}
-
-footer{
-
 }

@@ -123,6 +123,8 @@ class Devotee extends Model
             $devotee->orderBy('devotee.devotee_id', 'asc');
         }
 
+        $devotee->GroupBy('devotee.devotee_id');
+
         return $devotee;
     }
 

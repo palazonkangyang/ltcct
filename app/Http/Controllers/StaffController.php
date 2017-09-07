@@ -19,6 +19,7 @@ use App\Models\RelativeFriendLists;
 use App\Models\Job;
 use App\Models\SettingGeneralDonation;
 use App\Models\Amount;
+use App\Models\MembershipFee;
 use Auth;
 use DB;
 use Hash;
@@ -42,9 +43,11 @@ class StaffController extends Controller
 							->get();
 
 		$amount = Amount::all();
+		$membership = MembershipFee::all();
 
 		return view('staff.donation', [
 			'events' => $events,
+			'membership' => $membership,
 			'amount' => $amount
 		]);
 	}
@@ -60,20 +63,30 @@ class StaffController extends Controller
 			{
 				$member = Member::find($input['member_id'][$i]);
 
-				if(isset($member->paytill_date))
+				if($member)
 				{
-					$myArray = explode('-', $member->paytill_date);
+					dd('member');
 
-					$dt = Carbon::create($myArray[0], $myArray[1], $myArray[2], 0);
+					if(isset($member->paytill_date))
+					{
+						$myArray = explode('-', $member->paytill_date);
 
-					$member->paytill_date = $dt->addYears($input['amount'][$i]);
-			    $member->save();
+						$dt = Carbon::create($myArray[0], $myArray[1], $myArray[2], 0);
+
+						$member->paytill_date = $dt->addYears($input['amount'][$i]);
+				    $member->save();
+					}
+
+					else {
+
+						$member->paytill_date = Carbon::now();
+						$member->save();
+					}
 				}
 
-				else {
-
-					$member->paytill_date = Carbon::now();
-					$member->save();
+				else
+				{
+					// dd('non-member');
 				}
 			}
 		}
@@ -129,6 +142,8 @@ class StaffController extends Controller
 
 		$general_donation = GeneralDonation::create($data);
 
+		$membership = MembershipFee::all()->first();
+
 		if($general_donation)
 		{
 			for($i = 0; $i < count($input['amount']); $i++)
@@ -156,7 +171,8 @@ class StaffController extends Controller
 					}
 
 					else {
-						$input['amount'][$i] = $input['amount'][$i] * 24;
+
+						$input['amount'][$i] = $input['amount'][$i] * $membership->membership_fee;
 					}
 
 					$receipt = [
@@ -242,6 +258,8 @@ class StaffController extends Controller
 												->orderBy('generaldonation.generaldonation_id', 'desc')
 												->get();
 
+		$membership = MembershipFee::all()->first();
+
 		if(count($yuejuan_receipts) > 0)
 		{
 			for($i = 0; $i < count($yuejuan_receipts); $i++)
@@ -271,7 +289,7 @@ class StaffController extends Controller
 
 					$format = Carbon::parse($dt)->format("Y-m");
 
-					$fee = 24 * $j;
+					$fee = $membership->membership_fee * $j;
 					$amount[$j] = number_format($fee, 2) . ' --- ' . $format;
 
 					$count++;
@@ -299,7 +317,7 @@ class StaffController extends Controller
 
 					$format = Carbon::parse($dt)->format("Y-m");
 
-					$fee = 24 * $j;
+					$fee = $membership->membership_fee * $j;
 					$amount[$j] = number_format($fee, 2) . ' --- ' . $format;
 
 					$count++;
@@ -866,6 +884,7 @@ class StaffController extends Controller
 		}
 
 		Session::forget('xianyou_same_family');
+		Session::forget('xianyou_same_focusdevotee');
 		Session::forget('setting_samefamily');
 		Session::forget('xianyou_focusdevotee');
 		Session::forget('yuejuan_same_family');
@@ -877,12 +896,25 @@ class StaffController extends Controller
 													 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 											 		 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 													 ->where('devotee.familycode_id', $devotee->familycode_id)
+													 ->where('devotee.devotee_id', '!=', $input['focusdevotee_id'])
 													 ->where('setting_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
 													 ->where('setting_generaldonation.address_code', '=', 'same')
 													 ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
 													 ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 													 ->GroupBy('devotee.devotee_id')
 													 ->get();
+
+		$xianyou_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+											 			     ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+											 			     ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+											 			     ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+											 			     ->where('setting_generaldonation.address_code', '=', 'same')
+											 			     ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+											 					 ->where('setting_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
+											 					 ->where('setting_generaldonation.devotee_id', '=', $input['focusdevotee_id'])
+											 			     ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+																 ->GroupBy('devotee.devotee_id')
+											 			     ->get();
 
 		$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 											 		->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
@@ -918,6 +950,8 @@ class StaffController extends Controller
 													 ->GroupBy('devotee.devotee_id')
 											 		 ->get();
 
+		$membership = MembershipFee::all()->first();
+
 		$amount = [];
 		$samefamily_amount = [];
 
@@ -937,7 +971,7 @@ class StaffController extends Controller
 
 					$format = Carbon::parse($dt)->format("Y-m");
 
-					$fee = 24 * $j;
+					$fee = $membership->membership_fee * $j;
 					$amount[$j] = number_format($fee, 2) . ' --- ' . $format;
 
 					$count++;
@@ -949,6 +983,7 @@ class StaffController extends Controller
 		}
 
 		Session::put('xianyou_same_family', $xianyou_same_family);
+		Session::put('xianyou_same_focusdevotee', $xianyou_same_focusdevotee);
 		Session::put('yuejuan_same_family', $yuejuan_same_family);
 		Session::put('setting_samefamily', $setting_samefamily);
 		Session::put('xianyou_focusdevotee', $xianyou_focusdevotee);
@@ -1689,7 +1724,7 @@ class StaffController extends Controller
 	public function getCreateFestiveEvent()
 	{
 		$events = FestiveEvent::orderBy('start_at', 'asc')->get();
-		$jobs = Job::orderBy('created_at', 'desc')->get();
+		$jobs = Job::orderBy('job_id', 'asc')->get();
 
 		return view('staff.create-festive-event', [
 			'jobs' => $jobs,
