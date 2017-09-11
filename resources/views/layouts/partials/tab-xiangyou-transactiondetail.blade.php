@@ -1,6 +1,6 @@
 <div class="form-body">
 
-  <form method="post" action="{{ URL::to('/staff/reprint-detail') }}"
+  <form method="post" target="_blank" action="{{ URL::to('/staff/reprint-detail') }}"
     class="form-horizontal form-bordered" id="">
     {!! csrf_field() !!}
 
@@ -98,8 +98,9 @@
            <th width="5%">S/No</th>
            <th width="20%">Chinese Name</th>
            <th width="10%">Devotee</th>
+           <th width="10%" id="col-member" style="display: none;">Member</th>
            <th width="35%">Address</th>
-           <th width="10%">HJ/ GR</th>
+           <th width="10%" id="col-header">HJ/ GR</th>
            <th width="10%">Receipt</th>
            <th width="10%">Amount</th>
          </tr>
@@ -116,18 +117,25 @@
    </div><!-- end col-md-12 -->
 
    <div class="col-md-12">
+     <p class="text-center text-danger" id="transaction-text">
+
+     </p>
+   </div><!-- end col-md-12 -->
+
+   <div class="col-md-12">
      <div class="form-group">
 
-       <div class="col-md-4">
-         <p>Payment Mode (付款方式) : <span id="payment_mode"></span></p>
-       </div><!-- end col-md-4 -->
+       <div class="col-md-6">
+         <p style="font-weight: bold; font-size: 13px;">Payment Mode (付款方式) : <span id="payment_mode"></span>
+           <br />
+           <span style="width: 170px; display: inline-block;"></span>
+           <span class="text-danger" id="refund" style="font-weight: normal;"></span>
+         </p>
+       </div><!-- end col-md-6 -->
 
-       <div class="col-md-4">
-          <p>Total Amount (总额) : S$ <span id="amount">0</span></p>
-       </div><!-- end col-md-4 -->
-
-       <div class="col-md-4">
-       </div><!-- end col-md-4 -->
+       <div class="col-md-6">
+          <p style="font-weight: bold; font-size: 13px;">Total Amount (总额) : S$ <span id="amount">0</span></p>
+       </div><!-- end col-md-6 -->
 
      </div><!-- end form-group -->
    </div><!-- end col-md-12 -->

@@ -64,6 +64,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/search/autocomplete', ['as' => 'search-autocomplete-page', 'uses' => 'OperatorController@getAutocomplete']);
 		Route::get('/search/autocomplete2', ['as' => 'search-autocomplete2-page', 'uses' => 'OperatorController@getAutocomplete2']);
 		Route::get('/search/address_street', ['as' => 'search-address-street-page', 'uses' => 'OperatorController@getAddressStreet']);
+		Route::get('/search/address_postal', ['as' => 'search-address-postal-page', 'uses' => 'OperatorController@getAddressPostal']);
+		Route::get('/search/address_translate', ['as' => 'search-address-page', 'uses' => 'OperatorController@getTranslateAddress']);
 		Route::get('/address-translate', ['as' => 'address-translate-page', 'uses' => 'OperatorController@getAddressTranslate']);
 		Route::get('/devotee/edit/{devotee_id}', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@getEditDevotee']);
 		Route::match(["post", "get"], '/devotee/new-search', ['as' => 'get-json-focus-devotee-page', 'uses' => 'OperatorController@getRemoveFocusDevotee']);
@@ -85,6 +87,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/search-devotee', ['as' => 'search-devotee-page', 'uses' => 'StaffController@getSearchDevotee']);
 		Route::get('/search-devotee-id', ['as' => 'search-devotee-id-page', 'uses' => 'StaffController@getSearchDevoteeID']);
 		Route::get('/transaction-detail', ['as' => 'transaction-detail-page', 'uses' => 'StaffController@getTransactionDetail']);
+		Route::get('/yuejuan-transaction-detail', ['as' => 'yuejuan-transaction-detail-page', 'uses' => 'StaffController@getYueJuanTransactionDetail']);
 		Route::get('/insert-devotee', ['as' => 'insert-devotee-page', 'uses' => 'StaffController@getInsertDevotee']);
     Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
     Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);

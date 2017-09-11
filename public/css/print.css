@@ -1,17 +1,30 @@
 body{
-  font-size: 12px;
+  font-size: 14px;
 }
 
 header{
-  height: 25mm;
+  height: 20mm;
 }
 
 article{
   overflow: hidden;
 }
 
+p{
+  margin: 0;
+  padding: 0;
+}
+
+.paidby{
+  margin-top: 10px;
+}
+
+.paidby p{
+  margin-bottom: 10px;
+}
+
 #leftcontent{
-  width: 113mm;
+  width: 120mm;
   margin-right: 1mm;
   float: left;
 }
@@ -26,26 +39,29 @@ article{
 }
 
 .receipt-list{
-  margin-top: 3.2mm;
   overflow: hidden;
-  max-height: 228px;
-  height: 228px;
+  max-height: 149px;
+  height: 149px;
 }
 
 hr{
-  width: 97%;
+  width: 100%;
+}
+
+label-mainwrapper{
+  width: 100%;
 }
 
 .label-wrapper{
-	width: 65mm;
-	margin: 0.1cm 0;
+	width: 68mm;
+	margin: 0.05cm 0;
 	overflow: hidden;
   float: left;
 }
 
 .label-wrapper2{
-	width: 48mm;
-	margin: 0.1cm 0;
+	width: 52mm;
+	margin: 0.05cm 0;
 	overflow: hidden;
   float: left;
 }
@@ -59,7 +75,7 @@ hr{
 
 .label-rightwrapper{
 	width: 100%;
-	margin: 0.3cm 0;
+	margin: 0.2cm 0;
 	overflow: hidden;
 }
 
@@ -73,30 +89,28 @@ hr{
 }
 
 .label-right{
-	width: 31mm;
+	width: 40mm;
 	float: left;
 }
 
 .label-right2{
-	width: 23mm;
+	width: 27mm;
 	float: left;
 }
 
 .rightlabel-left{
-	width: 45mm;
+	width: 40mm;
 	float: left;
 }
 
 .rightlabel-right{
-	width: 27mm;
+	width: 31mm;
 	float: left;
   text-align: right;
 }
 
 table.receipt-table {
 	width: 100%;
-	font-family: verdana,arial,sans-serif;
-	font-size: 9px;
 	color: #000;
 }
 

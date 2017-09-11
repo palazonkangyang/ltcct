@@ -128,16 +128,6 @@
 
 								 <div class="form-group">
 
-										 <label class="col-md-3 control-label">Address - Building</label>
-										 <div class="col-md-9">
-												 <input type="text" class="form-control" name="address_building" value="{{ old('address_building') }}"
-														 id="edit_address_building">
-										 </div><!-- end col-md-9 -->
-
-								 </div><!-- end form-group -->
-
-								 <div class="form-group">
-
 										 <label class="col-md-3 control-label">Address - Postal *</label>
 										 <div class="col-md-9">
 												 <input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}"
@@ -413,14 +403,14 @@
 	 							<div class="form-group">
 
 	 									<label class="col-md-4">Address - House No</label>
-	 									<div style='width:14.5%;float:left; padding-left: 15px;'>
+	 									<div style='width:16.66667%;float:left; padding-left: 15px;'>
 	 											<input type="text" class="form-control" name="address_houseno" value="{{ $focus_devotee[0]->address_houseno }}"
-	 													id="edit_address_houseno">
+	 													id="edit_address_houseno" readonly>
 	 									</div><!-- end col-md-3 -->
 
 	 									<label style='width:9.3%;float:left;'>Unit</label>
 
-	 									<div style='width:16.66667%;float:left;'>
+	 									<div style='width:14.5%;float:left;'>
 	 											<input type="text" class="form-control" name="address_unit1" value="{{ $focus_devotee[0]->address_unit1 }}"
 	 													id="edit_address_unit1">
 	 									</div><!-- end col-md-2 -->
@@ -439,17 +429,7 @@
 	 									<label class="col-md-4">Address - Street</label>
 	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="address_street"
-	 													value="{{ $focus_devotee[0]->address_street }}" id="edit_address_street">
-	 									</div><!-- end col-md-8 -->
-
-	 							</div><!-- end form-group -->
-
-	 							<div class="form-group">
-
-	 									<label class="col-md-4">Address - Building</label>
-	 									<div class="col-md-8">
-	 											<input type="text" class="form-control" name="address_building" value="{{ $focus_devotee[0]->address_building }}"
-	 													id="edit_address_building">
+	 													value="{{ $focus_devotee[0]->address_street }}" id="edit_address_street" readonly>
 	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
@@ -744,16 +724,6 @@
 									<div class="col-md-9">
 											<input type="text" class="form-control" name="address_street"
 													value="{{ old('address_street') }}" id="edit_address_street">
-									</div><!-- end col-md-9 -->
-
-							</div><!-- end form-group -->
-
-							<div class="form-group">
-
-									<label class="col-md-3 control-label">Address - Building</label>
-									<div class="col-md-9">
-											<input type="text" class="form-control" name="address_building" value="{{ old('address_building') }}"
-													id="edit_address_building">
 									</div><!-- end col-md-9 -->
 
 							</div><!-- end form-group -->
@@ -1230,14 +1200,14 @@
 
 								<div class="form-group">
 									<label class="col-md-4">House No</label>
-									<div style='width:14.5%;float:left; padding-left: 15px;'>
+									<div style='width:16.66667%;float:left; padding-left: 15px;'>
 											<input type="text" class="form-control" name="populate_houseno"
-													value="{{ old('populate_houseno') }}" id="edit_populate_houseno">
+													value="{{ old('populate_houseno') }}" id="edit_populate_houseno" readonly>
 									</div><!-- end col-md-3 -->
 
 									<label style='width:9.3%;float:left;'>Unit</label>
 
-									<div style='width:16.66667%;float:left;'>
+									<div style='width:14.5%;float:left;'>
 											<input type="text" class="form-control" name="populate_unit_1"
 													value="{{ old('populate_unit_1') }}" id="edit_populate_unit_1">
 									</div><!-- end col-md-2 -->
@@ -1254,7 +1224,7 @@
 									<label class="col-md-4">Street</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_street"
-													value="{{ old('populate_address_street') }}" id="edit_populate_street">
+													value="{{ old('populate_address_street') }}" id="edit_populate_street" readonly>
 									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
 

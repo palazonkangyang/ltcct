@@ -102,6 +102,14 @@ $(function() {
 
     else
     {
+      if (confirm("Do you want to confirm this form?")){
+        $("#ciji-donation-form")[0].submit();
+      }
+
+      else{
+        return false;
+      }
+
       $(".validation-error").removeClass("bg-danger alert alert-error");
       $(".validation-error").empty();
     }
@@ -156,6 +164,9 @@ $(function() {
             description = "月捐";
           }
 
+          $("#col-header").text("HJ/ GR");
+          $("#col-member").hide();
+
           $("#trans_no").val(response.transaction[0].trans_no);
           $("#description").text(description);
           $('#receipt_date').text(response.transaction[0].trans_date);
@@ -204,6 +215,35 @@ $(function() {
           $("#amount").text(0);
 
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
+        }
+
+        if(response.cancellation[0]['cancelled_date'] != null)
+        {
+          $("#transaction-text").text('');
+
+          $("#amount").addClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+          $("#authorized_password").attr('disabled', true);
+          $("#transaction-text").append('This Transaction has been cancelled by ' +
+            response.cancellation[0]['cancelled_date']  + ' by ' + response.cancellation[0]['first_name'] + ' ' + response.cancellation[0]['last_name']
+            + '. No Printing is allowed!!');
+
+          $(".mt-radio").attr('disabled', true);
+          $("#reprint-btn").attr('disabled', true);
+          $("#refund").text('(Refuned/ Returned)');
+        }
+
+        else
+        {
+          $("#amount").removeClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', false);
+          $("#cancel-transaction").attr('disabled', false);
+          $("#authorized_password").attr('disabled', false);
+          $("#transaction-text").text('');
+          $(".mt-radio").attr('disabled', false);
+          $("#reprint-btn").attr('disabled', false);
+          $("#refund").text('');
         }
       },
       error: function (response) {

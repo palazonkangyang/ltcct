@@ -11,7 +11,7 @@
 			text-align: right;
 		}
 	</style>
-	
+
 </head>
 <body>
 
@@ -82,7 +82,7 @@
 					<div class="label-right"></div><!-- end label-right -->
 
 				</div><!-- end label-wrapper -->
-				
+
 			</div><!-- end middle-left-area -->
 
 			<div id="middle-left-area">
@@ -110,7 +110,7 @@
 					<div class="label-right"></div><!-- end label-right -->
 
 				</div><!-- end label-wrapper -->
-				
+
 			</div><!-- end middle-left-area -->
 
 		</div><!-- end middle-area -->
@@ -141,9 +141,9 @@
 
 				<tbody>
 
-					@php 
+					@php
 
-						$count = 1; 
+						$count = 1;
 						$sum= 0;
 						$receipt_id = $generaldonation_items[0]->xy_receipt;
 
@@ -228,7 +228,7 @@
 					@endforeach
 				</tbody>
 			</table>
-				
+
 
 		</div><!-- end bottom-area -->
 
@@ -272,7 +272,7 @@
 						<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'hj'){ ?>checked="checked"<?php }?>>
 						1 Receipt Printing for same address <br />
 
-						<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'gr'){ ?>checked="checked"<?php }?>> 
+						<input type="radio" name="" disabled <?php if ($generaldonation->hjgr == 'gr'){ ?>checked="checked"<?php }?>>
 						Individual Receipt Printing
 					</div><!-- end label-left -->
 
@@ -285,22 +285,22 @@
 					</div><!-- end label-left -->
 
 				</div><!-- end label-wrapper -->
-				
+
 			</div><!-- end middle-left-area -->
 
 		</div><!-- end bottom-area -->
 
 		<div class="clearfix"></div><!-- end clearfix -->
-		
+
 	</page>
 
 </body>
 </html>
 
-<script type="text/javascript">	
+<script type="text/javascript">
 
 	function reprint() {
 		window.print();
 	}
-	
+
 </script>

@@ -18,9 +18,9 @@ use Validator;
 class AuthController extends Controller
 {
 	public function __construct()
-    {
+  {
 
-    }
+  }
 
 	public function postAuthenticate(Request $request)
 	{
@@ -76,56 +76,7 @@ class AuthController extends Controller
 
 	public function logout()
     {
-			// remove session data
-			if(Session::has('focus_devotee'))
-			{
-				Session::forget('focus_devotee');
-			}
-
-			if(Session::has('devotee_lists'))
-			{
-				Session::forget('devotee_lists');
-			}
-
-			if(Session::has('xianyou_same_family'))
-			{
-				Session::forget('xianyou_same_family');
-			}
-
-			if(Session::has('xianyou_different_family'))
-			{
-				Session::forget('xianyou_different_family');
-			}
-
-			if(Session::has('setting_samefamily'))
-			{
-				Session::forget('setting_samefamily');
-			}
-
-			if(Session::has('setting_differentfamily'))
-			{
-				Session::forget('setting_differentfamily');
-			}
-
-			if(Session::has('optionaladdresses'))
-			{
-				Session::forget('optionaladdresses');
-			}
-
-			if(Session::has('optionalvehicles'))
-			{
-				Session::forget('optionalvehicles');
-			}
-
-			if(Session::has('specialRemarks'))
-			{
-				Session::forget('specialRemarks');
-			}
-
-			if(Session::has('receipts'))
-			{
-				Session::forget('receipts');
-			}
+			Session::flush();
 
       Auth::logout();
       return redirect()->intended(URL::route('login-page'));

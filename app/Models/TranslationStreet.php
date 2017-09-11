@@ -8,6 +8,8 @@ class TranslationStreet extends Model
 
     protected $fillable = [
         'english',
-        'chinese'
+        'chinese',
+        'address_houseno',
+        'address_postal'
     ];
 }

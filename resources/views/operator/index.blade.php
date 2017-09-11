@@ -501,7 +501,7 @@
                                                                         <div style='width:19.66667%;float:left; padding-left: 15px;'>
                                                                             <input type="text" class="form-control" name="address_houseno"
                                                                                 value="{{ old('address_houseno') }}"
-                                                                                id="content_address_houseno">
+                                                                                id="content_address_houseno" readonly>
                                                                         </div><!-- end col-md-3 -->
 
                                                                         <label style='width:9.3%;float:left;'>Unit</label>
@@ -525,7 +525,7 @@
                                                                         <label class="col-md-4">Address - Street</label>
                                                                         <div class="col-md-8">
 																																						<input type="text" class="form-control" name="address_street"
-                                                                                value="{{ old('address_street') }}" id="content_address_street">
+                                                                                value="{{ old('address_street') }}" id="content_address_street" readonly>
                                                                         </div><!-- end col-md-8 -->
 
                                                                     </div><!-- end form-group -->
@@ -874,13 +874,13 @@
                                                                 <div class="col-md-6">
 
 																																	<div style="border: 1px solid #D5D4D4; padding: 5px; margin-bottom: 10px;">
-																																		<h4>Local Address</h4>
+																																		<h5>Local Address</h5>
 
 																																		<div class="form-group">
 																																			<label class="col-md-4">House No</label>
 																																			<div style='width:19.66667%;float:left; padding-left: 15px;'>
 																																					<input type="text" class="form-control" name="populate_houseno"
-																																							value="{{ old('populate_houseno') }}" id="populate_houseno">
+																																							value="{{ old('populate_houseno') }}" id="populate_houseno" readonly>
 																																			</div><!-- end col-md-3 -->
 
 																																			<label style='width:9.3%;float:left;'>Unit</label>
@@ -902,7 +902,7 @@
 																																			<label class="col-md-4">Street</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_street"
-																																							value="{{ old('populate_street') }}" id="populate_street">
+																																							value="{{ old('populate_street') }}" id="populate_street" readonly>
 																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 
@@ -1120,7 +1120,7 @@
                                                                 <hr>
 
                                                                 <div class="col-md-12">
-                                                                    <h4>Current Address</h4>
+                                                                    <h5 style="font-weight: bold;">Current Address</h5>
                                                                     <h5>Local Address</h5>
 
                                                                     @if(Session::has('focus_devotee'))
@@ -1308,7 +1308,7 @@
                                                                 <hr>
 
                                                                 <div class="col-md-12">
-                                                                    <h4>New Address</h4>
+                                                                    <h5 style="font-weight: bold;">New Address</h5>
                                                                     <h5>Local Address</h5>
 
                                                                     <div class="col-md-8">
@@ -1317,7 +1317,7 @@
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_houseno"
-                                                                                    value="{{ old('new_address_houseno') }}" id="new_address_houseno">
+                                                                                    value="{{ old('new_address_houseno') }}" id="new_address_houseno" readonly>
                                                                             </div><!-- end col-md-3 -->
 
                                                                             <label class="col-md-1">Unit</label>
@@ -1340,7 +1340,7 @@
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_street"
-                                                                                    value="{{ old('new_address_street') }}" id="new_address_street">
+                                                                                    value="{{ old('new_address_street') }}" id="new_address_street" readonly>
                                                                             </div><!-- end col-md-8 -->
                                                                         </div><!-- end form-group -->
 
@@ -1598,6 +1598,7 @@
 
 		<script src="{{asset('js/custom/common.js')}}"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="{{asset('js/custom/address-translate.js')}}"></script>
 		<script src="{{asset('js/custom/populate-address.js')}}"></script>
 		<script src="{{asset('js/custom/edit-populate-address.js')}}"></script>
     <script src="{{asset('js/custom/search-devotee.js')}}"></script>
@@ -1740,6 +1741,8 @@
 					  	$('#edit_populate_street').val(ui.item.value);
 						}
 					});
+
+
 
 					// DataTable
 					var table = $('#devotees_table').DataTable({
@@ -1961,40 +1964,40 @@
 							var content_introduced_by2 = $("#content_introduced_by2").val();
 							var content_approved_date = $("#content_approved_date").val();
 
-							if($.trim(address_street).length > 0)
-							{
-								var formData = {
-						      _token: $('meta[name="csrf-token"]').attr('content'),
-						      address_street: address_street,
-						    };
-
-						    $.ajax({
-						      type: 'GET',
-						      url: "/operator/address-translate",
-						      data: formData,
-						      dataType: 'json',
-						      success: function(response)
-						      {
-						        if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
-						        {
-						          var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal;
-
-						          $("#address_translated").val(full_address);
-						        }
-						        else
-						        {
-						          var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address_translate[0]['chinese'] +  ", " +
-						                              address_postal;
-
-						          $("#address_translated").val(full_address);
-						        }
-						      },
-
-						      error: function (response) {
-						        console.log(response);
-						      }
-						   });
-							}
+							// if($.trim(address_street).length > 0)
+							// {
+							// 	var formData = {
+						  //     _token: $('meta[name="csrf-token"]').attr('content'),
+						  //     address_street: address_street,
+						  //   };
+							//
+						  //   $.ajax({
+						  //     type: 'GET',
+						  //     url: "/operator/address-translate",
+						  //     data: formData,
+						  //     dataType: 'json',
+						  //     success: function(response)
+						  //     {
+						  //       if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
+						  //       {
+						  //         var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal;
+							//
+						  //         $("#address_translated").val(full_address);
+						  //       }
+						  //       else
+						  //       {
+						  //         var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address_translate[0]['chinese'] +  ", " +
+						  //                             address_postal;
+							//
+						  //         $("#address_translated").val(full_address);
+						  //       }
+						  //     },
+							//
+						  //     error: function (response) {
+						  //       console.log(response);
+						  //     }
+						  //  });
+							// }
 
 							if ($.trim(chinese_name).length <= 0)
 							{

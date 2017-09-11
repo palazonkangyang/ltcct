@@ -6,11 +6,12 @@ $(function() {
     });
 
     // do the validation for the form
-    $("#confirm_donation_btn").click(function() {
+    $("#confirm_donation_btn").click(function(e) {
 
         var count = 0;
         var errors = new Array();
         var validationFailed = false;
+        var submit = true;
 
         var mode_payment = $("input[name=mode_payment]:checked").val();
         var cheque_no = $("#cheque_no").val();
@@ -77,10 +78,20 @@ $(function() {
 
       else
       {
+
+        if (confirm("Do you want to confirm this form?")){
+          $("#donation-form")[0].submit();
+        }
+
+        else{
+          return false;
+        }
+
         $(".validation-error").removeClass("bg-danger alert alert-error")
         $(".validation-error").empty();
       }
 
       setTimeout(function(){ window.location.reload(true); }, 1000);
     });
+
 });

@@ -65,8 +65,6 @@ class StaffController extends Controller
 
 				if($member)
 				{
-					dd('member');
-
 					if(isset($member->paytill_date))
 					{
 						$myArray = explode('-', $member->paytill_date);
@@ -350,8 +348,6 @@ class StaffController extends Controller
 		            'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
 		           ->get();
 
-
-
 		for($i = 0; $i < count($result); $i++)
 		{
 			if(isset($result[$i]->paytill_date))
@@ -384,10 +380,10 @@ class StaffController extends Controller
 						 		->select('chinese_name', 'devotee_id')
 						 		->get();
 
-		if($samefamily_no > 8)
+		if($samefamily_no > 6)
 		{
-			$loop = intval(round($samefamily_no / 8, 0));
-			$modulus = $samefamily_no % 8;
+			$loop = intval(round($samefamily_no / 6, 0));
+			$modulus = $samefamily_no % 6;
 		}
 
 		else
@@ -605,10 +601,10 @@ class StaffController extends Controller
 					 		   ->select('chinese_name', 'devotee_id')
 					 		   ->get();
 
-			if($samefamily_no > 8)
+			if($samefamily_no > 6)
 			{
-				$loop = intval(round($samefamily_no / 8, 0));
-				$modulus = $samefamily_no % 8;
+				$loop = intval(round($samefamily_no / 6, 0));
+				$modulus = $samefamily_no % 6;
 			}
 
 			else
@@ -833,8 +829,8 @@ class StaffController extends Controller
 
 		if($samefamily_no > 8)
 		{
-			$loop = intval(round($samefamily_no / 8, 0));
-			$modulus = $samefamily_no % 8;
+			$loop = intval(round($samefamily_no / 6, 0));
+			$modulus = $samefamily_no % 6;
 		}
 
 		else
@@ -1573,13 +1569,25 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
+		// $input['trans_no'] = 'T507';
+
 		$generaldonation = new GeneralDonation;
 		$result = $generaldonation->searchTransaction($input)->get();
 
+		$cancellation = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+										->leftjoin('user', 'receipt.cancelled_by', '=', 'user.id')
+										->where('generaldonation.trans_no', $input['trans_no'])
+										->select('receipt.cancelled_date', 'user.first_name', 'user.last_name')
+										->GroupBy('generaldonation.generaldonation_id')
+										->get();
+
+		if(isset($cancellation[0]->cancelled_date))
+		{
+			$cancellation[0]->cancelled_date = Carbon::parse($cancellation[0]->cancelled_date)->format("d/m/Y");
+		}
+
 		// Check Transaction devotee and focus devotee is the same
 		$focusdevotee = Session::get('focus_devotee');
-
-		// dd($result->toArray());
 
 		if(count($result) == 0)
 		{
@@ -1606,7 +1614,75 @@ class StaffController extends Controller
 
 			return response()->json(array(
 	      'transaction' => $result,
-				'focusdevotee' => $focusdevotee
+				'focusdevotee' => $focusdevotee,
+				'cancellation' => $cancellation
+	    ));
+		}
+
+		return response()->json(array(
+      'transaction' => $result
+    ));
+	}
+
+	public function getYueJuanTransactionDetail(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		// $input['trans_no'] = 'T536';
+
+		$generaldonation = new GeneralDonation;
+		$result = $generaldonation->yuejuansearchTransaction($input)->get();
+
+		for($i = 0; $i < count($result); $i++)
+		{
+		  if(isset($result[$i]->paytill_date))
+		  {
+		    $result[$i]->paid_for = number_format($result[$i]->amount, 2) . ' - ' . Carbon::parse($result[$i]->paytill_date)->format("Y-m");
+		  }
+		}
+
+		$cancellation = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+										->leftjoin('user', 'receipt.cancelled_by', '=', 'user.id')
+										->where('generaldonation.trans_no', $input['trans_no'])
+										->select('receipt.cancelled_date', 'user.first_name', 'user.last_name')
+										->GroupBy('generaldonation.generaldonation_id')
+										->get();
+
+		if(isset($cancellation[0]->cancelled_date))
+		{
+			$cancellation[0]->cancelled_date = Carbon::parse($cancellation[0]->cancelled_date)->format("d/m/Y");
+		}
+
+		// Check Transaction devotee and focus devotee is the same
+		$focusdevotee = Session::get('focus_devotee');
+
+		if(count($result) == 0)
+		{
+			return response()->json(array(
+	      'msg' => 'No Result Found'
+	    ));
+		}
+
+		if($focusdevotee[0]->devotee_id != $result[0]->focusdevotee_id)
+		{
+			return response()->json(array(
+	      'msg' => 'Search same devotee Id'
+	    ));
+		}
+
+		if(count($result) > 0)
+		{
+			for($i = 0; $i < count($result); $i++)
+			{
+				$result[$i]->trans_date = Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
+			}
+
+			$focusdevotee = Devotee::where('devotee_id', $result[0]->focusdevotee_id)->pluck('chinese_name');
+
+			return response()->json(array(
+	      'transaction' => $result,
+				'focusdevotee' => $focusdevotee,
+				'cancellation' => $cancellation
 	    ));
 		}
 
@@ -1694,10 +1770,10 @@ class StaffController extends Controller
 								 ->get();
 		}
 
-		if($samefamily_no > 8)
+		if($samefamily_no > 6)
 		{
-			$loop = intval(round($samefamily_no / 8, 0));
-			$modulus = $samefamily_no % 8;
+			$loop = intval(round($samefamily_no / 6, 0));
+			$modulus = $samefamily_no % 6;
 		}
 
 		else

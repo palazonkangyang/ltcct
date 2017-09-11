@@ -210,7 +210,7 @@
 																													                      </select>
 																													                  </td>
 																													                  <td width="80px">
-																													                    <select class="form-control ciji-display" name="display[]">
+																													                    <select class="form-control display" name="display[]">
 																													                      <option value="N">N</option>
 																													                      <option value="Y">Y</option>
 																													                    </select>
@@ -620,6 +620,10 @@
 	                                                              </button>
 	                                                              <button type="button" class="btn default">Cancel</button>
 	                                                            </div><!-- end form-actions -->
+
+																															<div id="dialog-box" title="System Alert" style="display:none;">
+																				                          Do you want to submit this form?
+																				                      </div>
 
 	                                                    			</div><!-- end col-md-12 -->
 

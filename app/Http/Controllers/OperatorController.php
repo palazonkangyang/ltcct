@@ -2099,6 +2099,7 @@ class OperatorController extends Controller
 
 		$queries = TranslationStreet::where('english', 'like', '%'.$address_street.'%')
 							 ->take(5)
+							 ->GroupBy('english')
 							 ->get();
 
 		foreach ($queries as $query)
@@ -2109,6 +2110,37 @@ class OperatorController extends Controller
 			];
 		}
 		return response()->json($results);
+	}
+
+	public function getAddressPostal(Request $request)
+	{
+		$address_postal = Input::get('term');
+		$results = array();
+
+		$queries = TranslationStreet::where('address_postal', 'like', '%'.$address_postal.'%')
+							 ->take(5)
+							 ->get();
+
+		foreach ($queries as $query)
+		{
+			$results[] = [
+				'id' => $query->id,
+				'value' => $query->address_postal
+			];
+		}
+		return response()->json($results);
+	}
+
+	public function getTranslateAddress(Request $request)
+	{
+		$address_postal = $_GET['address_postal'];
+		// $address_postal = 752357;
+
+		$translate_street = TranslationStreet::where('address_postal', $address_postal)->get();
+
+		return response()->json(array(
+			'translate_street' => $translate_street
+		));
 	}
 
 

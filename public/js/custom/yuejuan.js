@@ -95,6 +95,14 @@ $(function() {
 
     else
     {
+      if (confirm("Do you want to confirm this form?")){
+        $("#yuejuan-donation-form")[0].submit();
+      }
+
+      else{
+        return false;
+      }
+
       $(".validation-error").removeClass("bg-danger alert alert-error")
       $(".validation-error").empty();
     }
@@ -114,7 +122,7 @@ $(function() {
 
     $.ajax({
       type: 'GET',
-      url: "/staff/transaction-detail",
+      url: "/staff/yuejuan-transaction-detail",
       data: formData,
       dataType: 'json',
       success: function(response)
@@ -149,6 +157,9 @@ $(function() {
             description = "月捐";
           }
 
+          $("#col-header").text("Paid For");
+          $("#col-member").show();
+
           $("#trans_no").val(response.transaction[0].trans_no);
           $("#description").text(description);
           $('#receipt_date').text(response.transaction[0].trans_date);
@@ -172,8 +183,9 @@ $(function() {
             $('#transaction-table tbody').append("<tr><td>" + rowno + "</td>" +
             "<td>" + data.chinese_name + "</td>" +
             "<td>" + data.devotee_id + "</td>" +
+            "<td>" + data.member_id + "</td>" +
             "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
-            "<td>" + (data.hjgr == 'hj' ? '合家' : '个人') + "</td>" +
+            "<td>" + data.paid_for + "</td>" +
             "<td>" + data.xy_receipt + "</td>" +
             "<td>" + data.amount + "</td>");
 
