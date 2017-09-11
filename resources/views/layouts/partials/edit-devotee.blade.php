@@ -140,7 +140,7 @@
 
 										 <label class="col-md-3 control-label">Address - Translate</label>
 										 <div class="col-md-9">
-														 <input type="text" class="form-control" name="address_translated" id="edit_address_translated" readonly>
+												<input type="text" class="form-control" name="address_translated" id="edit_address_translated" readonly>
 										 </div><!-- end col-md-9 -->
 
 								 </div><!-- end form-group -->
@@ -950,7 +950,7 @@
 											<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
 										</div>
 
-										<div class='col-md-3'>
+										<div class='col-md-3' style='padding-right: 0;'>
 
 											<select class='form-control edit-address-type' name='address_type[]'>
 												<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>宅址</option>
@@ -963,14 +963,14 @@
 
 										@if($optAddress->type == "home" || $optAddress->type == "office")
 
-										<div class='col-md-6'>
+										<div class='col-md-6' style='padding-right: 0;'>
 											<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill the address on the right"
 												title="Please fill the address on the right" readonly>
 										</div><!-- end col-md-6 -->
 
 										@else
 
-										<div class='col-md-6'>
+										<div class='col-md-6' style='padding-right: 0;'>
 											<input type="text" class="form-control edit-address-data" name="address_data[]" value="{{ $optAddress->data }}"
 												title="{{ $optAddress->data }}">
 										</div><!-- end col-md-4 -->
@@ -989,7 +989,8 @@
 											<input type="hidden" class="form-control edit-address-postal-hidden">
 											<input type="hidden" class="form-control edit-address-oversea-hidden" name="address_oversea_hidden[]"
 												value="{{ $optAddress->oversea_address }}">
-											<input type="hidden" class="form-control edit-address-translate-hidden">
+											<input type="hidden" class="form-control edit-address-translate-hidden" name="address_translated_hidden[]"
+												value="{{ $optAddress->address_translated }}">
 											<input type="hidden" class="form-control edit-address-data-hidden" name="address_data_hidden[]"
 												value="{{ $optAddress->address }}">
 										</div>
@@ -1010,7 +1011,7 @@
 											<div class='col-md-1'>
 											</div><!-- end col-md-1 -->
 
-											<div class='col-md-3'>
+											<div class='col-md-3' style='padding-right: 0;'>
 												<select class='form-control edit-address-type' name='address_type[]'>
 													<option value="home">宅址</option>
 													<option value="company">公司</option>
@@ -1019,7 +1020,7 @@
 												</select>
 											</div><!-- end col-md-3 -->
 
-											<div class='col-md-6'>
+											<div class='col-md-6' style='padding-right: 0;'>
 												<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill the address on the right"
 													title="Please fill the address on the right" readonly>
 											</div><!-- end col-md-6 -->
@@ -1035,7 +1036,7 @@
 												<input type="hidden" class="form-control edit-address-street-hidden">
 												<input type="hidden" class="form-control edit-address-postal-hidden">
 												<input type="hidden" class="form-control edit-address-oversea-hidden" name="address_oversea_hidden[]">
-												<input type="hidden" class="form-control edit-address-translate-hidden">
+												<input type="hidden" class="form-control edit-address-translate-hidden" name="address_translated_hidden[]">
 												<input type="hidden" class="form-control edit-address-data-hidden" name="address_data_hidden[]">
 											</div>
 										</div><!-- end form-group -->
@@ -1073,7 +1074,7 @@
 										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
 
-									<div class='col-md-3'>
+									<div class='col-md-3' style='padding-right: 0;'>
 										<select class='form-control' name='vehicle_type[]'>
 											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>车辆</option>
 											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>船只</option>
@@ -1098,7 +1099,7 @@
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
 
-										<div class='col-md-3'>
+										<div class='col-md-3' style='padding-right: 0;'>
 											<select class='form-control' name='vehicle_type[]'>
 												<option value="car">车辆</option>
 												<option value="ship">船只</option>

@@ -1,56 +1,40 @@
 $(function() {
 
-  function edit_populate()
-  {
-    var populate_houseno = $('#edit_populate_houseno').val();
-    var populate_unit_1 = $('#edit_populate_unit_1').val();
-    var populate_unit_2 = $('#edit_populate_unit_2').val();
-    var populate_street = $('#edit_populate_street').val();
-    var populate_postal = $('#edit_populate_postal').val();
-
-    if($.trim(populate_unit_1).length <= 0)
-    {
-      var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal;
-
-      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_populate_address);
-    }
-    else
-    {
-      var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
-                          populate_postal;
-
-      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_populate_address);
-    }
-  }
-
-  $("#edit_populate_houseno").on('keyup', function() {
-    edit_populate();
-
-    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-houseno-hidden").val($(this).val());
-  });
+  // function edit_populate()
+  // {
+  //   var populate_houseno = $('#edit_populate_houseno').val();
+  //   var populate_unit_1 = $('#edit_populate_unit_1').val();
+  //   var populate_unit_2 = $('#edit_populate_unit_2').val();
+  //   var populate_street = $('#edit_populate_street').val();
+  //   var populate_postal = $('#edit_populate_postal').val();
+  //
+  //   if($.trim(populate_unit_1).length <= 0)
+  //   {
+  //     var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal;
+  //
+  //     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_populate_address);
+  //     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-translate-hidden").val(full_populate_address);
+  //   }
+  //   else
+  //   {
+  //     var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
+  //                         populate_postal;
+  //
+  //     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_populate_address);
+  //     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-translate-hidden").val(full_populate_address);
+  //   }
+  // }
 
   $("#edit_populate_unit_1").on('keyup', function() {
-    edit_populate();
+    // edit_populate();
 
     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-unit1-hidden").val($(this).val());
   });
 
   $("#edit_populate_unit_2").on('keyup', function() {
-    edit_populate();
+    // edit_populate();
 
     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-unit2-hidden").val($(this).val());
-  });
-
-  $("#edit_populate_street").on('keyup', function() {
-    edit_populate();
-
-    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-street-hidden").val($(this).val());
-  });
-
-  $("#edit_populate_postal").on('keyup', function() {
-    edit_populate();
-
-    $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-postal-hidden").val($(this).val());
   });
 
   $("#edit_populate_oversea_addr_in_china").on('keyup', function() {
@@ -67,6 +51,7 @@ $(function() {
     if(address.length > 0)
     {
       var array = $(this).closest(".edit_inner_opt_addr").find("input[name='address_data_hidden[]']").val().split(",");
+      var edit_populate_address_translate = $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-translate-hidden").val();
 
       $.each(array,function(i){
         $("#edit_populate_houseno").val(array[0]);
@@ -74,11 +59,12 @@ $(function() {
         var strVale = array[1];
         arr = strVale.split('-');
 
-        $("#edit_populate_unit_1").val(arr[0]);
+        $("#edit_populate_unit_1").val($.trim(arr[0]));
         $("#edit_populate_unit_2").val(arr[1]);
 
         $("#edit_populate_street").val(array[2]);
         $("#edit_populate_postal").val(array[3]);
+        $("#edit_populate_address_translate").val(edit_populate_address_translate);
         $("#edit_populate_oversea_addr_in_china").val('');
       });
     }
@@ -92,6 +78,7 @@ $(function() {
       $("#edit_populate_houseno").val('');
       $("#edit_populate_street").val('');
       $("#edit_populate_postal").val('');
+      $("#edit_populate_address_translate").val(edit_populate_address_translate);
 
       $("#edit_populate_oversea_addr_in_china").val(oversea_address);
     }

@@ -115,16 +115,16 @@
 
                                                                         <thead>
                                                                             <tr id="filter">
-                                                                                <th>Chinese Name</th>
-                                                                                <th>Devotee</th>
-																																								<th>Member</th>
-                                                                                <th>Address</th>
-                                                                                <th>Guiyi Name</th>
-																																								<th>Contact</th>
-																																								<th>Paid Till</th>
-																																								<th>Mailer</th>
-																																								<th>Last Trans Date</th>
-                                                                                <th>Family Code</th>
+                                                                                <th></th>
+                                                                                <th></th>
+																																								<th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+																																								<th></th>
+																																								<th></th>
+																																								<th></th>
+																																								<th></th>
+                                                                                <th></th>
                                                                             </tr>
                                                                             <tr>
                                                                                 <th>Chinese Name</th>
@@ -220,16 +220,16 @@
                                                                     <table class="table table-bordered" id="members_table">
                                                                         <thead>
 																																					<tr id="filter">
-																																						<th>Chinese Name</th>
-																																						<th>Devotee</th>
-																																						<th>Member</th>
-																																						<th>Address</th>
-																																						<th>Guiyi Name</th>
-																																						<th>Contact</th>
-																																						<th>Paid Till</th>
-																																						<th>Mailer</th>
-																																						<th>Last Trans Date</th>
-																																						<th>Family Code</th>
+																																						<th></th>
+																																						<th></th>
+																																						<th></th>
+																																						<th></th>
+																																						<th></th>
+																																						<th></th>
+																																						<th></th>
+																																						<th></th>
+																																						<th></th>
+																																						<th></th>
 																																					</tr>
                                                                             <tr>
 																																							<th>Chinese Name</th>
@@ -319,16 +319,16 @@
                                                                     <table class="table table-bordered" id="deceased_table">
                                                                         <thead>
 																																						<tr id="filter">
-																																							<th>Chinese Name</th>
-																																							<th>Devotee</th>
-																																							<th>Member</th>
-																																							<th>Address</th>
-																																							<th>Guiyi Name</th>
-																																							<th>Contact</th>
-																																							<th>Paid Till</th>
-																																							<th>Mailer</th>
-																																							<th>Last Trans Date</th>
-																																							<th>Family Code</th>
+																																							<th></th>
+																																							<th></th>
+																																							<th></th>
+																																							<th></th>
+																																							<th></th>
+																																							<th></th>
+																																							<th></th>
+																																							<th></th>
+																																							<th></th>
+																																							<th></th>
 																																						</tr>
                                                                             <tr>
 																																							<th>Chinese Name</th>
@@ -742,7 +742,7 @@
 
 																																						<div class="col-md-1"></div><!-- end col-md-1 -->
 
-		                                                                        <div class="col-md-3">
+		                                                                        <div class="col-md-3" style="padding-right: 0;">
 		                                                                            <select class="form-control address-type" name="address_type[]">
 		                                                                                <option value="home">宅址</option>
 		                                                                                <option value="company">公司</option>
@@ -751,7 +751,7 @@
 		                                                                            </select>
 		                                                                        </div><!-- end col-md-3 -->
 
-		                                                                        <div class="col-md-6 populate-address">
+		                                                                        <div class="col-md-6 populate-address" style="padding-right: 0;">
 		                                                                            <input type="text" class="form-control address-data" name="address_data[]" readonly
 																																									value="Please fill the address on the right" title="Please fill the address on the right">
 		                                                                        </div><!-- end col-md-4 -->
@@ -768,7 +768,7 @@
 																																				      <input type="hidden" class="form-control address-street-hidden">
 																																				      <input type="hidden" class="form-control address-postal-hidden">
 																																							<input type="hidden" class="form-control address-oversea-hidden" name="address_oversea_hidden[]">
-																																							<input type="hidden" class="form-control address-translate-hidden">
+																																							<input type="hidden" class="form-control address-translate-hidden" name="address_translated_hidden[]">
 																																				      <input type="hidden" class="form-control address-data-hidden" name="address_data_hidden[]">
 																																						</div>
 
@@ -799,7 +799,7 @@
 
 																																				<div class="col-md-1"></div><!-- end col-md-1 -->
 
-                                                                        <div class="col-md-3">
+                                                                        <div class="col-md-3" style="padding-right: 0;">
                                                                             <select class="form-control" name="vehicle_type[]">
                                                                                 <option value="car">车辆</option>
                                                                                 <option value="ship">船只</option>
@@ -2403,28 +2403,28 @@
             $("#appendAddressBtn").click(function() {
 
                 $("#append_opt_address").append("<div class='inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn' aria-hidden='true'></i></div>" +
-								"<div class='col-md-3'><select class='form-control address-type' name='address_type[]''>" +
+								"<div class='col-md-3' style='padding-right: 0;'><select class='form-control address-type' name='address_type[]''>" +
 								"<option value='home'>宅址</option><option value='company'>公司</option><option value='stall'>小贩</option><option value='office'>办公址</option>" +
-								"</select></div><div class='col-md-6 populate-address'><input type='text' class='form-control address-data' name='address_data[]' readonly  value='Please fill the address on the right' title='Please fill the address on the right'>" +
+								"</select></div><div class='col-md-6 populate-address' style='padding-right: 0;'><input type='text' class='form-control address-data' name='address_data[]' readonly  value='Please fill the address on the right' title='Please fill the address on the right'>" +
 								"</div><div class='col-md-2'><button type='button' class='fa fa-angle-double-right populate-data form-control' aria-hidden='true'></button></div>" +
 								"<div class='col-md-12'><input type='hidden' class='form-control address-houseno-hidden'><input type='hidden' class='form-control address-unit1-hidden'>" +
 								"<input type='hidden' class='form-control address-unit2-hidden'><input type='hidden' class='form-control address-street-hidden'>" +
 								"<input type='hidden' class='form-control address-postal-hidden'><input type='hidden' class='form-control address-oversea-hidden' name='address_oversea_hidden[]'>" +
-								"<input type='hidden' class='form-control address-translate-hidden'><input type='hidden' class='form-control address-data-hidden' name='address_data_hidden[]'></div>" +
+								"<input type='hidden' class='form-control address-translate-hidden' name='address_translated_hidden[]'><input type='hidden' class='form-control address-data-hidden' name='address_data_hidden[]'></div>" +
 								"</div></div>");
             });
 
             $("#AddressBtn").click(function() {
 
 							$("#edit_opt_address").append("<div class='edit_inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div>" +
-							"<div class='col-md-3'><select class='form-control edit-address-type' name='address_type[]'><option value='home'>宅址</option><option value='company'>公司</option>" +
+							"<div class='col-md-3' style='padding-right: 0;'><select class='form-control edit-address-type' name='address_type[]'><option value='home'>宅址</option><option value='company'>公司</option>" +
 							"<option value='stall'>小贩</option><option value='office'>办公址</option></select></div>" +
-							"<div class='col-md-6'><input type='text' class='form-control edit-address-data' name='address_data[]' value='Please fill the address on the right' readonly></div>" +
+							"<div class='col-md-6' style='padding-right: 0;'><input type='text' class='form-control edit-address-data' name='address_data[]' value='Please fill the address on the right' readonly></div>" +
 							"<div class='col-md-2'><button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button></div>" +
 							"<div class='col-md-12'><input type='hidden' class='form-control edit-address-houseno-hidden'><input type='hidden' class='form-control edit-address-unit1-hidden'>" +
 							"<input type='hidden' class='form-control edit-address-unit2-hidden'><input type='hidden' class='form-control edit-address-street-hidden'>" +
 							"<input type='hidden' class='form-control edit-address-postal-hidden'><input type='hidden' class='form-control edit-address-oversea-hidden' name='address_oversea_hidden[]'>" +
-							"<input type='hidden' class='form-control edit-address-translate-hidden'><input type='hidden' class='form-control edit-address-data-hidden' name='address_data_hidden[]'></div>" +
+							"<input type='hidden' class='form-control edit-address-translate-hidden' name='address_translated_hidden[]'><input type='hidden' class='form-control edit-address-data-hidden' name='address_data_hidden[]'></div>" +
 							"</div></div>");
             });
 
@@ -2439,7 +2439,7 @@
             $("#appendVehicleBtn").click(function() {
 
                 $("#append_opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn' aria-hidden='true'></i></div>" +
-                    "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
+                    "<div class='col-md-3' style='padding-right: 0;'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
                     "<option value='ship'>船只</option></select></div><div class='col-md-8'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
                     "</div>");
@@ -2448,7 +2448,7 @@
             $("#VehicleBtn").click(function() {
 
                 $("#opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div>" +
-                    "<div class='col-md-3'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
+                    "<div class='col-md-3' style='padding-right: 0;'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
                     "<option value='ship'>船只</option></select></div><div class='col-md-8'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
                     "</div>");

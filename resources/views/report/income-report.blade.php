@@ -47,94 +47,38 @@
                     <div class="validation-error">
                     </div><!-- end validation-error -->
 
-                    @if($errors->any())
-
-                        <div class="alert alert-danger">
-
-                            @foreach($errors->all() as $error)
-                                <p>{{ $error }}</p>
-                            @endforeach
-
-                        </div><!-- end alert alert-danger -->
-
-                    @endif
-
-                    @if(Session::has('success'))
-                        <div class="alert alert-success"><em> {{ Session::get('success') }}</em></div>
-                    @endif
-
-                    @if(Session::has('error'))
-                        <div class="alert alert-danger"><em> {{ Session::get('error') }}</em></div>
-                    @endif
-
                     <div class="portlet-body">
 
                       <div class="form-body">
 
-                        <div class="col-md-12">
-                          <table class="table table-bordered table-striped" id="report-table">
-                            <thead>
-                     					<tr>
-                     						<th width="28%">REVENUE 收入</th>
-                                <th width="6%">JAN</th>
-                                <th width="6%">FEB</th>
-                                <th width="6%">MAR</th>
-                                <th width="6%">APR</th>
-                                <th width="6%">MAY</th>
-                                <th width="6%">JUN</th>
-                                <th width="6%">JULY</th>
-                                <th width="6%">AUG</th>
-                                <th width="6%">SEP</th>
-                                <th width="6%">OCT</th>
-                                <th width="6%">NOV</th>
-                                <th width="6%">DEC</th>
-                     					</tr>
-                     				</thead>
+                        <div class="col-md-2">
 
-                            <tbody>
-                              <tr>
-                                <td>General Donation 香油</td>
-                                <td colspan="12"></td>
-                              </tr>
-                              <tr>
-                                <td>Donation (Member) 香油-會員</td>
-                                <td>{{ number_format($members[0]->Jan, 2) }}</td>
-                                <td>{{ number_format($members[0]->Feb, 2) }}</td>
-                                <td>{{ number_format($members[0]->Mar, 2) }}</td>
-                                <td>{{ number_format($members[0]->Apr, 2) }}</td>
-                                <td>{{ number_format($members[0]->May, 2) }}</td>
-                                <td>{{ number_format($members[0]->Jun, 2) }}</td>
-                                <td>{{ number_format($members[0]->July, 2) }}</td>
-                                <td>{{ number_format($members[0]->Aug, 2) }}</td>
-                                <td>{{ number_format($members[0]->Sep, 2) }}</td>
-                                <td>{{ number_format($members[0]->Oct, 2) }}</td>
-                                <td>{{ number_format($members[0]->Nov, 2) }}</td>
-                                <td>{{ number_format($members[0]->December, 2) }}</td>
-                              </tr>
+                          <form action="{{ URL::to('/report/report-detail') }}" method="post">
+                            {!! csrf_field() !!}
 
-                              <tr>
-                                <td>Donation (non-member) 香油-非會員</td>
-                                <td>{{ number_format($non_members[0]->Jan, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->Feb, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->Mar, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->Apr, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->May, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->Jun, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->July, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->Aug, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->Sep, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->Oct, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->Nov, 2) }}</td>
-                                <td>{{ number_format($non_members[0]->December, 2) }}</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div><!-- end col-md-12 -->
+                            <div class="form-group">
+                              <label style="padding:0;">Year</label>
+                              <input type="text" class="form-control" name="year" value="{{ old('year') }}"
+                              data-provide="datepicker" data-date-format="mm" id="year">
+                            </div><!-- end form-group -->
 
-                        <div class="clearfix">
-                        </div><!-- end clearfix -->
+                            <div class="form-group">
+                              <label style="padding:0;">Month</label>
+                              <input type="text" class="form-control" name="month" value="{{ old('month') }}"
+                              data-provide="datepicker" data-date-format="yyyy" id="month">
+                            </div><!-- end form-group -->
 
+                              <div class="form-group">
+                                <button type="submit" class="btn blue" id="report">Report</button>
+                                <button type="button" class="btn default">Clear</button>
+                              </div><!-- end form-group -->
+                          </form>
+
+                        </div><!-- end col-md-2 -->
                       </div><!-- end form-body -->
+
+                      <div class="clearfix">
+                      </div><!-- end clearfix -->
 
                     </div><!-- end portlet-body -->
 
@@ -163,52 +107,60 @@
 
   $(function() {
 
+    $("#year").datepicker( {
+      format: "yyyy",
+      viewMode: "years",
+      minViewMode: "years"
+    });
+
+    $("#month").datepicker( {
+      format: "M",
+      viewMode: "months",
+      minViewMode: "months"
+    });
+
+
+
     $("#report").click(function() {
-      var from_date = $("#from_date").val();
-      var to_date = $("#to_date").val();
 
-      var formData = {
-          _token: $('meta[name="csrf-token"]').attr('content'),
-          from_date: from_date,
-          to_date: to_date
-      };
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
 
-      $.ajax({
-          type: 'GET',
-          url: "/report/report-detail",
-          data: formData,
-          dataType: 'json',
-          success: function(response)
-          {
-            if(response.donation_member.length != 0)
-            {
-              count = 1;
+      var month = $("#month").val();
+      var year = $("#year").val();
 
-              $("<tr>").appendTo("#report-table tbody");
+      if($.trim(month).length > 0)
+      {
+        if($.trim(year).length <= 0)
+        {
+          validationFailed = true;
+          errors[count++] = "Year is empty."
+        }
+      }
 
-              // alert(response.donation_member[0].total_amount);
+      if (validationFailed)
+      {
+        var errorMsgs = '';
 
-              for($i = 0; $i < 12; $i++)
-              {
-                $(response.donation_member[count].month == count ? '<td>S$ ' + response.donation_member[count].total_amount + '</td>': '<td>S$ 0</td>').appendTo("#report-table tbody");
-              }
+        for(var i = 0; i < count; i++)
+        {
+          errorMsgs = errorMsgs + errors[i] + "<br/>";
+        }
 
-              // $.each(response.donation_member, function(index, data) {
-              //   alert(data.month);
-              //   $(data.month == count ? '<td>S$ ' + data.total_amount + '</td>': '<td>S$ 0</td>').appendTo("#report-table tbody");
-              //
-              //   count++;
-              // });
+        $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-              $("</tr>").appendTo("#report-table tbody");
-            }
-          },
+        $(".validation-error").addClass("bg-danger alert alert-error")
+        $(".validation-error").html(errorMsgs);
 
-          error: function (response) {
-              console.log(response);
-          }
-      });
+        return false;
+      }
 
+      else
+      {
+        $(".validation-error").removeClass("bg-danger alert alert-error")
+        $(".validation-error").empty();
+      }
     });
   });
 </script>

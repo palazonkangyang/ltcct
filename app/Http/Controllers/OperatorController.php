@@ -202,16 +202,41 @@ class OperatorController extends Controller
 																->GroupBy('devotee.devotee_id')
 																->get();
 
-		$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-													->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
-													->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-													->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-													->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
-													->where('devotee.familycode_id', $devotee[0]->familycode_id)
-													->where('setting_generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
-													->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
-													->GroupBy('devotee.devotee_id')
-													->get();
+		$result = SettingGeneralDonation::where('focusdevotee_id', $devotee[0]->devotee_id)
+							->get();
+
+		if(count($result) > 0)
+		{
+			$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+														->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
+														->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+														->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+														->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+														->where('devotee.familycode_id', $devotee[0]->familycode_id)
+														->where('setting_generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
+														->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+														->GroupBy('devotee.devotee_id')
+														->get();
+		}
+
+		else
+		{
+			$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+														->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+														->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+														->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+														->where('devotee.familycode_id', $devotee[0]->familycode_id)
+														->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+														->GroupBy('devotee.devotee_id')
+														->get();
+
+		 for($i = 0; $i < count($setting_samefamily); $i++)
+		 {
+			 $setting_samefamily[$i]->xiangyou_ciji_id = 0;
+			 $setting_samefamily[$i]->yuejuan_id = 0;
+		 }
+		 
+		}
 
 		$setting = SettingGeneralDonation::where('focusdevotee_id', $devotee[0]->devotee_id)
 							 ->where('devotee_id', $devotee[0]->devotee_id)
@@ -567,6 +592,8 @@ class OperatorController extends Controller
 		$approveNewDate = "";
 		$input = array_except($request->all(), '_token');
 
+		// dd($input);
+
     if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
@@ -814,10 +841,12 @@ class OperatorController extends Controller
 								if(isset($input['address_data_hidden'][$i]))
 								{
 									$address = $input['address_data_hidden'][$i];
+									$address_translated = $input['address_translated_hidden'][$i];
 								}
 								else
 								{
 									$address = null;
+									$address_translated = null;
 								}
 
 								if (isset($input['address_oversea_hidden'][$i])) {
@@ -833,6 +862,7 @@ class OperatorController extends Controller
 					        "data" => $input['address_data'][$i],
 									"address" => $address,
 									"oversea_address" => $oversea_address,
+									"address_translated" => $address_translated,
 					        "devotee_id" => $devotee_id
 					      ];
 
@@ -844,10 +874,12 @@ class OperatorController extends Controller
 								if(isset($input['address_data_hidden'][$i]))
 								{
 									$address = $input['address_data_hidden'][$i];
+									$address_translated = $input['address_translated_hidden'][$i];
 								}
 								else
 								{
 									$address = null;
+									$address_translated = null;
 								}
 
 								if (isset($input['address_oversea_hidden'][$i])) {
@@ -862,6 +894,7 @@ class OperatorController extends Controller
 					        "type" => $input['address_type'][$i],
 									"address" => $address,
 									"oversea_address" => $oversea_address,
+									"address_translated" => $address_translated,
 					        "devotee_id" => $devotee_id
 					      ];
 
@@ -1243,7 +1276,6 @@ class OperatorController extends Controller
 			  $devotee->address_unit1 = $input['address_unit1'];
 			  $devotee->address_unit2 = $input['address_unit2'];
 			  $devotee->address_street = $input['address_street'];
-			  $devotee->address_building = $input['address_building'];
 			  $devotee->address_postal = $input['address_postal'];
 			  $devotee->address_translated = $input['address_translated'];
 			  $devotee->oversea_addr_in_chinese = $input['oversea_addr_in_chinese'];
@@ -1270,10 +1302,12 @@ class OperatorController extends Controller
 					if(isset($input['address_data_hidden'][$i]))
 					{
 						$address = $input['address_data_hidden'][$i];
+						$address_translated = $input['address_translated_hidden'][$i];
 					}
 					else
 					{
 						$address = null;
+						$address_translated = null;
 					}
 
 					if (isset($input['address_oversea_hidden'][$i])) {
@@ -1289,6 +1323,7 @@ class OperatorController extends Controller
 				  $optional_address->data = $input['address_data'][$i];
 					$optional_address->address = $address;
 					$optional_address->oversea_address = $oversea_address;
+					$optional_address->address_translated = $address_translated;
 				  $optional_address->devotee_id = $input['devotee_id'];
 
 				  $optional_address->save();
@@ -1299,10 +1334,12 @@ class OperatorController extends Controller
 					if(isset($input['address_data_hidden'][$i]))
 					{
 						$address = $input['address_data_hidden'][$i];
+						$address_translated = $input['address_translated_hidden'][$i];
 					}
 					else
 					{
 						$address = null;
+						$address_translated = null;
 					}
 
 					if (isset($input['address_oversea_hidden'][$i])) {
@@ -1317,6 +1354,7 @@ class OperatorController extends Controller
 				  $optional_address->type = $input['address_type'][$i];
 				  $optional_address->address = $address;
 					$optional_address->oversea_address = $oversea_address;
+					$optional_address->address_translated = $address_translated;
 				  $optional_address->devotee_id = $input['devotee_id'];
 
 				  $optional_address->save();

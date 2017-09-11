@@ -1,56 +1,40 @@
 $(function() {
 
-  function populate()
-  {
-    var populate_houseno = $('#populate_houseno').val();
-    var populate_unit_1 = $('#populate_unit_1').val();
-    var populate_unit_2 = $('#populate_unit_2').val();
-    var populate_street = $('#populate_street').val();
-    var populate_postal = $('#populate_postal').val();
-
-    if($.trim(populate_unit_1).length <= 0)
-    {
-      var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal;
-
-      $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_populate_address);
-    }
-    else
-    {
-      var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
-                          populate_postal;
-
-      $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_populate_address);
-    }
-  }
-
-  $("#populate_houseno").on('keyup', function() {
-    populate();
-
-    $(".hover").closest("div.inner_opt_addr").find(".address-houseno-hidden").val($(this).val());
-  });
+  // function populate()
+  // {
+  //   var populate_houseno = $('#populate_houseno').val();
+  //   var populate_unit_1 = $('#populate_unit_1').val();
+  //   var populate_unit_2 = $('#populate_unit_2').val();
+  //   var populate_street = $('#populate_street').val();
+  //   var populate_postal = $('#populate_postal').val();
+  //
+  //   if($.trim(populate_unit_1).length <= 0)
+  //   {
+  //     var full_populate_address = populate_houseno + ", " + populate_street + ", " + populate_postal;
+  //
+  //     $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_populate_address);
+  //     $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val(full_populate_address);
+  //   }
+  //   else
+  //   {
+  //     var full_populate_address = populate_houseno + ", " + populate_unit_1 + "-" + populate_unit_2 + ", " + populate_street + ", " +
+  //                         populate_postal;
+  //
+  //     $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_populate_address);
+  //     $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val(full_populate_address);
+  //   }
+  // }
 
   $("#populate_unit_1").on('keyup', function() {
-    populate();
+    // populate();
 
     $(".hover").closest("div.inner_opt_addr").find(".address-unit1-hidden").val($(this).val());
   });
-
+  //
   $("#populate_unit_2").on('keyup', function() {
-    populate();
+    // populate();
 
     $(".hover").closest("div.inner_opt_addr").find(".address-unit2-hidden").val($(this).val());
-  });
-
-  $("#populate_street").on('keyup', function() {
-    populate();
-
-    $(".hover").closest("div.inner_opt_addr").find(".address-street-hidden").val($(this).val());
-  });
-
-  $("#populate_postal").on('keyup', function() {
-    populate();
-
-    $(".hover").closest("div.inner_opt_addr").find(".address-postal-hidden").val($(this).val());
   });
 
   $("#populate_oversea_addr_in_china").on('keyup', function() {
@@ -67,6 +51,7 @@ $(function() {
     var populate_unit_2 = $(".hover").closest("div.inner_opt_addr").find(".address-unit2-hidden").val();
     var populate_street = $(".hover").closest("div.inner_opt_addr").find(".address-street-hidden").val();
     var populate_postal = $(".hover").closest("div.inner_opt_addr").find(".address-postal-hidden").val();
+    var populate_address_translate = $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val();
     var populate_oversea_addr_in_china = $(".hover").closest("div.inner_opt_addr").find(".address-oversea-hidden").val();
 
     $("#populate_houseno").val(populate_houseno);
@@ -74,6 +59,7 @@ $(function() {
     $("#populate_unit_2").val(populate_unit_2);
     $("#populate_street").val(populate_street);
     $("#populate_postal").val(populate_postal);
+    $("#populate_address_translate").val(populate_address_translate);
     $("#populate_oversea_addr_in_china").val(populate_oversea_addr_in_china);
   });
 
@@ -88,6 +74,7 @@ $(function() {
     var populate_unit_2 = $(".hover").closest("div.inner_opt_addr").find(".address-unit2-hidden").val();
     var populate_street = $(".hover").closest("div.inner_opt_addr").find(".address-street-hidden").val();
     var populate_postal = $(".hover").closest("div.inner_opt_addr").find(".address-postal-hidden").val();
+    var populate_address_translate = $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val();
     var populate_oversea_addr_in_china = $(".hover").closest("div.inner_opt_addr").find(".address-oversea-hidden").val();
 
     $("#populate_houseno").val(populate_houseno);
@@ -95,7 +82,7 @@ $(function() {
     $("#populate_unit_2").val(populate_unit_2);
     $("#populate_street").val(populate_street);
     $("#populate_postal").val(populate_postal);
-    $("#populate_unit_2").val(populate_unit_2);
+    $("#populate_address_translate").val(populate_address_translate);
     $("#populate_oversea_addr_in_china").val(populate_oversea_addr_in_china);
   });
 

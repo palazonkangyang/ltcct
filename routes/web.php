@@ -162,7 +162,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::group(['prefix' => 'report'], function () {
     Route::get('/income-report', ['as' => 'income-report-page', 'uses' => 'ReportController@getIncomeReport']);
 
-		Route::get('/report-detail', ['as' => 'report-detail-page', 'uses' => 'ReportController@getReportDetail']);
+		Route::post('/report-detail', ['as' => 'report-detail-page', 'uses' => 'ReportController@getReportDetail']);
 
   });
 
