@@ -219,6 +219,20 @@ $(function() {
         }
     });
 
+		$("#relocation-dialog-box").dialog({
+     autoOpen: false,
+     modal: true,
+     buttons : {
+          "No, Mistake" : function() {
+              $(this).dialog("close");
+          },
+          "Yes, Cancel" : function() {
+            window.location.reload(true);
+            $(this).dialog("close");
+          }
+        }
+    });
+
     $("#cancel_btn").on("click", function(e) {
       e.preventDefault();
       $("#dialog-box").dialog("open");
@@ -228,6 +242,11 @@ $(function() {
 		   e.preventDefault();
 		   $("#edit-dialog-box").dialog("open");
 		});
+
+		$("#cancel_relocation_btn").on("click", function(e) {
+      e.preventDefault();
+      $("#relocation-dialog-box").dialog("open");
+  	});
 
 		$(".hylink").click(function() {
 			localStorage.removeItem('activeTab');

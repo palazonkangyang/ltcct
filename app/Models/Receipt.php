@@ -18,6 +18,7 @@ class Receipt extends Model
         'cancelled_date',
         'status',
         'cancelled_by',
+        'glcode_id',
         'devotee_id',
         'generaldonation_id',
         'staff_id'

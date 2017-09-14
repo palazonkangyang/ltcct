@@ -184,9 +184,11 @@
 
    <div class="col-md-12">
 
-       <div class="form-group">
-         <input type="hidden" name="transaction_no" value="" id="hidden_transaction_no">
-       </div><!-- end form-group -->
+    <div class="form-group">
+     <input type="hidden" name="transaction_no" value="" id="hidden_transaction_no">
+    </div><!-- end form-group -->
+
+    @if(Auth::user()->role != 5)
 
      <div class="form-group">
        <div class="form-actions">
@@ -194,6 +196,17 @@
         <button type="submit" class="btn default" id="cancel-transaction">Cancel Transaction</button>
       </div><!-- end form-actions -->
      </div><!-- end form-group -->
+
+     @else
+
+     <div class="form-group">
+       <div class="form-actions">
+        <button type="button" class="btn blue" id="cancel-replace-btn" disabled>Cancel & Replace Transaction</button>
+        <button type="submit" class="btn default" id="cancel-transaction" disabled>Cancel Transaction</button>
+      </div><!-- end form-actions -->
+     </div><!-- end form-group -->
+
+     @endif
 
     </form>
 

@@ -133,7 +133,7 @@
 
                                                     			<div class="form-group">
 
-                                                    				<h4>Same address Devotee 同址善信</h4>
+                                                    				<h4>Same Family Code 同址善信</h4>
 
                                                                     <table class="table table-bordered" id="generaldonation_table">
                                                                         <thead>
@@ -204,16 +204,17 @@
 																													                    @endif
 																													                  </td>
 																													                  <td width="100px">
-																													                    <select class="form-control ciji-hjgr" name="hjgr_arr[]">
+																													                    <select class="form-control hjgr" name="hjgr_arr[]">
 																													                          <option value="hj">合家</option>
 																													                          <option value="gr">个人</option>
 																													                      </select>
 																													                  </td>
 																													                  <td width="80px">
-																													                    <select class="form-control display" name="display[]">
+																													                    <select class="form-control display" name="">
 																													                      <option value="N">N</option>
 																													                      <option value="Y">Y</option>
 																													                    </select>
+																																							<input type="hidden" name="display[]" class="display-hidden" value="">
 																													                  </td>
 																													                  <td></td>
 																													                  <td></td>
@@ -281,6 +282,7 @@
 																																									<option value="N">N</option>
 																																									<option value="Y">Y</option>
 	                                                                              </select>
+																																								<input type="hidden" name="display[]" class="display-hidden" value="">
                                                                             	</td>
                                                                             	<td></td>
                                                                             	<td></td>
@@ -382,15 +384,16 @@
                                                                             	</td>
                                                                             	<td>
                                                                             		<select class="form-control hjgr" name="other_hjgr_arr[]">
-	                                                                                    <option value="hj">合家</option>
-	                                                                                    <option value="gr">个人</option>
-	                                                                                </select>
+	                                                                                <option value="hj">合家</option>
+	                                                                                <option value="gr">个人</option>
+	                                                                              </select>
                                                                             	</td>
                                                                             	<td>
-                                                                            		<select class="form-control display" name="other_display[]">
+                                                                            		<select class="form-control display">
 																																									<option value="N">N</option>
 	                                                                                <option value="Y">Y</option>
 	                                                                              </select>
+																																								<input type="hidden" name="other_display[]" class="display-hidden" value="">
                                                                             	</td>
                                                                             	<td></td>
                                                                             	<td></td>
@@ -451,7 +454,7 @@
 		                                                                        <div class="col-md-12">
 		                                                                        	<div class="mt-radio-list">
 
-				                                                                        <div class="col-md-6">
+				                                                                        <div class="col-md-6 payment">
 				                                                                        	<label class="mt-radio mt-radio-outline"> Cash
 					                                                                            <input type="radio" name="mode_payment"
 					                                                                            	value="cash" checked>
@@ -464,7 +467,7 @@
 
 				                                                                        <div class="clearfix"></div>
 
-				                                                                        <div class="col-md-6">
+				                                                                        <div class="col-md-6 payment">
 				                                                                        	<label class="mt-radio mt-radio-outline"> Cheque
 					                                                                            <input type="radio" name="mode_payment"
 					                                                                            	value="cheque" class="form-control">
@@ -479,7 +482,7 @@
 
 				                                                                        <div class="clearfix"></div>
 
-				                                                                        <div class="col-md-6">
+				                                                                        <div class="col-md-6 payment">
 				                                                                        	<label class="mt-radio mt-radio-outline"> NETS
 					                                                                            <input type="radio" name="mode_payment"
 					                                                                            	value="nets">
@@ -494,7 +497,7 @@
 
 				                                                                        <div class="clearfix"></div>
 
-				                                                                        <div class="col-md-6">
+				                                                                        <div class="col-md-6 payment">
 				                                                                        	<label class="mt-radio mt-radio-outline"> Manual Receipt
 					                                                                            <input type="radio" name="mode_payment"
 					                                                                            	value="receipt">
@@ -510,7 +513,7 @@
 
 				                                                                        <div class="clearfix"></div>
 
-				                                                                        <div class="col-md-6">
+				                                                                        <div class="col-md-6 payment">
 				                                                                        	<label class="mt-radio mt-radio-outline">
 				                                                                        		Date of Receipts
 					                                                                        </label>
@@ -761,11 +764,32 @@
 	<script type="text/javascript">
 		$(function() {
 
-			// $(".total").text(0);
-			window.onhashchange = function() {
-			 alert('back now');
-			}
+			// var cancel = localStorage.getItem('cancel');
+			// console.log(cancel);
+			//
+			// if(cancel == 1)
+			// {
+			// 	$(".amount").each(function() {
+			//
+			// 		var minimum_amount = parseInt($("#minimum_amount").val());
+			// 		var amount = parseInt($(this).val());
+			//
+			// 		if(amount > minimum_amount)
+			// 		{
+			// 			$(this).closest('tr').find(".display").val('Y');
+			// 			$(this).closest('tr').find(".display-hidden").val('Y');
+			// 		}
+			// 		else
+			// 		{
+			// 			$(this).closest('tr').find(".display").val('N');
+			// 			$(this).closest('tr').find(".display-hidden").val('N');
+			// 		}
+			// 	});
+			//
+			// 	localStorage.removeItem('cancel');
+			// }
 
+			$(".display").attr('disabled', true);
 
 			// Disabled Edit Tab
 			$(".nav-tabs > li").click(function(){
@@ -907,17 +931,15 @@
 					if(amount > minimum_amount)
 					{
 						$(this).closest('tr').find(".display").val('Y');
+						$(this).closest('tr').find(".display-hidden").val('Y');
 					}
 					else
 					{
 						$(this).closest('tr').find(".display").val('N');
+						$(this).closest('tr').find(".display-hidden").val('N');
 					}
 				});
 			});
-
-			window.onbeforeunload = function() {
-
-			}
 
  		});
 	</script>

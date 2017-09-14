@@ -31,6 +31,7 @@
             $focus_devotee = Session::get('focus_devotee');
             $setting_generaldonation = Session::get('setting_generaldonation');
             $xianyou_focusdevotee = Session::get('xianyou_focusdevotee');
+            $nosetting_samefamily = Session::get('nosetting_samefamily');
         @endphp
 
         <tbody id="has_session">
@@ -267,7 +268,7 @@
     </div><!-- end form-group -->
 
     <div class="form-actions">
-        <button type="submit" class="btn blue" id="update_sameaddr_btn">Update</button>
+        <button type="submit" class="btn blue" id="update_sameaddr_btn">Confirm</button>
         <button type="reset" class="btn default" id="cancel_samefamily_btn">Cancel</button>
     </div><!-- end form-actions -->
 

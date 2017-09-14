@@ -121,7 +121,7 @@
 
 		<div id="bottom-area">
 
-			<h3>Same address Devotee 同址善信</h3>
+			<h3>Same Family Code 同址善信</h3>
 
 			<table class="receipt-table">
 				<thead>

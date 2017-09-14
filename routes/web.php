@@ -67,6 +67,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/search/address_postal', ['as' => 'search-address-postal-page', 'uses' => 'OperatorController@getAddressPostal']);
 		Route::get('/search/address_translate', ['as' => 'search-address-page', 'uses' => 'OperatorController@getTranslateAddress']);
 		Route::get('/address-translate', ['as' => 'address-translate-page', 'uses' => 'OperatorController@getAddressTranslate']);
+		Route::get('/search-dialect', ['as' => 'search-dialect-page', 'uses' => 'OperatorController@getSearchDialect']);
+		Route::get('/search-race', ['as' => 'search-race-page', 'uses' => 'OperatorController@getSearchRace']);
 		Route::get('/devotee/edit/{devotee_id}', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@getEditDevotee']);
 		Route::match(["post", "get"], '/devotee/new-search', ['as' => 'get-json-focus-devotee-page', 'uses' => 'OperatorController@getRemoveFocusDevotee']);
 		Route::post('/devotee/search-familycode', ['as' => 'search-familycode-page', 'uses' => 'OperatorController@getSearchFamilyCode']);

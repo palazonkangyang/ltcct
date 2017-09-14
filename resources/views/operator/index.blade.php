@@ -877,7 +877,7 @@
 																																		<h5>Local Address</h5>
 
 																																		<div class="form-group">
-																																			<label class="col-md-4">House No</label>
+																																			<label class="col-md-4 local-address">House No</label>
 																																			<div style='width:19.66667%;float:left; padding-left: 15px;'>
 																																					<input type="text" class="form-control" name="populate_houseno"
 																																							value="{{ old('populate_houseno') }}" id="populate_houseno" readonly>
@@ -899,7 +899,7 @@
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-4">Street</label>
+																																			<label class="col-md-4 local-address">Street</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_street"
 																																							value="{{ old('populate_street') }}" id="populate_street" readonly>
@@ -907,7 +907,7 @@
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-4">Postal</label>
+																																			<label class="col-md-4 local-address">Postal</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_postal"
 																																							value="{{ old('populate_postal') }}" id="populate_postal">
@@ -915,7 +915,7 @@
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-4">Address Translate</label>
+																																			<label class="col-md-4 local-address">Address Translate</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_address_translate" readonly
 																																							value="{{ old('populate_address_translate') }}" id="populate_address_translate">
@@ -923,7 +923,7 @@
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-4">Oversea Addr in Chinese</label>
+																																			<label class="col-md-4 local-address">Oversea Addr in Chinese</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_oversea_addr_in_china"
 																																							value="{{ old('populate_oversea_addr_in_china') }}" id="populate_oversea_addr_in_china">
@@ -1430,8 +1430,13 @@
                                                                         <div class="form-actions pull-right">
                                                                             <button type="submit" class="btn blue" id="confirm_relocation_btn" disabled>Confirm
                                                                             </button>
-                                                                            <button type="button" class="btn default">Cancel</button>
+                                                                            <button type="button" class="btn default" id="cancel_relocation_btn">Cancel</button>
                                                                         </div><!-- end form-actions -->
+
+																																				<div id="relocation-dialog-box" title="System Alert">
+																																					  You have NOT Saved this Address.
+																																						Do you want to Cancel this record?
+																																				</div>
 
                                                                     </div><!-- end col-md-6 -->
 
@@ -1451,10 +1456,10 @@
 
 																												      <div class="form-group" style="overflow-x: scroll">
 
-																												        @if(Session::has('focus_devotee'))
+																												        @if(Session::has('searchfocus_devotee'))
 
 																												            @php
-																												                $focus_devotee = Session::get('focus_devotee');
+																												                $focus_devotee = Session::get('searchfocus_devotee');
 																												            @endphp
 
 																												          <table class="table table-bordered" id="search_table">
@@ -1605,6 +1610,7 @@
     <script src="{{asset('js/custom/check-familycode.js')}}"></script>
     <script src="{{asset('js/custom/edit-check-familycode.js')}}"></script>
 		<script src="{{asset('js/custom/relocation-check-familycode.js')}}"></script>
+		<script src="{{asset('js/custom/validation-fields.js')}}"></script>
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
@@ -1742,12 +1748,13 @@
 						}
 					});
 
-
-
 					// DataTable
 					var table = $('#devotees_table').DataTable({
 						"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-						"order": [[ 1, "desc" ]]
+						"order": [[ 1, "desc" ]],
+						dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
+		         "<'row'<'col-sm-12'tr>>" +
+		         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 					});
 
           $('#devotees_table thead tr#filter th').each( function () {
@@ -1774,7 +1781,10 @@
           // DataTable
           var member_table = $('#members_table').DataTable({
               "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-							"order": [[ 1, "desc" ]]
+							"order": [[ 2, "desc" ]],
+							dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
+			         "<'row'<'col-sm-12'tr>>" +
+			         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
           });
 
 					$('#members_table thead tr#filter th').each( function () {
@@ -1801,7 +1811,10 @@
 					// DataTable
           var deceased_table = $('#deceased_table').DataTable({
               "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-							"order": [[ 1, "desc" ]]
+							"order": [[ 1, "desc" ]],
+							dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
+			         "<'row'<'col-sm-12'tr>>" +
+			         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
           });
 
 					$('#deceased_table thead tr#filter th').each( function () {
@@ -1964,41 +1977,6 @@
 							var content_introduced_by2 = $("#content_introduced_by2").val();
 							var content_approved_date = $("#content_approved_date").val();
 
-							// if($.trim(address_street).length > 0)
-							// {
-							// 	var formData = {
-						  //     _token: $('meta[name="csrf-token"]').attr('content'),
-						  //     address_street: address_street,
-						  //   };
-							//
-						  //   $.ajax({
-						  //     type: 'GET',
-						  //     url: "/operator/address-translate",
-						  //     data: formData,
-						  //     dataType: 'json',
-						  //     success: function(response)
-						  //     {
-						  //       if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
-						  //       {
-						  //         var full_address = address_houseno + ", " + response.address_translate[0]['chinese'] + ", " + address_postal;
-							//
-						  //         $("#address_translated").val(full_address);
-						  //       }
-						  //       else
-						  //       {
-						  //         var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address_translate[0]['chinese'] +  ", " +
-						  //                             address_postal;
-							//
-						  //         $("#address_translated").val(full_address);
-						  //       }
-						  //     },
-							//
-						  //     error: function (response) {
-						  //       console.log(response);
-						  //     }
-						  //  });
-							// }
-
 							if ($.trim(chinese_name).length <= 0)
 							{
 									validationFailed = true;
@@ -2036,9 +2014,15 @@
 							{
 								if ($.trim(content_other_dialect).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Other Dialect field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Other Dialect field is empty."
 								}
+							}
+
+							if($("#content_other_dialect").parent().hasClass("has-error"))
+							{
+								validationFailed = true;
+								errors[count++] = "Other Dialect is already exits.";
 							}
 
 							if(content_race == "other_race")
@@ -2048,6 +2032,12 @@
 										validationFailed = true;
 										errors[count++] = "Mandatory Other Race field is empty."
 								}
+							}
+
+							if($("#content_other_race").parent().hasClass("has-error"))
+							{
+								validationFailed = true;
+								errors[count++] = "Other Race is already exits.";
 							}
 
 							if($.trim(content_approved_date).length > 0)
@@ -2200,7 +2190,12 @@
 								var edit_other_dialect = $("#edit_other_dialect").val();
 								var edit_race = $("#edit_race").val();
 								var edit_other_race = $("#edit_other_race").val();
+								var nationality = $("#edit_nationality").val();
                 var authorized_password = $("#authorized_password").val();
+
+								var edit_introduced_by1 = $("#edit_introduced_by1").val();
+								var edit_introduced_by2 = $("#edit_introduced_by2").val();
+								var edit_approved_date = $("#edit_approved_date").val();
 
 								if($.trim(address_street).length > 0)
 								{
@@ -2279,6 +2274,12 @@
 									}
 								}
 
+								if($("#edit_other_dialect").parent().hasClass("has-error"))
+								{
+								  validationFailed = true;
+								  errors[count++] = "Other Dialect is already exits.";
+								}
+
 								if(edit_race == "other_race")
 								{
 									if ($.trim(edit_other_race).length <= 0)
@@ -2286,6 +2287,51 @@
 											validationFailed = true;
 											errors[count++] = "Mandatory Other Race field is empty."
 									}
+								}
+
+								if($("#edit_other_race").parent().hasClass("has-error"))
+								{
+								  validationFailed = true;
+								  errors[count++] = "Other Race is already exits.";
+								}
+
+								if($.trim(edit_approved_date).length > 0)
+								{
+								  if ($.trim(nric).length <= 0)
+								  {
+								      validationFailed = true;
+								      errors[count++] = "Mandatory NRIC field is empty."
+								  }
+
+								  if ($.trim(dob).length <= 0)
+								  {
+								      validationFailed = true;
+								      errors[count++] = "Mandatory Date of Birth field is empty."
+								  }
+
+								  if ($.trim(marital_status).length <= 0)
+								  {
+								      validationFailed = true;
+								      errors[count++] = "Mandatory Marital Status field is empty."
+								  }
+
+								  if ($.trim(nationality).length <= 0)
+								  {
+								      validationFailed = true;
+								      errors[count++] = "Mandatory Nationality field is empty."
+								  }
+
+								  if ($.trim(edit_introduced_by1).length <= 0)
+								  {
+								      validationFailed = true;
+								      errors[count++] = "Mandatory Introduced By 1 field is empty."
+								  }
+
+									  if ($.trim(edit_introduced_by2).length <= 0)
+									  {
+									      validationFailed = true;
+									      errors[count++] = "Mandatory Introduced By 2 field is empty."
+									  }
 								}
 
                 if ($.trim(authorized_password).length <= 0)

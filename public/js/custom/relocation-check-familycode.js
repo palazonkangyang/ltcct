@@ -29,7 +29,7 @@ $(function() {
 
       if($.trim(oversea_addr_in_chinese).length <= 0)
       {
-        if ($.trim(address_houseno).length <= 0 || $.trim(address_unit1).length <= 0 || $.trim(address_unit2).length <= 0 || $.trim(address_street).length <= 0 || $.trim(address_postal).length <= 0)
+        if ($.trim(address_postal).length <= 0)
         {
             validationFailed = true;
             errors[count++] = "Check Family Code.. Local Address or Oversea Address in Chinese should not be empty."

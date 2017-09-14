@@ -1200,7 +1200,7 @@
 								<h5>Local Address</h5>
 
 								<div class="form-group">
-									<label class="col-md-4">House No</label>
+									<label class="col-md-4 local-address">House No</label>
 									<div style='width:16.66667%;float:left; padding-left: 15px;'>
 											<input type="text" class="form-control" name="populate_houseno"
 													value="{{ old('populate_houseno') }}" id="edit_populate_houseno" readonly>
@@ -1222,7 +1222,7 @@
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-4">Street</label>
+									<label class="col-md-4 local-address">Street</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_street"
 													value="{{ old('populate_address_street') }}" id="edit_populate_street" readonly>
@@ -1230,7 +1230,7 @@
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-4">Postal</label>
+									<label class="col-md-4 local-address">Postal</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_postal"
 													value="{{ old('populate_postal') }}" id="edit_populate_postal">
@@ -1238,7 +1238,7 @@
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-4">Address Translate</label>
+									<label class="col-md-4 local-address">Address Translate</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_address_translate" readonly
 													value="{{ old('populate_address_translate') }}" id="edit_populate_address_translate">
@@ -1246,7 +1246,7 @@
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-4">Oversea Addr in Chinese</label>
+									<label class="col-md-4 local-address">Oversea Addr in Chinese</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_oversea_addr_in_china"
 													value="{{ old('populate_oversea_addr_in_china') }}" id="edit_populate_oversea_addr_in_china">
@@ -1287,7 +1287,7 @@
 								@else
 
 								<div class="form-group">
-                    <label class="col-md-3 control-label">Introduced By-1</label>
+                    <label class="col-md-3">Introduced By-1</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" name="introduced_by1" value="{{ $focus_devotee[0]->introduced_by1 }}"
 													id="edit_introduced_by1">
@@ -1295,14 +1295,14 @@
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Introduced By-2</label>
+                    <label class="col-md-3">Introduced By-2</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" name="introduced_by2" value="{{ $focus_devotee[0]->introduced_by2 }}" id="edit_introduced_by2">
                     </div><!-- end col-md-9 -->
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Member Approved Date</label>
+                    <label class="col-md-3">Member Approved Date</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
                             id="edit_approved_date" data-date-format="dd/mm/yyyy" value="{{ $focus_devotee[0]->approved_date }}">
@@ -1314,21 +1314,21 @@
 						@else
 
 							<div class="form-group">
-									<label class="col-md-3 control-label">Introduced By-1</label>
+									<label class="col-md-3">Introduced By-1</label>
 									<div class="col-md-9">
 											<input type="text" class="form-control" name="introduced_by1" value="{{ old('introduced_by1') }}" id="edit_introduced_by1">
 									</div><!-- end col-md-9 -->
 							</div><!-- end form-group -->
 
 							<div class="form-group">
-									<label class="col-md-3 control-label">Introduced By-2</label>
+									<label class="col-md-3">Introduced By-2</label>
 									<div class="col-md-9">
 											<input type="text" class="form-control" name="introduced_by2" value="{{ old('introduced_by2') }}" id="edit_introduced_by2">
 									</div><!-- end col-md-9 -->
 							</div><!-- end form-group -->
 
 							<div class="form-group">
-									<label class="col-md-3 control-label">Member Approved Date</label>
+									<label class="col-md-3">Member Approved Date</label>
 									<div class="col-md-9">
 											<input type="text" class="form-control form-control-inline date-picker" name="approved_date" data-provide="datepicker"
 													id="edit_approved_date" data-date-format="dd/mm/yyyy" value="{{ old('approved_date') }}">
@@ -1340,7 +1340,7 @@
 						@if(isset($focus_devotee[0]->approved_date))
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Member Cancelled Date</label>
+                    <label class="col-md-3">Member Cancelled Date</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control form-control-inline date-picker" name="cancelled_date" data-provide="datepicker"
                             id="edit_cancelled_date" data-date-format="dd/mm/yyyy" value="{{ old('cancelled_date') }}">
@@ -1348,7 +1348,7 @@
                 </div><!-- end form-group -->
 
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Reason for Cancel</label>
+                    <label class="col-md-3">Reason for Cancel</label>
                     <div class="col-md-9">
                         <select class="form-control" name="reason_for_cancel" id="edit_reason_for_cancel">
                             <option value="">Please select</option>
@@ -1365,16 +1365,16 @@
 								@endif
 
                	<div class="form-group">
-                    <label class="col-md-3"></label>
-                    <label class="col-md-5 control-label">Authorized Password</label>
-                    <div class="col-md-4">
-                        <input type="password" class="form-control" name="authorized_password" id="authorized_password">
-                    </div><!-- end col-md-4 -->
+                  <label class="col-md-3"></label>
+                  <label class="col-md-5 control-label">Authorized Password</label>
+                  <div class="col-md-4">
+                    <input type="password" class="form-control" name="authorized_password" id="authorized_password">
+                  </div><!-- end col-md-4 -->
                 </div><!-- end form-group -->
 
                 <div class="form-actions pull-right">
-                    <button type="submit" class="btn blue" id="update_btn">Update</button>
-                    <button type="button" class="btn default" id="edit_cancel_btn">Cancel</button>
+                	<button type="submit" class="btn blue" id="update_btn">Confirm</button>
+                  <button type="button" class="btn default" id="edit_cancel_btn">Cancel</button>
                 </div><!-- end form-actions -->
             </div><!-- end col-md-6 -->
 

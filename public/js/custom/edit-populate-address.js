@@ -57,15 +57,29 @@ $(function() {
         $("#edit_populate_houseno").val(array[0]);
 
         var strVale = array[1];
-        arr = strVale.split('-');
+        var char = "-";
 
-        $("#edit_populate_unit_1").val($.trim(arr[0]));
-        $("#edit_populate_unit_2").val(arr[1]);
+        if(strVale.indexOf(char) != -1){
+          arr = strVale.split('-');
 
-        $("#edit_populate_street").val(array[2]);
-        $("#edit_populate_postal").val(array[3]);
-        $("#edit_populate_address_translate").val(edit_populate_address_translate);
-        $("#edit_populate_oversea_addr_in_china").val('');
+          $("#edit_populate_unit_1").val($.trim(arr[0]));
+          $("#edit_populate_unit_2").val(arr[1]);
+
+          $("#edit_populate_street").val(array[2]);
+          $("#edit_populate_postal").val(array[3]);
+          $("#edit_populate_address_translate").val(edit_populate_address_translate);
+          $("#edit_populate_oversea_addr_in_china").val('');
+        }
+
+        else
+        {
+          $("#edit_populate_unit_1").val('');
+          $("#edit_populate_unit_2").val('');
+          $("#edit_populate_street").val(array[1]);
+          $("#edit_populate_postal").val(array[2]);
+          $("#edit_populate_address_translate").val(edit_populate_address_translate);
+          $("#edit_populate_oversea_addr_in_china").val('');
+        }
       });
     }
 

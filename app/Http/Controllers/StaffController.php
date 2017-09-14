@@ -65,6 +65,7 @@ class StaffController extends Controller
 
 				if($member)
 				{
+
 					if(isset($member->paytill_date))
 					{
 						$myArray = explode('-', $member->paytill_date);
@@ -76,15 +77,9 @@ class StaffController extends Controller
 					}
 
 					else {
-
 						$member->paytill_date = Carbon::now();
 						$member->save();
 					}
-				}
-
-				else
-				{
-					// dd('non-member');
 				}
 			}
 		}
@@ -105,18 +100,6 @@ class StaffController extends Controller
 	  $trans_id += 1;
 	  $trans_id = $prefix . $trans_id;
 
-		$devotee = Devotee::find($input['focusdevotee_id']);
-
-		if(isset($devotee->member_id))
-		{
-		  $glcode = 142;
-		}
-
-		else
-		{
-		  $glcode = 143;
-		}
-
 		if(empty($input['festiveevent_id']))
 		{
 			$input['festiveevent_id'] = 0;
@@ -134,8 +117,7 @@ class StaffController extends Controller
 	    "manualreceipt" => $input['manualreceipt'],
 	    "trans_at" => Carbon::now(),
 	    "focusdevotee_id" => $input['focusdevotee_id'],
-	    "festiveevent_id" => $input['festiveevent_id'],
-	    "glcode_id" => $glcode
+	    "festiveevent_id" => $input['festiveevent_id']
 	  ];
 
 		$general_donation = GeneralDonation::create($data);
@@ -166,11 +148,12 @@ class StaffController extends Controller
 					if($input['amount'][$i] == 0)
 					{
 						$input['amount'][$i] = 10;
+						$glcode_id = 108;
 					}
 
 					else {
-
 						$input['amount'][$i] = $input['amount'][$i] * $membership->membership_fee;
+						$glcode_id = 110;
 					}
 
 					$receipt = [
@@ -180,6 +163,7 @@ class StaffController extends Controller
 						"amount" => $input['amount'][$i],
 						"hjgr" => null,
 						"display" => null,
+						"glcode_id" => $glcode_id,
 						"devotee_id" => $input['devotee_id'][$i],
 						"generaldonation_id" => $general_donation->generaldonation_id,
 						"staff_id" => Auth::user()->id
@@ -205,11 +189,25 @@ class StaffController extends Controller
                            ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
                            ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
                            ->where('devotee.familycode_id', $focus_devotee->familycode_id)
+													 ->where('devotee.devotee_id', '!=', $focus_devotee->devotee_id)
                            ->where('setting_generaldonation.address_code', '=', 'same')
                            ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+													 ->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee->devotee_id)
                            ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 													 ->GroupBy('devotee.devotee_id')
                            ->get();
+
+		$xianyou_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+			 											     ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+			 											     ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+			 											     ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+			 											     ->where('setting_generaldonation.address_code', '=', 'same')
+			 											     ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+			 													 ->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee->devotee_id)
+			 													 ->where('setting_generaldonation.devotee_id', '=', $focus_devotee->devotee_id)
+			 											     ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+			 													 ->GroupBy('devotee.devotee_id')
+			 											     ->get();
 
 		$xianyou_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 											          ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
@@ -250,7 +248,7 @@ class StaffController extends Controller
 		$yuejuan_receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
 												->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
 												->where('generaldonation.focusdevotee_id', $input['focusdevotee_id'])
-												->where('generaldonation.glcode_id', array(142, 143))
+												->whereIn('receipt.glcode_id', array(108, 110))
 												->GroupBy('generaldonation.generaldonation_id')
 												->select('generaldonation.*', 'devotee.chinese_name')
 												->orderBy('generaldonation.generaldonation_id', 'desc')
@@ -327,6 +325,7 @@ class StaffController extends Controller
 
 		Session::put('yuejuan_receipts', $yuejuan_receipts);
 		Session::put('xianyou_same_family', $xianyou_same_family);
+		Session::put('xianyou_same_focusdevotee', $xianyou_same_focusdevotee);
 		Session::put('xianyou_different_family', $xianyou_different_family);
 		Session::put('yuejuan_same_family', $yuejuan_same_family);
 		Session::put('yuejuan_different_family', $yuejuan_different_family);
@@ -343,7 +342,7 @@ class StaffController extends Controller
 		           ->leftjoin('festiveevent', 'generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
 		           ->where('generaldonation.generaldonation_id', '=', $generaldonation_id)
 		           ->select('receipt.*', 'member.paytill_date', 'member.member_id', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
-		            'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
+		            'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id', 'devotee.deceased_year',
 		            'generaldonation.focusdevotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name',
 		            'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
 		           ->get();
@@ -429,18 +428,6 @@ class StaffController extends Controller
 	  $trans_id += 1;
 	  $trans_id = $prefix . $trans_id;
 
-		$devotee = Devotee::find($input['focusdevotee_id']);
-
-		if(isset($devotee->member_id))
-	  {
-	    $glcode = 140;
-	  }
-
-	  else
-	  {
-	    $glcode = 141;
-	  }
-
 		if(empty($input['festiveevent_id']))
 		{
 			$input['festiveevent_id'] = 0;
@@ -458,8 +445,7 @@ class StaffController extends Controller
 	    "manualreceipt" => $input['manualreceipt'],
 	    "trans_at" => Carbon::now(),
 	    "focusdevotee_id" => $input['focusdevotee_id'],
-	    "festiveevent_id" => $input['festiveevent_id'],
-	    "glcode_id" => $glcode
+	    "festiveevent_id" => $input['festiveevent_id']
 	  ];
 
 		$general_donation = GeneralDonation::create($data);
@@ -492,6 +478,7 @@ class StaffController extends Controller
 						"amount" => $input['amount'][$i],
 						"hjgr" => $input['hjgr_arr'][$i],
 						"display" => $input['display'][$i],
+						"glcode_id" => 134,
 						"devotee_id" => $input['devotee_id'][$i],
 						"generaldonation_id" => $general_donation->generaldonation_id,
 						"staff_id" => Auth::user()->id
@@ -529,6 +516,7 @@ class StaffController extends Controller
 							"amount" => $input['other_amount'][$i],
 							"hjgr" => $input['other_hjgr_arr'][$i],
 							"display" => $input['other_display'][$i],
+							"glcode_id" => 134,
 							"devotee_id" => $input['other_devotee_id'][$i],
 							"generaldonation_id" => $general_donation->generaldonation_id,
 							"staff_id" => Auth::user()->id
@@ -545,7 +533,7 @@ class StaffController extends Controller
 		$ciji_receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
 										 ->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
 										 ->where('generaldonation.focusdevotee_id', $input['focusdevotee_id'])
-										 ->where('generaldonation.glcode_id', array(140, 141))
+										 ->where('receipt.glcode_id', 134)
 										 ->GroupBy('generaldonation.generaldonation_id')
 										 ->select('generaldonation.*', 'devotee.chinese_name')
 										 ->orderBy('generaldonation.generaldonation_id', 'desc')
@@ -572,7 +560,7 @@ class StaffController extends Controller
 		           ->leftjoin('festiveevent', 'generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
 		           ->where('generaldonation.generaldonation_id', '=', $generaldonation_id)
 		           ->select('receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
-		            'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
+		            'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id', 'devotee.deceased_year',
 		            'generaldonation.focusdevotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name',
 		            'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
 		           ->get();
@@ -649,18 +637,6 @@ class StaffController extends Controller
 	  $trans_id += 1;
 	  $trans_id = $prefix . $trans_id;
 
-		$devotee = Devotee::find($input['focusdevotee_id']);
-
-		if(isset($devotee->member_id))
-	  {
-	    $glcode = 119;
-	  }
-
-	  else
-	  {
-	    $glcode = 112;
-	  }
-
 		if(empty($input['festiveevent_id']))
 		{
 			$input['festiveevent_id'] = 0;
@@ -678,8 +654,7 @@ class StaffController extends Controller
 	    "manualreceipt" => $input['manualreceipt'],
 	    "trans_at" => Carbon::now(),
 	    "focusdevotee_id" => $input['focusdevotee_id'],
-	    "festiveevent_id" => $input['festiveevent_id'],
-	    "glcode_id" => $glcode
+	    "festiveevent_id" => $input['festiveevent_id']
 	  ];
 
 		$general_donation = GeneralDonation::create($data);
@@ -705,6 +680,18 @@ class StaffController extends Controller
 					$same_xy_receipt += 1;
 					$same_xy_receipt = $prefix . $same_xy_receipt;
 
+					$devotee = Devotee::find($input['devotee_id']);
+
+					if(isset($devotee->member_id))
+				  {
+				    $glcode = 119;
+				  }
+
+				  else
+				  {
+				    $glcode = 112;
+				  }
+
 					$receipt = [
 						"xy_receipt" => $same_xy_receipt,
 						"trans_date" => Carbon::now(),
@@ -712,6 +699,7 @@ class StaffController extends Controller
 						"amount" => $input['amount'][$i],
 						"hjgr" => $input['hjgr_arr'][$i],
 						"display" => $input['display'][$i],
+						"glcode_id" => $glcode,
 						"devotee_id" => $input['devotee_id'][$i],
 						"generaldonation_id" => $general_donation->generaldonation_id,
 						"staff_id" => Auth::user()->id
@@ -742,6 +730,18 @@ class StaffController extends Controller
 						$same_xy_receipt += 1;
 						$same_xy_receipt = $prefix . $same_xy_receipt;
 
+						$devotee = Devotee::find($input['devotee_id']);
+
+						if(isset($devotee->member_id))
+					  {
+					    $glcode = 119;
+					  }
+
+					  else
+					  {
+					    $glcode = 112;
+					  }
+
 						$receipt = [
 							"xy_receipt" => $same_xy_receipt,
 							"trans_date" => Carbon::now(),
@@ -749,6 +749,7 @@ class StaffController extends Controller
 							"amount" => $input['other_amount'][$i],
 							"hjgr" => $input['other_hjgr_arr'][$i],
 							"display" => $input['other_display'][$i],
+							"glcode_id" => $glcode,
 							"devotee_id" => $input['other_devotee_id'][$i],
 							"generaldonation_id" => $general_donation->generaldonation_id,
 							"staff_id" => Auth::user()->id
@@ -770,7 +771,7 @@ class StaffController extends Controller
 								->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
 								->where('generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
 								->GroupBy('generaldonation.generaldonation_id')
-								->whereIn('generaldonation.glcode_id', array(119, 112))
+								->whereIn('receipt.glcode_id', array(119, 112))
 								->select('generaldonation.*', 'devotee.chinese_name')
 								->orderBy('generaldonation.generaldonation_id', 'desc')
 								->get();
@@ -798,7 +799,7 @@ class StaffController extends Controller
 							 ->leftjoin('festiveevent', 'generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
 							 ->where('generaldonation.generaldonation_id', '=', $generaldonation_id)
 							 ->select('receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
-							 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
+							 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id', 'devotee.deceased_year',
 							 	'generaldonation.focusdevotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name',
 							 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
 							 ->get();
@@ -882,6 +883,7 @@ class StaffController extends Controller
 		Session::forget('xianyou_same_family');
 		Session::forget('xianyou_same_focusdevotee');
 		Session::forget('setting_samefamily');
+		Session::forget('nosetting_samefamily');
 		Session::forget('xianyou_focusdevotee');
 		Session::forget('yuejuan_same_family');
 
@@ -1569,10 +1571,30 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		// $input['trans_no'] = 'T507';
+		$trans = GeneralDonation::where('trans_no', $input['trans_no'])->first();
 
 		$generaldonation = new GeneralDonation;
-		$result = $generaldonation->searchTransaction($input)->get();
+
+		if($trans->description == "General Donation - 月捐")
+		{
+			$result = $generaldonation->yuejuansearchTransaction($input)->get();
+
+			for($i = 0; $i < count($result); $i++)
+			{
+			  if(isset($result[$i]->paytill_date))
+			  {
+			    $result[$i]->paid_for = number_format($result[$i]->amount, 2) . ' - ' . Carbon::parse($result[$i]->paytill_date)->format("Y-m");
+			  }
+			}
+		}
+
+		else
+		{
+			$result = $generaldonation->searchTransaction($input)->get();
+		}
+
+
+
 
 		$cancellation = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
 										->leftjoin('user', 'receipt.cancelled_by', '=', 'user.id')
@@ -1589,6 +1611,13 @@ class StaffController extends Controller
 		// Check Transaction devotee and focus devotee is the same
 		$focusdevotee = Session::get('focus_devotee');
 
+		if(count($focusdevotee) == 0)
+		{
+			return response()->json(array(
+	      'msg' => 'Please select Focus Devotee.'
+	    ));
+		}
+
 		if(count($result) == 0)
 		{
 			return response()->json(array(
@@ -1599,7 +1628,7 @@ class StaffController extends Controller
 		if($focusdevotee[0]->devotee_id != $result[0]->focusdevotee_id)
 		{
 			return response()->json(array(
-	      'msg' => 'Search same devotee Id'
+	      'msg' => 'Search same devotee ID'
 	    ));
 		}
 

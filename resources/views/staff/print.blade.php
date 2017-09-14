@@ -178,7 +178,11 @@
 
 		          <tr>
 		            <td>{{ $rowno }}</td>
-		            <td>{{ $receipts[$i]->chinese_name }}</td>
+		            @if(isset($receipts[$i]->deceased_year))
+								<td>{{ $receipts[$i]->chinese_name }} (已故)</td>
+								@else
+								<td>{{ $receipts[$i]->chinese_name }}</td>
+								@endif
 		            <td>{{ $receipts[$i]->devotee_id }}</td>
 		            <td>
 		              @if($receipts[$i]->hjgr == 'hj')
@@ -590,7 +594,11 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td>{{ $receipt->chinese_name }}</td>
+							@if(isset($receipt->deceased_year))
+							<td>{{ $receipt->chinese_name }} (已故)</td>
+							@else
+							<td>{{ $receipt->chinese_name }}</td>
+							@endif
               <td>{{ $receipt->devotee_id }}</td>
               <td>
                 @if($receipt->hjgr == 'hj')

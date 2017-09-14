@@ -252,7 +252,7 @@
     </div><!-- end form-group -->
 
     <div class="form-actions">
-        <button type="submit" class="btn blue" id="update_differentaddr_btn">Update</button>
+        <button type="submit" class="btn blue" id="update_differentaddr_btn">Confirm</button>
         <button type="button" class="btn default" id="cancel_differentaddr_btn">Cancel</button>
     </div><!-- end form-actions -->
 

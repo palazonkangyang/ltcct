@@ -1,7 +1,23 @@
 
 $(function() {
 
+  var des = $("#description").text();
+
+  if(des == "月捐")
+  {
+    $("#amount").removeClass('text-danger');
+    $("#cancel-replace-btn").attr('disabled', false);
+    $("#cancel-transaction").attr('disabled', false);
+    $("#authorized_password").attr('disabled', false);
+    $("#transaction-text").text('');
+    $(".mt-radio").attr('disabled', false);
+    $("#reprint-btn").attr('disabled', false);
+    $("#refund").text('');
+  }
+
   $("#receipt_history_table").on('click', '.receipt-id', function() {
+
+    $(".alert-success").remove();
 
     var trans_no = $(this).attr("id");
 
@@ -199,7 +215,12 @@ $(function() {
         if(response.msg != null)
         {
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
-          alert(response.msg);
+          // alert(response.msg);
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(response.msg);
         }
 
         if(response.transaction.length != 0)
@@ -229,6 +250,18 @@ $(function() {
             description = "月捐";
           }
 
+          if(response.transaction[0].description == "General Donation - 月捐")
+          {
+            $("#col-header").text("Paid For");
+            $("#col-member").show();
+          }
+
+          else
+          {
+            $("#col-header").text("HJ/ GR");
+            $("#col-member").hide();
+          }
+
           $("#description").text(description);
           $('#receipt_date').text(response.transaction[0].trans_date);
           $("#paid_by").text(response.focusdevotee + " (D - " + response.transaction[0].focusdevotee_id + ")");
@@ -248,13 +281,28 @@ $(function() {
               var full_address = data.address_houseno + ", " + data.address_street + ", " + data.address_postal;
             }
 
-            $('#transaction-table tbody').append("<tr><td>" + rowno + "</td>" +
-            "<td>" + data.chinese_name + "</td>" +
-            "<td>" + data.devotee_id + "</td>" +
-            "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
-            "<td>" + (data.hjgr == 'hj' ? '合家' : '个人') + "</td>" +
-            "<td>" + data.xy_receipt + "</td>" +
-            "<td>" + data.amount + "</td>");
+            if(response.transaction[0].description == "General Donation - 月捐")
+            {
+              $('#transaction-table tbody').append("<tr><td>" + rowno + "</td>" +
+              "<td>" + data.chinese_name + "</td>" +
+              "<td>" + data.devotee_id + "</td>" +
+              "<td>" + data.member_id + "</td>" +
+              "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
+              "<td>" + data.paid_for + "</td>" +
+              "<td>" + data.xy_receipt + "</td>" +
+              "<td>" + data.amount + "</td>");
+            }
+
+            else
+            {
+              $('#transaction-table tbody').append("<tr><td>" + rowno + "</td>" +
+              "<td>" + data.chinese_name + "</td>" +
+              "<td>" + data.devotee_id + "</td>" +
+              "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
+              "<td>" + (data.hjgr == 'hj' ? '合家' : '个人') + "</td>" +
+              "<td>" + data.xy_receipt + "</td>" +
+              "<td>" + data.amount + "</td>");
+            }
 
             rowno++;
             total_amount += data.amount;
@@ -330,6 +378,8 @@ $(function() {
       $(".validation-error").removeClass("bg-danger alert alert-error")
       $(".validation-error").empty();
     }
+
+    localStorage.setItem('cancel', 1);
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),

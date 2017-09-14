@@ -8,7 +8,7 @@
 
       <div class="form-group">
 
-        <h4>Same address Devotee 同址善信</h4>
+        <h4>Same Family Code 同址善信</h4>
 
         <table class="table table-bordered" id="ciji_generaldonation_table">
             <thead>
@@ -79,15 +79,16 @@
                   </td>
                   <td width="100px">
                     <select class="form-control ciji-hjgr" name="hjgr_arr[]">
-                          <option value="hj">合家</option>
-                          <option value="gr">个人</option>
-                      </select>
+                      <option value="hj">合家</option>
+                      <option value="gr">个人</option>
+                    </select>
                   </td>
                   <td width="80px">
                     <select class="form-control ciji-display" name="display[]">
                       <option value="N">N</option>
                       <option value="Y">Y</option>
                     </select>
+                    <input type="hidden" name="display[]" class="ciji-display-hidden" value="">
                   </td>
                   <td></td>
                   <td></td>
@@ -155,6 +156,7 @@
                       <option value="N">N</option>
                       <option value="Y">Y</option>
                     </select>
+                    <input type="hidden" name="display[]" class="ciji-display-hidden" value="">
                   </td>
                   <td></td>
                   <td></td>
@@ -261,10 +263,11 @@
                       </select>
                   </td>
                   <td>
-                    <select class="form-control ciji-display" name="other_display[]">
+                    <select class="form-control ciji-display">
                       <option value="N">N</option>
                       <option value="Y">Y</option>
                     </select>
+                    <input type="hidden" name="other_display[]" class="ciji-display-hidden" value="">
                   </td>
                   <td></td>
                   <td></td>
@@ -318,7 +321,7 @@
             <div class="col-md-12">
               <div class="mt-radio-list">
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline"> Cash
                   <input type="radio" name="ciji_mode_payment" value="cash" checked>
                   <span></span>
@@ -330,7 +333,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline"> Cheque
                   <input type="radio" name="ciji_mode_payment" value="cheque" class="form-control">
                   <span></span>
@@ -343,7 +346,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline"> NETS
                   <input type="radio" name="ciji_mode_payment" value="nets">
                   <span></span>
@@ -357,7 +360,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline"> Manual Receipt
                   <input type="radio" name="ciji_mode_payment" value="receipt">
                   <span></span>
@@ -370,7 +373,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline">Date of Receipts</label>
                 </div><!-- end col-md-6 -->
 

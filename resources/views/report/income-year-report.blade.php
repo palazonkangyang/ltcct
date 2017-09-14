@@ -125,7 +125,6 @@
                                 <td>{{ number_format($donation_members[0]->Nov, 2) }}</td>
                                 <td>{{ number_format($donation_members[0]->December, 2) }}</td>
                               </tr>
-
                               <tr>
                                 <td>Donation (non-member) 香油-非會員</td>
                                 <td>{{ number_format($donation_non_members[0]->Jan, 2) }}</td>
@@ -140,6 +139,21 @@
                                 <td>{{ number_format($donation_non_members[0]->Oct, 2) }}</td>
                                 <td>{{ number_format($donation_non_members[0]->Nov, 2) }}</td>
                                 <td>{{ number_format($donation_non_members[0]->December, 2) }}</td>
+                              </tr>
+                              <tr>
+                                <td>Total</td>
+                                <td>{{ number_format($total_generaldonation[0]->Jan, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->Feb, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->Mar, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->Apr, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->May, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->Jun, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->July, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->Aug, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->Sep, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->Oct, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->Nov, 2) }}</td>
+                                <td>{{ number_format($total_generaldonation[0]->December, 2) }}</td>
                               </tr>
                             </tbody>
                           </table>

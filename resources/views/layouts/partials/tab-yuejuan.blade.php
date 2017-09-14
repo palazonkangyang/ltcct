@@ -8,7 +8,7 @@
 
     <div class="form-group">
 
-      <h4>Same address Devotee 同址善信</h4>
+      <h4>Same Family Code 同址善信</h4>
 
       <table class="table table-bordered" id="yuejuan_generaldonation_table">
           <thead>
@@ -46,17 +46,17 @@
                   @else
                   <span class="text-danger" id="devotee">{{ $yj_family->devotee_id }}</span>
                   @endif
-                  <input type="hidden" name="devotee_id[]" value="{{ $yj_family->devotee_id }}">
+                  <input type="hidden" name="devotee_id[]" value="{{ $yj_family->devotee_id }}" id="devotee-hidden">
                 </td>
                 <td>
                   @if(\Carbon\Carbon::parse($yj_family->lasttransaction_at)->lt($date))
                   <span style="color: #a5a5a5">
-                    <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}">
+                    <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}" class="member_id" id="member-hidden">
                     {{ $yj_family->member_id }}
                   </span>
                   @else
                   <span>
-                    <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}">
+                    <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}" class="member_id" id="member-hidden">
                     {{ $yj_family->member_id }}
                   </span>
                   @endif
@@ -172,12 +172,12 @@
                 <td>
                   @if(\Carbon\Carbon::parse($list->lasttransaction_at)->lt($date))
                   <span style="color: #a5a5a5">
-                    <input type="hidden" name="member_id[]" value="{{ $list->member_id }}">
+                    <input type="hidden" name="member_id[]" value="{{ $list->member_id }}" class="member_id">
                     {{ $list->member_id }}
                   </span>
                   @else
                   <span>
-                    <input type="hidden" name="member_id[]" value="{{ $list->member_id }}">
+                    <input type="hidden" name="member_id[]" value="{{ $list->member_id }}" class="member_id">
                     {{ $list->member_id }}
                   </span>
                   @endif
@@ -277,7 +277,7 @@
             <div class="col-md-12">
               <div class="mt-radio-list">
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline"> Cash
                   <input type="radio" name="yuejuan_mode_payment" value="cash" checked>
                   <span></span>
@@ -289,7 +289,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline"> Cheque
                   <input type="radio" name="yuejuan_mode_payment" value="cheque" class="form-control">
                   <span></span>
@@ -302,7 +302,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline"> NETS
                   <input type="radio" name="yuejuan_mode_payment" value="nets">
                   <span></span>
@@ -316,7 +316,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline"> Manual Receipt
                   <input type="radio" name="yuejuan_mode_payment" value="receipt">
                   <span></span>
@@ -329,7 +329,7 @@
 
                 <div class="clearfix"></div>
 
-                <div class="col-md-6">
+                <div class="col-md-6 payment">
                   <label class="mt-radio mt-radio-outline">Date of Receipts</label>
                 </div><!-- end col-md-6 -->
 

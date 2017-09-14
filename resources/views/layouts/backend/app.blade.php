@@ -98,6 +98,8 @@
                                     </li>
                                     @endif
 
+                                    @if(Auth::user()->role != 3)
+
                                     <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
                                             <a href="javascript:;"> Fund Account
                                                 <span class="arrow"></span>
@@ -172,23 +174,27 @@
                                             </ul>
                                         </li>
 
-                                        @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
-                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
-                                            <a href="javascript:;"> Staffs 员工
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true">
-                                                    <a href="/admin/all-accounts" class="hylink">All Staffs 员工列表</a>
-                                                </li>
-                                                <li aria-haspopup="true">
-                                                    <a href="/admin/add-account" class="hylink">Add New Staff 新增员工</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        @endif
+                                    @endif
 
-                                        @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+
+
+                                    @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
+                                    <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                                      <a href="javascript:;"> Staffs 员工
+                                        <span class="arrow"></span>
+                                      </a>
+                                      <ul class="dropdown-menu pull-left">
+                                        <li aria-haspopup="true">
+                                          <a href="/admin/all-accounts" class="hylink">All Staffs 员工列表</a>
+                                        </li>
+                                        <li aria-haspopup="true">
+                                          <a href="/admin/add-account" class="hylink">Add New Staff 新增员工</a>
+                                        </li>
+                                      </ul>
+                                    </li>
+                                    @endif
+
+                                        @if(Auth::user()->role == 1)
                                         <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
                                             <a href="javascript:;"> System Settings
                                                 <span class="arrow"></span>

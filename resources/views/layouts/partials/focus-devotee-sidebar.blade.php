@@ -35,7 +35,7 @@
 
                       <div class="col-md-9">
                           <div class="form-group">
-                              <label>Name (in Chinese)</label>
+                              <label>Chinese Name</label>
                               <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}">
                           </div><!-- end form-group -->
 
@@ -164,7 +164,7 @@
                         <div class="col-md-6">
 
                             <div class="form-group">
-                                <label class="col-md-12">Devotee ID :
+                                <label class="col-md-12">Devotee ID : <br />
                                   @if(isset($focus_devotee[0]->specialremarks_id))
                                     <span id="devodee_id" class="text-danger">{{ $focus_devotee[0]->devotee_id }}</span>
                                   @else
@@ -174,7 +174,7 @@
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                                <label class="col-md-12">Member ID :
+                                <label class="col-md-12">Member ID : <br />
                                   <span id="member_id">{{ $focus_devotee[0]->member_id }}</span>
                                 </label>
                             </div><!-- end form-group -->
@@ -184,13 +184,13 @@
                         <div class="col-md-6">
 
                             <div class="form-group">
-                                <label class="col-md-12">Family Code :
+                                <label class="col-md-12">Family Code : <br />
                                   <span id="family_code">{{ $focus_devotee[0]->familycode }}</span>
                                 </label>
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                                <label class="col-md-12">Bridging ID :
+                                <label class="col-md-12">Bridging ID : <br />
                                   <span id="bridging_id">0</span>
                                 </label>
                             </div><!-- end form-group -->
@@ -433,7 +433,7 @@
 
                   <div class="col-md-9">
                       <div class="form-group">
-                          <label>Name (in Chinese)</label>
+                          <label>Chinese Name</label>
                           <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}">
                       </div><!-- end form-group -->
 

@@ -1,5 +1,7 @@
 $(function() {
 
+  $(".ciji-display").attr('disabled', true);
+
   $('body').on('input', '.ciji-amount-col', function(){
       var sum = 0;
 
@@ -23,10 +25,12 @@ $(function() {
       if(amount > minimum_amount)
       {
         $(this).closest('tr').find(".ciji-display").val('Y');
+        $(this).closest('tr').find(".ciji-display-hidden").val('Y');
       }
       else
       {
         $(this).closest('tr').find(".ciji-display").val('N');
+        $(this).closest('tr').find(".ciji-display-hidden").val('N');
       }
     });
   });
@@ -118,6 +122,8 @@ $(function() {
   });
 
   $("#ciji_receipt_history_table").on('click', '.receipt-id', function() {
+
+    $(".alert-success").remove();
 
     var trans_no = $(this).attr("id");
 

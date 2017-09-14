@@ -25,7 +25,7 @@
 
 			<div class="col-md-12">
 				<div class="version">
-					<h5>Version : TMS 2017 - v1.18</h5>
+					<h5>Version : TMS 2017 - v1.19</h5>
 				</div>
 			</div>
 
@@ -44,9 +44,9 @@
 
 		           	<div class="form-group">
 		                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-		                <label class="control-label visible-ie8 visible-ie9">User Name</label>
+		                <label class="control-label visible-ie8 visible-ie9">User ID</label>
 		                <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off"
-											placeholder="User Name" name="user_name" id="user_name" />
+											placeholder="User ID" name="user_name" id="user_name" />
 		           	</div><!-- end form-group -->
 
 		            <div class="form-group">

@@ -3,15 +3,23 @@
 }
 
 #devotees_table, #members_table, #deceased_table, #search_table{
-  width: 1320px!important;
+  width: 100%!important;
 }
 
 .form-group{
   overflow: hidden;
 }
 
+.local-address{
+  padding: 6px 12px 6px 22px!important;
+}
+
+.payment{
+  padding-top: 4px;
+}
+
 .info-detail p{
-  margin: 0 0 10px !important;
+  margin: 0 0 10px!important;
 }
 
 #festive-event-table input[type=checkbox] {

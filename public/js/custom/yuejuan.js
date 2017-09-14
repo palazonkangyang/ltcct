@@ -1,5 +1,15 @@
 $(function() {
 
+  $(".member_id").each(function() {
+
+    if($(this).val() == "")
+    {
+      $(this).closest("tr").find(".yuejuan-amount").attr('disabled', true);
+      $(this).closest("tr").find("#devotee-hidden").remove();
+      $(this).closest("tr").find("#member-hidden").remove();
+    }
+  });
+
   $('body').on('input', '.yuejuan-amount-col', function(){
       var sum = 0;
       var membership_fee = $("#membership_fee").val();
@@ -209,6 +219,35 @@ $(function() {
           $("#amount").text(0);
 
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
+        }
+
+        if(response.cancellation[0]['cancelled_date'] != null)
+        {
+          $("#transaction-text").text('');
+
+          $("#amount").addClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+          $("#authorized_password").attr('disabled', true);
+          $("#transaction-text").append('This Transaction has been cancelled by ' +
+            response.cancellation[0]['cancelled_date']  + ' by ' + response.cancellation[0]['first_name'] + ' ' + response.cancellation[0]['last_name']
+            + '. No Printing is allowed!!');
+
+          $(".mt-radio").attr('disabled', true);
+          $("#reprint-btn").attr('disabled', true);
+          $("#refund").text('(Refuned/ Returned)');
+        }
+
+        else
+        {
+          $("#amount").removeClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', false);
+          $("#cancel-transaction").attr('disabled', false);
+          $("#authorized_password").attr('disabled', false);
+          $("#transaction-text").text('');
+          $(".mt-radio").attr('disabled', false);
+          $("#reprint-btn").attr('disabled', false);
+          $("#refund").text('');
         }
       },
       error: function (response) {

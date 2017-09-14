@@ -117,7 +117,7 @@
 
                                                     			<div class="form-group">
 
-                                                    				<h4>Same address Devotee 同址善信</h4>
+                                                    				<h4>Same Family Code 同址善信</h4>
 
                                                                     <table class="table table-bordered" id="generaldonation_table">
                                                                         <thead>
@@ -1259,10 +1259,12 @@
 					if(amount > 5)
 					{
 						$(this).closest('tr').find(".display").val('Y');
+						// $(this).closest('tr').find(".display-hidden").val('Y');
 					}
 					else
 					{
 						$(this).closest('tr').find(".display").val('N');
+						// $(this).closest('tr').find(".display-hidden").val('N');
 					}
 				});
 			});

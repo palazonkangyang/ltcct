@@ -5,6 +5,32 @@ $(function() {
   var edit_populate_translate_street = "";
   var edit_translate_street = "";
 
+  var edit_address_postal = $("#edit_address_postal").val();
+
+  if(edit_address_postal)
+  {
+    var formData = {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        address_postal: edit_address_postal
+    };
+
+    $.ajax({
+        type: 'GET',
+        url: "/operator/search/address_translate",
+        data: formData,
+        dataType: 'json',
+        success: function(response)
+        {
+          edit_translate_street = response.translate_street[0]['chinese'];
+          console.log(edit_translate_street);
+        },
+
+        error: function (response) {
+            console.log(response);
+        }
+    });
+  }
+
   $("#content_address_postal").autocomplete({
     source: "/operator/search/address_postal",
     minLength: 1,
@@ -16,47 +42,59 @@ $(function() {
   $("#content_address_postal").on('focusout', function() {
     var address_postal = $(this).val();
 
-    var formData = {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        address_postal: address_postal
-    };
+    if(address_postal)
+    {
+      var formData = {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          address_postal: address_postal
+      };
 
-    $.ajax({
-        type: 'GET',
-        url: "/operator/search/address_translate",
-        data: formData,
-        dataType: 'json',
-        success: function(response)
-        {
-          $("#content_address_houseno").val(response.translate_street[0].address_houseno);
-          $("#content_address_street").val(response.translate_street[0].english);
-
-          var address_houseno = $("#content_address_houseno").val();
-          var address_unit1 = $("#content_address_unit1").val();
-          var address_unit2 = $("#content_address_unit2").val();
-          var address_postal = $("#content_address_postal").val();
-
-          if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
+      $.ajax({
+          type: 'GET',
+          url: "/operator/search/address_translate",
+          data: formData,
+          dataType: 'json',
+          success: function(response)
           {
-            var full_address = address_houseno + ", " + response.translate_street[0]['chinese'] + ", " + address_postal;
+            $("#content_address_houseno").val(response.translate_street[0].address_houseno);
+            $("#content_address_street").val(response.translate_street[0].english);
 
-            translate_street = response.translate_street[0]['chinese'];
-            $("#address_translated").val(full_address);
+            var address_houseno = $("#content_address_houseno").val();
+            var address_unit1 = $("#content_address_unit1").val();
+            var address_unit2 = $("#content_address_unit2").val();
+            var address_postal = $("#content_address_postal").val();
+
+            if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
+            {
+              var full_address = address_houseno + ", " + response.translate_street[0]['chinese'] + ", " + address_postal;
+
+              translate_street = response.translate_street[0]['chinese'];
+              $("#address_translated").val(full_address);
+            }
+            else
+            {
+              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
+                                  address_postal;
+
+              translate_street = response.translate_street[0]['chinese'];
+              $("#address_translated").val(full_address);
+            }
+          },
+
+          error: function (response) {
+              console.log(response);
           }
-          else
-          {
-            var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                address_postal;
-
-            translate_street = response.translate_street[0]['chinese'];
-            $("#address_translated").val(full_address);
-          }
-        },
-
-        error: function (response) {
-            console.log(response);
-        }
-    });
+      });
+    }
+    else
+    {
+      $("#content_address_houseno").val('');
+      $("#content_address_unit1").val('');
+      $("#content_address_unit2").val('');
+      $("#content_address_street").val('');
+      $("#content_address_postal").val('');
+      $("#address_translated").val('');
+    }
   });
 
   $("#content_address_unit1").on('keyup', function() {
@@ -278,58 +316,73 @@ $(function() {
   $("#edit_populate_postal").on('focusout', function() {
     var address_postal = $(this).val();
 
-    var formData = {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        address_postal: address_postal
-    };
+    if(address_postal)
+    {
+      var formData = {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          address_postal: address_postal
+      };
 
-    $.ajax({
-        type: 'GET',
-        url: "/operator/search/address_translate",
-        data: formData,
-        dataType: 'json',
-        success: function(response)
-        {
-          $("#edit_populate_houseno").val(response.translate_street[0].address_houseno);
-          $("#edit_populate_street").val(response.translate_street[0].english);
-
-          var address_houseno = $("#edit_populate_houseno").val();
-          var address_unit1 = $("#edit_populate_unit_1").val();
-          var address_unit2 = $("#edit_populate_unit_2").val();
-          var address_street = $("#edit_populate_street").val();
-          var address_postal = $("#edit_populate_postal").val();
-
-          if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
+      $.ajax({
+          type: 'GET',
+          url: "/operator/search/address_translate",
+          data: formData,
+          dataType: 'json',
+          success: function(response)
           {
-            var full_address = address_houseno + ", #" + response.translate_street[0]['chinese'] + ", " + address_postal;
-            var full_address_eng = address_houseno + ", " + address_street + ", " + address_postal;
+            $("#edit_populate_houseno").val(response.translate_street[0].address_houseno);
+            $("#edit_populate_street").val(response.translate_street[0].english);
 
-            edit_populate_translate_street = response.translate_street[0]['chinese'];
-            $("#edit_populate_address_translate").val(full_address);
-            $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eng);
+            var address_houseno = $("#edit_populate_houseno").val();
+            var address_unit1 = $("#edit_populate_unit_1").val();
+            var address_unit2 = $("#edit_populate_unit_2").val();
+            var address_street = $("#edit_populate_street").val();
+            var address_postal = $("#edit_populate_postal").val();
+
+            if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
+            {
+              var full_address = address_houseno + ", " + response.translate_street[0]['chinese'] + ", " + address_postal;
+              var full_address_eng = address_houseno + ", " + address_street + ", " + address_postal;
+
+              edit_populate_translate_street = response.translate_street[0]['chinese'];
+              $("#edit_populate_address_translate").val(full_address);
+              $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eng);
+            }
+            else
+            {
+              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
+                                  address_postal;
+
+              var full_address_eng = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street + ", " + address_postal;
+
+              edit_populate_translate_street = response.translate_street[0]['chinese'];
+              $("#edit_populate_address_translate").val(full_address);
+              $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eng);
+            }
+
+            $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-postal-hidden").val($('#edit_populate_postal').val());
+            $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-street-hidden").val($('#edit_populate_street').val());
+            $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-houseno-hidden").val($('#edit_populate_houseno').val());
+            $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-translate-hidden").val($('#edit_populate_address_translate').val());
+          },
+
+          error: function (response) {
+              console.log(response);
           }
-          else
-          {
-            var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                address_postal;
+      });
+    }
 
-            var full_address_eng = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street + ", " + address_postal;
+    else
+    {
+      $("#edit_populate_houseno").val('');
+      $("#edit_populate_unit_1").val('');
+      $("#edit_populate_unit_2").val('');
+      $("#edit_populate_street").val('');
+      $("#edit_populate_address_translate").val('');
 
-            edit_populate_translate_street = response.translate_street[0]['chinese'];
-            $("#edit_populate_address_translate").val(full_address);
-            $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eng);
-          }
-
-          $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-postal-hidden").val($('#edit_populate_postal').val());
-          $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-street-hidden").val($('#edit_populate_street').val());
-          $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-houseno-hidden").val($('#edit_populate_houseno').val());
-          $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-translate-hidden").val($('#edit_populate_address_translate').val());
-        },
-
-        error: function (response) {
-            console.log(response);
-        }
-    });
+      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-translate-hidden").val('');
+      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val('');
+    }
   });
 
   $("#edit_populate_unit_1").on('keyup', function() {
@@ -374,21 +427,29 @@ $(function() {
     var address_houseno = $("#edit_populate_houseno").val();
     var address_unit1 = $("#edit_populate_unit_1").val();
     var address_unit2 = $("#edit_populate_unit_2").val();
-    var address_street = $("#edit_populate_address_translate").val();
+    var address_street = $("#edit_populate_street").val();
     var address_postal = $("#edit_populate_postal").val();
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
       var full_address = address_houseno + ", " + edit_populate_translate_street + ", " + address_postal;
+      var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
 
       $("#edit_populate_address_translate").val(full_address);
+      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eg);
+      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-translate-hidden").val(full_address);
     }
     else
     {
       var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + edit_populate_translate_street +  ", " +
                        address_postal;
 
+      var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
+                            address_postal;
+
       $("#edit_populate_address_translate").val(full_address);
+      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eg);
+      $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-translate-hidden").val(full_address);
     }
   });
 
