@@ -334,12 +334,6 @@ $(function() {
       errors[count++] = "Please select focus devotee.";
     }
 
-    if($("#different_familycode_table tbody").children().length == 0)
-    {
-      validationFailed = true;
-      errors[count++] = "There is no devotee in the table.";
-    }
-
     if (validationFailed)
     {
       var errorMsgs = '';

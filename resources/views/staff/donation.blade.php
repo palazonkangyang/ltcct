@@ -809,42 +809,42 @@
 		  	});
 	    });
 
-			$('#update_sameaddr_btn').click(function() {
-
-				var count = 0;
-				var errors = new Array();
-				var validationFailed = false;
-
-	      checked = $("#samefamily_form input[type=checkbox]:checked").length;
-
-	      if(!checked) {
-					validationFailed = true;
-					errors[count++] = "You must check at least one checkbox.";
-	      }
-
-				if (validationFailed)
-				{
-						var errorMsgs = '';
-
-						for(var i = 0; i < count; i++)
-						{
-								errorMsgs = errorMsgs + errors[i] + "<br/>";
-						}
-
-						$('html,body').animate({ scrollTop: 0 }, 'slow');
-
-						$(".validation-error").addClass("bg-danger alert alert-error")
-						$(".validation-error").html(errorMsgs);
-
-						return false;
-				}
-
-				else
-				{
-						$(".validation-error").removeClass("bg-danger alert alert-error")
-						$(".validation-error").empty();
-				}
-	    });
+			// $('#update_sameaddr_btn').click(function() {
+			//
+			// 	var count = 0;
+			// 	var errors = new Array();
+			// 	var validationFailed = false;
+			//
+	    //   checked = $("#samefamily_form input[type=checkbox]:checked").length;
+			//
+	    //   if(!checked) {
+			// 		validationFailed = true;
+			// 		errors[count++] = "You must check at least one checkbox.";
+	    //   }
+			//
+			// 	if (validationFailed)
+			// 	{
+			// 			var errorMsgs = '';
+			//
+			// 			for(var i = 0; i < count; i++)
+			// 			{
+			// 					errorMsgs = errorMsgs + errors[i] + "<br/>";
+			// 			}
+			//
+			// 			$('html,body').animate({ scrollTop: 0 }, 'slow');
+			//
+			// 			$(".validation-error").addClass("bg-danger alert alert-error")
+			// 			$(".validation-error").html(errorMsgs);
+			//
+			// 			return false;
+			// 	}
+			//
+			// 	else
+			// 	{
+			// 			$(".validation-error").removeClass("bg-danger alert alert-error")
+			// 			$(".validation-error").empty();
+			// 	}
+	    // });
 
 			$("#cancel_samefamily_btn").click(function() {
 				$('.same input:checkbox').removeAttr('checked');

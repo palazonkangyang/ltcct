@@ -171,6 +171,7 @@ $(function() {
           }
 
           $("#col-header").text("HJ/ GR");
+          $("#col-header").css("width", "10%");
           $("#col-member").hide();
 
           $("#trans_no").val(response.transaction[0].trans_no);

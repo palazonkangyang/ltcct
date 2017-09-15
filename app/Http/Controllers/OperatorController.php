@@ -427,8 +427,8 @@ class OperatorController extends Controller
 		$yuejuan_receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
 										 ->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
 										 ->where('generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
-										 ->where('generaldonation.glcode_id', array(140, 141))
-										 ->GroupBy('generaldonation.generaldonation_id')
+										 ->whereIn('receipt.glcode_id', array(108, 110))
+										 ->GroupBy('receipt.generaldonation_id')
 										 ->select('generaldonation.*', 'devotee.chinese_name')
 										 ->orderBy('generaldonation.generaldonation_id', 'desc')
 										 ->get();

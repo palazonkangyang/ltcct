@@ -40,29 +40,63 @@ class ReportController extends Controller
 
     if(isset($input['year']) && isset($nmonth))
     {
-
-      $donation_members = GeneralDonation::leftjoin('glcode', 'generaldonation.glcode_id', '=', 'glcode.glcode_id')
-                          ->where('generaldonation.glcode_id', 119)
-                          ->where(DB::raw('MONTH(generaldonation.trans_at)'), '=', $nmonth)
-                          ->where(DB::raw('Year(generaldonation.trans_at)'), '=', $input['year'])
-                          ->select(DB::raw('SUM(IF(MONTH(generaldonation.trans_at) =' . $nmonth . ', generaldonation.total_amount, 0))' . $input['month']))
+      $entrance_fees = Receipt::whereNull('cancelled_date')
+                          ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                          ->where(DB::raw('MONTH(receipt.trans_date)'), '=', $nmonth)
+                          ->where('receipt.amount', 10)
+                          ->where('receipt.glcode_id', 108)
+                          ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) =' . $nmonth . ', receipt.amount, 0))' . $input['month']))
                           ->get();
 
-      $donation_non_members = GeneralDonation::leftjoin('glcode', 'generaldonation.glcode_id', '=', 'glcode.glcode_id')
-                              ->where('generaldonation.glcode_id', 112)
-                              ->where(DB::raw('MONTH(generaldonation.trans_at)'), '=', $nmonth)
-                              ->where(DB::raw('Year(generaldonation.trans_at)'), '=', $input['year'])
-                              ->select(DB::raw('SUM(IF(MONTH(generaldonation.trans_at) =' . $nmonth . ', generaldonation.total_amount, 0))' . $input['month']))
-                              ->get();
+      $monthly_subscriptions = Receipt::whereNull('cancelled_date')
+                                ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                                ->where(DB::raw('MONTH(receipt.trans_date)'), '=', $nmonth)
+                                ->where('receipt.amount', '!=', 10)
+                                ->where('receipt.glcode_id', 110)
+                                ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) =' . $nmonth . ', receipt.amount, 0))' . $input['month']))
+                                ->get();
+
+      $donation_others = Receipt::whereNull('cancelled_date')
+                         ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                         ->where(DB::raw('MONTH(receipt.trans_date)'), '=', $nmonth)
+                         ->where('receipt.glcode_id', 134)
+                         ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) =' . $nmonth . ', receipt.amount, 0))' . $input['month']))
+                         ->get();
+
+      $donation_members = Receipt::whereNull('cancelled_date')
+                          ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                          ->where(DB::raw('MONTH(receipt.trans_date)'), '=', $nmonth)
+                          ->where('receipt.glcode_id', 119)
+                          ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) =' . $nmonth . ', receipt.amount, 0))' . $input['month']))
+                          ->get();
+
+      $donation_non_members = Receipt::whereNull('cancelled_date')
+                               ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                               ->where(DB::raw('MONTH(receipt.trans_date)'), '=', $nmonth)
+                               ->where('receipt.glcode_id', 112)
+                               ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) =' . $nmonth . ', receipt.amount, 0))' . $input['month']))
+                               ->get();
+
+      $today = \Carbon\Carbon::parse(Carbon::today())->format("d M Y");
+
+      return view('report.income-monthly-report', [
+        'entrance_fees' => $entrance_fees,
+        'monthly_subscriptions' => $monthly_subscriptions,
+        'donation_others' => $donation_others,
+        'donation_members' => $donation_members,
+        'donation_non_members' => $donation_non_members,
+        'year' => $input['year'],
+        'month' => $input['month'],
+        'today' => $today
+      ]);
     }
 
     else
     {
-      $entrance_fees = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
-                       ->where('receipt.amount', 10)
+      $entrance_fees = Receipt::where('receipt.amount', 10)
                        ->whereNull('cancelled_date')
                        ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
-                       ->where('generaldonation.glcode_id', array(142, 143))
+                       ->where('receipt.glcode_id', 108)
                        ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
@@ -77,11 +111,10 @@ class ReportController extends Controller
                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'))
                        ->get();
 
-      $monthly_subscriptions = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
-                       ->whereNull('cancelled_date')
+      $monthly_subscriptions = Receipt::whereNull('cancelled_date')
                        ->where('receipt.amount', '!=', 10)
                        ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
-                       ->where('generaldonation.glcode_id', array(142, 143))
+                       ->where('receipt.glcode_id', 110)
                        ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
@@ -96,48 +129,44 @@ class ReportController extends Controller
                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'))
                        ->get();
 
-      // $donation_others = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
-      //                  ->whereNull('cancelled_date')
-      //                  ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
-      //                  ->where('generaldonation.glcode_id', array(142, 143))
-      //                  ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 4, receipt.amount, 0)) AS Apr'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 5, receipt.amount, 0)) AS May'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 6, receipt.amount, 0)) AS Jun'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 7, receipt.amount, 0)) AS July'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 8, receipt.amount, 0)) AS Aug'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 9, receipt.amount, 0)) AS Sep'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 10, receipt.amount, 0)) AS Oct'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 11, receipt.amount, 0)) AS Nov'),
-      //                  DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'))
-      //                  ->get();
+      $donation_others = Receipt::whereNull('cancelled_date')
+                          ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                          ->where('receipt.glcode_id', 134)
+                          ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 4, receipt.amount, 0)) AS Apr'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 5, receipt.amount, 0)) AS May'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 6, receipt.amount, 0)) AS Jun'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 7, receipt.amount, 0)) AS July'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 8, receipt.amount, 0)) AS Aug'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 9, receipt.amount, 0)) AS Sep'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 10, receipt.amount, 0)) AS Oct'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 11, receipt.amount, 0)) AS Nov'),
+                            DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'))
+                            ->get();
 
-      // dd($monthly_subscription->toArray());
-
-      $donation_non_members = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
-                       ->whereNull('cancelled_date')
-                       ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
-                       ->where('generaldonation.glcode_id', 112)
-                       ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 4, receipt.amount, 0)) AS Apr'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 5, receipt.amount, 0)) AS May'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 6, receipt.amount, 0)) AS Jun'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 7, receipt.amount, 0)) AS July'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 8, receipt.amount, 0)) AS Aug'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 9, receipt.amount, 0)) AS Sep'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 10, receipt.amount, 0)) AS Oct'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 11, receipt.amount, 0)) AS Nov'),
-                       DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'))
-                       ->get();
+      $donation_non_members = Receipt::whereNull('cancelled_date')
+                               ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                               ->where('receipt.glcode_id', 112)
+                               ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 4, receipt.amount, 0)) AS Apr'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 5, receipt.amount, 0)) AS May'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 6, receipt.amount, 0)) AS Jun'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 7, receipt.amount, 0)) AS July'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 8, receipt.amount, 0)) AS Aug'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 9, receipt.amount, 0)) AS Sep'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 10, receipt.amount, 0)) AS Oct'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 11, receipt.amount, 0)) AS Nov'),
+                               DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'))
+                               ->get();
 
       $donation_members = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
                        ->whereNull('cancelled_date')
                        ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
-                       ->where('generaldonation.glcode_id', 119)
+                       ->where('receipt.glcode_id', 119)
                        ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
@@ -155,7 +184,7 @@ class ReportController extends Controller
       $total_generaldonation = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
                                 ->whereNull('cancelled_date')
                                 ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
-                                ->whereIn('generaldonation.glcode_id', array(112, 119))
+                                ->whereIn('receipt.glcode_id', array(112, 119))
                                 ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
                                 DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
                                 DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
@@ -173,6 +202,7 @@ class ReportController extends Controller
       return view('report.income-year-report', [
         'entrance_fees' => $entrance_fees,
         'monthly_subscriptions' => $monthly_subscriptions,
+        'donation_others' => $donation_others,
         'donation_members' => $donation_members,
         'donation_non_members' => $donation_non_members,
         'total_generaldonation' => $total_generaldonation,

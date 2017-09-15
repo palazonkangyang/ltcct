@@ -64,6 +64,7 @@ $(function() {
           }
 
           $("#col-header").text("HJ/ GR");
+          $("#col-header").css("width", "10%");
           $("#col-member").hide();
 
           $("#trans_no").val(response.transaction[0].trans_no);
@@ -116,6 +117,8 @@ $(function() {
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
         }
 
+        var user_id = $("#user_id").val();
+
         if(response.cancellation[0]['cancelled_date'] != null)
         {
           $("#transaction-text").text('');
@@ -131,6 +134,20 @@ $(function() {
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
           $("#refund").text('(Refuned/ Returned)');
+        }
+
+        else if (user_id == 5) {
+          $("#transaction-text").text('');
+
+          $("#amount").removeClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+          $("#authorized_password").attr('disabled', true);
+          $("#transaction-text").text('');
+
+          $(".mt-radio").attr('disabled', true);
+          $("#reprint-btn").attr('disabled', false);
+          $("#refund").text('');
         }
 
         else
@@ -152,6 +169,30 @@ $(function() {
   });
 
   $("#search_detail").click(function() {
+
+    var user_id = $("#user_id").val();
+
+    $("#amount").removeClass('text-danger');
+    $("#cancel-replace-btn").attr('disabled', false);
+    $("#cancel-transaction").attr('disabled', false);
+    $("#authorized_password").attr('disabled', false);
+    $("#transaction-text").text('');
+    $(".mt-radio").attr('disabled', false);
+    $("#reprint-btn").attr('disabled', false);
+    $("#refund").text('');
+
+    $("#receipt").text('');
+    $('#receipt_date').text('');
+    $("#paid_by").text('');
+    $("#donation_event").text('');
+    $("#transaction_no").text('');
+    $("#description").text('');
+    $("#attended_by").text('');
+    $("#payment_mode").text('');
+    $("#amount").text(0);
+
+    $('#transaction-table tbody').empty();
+    $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
 
     $(".validation-error").removeClass("bg-danger alert alert-error")
     $(".validation-error").empty();
@@ -215,12 +256,25 @@ $(function() {
         if(response.msg != null)
         {
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
-          // alert(response.msg);
 
           $('html,body').animate({ scrollTop: 0 }, 'slow');
 
           $(".validation-error").addClass("bg-danger alert alert-error")
           $(".validation-error").html(response.msg);
+
+          $("#receipt").text('');
+          $('#receipt_date').text('');
+          $("#paid_by").text('');
+          $("#donation_event").text('');
+          $("#transaction_no").text('');
+          $("#description").text('');
+          $("#attended_by").text('');
+          $("#payment_mode").text('');
+          $("#amount").text(0);
+
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+          $("#authorized_password").attr('disabled', true);
         }
 
         if(response.transaction.length != 0)
@@ -253,12 +307,14 @@ $(function() {
           if(response.transaction[0].description == "General Donation - 月捐")
           {
             $("#col-header").text("Paid For");
+            $("#col-header").css("width", "15%");
             $("#col-member").show();
           }
 
           else
           {
             $("#col-header").text("HJ/ GR");
+            $("#col-header").css("width", "10%");
             $("#col-member").hide();
           }
 
@@ -322,6 +378,56 @@ $(function() {
           $("#amount").text(0);
 
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
+        }
+
+        if(response.cancellation[0]['cancelled_date'] != null)
+        {
+          $("#transaction-text").text('');
+
+          $("#amount").addClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+          $("#authorized_password").attr('disabled', true);
+          $("#transaction-text").append('This Transaction has been cancelled by ' +
+            response.cancellation[0]['cancelled_date']  + ' by ' + response.cancellation[0]['first_name'] + ' ' + response.cancellation[0]['last_name']
+            + '. No Printing is allowed!!');
+
+          $(".mt-radio").attr('disabled', true);
+          $("#reprint-btn").attr('disabled', true);
+          $("#refund").text('(Refuned/ Returned)');
+        }
+
+        else if (user_id == 5) {
+          $("#transaction-text").text('');
+
+          $("#amount").removeClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+          $("#authorized_password").attr('disabled', true);
+          $("#transaction-text").text('');
+
+          $(".mt-radio").attr('disabled', true);
+          $("#reprint-btn").attr('disabled', false);
+          $("#refund").text('');
+        }
+
+        else
+        {
+          $("#amount").removeClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', false);
+          $("#cancel-transaction").attr('disabled', false);
+          $("#authorized_password").attr('disabled', false);
+          $("#transaction-text").text('');
+          $(".mt-radio").attr('disabled', false);
+          $("#reprint-btn").attr('disabled', false);
+          $("#refund").text('');
+        }
+
+        if(($.trim(receipt_no).length > 0) && ($.trim($("#amount").val() > 0)))
+        {
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+          $("#authorized_password").attr('disabled', true);
         }
       },
       error: function (response) {

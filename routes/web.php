@@ -11,7 +11,6 @@
 |
 */
 
-
 	Route::post('/auth/login', ['as' => 'auth-page', 'uses' => 'AuthController@postAuthenticate']);
   Route::get('/auth/login', ['uses' => 'AuthController@authenticate']);
 

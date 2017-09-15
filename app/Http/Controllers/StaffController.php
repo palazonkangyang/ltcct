@@ -136,11 +136,11 @@ class StaffController extends Controller
 					}
 
 					else {
-						$result = GlCode::where('glcode_id', '142')->pluck('next_sn_number');
+						$result = GlCode::where('glcode_id', '108')->pluck('next_sn_number');
 						$same_xy_receipt = $result[0];
 					}
 
-					$prefix = GlCode::where('glcode_id', '142')->pluck('receipt_prefix');
+					$prefix = GlCode::where('glcode_id', '108')->pluck('receipt_prefix');
 					$prefix = $prefix[0];
 					$same_xy_receipt += 1;
 					$same_xy_receipt = $prefix . $same_xy_receipt;
@@ -462,11 +462,11 @@ class StaffController extends Controller
 					}
 
 					else {
-						$result = GlCode::where('glcode_id', '140')->pluck('next_sn_number');
+						$result = GlCode::where('glcode_id', '134')->pluck('next_sn_number');
 						$same_xy_receipt = $result[0];
 					}
 
-					$prefix = GlCode::where('glcode_id', '140')->pluck('receipt_prefix');
+					$prefix = GlCode::where('glcode_id', '134')->pluck('receipt_prefix');
 					$prefix = $prefix[0];
 					$same_xy_receipt += 1;
 					$same_xy_receipt = $prefix . $same_xy_receipt;
@@ -999,7 +999,7 @@ class StaffController extends Controller
 												 ->where('address_code', 'different')
 												 ->delete();
 
-		if(isset($input['focusdevotee_id']))
+		if(isset($input['devotee_id']))
 		{
 			for($i = 0; $i < count($input['devotee_id']); $i++)
 			{
@@ -1571,41 +1571,100 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		$trans = GeneralDonation::where('trans_no', $input['trans_no'])->first();
+		$input['trans_no'] = "T587";
 
-		$generaldonation = new GeneralDonation;
-
-		if($trans->description == "General Donation - 月捐")
+		if(isset($input['trans_no']))
 		{
-			$result = $generaldonation->yuejuansearchTransaction($input)->get();
+			$trans = GeneralDonation::where('trans_no', $input['trans_no'])->first();
 
-			for($i = 0; $i < count($result); $i++)
+			if(count($trans) > 0)
 			{
-			  if(isset($result[$i]->paytill_date))
-			  {
-			    $result[$i]->paid_for = number_format($result[$i]->amount, 2) . ' - ' . Carbon::parse($result[$i]->paytill_date)->format("Y-m");
-			  }
+				if($trans->description == "General Donation - 月捐")
+				{
+					$generaldonation = new GeneralDonation;
+					$result = $generaldonation->yuejuansearchTransaction($input)->get();
+
+					for($i = 0; $i < count($result); $i++)
+					{
+					  if(isset($result[$i]->paytill_date))
+					  {
+					    $result[$i]->paid_for = number_format($result[$i]->amount, 2) . ' - ' . Carbon::parse($result[$i]->paytill_date)->format("Y-m");
+					  }
+					}
+				}
+
+				else
+				{
+					$generaldonation = new GeneralDonation;
+					$result = $generaldonation->searchTransaction($input)->get();
+				}
+			}
+
+			else
+			{
+				return response()->json(array(
+					 'msg' => 'No Result Found'
+				));
+			}
+
+			$cancellation = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+											->leftjoin('user', 'receipt.cancelled_by', '=', 'user.id')
+											->where('generaldonation.trans_no', $input['trans_no'])
+											->select('receipt.cancelled_date', 'user.first_name', 'user.last_name')
+											->GroupBy('generaldonation.generaldonation_id')
+											->get();
+
+			if(isset($cancellation[0]->cancelled_date))
+			{
+				$cancellation[0]->cancelled_date = Carbon::parse($cancellation[0]->cancelled_date)->format("d/m/Y");
 			}
 		}
 
 		else
 		{
-			$result = $generaldonation->searchTransaction($input)->get();
-		}
+			$receipt = Receipt::where('xy_receipt', $input['receipt_no'])->first();
 
+			if(count($receipt) > 0)
+			{
+				if($receipt->description == "General Donation - 月捐")
+				{
+					$generaldonation = new GeneralDonation;
+					$result = $generaldonation->yuejuansearchTransaction($input)->get();
 
+					for($i = 0; $i < count($result); $i++)
+					{
+					  if(isset($result[$i]->paytill_date))
+					  {
+					    $result[$i]->paid_for = number_format($result[$i]->amount, 2) . ' - ' . Carbon::parse($result[$i]->paytill_date)->format("Y-m");
+					  }
+					}
+				}
 
+				else
+				{
+					$generaldonation = new GeneralDonation;
+					$result = $generaldonation->searchTransaction($input)->get();
+				}
+			}
 
-		$cancellation = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
-										->leftjoin('user', 'receipt.cancelled_by', '=', 'user.id')
-										->where('generaldonation.trans_no', $input['trans_no'])
-										->select('receipt.cancelled_date', 'user.first_name', 'user.last_name')
-										->GroupBy('generaldonation.generaldonation_id')
-										->get();
+			else
+			{
+				return response()->json(array(
+			     'msg' => 'No Result Found'
+			  ));
+			}
 
-		if(isset($cancellation[0]->cancelled_date))
-		{
-			$cancellation[0]->cancelled_date = Carbon::parse($cancellation[0]->cancelled_date)->format("d/m/Y");
+			$cancellation = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+											->leftjoin('user', 'receipt.cancelled_by', '=', 'user.id')
+											->where('receipt.xy_receipt', $input['receipt_no'])
+											->select('receipt.cancelled_date', 'user.first_name', 'user.last_name')
+											->GroupBy('generaldonation.generaldonation_id')
+											->get();
+
+			if(isset($cancellation[0]->cancelled_date))
+			{
+				$cancellation[0]->cancelled_date = Carbon::parse($cancellation[0]->cancelled_date)->format("d/m/Y");
+			}
 		}
 
 		// Check Transaction devotee and focus devotee is the same
@@ -1618,17 +1677,17 @@ class StaffController extends Controller
 	    ));
 		}
 
-		if(count($result) == 0)
-		{
-			return response()->json(array(
-	      'msg' => 'No Result Found'
-	    ));
-		}
+		// if(count($result) == 0)
+		// {
+		// 	return response()->json(array(
+	  //     'msg' => 'No Result Found'
+	  //   ));
+		// }
 
 		if($focusdevotee[0]->devotee_id != $result[0]->focusdevotee_id)
 		{
 			return response()->json(array(
-	      'msg' => 'Search same devotee ID'
+	      'msg' => 'Search receipt no or transaction no by focus devotee.'
 	    ));
 		}
 
@@ -1656,8 +1715,6 @@ class StaffController extends Controller
 	public function getYueJuanTransactionDetail(Request $request)
 	{
 		$input = array_except($request->all(), '_token');
-
-		// $input['trans_no'] = 'T536';
 
 		$generaldonation = new GeneralDonation;
 		$result = $generaldonation->yuejuansearchTransaction($input)->get();
@@ -1761,21 +1818,30 @@ class StaffController extends Controller
 			$receipts = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
 								 ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
 								 ->leftjoin('user', 'receipt.staff_id', '=', 'user.id')
+								 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 								 ->leftjoin('festiveevent', 'generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
 								 ->where('generaldonation.trans_no', '=', $input['trans_no'])
-								 ->select('receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
+								 ->select('receipt.*', 'member.paytill_date', 'member.member_id', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
 								 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
 								 	'generaldonation.focusdevotee_id', 'generaldonation.trans_no', 'user.first_name', 'user.last_name',
 								 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
 								 ->get();
 
-			// dd(count($receipts));
+			if(isset($receipts[0]->paytill_date))
+			{
+				for($i = 0; $i < count($receipts); $i++)
+				{
+				  if(isset($receipts[$i]->paytill_date))
+				  {
+				    $receipts[$i]->paid_for = number_format($receipts[$i]->amount, 2) . ' - ' . Carbon::parse($receipts[$i]->paytill_date)->format("Y-m");
+				  }
+				}
+			}
 
 			for($i = 0; $i < count($receipts); $i++)
 			{
 				$receipts[$i]->trans_date = \Carbon\Carbon::parse($receipts[$i]->trans_date)->format("d/m/Y");
 				$receipts[$i]->start_at = \Carbon\Carbon::parse($receipts[$i]->start_at)->format("d/m/Y");
-
 			}
 
 			$familycode_id = $receipts[0]->familycode_id;
@@ -1816,14 +1882,31 @@ class StaffController extends Controller
 			$loop = $loop + 1;
 		}
 
-		return view('staff.print', [
-			'receipts' => $receipts,
-			'print_format' => $print_format,
-			'samefamily_no' => $samefamily_no,
-			'loop' => $loop,
-			'total_amount' => number_format($total_amount, 2),
-			'paid_by' => $paid_by
-		]);
+		if(isset($receipts[0]->paid_for))
+		{
+			return view('staff.yuejuan-print', [
+			  'receipts' => $receipts,
+			  'print_format' => $print_format,
+			  'loop' => $loop,
+			  'samefamily_no' => $samefamily_no,
+			  'total_amount' => number_format($total_amount, 2),
+			  'paid_by' => $paid_by
+			]);
+		}
+
+		else
+		{
+			return view('staff.print', [
+				'receipts' => $receipts,
+				'print_format' => $print_format,
+				'samefamily_no' => $samefamily_no,
+				'loop' => $loop,
+				'total_amount' => number_format($total_amount, 2),
+				'paid_by' => $paid_by
+			]);
+		}
+
+
 	}
 
 	public function getCreateFestiveEvent()

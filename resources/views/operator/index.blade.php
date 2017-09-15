@@ -88,14 +88,14 @@
                                                         <li>
                                                             <a href="#tab_deceasedlists" data-toggle="tab">Deceased Lists <br> 已故善信名单</a>
                                                         </li>
-                                                        <li>
-                                                            <a href="#tab_newdevotee" data-toggle="tab">New Devotee <br>新善信档案</a>
-                                                        </li>
                                                         <li id="edit" class="disabled">
                                                             <a href="#tab_editdevotee" data-toggle="tab">Edit Devotee <br>资料更新</a>
                                                         </li>
                                                         <li>
                                                             <a href="#tab_relocation" data-toggle="tab">Relocation  <br>全家搬迁</a>
+                                                        </li>
+																												<li>
+                                                            <a href="#tab_newdevotee" data-toggle="tab">New Devotee <br>新善信档案</a>
                                                         </li>
 																												<li id="search" id="search">
                                                             <a href="#tab_searchresult" data-toggle="tab">Search Result  <br>搜寻结果</a>
@@ -115,28 +115,28 @@
 
                                                                         <thead>
                                                                             <tr id="filter">
-                                                                                <th></th>
-                                                                                <th></th>
-																																								<th></th>
-                                                                                <th></th>
-                                                                                <th></th>
-																																								<th></th>
-																																								<th></th>
-																																								<th></th>
-																																								<th></th>
-                                                                                <th></th>
+                                                                                <th width="10%"></th>
+                                                                                <th width="5%"></th>
+																																								<th width="5%"></th>
+                                                                                <th width="15%"></th>
+                                                                                <th width="10%"></th>
+																																								<th width="5%"></th>
+																																								<th width="5%"></th>
+																																								<th width="3%"></th>
+																																								<th width="12%"></th>
+                                                                                <th width="10%"></th>
                                                                             </tr>
                                                                             <tr>
-                                                                                <th>Chinese Name</th>
-                                                                                <th>Devotee</th>
-																																								<th>Member</th>
-                                                                                <th>Address</th>
-                                                                                <th>Guiyi Name</th>
-																																								<th>Contact</th>
-																																								<th>Paid Till</th>
-																																								<th>Mailer</th>
-																																								<th>Last Trans Date</th>
-                                                                                <th>Family Code</th>
+                                                                                <th width="10%">Chinese Name</th>
+                                                                                <th width="5%">Devotee</th>
+																																								<th width="5%">Member</th>
+                                                                                <th width="15%">Address</th>
+                                                                                <th width="10%">Guiyi Name</th>
+																																								<th width="5%">Contact</th>
+																																								<th width="5%">Paid Till</th>
+																																								<th width="3%">Mailer</th>
+																																								<th width="12%">Last Trans Date</th>
+                                                                                <th width="10%">Family Code</th>
                                                                             </tr>
                                                                         </thead>
 
@@ -1614,6 +1614,7 @@
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+		<script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js"></script>
 
     <script type="text/javascript">
 
@@ -1752,9 +1753,10 @@
 					var table = $('#devotees_table').DataTable({
 						"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
 						"order": [[ 1, "desc" ]],
+						fixedColumns: true,
 						dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
 		         "<'row'<'col-sm-12'tr>>" +
-		         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+		         "<'row'<'col-sm-5'i><'col-sm-7'p>>"
 					});
 
           $('#devotees_table thead tr#filter th').each( function () {
@@ -1782,6 +1784,7 @@
           var member_table = $('#members_table').DataTable({
               "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
 							"order": [[ 2, "desc" ]],
+							"autoWidth": false,
 							dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
 			         "<'row'<'col-sm-12'tr>>" +
 			         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -1886,6 +1889,8 @@
 
 							else {
 								$("#other_dialect_field").hide();
+								$("#other_dialect_field").find(".col-md-8").removeClass('has-error');
+								$("#content_other_dialect").val('');
 							}
 						});
 
@@ -1906,6 +1911,8 @@
 
 							else {
 								$("#edit_other_dialect_field").hide();
+								$("#edit_other_dialect_field").find(".col-md-8").removeClass('has-error');
+								$("#edit_other_dialect").val('');
 							}
 						});
 
@@ -1926,6 +1933,8 @@
 
 							else {
 								$("#other_race_field").hide();
+								$("#other_race_field").find(".col-md-8").removeClass('has-error');
+								$("#content_other_race").val('');
 							}
 						});
 
@@ -1946,6 +1955,8 @@
 
 							else {
 								$("#edit_other_race_field").hide();
+								$("#edit_other_race_field").find(".col-md-8").removeClass('has-error');
+								$("#edit_other_race").val('');
 							}
 						});
 
@@ -2299,32 +2310,44 @@
 								{
 								  if ($.trim(nric).length <= 0)
 								  {
-								      validationFailed = true;
-								      errors[count++] = "Mandatory NRIC field is empty."
+								    validationFailed = true;
+								    errors[count++] = "Mandatory NRIC field is empty."
 								  }
 
 								  if ($.trim(dob).length <= 0)
 								  {
-								      validationFailed = true;
-								      errors[count++] = "Mandatory Date of Birth field is empty."
+								    validationFailed = true;
+								    errors[count++] = "Mandatory Date of Birth field is empty."
 								  }
 
 								  if ($.trim(marital_status).length <= 0)
 								  {
-								      validationFailed = true;
-								      errors[count++] = "Mandatory Marital Status field is empty."
+								    validationFailed = true;
+								    errors[count++] = "Mandatory Marital Status field is empty."
 								  }
 
 								  if ($.trim(nationality).length <= 0)
 								  {
-								      validationFailed = true;
-								      errors[count++] = "Mandatory Nationality field is empty."
+								    validationFailed = true;
+								    errors[count++] = "Mandatory Nationality field is empty."
+								  }
+
+									if ($.trim(edit_dialect).length <= 0)
+								  {
+								    validationFailed = true;
+								    errors[count++] = "Mandatory Dialect field is empty."
+								  }
+
+									if ($.trim(edit_race).length <= 0)
+								  {
+								    validationFailed = true;
+								    errors[count++] = "Mandatory Race field is empty."
 								  }
 
 								  if ($.trim(edit_introduced_by1).length <= 0)
 								  {
-								      validationFailed = true;
-								      errors[count++] = "Mandatory Introduced By 1 field is empty."
+								    validationFailed = true;
+								    errors[count++] = "Mandatory Introduced By 1 field is empty."
 								  }
 
 									  if ($.trim(edit_introduced_by2).length <= 0)

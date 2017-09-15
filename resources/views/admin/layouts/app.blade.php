@@ -92,7 +92,7 @@
                       </li>
 
                       <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
-                          <a href="/staff/donation" class="nav-link hylink"> General Donation 乐捐
+                          <a href="/staff/donation" class="nav-link hylink"> General Donation 乐捐/月捐
                               <span class="arrow"></span>
                           </a>
                       </li>

@@ -76,7 +76,7 @@
                                 <td colspan="12"></td>
                               </tr>
                               <tr>
-                                <td>Entrance Fee</td>
+                                <td>Entrance Fee 會員基金</td>
                                 <td>{{ number_format($entrance_fees[0]->Jan, 2) }}</td>
                                 <td>{{ number_format($entrance_fees[0]->Feb, 2) }}</td>
                                 <td>{{ number_format($entrance_fees[0]->Mar, 2) }}</td>
@@ -91,7 +91,7 @@
                                 <td>{{ number_format($entrance_fees[0]->December, 2) }}</td>
                               </tr>
                               <tr>
-                                <td>Monthly Subscription</td>
+                                <td>Monthly Subscription 月捐</td>
                                 <td>{{ number_format($monthly_subscriptions[0]->Jan, 2) }}</td>
                                 <td>{{ number_format($monthly_subscriptions[0]->Feb, 2) }}</td>
                                 <td>{{ number_format($monthly_subscriptions[0]->Mar, 2) }}</td>
@@ -104,6 +104,22 @@
                                 <td>{{ number_format($monthly_subscriptions[0]->Oct, 2) }}</td>
                                 <td>{{ number_format($monthly_subscriptions[0]->Nov, 2) }}</td>
                                 <td>{{ number_format($monthly_subscriptions[0]->December, 2) }}</td>
+                              </tr>
+
+                              <tr>
+                                <td>Donation(Others) 香油-其他</td>
+                                <td>{{ number_format($donation_others[0]->Jan, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->Feb, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->Mar, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->Apr, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->May, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->Jun, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->July, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->Aug, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->Sep, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->Oct, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->Nov, 2) }}</td>
+                                <td>{{ number_format($donation_others[0]->December, 2) }}</td>
                               </tr>
 
                               <tr>

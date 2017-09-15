@@ -168,6 +168,7 @@ $(function() {
           }
 
           $("#col-header").text("Paid For");
+          $("#col-header").css("width", "15%");
           $("#col-member").show();
 
           $("#trans_no").val(response.transaction[0].trans_no);

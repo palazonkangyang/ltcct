@@ -96,10 +96,10 @@
        <thead>
          <tr>
            <th width="5%">S/No</th>
-           <th width="20%">Chinese Name</th>
+           <th width="12%">Chinese Name</th>
            <th width="10%">Devotee</th>
            <th width="10%" id="col-member" style="display: none;">Member</th>
-           <th width="35%">Address</th>
+           <th width="25%">Address</th>
            <th width="10%" id="col-header">HJ/ GR</th>
            <th width="10%">Receipt</th>
            <th width="10%">Amount</th>
@@ -174,7 +174,11 @@
      <div class="form-group">
        <label class="col-md-2">Authorized Password</label>
        <div class="col-md-2">
+         @if(Auth::user()->role != 5)
            <input type="password" class="form-control" name="authorized_password" id="authorized_password">
+         @else
+            <input type="password" class="form-control" name="authorized_password" id="authorized_password" disabled>
+         @endif
        </div><!-- end col-md-4 -->
        <div class="col-md-4">
        </div><!-- end col-md-4 -->
@@ -186,6 +190,7 @@
 
     <div class="form-group">
      <input type="hidden" name="transaction_no" value="" id="hidden_transaction_no">
+     <input type="hidden" value="{{ Auth::user()->role }}" id="user_id">
     </div><!-- end form-group -->
 
     @if(Auth::user()->role != 5)
