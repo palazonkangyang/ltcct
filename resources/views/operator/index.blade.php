@@ -1990,34 +1990,34 @@
 
 							if ($.trim(chinese_name).length <= 0)
 							{
-									validationFailed = true;
-									errors[count++] = "Mandatory Chinese name field is empty."
+								validationFailed = true;
+								errors[count++] = "Mandatory Chinese name field is empty."
 							}
 
 							if ($.trim(contact).length <= 0)
 							{
-									validationFailed = true;
-									errors[count++] = "Mandatory Contact field is empty."
+								validationFailed = true;
+								errors[count++] = "Mandatory Contact field is empty."
 							}
 
 							if($.trim(oversea_addr_in_chinese).length <= 0)
 							{
 								if ($.trim(address_houseno).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Address Houseno field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Address Houseno field is empty."
 								}
 
 								if ($.trim(address_street).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Address Street field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Address Street field is empty."
 								}
 
 								if ($.trim(address_postal).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Address Postal field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Address Postal field is empty."
 								}
 							}
 

@@ -1571,8 +1571,6 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 
-		$input['trans_no'] = "T587";
-
 		if(isset($input['trans_no']))
 		{
 			$trans = GeneralDonation::where('trans_no', $input['trans_no'])->first();
