@@ -51,7 +51,11 @@
                         <h4 class="text-center" style="font-weight: bold;">{{ $year }} Income Statement Summary</h4><br />
 
                         <div class="col-md-12">
-                          <table class="table table-bordered table-striped" id="report-table">
+                          <button type="button" class="btn blue print-btn">Print</button>
+                        </div><!-- end col-md-12 -->
+
+                        <div class="col-md-12">
+                          <table border="1" class="table table-bordered table-striped" id="income-year-report">
                             <thead>
                      					<tr>
                      						<th width="28%"></th>
@@ -73,59 +77,58 @@
                             <tbody>
                               <tr>
                                 <td style="font-weight: bold; text-decoration: underline">REVENUE 收入</td>
-                                <td colspan="12"></td>
-                              </tr>
-                              <tr>
-                                <td>Entrance Fee 會員基金</td>
-                                <td>{{ number_format($entrance_fees[0]->Jan, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->Feb, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->Mar, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->Apr, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->May, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->Jun, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->July, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->Aug, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->Sep, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->Oct, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->Nov, 2) }}</td>
-                                <td>{{ number_format($entrance_fees[0]->December, 2) }}</td>
-                              </tr>
-                              <tr>
-                                <td>Monthly Subscription 月捐</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Jan, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Feb, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Mar, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Apr, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->May, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Jun, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->July, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Aug, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Sep, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Oct, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->Nov, 2) }}</td>
-                                <td>{{ number_format($monthly_subscriptions[0]->December, 2) }}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                               </tr>
 
+                              @for($i = 0; $i < count($income); $i++)
+
+                              @if($income[$i]->type_name != 'Donation(non-member) 香油-非會員' && $income[$i]->type_name != 'Donation(Member) 香油-會員')
                               <tr>
-                                <td>Donation(Others) 香油-其他</td>
-                                <td>{{ number_format($donation_others[0]->Jan, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->Feb, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->Mar, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->Apr, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->May, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->Jun, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->July, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->Aug, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->Sep, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->Oct, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->Nov, 2) }}</td>
-                                <td>{{ number_format($donation_others[0]->December, 2) }}</td>
+                                <td>{{ $income[$i]->type_name }}</td>
+                                <td>{{ number_format($income[$i]->Jan, 2) }}</td>
+                                <td>{{ number_format($income[$i]->Feb, 2) }}</td>
+                                <td>{{ number_format($income[$i]->Mar, 2) }}</td>
+                                <td>{{ number_format($income[$i]->Apr, 2) }}</td>
+                                <td>{{ number_format($income[$i]->May, 2) }}</td>
+                                <td>{{ number_format($income[$i]->Jun, 2) }}</td>
+                                <td>{{ number_format($income[$i]->July, 2) }}</td>
+                                <td>{{ number_format($income[$i]->Aug, 2) }}</td>
+                                <td>{{ number_format($income[$i]->Sep, 2) }}</td>
+                                <td>{{ number_format($income[$i]->Oct, 2) }}</td>
+                                <td>{{ number_format($income[$i]->Nov, 2) }}</td>
+                                <td>{{ number_format($income[$i]->December, 2) }}</td>
                               </tr>
+                              @endif
+
+                              @endfor
 
                               <tr>
                                 <td style="font-weight: bold; text-decoration: underline">General Donation 香油</td>
-                                <td colspan="12"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                               </tr>
+
                               <tr>
                                 <td>Donation (Member) 香油-會員</td>
                                 <td>{{ number_format($donation_members[0]->Jan, 2) }}</td>
@@ -203,57 +206,31 @@
 
 @section('custom-js')
 
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+
 <script type="text/javascript">
 
   $(function() {
 
-    $("#report").click(function() {
-      var from_date = $("#from_date").val();
-      var to_date = $("#to_date").val();
+    function printData()
+    {
+      var divToPrint=document.getElementById("income-year-report");
+      newWin= window.open("");
+      newWin.document.write(divToPrint.outerHTML);
+      newWin.print();
+      newWin.close();
+    }
 
-      var formData = {
-          _token: $('meta[name="csrf-token"]').attr('content'),
-          from_date: from_date,
-          to_date: to_date
-      };
-
-      $.ajax({
-          type: 'GET',
-          url: "/report/report-detail",
-          data: formData,
-          dataType: 'json',
-          success: function(response)
-          {
-            if(response.donation_member.length != 0)
-            {
-              count = 1;
-
-              $("<tr>").appendTo("#report-table tbody");
-
-              // alert(response.donation_member[0].total_amount);
-
-              for($i = 0; $i < 12; $i++)
-              {
-                $(response.donation_member[count].month == count ? '<td>S$ ' + response.donation_member[count].total_amount + '</td>': '<td>S$ 0</td>').appendTo("#report-table tbody");
-              }
-
-              // $.each(response.donation_member, function(index, data) {
-              //   alert(data.month);
-              //   $(data.month == count ? '<td>S$ ' + data.total_amount + '</td>': '<td>S$ 0</td>').appendTo("#report-table tbody");
-              //
-              //   count++;
-              // });
-
-              $("</tr>").appendTo("#report-table tbody");
-            }
-          },
-
-          error: function (response) {
-              console.log(response);
-          }
-      });
-
+    $('button').on('click',function(){
+      printData();
     });
+
   });
 </script>
 

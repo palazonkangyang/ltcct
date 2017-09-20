@@ -180,6 +180,9 @@ class StaffController extends Controller
 		Session::forget('yuejuan_same_family');
 		Session::forget('yuejuan_different_family');
 		Session::forget('samefamily_amount');
+		Session::forget('setting_samefamily');
+		Session::forget('xianyou_focusdevotee');
+		Session::forget('setting_differentfamily');
 		Session::forget('differentfamily_amount');
 
 		$focus_devotee = Devotee::find($input['focusdevotee_id']);
@@ -226,12 +229,25 @@ class StaffController extends Controller
 													->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 													->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 													->where('devotee.familycode_id', $focus_devotee->familycode_id)
+													->where('devotee.devotee_id', '!=', $focus_devotee->devotee_id)
 													->where('setting_generaldonation.address_code', '=', 'same')
 													->where('setting_generaldonation.yuejuan_id', '=', '1')
 													->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee->devotee_id)
 													->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 													->GroupBy('devotee.devotee_id')
 													->get();
+
+		$yuejuan_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+																 ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+																 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+																 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+																 ->where('setting_generaldonation.address_code', '=', 'same')
+																 ->where('setting_generaldonation.yuejuan_id', '=', '1')
+																 ->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee->devotee_id)
+																 ->where('setting_generaldonation.devotee_id', '=', $focus_devotee->devotee_id)
+																 ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+																 ->GroupBy('devotee.devotee_id')
+																 ->get();
 
 		$yuejuan_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 																->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
@@ -242,6 +258,100 @@ class StaffController extends Controller
 																->where('setting_generaldonation.yuejuan_id', '=', '1')
 																->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee->devotee_id)
 																->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+																->GroupBy('devotee.devotee_id')
+																->get();
+
+		$result = SettingGeneralDonation::where('focusdevotee_id', $focus_devotee->devotee_id)->get();
+
+		if(count($result) > 0)
+		{
+			$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+																	->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
+																	->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+																	->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+																	->where('devotee.devotee_id', '!=', $focus_devotee->devotee_id)
+																	->where('devotee.familycode_id', $focus_devotee->familycode_id)
+																	->where('setting_generaldonation.focusdevotee_id', $focus_devotee->devotee_id)
+																	->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+																	->GroupBy('devotee.devotee_id')
+																	->get();
+
+			$nosetting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+															->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+															->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+															->where('devotee.familycode_id', $focus_devotee->familycode_id)
+															->where('devotee.devotee_id', '!=', $focus_devotee->devotee_id)
+															->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+															->GroupBy('devotee.devotee_id')
+															->get();
+
+			if(count($nosetting_samefamily) > 0)
+			{
+				for($i = 0; $i < count($nosetting_samefamily); $i++)
+				{
+					$nosetting_samefamily[$i]->xiangyou_ciji_id = 0;
+					$nosetting_samefamily[$i]->yuejuan_id = 0;
+				}
+
+				$setting_samefamily = $nosetting_samefamily->merge($setting_samefamily);
+			}
+		}
+
+		else
+		{
+			$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+														->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+														->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+														->where('devotee.devotee_id', '!=', $focus_devotee->devotee_id)
+														->where('devotee.familycode_id', $focus_devotee->familycode_id)
+														->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+														->GroupBy('devotee.devotee_id')
+														->get();
+
+			 for($i = 0; $i < count($setting_samefamily); $i++)
+			 {
+				 $setting_samefamily[$i]->xiangyou_ciji_id = 0;
+				 $setting_samefamily[$i]->yuejuan_id = 0;
+			 }
+		}
+
+		$setting = SettingGeneralDonation::where('focusdevotee_id', $focus_devotee->devotee_id)
+							 ->where('devotee_id', $focus_devotee->devotee_id)
+							 ->get();
+
+		if(count($setting) > 0)
+		{
+			$xianyou_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+															->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+															->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+															->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+															->where('devotee.devotee_id', $focus_devotee->devotee_id)
+															->where('setting_generaldonation.focusdevotee_id', $focus_devotee->devotee_id)
+															->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+															->GroupBy('devotee.devotee_id')
+												     	->get();
+		}
+
+		else
+		{
+			$xianyou_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+															->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+															->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+															->where('devotee.devotee_id', $focus_devotee->devotee_id)
+															->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+												     	->get();
+
+			$xianyou_focusdevotee[0]->xiangyou_ciji_id = 0;
+			$xianyou_focusdevotee[0]->yuejuan_id = 0;
+		}
+
+		$setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+															  ->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
+																->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+																->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+																->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee->devotee_id)
+																->where('setting_generaldonation.address_code', '=', 'different')
+																->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
 																->GroupBy('devotee.devotee_id')
 																->get();
 
@@ -263,7 +373,43 @@ class StaffController extends Controller
 				$data = Receipt::where('generaldonation_id', $yuejuan_receipts[$i]->generaldonation_id)->pluck('xy_receipt');
 
 				$receipt_count = count($data);
-				$yuejuan_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+
+				if($receipt_count > 1)
+				{
+					$yuejuan_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+				}
+				else
+				{
+					$yuejuan_receipts[$i]->receipt_no = $data[0];
+				}
+			}
+		}
+
+		$focusdevotee_amount = [];
+
+		if(count($yuejuan_same_focusdevotee) > 0)
+		{
+			if(isset($yuejuan_same_focusdevotee[0]->paytill_date))
+			{
+				$amount = [];
+
+				$myArray = explode('-', $yuejuan_same_focusdevotee[0]->paytill_date);
+
+				$count = 1;
+				for($j = 1; $j <= 10; $j++)
+				{
+					$dt = Carbon::create($myArray[0], $myArray[1], $myArray[2], 0);
+					$dt = $dt->addYears($count);
+
+					$format = Carbon::parse($dt)->format("Y-m");
+
+					$fee = $membership->membership_fee * $j;
+					$amount[$j] = number_format($fee, 2) . ' --- ' . $format;
+
+					$count++;
+				}
+
+				array_push($focusdevotee_amount, $amount);
 			}
 		}
 
@@ -328,7 +474,12 @@ class StaffController extends Controller
 		Session::put('xianyou_same_focusdevotee', $xianyou_same_focusdevotee);
 		Session::put('xianyou_different_family', $xianyou_different_family);
 		Session::put('yuejuan_same_family', $yuejuan_same_family);
+		Session::put('yuejuan_same_focusdevotee', $yuejuan_same_focusdevotee);
 		Session::put('yuejuan_different_family', $yuejuan_different_family);
+		Session::put('setting_samefamily', $setting_samefamily);
+		Session::put('xianyou_focusdevotee', $xianyou_focusdevotee);
+		Session::put('setting_differentfamily', $setting_differentfamily);
+		Session::put('focusdevotee_amount', $focusdevotee_amount);
 		Session::put('samefamily_amount', $samefamily_amount);
 		Session::put('differentfamily_amount', $differentfamily_amount);
 
@@ -396,10 +547,23 @@ class StaffController extends Controller
 			$loop = $loop + 1;
 		}
 
+		$count_familycode = 0;
+
+		for($i = 0; $i < count($result); $i++)
+		{
+		  $first_familycode = $result[0]->familycode_id;
+
+		  if($first_familycode == $result[$i]->familycode_id)
+		  {
+		    $count_familycode++;
+		  }
+		}
+
 		return view('staff.yuejuan-print', [
 			'receipts' => $result,
 			'print_format' => $hjgr,
 			'loop' => $loop,
+			'count_familycode' => $count_familycode,
 			'samefamily_no' => $samefamily_no,
 			'total_amount' => number_format($total_amount, 2),
 			'paid_by' => $paid_by
@@ -452,39 +616,42 @@ class StaffController extends Controller
 
 		if($general_donation)
 		{
-			for($i = 0; $i < count($input['amount']); $i++)
+			if(isset($input['amount']))
 			{
-				if(isset($input['amount'][$i]))
+				for($i = 0; $i < count($input['amount']); $i++)
 				{
-					if(count(Receipt::all()) > 0)
+					if(isset($input['amount'][$i]))
 					{
-						$same_xy_receipt = Receipt::all()->last()->receipt_id;
+						if(count(Receipt::all()) > 0)
+						{
+							$same_xy_receipt = Receipt::all()->last()->receipt_id;
+						}
+
+						else {
+							$result = GlCode::where('glcode_id', '134')->pluck('next_sn_number');
+							$same_xy_receipt = $result[0];
+						}
+
+						$prefix = GlCode::where('glcode_id', '134')->pluck('receipt_prefix');
+						$prefix = $prefix[0];
+						$same_xy_receipt += 1;
+						$same_xy_receipt = $prefix . $same_xy_receipt;
+
+						$receipt = [
+							"xy_receipt" => $same_xy_receipt,
+							"trans_date" => Carbon::now(),
+							"description" => "General Donation - 慈济",
+							"amount" => $input['amount'][$i],
+							"hjgr" => $input['hjgr_arr'][$i],
+							"display" => $input['display'][$i],
+							"glcode_id" => 134,
+							"devotee_id" => $input['devotee_id'][$i],
+							"generaldonation_id" => $general_donation->generaldonation_id,
+							"staff_id" => Auth::user()->id
+						];
+
+						Receipt::create($receipt);
 					}
-
-					else {
-						$result = GlCode::where('glcode_id', '134')->pluck('next_sn_number');
-						$same_xy_receipt = $result[0];
-					}
-
-					$prefix = GlCode::where('glcode_id', '134')->pluck('receipt_prefix');
-					$prefix = $prefix[0];
-					$same_xy_receipt += 1;
-					$same_xy_receipt = $prefix . $same_xy_receipt;
-
-					$receipt = [
-						"xy_receipt" => $same_xy_receipt,
-						"trans_date" => Carbon::now(),
-						"description" => "General Donation - 慈济",
-						"amount" => $input['amount'][$i],
-						"hjgr" => $input['hjgr_arr'][$i],
-						"display" => $input['display'][$i],
-						"glcode_id" => 134,
-						"devotee_id" => $input['devotee_id'][$i],
-						"generaldonation_id" => $general_donation->generaldonation_id,
-						"staff_id" => Auth::user()->id
-					];
-
-					Receipt::create($receipt);
 				}
 			}
 
@@ -545,7 +712,15 @@ class StaffController extends Controller
 			{
 				$data = Receipt::where('generaldonation_id', $ciji_receipts[$i]->generaldonation_id)->pluck('xy_receipt');
 				$receipt_count = count($data);
-				$ciji_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+
+				if($receipt_count > 1)
+				{
+					$ciji_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+				}
+				else
+				{
+					$ciji_receipts[$i]->receipt_no = $data[0];
+				}
 			}
 		}
 
@@ -606,10 +781,23 @@ class StaffController extends Controller
 				$loop = $loop + 1;
 			}
 
+			$count_familycode = 0;
+
+			for($i = 0; $i < count($result); $i++)
+			{
+			  $first_familycode = $result[0]->familycode_id;
+
+			  if($first_familycode == $result[$i]->familycode_id)
+			  {
+			    $count_familycode++;
+			  }
+			}
+
 			return view('staff.print', [
 				'receipts' => $result,
 				'print_format' => $hjgr,
 				'loop' => $loop,
+				'count_familycode' => $count_familycode,
 				'samefamily_no' => $samefamily_no,
 				'total_amount' => number_format($total_amount, 2),
 				'paid_by' => $paid_by
@@ -661,51 +849,54 @@ class StaffController extends Controller
 
 		if($general_donation)
 		{
-			for($i = 0; $i < count($input['amount']); $i++)
+			if(isset($input['amount']))
 			{
-				if(isset($input['amount'][$i]))
+				for($i = 0; $i < count($input['amount']); $i++)
 				{
-					if(count(Receipt::all()) > 0)
+					if(isset($input['amount'][$i]))
 					{
-						$same_xy_receipt = Receipt::all()->last()->receipt_id;
+						if(count(Receipt::all()) > 0)
+						{
+							$same_xy_receipt = Receipt::all()->last()->receipt_id;
+						}
+
+						else {
+							$result = GlCode::where('glcode_id', '119')->pluck('next_sn_number');
+							$same_xy_receipt = $result[0];
+						}
+
+						$prefix = GlCode::where('glcode_id', '119')->pluck('receipt_prefix');
+						$prefix = $prefix[0];
+						$same_xy_receipt += 1;
+						$same_xy_receipt = $prefix . $same_xy_receipt;
+
+						$devotee = Devotee::find($input['devotee_id'][$i]);
+
+						if(isset($devotee->member_id))
+					  {
+					    $glcode = 119;
+					  }
+
+					  else
+					  {
+					    $glcode = 112;
+					  }
+
+						$receipt = [
+							"xy_receipt" => $same_xy_receipt,
+							"trans_date" => Carbon::now(),
+							"description" => "General Donation - 香油",
+							"amount" => $input['amount'][$i],
+							"hjgr" => $input['hjgr_arr'][$i],
+							"display" => $input['display'][$i],
+							"glcode_id" => $glcode,
+							"devotee_id" => $input['devotee_id'][$i],
+							"generaldonation_id" => $general_donation->generaldonation_id,
+							"staff_id" => Auth::user()->id
+						];
+
+						Receipt::create($receipt);
 					}
-
-					else {
-						$result = GlCode::where('glcode_id', '119')->pluck('next_sn_number');
-						$same_xy_receipt = $result[0];
-					}
-
-					$prefix = GlCode::where('glcode_id', '119')->pluck('receipt_prefix');
-					$prefix = $prefix[0];
-					$same_xy_receipt += 1;
-					$same_xy_receipt = $prefix . $same_xy_receipt;
-
-					$devotee = Devotee::find($input['devotee_id']);
-
-					if(isset($devotee->member_id))
-				  {
-				    $glcode = 119;
-				  }
-
-				  else
-				  {
-				    $glcode = 112;
-				  }
-
-					$receipt = [
-						"xy_receipt" => $same_xy_receipt,
-						"trans_date" => Carbon::now(),
-						"description" => "General Donation - 香油",
-						"amount" => $input['amount'][$i],
-						"hjgr" => $input['hjgr_arr'][$i],
-						"display" => $input['display'][$i],
-						"glcode_id" => $glcode,
-						"devotee_id" => $input['devotee_id'][$i],
-						"generaldonation_id" => $general_donation->generaldonation_id,
-						"staff_id" => Auth::user()->id
-					];
-
-					Receipt::create($receipt);
 				}
 			}
 
@@ -730,7 +921,7 @@ class StaffController extends Controller
 						$same_xy_receipt += 1;
 						$same_xy_receipt = $prefix . $same_xy_receipt;
 
-						$devotee = Devotee::find($input['devotee_id']);
+						$devotee = Devotee::find($input['other_devotee_id'][$i]);
 
 						if(isset($devotee->member_id))
 					  {
@@ -782,11 +973,17 @@ class StaffController extends Controller
 			{
 				$data = Receipt::where('generaldonation_id', $receipts[$i]->generaldonation_id)->pluck('xy_receipt');
 				$receipt_count = count($data);
-				$receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+
+				if($receipt_count > 1)
+				{
+					$receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+				}
+				else
+				{
+					$receipts[$i]->receipt_no = $data[0];
+				}
 			}
 		}
-
-		// dd($receipts->toArray());
 
 		Session::put('receipts', $receipts);
 
@@ -845,10 +1042,23 @@ class StaffController extends Controller
 			$loop = $loop + 1;
 		}
 
+		$count_familycode = 0;
+
+		for($i = 0; $i < count($result); $i++)
+		{
+		  $first_familycode = $result[0]->familycode_id;
+
+		  if($first_familycode == $result[$i]->familycode_id)
+		  {
+		    $count_familycode++;
+		  }
+		}
+
 		return view('staff.print', [
 			'receipts' => $result,
 			'print_format' => $hjgr,
 			'loop' => $loop,
+			'count_familycode' => $count_familycode,
 			'samefamily_no' => $samefamily_no,
 			'total_amount' => number_format($total_amount, 2),
 			'paid_by' => $paid_by
@@ -886,6 +1096,7 @@ class StaffController extends Controller
 		Session::forget('nosetting_samefamily');
 		Session::forget('xianyou_focusdevotee');
 		Session::forget('yuejuan_same_family');
+		Session::forget('yuejuan_same_focusdevotee');
 
 		$devotee = Devotee::find($input['focusdevotee_id']);
 
@@ -941,6 +1152,7 @@ class StaffController extends Controller
 											 		 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 											 		 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 											 		 ->where('devotee.familycode_id', $devotee->familycode_id)
+													 ->where('devotee.devotee_id', '!=', $input['focusdevotee_id'])
 													 ->where('setting_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
 											 		 ->where('setting_generaldonation.address_code', '=', 'same')
 											 		 ->where('setting_generaldonation.yuejuan_id', '=', '1')
@@ -948,9 +1160,48 @@ class StaffController extends Controller
 													 ->GroupBy('devotee.devotee_id')
 											 		 ->get();
 
+		$yuejuan_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+							 										->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+							 										->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+							 										->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+							 										->where('setting_generaldonation.address_code', '=', 'same')
+							 										->where('setting_generaldonation.yuejuan_id', '=', '1')
+							 										->where('setting_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
+							 										->where('setting_generaldonation.devotee_id', '=', $input['focusdevotee_id'])
+							 										->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+							 										->GroupBy('devotee.devotee_id')
+							 										->get();
+
 		$membership = MembershipFee::all()->first();
 
-		$amount = [];
+		$focusdevotee_amount = [];
+
+		if(count($yuejuan_same_focusdevotee) > 0)
+		{
+			if(isset($yuejuan_same_focusdevotee[0]->paytill_date))
+			{
+				$amount = [];
+
+				$myArray = explode('-', $yuejuan_same_focusdevotee[0]->paytill_date);
+
+				$count = 1;
+				for($j = 1; $j <= 10; $j++)
+				{
+					$dt = Carbon::create($myArray[0], $myArray[1], $myArray[2], 0);
+					$dt = $dt->addYears($count);
+
+					$format = Carbon::parse($dt)->format("Y-m");
+
+					$fee = $membership->membership_fee * $j;
+					$amount[$j] = number_format($fee, 2) . ' --- ' . $format;
+
+					$count++;
+				}
+
+				array_push($focusdevotee_amount, $amount);
+			}
+		}
+
 		$samefamily_amount = [];
 
 		for($i = 0; $i < count($yuejuan_same_family); $i++)
@@ -983,8 +1234,10 @@ class StaffController extends Controller
 		Session::put('xianyou_same_family', $xianyou_same_family);
 		Session::put('xianyou_same_focusdevotee', $xianyou_same_focusdevotee);
 		Session::put('yuejuan_same_family', $yuejuan_same_family);
+		Session::put('yuejuan_same_focusdevotee', $yuejuan_same_focusdevotee);
 		Session::put('setting_samefamily', $setting_samefamily);
 		Session::put('xianyou_focusdevotee', $xianyou_focusdevotee);
+		Session::put('focusdevotee_amount', $focusdevotee_amount);
 		Session::put('samefamily_amount', $samefamily_amount);
 
 		$request->session()->flash('success', 'Setting for same address is successfully created.');
@@ -1785,8 +2038,6 @@ class StaffController extends Controller
 		$input = array_except($request->all(), '_token');
 		$total_amount = 0;
 
-		// dd($input);
-
 		if(isset($input['receipt_no']))
 		{
 			$receipts = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
@@ -1825,14 +2076,17 @@ class StaffController extends Controller
 								 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'generaldonation.mode_payment')
 								 ->get();
 
-			if(isset($receipts[0]->paytill_date))
+			if($receipts[0]->glcode_id == 110 || $receipts[0]->glcode_id == 108)
 			{
-				for($i = 0; $i < count($receipts); $i++)
+				if(isset($receipts[0]->paytill_date))
 				{
-				  if(isset($receipts[$i]->paytill_date))
-				  {
-				    $receipts[$i]->paid_for = number_format($receipts[$i]->amount, 2) . ' - ' . Carbon::parse($receipts[$i]->paytill_date)->format("Y-m");
-				  }
+					for($i = 0; $i < count($receipts); $i++)
+					{
+					  if(isset($receipts[$i]->paytill_date))
+					  {
+					    $receipts[$i]->paid_for = number_format($receipts[$i]->amount, 2) . ' - ' . Carbon::parse($receipts[$i]->paytill_date)->format("Y-m");
+					  }
+					}
 				}
 			}
 
@@ -1880,12 +2134,25 @@ class StaffController extends Controller
 			$loop = $loop + 1;
 		}
 
+		$count_familycode = 0;
+
+		for($i = 0; $i < count($receipts); $i++)
+		{
+			$first_familycode = $receipts[0]->familycode_id;
+
+			if($first_familycode == $receipts[$i]->familycode_id)
+			{
+				$count_familycode++;
+			}
+		}
+
 		if(isset($receipts[0]->paid_for))
 		{
 			return view('staff.yuejuan-print', [
 			  'receipts' => $receipts,
 			  'print_format' => $print_format,
 			  'loop' => $loop,
+				'count_familycode' => $count_familycode,
 			  'samefamily_no' => $samefamily_no,
 			  'total_amount' => number_format($total_amount, 2),
 			  'paid_by' => $paid_by
@@ -1899,12 +2166,11 @@ class StaffController extends Controller
 				'print_format' => $print_format,
 				'samefamily_no' => $samefamily_no,
 				'loop' => $loop,
+				'count_familycode' => $count_familycode,
 				'total_amount' => number_format($total_amount, 2),
 				'paid_by' => $paid_by
 			]);
 		}
-
-
 	}
 
 	public function getCreateFestiveEvent()

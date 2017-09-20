@@ -34,30 +34,48 @@
 
                                     <!-- BEGIN INBOX DROPDOWN -->
                                     <li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
-
-
-                                        <ul
-                                            <li>
-
-                                                <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
-                                                    </ul>
-                                                </li>
+                                      <!-- <ul>
+                                          <li>
+                                            <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
                                             </ul>
-                                        </li>
+                                          </li>
+                                      </ul> -->
+                                    </li>
 
                                     <li class="dropdown dropdown-user dropdown-dark">
                                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                            <img alt="" class="img-circle" src="{{ URL::asset('/images/avatar9.jpg') }}">
-                                            <span class="username username-hide-mobile">{{ Auth::user()->user_name }}</span>
+                                          <img alt="" class="img-circle" src="{{ URL::asset('/images/avatar9.jpg') }}">
+                                          <span class="username username-hide-mobile">{{ Auth::user()->user_name }}</span>
                                         </a>
 
                                         <ul class="dropdown-menu dropdown-menu-default">
-
-
-                                            <li id="logout">
-                                                <a href="{{ URL::to('/auth/logout') }}">
-                                                    <i class="icon-key"></i> Log Out 登出 </a>
-                                            </li>
+                                          <li>
+                                            <a href="#">
+                                              <span style="display: inline-block; width: 80px;">User</span>
+                                              {{ Auth::user()->user_name }}
+                                            </a>
+                                          </li>
+                                          <li>
+                                            <a href="#">
+                                              <span style="display: inline-block; width: 80px;">User Level</span>
+                                              {{ Auth::user()->role }}
+                                            </a>
+                                          </li>
+                                          @if(isset(Auth::user()->last_login))
+                                          <li>
+                                            <a href="#">
+                                              <span style="display: inline-block; width: 80px;">Last Login</span>
+                                              {{ \Carbon\Carbon::parse(Auth::user()->last_login)->format("d/m/Y H:i") }} hr
+                                            </a>
+                                          </li>
+                                          @else
+                                          <li>
+                                            <a href="#"><span style="display: inline-block; width: 80px;">Last Login</span> -</a>
+                                          </li>
+                                          @endif
+                                          <li id="logout">
+                                              <a href="{{ URL::to('/auth/logout') }}"><i class="icon-key"></i> Log Out 登出 </a>
+                                          </li>
                                         </ul>
                                    </li>
 
@@ -71,9 +89,7 @@
 
                     <div class="page-header-menu">
 
-						<div class="container-fluid">
-
-
+						           <div class="container-fluid">
 
                             <div class="hor-menu">
                             	<ul class="nav navbar-nav">
@@ -161,10 +177,10 @@
                                                                         <a href="/report/income-report" class="hylink">Income Statement Report</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#" class="hylink">Trial Balance Report</a>
+                                                                        <a href="/report/trialbalance-report" class="hylink">Trial Balance Report</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#" class="hylink">Cashflow Statement Report</a>
+                                                                        <a href="/report/cashflow-report" class="hylink">Cashflow Statement Report</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -175,8 +191,6 @@
                                         </li>
 
                                     @endif
-
-
 
                                     @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
                                     <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
@@ -194,30 +208,30 @@
                                     </li>
                                     @endif
 
-                                        @if(Auth::user()->role == 1)
-                                        <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                                            <a href="javascript:;"> System Settings
-                                                <span class="arrow"></span>
-                                            </a>
-                                            <ul class="dropdown-menu pull-left">
-                                                <li aria-haspopup="true">
-                                                    <a href="/admin/prelogin-note" class="hylink">Prelogin Notes</a>
-                                                </li>
-                                                <li aria-haspopup="true">
-                                                    <a href="/admin/all-dialects" class="hylink">Dialect</a>
-                                                </li>
-                                                <li aria-haspopup="true">
-                                                    <a href="/admin/all-race" class="hylink">Race</a>
-                                                </li>
-                                                <li aria-haspopup="true">
-                                                    <a href="/admin/membership-fee" class="hylink">Membership Fee</a>
-                                                </li>
-                                                <li aria-haspopup="true">
-                                                    <a href="/admin/minimum-amount" class="hylink">Minimum Amount</a>
-                                                </li>
-                                            </ul>
+                                    @if(Auth::user()->role == 1)
+                                    <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
+                                      <a href="javascript:;"> System Settings
+                                        <span class="arrow"></span>
+                                      </a>
+                                      <ul class="dropdown-menu pull-left">
+                                        <li aria-haspopup="true">
+                                          <a href="/admin/prelogin-note" class="hylink">Prelogin Notes</a>
                                         </li>
-                                        @endif
+                                        <li aria-haspopup="true">
+                                          <a href="/admin/all-dialects" class="hylink">Dialect</a>
+                                        </li>
+                                        <li aria-haspopup="true">
+                                          <a href="/admin/all-race" class="hylink">Race</a>
+                                        </li>
+                                        <li aria-haspopup="true">
+                                          <a href="/admin/membership-fee" class="hylink">Membership Fee</a>
+                                        </li>
+                                        <li aria-haspopup="true">
+                                          <a href="/admin/minimum-amount" class="hylink">Minimum Amount</a>
+                                        </li>
+                                      </ul>
+                                    </li>
+                                    @endif
 
                                 </ul><!-- end nav navbar-nav -->
                             </div><!-- end hor-menu -->
@@ -256,9 +270,9 @@
 
 	@section('scripts')
 
-        @include('layouts.partials.scripts')
+    @include('layouts.partials.scripts')
 
-    @show
+  @show
 
     <!-- <script>
         $(document).ready(function()
@@ -271,7 +285,6 @@
     </script> -->
 
     @yield('custom-js')
-
 
 </body>
 </html>

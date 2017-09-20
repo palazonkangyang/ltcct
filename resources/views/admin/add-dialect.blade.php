@@ -96,14 +96,9 @@
                       </div><!-- end form-body -->
 
                       <div class="form-actions">
-                          <button type="submit" class="btn blue" id="create-dialect-btn">Create</button>
-                          <button type="button" class="btn default" id="cancel-dialect-btn">Cancel</button>
+                        <button type="submit" class="btn blue" id="create-dialect-btn">Create</button>
+                        <a href="/admin/all-dialects" class="btn default">Cancel</a>
                       </div><!-- end form-actions -->
-
-                      <div id="dialog-box" title="System Alert" style="display:none;">
-                          You have NOT Saved this Dialect Record
-                          Do you want to Cancel this record?
-                      </div>
 
                     </form>
 

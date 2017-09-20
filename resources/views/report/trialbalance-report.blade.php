@@ -12,7 +12,7 @@
 
               <div class="page-title">
 
-                  <h1>Income Statement Report</h1>
+                  <h1>Trial Balance Report</h1>
 
               </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
                   <i class="fa fa-circle"></i>
               </li>
               <li>
-                  <span>Income Statement Report</span>
+                  <span>Trial Balance Report</span>
               </li>
           </ul>
 
@@ -44,16 +44,12 @@
 
                   <div class="portlet light">
 
-                    <div class="validation-error">
-                    </div><!-- end validation-error -->
-
                     <div class="portlet-body">
 
                       <div class="form-body">
 
                         <div class="col-md-2">
-
-                          <form action="{{ URL::to('/report/report-detail') }}" method="post">
+                          <form action="{{ URL::to('/report/trialbalance-report-detail') }}" method="post">
                             {!! csrf_field() !!}
 
                             <div class="form-group">
@@ -63,22 +59,16 @@
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                              <label style="padding:0;">Month</label>
-                              <input type="text" class="form-control" name="month" value="{{ old('month') }}"
-                              data-provide="datepicker" data-date-format="yyyy" id="month">
+                              <button type="submit" class="btn blue" id="report">Report</button>
+                              <button type="button" class="btn default">Clear</button>
                             </div><!-- end form-group -->
-
-                              <div class="form-group">
-                                <button type="submit" class="btn blue" id="report">Report</button>
-                                <button type="button" class="btn default">Clear</button>
-                              </div><!-- end form-group -->
                           </form>
-
                         </div><!-- end col-md-2 -->
-                      </div><!-- end form-body -->
 
-                      <div class="clearfix">
-                      </div><!-- end clearfix -->
+                        <div class="clearfix">
+                        </div><!-- end clearfix -->
+
+                      </div><!-- end form-body -->
 
                     </div><!-- end portlet-body -->
 
@@ -103,10 +93,12 @@
 
 @section('custom-js')
 
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
 <script type="text/javascript">
 
-  $(function() {
+  $(function(){
 
     var path = window.location.pathname;
 
@@ -124,19 +116,12 @@
       minViewMode: "years"
     });
 
-    $("#month").datepicker( {
-      format: "M",
-      viewMode: "months",
-      minViewMode: "months"
-    });
-
     $("#report").click(function() {
 
       var count = 0;
       var errors = new Array();
       var validationFailed = false;
 
-      var month = $("#month").val();
       var year = $("#year").val();
 
       if($.trim(month).length > 0)
@@ -146,12 +131,6 @@
           validationFailed = true;
           errors[count++] = "Year is empty."
         }
-      }
-
-      if($.trim(year).length <= 0 && $.trim(month).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Please choose month or year to generate income report."
       }
 
       if (validationFailed)
@@ -177,7 +156,9 @@
         $(".validation-error").empty();
       }
     });
+
   });
+
 </script>
 
 @stop

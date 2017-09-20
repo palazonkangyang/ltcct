@@ -261,9 +261,9 @@
 
     <div class="form-group">
       @if(count($focus_devotee) > 0)
-        <input type="hidden" name="focusdevotee_id" value="{{ $focus_devotee[0]->devotee_id }}">
+        <input type="hidden" name="focusdevotee_id" value="{{ $focus_devotee[0]->devotee_id }}" id="xiangyou_focusdevotee_id">
       @else
-        <input type="hidden" name="focusdevotee_id" value="">
+        <input type="hidden" name="focusdevotee_id" id="xiangyou_focusdevotee_id">
       @endif
     </div><!-- end form-group -->
 

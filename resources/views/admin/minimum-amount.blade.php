@@ -69,7 +69,7 @@
 
                                       <div class="caption font-red-sunglo">
                                           <i class="icon-settings font-red-sunglo"></i>
-                                          <span class="caption-subject bold uppercase">Minumum Amount</span>
+                                          <span class="caption-subject bold uppercase">Minimum Amount</span>
                                       </div><!-- end caption font-red-sunglo -->
 
                                   </div><!-- end portlet-title -->

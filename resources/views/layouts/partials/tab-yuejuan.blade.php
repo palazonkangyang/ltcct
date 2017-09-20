@@ -25,89 +25,177 @@
               </tr>
           </thead>
 
-          @if(count($yuejuan_same_family) > 0)
+          @if(count($yuejuan_same_family) > 0 || count($yuejuan_same_focusdevotee) > 0)
 
           <tbody id="has_session">
 
-              @php $i = 0; @endphp
-              @foreach($yuejuan_same_family as $yj_family)
+            @if(count($yuejuan_same_focusdevotee) > 0)
 
-              <tr>
-                <td>
-                  @if($yj_family->deceased_year != null)
-                  <span class="text-danger">{{ $yj_family->chinese_name }}</span>
-                  @else
-                  <span>{{ $yj_family->chinese_name }}</span>
-                  @endif
-                </td>
-                <td>
-                  @if($yj_family->specialremarks_devotee_id == null)
-                  <span id="devotee">{{ $yj_family->devotee_id }}</span>
-                  @else
-                  <span class="text-danger" id="devotee">{{ $yj_family->devotee_id }}</span>
-                  @endif
-                  <input type="hidden" name="devotee_id[]" value="{{ $yj_family->devotee_id }}" id="devotee-hidden">
-                </td>
-                <td>
-                  @if(\Carbon\Carbon::parse($yj_family->lasttransaction_at)->lt($date))
-                  <span style="color: #a5a5a5">
-                    <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}" class="member_id" id="member-hidden">
-                    {{ $yj_family->member_id }}
-                  </span>
-                  @else
-                  <span>
-                    <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}" class="member_id" id="member-hidden">
-                    {{ $yj_family->member_id }}
-                  </span>
-                  @endif
-                </td>
-                <td>
-                  @if(isset($yj_family->oversea_addr_in_chinese))
-                    {{ $yj_family->oversea_addr_in_chinese }}
-                  @elseif(isset($yj_family->address_unit1) && isset($yj_family->address_unit2))
-                    {{ $yj_family->address_houseno }}, #{{ $yj_family->address_unit1 }}-{{ $yj_family->address_unit2 }}, {{ $yj_family->address_street }}, {{ $yj_family->address_postal }}
-                  @else
-                    {{ $yj_family->address_houseno }}, {{ $yj_family->address_street }}, {{ $yj_family->address_postal }}
-                  @endif
-                </td>
-                <td>{{ $yj_family->guiyi_name }}</td>
-                <td width="80px" class="yuejuan-amount-col">
-                  @if(count($samefamily_amount) > 0)
-                    <select class="form-control yuejuan-amount" name="amount[]">
-                        @if(count($samefamily_amount[$i]) > 0)
+            <tr>
+              <td>
+                @if($yuejuan_same_focusdevotee[0]->deceased_year != null)
+                <span class="text-danger">{{ $yuejuan_same_focusdevotee[0]->chinese_name }}</span>
+                @else
+                <span>{{ $yuejuan_same_focusdevotee[0]->chinese_name }}</span>
+                @endif
+              </td>
+              <td>
+                @if($yuejuan_same_focusdevotee[0]->specialremarks_devotee_id == null)
+                <span id="devotee">{{ $yuejuan_same_focusdevotee[0]->devotee_id }}</span>
+                @else
+                <span class="text-danger" id="devotee">{{ $yuejuan_same_focusdevotee[0]->devotee_id }}</span>
+                @endif
+                <input type="hidden" name="devotee_id[]" value="{{ $yuejuan_same_focusdevotee[0]->devotee_id }}" id="devotee-hidden">
+              </td>
+              <td>
+                @if(\Carbon\Carbon::parse($yuejuan_same_focusdevotee[0]->lasttransaction_at)->lt($date))
+                <span style="color: #a5a5a5">
+                  <input type="hidden" name="member_id[]" value="{{ $yuejuan_same_focusdevotee[0]->member_id }}" class="member_id" id="member-hidden">
+                  {{ $yuejuan_same_focusdevotee[0]->member_id }}
+                </span>
+                @else
+                <span>
+                  <input type="hidden" name="member_id[]" value="{{ $yuejuan_same_focusdevotee[0]->member_id }}" class="member_id" id="member-hidden">
+                  {{ $yuejuan_same_focusdevotee[0]->member_id }}
+                </span>
+                @endif
+              </td>
+              <td>
+                @if(isset($yuejuan_same_focusdevotee[0]->oversea_addr_in_chinese))
+                  {{ $yuejuan_same_focusdevotee[0]->oversea_addr_in_chinese }}
+                @elseif(isset($yuejuan_same_focusdevotee[0]->address_unit1) && isset($yuejuan_same_focusdevotee[0]->address_unit2))
+                  {{ $yuejuan_same_focusdevotee[0]->address_houseno }}, #{{ $yuejuan_same_focusdevotee[0]->address_unit1 }}-{{ $yuejuan_same_focusdevotee[0]->address_unit2 }}, {{ $yuejuan_same_focusdevotee[0]->address_street }}, {{ $yuejuan_same_focusdevotee[0]->address_postal }}
+                @else
+                  {{ $yuejuan_same_focusdevotee[0]->address_houseno }}, {{ $yuejuan_same_focusdevotee[0]->address_street }}, {{ $yuejuan_same_focusdevotee[0]->address_postal }}
+                @endif
+              </td>
+              <td>{{ $yuejuan_same_focusdevotee[0]->guiyi_name }}</td>
+              <td width="80px" class="yuejuan-amount-col">
+                @if(count($focusdevotee_amount) > 0)
+                  <select class="form-control yuejuan-amount" name="amount[]">
+                      @if(count($focusdevotee_amount[0]) > 0)
 
-                        @if(!empty($yj_family->paytill_date))
-                            <option value=""></option>
-                          @for($j = 1; $j <= 10; $j++)
-                            <option value="{{ $j }}">{{ $samefamily_amount[$i][$j] }}</option>
-                          @endfor
+                      @if(!empty($yuejuan_same_focusdevotee[0]->paytill_date))
+                          <option value=""></option>
+                        @for($j = 1; $j <= 10; $j++)
+                          <option value="{{ $j }}">{{ $focusdevotee_amount[0][$j] }}</option>
+                        @endfor
 
-                        @endif
+                      @endif
 
-                        @else
+                      @else
 
-                        <option value=""></option>
-                        <option value="0">10.00 -- Entrance Fee</option>
+                      <option value=""></option>
+                      <option value="0">10.00 -- Entrance Fee</option>
 
-                        @endif
-                    </select>
-                  @endif
-                </td>
-                <td width="80px">
-                  @if(isset($yj_family->paytill_date) && \Carbon\Carbon::parse($yj_family->paytill_date)->lt($now))
-                  <span class="text-danger">{{ \Carbon\Carbon::parse($yj_family->paytill_date)->format("d/m/Y") }}</span>
-                  @elseif(isset($yj_family->paytill_date))
-                  <span>{{ \Carbon\Carbon::parse($yj_family->paytill_date)->format("d/m/Y") }}</span>
-                  @else
-                  <span>{{ $yj_family->paytill_date }}</span>
-                  @endif
-                </td>
-                <td></td>
-                <td></td>
-              </tr>
+                      @endif
+                  </select>
 
-              @php $i++; @endphp
-              @endforeach
+                @else
+                <select class="form-control yuejuan-amount" name="amount[]">
+                    <option value=""></option>
+                    <option value="0">10.00 -- Entrance Fee</option>
+                </select>
+                @endif
+              </td>
+              <td width="80px">
+                @if(isset($yuejuan_same_focusdevotee[0]->paytill_date) && \Carbon\Carbon::parse($yuejuan_same_focusdevotee[0]->paytill_date)->lt($now))
+                <span class="text-danger">{{ \Carbon\Carbon::parse($yuejuan_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
+                @elseif(isset($yuejuan_same_focusdevotee[0]->paytill_date))
+                <span>{{ \Carbon\Carbon::parse($yuejuan_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
+                @else
+                <span>{{ $yuejuan_same_focusdevotee[0]->paytill_date }}</span>
+                @endif
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            @endif
+
+            @if(count($yuejuan_same_family) > 0)
+
+            @php $i = 0; @endphp
+            @foreach($yuejuan_same_family as $yj_family)
+
+            <tr>
+              <td>
+                @if($yj_family->deceased_year != null)
+                <span class="text-danger">{{ $yj_family->chinese_name }}</span>
+                @else
+                <span>{{ $yj_family->chinese_name }}</span>
+                @endif
+              </td>
+              <td>
+                @if($yj_family->specialremarks_devotee_id == null)
+                <span id="devotee">{{ $yj_family->devotee_id }}</span>
+                @else
+                <span class="text-danger" id="devotee">{{ $yj_family->devotee_id }}</span>
+                @endif
+                <input type="hidden" name="devotee_id[]" value="{{ $yj_family->devotee_id }}" id="devotee-hidden">
+              </td>
+              <td>
+                @if(\Carbon\Carbon::parse($yj_family->lasttransaction_at)->lt($date))
+                <span style="color: #a5a5a5">
+                  <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}" class="member_id" id="member-hidden">
+                  {{ $yj_family->member_id }}
+                </span>
+                @else
+                <span>
+                  <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}" class="member_id" id="member-hidden">
+                  {{ $yj_family->member_id }}
+                </span>
+                @endif
+              </td>
+              <td>
+                @if(isset($yj_family->oversea_addr_in_chinese))
+                  {{ $yj_family->oversea_addr_in_chinese }}
+                @elseif(isset($yj_family->address_unit1) && isset($yj_family->address_unit2))
+                  {{ $yj_family->address_houseno }}, #{{ $yj_family->address_unit1 }}-{{ $yj_family->address_unit2 }}, {{ $yj_family->address_street }}, {{ $yj_family->address_postal }}
+                @else
+                  {{ $yj_family->address_houseno }}, {{ $yj_family->address_street }}, {{ $yj_family->address_postal }}
+                @endif
+              </td>
+              <td>{{ $yj_family->guiyi_name }}</td>
+              <td width="80px" class="yuejuan-amount-col">
+                @if(count($samefamily_amount) > 0)
+                  <select class="form-control yuejuan-amount" name="amount[]">
+                      @if(count($samefamily_amount[$i]) > 0)
+
+                      @if(!empty($yj_family->paytill_date))
+                          <option value=""></option>
+                        @for($j = 1; $j <= 10; $j++)
+                          <option value="{{ $j }}">{{ $samefamily_amount[$i][$j] }}</option>
+                        @endfor
+
+                      @endif
+
+                      @else
+
+                      <option value=""></option>
+                      <option value="0">10.00 -- Entrance Fee</option>
+
+                      @endif
+                  </select>
+                @endif
+              </td>
+              <td width="80px">
+                @if(isset($yj_family->paytill_date) && \Carbon\Carbon::parse($yj_family->paytill_date)->lt($now))
+                <span class="text-danger">{{ \Carbon\Carbon::parse($yj_family->paytill_date)->format("d/m/Y") }}</span>
+                @elseif(isset($yj_family->paytill_date))
+                <span>{{ \Carbon\Carbon::parse($yj_family->paytill_date)->format("d/m/Y") }}</span>
+                @else
+                <span>{{ $yj_family->paytill_date }}</span>
+                @endif
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            @php $i++; @endphp
+            @endforeach
+
+            @endif
 
           </tbody>
 

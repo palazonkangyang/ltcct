@@ -13,6 +13,7 @@ class Expenditure extends Model
         'date',
         'supplier',
         'description',
+        'glcode_id',
         'credit_total',
         'status'
     ];

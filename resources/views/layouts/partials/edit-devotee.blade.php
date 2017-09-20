@@ -405,7 +405,7 @@
 	 									<label class="col-md-4">Address - House No</label>
 	 									<div style='width:16.66667%;float:left; padding-left: 15px;'>
 	 											<input type="text" class="form-control" name="address_houseno" value="{{ $focus_devotee[0]->address_houseno }}"
-	 													id="edit_address_houseno" readonly>
+	 													id="edit_address_houseno">
 	 									</div><!-- end col-md-3 -->
 
 	 									<label style='width:9.3%;float:left;'>Unit</label>
@@ -429,7 +429,7 @@
 	 									<label class="col-md-4">Address - Street</label>
 	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="address_street"
-	 													value="{{ $focus_devotee[0]->address_street }}" id="edit_address_street" readonly>
+	 													value="{{ $focus_devotee[0]->address_street }}" id="edit_address_street">
 	 									</div><!-- end col-md-8 -->
 
 	 							</div><!-- end form-group -->
@@ -888,8 +888,8 @@
 																<thead>
 																		<tr>
 																				<th>#</th>
-																				<th>Name</th>
 																				<th>Family Code</th>
+																				<th>Name</th>
 																		</tr>
 																</thead>
 
@@ -1203,7 +1203,7 @@
 									<label class="col-md-4 local-address">House No</label>
 									<div style='width:16.66667%;float:left; padding-left: 15px;'>
 											<input type="text" class="form-control" name="populate_houseno"
-													value="{{ old('populate_houseno') }}" id="edit_populate_houseno" readonly>
+													value="{{ old('populate_houseno') }}" id="edit_populate_houseno">
 									</div><!-- end col-md-3 -->
 
 									<label style='width:9.3%;float:left;'>Unit</label>
@@ -1225,7 +1225,7 @@
 									<label class="col-md-4 local-address">Street</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_street"
-													value="{{ old('populate_address_street') }}" id="edit_populate_street" readonly>
+													value="{{ old('populate_address_street') }}" id="edit_populate_street">
 									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
 

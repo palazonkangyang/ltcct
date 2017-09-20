@@ -188,8 +188,8 @@
                                             </div><!-- end form-body -->
 
                                             <div class="form-actions">
-                                                <button type="submit" class="btn blue">Create</button>
-                                                <button type="button" class="btn default">Cancel</button>
+                                              <button type="submit" class="btn blue">Create</button>
+                                              <a href="/admin/all-accounts" class="btn default">Cancel</a>
                                             </div><!-- end form-actions -->
 
                                         </form>

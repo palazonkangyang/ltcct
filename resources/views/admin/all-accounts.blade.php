@@ -76,11 +76,11 @@
                                             <table class="table table-bordered" id="all-accounts-table">
                                                 <thead>
 																									<tr id="filter">
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
-                                                    <th>User Name</th>
-                                                    <th>Role</th>
-                                                    <th>Actions</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
 																									</tr>
                                                   <tr>
                                                     <th>First Name</th>

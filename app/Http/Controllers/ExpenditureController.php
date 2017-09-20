@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
 use App\Models\Expenditure;
+use App\Models\GlCode;
 use Auth;
 use DB;
 use Hash;
@@ -22,9 +23,11 @@ class ExpenditureController extends Controller
   {
 
     $expenditure = Expenditure::orderBy('created_at', 'desc')->get();
+    $glcode = Glcode::where('glcodegroup_id', 4)->get();
 
     return view('expenditure.manage-expenditure', [
-      'expenditure' => $expenditure
+      'expenditure' => $expenditure,
+      'glcode' => $glcode
     ]);
   }
 
@@ -55,11 +58,15 @@ class ExpenditureController extends Controller
           "date" => $newDate,
           "supplier" => $input['supplier'],
           "description" => $input['description'],
+          "glcode_id" => $input['glcode_id'],
           "credit_total" => $input['credit_total'],
           "status" => $input['status']
         ];
 
-        $expenditure = Expenditure::create($data);
+        Expenditure::create($data);
+
+        $request->session()->flash('success', 'New Expenditure has been created!');
+        return redirect()->route('manage-expenditure-page');
       }
 
       else
@@ -67,12 +74,6 @@ class ExpenditureController extends Controller
         $request->session()->flash('error', "Password did not match. Please Try Again");
         return redirect()->back()->withInput();
       }
-    }
-
-    if($expenditure)
-    {
-      $request->session()->flash('success', 'New Expenditure has been created!');
-      return redirect()->route('manage-expenditure-page');
     }
   }
 

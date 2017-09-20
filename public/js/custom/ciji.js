@@ -224,6 +224,8 @@ $(function() {
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
         }
 
+        var user_id = $("#user_id").val();
+
         if(response.cancellation[0]['cancelled_date'] != null)
         {
           $("#transaction-text").text('');
@@ -239,6 +241,20 @@ $(function() {
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
           $("#refund").text('(Refuned/ Returned)');
+        }
+
+        else if (user_id == 5) {
+          $("#transaction-text").text('');
+
+          $("#amount").removeClass('text-danger');
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+          $("#authorized_password").attr('disabled', true);
+          $("#transaction-text").text('');
+
+          $(".mt-radio").attr('disabled', true);
+          $("#reprint-btn").attr('disabled', false);
+          $("#refund").text('');
         }
 
         else

@@ -36,6 +36,8 @@
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link href="{{ asset('/css/common.css') }}" rel="stylesheet" type="text/css" />
 
+		<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+
     <style type="text/css">
         tfoot input {
             width: 100%;

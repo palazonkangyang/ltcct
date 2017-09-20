@@ -115,28 +115,28 @@
 
                                                                         <thead>
                                                                             <tr id="filter">
-                                                                                <th width="10%"></th>
-                                                                                <th width="5%"></th>
-																																								<th width="5%"></th>
-                                                                                <th width="15%"></th>
-                                                                                <th width="10%"></th>
-																																								<th width="5%"></th>
-																																								<th width="5%"></th>
-																																								<th width="3%"></th>
-																																								<th width="12%"></th>
-                                                                                <th width="10%"></th>
+                                                                                <th></th>
+                                                                                <th></th>
+																																								<th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+																																								<th></th>
+																																								<th></th>
+																																								<th></th>
+																																								<th></th>
+                                                                                <th></th>
                                                                             </tr>
                                                                             <tr>
-                                                                                <th width="10%">Chinese Name</th>
-                                                                                <th width="5%">Devotee</th>
-																																								<th width="5%">Member</th>
-                                                                                <th width="15%">Address</th>
-                                                                                <th width="10%">Guiyi Name</th>
-																																								<th width="5%">Contact</th>
-																																								<th width="5%">Paid Till</th>
-																																								<th width="3%">Mailer</th>
-																																								<th width="12%">Last Trans Date</th>
-                                                                                <th width="10%">Family Code</th>
+                                                                                <th>Chinese Name</th>
+                                                                                <th>Devotee</th>
+																																								<th>Member</th>
+                                                                                <th>Address</th>
+                                                                                <th>Guiyi Name</th>
+																																								<th>Contact</th>
+																																								<th>Paid Till</th>
+																																								<th>Mailer</th>
+																																								<th>Last Trans Date</th>
+                                                                                <th>Family Code</th>
                                                                             </tr>
                                                                         </thead>
 
@@ -501,7 +501,7 @@
                                                                         <div style='width:19.66667%;float:left; padding-left: 15px;'>
                                                                             <input type="text" class="form-control" name="address_houseno"
                                                                                 value="{{ old('address_houseno') }}"
-                                                                                id="content_address_houseno" readonly>
+                                                                                id="content_address_houseno">
                                                                         </div><!-- end col-md-3 -->
 
                                                                         <label style='width:9.3%;float:left;'>Unit</label>
@@ -525,7 +525,7 @@
                                                                         <label class="col-md-4">Address - Street</label>
                                                                         <div class="col-md-8">
 																																						<input type="text" class="form-control" name="address_street"
-                                                                                value="{{ old('address_street') }}" id="content_address_street" readonly>
+                                                                                value="{{ old('address_street') }}" id="content_address_street">
                                                                         </div><!-- end col-md-8 -->
 
                                                                     </div><!-- end form-group -->
@@ -880,7 +880,7 @@
 																																			<label class="col-md-4 local-address">House No</label>
 																																			<div style='width:19.66667%;float:left; padding-left: 15px;'>
 																																					<input type="text" class="form-control" name="populate_houseno"
-																																							value="{{ old('populate_houseno') }}" id="populate_houseno" readonly>
+																																							value="{{ old('populate_houseno') }}" id="populate_houseno">
 																																			</div><!-- end col-md-3 -->
 
 																																			<label style='width:9.3%;float:left;'>Unit</label>
@@ -902,7 +902,7 @@
 																																			<label class="col-md-4 local-address">Street</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_street"
-																																							value="{{ old('populate_street') }}" id="populate_street" readonly>
+																																							value="{{ old('populate_street') }}" id="populate_street">
 																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
 
@@ -1014,16 +1014,16 @@
                                                                         <table class="table table-bordered relocation" id="relocation_table">
                                                                             <thead>
                                                                                 <tr>
-																																									<th><input type="checkbox" id="checkAll" /></th>
-																																									<th>Chinese Name</th>
-																																									<th>Devotee</th>
-																																									<th>Member</th>
-																																									<th>Address</th>
-																																									<th>Guiyi Name</th>
-																																									<th>Contact</th>
-																																									<th>Mailer</th>
-																																									<th>Last Trans Date</th>
-																																									<th>Family Code</th>
+																																									<th width="1%"><input type="checkbox" id="checkAll" /></th>
+																																									<th width="8%">Chinese Name</th>
+																																									<th width="5%">Devotee</th>
+																																									<th width="5%">Member</th>
+																																									<th width="15%">Address</th>
+																																									<th width="8%">Guiyi Name</th>
+																																									<th width="5%">Contact</th>
+																																									<th width="3%">Mailer</th>
+																																									<th width="8%">Last Trans Date</th>
+																																									<th width="8%">Family Code</th>
                                                                                 </tr>
                                                                             </thead>
 
@@ -1057,7 +1057,11 @@
 																																													<td>{{ $focus_devotee[0]->guiyi_name }}</td>
 																																													<td>{{ $focus_devotee[0]->contact }}</td>
 																																													<td>{{ $focus_devotee[0]->mailer }}</td>
+																																													@if(isset($focus_devotee[0]->lasttransaction_at))
 																																													<td>{{ \Carbon\Carbon::parse($focus_devotee[0]->lasttransaction_at)->format("d/m/Y") }}</td>
+																																													@else
+																																													<td></td>
+																																													@endif
 	                                                                                        <td>{{ $focus_devotee[0]->familycode }}
 																																														<input type="hidden" name="familycode_id" value="{{ $focus_devotee[0]->familycode_id }}">
 																																													</td>
@@ -1083,7 +1087,11 @@
 																																													<td>{{ $devotee->guiyi_name }}</td>
 																																													<td>{{ $devotee->contact }}</td>
 																																													<td>{{ $devotee->mailer }}</td>
+																																													@if(isset($devotee->lasttransaction_at))
 																																													<td>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</td>
+																																													@else
+																																													<td></td>
+																																													@endif
 	                                                                                        <td>{{ $devotee->familycode }}</td>
 	                                                                                    </tr>
 	                                                                                @endforeach
@@ -1094,7 +1102,7 @@
 
 																																							<tbody id="more_devotee">
 																																								<tr>
-																																									<td>No Result Found</td>
+																																									<td colspan="10">No Result Found</td>
 																																								</tr>
 	                                                                            </tbody>
 
@@ -1102,9 +1110,9 @@
 
                                                                             @else
 
-                                                                            <tbody id="No Result Found">
+                                                                            <tbody id="no-result-found">
 																																							<tr>
-																																								<td>No data</td>
+																																								<td colspan="10">No Result Found</td>
 																																							</tr>
                                                                             </tbody>
 
@@ -1138,15 +1146,17 @@
 	                                                                                    value="{{ $focus_devotee[0]->address_houseno }}" readonly>
 	                                                                            </div><!-- end col-md-3 -->
 
-	                                                                            <label class="col-md-1">Unit</label>
+	                                                                            <label style="width: 9.3%; float:left;">Unit</label>
 
-	                                                                            <div class="col-md-2">
+	                                                                            <div style="width:9%; float:left;">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_unit1" id="current_address_unit1"
 	                                                                                    value="{{ $focus_devotee[0]->address_unit1 }}" readonly>
 	                                                                            </div><!-- end col-md-2 -->
 
-	                                                                            <div class="col-md-2">
+																																							<label style="width:6.2%;float:left;">-</label>
+
+	                                                                            <div style="width:14%;float:left;">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_unit2" id="current_address_unit2"
 	                                                                                    value="{{ $focus_devotee[0]->address_unit2 }}" readonly>
@@ -1197,14 +1207,16 @@
 	                                                                                    name="address_houseno" id="current_address_houseno">
 	                                                                            </div><!-- end col-md-3 -->
 
-	                                                                            <label class="col-md-1">Unit</label>
+	                                                                            <label style="width: 9.3%; float:left;">Unit</label>
 
-	                                                                            <div class="col-md-2">
+	                                                                            <div style="width:9%; float:left;">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_unit1" id="current_address_unit1">
 	                                                                            </div><!-- end col-md-2 -->
 
-	                                                                            <div class="col-md-2">
+																																							<label style="width:6.2%;float:left;">-</label>
+
+	                                                                            <div style="width:14%;float:left;">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_unit2" id="current_address_unit2">
 	                                                                            </div><!-- end col-md-2 -->
@@ -1253,14 +1265,16 @@
                                                                                     name="address_houseno" id="current_address_houseno">
                                                                             </div><!-- end col-md-3 -->
 
-                                                                            <label class="col-md-1">Unit</label>
+                                                                            <label style="width: 9.3%; float:left;">Unit</label>
 
-                                                                            <div class="col-md-2">
+                                                                            <div style="width:9%; float:left;">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_unit1" id="current_address_unit1">
                                                                             </div><!-- end col-md-2 -->
 
-                                                                            <div class="col-md-2">
+																																						<label style="width:6.2%;float:left;">-</label>
+
+                                                                            <div style="width:14%;float:left;">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_unit2" id="current_address_unit2">
                                                                             </div><!-- end col-md-2 -->
@@ -1317,18 +1331,20 @@
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_houseno"
-                                                                                    value="{{ old('new_address_houseno') }}" id="new_address_houseno" readonly>
+                                                                                    value="{{ old('new_address_houseno') }}" id="new_address_houseno">
                                                                             </div><!-- end col-md-3 -->
 
-                                                                            <label class="col-md-1">Unit</label>
+                                                                            <label style="width: 9.3%; float:left;">Unit</label>
 
-                                                                            <div class="col-md-2">
+                                                                            <div style="width:9%; float:left;">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_unit1" id="new_address_unit1"
                                                                                     value="{{ old('new_address_unit1') }}">
                                                                             </div><!-- end col-md-2 -->
 
-                                                                            <div class="col-md-2">
+																																						<label style="width:6.2%;float:left;">-</label>
+
+                                                                            <div style="width:14%;float:left;">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_unit2" id="new_address_unit2"
                                                                                     value="{{ old('new_address_unit2') }}">
@@ -1340,7 +1356,7 @@
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_street"
-                                                                                    value="{{ old('new_address_street') }}" id="new_address_street" readonly>
+                                                                                    value="{{ old('new_address_street') }}" id="new_address_street">
                                                                             </div><!-- end col-md-8 -->
                                                                         </div><!-- end form-group -->
 
@@ -1371,7 +1387,7 @@
 
                                                                     <div class="col-md-4">
 																																			<div class="table-scrollable" id="relocation-familycode-table">
-																					 															 <table class="table table-bordered table-hover">
+																					 															 <table class="table table-bordered table-hover" id="relocation-table">
 
 																					 																	 <thead>
 																					 																			 <tr>
@@ -1614,11 +1630,12 @@
 
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
-		<script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js"></script>
 
     <script type="text/javascript">
 
         $(function(){
+
+					$("#filter input").removeClass('form-control');
 
 					$("#content_contact").keypress(function (e) {
 				     //if the letter is not digit then display error and don't type anything
@@ -1709,13 +1726,13 @@
 						}
 					});
 
-					$("#content_address_street").autocomplete({
-						source: "/operator/search/address_street",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#content_address_street').val(ui.item.value);
-						}
-					});
+					// $("#content_address_street").autocomplete({
+					// 	source: "/operator/search/address_street",
+					// 	minLength: 1,
+					//   select: function(event, ui) {
+					//   	$('#content_address_street').val(ui.item.value);
+					// 	}
+					// });
 
 					$("#edit_address_street").autocomplete({
 						source: "/operator/search/address_street",
@@ -1725,13 +1742,13 @@
 						}
 					});
 
-					$("#new_address_street").autocomplete({
-						source: "/operator/search/address_street",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#new_address_street').val(ui.item.value);
-						}
-					});
+					// $("#new_address_street").autocomplete({
+					// 	source: "/operator/search/address_street",
+					// 	minLength: 1,
+					//   select: function(event, ui) {
+					//   	$('#new_address_street').val(ui.item.value);
+					// 	}
+					// });
 
 					$("#populate_street").autocomplete({
 						source: "/operator/search/address_street",
@@ -1753,7 +1770,6 @@
 					var table = $('#devotees_table').DataTable({
 						"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
 						"order": [[ 1, "desc" ]],
-						fixedColumns: true,
 						dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
 		         "<'row'<'col-sm-12'tr>>" +
 		         "<'row'<'col-sm-5'i><'col-sm-7'p>>"
@@ -2551,6 +2567,18 @@
             $("#special_remark").on('click', '.removeSpecRemarkBtn1', function() {
                 $(this).parent().parent().remove();
             });
+
+						$("#edit").click(function() {
+
+							var edit_address_postal = $("#edit_address_postal").val();
+
+							if($.trim(edit_address_postal).length > 0)
+							{
+							  $(".edit_check_family_code").click();
+								setTimeout(function(){ $("input:radio[name=edit_familycode_id]").prop( "checked", true ); }, 1000);
+							}
+
+						});
         });
     </script>
 

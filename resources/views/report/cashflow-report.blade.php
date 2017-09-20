@@ -12,7 +12,7 @@
 
               <div class="page-title">
 
-                  <h1>Income Statement Report</h1>
+                  <h1>Cashflow Statement Report</h1>
 
               </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
                   <i class="fa fa-circle"></i>
               </li>
               <li>
-                  <span>Income Statement Report</span>
+                  <span>Cashflow Statement Report</span>
               </li>
           </ul>
 
@@ -53,7 +53,7 @@
 
                         <div class="col-md-2">
 
-                          <form action="{{ URL::to('/report/report-detail') }}" method="post">
+                          <form action="{{ URL::to('/report/cashflow-report-detail') }}" method="post">
                             {!! csrf_field() !!}
 
                             <div class="form-group">
@@ -102,7 +102,6 @@
 @stop
 
 @section('custom-js')
-
 
 <script type="text/javascript">
 

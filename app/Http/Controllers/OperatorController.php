@@ -173,6 +173,7 @@ class OperatorController extends Controller
 														->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 														->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 														->where('devotee.familycode_id', $devotee[0]->familycode_id)
+														->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
 														->where('setting_generaldonation.address_code', '=', 'same')
 														->where('setting_generaldonation.yuejuan_id', '=', '1')
 														->where('setting_generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
@@ -464,6 +465,7 @@ class OperatorController extends Controller
 		Session::put('xianyou_same_focusdevotee', $xianyou_same_focusdevotee);
 		Session::put('xianyou_different_family', $xianyou_different_family);
 		Session::put('yuejuan_same_family', $yuejuan_same_family);
+		Session::put('yuejuan_same_focusdevotee', $yuejuan_same_focusdevotee);
 		Session::put('yuejuan_different_family', $yuejuan_different_family);
 		Session::put('setting_samefamily', $setting_samefamily);
 		Session::put('xianyou_focusdevotee', $xianyou_focusdevotee);
@@ -618,8 +620,6 @@ class OperatorController extends Controller
 		$approveNewDate = "";
 		$input = array_except($request->all(), '_token');
 
-		// dd($input);
-
     if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
@@ -654,24 +654,12 @@ class OperatorController extends Controller
 
 				if(isset($input['other_race']))
 				{
-					$race_result = Race::where('race_name', $input['other_race'])->first();
+					$data = [
+						'race_name' => $input['other_race']
+					];
 
-					if($result)
-					{
-						$request->session()->flash('error', "Race Name is already exist.");
-						return redirect()->back()->withInput();
-					}
-					else
-					{
-						$data = [
-							'race_name' => $input['other_race']
-						];
-
-						$race = Race::create($data);
-						$race_id = $race->race_id;
-					}
-
-
+					$race = Race::create($data);
+					$race_id = $race->race_id;
 				}
 
 				else
@@ -860,7 +848,6 @@ class OperatorController extends Controller
 
 				if($devotee_id != null)
 		    {
-
 						// Save Optional Address
 				    for($i = 0; $i < count($input['address_type']); $i++)
 				    {
@@ -980,6 +967,14 @@ class OperatorController extends Controller
 				if(Session::has('xianyou_different_family')) { Session::forget('xianyou_different_family'); }
 				if(Session::has('yuejuan_different_family')) { Session::forget('yuejuan_different_family'); }
 
+				$setting_data = [
+				  'focusdevotee_id' => $devotee_id,
+					'xiangyou_ciji_id' => 1,
+					'yuejuan_id' => 1,
+					'devotee_id' => $devotee_id
+				];
+
+				SettingGeneralDonation::create($setting_data);
 
 				$focus_devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 									 ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
@@ -1102,6 +1097,30 @@ class OperatorController extends Controller
 			$xianyou_focusdevotee[0]->yuejuan_id = 0;
 		}
 
+		$xianyou_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+		                             ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+		                             ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+		                             ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+		                             ->where('setting_generaldonation.address_code', '=', 'same')
+		                             ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+		                             ->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+		                             ->where('setting_generaldonation.devotee_id', '=', $focus_devotee[0]->devotee_id)
+		                             ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+		                             ->GroupBy('devotee.devotee_id')
+		                             ->get();
+
+		$yuejuan_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+		                             ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+		                             ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+		                             ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+		                             ->where('setting_generaldonation.address_code', '=', 'same')
+		                             ->where('setting_generaldonation.yuejuan_id', '=', '1')
+		                             ->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+		                             ->where('setting_generaldonation.devotee_id', '=', $focus_devotee[0]->devotee_id)
+		                             ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+		                             ->GroupBy('devotee.devotee_id')
+		                             ->get();
+
 		$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 		$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 		$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
@@ -1139,7 +1158,8 @@ class OperatorController extends Controller
 		 Session::put('devotee_lists', $devotee_lists);
 		//  Session::put('xianyou_same_family', $xianyou_same_family);
 		 Session::put('xianyou_focusdevotee', $xianyou_focusdevotee);
-		//  Session::put('xianyou_different_family', $xianyou_different_family);
+		 Session::put('xianyou_same_focusdevotee', $xianyou_same_focusdevotee);
+		 Session::put('yuejuan_same_focusdevotee', $yuejuan_same_focusdevotee);
 		 Session::put('setting_samefamily', $setting_samefamily);
 		 Session::put('setting_differentfamily', $setting_differentfamily);
 		 Session::put('optionaladdresses', $optionaladdresses);
@@ -1205,22 +1225,12 @@ class OperatorController extends Controller
 			{
 				if(isset($input['other_dialect']))
 				{
-				  $result = Dialect::where('dialect_name', $input['other_dialect'])->first();
+				  $data = [
+				  	'dialect_name' => $input['other_dialect']
+				  ];
 
-				  if($result)
-				  {
-				    $request->session()->flash('error', "Dialect Name is already exist.");
-				    return redirect()->back()->withInput();
-				  }
-				  else
-				  {
-				    $data = [
-				      'dialect_name' => $input['other_dialect']
-				    ];
-
-				    $dialect = Dialect::create($data);
-				    $dialect_id = $dialect->dialect_id;
-				  }
+				  $dialect = Dialect::create($data);
+				  $dialect_id = $dialect->dialect_id;
 				}
 
 				else
@@ -1230,22 +1240,12 @@ class OperatorController extends Controller
 
 				if(isset($input['other_race']))
 				{
-				  $race_result = Race::where('race_name', $input['other_race'])->first();
+				 $data = [
+				   'race_name' => $input['other_race']
+				 ];
 
-				  if($result)
-				  {
-				    $request->session()->flash('error', "Race Name is already exist.");
-				    return redirect()->back()->withInput();
-				  }
-				  else
-				  {
-				    $data = [
-				      'race_name' => $input['other_race']
-				    ];
-
-				    $race = Race::create($data);
-				    $race_id = $race->race_id;
-				  }
+				 $race = Race::create($data);
+				 $race_id = $race->race_id;
 				}
 
 				else
@@ -2067,6 +2067,23 @@ class OperatorController extends Controller
 
 		return response()->json(array(
 			'translate_street' => $translate_street
+		));
+	}
+
+	public function getPopulateAddressPostal(Request $request)
+	{
+		$address_houseno = $_GET['address_houseno'];
+		$address_street = $_GET['address_street'];
+
+		// $address_houseno = '357B';
+		// $address_street = 'Admiralty Drive';
+
+		$address = TranslationStreet::where('address_houseno', $address_houseno)
+							 ->where('english', $address_street)
+							 ->get();
+
+		return response()->json(array(
+			'address' => $address
 		));
 	}
 

@@ -60,12 +60,33 @@
                                         </a>
 
                                         <ul class="dropdown-menu dropdown-menu-default">
-
-
-                                            <li>
-                                                <a href="{{ URL::to('/auth/logout') }}">
-                                                    <i class="icon-key"></i> Log Out 登出</a>
-                                            </li>
+                                          <li>
+                                            <a href="#">
+                                              <span style="display: inline-block; width: 80px;">User</span>
+                                              {{ Auth::user()->user_name }}
+                                            </a>
+                                          </li>
+                                          <li>
+                                            <a href="#">
+                                              <span style="display: inline-block; width: 80px;">User Level</span>
+                                              {{ Auth::user()->role }}
+                                            </a>
+                                          </li>
+                                          @if(isset(Auth::user()->last_login))
+                                          <li>
+                                            <a href="#">
+                                              <span style="display: inline-block; width: 80px;">Last Login</span>
+                                              {{ \Carbon\Carbon::parse(Auth::user()->last_login)->format("d/m/Y H:i") }} hr
+                                            </a>
+                                          </li>
+                                          @else
+                                          <li>
+                                            <a href="#"><span style="display: inline-block; width: 80px;">Last Login</span> -</a>
+                                          </li>
+                                          @endif
+                                          <li id="logout">
+                                              <a href="{{ URL::to('/auth/logout') }}"><i class="icon-key"></i> Log Out 登出 </a>
+                                          </li>
                                         </ul>
                                    </li>
 

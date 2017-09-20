@@ -36,11 +36,20 @@ $(function() {
 				$("#content_address_unit2").val(focus_address_unit2);
 				$("#content_address_street").val(focus_address_street);
 				$("#content_address_postal").val(focus_address_postal);
+
+				$("#content_address_unit1").attr('readonly', true);
+				$("#content_address_unit2").attr('readonly', true);
+				$("#content_address_postal").attr('readonly', true);
+				$("#content_oversea_addr_in_chinese").attr('readonly', true);
+
+				setTimeout(function(){ $("input:radio[name=familycode_id]").prop( "checked", true ); }, 1000);
 			}
 
 			else
 			{
 				$("#content_oversea_addr_in_chinese").val(focus_oversea_addr_in_chinese);
+
+				setTimeout(function(){ $("input:radio[name=familycode_id]").prop( "checked", true ); }, 1000);
 			}
 
 			$(".check_family_code").click();
@@ -261,7 +270,7 @@ $(function() {
      modal: true,
      buttons : {
           "No, Mistake" : function() {
-              $(this).dialog("close");
+            $(this).dialog("close");
           },
           "Yes, Cancel" : function() {
             window.location.reload(true);

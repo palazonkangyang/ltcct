@@ -13,13 +13,12 @@ use Session;
 use View;
 use URL;
 use Validator;
-
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
 	public function __construct()
   {
-
   }
 
 	public function postAuthenticate(Request $request)
@@ -44,41 +43,42 @@ class AuthController extends Controller
 		}
 
     if ($request->ajax() ) {
-            return response()->json([
-                'auth' => $auth,
-                'redirect' => '/operator/index'
-            ]);
-        }
 
-        else if ($request->ajax() ) {
-            return response()->json([
-                'auth' => $auth,
-                'redirect' => '/operator/index'
-            ]);
-        }
+		  return response()->json([
+        'auth' => $auth,
+        'redirect' => '/operator/index'
+      ]);
+  	}
 
-        // else {
-        //     if ($user->role == 3 ||  $user->role == 4 || $user->role == 5 ) {
-        //         return redirect()->intended(URL::route('main-page'));
-        //     }else{
-        //     return redirect()->intended(URL::route('main-page'));
-        // }
-        // }
-				else{
-					if ($user->role == 4 ||  $user->role == 6) {
-	          return redirect()->intended(URL::route('manage-expenditure-page'));
-	        }
-					else{
-	          return redirect()->intended(URL::route('main-page'));
-	        }
-				}
+    else if ($request->ajax() ) {
+      return response()->json([
+        'auth' => $auth,
+        'redirect' => '/operator/index'
+      ]);
+    }
+
+		else {
+			if ($user->role == 4 ||  $user->role == 6) {
+	    	return redirect()->intended(URL::route('manage-expenditure-page'));
+	    }
+
+			else
+			{
+	      return redirect()->intended(URL::route('main-page'));
+	    }
+		}
 	}
 
 	public function logout()
-    {
-			Session::flush();
+  {
+		$user = User::find(Auth::user()->id);
 
-      Auth::logout();
-      return redirect()->intended(URL::route('login-page'));
-    }
+		$user->last_login = Carbon::now();
+		$user->save();
+
+		Session::flush();
+
+    Auth::logout();
+    return redirect()->intended(URL::route('login-page'));
+  }
 }

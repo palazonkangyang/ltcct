@@ -12,7 +12,7 @@
 
               <div class="page-title">
 
-                  <h1>Income Statement Report</h1>
+                  <h1>Trial Balance Report</h1>
 
               </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
                   <i class="fa fa-circle"></i>
               </li>
               <li>
-                  <span>Income Statement Report</span>
+                  <span>Trial Balance Report</span>
               </li>
           </ul>
 
@@ -49,9 +49,7 @@
                       <div class="form-body">
 
                         <h4 class="text-center" style="font-weight: bold;">
-                          Income Statement <br />
-                          Printed on: {{ $today }}<br />
-                          Period : {{ $month }} {{ $year }}
+                          Trial Balance Report
                         </h4><br />
 
                         <div class="col-md-12">
@@ -59,23 +57,40 @@
                         </div><!-- end col-md-12 -->
 
                         <div class="col-md-12">
-                          <table border="1" class="table table-bordered table-striped" id="income-monthly-report-table">
+                          <table border="1" class="table table-bordered table-striped" id="trialbalance-table">
                             <thead>
                      					<tr>
-                     						<th width="5%"></th>
-                                <th width="3%">Current Period</th>
-                                <th width="3%">%</th>
-                                <th width="3%">YTD</th>
+                                <th width="4%">Account</th>
+                     						<th width="5%">Description</th>
+                                <th width="3%">Debit</th>
+                                <th width="3%">Credit</th>
                      					</tr>
                      				</thead>
 
                             <tbody>
+                              @for($i = 0; $i < count($expenses); $i++)
+                              <tr>
+                                <td>{{ $expenses[$i]->accountcode }}</td>
+                                <td>{{ $expenses[$i]->type_name }}</td>
+                                @if(isset($expenses[$i]->total))
+                                <td>{{ number_format($expenses[$i]->total, 2) }}</td>
+                                @else
+                                <td>{{ number_format(0, 2) }}</td>
+                                @endif
+                                <td></td>
+                              </tr>
+                              @endfor
+
                               @for($i = 0; $i < count($income); $i++)
                               <tr>
+                                <td>{{ $income[$i]->accountcode }}</td>
                                 <td>{{ $income[$i]->type_name }}</td>
-                                <td>{{ number_format($income[$i]->$month, 2) }}</td>
-                                <td>{{ number_format($percentage[$i], 1) }}</td>
-                                <td>{{ number_format($total_income[$i]->total, 2) }}</td>
+                                <td></td>
+                                @if(isset($income[$i]->total))
+                                <td>{{ number_format($income[$i]->total, 2) }}</td>
+                                @else
+                                <td>{{ number_format(0, 2) }}</td>
+                                @endif
                               </tr>
                               @endfor
                             </tbody>
@@ -119,11 +134,12 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
 
 <script type="text/javascript">
+
   $(function(){
 
     function printData()
     {
-      var divToPrint=document.getElementById("income-monthly-report-table");
+      var divToPrint=document.getElementById("trialbalance-table");
       newWin= window.open("");
       newWin.document.write(divToPrint.outerHTML);
       newWin.print();
@@ -135,6 +151,7 @@
     });
 
   });
+
 </script>
 
 @stop

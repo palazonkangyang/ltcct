@@ -96,14 +96,9 @@
                       </div><!-- end form-body -->
 
                       <div class="form-actions">
-                          <button type="submit" class="btn blue" id="create-race-btn">Create</button>
-                          <button type="button" class="btn default" id="cancel-race-btn">Cancel</button>
+                        <button type="submit" class="btn blue" id="create-race-btn">Create</button>
+                        <a href="/admin/all-race" class="btn default">Cancel</a>
                       </div><!-- end form-actions -->
-
-                      <div id="dialog-box" title="System Alert" style="display:none;">
-                          You have NOT Saved this Race Record
-                          Do you want to Cancel this record?
-                      </div>
 
                     </form>
 
@@ -154,56 +149,34 @@
 
         if ($.trim(race_name).length <= 0)
         {
-            validationFailed = true;
-            errors[count++] = "Race Name is empty."
+          validationFailed = true;
+          errors[count++] = "Race Name is empty."
         }
 
         if (validationFailed)
         {
-            var errorMsgs = '';
+          var errorMsgs = '';
 
-            for(var i = 0; i < count; i++)
-            {
-                errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
+          for(var i = 0; i < count; i++)
+          {
+            errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
 
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-            $(".validation-error").addClass("bg-danger alert alert-error")
-            $(".validation-error").html(errorMsgs);
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
 
-            return false;
+          return false;
         }
 
         else
         {
-            $(".validation-error").removeClass("bg-danger alert alert-error")
-            $(".validation-error").empty();
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
         }
       });
 
-      $( "#dialog-box" ).dialog({
-        autoOpen: false
-      });
-
-      $("#dialog-box").dialog({
-       autoOpen: false,
-       modal: true,
-       buttons : {
-            "No, Mistake" : function() {
-                $(this).dialog("close");
-            },
-            "Yes, Cancel" : function() {
-              window.location.reload(true);
-              $(this).dialog("close");
-            }
-          }
-      });
-
-      $("#cancel-race-btn").on("click", function(e) {
-        e.preventDefault();
-        $("#dialog-box").dialog("open");
-      });
     });
 
   </script>

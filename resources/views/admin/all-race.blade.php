@@ -80,8 +80,8 @@
                       <table class="table table-bordered" id="all-race-table">
                           <thead>
                             <tr id="filter">
-                              <th width="70%">Race Name</th>
-                              <th width="30%">Actions</th>
+                              <th width="70%"></th>
+                              <th width="30%"></th>
                             </tr>
                             <tr>
                               <th>Race Name</th>

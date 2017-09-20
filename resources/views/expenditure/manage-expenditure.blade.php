@@ -176,6 +176,17 @@
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
+                                    <label class="col-md-3 control-label">Glcode *</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" name="glcode_id" id="glcode_id">
+                                          @foreach($glcode as $gl)
+                                            <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+                                          @endforeach
+                                        </select>
+                                    </div><!-- end col-md-9 -->
+                                  </div><!-- end form-group -->
+
+                                  <div class="form-group">
                                     <label class="col-md-3 control-label">Credit Total *</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="credit_total" value="{{ old('credit_total') }}" id="credit_total">

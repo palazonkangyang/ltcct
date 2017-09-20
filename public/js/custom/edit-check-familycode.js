@@ -27,7 +27,7 @@ $(function() {
         if ($.trim(address_postal).length <= 0)
         {
             validationFailed = true;
-            errors[count++] = "Check Family Code.. Address Postal is empty."
+            errors[count++] = "Check Family Code.. Local Address or Oversea Address in Chinese should not be empty."
         }
       }
 

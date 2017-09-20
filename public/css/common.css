@@ -3,7 +3,7 @@
 }
 
 #devotees_table, #members_table, #deceased_table, #search_table{
-  width: 1320px!important;
+  width: 100%!important;
 }
 
 .form-group{
@@ -86,4 +86,20 @@
 
 .highlight{
   text-decoration: underline;
+}
+
+.portlet.light .dataTables_wrapper .dt-buttons{
+  margin-top: 0!important;
+}
+
+.dataTables_wrapper .dt-buttons{
+  float: left!important;
+}
+
+.print-btn{
+  margin-bottom: 20px;
+}
+
+.page-header .page-header-top .top-menu .navbar-nav > li.dropdown-user > .dropdown-menu{
+  width: 230px!important;
 }

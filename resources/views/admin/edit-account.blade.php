@@ -26,7 +26,7 @@
 
                     <ul class="page-breadcrumb breadcrumb">
                         <li>
-                            <a href="index.html">Home</a>
+                            <a href="/operator/index">Home</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
@@ -172,8 +172,8 @@
                                             </div><!-- end form-body -->
 
                                             <div class="form-actions">
-                                                <button type="submit" class="btn blue" id="update-account-btn">Update</button>
-                                                <button type="button" class="btn default">Cancel</button>
+                                              <button type="submit" class="btn blue" id="update-account-btn">Update</button>
+                                              <a href="/admin/all-accounts" class="btn default">Cancel</a>
                                             </div><!-- end form-actions -->
 
                                         </form>

@@ -11,7 +11,7 @@
         <div class="container-fluid">
 
           <div class="page-title">
-            <h1>All Dialects</h1>
+            <h1>All Address Street</h1>
           </div><!-- end page-title -->
 
         </div><!-- end container-fluid -->
@@ -23,24 +23,24 @@
         <div class="container-fluid">
 
           <ul class="page-breadcrumb breadcrumb">
-              <li>
-                  <a href="/admin/dashboard">Home</a>
-                  <i class="fa fa-circle"></i>
-              </li>
-              <li>
-                  <span>Add New Dialect</span>
-              </li>
+            <li>
+              <a href="/admin/dashboard">Home</a>
+              <i class="fa fa-circle"></i>
+            </li>
+            <li>
+              <span>All Address Street</span>
+            </li>
           </ul>
 
           @if($errors->any())
 
-              <div class="alert alert-danger">
+          <div class="alert alert-danger">
 
-                  @foreach($errors->all() as $error)
-                      <p>{{ $error }}</p>
-                  @endforeach
+          @foreach($errors->all() as $error)
+            <p>{{ $error }}</p>
+          @endforeach
 
-              </div>
+          </div>
 
           @endif
 
@@ -64,7 +64,7 @@
 
                       <div class="caption font-red-sunglo">
                           <i class="icon-settings font-red-sunglo"></i>
-                          <span class="caption-subject bold uppercase"> Add New Dialect</span>
+                          <span class="caption-subject bold uppercase"> Add New Address</span>
                       </div><!-- end caption font-red-sunglo -->
 
                   </div><!-- end portlet-title -->
@@ -72,34 +72,43 @@
                   <div class="portlet-body form">
 
                     <div class="form-group">
-                        <a href="/admin/add-dialect" class="btn blue" style="margin: 0 25px 20px 10px;">Add New Dialect
+                        <a href="/admin/add-address" class="btn blue" style="margin: 0 25px 20px 10px;">Add New Address
                         </a>
                     </div><!-- end form-group -->
 
-                    <div class="col-md-6">
-                      <table class="table table-bordered" id="all-dialects-table">
+                    <div class="col-md-12">
+                      <table class="table table-bordered" id="all-address-table">
                           <thead>
                             <tr id="filter">
-                              <th width="70%"></th>
-                              <th width="30%"></th>
+                              <th width="25%"></th>
+                              <th width="25%"></th>
+                              <th width="15%"></th>
+                              <th width="20%"></th>
+                              <th width="15%"></th>
                             </tr>
                             <tr>
-                              <th>Dialect Name</th>
+                              <th>Chinese</th>
+                              <th>English</th>
+                              <th>Address House No</th>
+                              <th>Address Postal</th>
                               <th>Actions</th>
                             </tr>
                           </thead>
 
                           <tbody>
-                            @foreach($dialects as $dialect)
+                            @foreach($translation_street as $data)
 
                             <tr>
-                              <td>{{ $dialect->dialect_name }}</td>
+                              <td>{{ $data->chinese }}</td>
+                              <td>{{ $data->english }}</td>
+                              <td>{{ $data->address_houseno }}</td>
+                              <td>{{ $data->address_postal }}</td>
                               <td>
-                                <a href="{{ URL::to('/admin/dialect/edit/' . $dialect->dialect_id) }}" class="btn btn-outline btn-circle btn-sm purple">
+                                <a href="{{ URL::to('/admin/address-street/edit/' . $data->id) }}" class="btn btn-outline btn-circle btn-sm purple">
                                   <i class="fa fa-edit"></i> Edit
                                 </a>
 
-                                <a href="{{ URL::to('/admin/dialect/delete/' . $dialect->dialect_id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-dialect">
+                                <a href="{{ URL::to('/admin/address-street/delete/' . $data->id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-address">
                                   <i class="fa fa-trash-o"></i> Delete
                                 </a>
                               </td>
@@ -109,10 +118,7 @@
                           </tbody>
 
                       </table>
-                    </div><!-- end col-md-6 -->
-
-                    <div class="col-md-6">
-                    </div><!-- end col-md-6 -->
+                    </div><!-- end col-md-12 -->
 
                     <div class="clearfix">
 
@@ -147,41 +153,43 @@
 
 	<script type="text/javascript">
 
-		$(function() {
-			// DataTable
-			var table = $('#all-dialects-table').DataTable({
-				"lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-			});
+    $(function() {
+      // DataTable
+      var table = $('#all-address-table').DataTable({
+        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+      });
 
-			$('#all-dialects-table thead tr#filter th').each( function () {
-						var title = $('#all-dialects-table thead th').eq( $(this).index() ).text();
-						$(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
-			});
+      $('#all-address-table thead tr#filter th').each( function () {
+            var title = $('#all-dialects-table thead th').eq( $(this).index() ).text();
+            $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+      });
 
-			// Apply the filter
-			$("#all-dialects-table thead input").on( 'keyup change', function () {
-					table
-							.column( $(this).parent().index()+':visible' )
-							.search( this.value )
-							.draw();
-			});
+      // Apply the filter
+      $("#all-address-table thead input").on( 'keyup change', function () {
+          table
+              .column( $(this).parent().index()+':visible' )
+              .search( this.value )
+              .draw();
+      });
 
-			function stopPropagation(evt) {
-				if (evt.stopPropagation !== undefined) {
-					evt.stopPropagation();
-				} else {
-					evt.cancelBubble = true;
-				}
-			}
+      function stopPropagation(evt) {
+        if (evt.stopPropagation !== undefined) {
+          evt.stopPropagation();
+        } else {
+          evt.cancelBubble = true;
+        }
+      }
 
-      $("#all-dialects-table").on('click', '.delete-dialect', function() {
+      $("#all-address-table").on('click', '.delete-address', function() {
         if (!confirm("Do you confirm you want to delete this record? Note that this process is irreversable.")){
           return false;
         }
       });
 
       $("#filter input[type=text]:last").css("display", "none");
-		});
+    });
+
+
 	</script>
 
 @stop

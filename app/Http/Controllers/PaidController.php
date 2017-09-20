@@ -110,7 +110,7 @@ class PaidController extends Controller
           "cash_account" => $input['cash_account'],
           "cash_amount" => $input['cash_amount'],
           "cheque_no" => $input['cheque_no'],
-          "cheque_account" => $input['cheque_account'],
+          // "cheque_account" => $input['cheque_account'],
           "cheque_receipt" => $input['cheque_receipt'],
           "issuing_banking" => $input['issuing_banking'],
           "cheque_from" => $input['cheque_from'],

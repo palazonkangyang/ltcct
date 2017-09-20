@@ -71,10 +71,12 @@
 		      <div class="label-wrapper2">
 		        <div class="label-left">Receipt No <br /> (收据)</div><!-- end label-left -->
 
-		        @if($count > 6)
-		          <div class="label-right2">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
+						@if($count_familycode == 1)
+						<div class="label-right2">{{ $receipts[0]->xy_receipt }}</div><!-- end label-right -->
+		        @elseif($count > 6)
+		        <div class="label-right2">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
 		        @else
-		          <div class="label-right2">{{ $receipts[$count_family8]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
+		        <div class="label-right2">{{ $receipts[$count_family8]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
 		        @endif
 		      </div><!-- end label-wrapper -->
 
@@ -291,7 +293,9 @@
 
 		      <div class="label-rightwrapper" style="font-weight: bold">
 		        <div class="rightlabel-left"><b>Receipt No (收据)</b></div><!-- end label-left -->
-		        @if($count > 8)
+						@if($count_familycode == 1)
+							<div class="rightlabel-right">{{ $receipts[0]->xy_receipt }}</div><!-- end label-right -->
+		        @elseif($count > 6)
 		          <div class="rightlabel-right">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
 		        @else
 		          <div class="rightlabel-right">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->

@@ -70,8 +70,9 @@
 
 		      <div class="label-wrapper2">
 		        <div class="label-left">Receipt No <br /> (收据)</div><!-- end label-left -->
-
-		        @if($count > 6)
+						@if($count_familycode == 1)
+						<div class="label-right2">{{ $receipts[0]->xy_receipt }}</div><!-- end label-right -->
+		        @elseif($count > 6)
 		          <div class="label-right2">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
 		        @else
 		          <div class="label-right2">{{ $receipts[$count_family8]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
@@ -225,7 +226,7 @@
 		        <div class="rightlabel-right">{{ $receipts[0]->trans_date }}</div><!-- end label-right -->
 		      </div><!-- end label-wrapper -->
 
-		      <div class="label-rightwrapper" style="font-size: 11px; font-weight: bold">
+		      <div class="label-rightwrapper">
 		        <div class="rightlabel-left">Description (项目)</div><!-- end label-left -->
 		        <div class="rightlabel-right">
 		          @if($receipts[0]->description == 'General Donation - 香油')
@@ -285,7 +286,9 @@
 
 		      <div class="label-rightwrapper" style="font-weight: bold">
 		        <div class="rightlabel-left"><b>Receipt No (收据)</b></div><!-- end label-left -->
-		        @if($count > 6)
+						@if($count_familycode == 1)
+							<div class="rightlabel-right">{{ $receipts[0]->xy_receipt }}</div><!-- end label-right -->
+		        @elseif($count > 6)
 		          <div class="rightlabel-right">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
 		        @else
 		          <div class="rightlabel-right">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
@@ -409,11 +412,11 @@
       <div style="overflow: hidden;">
 
         <div style="float:left; width: 60%;">
-          <p style="font-size: 12px; font-weight: bold;">Payment Mode (付款方式) : {{ $receipts[$i]->mode_payment }}</p>
+          <p style="font-weight: bold;">Payment Mode (付款方式) : {{ $receipts[$i]->mode_payment }}</p>
         </div>
 
         <div class="float: right: width: 40%;">
-          <p style="font-size: 12px; font-weight: bold;">Total Amount (总额) S$ {{ number_format( $receipts[$i]->amount, 2) }}</p>
+          <p style="font-weight: bold;">Total Amount (总额) S$ {{ number_format( $receipts[$i]->amount, 2) }}</p>
         </div>
 
       </div>
@@ -432,14 +435,10 @@
           <div class="rightlabel-right">{{ $receipts[$i]->trans_date }}</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
-        <div class="label-rightwrapper" style="font-weight: bold">
+        <div class="label-rightwrapper">
           <div class="rightlabel-left">Description (项目)</div><!-- end label-left -->
           <div class="rightlabel-right">
-						@if($receipts[0]->description == 'General Donation - 香油')
-						香油
-						@elseif($receipts[0]->description == 'General Donation - 慈济')
-						慈济
-						@endif
+						月捐
 					</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
       </div><!-- end receipt-info -->
@@ -482,7 +481,7 @@
         </div>
       </div><!-- end receipt-info -->
 
-      <div class="receipt-info" style="font-size: 12px; font-weight: bold">
+      <div class="receipt-info" style="font-weight: bold">
         <div class="label-rightwrapper">
           <div class="rightlabel-left">Total Amount (总额)</div><!-- end label-left -->
           <div class="rightlabel-right">S$ {{ number_format( $receipts[$i]->amount, 2) }}</div><!-- end label-right -->

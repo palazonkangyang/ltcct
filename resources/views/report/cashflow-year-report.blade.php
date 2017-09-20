@@ -12,7 +12,7 @@
 
               <div class="page-title">
 
-                  <h1>Income Statement Report</h1>
+                  <h1>Cashflow Statement Report</h1>
 
               </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
                   <i class="fa fa-circle"></i>
               </li>
               <li>
-                  <span>Income Statement Report</span>
+                  <span>Cashflow Statement Report</span>
               </li>
           </ul>
 
@@ -48,34 +48,64 @@
 
                       <div class="form-body">
 
-                        <h4 class="text-center" style="font-weight: bold;">
-                          Income Statement <br />
-                          Printed on: {{ $today }}<br />
-                          Period : {{ $month }} {{ $year }}
-                        </h4><br />
+                        <h4 class="text-center" style="font-weight: bold;">{{ $year }} Cashflow Statement Summary</h4><br />
 
                         <div class="col-md-12">
                           <button type="button" class="btn blue print-btn">Print</button>
                         </div><!-- end col-md-12 -->
 
                         <div class="col-md-12">
-                          <table border="1" class="table table-bordered table-striped" id="income-monthly-report-table">
+                          <table border="1" class="table table-bordered table-striped" id="cashflow-year-report-table">
                             <thead>
                      					<tr>
-                     						<th width="5%"></th>
-                                <th width="3%">Current Period</th>
-                                <th width="3%">%</th>
-                                <th width="3%">YTD</th>
+                     						<th width="28%"></th>
+                                <th width="6%">JAN</th>
+                                <th width="6%">FEB</th>
+                                <th width="6%">MAR</th>
+                                <th width="6%">APR</th>
+                                <th width="6%">MAY</th>
+                                <th width="6%">JUN</th>
+                                <th width="6%">JULY</th>
+                                <th width="6%">AUG</th>
+                                <th width="6%">SEP</th>
+                                <th width="6%">OCT</th>
+                                <th width="6%">NOV</th>
+                                <th width="6%">DEC</th>
                      					</tr>
                      				</thead>
 
                             <tbody>
-                              @for($i = 0; $i < count($income); $i++)
                               <tr>
-                                <td>{{ $income[$i]->type_name }}</td>
-                                <td>{{ number_format($income[$i]->$month, 2) }}</td>
-                                <td>{{ number_format($percentage[$i], 1) }}</td>
-                                <td>{{ number_format($total_income[$i]->total, 2) }}</td>
+                                <td style="font-weight: bold; text-decoration: underline">Expense 收入</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+
+                              @for($i = 0; $i < count($expenses); $i++)
+                              <tr>
+                                <td>{{ $expenses[$i]->type_name }}</td>
+                                <td>{{ number_format($expenses[$i]->Jan, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->Feb, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->Mar, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->Apr, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->May, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->Jun, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->July, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->Aug, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->Sep, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->Oct, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->Nov, 2) }}</td>
+                                <td>{{ number_format($expenses[$i]->December, 2) }}</td>
                               </tr>
                               @endfor
                             </tbody>
@@ -110,6 +140,8 @@
 
 @section('custom-js')
 
+<script src="{{asset('js/custom/common.js')}}"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
@@ -119,11 +151,12 @@
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
 
 <script type="text/javascript">
-  $(function(){
+
+  $(function() {
 
     function printData()
     {
-      var divToPrint=document.getElementById("income-monthly-report-table");
+      var divToPrint=document.getElementById("cashflow-year-report-table");
       newWin= window.open("");
       newWin.document.write(divToPrint.outerHTML);
       newWin.print();

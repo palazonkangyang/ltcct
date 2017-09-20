@@ -10,6 +10,7 @@ use App\Models\Dialect;
 use App\Models\Race;
 use App\Models\Amount;
 use App\Models\MembershipFee;
+use App\Models\TranslationStreet;
 use Auth;
 use DB;
 use Hash;
@@ -174,7 +175,6 @@ class AdminController extends Controller
 			$staff->first_name = $input['first_name'];
 			$staff->last_name = $input['last_name'];
 			$staff->user_name = $input['user_name'];
-			$staff->password = Hash::make($input['password']);
 			$staff->role = $input['role'];
 			$staff->save();
 
@@ -539,5 +539,112 @@ class AdminController extends Controller
 
 	  $request->session()->flash('success', 'Minimum Amount has been updated!');
 	  return redirect()->back();
+	}
+
+	public function getAddressStreetLists()
+	{
+		$translation_street = TranslationStreet::all();
+
+		return view('admin.all-address-streets', [
+			'translation_street' => $translation_street
+		]);
+	}
+
+	public function getAddAddress()
+	{
+		return view('admin.add-address');
+	}
+
+	public function postAddAddress(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		$check_address_postal = TranslationStreet::where('address_postal', $input['address_postal'])->first();
+		$check_address = TranslationStreet::where('english', $input['english'])
+										->where('address_houseno', $input['address_houseno'])
+										->first();
+
+		if($check_address_postal)
+		{
+			$request->session()->flash('error', 'Address Postal is already exit.');
+      return redirect()->back()->withInput();
+		}
+
+		if($check_address)
+		{
+			$request->session()->flash('error', 'Address House No and English Street Name are already exits.');
+      return redirect()->back()->withInput();
+		}
+
+		TranslationStreet::create($input);
+
+		$request->session()->flash('success', 'New Address Street has been created!');
+	  return redirect()->back();
+	}
+
+	public function getEditAddress($id)
+	{
+		$result = TranslationStreet::find($id);
+
+		if (!$result) {
+      return view('errors.503');
+    }
+
+		return view('admin.edit-address', [
+      'address' => $result
+    ]);
+	}
+
+	public function updateAddress(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		$check_address_postal = TranslationStreet::where('address_postal', $input['address_postal'])
+														 ->where('id', '!=', $input['id'])
+														 ->first();
+
+		$check_address = TranslationStreet::where('english', $input['english'])
+														->where('address_houseno', $input['address_houseno'])
+												 		->where('id', '!=', $input['id'])
+												 		->first();
+
+		if($check_address_postal)
+		{
+			$request->session()->flash('error', 'Address Postal is already exit.');
+			return redirect()->back()->withInput();
+		}
+
+		if($check_address)
+		{
+			$request->session()->flash('error', 'Address House No and English Street Name are already exits.');
+			return redirect()->back()->withInput();
+		}
+
+		$result = TranslationStreet::find($input['id']);
+		$result->chinese = $input['chinese'];
+		$result->english = $input['english'];
+		$result->address_houseno = $input['address_houseno'];
+		$result->address_postal = $input['address_postal'];
+
+		$result->save();
+
+		$request->session()->flash('success', 'Address is successfully updated!');
+		return redirect()->route('address-street-lists-page');
+	}
+
+	// Delete Address
+	public function deleteAddress(Request $request, $id)
+	{
+		$result = TranslationStreet::find($id);
+
+    if (!$result) {
+      $request->session()->flash('error', 'Selected Address is not found.');
+      return redirect()->back();
+  	}
+
+    $result->delete();
+
+		$request->session()->flash('success', 'Selected Address has been deleted.');
+    return redirect()->back();
 	}
 }

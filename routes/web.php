@@ -45,6 +45,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/race/delete/{id}', ['as' => 'delete-race-page', 'uses' => 'AdminController@deleteRace']);
 		Route::get('/minimum-amount', ['as' => 'minimum-amount-page', 'uses' => 'AdminController@getMinimumAmount']);
 		Route::get('/membership-fee', ['as' => 'membership-fee-page', 'uses' => 'AdminController@getMemebershipFee']);
+		Route::get('/address-street-lists', ['as' => 'address-street-lists-page', 'uses' => 'AdminController@getAddressStreetLists']);
+		Route::get('/add-address', ['as' => 'add-address-page', 'uses' => 'AdminController@getAddAddress']);
+		Route::get('/address-street/edit/{id}', ['as' => 'edit-address-street-page', 'uses' => 'AdminController@getEditAddress']);
+		Route::get('/address-street/delete/{id}', ['as' => 'delete-address-street-page', 'uses' => 'AdminController@deleteAddress']);
 
 		Route::post('/add-account', ['as' => 'save-account-page', 'uses' => 'AdminController@postAddAccount']);
 		Route::post('/change-account', ['as' => 'change-account-page', 'uses' => 'AdminController@changeAccount']);
@@ -55,6 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-acknowledge', ['as' => 'update-acknowledge-page', 'uses' => 'AdminController@postUpdateAcknowledge']);
 		Route::post('/update-minimum-amount', ['as' => 'update-minimum-amount-page', 'uses' => 'AdminController@postUpdateMinimumAmount']);
 		Route::post('/update-membership-fee', ['as' => 'update-membership-fee-page', 'uses' => 'AdminController@postUpdateMemebershipFee']);
+		Route::post('/add-address', ['as' => 'save-address-page', 'uses' => 'AdminController@postAddAddress']);
+		Route::post('/update-address', ['as' => 'update-address-page', 'uses' => 'AdminController@updateAddress']);
   });
 
   Route::group(['prefix' => 'operator'], function () {
@@ -64,6 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/search/autocomplete2', ['as' => 'search-autocomplete2-page', 'uses' => 'OperatorController@getAutocomplete2']);
 		Route::get('/search/address_street', ['as' => 'search-address-street-page', 'uses' => 'OperatorController@getAddressStreet']);
 		Route::get('/search/address_postal', ['as' => 'search-address-postal-page', 'uses' => 'OperatorController@getAddressPostal']);
+		Route::get('/search/populate_address_postal', ['as' => 'populate-address-postal-page', 'uses' => 'OperatorController@getPopulateAddressPostal']);
 		Route::get('/search/address_translate', ['as' => 'search-address-page', 'uses' => 'OperatorController@getTranslateAddress']);
 		Route::get('/address-translate', ['as' => 'address-translate-page', 'uses' => 'OperatorController@getAddressTranslate']);
 		Route::get('/search-dialect', ['as' => 'search-dialect-page', 'uses' => 'OperatorController@getSearchDialect']);
@@ -162,9 +169,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['prefix' => 'report'], function () {
     Route::get('/income-report', ['as' => 'income-report-page', 'uses' => 'ReportController@getIncomeReport']);
+		Route::get('/cashflow-report', ['as' => 'cashflow-report-page', 'uses' => 'ReportController@getCashflowReport']);
+		Route::get('/trialbalance-report', ['as' => 'trialbalance-report-page', 'uses' => 'ReportController@getTrialBalanceReport']);
 
 		Route::post('/report-detail', ['as' => 'report-detail-page', 'uses' => 'ReportController@getReportDetail']);
-
+		Route::post('/cashflow-report-detail', ['as' => 'cashflow-report-detail-page', 'uses' => 'ReportController@getCashflowReportDetail']);
+		Route::post('/trialbalance-report-detail', ['as' => 'trialbalance-report-detail-page', 'uses' => 'ReportController@getTrialBalanceReportDetail']);
   });
 
 });
