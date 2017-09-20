@@ -147,7 +147,12 @@
 
                       <div class="form-actions">
                         <button type="submit" class="btn blue" id="create-address-btn">Create</button>
+
+                        @if(Auth::user()->role == 5)
+                        <button type="reset" class="btn default">Cancel</button>
+                        @else
                         <a href="/admin/address-street-lists" class="btn default">Cancel</a>
+                        @endif
                       </div><!-- end form-actions -->
 
                     </form>

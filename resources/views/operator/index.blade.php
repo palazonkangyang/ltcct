@@ -568,9 +568,9 @@
 	                                                                      	Check Family Code
 	                                                                      </button>
 
-																																				<!-- <button type="button" class="btn default address_translated_btn">
-																																					Translate Address
-																																				</button> -->
+																																				@if(Auth::user()->role == 5)
+																																				<a href="/admin/add-address" class="btn default">Add New Address</a>
+																																				@endif
                                                                       </div><!-- end col-md-12 -->
 
                                                                     </div><!-- end form-group -->

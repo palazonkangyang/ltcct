@@ -241,6 +241,9 @@
                                   <li aria-haspopup="true" class=" ">
                                       <a href="/admin/minimum-amount">Minimum Amount</a>
                                   </li>
+                                  <li aria-haspopup="true">
+                                    <a href="/admin/address-street-lists" class="hylink">Address</a>
+                                  </li>
                               </ul>
                           </li>
                           @endif
