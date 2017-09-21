@@ -153,13 +153,6 @@
                                   {!! csrf_field() !!}
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Reference No *</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="reference_no" value="{{ old('reference_no') }}" id="reference_no">
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
                                     <label class="col-md-3 control-label">Date *</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="date" value="{{ old('date') }}" data-provide="datepicker" data-date-format="dd/mm/yyyy" id="date">
@@ -286,9 +279,8 @@
                                       <label class="col-md-3 control-label">Cheque Account</label>
                                       <div class="col-md-9">
                                           <select class="form-control" name="cheque_account" id="cheque_account">
-                                            @foreach($glcode as $gl)
-                                            <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
-                                            @endforeach
+                                            <option value="7">OCBC A/C NO. 665700217001 华侨银行第一户</option>
+                                            <option value="8">OCBC A/C NO. 665700225001 华侨银行第二户</option>
                                           </select>
                                       </div><!-- end col-md-9 -->
                                     </div><!-- end form-group -->
@@ -587,7 +579,6 @@
       var errors = new Array();
       var validationFailed = false;
 
-      var reference_no = $("#reference_no").val();
       var date = $("#date").val();
       var supplier = $("#supplier").val();
       var description = $("#description").val();
@@ -613,12 +604,6 @@
 
       var gl_description = $("#gl_description").val();
       var remark = $("#remark").val();
-
-      if ($.trim(reference_no).length <= 0)
-      {
-          validationFailed = true;
-          errors[count++] = "Reference No field is empty."
-      }
 
       if ($.trim(date).length <= 0)
       {

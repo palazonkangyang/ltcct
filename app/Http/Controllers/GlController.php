@@ -35,9 +35,13 @@ class GlController extends Controller
     $glcodegroup_id = $_GET['glcodegroup_id'];
 
     $glcodegroup = GlCodeGroup::find($glcodegroup_id);
+    $glcode = GlCode::where('glcodegroup_id', $glcodegroup_id)->get();
+
+    $count = count($glcode);
 
     return response()->json(array(
 	    'glcodegroup' => $glcodegroup,
+      'count' => $count
 	  ));
   }
 
@@ -46,32 +50,43 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
+    // dd($input);
+
     if(isset($input['authorized_password']))
     {
       $user = User::find(Auth::user()->id);
       $hashedPassword = $user->password;
 
       if (Hash::check($input['authorized_password'], $hashedPassword)) {
-        $data = [
-          "name" => $input['name'],
-          "description" => $input['description'],
-          "balancesheet_side" => $input['balancesheet_side'],
-          "status" => $input['status']
-        ];
 
-        $glcodegroup = GlCodeGroup::create($data);
+        $result = GlCodeGroup::where('name', $input['name'])->first();
+
+        if($result)
+        {
+          $request->session()->flash('error', 'Gl Account Name is already exit.');
+          return redirect()->back()->withInput();
+        }
+
+        else
+        {
+          $data = [
+            "name" => $input['name'],
+            "description" => $input['description'],
+            "balancesheet_side" => $input['balancesheet_side'],
+            "status" => $input['status']
+          ];
+
+          $glcodegroup = GlCodeGroup::create($data);
+
+          $request->session()->flash('success', 'New GL Account Group has been created!');
+          return redirect()->route('new-glaccount-group-page');
+        }
       }
 
       else {
         $request->session()->flash('error', "Password did not match. Please Try Again");
         return redirect()->back()->withInput();
       }
-    }
-
-    if($glcodegroup)
-    {
-      $request->session()->flash('success', 'New GL Account Group has been created!');
-      return redirect()->route('new-glaccount-group-page');
     }
   }
 
@@ -99,23 +114,31 @@ class GlController extends Controller
 
       if (Hash::check($input['authorized_password'], $hashedPassword)) {
 
-        $glcodegroup = GlCodeGroup::find($input['glcodegroup_id']);
+        $result = GlCodeGroup::where('name', $input['edit_name'])
+    														 ->where('glcodegroup_id', '!=', $input['glcodegroup_id'])
+    														 ->first();
+        if($result)
+        {
+          $request->session()->flash('error', 'Gl Account Name is already exit.');
+    			return redirect()->back()->withInput();
+        }
 
-        $glcodegroup->name = $input['edit_name'];
-        $glcodegroup->description = $input['edit_description'];
-        $result = $glcodegroup->save();
+        else {
+          $glcodegroup = GlCodeGroup::find($input['glcodegroup_id']);
+
+          $glcodegroup->name = $input['edit_name'];
+          $glcodegroup->description = $input['edit_description'];
+          $glcodegroup->save();
+
+          $request->session()->flash('success', 'GL Account Group has been updated!');
+          return redirect()->route('new-glaccount-group-page');
+        }
       }
 
       else {
         $request->session()->flash('error', "Password did not match. Please Try Again");
         return redirect()->back()->withInput();
       }
-    }
-
-    if($result)
-    {
-      $request->session()->flash('success', 'GL Account Group has been updated!');
-      return redirect()->route('new-glaccount-group-page');
     }
   }
 

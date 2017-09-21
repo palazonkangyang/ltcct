@@ -110,6 +110,8 @@
 	    }
    });
 
+   $("#year").val((new Date).getFullYear());
+
     $("#year").datepicker( {
       format: "yyyy",
       viewMode: "years",

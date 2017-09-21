@@ -14,7 +14,7 @@
       <div class="form-group">
         <label class="col-md-3 control-label">Reference No *</label>
         <div class="col-md-9">
-            <input type="text" class="form-control" name="edit_reference_no" value="{{ old('edit_reference_no') }}" id="edit_reference_no">
+            <input type="text" class="form-control" name="edit_reference_no" value="{{ old('edit_reference_no') }}" id="edit_reference_no" readonly>
         </div><!-- end col-md-9 -->
       </div><!-- end form-group -->
 
@@ -145,9 +145,8 @@
           <label class="col-md-3 control-label">Cheque Account</label>
           <div class="col-md-9">
               <select class="form-control" name="edit_cheque_account" id="edit_cheque_account">
-                @foreach($glcode as $gl)
-                <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
-                @endforeach
+                <option value="7">OCBC A/C NO. 665700217001 华侨银行第一户</option>
+                <option value="8">OCBC A/C NO. 665700225001 华侨银行第二户</option>
               </select>
           </div><!-- end col-md-9 -->
         </div><!-- end form-group -->

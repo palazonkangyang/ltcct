@@ -94,20 +94,22 @@
                                 <table class="table table-bordered" id="expenditure-table">
                                   <thead>
                                       <tr id="filter">
-                                          <th>Reference No</th>
-                                          <th>Date</th>
-                                          <th>Supplier</th>
-                                          <th>Description</th>
-                                          <th>Credit Total</th>
-                                          <th>Status</th>
+                                        <th class="expenditure-filter1"></th>
+                                        <th class="expenditure-filter2"></th>
+                                        <th class="expenditure-filter3"></th>
+                                        <th class="expenditure-filter4"></th>
+                                        <th class="expenditure-filter5"></th>
+                                        <th class="expenditure-filter6"></th>
+                                        <th class="expenditure-filter7"></th>
                                       </tr>
                                       <tr>
-                                          <th>Reference No</th>
-                                          <th>Date</th>
-                                          <th>Supplier</th>
-                                          <th>Description</th>
-                                          <th>Credit Total</th>
-                                          <th>Status</th>
+                                        <th>Reference No</th>
+                                        <th>Date</th>
+                                        <th>Supplier</th>
+                                        <th>Description</th>
+                                        <th>Credit Total</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                       </tr>
                                   </thead>
 
@@ -121,9 +123,16 @@
                                           </td>
                                           <td>{{ \Carbon\Carbon::parse($exp->date)->format("d/m/Y") }}</td>
                                           <td>{{ $exp->supplier }}</td>
-                                          <td>{{ $exp->description }}</td>
+                                          <td>
+                                            <span style="display: inline-block; width: 300px; overflow-wrap: break-word;">{{ $exp->description }}</span>
+                                          </td>
                                           <td>S$ {{ $exp->credit_total }}</td>
                                           <td class="text-capitalize">{{ $exp->status }}</td>
+                                          <td>
+                                            <a href="{{ URL::to('/expenditure/delete/' . $exp->expenditure_id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-item">
+                                              <i class="fa fa-trash-o"></i> Delete
+                                            </a>
+                                          </td>
                                         </tr>
                                         @endforeach
 
@@ -146,13 +155,6 @@
                                   class="form-horizontal form-bordered">
 
                                   {!! csrf_field() !!}
-
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Reference No *</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="reference_no" value="{{ old('reference_no') }}" id="reference_no">
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
 
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">Date *</label>
@@ -269,7 +271,7 @@
                                   <div class="form-group">
                                     <label class="col-md-3 control-label">Reference No *</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="edit_reference_no" value="{{ old('edit_reference_no') }}" id="edit_reference_no">
+                                        <input type="text" class="form-control" name="edit_reference_no" value="{{ old('edit_reference_no') }}" id="edit_reference_no" readonly>
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
@@ -392,19 +394,54 @@
 <script src="{{asset('js/custom/common.js')}}"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.3/js/dataTables.fixedHeader.min.js"></script>
 
 <script type="text/javascript">
 
   $(function() {
 
+    $("#filter input[type=text]:last").css("display", "none");
+
+    $("#expenditure-table").on('click', '.delete-item', function() {
+      if (!confirm("Do you confirm you want to delete this record? Note that this process is irreversable.")){
+        return false;
+      }
+    });
+
+    $("#credit_total").keypress(function (e) {
+       //if the letter is not digit then display error and don't type anything
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          //display error message
+          return false;
+      }
+    });
+
+    $("#edit_credit_total").keypress(function (e) {
+       //if the letter is not digit then display error and don't type anything
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          //display error message
+          return false;
+      }
+    });
+
     // DataTable
     var table = $('#expenditure-table').DataTable({
-      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
+      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+      "columnDefs": [
+        { "width": "10%", "targets": 0 },
+        { "width": "10%", "targets": 1 },
+        { "width": "20%", "targets": 2 },
+        { "width": "10%", "targets": 3 },
+        { "width": "10%", "targets": 4 },
+        { "width": "10%", "targets": 5 },
+        { "width": "10%", "targets": 6 }
+      ],
+      fixedColumns: true
     });
 
     $('#expenditure-table thead tr#filter th').each( function () {
-          var title = $('#expenditure-table thead th').eq( $(this).index() ).text();
-          $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+      var title = $('#expenditure-table thead th').eq( $(this).index() ).text();
+      $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
     });
 
     // Apply the filter
@@ -469,6 +506,8 @@
 
     $("#expenditure-table").on('click','.edit-item',function(e) {
 
+      $(".alert-success").remove();
+
       $(".nav-tabs > li:first-child").removeClass("active");
       $("#edit-expenditure").addClass("active");
 
@@ -491,8 +530,8 @@
 
             if(localStorage.getItem('expenditure_id'))
             {
-                var expenditure_id = localStorage.getItem('expenditure_id');
-                var status = localStorage.getItem('status');
+              var expenditure_id = localStorage.getItem('expenditure_id');
+              var status = localStorage.getItem('status');
             }
 
             if(status == 'posted')
@@ -504,10 +543,20 @@
             }
 
             else {
-              $('#expenditure-form input').removeAttr('readonly', 'readonly');
+              $("#edit_expenditure_id").attr('readonly', 'readonly');
+              $("#edit_date").removeAttr('readonly', 'readonly');
+              $("#edit_supplier").removeAttr('readonly', 'readonly');
+              $("#edit_description").removeAttr('readonly', 'readonly');
+              $("#edit_credit_total").removeAttr('readonly', 'readonly');
               $('#expenditure-form textarea').removeAttr('readonly', 'readonly');
               $('#expenditure-form select').attr('disabled', false);
+              $("#edit_authorized_password").removeAttr('readonly', 'readonly');
               $('#expenditure-form #update_expenditure_btn').attr('disabled', false);
+            }
+
+            if(status == 'draft')
+            {
+
             }
 
             $("#edit_expenditure_id").val(expenditure_id);
@@ -539,65 +588,125 @@
       var credit_total = $("#credit_total").val();
       var authorized_password = $("#authorized_password").val();
 
-      if ($.trim(reference_no).length <= 0)
-      {
-          validationFailed = true;
-          errors[count++] = "Reference No field is empty."
-      }
-
       if ($.trim(date).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Date field is empty."
+        validationFailed = true;
+        errors[count++] = "Date field is empty."
       }
 
       if ($.trim(supplier).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Supplier field is empty."
+        validationFailed = true;
+        errors[count++] = "Supplier field is empty."
       }
 
       if ($.trim(description).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Description field is empty."
+        validationFailed = true;
+        errors[count++] = "Description field is empty."
       }
 
       if ($.trim(credit_total).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Credit Total field is empty."
+        validationFailed = true;
+        errors[count++] = "Credit Total field is empty."
       }
 
       if ($.trim(authorized_password).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Authorized pasword field is empty."
+        validationFailed = true;
+        errors[count++] = "Authorized pasword field is empty."
       }
 
       if (validationFailed)
       {
-          var errorMsgs = '';
+        var errorMsgs = '';
 
-          for(var i = 0; i < count; i++)
-          {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
-          }
+        for(var i = 0; i < count; i++)
+        {
+          errorMsgs = errorMsgs + errors[i] + "<br/>";
+        }
 
-          $('html,body').animate({ scrollTop: 0 }, 'slow');
+        $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-          $(".validation-error").addClass("bg-danger alert alert-error")
-          $(".validation-error").html(errorMsgs);
+        $(".validation-error").addClass("bg-danger alert alert-error")
+        $(".validation-error").html(errorMsgs);
 
-          return false;
+        return false;
       }
 
       else
       {
-          $(".validation-error").removeClass("bg-danger alert alert-error")
-          $(".validation-error").empty();
+        $(".validation-error").removeClass("bg-danger alert alert-error")
+        $(".validation-error").empty();
       }
 
+    });
+
+    $("#update_expenditure_btn").click(function() {
+
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+
+      var date = $("#edit_date").val();
+      var supplier = $("#edit_supplier").val();
+      var description = $("#edit_description").val();
+      var credit_total = $("#edit_credit_total").val();
+      var authorized_password = $("#edit_authorized_password").val();
+
+      if ($.trim(date).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Date field is empty."
+      }
+
+      if ($.trim(supplier).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Supplier field is empty."
+      }
+
+      if ($.trim(description).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Description field is empty."
+      }
+
+      if ($.trim(credit_total).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Credit Total field is empty."
+      }
+
+      if ($.trim(authorized_password).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Authorized pasword field is empty."
+      }
+
+      if (validationFailed)
+      {
+        var errorMsgs = '';
+
+        for(var i = 0; i < count; i++)
+        {
+          errorMsgs = errorMsgs + errors[i] + "<br/>";
+        }
+
+        $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+        $(".validation-error").addClass("bg-danger alert alert-error")
+        $(".validation-error").html(errorMsgs);
+
+        return false;
+      }
+
+      else
+      {
+        $(".validation-error").removeClass("bg-danger alert alert-error")
+        $(".validation-error").empty();
+      }
     });
 
   });

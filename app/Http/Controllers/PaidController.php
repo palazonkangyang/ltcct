@@ -27,14 +27,14 @@ class PaidController extends Controller
             ->select('paid.*', 'expenditure.reference_no as expenditure_reference_no')
             ->get();
 
-    $glcode = GlCode::where('glcodegroup_id', 14)->get();
+    // $glcode = GlCode::where('glcodegroup_id', 14)->get();
     $job = Job::orderBy('created_at', 'desc')->get();
     $expenditure = Expenditure::orderBy('created_at', 'desc')->get();
 
     return view('paid.manage-paid', [
       'paid' => $paid,
       'job' => $job,
-      'glcode' => $glcode,
+      // 'glcode' => $glcode,
       'expenditure' => $expenditure
     ]);
   }
@@ -93,8 +93,13 @@ class PaidController extends Controller
 				  $newCashDate = $input['cash_date'];
 				}
 
+        $now = Carbon::now();
+        $result = Paid::all()->last()->paid_id;
+
+        $reference_no = 'P' . '-' . $now->year . '-' . $result;
+
         $data = [
-          "reference_no" => $input['reference_no'],
+          "reference_no" => $reference_no,
           "date" => $newDate,
           "expenditure_id" => $input['expenditure_id'],
           "supplier" => $input['supplier'],
@@ -110,7 +115,7 @@ class PaidController extends Controller
           "cash_account" => $input['cash_account'],
           "cash_amount" => $input['cash_amount'],
           "cheque_no" => $input['cheque_no'],
-          // "cheque_account" => $input['cheque_account'],
+          "cheque_account" => $input['cheque_account'],
           "cheque_receipt" => $input['cheque_receipt'],
           "issuing_banking" => $input['issuing_banking'],
           "cheque_from" => $input['cheque_from'],

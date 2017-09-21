@@ -667,11 +667,11 @@ class StaffController extends Controller
 						}
 
 						else {
-							$result = GlCode::where('glcode_id', '140')->pluck('next_sn_number');
+							$result = GlCode::where('glcode_id', '134')->pluck('next_sn_number');
 							$same_xy_receipt = $result[0];
 						}
 
-						$prefix = GlCode::where('glcode_id', '140')->pluck('receipt_prefix');
+						$prefix = GlCode::where('glcode_id', '134')->pluck('receipt_prefix');
 						$prefix = $prefix[0];
 						$same_xy_receipt += 1;
 						$same_xy_receipt = $prefix . $same_xy_receipt;

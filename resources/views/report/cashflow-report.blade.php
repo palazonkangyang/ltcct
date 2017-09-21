@@ -117,11 +117,18 @@
 	    }
    });
 
+   $("#year").val((new Date).getFullYear());
+
     $("#year").datepicker( {
       format: "yyyy",
       viewMode: "years",
       minViewMode: "years"
     });
+
+    var monthNum = (new Date).getMonth();
+    var shortName = moment.monthsShort(monthNum);
+
+    $("#month").val(shortName);
 
     $("#month").datepicker( {
       format: "M",

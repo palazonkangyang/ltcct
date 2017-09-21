@@ -104,14 +104,14 @@
 
 										 <div class="col-md-2">
 												 <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}"
-														 id="edit_address_unit1">
+														 id="edit_address_unit1" maxlength="3">
 										 </div><!-- end col-md-2 -->
 
 										 <label class="col-md-1">-</label>
 
 										 <div class="col-md-2">
 												 <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}"
-														 id="edit_address_unit2">
+														 id="edit_address_unit2" maxlength="3">
 										 </div><!-- end col-md-2 -->
 
 								 </div><!-- end form-group -->
@@ -208,6 +208,9 @@
 															 <option value="">Please select</option>
 															 <option value="single">Single</option>
 															 <option value="married">Married</option>
+															 <option value="widowed">Widowed</option>
+															 <option value="separated">Separated</option>
+															 <option value="divorced">Divorced</option>
 													 </select>
 											 </div><!-- end col-md-9 -->
 
@@ -412,16 +415,15 @@
 
 	 									<div style='width:14.5%;float:left;'>
 	 											<input type="text" class="form-control" name="address_unit1" value="{{ $focus_devotee[0]->address_unit1 }}"
-	 													id="edit_address_unit1">
+	 													id="edit_address_unit1" maxlength="3">
 	 									</div><!-- end col-md-2 -->
 
 	 									<label style='width:6.2%;float:left;'>-</label>
 
 	 									<div style='width:16.66667%;float:left;'>
 	 											<input type="text" class="form-control" name="address_unit2" value="{{ $focus_devotee[0]->address_unit2 }}"
-	 													id="edit_address_unit2">
+	 													id="edit_address_unit2" maxlength="3">
 	 									</div><!-- end col-md-2 -->
-
 	 							</div><!-- end form-group -->
 
 	 							<div class="form-group">
@@ -519,6 +521,9 @@
 															<option value="">Please select</option>
 															<option value="single" <?php if ($focus_devotee[0]->marital_status == "single") echo "selected"; ?>>Single</option>
 															<option value="married" <?php if ($focus_devotee[0]->marital_status == "married") echo "selected"; ?>>Married</option>
+															<option value="widowed" <?php if ($focus_devotee[0]->marital_status == "widowed") echo "selected"; ?>>Widowed</option>
+															<option value="separated" <?php if ($focus_devotee[0]->marital_status == "separated") echo "selected"; ?>>Separated</option>
+															<option value="divorced" <?php if ($focus_devotee[0]->marital_status == "divorced") echo "selected"; ?>>Divorced</option>
 													</select>
 											</div><!-- end col-md-8 -->
 
@@ -810,9 +815,12 @@
 										<label class="col-md-3 control-label">Marital Status</label>
 										<div class="col-md-9">
 												<select class="form-control" name="marital_status" id="edit_marital_status">
-														<option value="">Please select</option>
-														<option value="single">Single</option>
-														<option value="married">Married</option>
+													<option value="">Please select</option>
+													<option value="single">Single</option>
+													<option value="married">Married</option>
+													<option value="widowed">Widowed</option>
+													<option value="separated">Separated</option>
+													<option value="divorced">Divorced</option>
 												</select>
 										</div><!-- end col-md-9 -->
 
@@ -950,7 +958,7 @@
 											<i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i>
 										</div>
 
-										<div class='col-md-3' style='padding-right: 0;'>
+										<div class='col-md-3 optional-wrapper'>
 
 											<select class='form-control edit-address-type' name='address_type[]'>
 												<option value="home" <?php if ($optAddress->type == "home") echo "selected"; ?>>宅址</option>
@@ -1011,7 +1019,7 @@
 											<div class='col-md-1'>
 											</div><!-- end col-md-1 -->
 
-											<div class='col-md-3' style='padding-right: 0;'>
+											<div class='col-md-3 optional-wrapper'>
 												<select class='form-control edit-address-type' name='address_type[]'>
 													<option value="home">宅址</option>
 													<option value="company">公司</option>
@@ -1074,14 +1082,14 @@
 										<i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
 
-									<div class='col-md-3' style='padding-right: 0;'>
+									<div class='col-md-3 optional-wrapper'>
 										<select class='form-control' name='vehicle_type[]'>
 											<option value="car" <?php if ($optVehicle->type == "car") echo "selected"; ?>>车辆</option>
 											<option value="ship" <?php if ($optVehicle->type == "ship") echo "selected"; ?>>船只</option>
 										</select>
 									</div><!-- end col-md-3 -->
 
-									<div class='col-md-8'>
+									<div class='col-md-8 vehicle-data'>
 										<input type="text" class="form-control" name="vehicle_data[]" value="{{ $optVehicle->data }}">
 									</div><!-- end col-md-8 -->
 
@@ -1099,14 +1107,14 @@
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
 
-										<div class='col-md-3' style='padding-right: 0;'>
+										<div class='col-md-3 optional-wrapper'>
 											<select class='form-control' name='vehicle_type[]'>
 												<option value="car">车辆</option>
 												<option value="ship">船只</option>
 											</select>
 										</div><!-- end col-md-3 -->
 
-										<div class='col-md-8'>
+										<div class='col-md-8 vehicle-data'>
 											<input type="text" class="form-control" name="vehicle_data[]" value="">
 										</div><!-- end col-md-8 -->
 
@@ -1146,7 +1154,7 @@
 										<i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i>
 									</div><!-- end col-md-1 -->
 
-									<div class='col-md-11'>
+									<div class='col-md-11 special-remark'>
 										<input type="text" class="form-control" name="special_remark[]" value="{{ $specialRemark->data }}">
 									</div><!-- end col-md-11 -->
 
@@ -1164,7 +1172,7 @@
 										<div class='col-md-1'>
 										</div><!-- end col-md-1 -->
 
-										<div class='col-md-11'>
+										<div class='col-md-11 special-remark'>
 											<input type="text" class="form-control" name="special_remark[]" value="">
 										</div><!-- end col-md-9 -->
 
@@ -1210,14 +1218,14 @@
 
 									<div style='width:14.5%;float:left;'>
 											<input type="text" class="form-control" name="populate_unit_1"
-													value="{{ old('populate_unit_1') }}" id="edit_populate_unit_1">
+													value="{{ old('populate_unit_1') }}" id="edit_populate_unit_1" maxlength="3">
 									</div><!-- end col-md-2 -->
 
 									<label style='width:6.2%;float:left;'>-</label>
 
 									<div style='width:16.66667%;float:left;'>
 											<input type="text" class="form-control" name="populate_unit_2"
-													value="{{ old('populate_unit_2') }}" id="edit_populate_unit_2">
+													value="{{ old('populate_unit_2') }}" id="edit_populate_unit_2" maxlength="3">
 									</div><!-- end col-md-2 -->
 								</div><!-- end form-group -->
 

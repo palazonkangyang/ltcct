@@ -74,13 +74,15 @@ $(function() {
 
           if(localStorage.getItem('paid_id'))
           {
-              var paid_id = localStorage.getItem('paid_id');
-              var expenditure_id = localStorage.getItem('expenditure_id');
-              var job_id = localStorage.getItem('job_id');
-              var status = localStorage.getItem('status');
-              var type = localStorage.getItem('type');
-              var cheque_account = localStorage.getItem('cheque_account');
+            var paid_id = localStorage.getItem('paid_id');
+            var expenditure_id = localStorage.getItem('expenditure_id');
+            var job_id = localStorage.getItem('job_id');
+            var status = localStorage.getItem('status');
+            var type = localStorage.getItem('type');
+            var cheque_account = localStorage.getItem('cheque_account');
           }
+
+          $("#edit_reference_no").attr('readonly', 'readonly');
 
           $("#edit_paid_id").val(paid_id);
           $("#edit_reference_no").val(response.paid['reference_no']);

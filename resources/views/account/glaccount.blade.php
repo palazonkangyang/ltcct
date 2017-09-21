@@ -93,18 +93,20 @@
                                     <table class="table table-bordered" id="glaccount-table">
                                       <thead>
                                           <tr id="filter">
-                                              <th>Account Code</th>
-                                              <th>Account Name</th>
-                                              <th>Type Name</th>
-                                              <th>Chinese Name</th>
-                                              <th>Account Status</th>
+                                              <th></th>
+                                              <th></th>
+                                              <th></th>
+                                              <th></th>
+                                              <th></th>
+                                              <th></th>
                                           </tr>
                                           <tr>
                                               <th>Account Code</th>
-                                              <th>Account Group</th>
                                               <th>Type Name</th>
                                               <th>Chinese Name</th>
+                                              <th>Account Group</th>
                                               <th>Account Status</th>
+                                              <th>Actions</th>
                                           </tr>
                                       </thead>
 
@@ -115,10 +117,12 @@
                                             <tr>
                                               <td><a href="#tab_editglaccount" data-toggle="tab"
                                                   class="edit-item" id="{{ $gl->glcode_id }}">{{ $gl->accountcode }}</td>
-                                              <td>{{ $gl->glcodegroup_name }}</td>
                                               <td>{{ $gl->type_name }}</td>
                                               <td>{{ $gl->chinese_name }}</td>
+                                              <td>{{ $gl->glcodegroup_name }}</td>
                                               <td class="text-capitalize">{{ $gl->status }}</td>
+                                              <td>
+                                              </td>
                                             </tr>
                                             @endforeach
 
@@ -144,7 +148,7 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Type Name</label>
+                                        <label class="col-md-3 control-label">Type Name *</label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" name="type_name" value="{{ old('type_name') }}" id="type_name">
                                         </div><!-- end col-md-9 -->
@@ -153,7 +157,7 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Chinese Name</label>
+                                        <label class="col-md-3 control-label">Chinese Name *</label>
                                         <div class="col-md-9">
                                             <input type="text" class="form-control" name="chinese_name" value="{{ old('chinese_name') }}" id="chinese_name">
                                         </div><!-- end col-md-9 -->
@@ -450,6 +454,38 @@
 <script type="text/javascript">
 
   $(function() {
+
+    $("#next_sn_number").keypress(function (e) {
+       //if the letter is not digit then display error and don't type anything
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          //display error message
+          return false;
+      }
+    });
+
+    $("#edit_next_sn_number").keypress(function (e) {
+       //if the letter is not digit then display error and don't type anything
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          //display error message
+          return false;
+      }
+    });
+
+    $("#price").keypress(function (e) {
+       //if the letter is not digit then display error and don't type anything
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          //display error message
+          return false;
+      }
+    });
+
+    $("#edit_price").keypress(function (e) {
+       //if the letter is not digit then display error and don't type anything
+       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+          //display error message
+          return false;
+      }
+    });
 
     $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
       localStorage.setItem('activeTab', $(e.target).attr('href'));

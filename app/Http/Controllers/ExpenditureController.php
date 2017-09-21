@@ -35,6 +35,8 @@ class ExpenditureController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
+    // dd($input);
+
     if(isset($input['authorized_password']))
     {
       $user = User::find(Auth::user()->id);
@@ -53,8 +55,14 @@ class ExpenditureController extends Controller
 				  $newDate = "";
 				}
 
+        $now = Carbon::now();
+
+        $result = Expenditure::all()->last()->expenditure_id;
+
+        $reference_no = $now->year . '-' . $result;
+
         $data = [
-          "reference_no" => $input['reference_no'],
+          "reference_no" => $reference_no,
           "date" => $newDate,
           "supplier" => $input['supplier'],
           "description" => $input['description'],
@@ -136,5 +144,20 @@ class ExpenditureController extends Controller
       $request->session()->flash('success', 'Expenditure has been updated!');
       return redirect()->route('manage-expenditure-page');
     }
+  }
+
+  public function deleteExpenditure(Request $request, $id)
+  {
+    $result = Expenditure::find($id);
+
+    if (!$result) {
+      $request->session()->flash('error', 'Selected Expenditure is not found.');
+      return redirect()->back();
+  	}
+
+    $result->delete();
+
+		$request->session()->flash('success', 'Selected Expenditure has been deleted.');
+    return redirect()->back();
   }
 }

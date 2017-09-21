@@ -95,16 +95,16 @@
                                     <table class="table table-bordered" id="glaccountgroup-table">
                                       <thead>
                                           <tr id="filter">
-                                              <th>Account Group Code</th>
-                                              <th>Account Group Description</th>
-                                              <th>Balancing Side</th>
-                                              <th>Account Group Status</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
                                           </tr>
                                           <tr>
-                                              <th>Account Group Code</th>
-                                              <th>Account Group Description</th>
-                                              <th>Balancing Side</th>
-                                              <th>Account Group Status</th>
+                                            <th>Account Group Name</th>
+                                            <th>Account Group Description</th>
+                                            <th>Balancing Side</th>
+                                            <th>Account Group Status</th>
                                           </tr>
                                       </thead>
 
@@ -143,8 +143,8 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Account Group Name *</label>
-                                        <div class="col-md-9">
+                                        <label class="col-md-4 control-label">Account Group Name *</label>
+                                        <div class="col-md-8">
                                             <input type="text" class="form-control" name="name" value="{{ old('name') }}" id="name">
                                         </div><!-- end col-md-9 -->
 
@@ -152,8 +152,8 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Account Description *</label>
-                                        <div class="col-md-9">
+                                        <label class="col-md-4 control-label">Account Description *</label>
+                                        <div class="col-md-8">
                                             <textarea class="form-control" name="description" rows="4" id="description">{{ old('description') }}</textarea>
                                         </div><!-- end col-md-9 -->
 
@@ -161,8 +161,8 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Balancing Side *</label>
-                                        <div class="col-md-9">
+                                        <label class="col-md-4 control-label">Balancing Side *</label>
+                                        <div class="col-md-8">
                                           <select class="form-control" name="balancesheet_side">
                                               <option value="ap">AP</option>
                                               <option value="ar">AR</option>
@@ -173,8 +173,8 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Group Status *</label>
-                                        <div class="col-md-9">
+                                        <label class="col-md-4 control-label">Group Status *</label>
+                                        <div class="col-md-8">
                                           <select class="form-control" name="status">
                                               <option value="active">Active</option>
                                               <option value="inactive">Inactive</option>
@@ -248,8 +248,8 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Account Group Name *</label>
-                                        <div class="col-md-9">
+                                        <label class="col-md-4 control-label">Account Group Name *</label>
+                                        <div class="col-md-8">
                                             <input type="text" class="form-control" name="edit_name" value="{{ old('edit_name') }}" id="edit_name">
                                         </div><!-- end col-md-9 -->
 
@@ -257,8 +257,8 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Account Description *</label>
-                                        <div class="col-md-9">
+                                        <label class="col-md-4 control-label">Account Description *</label>
+                                        <div class="col-md-8">
                                             <textarea class="form-control" name="edit_description" rows="4" id="edit_description">{{ old('edit_description') }}</textarea>
                                         </div><!-- end col-md-9 -->
 
@@ -266,9 +266,9 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Balancing Side *</label>
-                                        <div class="col-md-9">
-                                          <select class="form-control" name="balancesheet_side" id="edit_balancesheet_side" disabled>
+                                        <label class="col-md-4 control-label">Balancing Side *</label>
+                                        <div class="col-md-8">
+                                          <select class="form-control" name="balancesheet_side" id="edit_balancesheet_side">
                                               <option value="ap">AP</option>
                                               <option value="ar">AR</option>
                                           </select>
@@ -278,9 +278,9 @@
 
                                       <div class="form-group">
 
-                                        <label class="col-md-3 control-label">Group Status *</label>
-                                        <div class="col-md-9">
-                                          <select class="form-control" name="status" id="edit_status" disabled>
+                                        <label class="col-md-4 control-label">Group Status *</label>
+                                        <div class="col-md-8">
+                                          <select class="form-control" name="status" id="edit_status">
                                               <option value="active">Active</option>
                                               <option value="inactive">Inactive</option>
                                           </select>
@@ -493,6 +493,9 @@
 
       $("#glaccountgroup-table").on('click','.edit-item',function(e) {
 
+        $("#edit_balancesheet_side").removeAttr('disabled', false);
+        $("#edit_status").removeAttr('disabled', false);
+
         $(".nav-tabs > li:first-child").removeClass("active");
         $("#edit-glaccountgroup").addClass("active");
 
@@ -516,9 +519,9 @@
 
               if(localStorage.getItem('edit_glcodegroup_id'))
               {
-                  var glcodegroup_id = localStorage.getItem('edit_glcodegroup_id');
-                  var status = localStorage.getItem('edit_status');
-                  var balancesheet_side = localStorage.getItem('edit_balancesheet_side');
+                var glcodegroup_id = localStorage.getItem('edit_glcodegroup_id');
+                var status = localStorage.getItem('edit_status');
+                var balancesheet_side = localStorage.getItem('edit_balancesheet_side');
               }
 
               $("#edit_glcodegroup_id").val(glcodegroup_id);
@@ -526,6 +529,12 @@
               $("#edit_description").val(response.glcodegroup['description']);
               $("#edit_balancesheet_side").val(balancesheet_side);
               $("#edit_status").val(status);
+
+              if(response.count > 0)
+              {
+                $("#edit_balancesheet_side").attr('disabled', true);
+                $("#edit_status").attr('disabled', true);
+              }
             },
 
             error: function (response) {

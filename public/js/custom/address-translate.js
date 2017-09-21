@@ -39,18 +39,18 @@ $(function() {
     }
   });
 
-  $("#content_oversea_addr_in_chinese").on('focusout', function() {
-    var oversea_addr_in_chinese = $(this).val();
-
-    if($.trim(oversea_addr_in_chinese).length <= 0)
-    {
-      $("#confirm_btn").attr('disabled', true);
-
-      $("#familycode-table tbody").empty();
-	    $('#familycode-table tbody').append("<tr id='no_familycode'>" +
-	                        "<td colspan='3'>No Family Code</td></tr>");
-    }
-  });
+  // $("#content_oversea_addr_in_chinese").on('focusout', function() {
+  //   var oversea_addr_in_chinese = $(this).val();
+  //
+  //   if($.trim(oversea_addr_in_chinese).length <= 0)
+  //   {
+  //     $("#confirm_btn").attr('disabled', true);
+  //
+  //     $("#familycode-table tbody").empty();
+	//     $('#familycode-table tbody').append("<tr id='no_familycode'>" +
+	//                         "<td colspan='3'>No Family Code</td></tr>");
+  //   }
+  // });
 
   $("#content_address_houseno").on('focusout', function() {
     var address_houseno = $(this).val();
@@ -363,6 +363,9 @@ $(function() {
   $("#populate_street").on('focusout', function() {
     var address_houseno = $("#populate_houseno").val();
     var address_street = $(this).val();
+    var address_unit1 = $("#populate_unit_1").val();
+    var address_unit2 = $("#populate_unit_2").val();
+    var address_postal = $("#populate_postal").val();
 
     if(address_houseno && address_street)
     {
@@ -381,12 +384,6 @@ $(function() {
           {
             $("#populate_postal").val(response.address[0].address_postal);
 
-            var address_houseno = $("#populate_houseno").val();
-            var address_unit1 = $("#populate_unit_1").val();
-            var address_unit2 = $("#populate_unit_2").val();
-            var address_street = $("#populate_street").val();
-            var address_postal = $("#populate_postal").val();
-
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
               var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
@@ -397,6 +394,11 @@ $(function() {
               $("#populate_address_translate").val(full_address);
               $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_address_eg);
               $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val(full_address);
+
+              $(".hover").closest("div.inner_opt_addr").find(".address-postal-hidden").val($('#populate_postal').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-street-hidden").val($('#populate_street').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-houseno-hidden").val($('#populate_houseno').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val($('#populate_address_translate').val());
             }
             else
             {
@@ -411,12 +413,12 @@ $(function() {
               $("#populate_address_translate").val(full_address);
               $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_address_eg);
               $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val(full_address);
-            }
 
-            $(".hover").closest("div.inner_opt_addr").find(".address-postal-hidden").val($('#populate_postal').val());
-            $(".hover").closest("div.inner_opt_addr").find(".address-street-hidden").val($('#populate_street').val());
-            $(".hover").closest("div.inner_opt_addr").find(".address-houseno-hidden").val($('#populate_houseno').val());
-            $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val($('#populate_address_translate').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-postal-hidden").val($('#populate_postal').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-street-hidden").val($('#populate_street').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-houseno-hidden").val($('#populate_houseno').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val($('#populate_address_translate').val());
+            }
           },
 
           error: function (response) {
@@ -424,6 +426,70 @@ $(function() {
           }
       });
     }
+
+    else if (address_houseno && address_street && address_unit1 && address_unit2) {
+      var formData = {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        address_houseno: address_houseno,
+        address_street: address_street
+      };
+
+      $.ajax({
+          type: 'GET',
+          url: "/operator/search/populate_address_postal",
+          data: formData,
+          dataType: 'json',
+          success: function(response)
+          {
+            $("#populate_postal").val(response.address[0].address_postal);
+
+            var address_unit1 = $("#populate_unit_1").val();
+            var address_unit2 = $("#populate_unit_2").val();
+            var address_postal = $("#populate_postal").val();
+
+            if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
+            {
+              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
+              var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+
+              populate_translate_street = response.address[0]['chinese'];
+
+              $("#populate_address_translate").val(full_address);
+              $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_address_eg);
+              $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val(full_address);
+
+              $(".hover").closest("div.inner_opt_addr").find(".address-postal-hidden").val($('#populate_postal').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-street-hidden").val($('#populate_street').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-houseno-hidden").val($('#populate_houseno').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val($('#populate_address_translate').val());
+            }
+            else
+            {
+              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
+                                  address_postal;
+
+              var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
+                                      address_postal;
+
+              populate_translate_street = response.address[0]['chinese'];
+
+              $("#populate_address_translate").val(full_address);
+              $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_address_eg);
+              $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val(full_address);
+
+              $(".hover").closest("div.inner_opt_addr").find(".address-postal-hidden").val($('#populate_postal').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-street-hidden").val($('#populate_street').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-houseno-hidden").val($('#populate_houseno').val());
+              $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val($('#populate_address_translate').val());
+            }
+          },
+
+          error: function (response) {
+              console.log(response);
+          }
+      });
+    }
+
 
     else
     {

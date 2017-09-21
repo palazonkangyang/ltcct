@@ -103,20 +103,20 @@ $(function() {
 
     if(value == "home" || value == "office") {
       $(this).closest("div.form-group").find(".edit-address-data").attr('readonly', true);
-      $(this).closest("div.form-group").find("input[name='address_data[]']").val('Please fill the address on the right');
-      $(this).closest("div.form-group").find(".edit-address-data").attr('title', 'Please fill the address on the right');
+      $(this).closest("div.form-group").find("input[name='address_data[]']").val('Please fill address on the right');
+      $(this).closest("div.form-group").find(".edit-address-data").attr('title', 'Please fill address on the right');
     }
 
     else if (value == "company") {
       $(this).closest("div.form-group").find(".edit-address-data").attr('readonly', false);
-      $(this).closest("div.form-group").find("input[name='address_data[]']").val('Please fill the Company Name here');
-      $(this).closest("div.form-group").find(".edit-address-data").attr('title', 'Please fill the Company Name here');
+      $(this).closest("div.form-group").find("input[name='address_data[]']").val('Please fill Company Name here');
+      $(this).closest("div.form-group").find(".edit-address-data").attr('title', 'Please fill Company Name here');
     }
 
     else {
       $(this).closest("div.form-group").find(".edit-address-data").attr('readonly', false);
-      $(this).closest("div.form-group").find("input[name='address_data[]']").val('Please fill the Hawker Stall Name here');
-      $(this).closest("div.form-group").find(".edit-address-data").attr('title', 'Please fill the Hawker Stall Name here');
+      $(this).closest("div.form-group").find("input[name='address_data[]']").val('Please fill Hawker Stall Name here');
+      $(this).closest("div.form-group").find(".edit-address-data").attr('title', 'Please fill Hawker Stall Name here');
     }
 
   });

@@ -136,6 +136,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::group(['prefix' => 'expenditure'], function () {
 		Route::get('/manage-expenditure', ['as' => 'manage-expenditure-page', 'uses' => 'ExpenditureController@getManageExpenditure']);
 		Route::get('/expenditure-detail', ['as' => 'expenditure-detail-page', 'uses' => 'ExpenditureController@getExpenditureDetail']);
+		Route::get('/delete/{id}', ['as' => 'delete-expenditure-page', 'uses' => 'ExpenditureController@deleteExpenditure']);
 
 		Route::post('/new-expenditure', ['as' => 'new-expenditure-page', 'uses' => 'ExpenditureController@postAddNewExpenditure']);
 		Route::post('/update-expenditure', ['as' => 'update-expenditure-page', 'uses' => 'ExpenditureController@postUpdateExpenditure']);

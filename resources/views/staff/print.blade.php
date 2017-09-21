@@ -150,7 +150,7 @@
 
 		          @php $rowno = 1; $sum= 0; @endphp
 
-		          @if ($samefamily_no > 8)
+		          @if ($samefamily_no > 6)
 
 		          @php
 		            $startno = $count_family8;

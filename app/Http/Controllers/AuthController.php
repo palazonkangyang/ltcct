@@ -73,7 +73,7 @@ class AuthController extends Controller
   {
 		$user = User::find(Auth::user()->id);
 
-		$user->last_login = Carbon::now();
+		$user->last_login = Carbon::now('Asia/Singapore');
 		$user->save();
 
 		Session::flush();

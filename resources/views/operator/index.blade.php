@@ -115,16 +115,17 @@
 
                                                                         <thead>
                                                                             <tr id="filter">
-                                                                                <th></th>
-                                                                                <th></th>
-																																								<th></th>
-                                                                                <th></th>
-                                                                                <th></th>
-																																								<th></th>
-																																								<th></th>
-																																								<th></th>
-																																								<th></th>
-                                                                                <th></th>
+                                                                              <th class="filter1"></th>
+                                                                              <th class="filter2"></th>
+																																							<th class="filter3"></th>
+                                                                              <th class="filter4"></th>
+                                                                              <th class="filter5"></th>
+																																							<th class="filter6"></th>
+																																							<th class="filter7"></th>
+																																							<th class="filter8"></th>
+																																							<th class="filter9"></th>
+                                                                              <th class="filter10"></th>
+																																							<th class="lastfilter"></th>
                                                                             </tr>
                                                                             <tr>
                                                                                 <th>Chinese Name</th>
@@ -137,6 +138,7 @@
 																																								<th>Mailer</th>
 																																								<th>Last Trans Date</th>
                                                                                 <th>Family Code</th>
+																																								<th></th>
                                                                             </tr>
                                                                         </thead>
 
@@ -199,6 +201,7 @@
 																																									@endif
 																																								</td>
                                                                                 <td>{{ $devotee->familycode }}</td>
+																																								<td></td>
                                                                             </tr>
                                                                             @endforeach
                                                                         </tbody>
@@ -508,14 +511,14 @@
 
                                                                         <div style='width:11.5%;float:left;'>
                                                                             <input type="text" class="form-control" name="address_unit1"
-                                                                                value="{{ old('address_unit1') }}" id="content_address_unit1">
+                                                                                value="{{ old('address_unit1') }}" id="content_address_unit1" maxlength="3">
                                                                         </div><!-- end col-md-2 -->
 
                                                                         <label style='width:6.2%;float:left;'>-</label>
 
                                                                         <div style='width:16.66667%;float:left;'>
                                                                             <input type="text" class="form-control" name="address_unit2"
-                                                                                value="{{ old('address_unit2') }}" id="content_address_unit2">
+                                                                                value="{{ old('address_unit2') }}" id="content_address_unit2" maxlength="3">
                                                                         </div><!-- end col-md-2 -->
 
                                                                     </div><!-- end form-group -->
@@ -614,9 +617,12 @@
                                                                         <label class="col-md-4">Marital Status</label>
                                                                         <div class="col-md-8">
                                                                            <select class="form-control" name="marital_status" id="content_marital_status">
-                                                                                <option value="">Please select</option>
-                                                                                <option value="single">Single</option>
-                                                                                <option value="married">Married</option>
+                                                                            	<option value="">Please select</option>
+																																							<option value="single">Single</option>
+																																							<option value="married">Married</option>
+																																							<option value="widowed">Widowed</option>
+																																							<option value="separated">Separated</option>
+																																							<option value="divorced">Divorced</option>
                                                                             </select>
                                                                         </div><!-- end col-md-8 -->
 
@@ -742,7 +748,7 @@
 
 																																						<div class="col-md-1"></div><!-- end col-md-1 -->
 
-		                                                                        <div class="col-md-3" style="padding-right: 0;">
+		                                                                        <div class="col-md-3 optional-wrapper">
 		                                                                            <select class="form-control address-type" name="address_type[]">
 		                                                                                <option value="home">宅址</option>
 		                                                                                <option value="company">公司</option>
@@ -753,7 +759,7 @@
 
 		                                                                        <div class="col-md-6 populate-address" style="padding-right: 0;">
 		                                                                            <input type="text" class="form-control address-data" name="address_data[]" readonly
-																																									value="Please fill the address on the right" title="Please fill the address on the right">
+																																									value="Please fill address on the right" title="Please the address on the right">
 		                                                                        </div><!-- end col-md-4 -->
 
 		                                                                        <div class="col-md-2">
@@ -799,14 +805,14 @@
 
 																																				<div class="col-md-1"></div><!-- end col-md-1 -->
 
-                                                                        <div class="col-md-3" style="padding-right: 0;">
+                                                                        <div class="col-md-3 optional-wrapper">
                                                                             <select class="form-control" name="vehicle_type[]">
                                                                                 <option value="car">车辆</option>
                                                                                 <option value="ship">船只</option>
                                                                             </select>
                                                                         </div><!-- end col-md-2 -->
 
-                                                                        <div class="col-md-8">
+                                                                        <div class="col-md-8 vehicle-data">
                                                                             <input type="text" class="form-control" name="vehicle_data[]">
                                                                         </div><!-- end col-md-8 -->
 
@@ -836,7 +842,7 @@
 
 																																				<div class="col-md-1"></div><!-- end col-md-1 -->
 
-                                                                        <div class="col-md-11">
+                                                                        <div class="col-md-11 special-remark">
                                                                             <input type="text" class="form-control" name="special_remark[]">
                                                                         </div><!-- end col-md-11 -->
 
@@ -887,14 +893,14 @@
 
 																																			<div style='width:11.5%;float:left;'>
 																																					<input type="text" class="form-control" name="populate_unit_1"
-																																							value="{{ old('populate_unit_1') }}" id="populate_unit_1">
+																																							value="{{ old('populate_unit_1') }}" id="populate_unit_1" maxlength="3">
 																																			</div><!-- end col-md-2 -->
 
 																																			<label style='width:6.2%;float:left;'>-</label>
 
 																																			<div style='width:16.66667%;float:left;'>
 																																					<input type="text" class="form-control" name="populate_unit_2"
-																																							value="{{ old('populate_unit_2') }}" id="populate_unit_2">
+																																							value="{{ old('populate_unit_2') }}" id="populate_unit_2" maxlength="3">
 																																			</div><!-- end col-md-2 -->
 																																		</div><!-- end form-group -->
 
@@ -1204,21 +1210,21 @@
 	                                                                            <label class="col-md-4">Address - House No</label>
 	                                                                            <div class="col-md-3">
 	                                                                                <input type="text" class="form-control"
-	                                                                                    name="address_houseno" id="current_address_houseno">
+	                                                                                    name="address_houseno" id="current_address_houseno" readonly>
 	                                                                            </div><!-- end col-md-3 -->
 
 	                                                                            <label style="width: 9.3%; float:left;">Unit</label>
 
 	                                                                            <div style="width:9%; float:left;">
 	                                                                                <input type="text" class="form-control"
-	                                                                                    name="address_unit1" id="current_address_unit1">
+	                                                                                    name="address_unit1" id="current_address_unit1" readonly>
 	                                                                            </div><!-- end col-md-2 -->
 
 																																							<label style="width:6.2%;float:left;">-</label>
 
 	                                                                            <div style="width:14%;float:left;">
 	                                                                                <input type="text" class="form-control"
-	                                                                                    name="address_unit2" id="current_address_unit2">
+	                                                                                    name="address_unit2" id="current_address_unit2" readonly>
 	                                                                            </div><!-- end col-md-2 -->
 
 	                                                                        </div><!-- end form-group -->
@@ -1227,7 +1233,7 @@
 	                                                                            <label class="col-md-4">Address - Street</label>
 	                                                                            <div class="col-md-8">
 	                                                                                <input type="text" class="form-control"
-	                                                                                    name="address_street" id="current_address_street">
+	                                                                                    name="address_street" id="current_address_street" readonly>
 	                                                                            </div><!-- end col-md-8 -->
 
 	                                                                        </div><!-- end form-group -->
@@ -1236,7 +1242,7 @@
 	                                                                            <label class="col-md-4">Address - Postal</label>
 	                                                                            <div class="col-md-3">
 	                                                                                <input type="text" class="form-control"
-	                                                                                    name="address_postal" id="current_address_postal">
+	                                                                                    name="address_postal" id="current_address_postal" readonly>
 	                                                                            </div><!-- end col-md-2 -->
 
 	                                                                        </div><!-- end form-group -->
@@ -1245,7 +1251,7 @@
 	                                                                            <label class="col-md-4">Oversea Addr in Chinese</label>
 	                                                                            <div class="col-md-8">
 	                                                                                <input type="text" class="form-control"
-	                                                                                    name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese">
+	                                                                                    name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese" readonly>
 	                                                                            </div><!-- end col-md-6 -->
 
 	                                                                        </div><!-- end form-group -->
@@ -1262,21 +1268,21 @@
                                                                             <label class="col-md-4">Address - House No</label>
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
-                                                                                    name="address_houseno" id="current_address_houseno">
+                                                                                    name="address_houseno" id="current_address_houseno" readonly>
                                                                             </div><!-- end col-md-3 -->
 
                                                                             <label style="width: 9.3%; float:left;">Unit</label>
 
                                                                             <div style="width:9%; float:left;">
                                                                                 <input type="text" class="form-control"
-                                                                                    name="address_unit1" id="current_address_unit1">
+                                                                                    name="address_unit1" id="current_address_unit1" readonly>
                                                                             </div><!-- end col-md-2 -->
 
 																																						<label style="width:6.2%;float:left;">-</label>
 
                                                                             <div style="width:14%;float:left;">
                                                                                 <input type="text" class="form-control"
-                                                                                    name="address_unit2" id="current_address_unit2">
+                                                                                    name="address_unit2" id="current_address_unit2" readonly>
                                                                             </div><!-- end col-md-2 -->
 
                                                                         </div><!-- end form-group -->
@@ -1285,7 +1291,7 @@
                                                                             <label class="col-md-4">Address - Street</label>
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
-                                                                                    name="address_street" id="current_address_street">
+                                                                                    name="address_street" id="current_address_street" readonly>
                                                                             </div><!-- end col-md-8 -->
 
                                                                         </div><!-- end form-group -->
@@ -1294,7 +1300,7 @@
                                                                             <label class="col-md-4">Address - Postal</label>
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
-                                                                                    name="address_postal" id="current_address_postal">
+                                                                                    name="address_postal" id="current_address_postal" readonly>
                                                                             </div><!-- end col-md-3 -->
 
                                                                         </div><!-- end form-group -->
@@ -1303,7 +1309,7 @@
                                                                             <label class="col-md-4">Oversea Addr in Chinese</label>
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
-                                                                                    name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese">
+                                                                                    name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese" readonly>
                                                                             </div><!-- end col-md-6 -->
 
                                                                         </div><!-- end form-group -->
@@ -1339,7 +1345,7 @@
                                                                             <div style="width:9%; float:left;">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_unit1" id="new_address_unit1"
-                                                                                    value="{{ old('new_address_unit1') }}">
+                                                                                    value="{{ old('new_address_unit1') }}" maxlength="3">
                                                                             </div><!-- end col-md-2 -->
 
 																																						<label style="width:6.2%;float:left;">-</label>
@@ -1347,7 +1353,7 @@
                                                                             <div style="width:14%;float:left;">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_unit2" id="new_address_unit2"
-                                                                                    value="{{ old('new_address_unit2') }}">
+                                                                                    value="{{ old('new_address_unit2') }}" maxlength="3">
                                                                             </div><!-- end col-md-2 -->
                                                                         </div><!-- end form-group -->
 
@@ -1734,13 +1740,13 @@
 					// 	}
 					// });
 
-					$("#edit_address_street").autocomplete({
-						source: "/operator/search/address_street",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_address_street').val(ui.item.value);
-						}
-					});
+					// $("#edit_address_street").autocomplete({
+					// 	source: "/operator/search/address_street",
+					// 	minLength: 1,
+					//   select: function(event, ui) {
+					//   	$('#edit_address_street').val(ui.item.value);
+					// 	}
+					// });
 
 					// $("#new_address_street").autocomplete({
 					// 	source: "/operator/search/address_street",
@@ -1750,21 +1756,21 @@
 					// 	}
 					// });
 
-					$("#populate_street").autocomplete({
-						source: "/operator/search/address_street",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#populate_street').val(ui.item.value);
-						}
-					});
+					// $("#populate_street").autocomplete({
+					// 	source: "/operator/search/address_street",
+					// 	minLength: 1,
+					//   select: function(event, ui) {
+					//   	$('#populate_street').val(ui.item.value);
+					// 	}
+					// });
 
-					$("#edit_populate_street").autocomplete({
-						source: "/operator/search/address_street",
-						minLength: 1,
-					  select: function(event, ui) {
-					  	$('#edit_populate_street').val(ui.item.value);
-						}
-					});
+					// $("#edit_populate_street").autocomplete({
+					// 	source: "/operator/search/address_street",
+					// 	minLength: 1,
+					//   select: function(event, ui) {
+					//   	$('#edit_populate_street').val(ui.item.value);
+					// 	}
+					// });
 
 					// DataTable
 					var table = $('#devotees_table').DataTable({
@@ -1775,10 +1781,18 @@
 		         "<'row'<'col-sm-5'i><'col-sm-7'p>>"
 					});
 
+
+
+					// $('#devotees_table').DataTable( {
+			    //     "scrollX": true
+			    // } );
+
           $('#devotees_table thead tr#filter th').each( function () {
-                var title = $('#devotees_table thead th').eq( $(this).index() ).text();
-                $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+            var title = $('#devotees_table thead th').eq( $(this).index() ).text();
+            $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
           });
+
+					$(".lastfilter input[type=text]").css("display", "none");
 
 					// Apply the filter
 					$("#devotees_table thead input").on( 'keyup change', function () {
@@ -2488,9 +2502,9 @@
             $("#appendAddressBtn").click(function() {
 
                 $("#append_opt_address").append("<div class='inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn' aria-hidden='true'></i></div>" +
-								"<div class='col-md-3' style='padding-right: 0;'><select class='form-control address-type' name='address_type[]''>" +
+								"<div class='col-md-3 optional-wrapper'><select class='form-control address-type' name='address_type[]''>" +
 								"<option value='home'>宅址</option><option value='company'>公司</option><option value='stall'>小贩</option><option value='office'>办公址</option>" +
-								"</select></div><div class='col-md-6 populate-address' style='padding-right: 0;'><input type='text' class='form-control address-data' name='address_data[]' readonly  value='Please fill the address on the right' title='Please fill the address on the right'>" +
+								"</select></div><div class='col-md-6 populate-address' style='padding-right: 0;'><input type='text' class='form-control address-data' name='address_data[]' readonly  value='Please fill address on the right' title='Please fill address on the right'>" +
 								"</div><div class='col-md-2'><button type='button' class='fa fa-angle-double-right populate-data form-control' aria-hidden='true'></button></div>" +
 								"<div class='col-md-12'><input type='hidden' class='form-control address-houseno-hidden'><input type='hidden' class='form-control address-unit1-hidden'>" +
 								"<input type='hidden' class='form-control address-unit2-hidden'><input type='hidden' class='form-control address-street-hidden'>" +
@@ -2502,9 +2516,9 @@
             $("#AddressBtn").click(function() {
 
 							$("#edit_opt_address").append("<div class='edit_inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div>" +
-							"<div class='col-md-3' style='padding-right: 0;'><select class='form-control edit-address-type' name='address_type[]'><option value='home'>宅址</option><option value='company'>公司</option>" +
+							"<div class='col-md-3 optional-wrapper'><select class='form-control edit-address-type' name='address_type[]'><option value='home'>宅址</option><option value='company'>公司</option>" +
 							"<option value='stall'>小贩</option><option value='office'>办公址</option></select></div>" +
-							"<div class='col-md-6' style='padding-right: 0;'><input type='text' class='form-control edit-address-data' name='address_data[]' value='Please fill the address on the right' readonly></div>" +
+							"<div class='col-md-6' style='padding-right: 0;'><input type='text' class='form-control edit-address-data' name='address_data[]' value='Please fill address on the right' readonly></div>" +
 							"<div class='col-md-2'><button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button></div>" +
 							"<div class='col-md-12'><input type='hidden' class='form-control edit-address-houseno-hidden'><input type='hidden' class='form-control edit-address-unit1-hidden'>" +
 							"<input type='hidden' class='form-control edit-address-unit2-hidden'><input type='hidden' class='form-control edit-address-street-hidden'>" +
@@ -2524,8 +2538,8 @@
             $("#appendVehicleBtn").click(function() {
 
                 $("#append_opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn' aria-hidden='true'></i></div>" +
-                    "<div class='col-md-3' style='padding-right: 0;'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
-                    "<option value='ship'>船只</option></select></div><div class='col-md-8'>" +
+                    "<div class='col-md-3 optional-wrapper'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
+                    "<option value='ship'>船只</option></select></div><div class='col-md-8 vehicle-data'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
                     "</div>");
             });
@@ -2533,8 +2547,8 @@
             $("#VehicleBtn").click(function() {
 
                 $("#opt_vehicle").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeVehicleBtn1' aria-hidden='true'></i></div>" +
-                    "<div class='col-md-3' style='padding-right: 0;'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
-                    "<option value='ship'>船只</option></select></div><div class='col-md-8'>" +
+                    "<div class='col-md-3 optional-wrapper'><select class='form-control' name='vehicle_type[]'><option value='car'>车辆</option>" +
+                    "<option value='ship'>船只</option></select></div><div class='col-md-8 vehicle-data'>" +
                     "<input type='text' class='form-control' name='vehicle_data[]'></div>" +
                     "</div>");
             });
@@ -2550,13 +2564,13 @@
             $("#appendSpecRemarkBtn").click(function() {
 
                 $("#append_special_remark").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn' aria-hidden='true'></i></div>" +
-                    "<div class='col-md-11'><input type='text' class='form-control' name='special_remark[]'></div></div>");
+                    "<div class='col-md-11 special-remark'><input type='text' class='form-control' name='special_remark[]'></div></div>");
             });
 
             $("#SpecRemarkBtn").click(function() {
 
                 $("#special_remark").append("<div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeSpecRemarkBtn1' aria-hidden='true'></i></div>" +
-                    "</label><div class='col-md-11'><input type='text' class='form-control' name='special_remark[]'></div>" +
+                    "</label><div class='col-md-11 special-remark'><input type='text' class='form-control' name='special_remark[]'></div>" +
                     "</div>");
             });
 

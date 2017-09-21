@@ -103,13 +103,13 @@
                               </div>
 
                               <div style='width:30;float:left;'>
-                                <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
+                                <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}" maxlength="3">
                               </div>
 
                               <label style='width:7;float:left;' class="separator">-</label>
 
-                              <div style='width:57.5;float:left;'>
-                                <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">
+                              <div style='width:40;float:left;'>
+                                <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}" maxlength="3">
                               </div>
 
                               <div class="clearfix">
@@ -501,13 +501,13 @@
                           </div>
 
                           <div style='width:30%;float:left;'>
-                            <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}">
+                            <input type="text" class="form-control" name="address_unit1" value="{{ old('address_unit1') }}" maxlength="3">
                           </div>
 
                           <label style='width:7%;float:left;' class="separator">-</label>
 
-                          <div style='width:57.5%;float:left;'>
-                            <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}">
+                          <div style='width:40%;float:left;'>
+                            <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}" maxlength="3">
                           </div>
 
                           <div class="clearfix">

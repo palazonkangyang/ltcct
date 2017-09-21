@@ -6,6 +6,10 @@
   width: 100%!important;
 }
 
+#glaccountgroup-table{
+  width: 100%!important;
+}
+
 .form-group{
   overflow: hidden;
 }
@@ -62,10 +66,12 @@
 
 .removeAddressBtn1, .removeVehicleBtn1, .removeSpecRemarkBtn1{
   cursor: pointer;
+  padding-top: 10px;
 }
 
 .removeAddressBtn, .removeVehicleBtn, .removeSpecRemarkBtn{
   cursor: pointer;
+  padding-top: 10px;
 }
 
 .removeDevotee{
@@ -102,4 +108,65 @@
 
 .page-header .page-header-top .top-menu .navbar-nav > li.dropdown-user > .dropdown-menu{
   width: 230px!important;
+}
+
+/*#filter input{
+  width: 0!important;
+}*/
+
+.filter1 input{
+  width: 100px!important;
+}
+
+.filter2 input, .filter3 input{
+  width: 70px!important;
+}
+
+.filter4 input{
+  width: 200px!important;
+}
+
+.filter5 input{
+  width: 100px!important;
+}
+
+.filter6 input{
+  width: 150px!important;
+}
+
+.filter7 input{
+  width: 100px!important;
+}
+
+.filter8 input, .filter9 input{
+  width: 70px!important;
+}
+
+.filter10 input{
+  width: 90px!important;
+}
+
+table.datables, table.datatables tr {
+    overflow-x: scroll;
+}
+
+.populate-data, .edit-populate-data{
+  margin-left: 30px;
+}
+
+.address-data, .edit-address-data{
+  width: 248px;
+}
+
+.optional-wrapper{
+  padding-right: 0;
+  padding-left: 0;
+  width: 90px;
+}
+
+.vehicle-data{
+  width: 335px;
+}
+.special-remark{
+  padding-left: 0;
 }
