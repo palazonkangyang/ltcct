@@ -311,6 +311,15 @@
                     </div><!-- end form-group -->
 
                     <div class="form-group">
+                        <label class="col-md-4"></label>
+
+                        <div class="col-md-8">
+                            <input type="hidden" class="form-control" name="" id="focus_address_translate"
+                                value="{{ $focus_devotee[0]->address_translated }}">
+                        </div><!-- end col-md-8 -->
+                    </div><!-- end form-group -->
+
+                    <div class="form-group">
                         <label class="col-md-4">Other Addr - Chinese</label>
 
                         <div class="col-md-8">
@@ -552,7 +561,7 @@
         <div class="col-md-12" style="margin-bottom: 10px;">
 
           <div class="form-group" style="margin:0 auto;">
-           <button type="button" class="btn default" id="same_familycode"> New Devotee with same FC
+           <button type="button" class="btn default" id="new_same_familycode"> New Devotee with same FC
            </button>
           </div><!-- end form-group -->
 

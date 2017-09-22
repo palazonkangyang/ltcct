@@ -130,7 +130,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-glaccountgroup', ['as' => 'update-glaccount-group-page', 'uses' => 'GlController@UpdateGlAccountGroup']);
 		Route::post('/new-glaccount', ['as' => 'post-glaccount-page', 'uses' => 'GlController@postAddNewGlAccount']);
 		Route::post('/update-glaccount', ['as' => 'update-glaccount-page', 'uses' => 'GlController@UpdateGlAccount']);
-
   });
 
 	Route::group(['prefix' => 'expenditure'], function () {
@@ -170,12 +169,14 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['prefix' => 'report'], function () {
     Route::get('/income-report', ['as' => 'income-report-page', 'uses' => 'ReportController@getIncomeReport']);
-		Route::get('/cashflow-report', ['as' => 'cashflow-report-page', 'uses' => 'ReportController@getCashflowReport']);
 		Route::get('/trialbalance-report', ['as' => 'trialbalance-report-page', 'uses' => 'ReportController@getTrialBalanceReport']);
+		Route::get('/cashflow-report', ['as' => 'cashflow-report-page', 'uses' => 'ReportController@getCashflowReport']);
+		Route::get('/settlement-report', ['as' => 'settlement-report-page', 'uses' => 'ReportController@getSettlementReport']);
 
 		Route::post('/report-detail', ['as' => 'report-detail-page', 'uses' => 'ReportController@getReportDetail']);
 		Route::post('/cashflow-report-detail', ['as' => 'cashflow-report-detail-page', 'uses' => 'ReportController@getCashflowReportDetail']);
 		Route::post('/trialbalance-report-detail', ['as' => 'trialbalance-report-detail-page', 'uses' => 'ReportController@getTrialBalanceReportDetail']);
+		Route::post('/settlement-report-detail', ['as' => 'settlement-report-detail-page', 'uses' => 'ReportController@getSettlementReportDetail']);
   });
 
 });

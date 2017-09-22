@@ -79,18 +79,17 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno + "号";
 
               translate_street = response.address[0]['chinese'];
-              $("#address_translated").val(full_address);
+              $("#content_address_translated").val(full_address);
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno  + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
               translate_street = response.address[0]['chinese'];
-              $("#address_translated").val(full_address);
+              $("#content_address_translated").val(full_address);
             }
           },
 
@@ -103,7 +102,7 @@ $(function() {
     else
     {
       $("#content_address_postal").val('');
-      $("#address_translated").val('');
+      $("#content_address_translated").val('');
 
       $("#confirm_btn").attr('disabled', true);
 
@@ -140,18 +139,17 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno + "号";
 
               translate_street = response.address[0]['chinese'];
-              $("#address_translated").val(full_address);
+              $("#content_address_translated").val(full_address);
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.address[0]['chinese'] +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
               translate_street = response.address[0]['chinese'];
-              $("#address_translated").val(full_address);
+              $("#content_address_translated").val(full_address);
             }
           },
 
@@ -164,7 +162,7 @@ $(function() {
     else
     {
       $("#content_address_postal").val('');
-      $("#address_translated").val('');
+      $("#content_address_translated").val('');
 
       $("#confirm_btn").attr('disabled', true);
 
@@ -201,18 +199,17 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.translate_street[0]['chinese'] + ", " + address_postal;
+              var full_address = response.translate_street[0]['chinese'] + ", " + address_houseno + "号";
 
               translate_street = response.translate_street[0]['chinese'];
-              $("#address_translated").val(full_address);
+              $("#content_address_translated").val(full_address);
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.translate_street[0]['chinese'] +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
               translate_street = response.translate_street[0]['chinese'];
-              $("#address_translated").val(full_address);
+              $("#content_address_translated").val(full_address);
             }
           },
 
@@ -229,7 +226,7 @@ $(function() {
       $("#content_address_unit2").val('');
       $("#content_address_street").val('');
       $("#content_address_postal").val('');
-      $("#address_translated").val('');
+      $("#content_address_translated").val('');
 
       $("#confirm_btn").attr('disabled', true);
 
@@ -249,16 +246,15 @@ $(function() {
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
-      var full_address = address_houseno + ", " + translate_street + ", " + address_postal;
+      var full_address = translate_street + ", " + address_houseno + "号";
 
-      $("#address_translated").val(full_address);
+      $("#content_address_translated").val(full_address);
     }
     else
     {
-      var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + translate_street +  ", " +
-                       address_postal;
+      var full_address = translate_street +  ", " + address_houseno  + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
-      $("#address_translated").val(full_address);
+      $("#content_address_translated").val(full_address);
     }
   });
 
@@ -272,16 +268,15 @@ $(function() {
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
-      var full_address = address_houseno + ", " + translate_street + ", " + address_postal;
+      var full_address = translate_street + ", " + address_houseno + "号";
 
-      $("#address_translated").val(full_address);
+      $("#content_address_translated").val(full_address);
     }
     else
     {
-      var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + translate_street +  ", " +
-                       address_postal;
+      var full_address = translate_street +  ", " + address_houseno  + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
-      $("#address_translated").val(full_address);
+      $("#content_address_translated").val(full_address);
     }
   });
 
@@ -312,8 +307,8 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
-              var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno + "号";
+              var full_address_eg = address_street + ", " + address_houseno;
 
               populate_translate_street = response.address[0]['chinese'];
 
@@ -323,11 +318,9 @@ $(function() {
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.address[0]['chinese'] +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
-              var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
-                                      address_postal;
+              var full_address_eg = address_street +  ", " + address_houseno + ", " + address_unit1 + "-" + address_unit2;
 
               populate_translate_street = response.address[0]['chinese'];
 
@@ -386,8 +379,8 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
-              var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno + "号";
+              var full_address_eg = address_street + ", " + address_houseno;
 
               populate_translate_street = response.address[0]['chinese'];
 
@@ -402,11 +395,9 @@ $(function() {
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.address[0]['chinese'] +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
-              var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
-                                      address_postal;
+              var full_address_eg = address_street +  ", " + address_houseno + ", " + address_unit1 + "-" + address_unit2;
 
               populate_translate_street = response.address[0]['chinese'];
 
@@ -537,8 +528,8 @@ $(function() {
 
           if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
           {
-            var full_address = address_houseno + ", " + response.translate_street[0]['chinese'] + ", " + address_postal;
-            var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+            var full_address = response.translate_street[0]['chinese'] + ", " + address_houseno + "号";
+            var full_address_eg = address_street + ", " + address_houseno;
 
             populate_translate_street = response.translate_street[0]['chinese'];
 
@@ -548,11 +539,9 @@ $(function() {
           }
           else
           {
-            var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                address_postal;
+            var full_address = response.translate_street[0]['chinese'] +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
-            var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
-                                    address_postal;
+            var full_address_eg = address_street +  ", " + address_houseno + ", " + address_unit1 + "-" + address_unit2;
 
             populate_translate_street = response.translate_street[0]['chinese'];
 
@@ -583,8 +572,8 @@ $(function() {
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
-      var full_address = address_houseno + ", " + populate_translate_street + ", " + address_postal;
-      var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+      var full_address = populate_translate_street + ", " + address_houseno + "号";
+      var full_address_eg = address_street + ", " + address_houseno;
 
       $("#populate_address_translate").val(full_address);
       $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_address_eg);
@@ -592,8 +581,7 @@ $(function() {
     }
     else
     {
-      var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + populate_translate_street +  ", " +
-                       address_postal;
+      var full_address = populate_translate_street +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
       var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street + ", " + address_postal;
 
       $("#populate_address_translate").val(full_address);
@@ -612,23 +600,21 @@ $(function() {
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
-      var full_address = address_houseno + ", " + populate_translate_street + ", " + address_postal;
-      var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
-
-      $("#populate_address_translate").val(full_address);
-      $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_address_eg);
-      $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val($("#populate_address_translate").val());
-    }
-    else
-    {
-      var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + populate_translate_street +  ", " +
-                       address_postal;
-
-      var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street + ", " + address_postal;
+      var full_address = populate_translate_street + ", " + address_houseno + "号";
+      var full_address_eg = address_street + ", " + address_houseno;
 
       $("#populate_address_translate").val(full_address);
       $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_address_eg);
       $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val(full_address);
+    }
+    else
+    {
+      var full_address = populate_translate_street +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
+      var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street + ", " + address_postal;
+
+      $("#populate_address_translate").val(full_address);
+      $(".hover").closest("div.inner_opt_addr").find(".address-data-hidden").val(full_address_eg);
+      $(".hover").closest("div.inner_opt_addr").find(".address-translate-hidden").val($("#populate_address_translate").val());
     }
   });
 
@@ -788,8 +774,8 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
-              var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno + "号";
+              var full_address_eg = address_street + ", " + address_houseno;
 
               edit_populate_translate_street = response.address[0]['chinese'];
 
@@ -799,11 +785,9 @@ $(function() {
             }
             else
             {
-              var full_address = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.translate_street[0]['chinese'] +  ", " + address_houseno + "号" + ", " + address_unit1 + "-" + address_unit2;
 
-              var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
-                                      address_postal;
+              var full_address_eg = address_street +  ", " + address_houseno + ", " + address_unit1 + "-" + address_unit2;
 
               edit_populate_translate_street = response.address[0]['chinese'];
 
@@ -863,8 +847,8 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
-              var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno  + "号";
+              var full_address_eg = address_street + ", " + address_houseno;
 
               edit_populate_translate_street = response.address[0]['chinese'];
 
@@ -874,11 +858,9 @@ $(function() {
             }
             else
             {
-              var full_address = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.address[0]['chinese'] +  ", " + address_houseno + "号" + ", " + address_unit1 + "-" + address_unit2;
 
-              var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
-                                      address_postal;
+              var full_address_eg = address_street +  ", " + address_houseno + ", " + address_unit1 + "-" + address_unit2;
 
               edit_populate_translate_street = response.address[0]['chinese'];
 
@@ -947,8 +929,8 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.translate_street[0]['chinese'] + ", " + address_postal;
-              var full_address_eng = address_houseno + ", " + address_street + ", " + address_postal;
+              var full_address = response.translate_street[0]['chinese'] + ", " + address_houseno + "号";
+              var full_address_eng = address_street + ", " + address_houseno;
 
               edit_populate_translate_street = response.translate_street[0]['chinese'];
               $("#edit_populate_address_translate").val(full_address);
@@ -956,10 +938,9 @@ $(function() {
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.translate_street[0]['chinese'] +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
-              var full_address_eng = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street + ", " + address_postal;
+              var full_address_eng = address_street + ", " + address_houseno + ", " + address_unit1 + "-" + address_unit2;
 
               edit_populate_translate_street = response.translate_street[0]['chinese'];
               $("#edit_populate_address_translate").val(full_address);
@@ -993,12 +974,6 @@ $(function() {
 
   $("#edit_populate_unit_1").on('keyup', function() {
 
-    // var address_houseno = $("#populate_houseno").val();
-    // var address_unit1 = $("#populate_unit_1").val();
-    // var address_unit2 = $("#populate_unit_2").val();
-    // var address_street = $("#edit_populate_street").val();
-    // var address_postal = $("#populate_postal").val();
-
     var address_houseno = $("#edit_populate_houseno").val();
     var address_unit1 = $("#edit_populate_unit_1").val();
     var address_unit2 = $("#edit_populate_unit_2").val();
@@ -1007,8 +982,8 @@ $(function() {
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
-      var full_address = address_houseno + ", " + edit_populate_translate_street + ", " + address_postal;
-      var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+      var full_address = edit_populate_translate_street + ", " + address_houseno + "号";
+      var full_address_eg = address_street + ", " + address_houseno;
 
       $("#edit_populate_address_translate").val(full_address);
       $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eg);
@@ -1016,11 +991,9 @@ $(function() {
     }
     else
     {
-      var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + edit_populate_translate_street +  ", " +
-                       address_postal;
+      var full_address = edit_populate_translate_street +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
-      var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
-                                        address_postal;
+      var full_address_eg = address_street +  ", " + address_houseno + ", " + address_unit1 + "-" + address_unit2;
 
       $("#edit_populate_address_translate").val(full_address);
       $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eg);
@@ -1038,8 +1011,8 @@ $(function() {
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
-      var full_address = address_houseno + ", " + edit_populate_translate_street + ", " + address_postal;
-      var full_address_eg = address_houseno + ", " + address_street + ", " + address_postal;
+      var full_address = edit_populate_translate_street + ", " + address_houseno + "号";
+      var full_address_eg = address_street + ", " + address_houseno;
 
       $("#edit_populate_address_translate").val(full_address);
       $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eg);
@@ -1047,11 +1020,9 @@ $(function() {
     }
     else
     {
-      var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + edit_populate_translate_street +  ", " +
-                       address_postal;
+      var full_address = edit_populate_translate_street +  ", " + address_houseno + "号" + ", #" + address_unit1 + "-" + address_unit2;
 
-      var full_address_eg = address_houseno + ", " + address_unit1 + "-" + address_unit2 + ", " + address_street +  ", " +
-                            address_postal;
+      var full_address_eg = address_street +  ", " + address_houseno + ", " + address_unit1 + "-" + address_unit2;
 
       $("#edit_populate_address_translate").val(full_address);
       $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-data-hidden").val(full_address_eg);
@@ -1086,15 +1057,14 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno + "号";
 
               translate_street = response.address[0]['chinese'];
               $("#edit_address_translated").val(full_address);
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.address[0]['chinese'] +  ", " + address_houseno + ", #" + address_unit1 + "-" + address_unit2;
 
               translate_street = response.address[0]['chinese'];
               $("#edit_address_translated").val(full_address);
@@ -1146,15 +1116,14 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.address[0]['chinese'] + ", " + address_postal;
+              var full_address = response.address[0]['chinese'] + ", " + address_houseno + "号";
 
               translate_street = response.address[0]['chinese'];
               $("#edit_address_translated").val(full_address);
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.address[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.address[0]['chinese'] +  ", " + address_houseno + ", #" + address_unit1 + "-" + address_unit2;
 
               translate_street = response.address[0]['chinese'];
               $("#edit_address_translated").val(full_address);
@@ -1215,15 +1184,14 @@ $(function() {
 
             if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
             {
-              var full_address = address_houseno + ", " + response.translate_street[0]['chinese'] + ", " + address_postal;
+              var full_address = response.translate_street[0]['chinese'] + ", " + address_houseno + "号";
 
               edit_translate_street = response.translate_street[0]['chinese'];
               $("#edit_address_translated").val(full_address);
             }
             else
             {
-              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-                                  address_postal;
+              var full_address = response.translate_street[0]['chinese'] +  ", " + address_houseno + ", #" + address_unit1 + "-" + address_unit2;
 
               edit_translate_street = response.translate_street[0]['chinese'];
               $("#edit_address_translated").val(full_address);
@@ -1262,14 +1230,13 @@ $(function() {
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
-      var full_address = address_houseno + ", " + edit_translate_street + ", " + address_postal;
+      var full_address = edit_translate_street + ", " + address_houseno + "号";
 
       $("#edit_address_translated").val(full_address);
     }
     else
     {
-      var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + edit_translate_street +  ", " +
-                       address_postal;
+      var full_address = edit_translate_street +  ", " + address_houseno + ", #" + address_unit1 + "-" + address_unit2;
 
       $("#edit_address_translated").val(full_address);
     }
@@ -1285,14 +1252,13 @@ $(function() {
 
     if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
     {
-      var full_address = address_houseno + ", " + edit_translate_street + ", " + address_postal;
+      var full_address = edit_translate_street + ", " + address_houseno + "号";
 
       $("#edit_address_translated").val(full_address);
     }
     else
     {
-      var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + edit_translate_street +  ", " +
-                       address_postal;
+      var full_address = edit_translate_street +  ", " + address_houseno + ", #" + address_unit1 + "-" + address_unit2;
 
       $("#edit_address_translated").val(full_address);
     }

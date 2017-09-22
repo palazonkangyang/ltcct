@@ -111,7 +111,7 @@
 
 										 <div class="col-md-2">
 												 <input type="text" class="form-control" name="address_unit2" value="{{ old('address_unit2') }}"
-														 id="edit_address_unit2" maxlength="3">
+														 id="edit_address_unit2" maxlength="5">
 										 </div><!-- end col-md-2 -->
 
 								 </div><!-- end form-group -->
@@ -422,7 +422,7 @@
 
 	 									<div style='width:16.66667%;float:left;'>
 	 											<input type="text" class="form-control" name="address_unit2" value="{{ $focus_devotee[0]->address_unit2 }}"
-	 													id="edit_address_unit2" maxlength="3">
+	 													id="edit_address_unit2" maxlength="5">
 	 									</div><!-- end col-md-2 -->
 	 							</div><!-- end form-group -->
 
@@ -972,8 +972,8 @@
 										@if($optAddress->type == "home" || $optAddress->type == "office")
 
 										<div class='col-md-6' style='padding-right: 0;'>
-											<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill the address on the right"
-												title="Please fill the address on the right" readonly>
+											<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill address on the right"
+												title="Please fill address on the right" readonly>
 										</div><!-- end col-md-6 -->
 
 										@else
@@ -1029,8 +1029,8 @@
 											</div><!-- end col-md-3 -->
 
 											<div class='col-md-6' style='padding-right: 0;'>
-												<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill the address on the right"
-													title="Please fill the address on the right" readonly>
+												<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill address on the right"
+													title="Please fill address on the right" readonly>
 											</div><!-- end col-md-6 -->
 
 											<div class='col-md-2'>
@@ -1225,7 +1225,7 @@
 
 									<div style='width:16.66667%;float:left;'>
 											<input type="text" class="form-control" name="populate_unit_2"
-													value="{{ old('populate_unit_2') }}" id="edit_populate_unit_2" maxlength="3">
+													value="{{ old('populate_unit_2') }}" id="edit_populate_unit_2" maxlength="5">
 									</div><!-- end col-md-2 -->
 								</div><!-- end form-group -->
 

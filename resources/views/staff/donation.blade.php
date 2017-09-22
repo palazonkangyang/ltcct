@@ -111,7 +111,7 @@
                                                   </li>
 
 																									<li class="pull-right">
-                                                    <a href="#tab_transactiondetail" data-toggle="tab">Search <br> 交易详情</a>
+                                                    <a href="#tab_transactiondetail" data-toggle="tab">Translation <br> 翻译</a>
                                                   </li>
 																									<li class="pull-right">
                                                     <a href="#tab_relative_friends" data-toggle="tab">Relative & Friends <br> 亲戚朋友</a>

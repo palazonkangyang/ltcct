@@ -108,6 +108,76 @@
                                 <td>{{ number_format($expenses[$i]->December, 2) }}</td>
                               </tr>
                               @endfor
+
+                              <tr>
+                                <td style="font-weight: bold; text-decoration: underline">General Donation 香油</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+
+                              @for($i = 0; $i < count($entrance_fees); $i++)
+                              <tr>
+                                <td>{{ $entrance_fees[$i]->type_name }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Jan, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Feb, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Mar, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Apr, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->May, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Jun, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->July, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Aug, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Sep, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Oct, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->Nov, 2) }}</td>
+                                <td>{{ number_format($entrance_fees[$i]->December, 2) }}</td>
+                              </tr>
+                              @endfor
+
+                              @for($i = 0; $i < count($monthly_subscription); $i++)
+                              <tr>
+                                <td>{{ $monthly_subscription[$i]->type_name }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Jan, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Feb, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Mar, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Apr, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->May, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Jun, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->July, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Aug, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Sep, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Oct, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->Nov, 2) }}</td>
+                                <td>{{ number_format($monthly_subscription[$i]->December, 2) }}</td>
+                              </tr>
+                              @endfor
+
+                              @for($i = 0; $i < count($donation_non_members); $i++)
+                              <tr>
+                                <td>{{ $donation_non_members[$i]->type_name }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Jan, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Feb, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Mar, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Apr, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->May, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Jun, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->July, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Aug, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Sep, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Oct, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->Nov, 2) }}</td>
+                                <td>{{ number_format($donation_non_members[$i]->December, 2) }}</td>
+                              </tr>
+                              @endfor
                             </tbody>
                           </table>
                         </div><!-- end col-md-12 -->

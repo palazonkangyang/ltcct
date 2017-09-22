@@ -471,21 +471,23 @@
       }
     });
 
-    $("#price").keypress(function (e) {
-       //if the letter is not digit then display error and don't type anything
-       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-          //display error message
-          return false;
-      }
-    });
+    $("#price").on("input", function(evt) {
+     var self = $(this);
+     self.val(self.val().replace(/[^0-9\.]/g, ''));
+     if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57))
+     {
+       evt.preventDefault();
+     }
+   });
 
-    $("#edit_price").keypress(function (e) {
-       //if the letter is not digit then display error and don't type anything
-       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-          //display error message
-          return false;
-      }
-    });
+   $("#edit_price").on("input", function(evt) {
+    var self = $(this);
+    self.val(self.val().replace(/[^0-9\.]/g, ''));
+    if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57))
+    {
+      evt.preventDefault();
+    }
+  });
 
     $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
       localStorage.setItem('activeTab', $(e.target).attr('href'));

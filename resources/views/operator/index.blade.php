@@ -223,16 +223,17 @@
                                                                     <table class="table table-bordered" id="members_table">
                                                                         <thead>
 																																					<tr id="filter">
-																																						<th></th>
-																																						<th></th>
-																																						<th></th>
-																																						<th></th>
-																																						<th></th>
-																																						<th></th>
-																																						<th></th>
-																																						<th></th>
-																																						<th></th>
-																																						<th></th>
+																																						<th class="filter1"></th>
+																																						<th class="filter2"></th>
+																																						<th class="filter3"></th>
+																																						<th class="filter4"></th>
+																																						<th class="filter5"></th>
+																																						<th class="filter6"></th>
+																																						<th class="filter7"></th>
+																																						<th class="filter8"></th>
+																																						<th class="filter9"></th>
+																																						<th class="filter10"></th>
+																																						<th class="lastfilter" style="display: none;"></th>
 																																					</tr>
                                                                             <tr>
 																																							<th>Chinese Name</th>
@@ -245,6 +246,7 @@
 																																							<th>Mailer</th>
 																																							<th>Last Trans Date</th>
 																																							<th>Family Code</th>
+																																							<th></th>
                                                                             </tr>
                                                                         </thead>
 
@@ -301,6 +303,7 @@
 																																									@endif
 																																								</td>
                                                                                 <td>{{ $member->familycode }}</td>
+																																								<td></td>
                                                                             </tr>
                                                                             @endforeach
                                                                         </tbody>
@@ -322,16 +325,17 @@
                                                                     <table class="table table-bordered" id="deceased_table">
                                                                         <thead>
 																																						<tr id="filter">
-																																							<th></th>
-																																							<th></th>
-																																							<th></th>
-																																							<th></th>
-																																							<th></th>
-																																							<th></th>
-																																							<th></th>
-																																							<th></th>
-																																							<th></th>
-																																							<th></th>
+																																							<th class="filter1"></th>
+																																							<th class="filter2"></th>
+																																							<th class="filter3"></th>
+																																							<th class="filter4"></th>
+																																							<th class="filter5"></th>
+																																							<th class="filter6"></th>
+																																							<th class="filter7"></th>
+																																							<th class="filter8"></th>
+																																							<th class="filter9"></th>
+																																							<th class="filter10"></th>
+																																							<th class="lastfilter" style="display: none;"></th>
 																																						</tr>
                                                                             <tr>
 																																							<th>Chinese Name</th>
@@ -344,6 +348,7 @@
 																																							<th>Mailer</th>
 																																							<th>Last Trans Date</th>
 																																							<th>Family Code</th>
+																																							<th></th>
                                                                             </tr>
                                                                         </thead>
 
@@ -400,6 +405,7 @@
 																																									@endif
 																																								</td>
                                                                                 <td>{{ $deceased_list->familycode }}</td>
+																																								<td></td>
                                                                             </tr>
                                                                             @endforeach
                                                                         </tbody>
@@ -518,7 +524,7 @@
 
                                                                         <div style='width:16.66667%;float:left;'>
                                                                             <input type="text" class="form-control" name="address_unit2"
-                                                                                value="{{ old('address_unit2') }}" id="content_address_unit2" maxlength="3">
+                                                                                value="{{ old('address_unit2') }}" id="content_address_unit2" maxlength="5">
                                                                         </div><!-- end col-md-2 -->
 
                                                                     </div><!-- end form-group -->
@@ -548,7 +554,7 @@
                                                                         <label class="col-md-4">Address - Translate</label>
                                                                         <div class="col-md-8">
                                                                             <input type="text" class="form-control"
-                                                                                name="address_translated" id="address_translated" readonly>
+                                                                                name="address_translated" id="content_address_translated" readonly>
                                                                         </div><!-- end col-md-8 -->
 
                                                                     </div><!-- end form-group -->
@@ -759,7 +765,7 @@
 
 		                                                                        <div class="col-md-6 populate-address" style="padding-right: 0;">
 		                                                                            <input type="text" class="form-control address-data" name="address_data[]" readonly
-																																									value="Please fill address on the right" title="Please the address on the right">
+																																									placeholder="Please fill address on the right" title="Please the address on the right">
 		                                                                        </div><!-- end col-md-4 -->
 
 		                                                                        <div class="col-md-2">
@@ -900,7 +906,7 @@
 
 																																			<div style='width:16.66667%;float:left;'>
 																																					<input type="text" class="form-control" name="populate_unit_2"
-																																							value="{{ old('populate_unit_2') }}" id="populate_unit_2" maxlength="3">
+																																							value="{{ old('populate_unit_2') }}" id="populate_unit_2" maxlength="5">
 																																			</div><!-- end col-md-2 -->
 																																		</div><!-- end form-group -->
 
@@ -1353,7 +1359,7 @@
                                                                             <div style="width:14%;float:left;">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_unit2" id="new_address_unit2"
-                                                                                    value="{{ old('new_address_unit2') }}" maxlength="3">
+                                                                                    value="{{ old('new_address_unit2') }}" maxlength="5">
                                                                             </div><!-- end col-md-2 -->
                                                                         </div><!-- end form-group -->
 
@@ -1732,45 +1738,45 @@
 						}
 					});
 
-					// $("#content_address_street").autocomplete({
-					// 	source: "/operator/search/address_street",
-					// 	minLength: 1,
-					//   select: function(event, ui) {
-					//   	$('#content_address_street').val(ui.item.value);
-					// 	}
-					// });
+					$("#content_address_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#content_address_street').val(ui.item.value);
+						}
+					});
 
-					// $("#edit_address_street").autocomplete({
-					// 	source: "/operator/search/address_street",
-					// 	minLength: 1,
-					//   select: function(event, ui) {
-					//   	$('#edit_address_street').val(ui.item.value);
-					// 	}
-					// });
+					$("#edit_address_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#edit_address_street').val(ui.item.value);
+						}
+					});
 
-					// $("#new_address_street").autocomplete({
-					// 	source: "/operator/search/address_street",
-					// 	minLength: 1,
-					//   select: function(event, ui) {
-					//   	$('#new_address_street').val(ui.item.value);
-					// 	}
-					// });
+					$("#new_address_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#new_address_street').val(ui.item.value);
+						}
+					});
 
-					// $("#populate_street").autocomplete({
-					// 	source: "/operator/search/address_street",
-					// 	minLength: 1,
-					//   select: function(event, ui) {
-					//   	$('#populate_street').val(ui.item.value);
-					// 	}
-					// });
+					$("#populate_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#populate_street').val(ui.item.value);
+						}
+					});
 
-					// $("#edit_populate_street").autocomplete({
-					// 	source: "/operator/search/address_street",
-					// 	minLength: 1,
-					//   select: function(event, ui) {
-					//   	$('#edit_populate_street').val(ui.item.value);
-					// 	}
-					// });
+					$("#edit_populate_street").autocomplete({
+						source: "/operator/search/address_street",
+						minLength: 1,
+					  select: function(event, ui) {
+					  	$('#edit_populate_street').val(ui.item.value);
+						}
+					});
 
 					// DataTable
 					var table = $('#devotees_table').DataTable({
@@ -1793,6 +1799,8 @@
           });
 
 					$(".lastfilter input[type=text]").css("display", "none");
+					$(".member-lastfilter input[type=text]").css("display", "none");
+
 
 					// Apply the filter
 					$("#devotees_table thead input").on( 'keyup change', function () {
@@ -2504,7 +2512,7 @@
                 $("#append_opt_address").append("<div class='inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn' aria-hidden='true'></i></div>" +
 								"<div class='col-md-3 optional-wrapper'><select class='form-control address-type' name='address_type[]''>" +
 								"<option value='home'>宅址</option><option value='company'>公司</option><option value='stall'>小贩</option><option value='office'>办公址</option>" +
-								"</select></div><div class='col-md-6 populate-address' style='padding-right: 0;'><input type='text' class='form-control address-data' name='address_data[]' readonly  value='Please fill address on the right' title='Please fill address on the right'>" +
+								"</select></div><div class='col-md-6 populate-address' style='padding-right: 0;'><input type='text' class='form-control address-data' name='address_data[]' readonly  placeholder='Please fill address on the right' title='Please fill address on the right'>" +
 								"</div><div class='col-md-2'><button type='button' class='fa fa-angle-double-right populate-data form-control' aria-hidden='true'></button></div>" +
 								"<div class='col-md-12'><input type='hidden' class='form-control address-houseno-hidden'><input type='hidden' class='form-control address-unit1-hidden'>" +
 								"<input type='hidden' class='form-control address-unit2-hidden'><input type='hidden' class='form-control address-street-hidden'>" +
@@ -2518,7 +2526,7 @@
 							$("#edit_opt_address").append("<div class='edit_inner_opt_addr'><div class='form-group'><div class='col-md-1'><i class='fa fa-minus-circle removeAddressBtn1' aria-hidden='true'></i></div>" +
 							"<div class='col-md-3 optional-wrapper'><select class='form-control edit-address-type' name='address_type[]'><option value='home'>宅址</option><option value='company'>公司</option>" +
 							"<option value='stall'>小贩</option><option value='office'>办公址</option></select></div>" +
-							"<div class='col-md-6' style='padding-right: 0;'><input type='text' class='form-control edit-address-data' name='address_data[]' value='Please fill address on the right' readonly></div>" +
+							"<div class='col-md-6' style='padding-right: 0;'><input type='text' class='form-control edit-address-data' name='address_data[]' placeholder='Please fill address on the right' readonly></div>" +
 							"<div class='col-md-2'><button type='button' class='fa fa-angle-double-right edit-populate-data form-control' aria-hidden='true'></button></div>" +
 							"<div class='col-md-12'><input type='hidden' class='form-control edit-address-houseno-hidden'><input type='hidden' class='form-control edit-address-unit1-hidden'>" +
 							"<input type='hidden' class='form-control edit-address-unit2-hidden'><input type='hidden' class='form-control edit-address-street-hidden'>" +

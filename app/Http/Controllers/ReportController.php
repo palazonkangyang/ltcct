@@ -37,6 +37,20 @@ class ReportController extends Controller
     return view('report.trialbalance-report');
   }
 
+  public function getSettlementReport()
+  {
+    $user = User::all();
+
+    $glcode = GlCode::whereIn('glcode_id', array(108, 110, 112, 119, 134))
+              ->select('glcode_id', 'type_name')
+              ->get();
+
+    return view('report.settlement-report', [
+      'attendedby' => $user,
+      'glcode' => $glcode
+    ]);
+  }
+
   public function getReportDetail(Request $request)
   {
     $input = array_except($request->all(), '_token');
@@ -372,8 +386,73 @@ class ReportController extends Controller
         $expenses_collection = $expenses_collection->merge($expenses);
       }
 
+      $entrance_fees = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+                        ->leftjoin('receipt', 'glcode.glcode_id', '=', 'receipt.glcode_id')
+                        ->whereNull('cancelled_date')
+                        ->where('receipt.glcode_id', 108)
+                        ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                        ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 4, receipt.amount, 0)) AS Apr'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 5, receipt.amount, 0)) AS May'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 6, receipt.amount, 0)) AS Jun'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 7, receipt.amount, 0)) AS July'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 8, receipt.amount, 0)) AS Aug'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 9, receipt.amount, 0)) AS Sep'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 10, receipt.amount, 0)) AS Oct'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 11, receipt.amount, 0)) AS Nov'),
+                        DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'),
+                        'glcode.type_name')
+                        ->get();
+
+      // dd($entrance_fees->toArray());
+
+      $monthly_subscription = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+                              ->leftjoin('receipt', 'glcode.glcode_id', '=', 'receipt.glcode_id')
+                              ->whereNull('cancelled_date')
+                              ->where('receipt.glcode_id', 110)
+                              ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                              ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 4, receipt.amount, 0)) AS Apr'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 5, receipt.amount, 0)) AS May'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 6, receipt.amount, 0)) AS Jun'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 7, receipt.amount, 0)) AS July'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 8, receipt.amount, 0)) AS Aug'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 9, receipt.amount, 0)) AS Sep'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 10, receipt.amount, 0)) AS Oct'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 11, receipt.amount, 0)) AS Nov'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'),
+                              'glcode.type_name')
+                              ->get();
+
+      $donation_non_members = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+                              ->leftjoin('receipt', 'glcode.glcode_id', '=', 'receipt.glcode_id')
+                              ->whereNull('cancelled_date')
+                              ->where('receipt.glcode_id', 112)
+                              ->where(DB::raw('YEAR(receipt.trans_date)'), '=', $input['year'])
+                              ->select(DB::raw('SUM(IF(MONTH(receipt.trans_date) = 1, receipt.amount, 0)) AS Jan'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 2, receipt.amount, 0)) AS Feb'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 3, receipt.amount, 0)) AS Mar'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 4, receipt.amount, 0)) AS Apr'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 5, receipt.amount, 0)) AS May'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 6, receipt.amount, 0)) AS Jun'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 7, receipt.amount, 0)) AS July'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 8, receipt.amount, 0)) AS Aug'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 9, receipt.amount, 0)) AS Sep'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 10, receipt.amount, 0)) AS Oct'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 11, receipt.amount, 0)) AS Nov'),
+                              DB::raw('SUM(IF(MONTH(receipt.trans_date) = 12, receipt.amount, 0)) AS December'),
+                              'glcode.type_name')
+                              ->get();
+
       return view('report.cashflow-year-report', [
         'expenses' => $expenses_collection,
+        'entrance_fees' => $entrance_fees,
+        'monthly_subscription' => $monthly_subscription,
+        'donation_non_members' => $donation_non_members,
         'year' => $input['year']
       ]);
     }
@@ -421,5 +500,111 @@ class ReportController extends Controller
       'income' => $income_collection
     ]);
   }
+
+  public function getSettlementReportDetail(Request $request)
+  {
+    $input = array_except($request->all(), '_token');
+
+    $result_collection = collect();
+
+    $date = str_replace('/', '-', $input['date']);
+    $date = date("Y-m-d", strtotime($date) );
+
+    $mode = ['cash', 'cheque', 'nets'];
+    $glcode_array = [108, 110, 112, 119, 134];
+    $total_cash = 0;
+    $total_nets = 0;
+    $total_cheque = 0;
+    $total_amount = 0;
+
+    if($input['type'] == 0)
+    {
+      for($i = 0; $i < count($glcode_array); $i++)
+      {
+        $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                  ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                  ->where('receipt.staff_id', $input['staff_id'])
+                  ->where('receipt.trans_date', $date)
+                  ->where('receipt.glcode_id', $glcode_array[$i])
+                  ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
+                  DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
+                  DB::raw('SUM(IF(generaldonation.mode_payment = "nets", receipt.amount, 0)) AS nets'),
+                  'glcode.type_name')
+                  ->get();
+
+        $result_collection = $result_collection->merge($result);
+      }
+
+      for($i = 0; $i < count($result_collection); $i++)
+      {
+        if(isset($result_collection[$i]->cash))
+        {
+          $result_collection[$i]->amount += $result_collection[$i]->cash + $result_collection[$i]->cheque + $result_collection[$i]->nets;
+
+          $total_cash += $result_collection[$i]->cash;
+          $total_nets += $result_collection[$i]->nets;
+          $total_cheque += $result_collection[$i]->cheque;
+
+          $total_amount = $total_cash + $total_nets + $total_cheque;
+        }
+
+        else
+        {
+          $result_collection[$i]->amount = 0;
+        }
+      }
+
+      $user_name = User::where('id', $input['staff_id'])->pluck('user_name');
+
+      return view('report.settlement-report-detail', [
+        'result' => $result_collection,
+        'date' => $input['date'],
+        'todaydate' => $date,
+        'attendedby' => $user_name[0],
+        'total_cash' => $total_cash,
+        'total_nets' => $total_nets,
+        'total_cheque' => $total_cheque,
+        'total_amount' => $total_amount
+      ]);
+    }
+
+    else
+    {
+      $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                ->where('receipt.staff_id', $input['staff_id'])
+                ->where('receipt.trans_date', $date)
+                ->where('receipt.glcode_id', $input['type'])
+                ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
+                DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
+                DB::raw('SUM(IF(generaldonation.mode_payment = "nets", receipt.amount, 0)) AS nets'),
+                'glcode.type_name')
+                ->get();
+
+        // $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+        //           ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+        //           ->where('receipt.staff_id', $input['staff_id'])
+        //           ->where('receipt.trans_date', $date)
+        //           ->where('receipt.glcode_id', $input['type'])
+        //           ->where('generaldonation.mode_payment', $mode[$i])
+        //           ->select(DB::raw('SUM(receipt.amount) as ' . $mode[$i] . '_total'), 'glcode.type_name')
+        //           ->get();
+        //
+        $result_collection = $result_collection->merge($result);
+
+        $type_name = Glcode::where('glcode_id', $input['type'])->get();
+
+
+      $user_name = User::where('id', $input['staff_id'])->pluck('user_name');
+
+      return view('report.settlement-report-by-type', [
+        'result' => $result_collection,
+        'date' => $input['date'],
+        'type_name' => $type_name,
+        'attendedby' => $user_name[0]
+      ]);
+    }
+  }
+
 
 }

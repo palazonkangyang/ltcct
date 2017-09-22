@@ -12,7 +12,7 @@
 
               <div class="page-title">
 
-                  <h1>Income Statement Report</h1>
+                  <h1>Settlement Report</h1>
 
               </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
                   <i class="fa fa-circle"></i>
               </li>
               <li>
-                  <span>Income Statement Report</span>
+                  <span>Settlement Report</span>
               </li>
           </ul>
 
@@ -51,21 +51,42 @@
 
                       <div class="form-body">
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
 
-                          <form action="{{ URL::to('/report/report-detail') }}" method="post">
+                          <form action="{{ URL::to('/report/settlement-report-detail') }}" method="post">
                             {!! csrf_field() !!}
 
                             <div class="form-group">
-                              <label style="padding:0;">Year</label>
-                              <input type="text" class="form-control" name="year" value="{{ old('year') }}"
-                              data-provide="datepicker" data-date-format="mm" id="year">
+                              <label style="padding:0;">Attended By</label>
+                              <select class="form-control" name="staff_id" id="staff_id">
+                                <option value="">Please Select</option>
+                                @foreach($attendedby as $user)
+                                <option value="{{ $user->id }}">{{ $user->user_name }}</option>
+                                @endforeach
+                              </select>
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                              <label style="padding:0;">Month</label>
-                              <input type="text" class="form-control" name="month" value="{{ old('month') }}"
-                              data-provide="datepicker" data-date-format="yyyy" id="month">
+                              <label style="padding:0;">Date</label>
+                              <input type="text" class="form-control" name="date" value="{{ old('date') }}"
+                              data-provide="datepicker" data-date-format="dd/mm/yyyy" id="date">
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                              <label style="padding:0;">Type</label>
+                              <select class="form-control" name="type" id="type">
+                                <option value="">Please Select</option>
+                                <option value="0">All</option>
+                                @foreach($glcode as $g)
+                                <option value="{{ $g->glcode_id }}">{{ $g->type_name }}</option>
+                                @endforeach
+                              </select>
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
                             </div><!-- end form-group -->
 
                               <div class="form-group">
@@ -74,7 +95,7 @@
                               </div><!-- end form-group -->
                           </form>
 
-                        </div><!-- end col-md-2 -->
+                        </div><!-- end col-md-3 -->
                       </div><!-- end form-body -->
 
                       <div class="clearfix">
@@ -103,7 +124,6 @@
 
 @section('custom-js')
 
-
 <script type="text/javascript">
 
   $(function() {
@@ -118,42 +138,32 @@
 	    }
    });
 
-   $("#year").val((new Date).getFullYear());
-
-    $("#year").datepicker( {
-      format: "yyyy",
-      viewMode: "years",
-      minViewMode: "years"
-    });
-
-    $("#month").datepicker( {
-      format: "M",
-      viewMode: "months",
-      minViewMode: "months"
-    });
-
     $("#report").click(function() {
 
       var count = 0;
       var errors = new Array();
       var validationFailed = false;
 
-      var month = $("#month").val();
-      var year = $("#year").val();
+      var staff_id = $("#staff_id").val();
+      var date = $("#date").val();
+      var type = $("#type").val();
 
-      if($.trim(month).length > 0)
-      {
-        if($.trim(year).length <= 0)
-        {
-          validationFailed = true;
-          errors[count++] = "Year is empty."
-        }
-      }
-
-      if($.trim(year).length <= 0 && $.trim(month).length <= 0)
+      if(staff_id == "")
       {
         validationFailed = true;
-        errors[count++] = "Please choose month or year to generate income report."
+        errors[count++] = "Attended By field is empty.";
+      }
+
+      if($.trim(date).length <= 0)
+      {
+        validationFailed = true;
+        errors[count++] = "Date field is empty.";
+      }
+
+      if(type == "")
+      {
+        validationFailed = true;
+        errors[count++] = "Type field is empty.";
       }
 
       if (validationFailed)

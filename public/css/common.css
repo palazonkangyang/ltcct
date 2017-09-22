@@ -44,7 +44,7 @@
 
 #devotees_table_wrapper .col-sm-12, #members_table_wrapper .col-sm-12, #deceased_table_wrapper .col-sm-12,
 #tab_relocation .relocation-devotee-table{
-  overflow-x: scroll;
+  overflow-x: scroll!important;
 }
 
 .mt-radio-list label{
@@ -150,7 +150,7 @@ table.datables, table.datatables tr {
     overflow-x: scroll;
 }
 
-.populate-data, .edit-populate-data{
+/*.populate-data, .edit-populate-data{
   margin-left: 30px;
 }
 
@@ -169,4 +169,4 @@ table.datables, table.datatables tr {
 }
 .special-remark{
   padding-left: 0;
-}
+}*/

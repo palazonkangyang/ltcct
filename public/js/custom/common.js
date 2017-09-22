@@ -18,6 +18,7 @@ $(function() {
 			var focus_address_street = $("#focus_address_street").val();
 			var focus_address_postal = $("#focus_address_postal").val();
 			var focus_address_unit = $("#focus_address_unit").val();
+			var focus_address_translate = $("#focus_address_translate").val();
 			var focus_oversea_addr_in_chinese = $("#focus_oversea_addr_in_chinese").val();
 
 			if($.trim(focus_address_houseno).length > 0)
@@ -36,10 +37,14 @@ $(function() {
 				$("#content_address_unit2").val(focus_address_unit2);
 				$("#content_address_street").val(focus_address_street);
 				$("#content_address_postal").val(focus_address_postal);
+				$("#content_address_translated").val(focus_address_translate);
 
+				$("#content_address_houseno").attr('readonly', true);
+				$("#content_address_street").attr('readonly', true);
 				$("#content_address_unit1").attr('readonly', true);
 				$("#content_address_unit2").attr('readonly', true);
 				$("#content_address_postal").attr('readonly', true);
+				$("#content_address_translated").attr('readonly', true);
 				$("#content_oversea_addr_in_chinese").attr('readonly', true);
 
 				setTimeout(function(){ $("input:radio[name=familycode_id]").prop( "checked", true ); }, 1000);
@@ -146,56 +151,14 @@ $(function() {
 			}
 		});
 
-		$("#same_familycode").click(function() {
+		$("#new_same_familycode").click(function() {
 
+			$("#content_address_houseno").attr('readonly', true);
 			$("#content_address_unit1").attr('readonly', true);
 			$("#content_address_unit2").attr('readonly', true);
+			$("#content_address_street").attr('readonly', true);
 			$("#content_address_postal").attr('readonly', true);
 			$("#content_oversea_addr_in_chinese").attr('readonly', true);
-
-			var focus_address_postal = $("#focus_address_postal").val();
-
-			if(focus_address_postal)
-	    {
-	      var formData = {
-	          _token: $('meta[name="csrf-token"]').attr('content'),
-	          address_postal: focus_address_postal
-	      };
-
-	      $.ajax({
-	          type: 'GET',
-	          url: "/operator/search/address_translate",
-	          data: formData,
-	          dataType: 'json',
-	          success: function(response)
-	          {
-	            var address_houseno = $("#content_address_houseno").val();
-	            var address_unit1 = $("#content_address_unit1").val();
-	            var address_unit2 = $("#content_address_unit2").val();
-	            var address_postal = $("#content_address_postal").val();
-
-	            if($.trim(address_unit1).length <= 0 && $.trim(address_unit2).length <= 0)
-	            {
-	              var full_address = address_houseno + ", " + response.translate_street[0]['chinese'] + ", " + address_postal;
-
-	              translate_street = response.translate_street[0]['chinese'];
-	              $("#address_translated").val(full_address);
-	            }
-	            else
-	            {
-	              var full_address = address_houseno + ", #" + address_unit1 + "-" + address_unit2 + ", " + response.translate_street[0]['chinese'] +  ", " +
-	                                  address_postal;
-
-	              translate_street = response.translate_street[0]['chinese'];
-	              $("#address_translated").val(full_address);
-	            }
-	          },
-
-	          error: function (response) {
-	              console.log(response);
-	          }
-	      });
-	    }
 
 			localStorage.removeItem('activeTab');
 
@@ -212,6 +175,7 @@ $(function() {
 			var focus_address_street = $("#focus_address_street").val();
 			var focus_address_postal = $("#focus_address_postal").val();
 			var focus_address_unit = $("#focus_address_unit").val();
+			var focus_address_translate = $("#focus_address_translate").val();
 			var focus_oversea_addr_in_chinese = $("#focus_oversea_addr_in_chinese").val();
 
 			if($.trim(focus_address_houseno).length > 0)
@@ -230,6 +194,7 @@ $(function() {
 				$("#content_address_unit2").val(focus_address_unit2);
 				$("#content_address_street").val(focus_address_street);
 				$("#content_address_postal").val(focus_address_postal);
+				$("#content_address_translated").val(focus_address_translate);
 			}
 
 			else
@@ -239,7 +204,9 @@ $(function() {
 
 			$(".check_family_code").click();
 
-			setTimeout(function(){ $("input:radio[name=familycode_id]").prop( "checked", true ); }, 1000);
+			setTimeout(function(){
+				$("input:radio[name=familycode_id]").prop( "checked", true );
+			}, 1000);
 
 		});
 

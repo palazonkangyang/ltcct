@@ -138,6 +138,9 @@
                                                                     <li>
                                                                         <a href="/paid/manage-paid" class="hylink">Paid</a>
                                                                     </li>
+                                                                    <li>
+                                                                        <a href="#" class="hylink">Peddy Cash</a>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                             <div class="col-md-4">
@@ -181,6 +184,9 @@
                                                                     </li>
                                                                     <li>
                                                                         <a href="/report/cashflow-report" class="hylink">Cashflow Statement Report</a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a href="/report/settlement-report" class="hylink">Settlement Report</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
