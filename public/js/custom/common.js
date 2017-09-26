@@ -10,6 +10,7 @@ $(function() {
 		var samefamilycode = localStorage.getItem('samefamilycode');
 		var tab = localStorage.getItem('tab');
 		var newtab = localStorage.getItem('newtab');
+		var trans = localStorage.getItem('trans');
 		var path = window.location.pathname;
 
 		if(samefamilycode)

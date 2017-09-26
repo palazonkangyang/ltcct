@@ -75,6 +75,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/address-translate', ['as' => 'address-translate-page', 'uses' => 'OperatorController@getAddressTranslate']);
 		Route::get('/search-dialect', ['as' => 'search-dialect-page', 'uses' => 'OperatorController@getSearchDialect']);
 		Route::get('/search-race', ['as' => 'search-race-page', 'uses' => 'OperatorController@getSearchRace']);
+		// Route::get('/search-addresshouseno', ['as' => 'search-addresshouseno-page', 'uses' => 'OperatorController@getSearchAddressHouseNo']);
+		Route::get('/search/check-devotee', ['as' => 'check-devotee-page', 'uses' => 'OperatorController@getCheckDevotee']);
 		Route::get('/devotee/edit/{devotee_id}', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@getEditDevotee']);
 		Route::match(["post", "get"], '/devotee/new-search', ['as' => 'get-json-focus-devotee-page', 'uses' => 'OperatorController@getRemoveFocusDevotee']);
 		Route::post('/devotee/search-familycode', ['as' => 'search-familycode-page', 'uses' => 'OperatorController@getSearchFamilyCode']);
@@ -130,6 +132,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-glaccountgroup', ['as' => 'update-glaccount-group-page', 'uses' => 'GlController@UpdateGlAccountGroup']);
 		Route::post('/new-glaccount', ['as' => 'post-glaccount-page', 'uses' => 'GlController@postAddNewGlAccount']);
 		Route::post('/update-glaccount', ['as' => 'update-glaccount-page', 'uses' => 'GlController@UpdateGlAccount']);
+  });
+
+	Route::group(['prefix' => 'income'], function () {
+    Route::get('/income-lists', ['as' => 'income-lists-page', 'uses' => 'IncomeController@getAllIncomeLists']);
   });
 
 	Route::group(['prefix' => 'expenditure'], function () {

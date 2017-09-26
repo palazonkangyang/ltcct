@@ -167,9 +167,9 @@
 																																								</td>
 																																								<td>
 																																									@if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
-																																									<span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
+																																									<span style="color: #a5a5a5">{{ $devotee->member }}</span>
 																																									@else
-																																									<span>{{ $devotee->member_id }}</span>
+																																									<span>{{ $devotee->member }}</span>
 																																									@endif
 																																								</td>
                                                                                 <td>
@@ -269,9 +269,9 @@
 																																								</td>
                                                                                 <td>
 																																									@if(\Carbon\Carbon::parse($member->lasttransaction_at)->lt($date))
-																																									<span style="color: #a5a5a5;">{{ $member->member_id }}</span>
+																																									<span style="color: #a5a5a5;">{{ $member->member }}</span>
 																																									@else
-																																									<span>{{ $member->member_id }}</span>
+																																									<span>{{ $member->member }}</span>
 																																									@endif
 																																								</td>
                                                                                 <td>
@@ -371,9 +371,9 @@
 																																							</td>
 																																							<td>
 																																								@if(\Carbon\Carbon::parse($deceased_list->lasttransaction_at)->lt($date))
-																																								<span style="color: #a5a5a5;">{{ $deceased_list->member_id }}</span>
+																																								<span style="color: #a5a5a5;">{{ $deceased_list->member }}</span>
 																																								@else
-																																								<span>{{ $deceased_list->member_id }}</span>
+																																								<span>{{ $deceased_list->member }}</span>
 																																								@endif
 																																							</td>
                                                                                 <td>
@@ -453,7 +453,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-4">Title</label>
+                                                                        <label class="col-md-4">Title *</label>
                                                                         <div class="col-md-8">
                                                                             <select class="form-control" name="title">
                                                                                 <option value="mr">Mr</option>
@@ -466,7 +466,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-4">Chinese Name</label>
+                                                                        <label class="col-md-4">Chinese Name *</label>
                                                                         <div class="col-md-8">
                                                                             <input type="text" class="form-control" name="chinese_name"
                                                                                 value="{{ old('chinese_name') }}" id="content_chinese_name">
@@ -486,7 +486,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-4">Contact #</label>
+                                                                        <label class="col-md-4">Contact # *</label>
                                                                         <div class="col-md-8">
                                                                             <input type="text" class="form-control" name="contact"
                                                                                 value="{{ old('contact') }}" id="content_contact">
@@ -506,7 +506,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-4">Address - House No</label>
+                                                                        <label class="col-md-4">Address - House No *</label>
                                                                         <div style='width:19.66667%;float:left; padding-left: 15px;'>
                                                                             <input type="text" class="form-control" name="address_houseno"
                                                                                 value="{{ old('address_houseno') }}"
@@ -531,7 +531,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-4">Address - Street</label>
+                                                                        <label class="col-md-4">Address - Street *</label>
                                                                         <div class="col-md-8">
 																																						<input type="text" class="form-control" name="address_street"
                                                                                 value="{{ old('address_street') }}" id="content_address_street">
@@ -541,7 +541,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-4">Address - Postal</label>
+                                                                        <label class="col-md-4">Address - Postal *</label>
                                                                         <div class="col-md-8">
                                                                             <input type="text" class="form-control" name="address_postal"
                                                                                 value="{{ old('address_postal') }}" id="content_address_postal">
@@ -577,7 +577,7 @@
 	                                                                      	Check Family Code
 	                                                                      </button>
 
-																																				@if(Auth::user()->role == 5)
+																																				@if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 5)
 																																				<a href="/admin/add-address" class="btn default">Add New Address</a>
 																																				@endif
                                                                       </div><!-- end col-md-12 -->
@@ -723,7 +723,7 @@
 
                                                                     <div class="form-group">
 
-                                                                        <label class="col-md-4">Mailer</label>
+                                                                        <label class="col-md-4">Mailer *</label>
                                                                         <div class="col-md-2">
                                                                             <select class="form-control" name="mailer" style="width: 90px;">
 																																							<option value="No">No</option>
@@ -889,7 +889,7 @@
 																																		<h5>Local Address</h5>
 
 																																		<div class="form-group">
-																																			<label class="col-md-4 local-address">House No</label>
+																																			<label class="col-md-4 local-address">House No *</label>
 																																			<div style='width:19.66667%;float:left; padding-left: 15px;'>
 																																					<input type="text" class="form-control" name="populate_houseno"
 																																							value="{{ old('populate_houseno') }}" id="populate_houseno">
@@ -911,7 +911,7 @@
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-4 local-address">Street</label>
+																																			<label class="col-md-4 local-address">Street *</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_street"
 																																							value="{{ old('populate_street') }}" id="populate_street">
@@ -919,7 +919,7 @@
 																																		</div><!-- end form-group -->
 
 																																		<div class="form-group">
-																																			<label class="col-md-4 local-address">Postal</label>
+																																			<label class="col-md-4 local-address">Postal *</label>
 																																			<div class="col-md-8">
 																																					<input type="text" class="form-control" name="populate_postal"
 																																							value="{{ old('populate_postal') }}" id="populate_postal">
@@ -937,7 +937,7 @@
 																																		<div class="form-group">
 																																			<label class="col-md-4 local-address">Oversea Addr in Chinese</label>
 																																			<div class="col-md-8">
-																																					<input type="text" class="form-control" name="populate_oversea_addr_in_china"
+																																					<input type="text" class="form-control" name="populate_oversea_addr_in_china" autocomplete="nope"
 																																							value="{{ old('populate_oversea_addr_in_china') }}" id="populate_oversea_addr_in_china">
 																																			</div><!-- end col-md-8 -->
 																																		</div><!-- end form-group -->
@@ -981,7 +981,7 @@
                                                                         <label class="col-md-3"></label>
                                                                         <label class="col-md-5 control-label">Authorized Password</label>
                                                                         <div class="col-md-4">
-                                                                            <input type="password" class="form-control"
+                                                                            <input type="password" class="form-control" autocomplete="new-password"
                                                                                 name="authorized_password" id="content_authorized_password">
                                                                         </div><!-- end col-md-4 -->
 
@@ -1056,7 +1056,7 @@
 	                                                                                            value="{{ $focus_devotee[0]->devotee_id }}" /></td>
 	                                                                                        <td>{{ $focus_devotee[0]->chinese_name }}</td>
 	                                                                                        <td>{{ $focus_devotee[0]->devotee_id }}</td>
-	                                                                                        <td>{{ $focus_devotee[0]->member_id }}</td>
+	                                                                                        <td>{{ $focus_devotee[0]->member }}</td>
 	                                                                                        <td>
 																																														@if(isset($focus_devotee[0]->oversea_addr_in_chinese))
 																																														{{ $focus_devotee[0]->oversea_addr_in_chinese }}
@@ -1086,7 +1086,7 @@
 	                                                                                            value="{{ $devotee->devotee_id }}" /></td>
 	                                                                                        <td>{{ $devotee->chinese_name }}</td>
 	                                                                                        <td>{{ $devotee->devotee_id }}</td>
-	                                                                                        <td>{{ $devotee->member_id }}</td>
+	                                                                                        <td>{{ $devotee->member }}</td>
 	                                                                                        <td>
 																																														@if(isset($devotee->oversea_addr_in_chinese))
 																																														{{ $devotee->oversea_addr_in_chinese }}
@@ -1213,7 +1213,7 @@
 
 																																			<div class="col-md-8" id="more_devotees">
 	                                                                        <div class="form-group">
-	                                                                            <label class="col-md-4">Address - House No</label>
+	                                                                            <label class="col-md-4">Address - House No *</label>
 	                                                                            <div class="col-md-3">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_houseno" id="current_address_houseno" readonly>
@@ -1236,7 +1236,7 @@
 	                                                                        </div><!-- end form-group -->
 
 	                                                                        <div class="form-group">
-	                                                                            <label class="col-md-4">Address - Street</label>
+	                                                                            <label class="col-md-4">Address - Street *</label>
 	                                                                            <div class="col-md-8">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_street" id="current_address_street" readonly>
@@ -1245,7 +1245,7 @@
 	                                                                        </div><!-- end form-group -->
 
 	                                                                        <div class="form-group">
-	                                                                            <label class="col-md-4">Address - Postal</label>
+	                                                                            <label class="col-md-4">Address - Postal *</label>
 	                                                                            <div class="col-md-3">
 	                                                                                <input type="text" class="form-control"
 	                                                                                    name="address_postal" id="current_address_postal" readonly>
@@ -1256,7 +1256,7 @@
 	                                                                        <div class="form-group">
 	                                                                            <label class="col-md-4">Oversea Addr in Chinese</label>
 	                                                                            <div class="col-md-8">
-	                                                                                <input type="text" class="form-control"
+	                                                                                <input type="text" class="form-control" autocomplete="off"
 	                                                                                    name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese" readonly>
 	                                                                            </div><!-- end col-md-6 -->
 
@@ -1271,7 +1271,7 @@
 
                                                                     <div class="col-md-8" id="no_session">
                                                                         <div class="form-group">
-                                                                            <label class="col-md-4">Address - House No</label>
+                                                                            <label class="col-md-4">Address - House No *</label>
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_houseno" id="current_address_houseno" readonly>
@@ -1294,7 +1294,7 @@
                                                                         </div><!-- end form-group -->
 
                                                                         <div class="form-group">
-                                                                            <label class="col-md-4">Address - Street</label>
+                                                                            <label class="col-md-4">Address - Street *</label>
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_street" id="current_address_street" readonly>
@@ -1303,7 +1303,7 @@
                                                                         </div><!-- end form-group -->
 
                                                                         <div class="form-group">
-                                                                            <label class="col-md-4">Address - Postal</label>
+                                                                            <label class="col-md-4">Address - Postal *</label>
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="address_postal" id="current_address_postal" readonly>
@@ -1314,7 +1314,7 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Oversea Addr in Chinese</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control"
+                                                                                <input type="text" class="form-control" autocomplete="off"
                                                                                     name="oversea_addr_in_chinese" id="current_oversea_addr_in_chinese" readonly>
                                                                             </div><!-- end col-md-6 -->
 
@@ -1339,7 +1339,7 @@
 
                                                                     <div class="col-md-8">
                                                                         <div class="form-group">
-                                                                            <label class="col-md-4">Address - House No</label>
+                                                                            <label class="col-md-4">Address - House No *</label>
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_houseno"
@@ -1364,7 +1364,7 @@
                                                                         </div><!-- end form-group -->
 
                                                                         <div class="form-group">
-                                                                            <label class="col-md-4">Address - Street</label>
+                                                                            <label class="col-md-4">Address - Street *</label>
                                                                             <div class="col-md-8">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_street"
@@ -1373,7 +1373,7 @@
                                                                         </div><!-- end form-group -->
 
                                                                         <div class="form-group">
-                                                                            <label class="col-md-4">Address - Postal</label>
+                                                                            <label class="col-md-4">Address - Postal *</label>
                                                                             <div class="col-md-3">
                                                                                 <input type="text" class="form-control"
                                                                                     name="new_address_postal"
@@ -1385,8 +1385,8 @@
                                                                         <div class="form-group">
                                                                             <label class="col-md-4">Oversea Addr in Chinese</label>
                                                                             <div class="col-md-8">
-                                                                                <input type="text" class="form-control"
-                                                                                    name="new_oversea_addr_in_chinese" id="new_oversea_addr_in_chinese">
+                                                                              <input type="text" class="form-control" name="new_oversea_addr_in_chinese" autocomplete="nope"
+																																							value="{{ old('new_oversea_addr_in_chinese') }}" id="new_oversea_addr_in_chinese">
                                                                             </div><!-- end col-md-6 -->
                                                                         </div><!-- end form-group -->
 
@@ -1440,7 +1440,7 @@
                                                                         <label class="col-md-2"></label>
                                                                         <label class="col-md-6 control-label">Authorized Password</label>
                                                                         <div class="col-md-4">
-                                                                            <input type="password" class="form-control"
+                                                                            <input type="password" class="form-control" autocomplete="new-password"
                                                                                 name="authorized_password" id="relocation_authorized_password">
                                                                         </div><!-- end col-md-9 -->
 
@@ -1525,9 +1525,9 @@
 																																							</td>
 																												                      <td>
 																																								@if(\Carbon\Carbon::parse($fd->lasttransaction_at)->lt($date))
-																																			          <span style="color: #a5a5a5;">{{ $fd->member_id }}</span>
+																																			          <span style="color: #a5a5a5;">{{ $fd->member }}</span>
 																																			          @else
-																																			          <span>{{ $fd->member_id }}</span>
+																																			          <span>{{ $fd->member }}</span>
 																																			          @endif
 																																							</td>
 																												                      <td>
@@ -1650,6 +1650,30 @@
 					$("#filter input").removeClass('form-control');
 
 					$("#content_contact").keypress(function (e) {
+				     //if the letter is not digit then display error and don't type anything
+				     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+				        //display error message
+				        return false;
+						}
+					});
+
+					$("#edit_contact").keypress(function (e) {
+				     //if the letter is not digit then display error and don't type anything
+				     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+				        //display error message
+				        return false;
+						}
+					});
+
+					$("#content_deceased_year").keypress(function (e) {
+				     //if the letter is not digit then display error and don't type anything
+				     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+				        //display error message
+				        return false;
+						}
+					});
+
+					$("#edit_deceased_year").keypress(function (e) {
 				     //if the letter is not digit then display error and don't type anything
 				     if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
 				        //display error message
@@ -1786,12 +1810,6 @@
 		         "<'row'<'col-sm-12'tr>>" +
 		         "<'row'<'col-sm-5'i><'col-sm-7'p>>"
 					});
-
-
-
-					// $('#devotees_table').DataTable( {
-			    //     "scrollX": true
-			    // } );
 
           $('#devotees_table thead tr#filter th').each( function () {
             var title = $('#devotees_table thead th').eq( $(this).index() ).text();
@@ -2059,6 +2077,12 @@
 								}
 							}
 
+							if($("#content_deceased_year").parent().hasClass("has-error"))
+							{
+								validationFailed = true;
+								errors[count++] = "Deceased Year is invalid.";
+							}
+
 							if(content_dialect == "other_dialect")
 							{
 								if ($.trim(content_other_dialect).length <= 0)
@@ -2078,8 +2102,8 @@
 							{
 								if ($.trim(content_other_race).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Other Race field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Other Race field is empty."
 								}
 							}
 
@@ -2093,71 +2117,131 @@
 							{
 								if ($.trim(content_nric).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory NRIC field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory NRIC field is empty."
 								}
 
 								if ($.trim(content_dob).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Date of Birth field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Date of Birth field is empty."
 								}
 
 								if ($.trim(content_marital_status).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Marital Status field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Marital Status field is empty."
 								}
 
 								if ($.trim(content_nationality).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Nationality field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Nationality field is empty."
 								}
 
 								if ($.trim(content_introduced_by1).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Introduced By 1 field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Introduced By 1 field is empty."
 								}
 
 								if ($.trim(content_introduced_by2).length <= 0)
 								{
-										validationFailed = true;
-										errors[count++] = "Mandatory Introduced By 2 field is empty."
+									validationFailed = true;
+									errors[count++] = "Mandatory Introduced By 2 field is empty."
 								}
 							}
 
 							if ($.trim(authorized_password).length <= 0)
 							{
-									validationFailed = true;
-									errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
+								validationFailed = true;
+								errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
 							}
 
 							if (validationFailed)
 							{
-									var errorMsgs = '';
+								var errorMsgs = '';
 
-									for(var i = 0; i < count; i++)
-									{
-											errorMsgs = errorMsgs + errors[i] + "<br/>";
-									}
+								for(var i = 0; i < count; i++)
+								{
+									errorMsgs = errorMsgs + errors[i] + "<br/>";
+								}
 
-									$('html,body').animate({ scrollTop: 0 }, 'slow');
+								$('html,body').animate({ scrollTop: 0 }, 'slow');
 
-									$(".validation-error").addClass("bg-danger alert alert-error")
-									$(".validation-error").html(errorMsgs);
+								$(".validation-error").addClass("bg-danger alert alert-error")
+								$(".validation-error").html(errorMsgs);
 
-									return false;
+								return false;
 							}
 
 							else
 							{
-									$(".validation-error").removeClass("bg-danger alert alert-error")
-									$(".validation-error").empty();
-							}
+								var formData = {
+									_token: $('meta[name="csrf-token"]').attr('content'),
+									chinese_name: chinese_name,
+									address_houseno: address_houseno,
+									address_unit1: address_unit1,
+									address_unit2: address_unit2,
+									address_street: address_street,
+									address_postal: address_postal,
+									oversea_addr_in_chinese: oversea_addr_in_chinese
+								};
 
-							localStorage.removeItem('activeTab');
+								$.ajax({
+										type: 'GET',
+										url: "/operator/search/check-devotee",
+										data: formData,
+										dataType: 'json',
+										success: function(response)
+										{
+											if(response.msg == "Same Devotee")
+											{
+												if (!confirm("Do you confirm you want to add this record? Note that this process is irreversable.")){
+
+												}
+
+												else{
+													$("#confirm_btn").submit();
+												}
+											}
+										},
+
+										error: function (response) {
+											console.log(response);
+										}
+								});
+
+								// $.ajax({
+								// 		type: 'GET',
+								// 		url: "/operator/search/check-devotee",
+								// 		data: formData,
+								// 		dataType: 'json'
+								// }).done(function(result) {
+								// 	if(result == "Same Devotee")
+								// 	{
+								// 		if (!confirm("Do you confirm you want to add this record? Note that this process is irreversable.")){
+								// 			return false;
+								// 		}
+								//
+								// 		else{
+								// 			return true;
+								// 		}
+						    // }).fail(function() {
+						    //     alert('error');
+						    // });
+
+								// if (confirm("Do you want to confirm this form?")){
+				        //   $("#donation-form")[0].submit();
+				        // }
+								//
+				        // else{
+				        //   return false;
+				        // }
+
+								$(".validation-error").removeClass("bg-danger alert alert-error")
+								$(".validation-error").empty();
+							}
 						});
 
 						var edit_address_houseno = $("#edit_address_houseno").val();
@@ -2312,6 +2396,12 @@
 	                    validationFailed = true;
 	                    errors[count++] = "Mandatory Address Postal field is empty."
 	                }
+								}
+
+								if($("#edit_deceased_year").parent().hasClass("has-error"))
+								{
+								  validationFailed = true;
+								  errors[count++] = "Deceased Year is invalid.";
 								}
 
 								if(edit_dialect == "other_dialect")

@@ -143,7 +143,13 @@ class StaffController extends Controller
 					$prefix = GlCode::where('glcode_id', '108')->pluck('receipt_prefix');
 					$prefix = $prefix[0];
 					$same_xy_receipt += 1;
-					$same_xy_receipt = $prefix . $same_xy_receipt;
+					// $same_xy_receipt = $prefix . $same_xy_receipt;
+
+					$year = date('Y');
+					$year = substr( $year, -2);
+
+					$xy_receipt = str_pad($same_xy_receipt, 4, 0, STR_PAD_LEFT);
+					$xy_receipt = $prefix . $year . $xy_receipt;
 
 					if($input['amount'][$i] == 0)
 					{
@@ -157,7 +163,7 @@ class StaffController extends Controller
 					}
 
 					$receipt = [
-						"xy_receipt" => $same_xy_receipt,
+						"xy_receipt" => $xy_receipt,
 						"trans_date" => Carbon::now(),
 						"description" => "General Donation - 月捐",
 						"amount" => $input['amount'][$i],
@@ -532,7 +538,7 @@ class StaffController extends Controller
 
 		if($samefamily_no > 6)
 		{
-			$loop = intval(round($samefamily_no / 6, 0));
+			$loop = intval($samefamily_no / 6, 0);
 			$modulus = $samefamily_no % 6;
 		}
 
@@ -635,10 +641,16 @@ class StaffController extends Controller
 						$prefix = GlCode::where('glcode_id', '134')->pluck('receipt_prefix');
 						$prefix = $prefix[0];
 						$same_xy_receipt += 1;
-						$same_xy_receipt = $prefix . $same_xy_receipt;
+						// $same_xy_receipt = $prefix . $same_xy_receipt;
+
+						$year = date('Y');
+						$year = substr( $year, -2);
+
+						$xy_receipt = str_pad($same_xy_receipt, 4, 0, STR_PAD_LEFT);
+						$xy_receipt = $prefix . $year . $xy_receipt;
 
 						$receipt = [
-							"xy_receipt" => $same_xy_receipt,
+							"xy_receipt" => $xy_receipt,
 							"trans_date" => Carbon::now(),
 							"description" => "General Donation - 慈济",
 							"amount" => $input['amount'][$i],
@@ -674,10 +686,16 @@ class StaffController extends Controller
 						$prefix = GlCode::where('glcode_id', '134')->pluck('receipt_prefix');
 						$prefix = $prefix[0];
 						$same_xy_receipt += 1;
-						$same_xy_receipt = $prefix . $same_xy_receipt;
+						// $same_xy_receipt = $prefix . $same_xy_receipt;
+
+						$year = date('Y');
+						$year = substr( $year, -2);
+
+						$xy_receipt = str_pad($same_xy_receipt, 4, 0, STR_PAD_LEFT);
+						$xy_receipt = $prefix . $year . $xy_receipt;
 
 						$receipt = [
-							"xy_receipt" => $same_xy_receipt,
+							"xy_receipt" => $xy_receipt,
 							"trans_date" => Carbon::now(),
 							"description" => "General Donation - 慈济",
 							"amount" => $input['other_amount'][$i],
@@ -702,7 +720,7 @@ class StaffController extends Controller
 										 ->where('generaldonation.focusdevotee_id', $input['focusdevotee_id'])
 										 ->where('receipt.glcode_id', 134)
 										 ->GroupBy('generaldonation.generaldonation_id')
-										 ->select('generaldonation.*', 'devotee.chinese_name')
+										 ->select('generaldonation.*', 'devotee.chinese_name', 'receipt.cancelled_date')
 										 ->orderBy('generaldonation.generaldonation_id', 'desc')
 										 ->get();
 
@@ -766,7 +784,7 @@ class StaffController extends Controller
 
 			if($samefamily_no > 6)
 			{
-				$loop = intval(round($samefamily_no / 6, 0));
+				$loop = intval($samefamily_no / 6, 0);
 				$modulus = $samefamily_no % 6;
 			}
 
@@ -868,7 +886,12 @@ class StaffController extends Controller
 						$prefix = GlCode::where('glcode_id', '119')->pluck('receipt_prefix');
 						$prefix = $prefix[0];
 						$same_xy_receipt += 1;
-						$same_xy_receipt = $prefix . $same_xy_receipt;
+
+						$year = date('Y');
+						$year = substr( $year, -2);
+
+						$xy_receipt = str_pad($same_xy_receipt, 4, 0, STR_PAD_LEFT);
+						$xy_receipt = $prefix . $year . $xy_receipt;
 
 						$devotee = Devotee::find($input['devotee_id'][$i]);
 
@@ -883,7 +906,7 @@ class StaffController extends Controller
 					  }
 
 						$receipt = [
-							"xy_receipt" => $same_xy_receipt,
+							"xy_receipt" => $xy_receipt,
 							"trans_date" => Carbon::now(),
 							"description" => "General Donation - 香油",
 							"amount" => $input['amount'][$i],
@@ -919,7 +942,12 @@ class StaffController extends Controller
 						$prefix = GlCode::where('glcode_id', '119')->pluck('receipt_prefix');
 						$prefix = $prefix[0];
 						$same_xy_receipt += 1;
-						$same_xy_receipt = $prefix . $same_xy_receipt;
+
+						$year = date('Y');
+						$year = substr( $year, -2);
+
+						$xy_receipt = str_pad($same_xy_receipt, 4, 0, STR_PAD_LEFT);
+						$xy_receipt = $prefix . $year . $xy_receipt;
 
 						$devotee = Devotee::find($input['other_devotee_id'][$i]);
 
@@ -934,7 +962,7 @@ class StaffController extends Controller
 					  }
 
 						$receipt = [
-							"xy_receipt" => $same_xy_receipt,
+							"xy_receipt" => $xy_receipt,
 							"trans_date" => Carbon::now(),
 							"description" => "General Donation - 香油",
 							"amount" => $input['other_amount'][$i],
@@ -963,7 +991,7 @@ class StaffController extends Controller
 								->where('generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
 								->GroupBy('generaldonation.generaldonation_id')
 								->whereIn('receipt.glcode_id', array(119, 112))
-								->select('generaldonation.*', 'devotee.chinese_name')
+								->select('generaldonation.*', 'devotee.chinese_name','receipt.cancelled_date')
 								->orderBy('generaldonation.generaldonation_id', 'desc')
 								->get();
 
@@ -1025,9 +1053,9 @@ class StaffController extends Controller
 							 ->select('chinese_name', 'devotee_id')
 							 ->get();
 
-		if($samefamily_no > 8)
+		if($samefamily_no > 6)
 		{
-			$loop = intval(round($samefamily_no / 6, 0));
+			$loop = intval($samefamily_no / 6, 0);
 			$modulus = $samefamily_no % 6;
 		}
 
@@ -1383,7 +1411,50 @@ class StaffController extends Controller
 
 				$cancelled_date = \Carbon\Carbon::parse($cancellation_receipts[0]->cancelled_date)->format("d/m/Y");
 
-				// Session::put('cancelled_date', $cancelled_date);
+				$focus_devotee = Session::get('focus_devotee');
+
+				$receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+										->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+										->where('generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+										->whereIn('receipt.glcode_id', array(119,112))
+										->GroupBy('generaldonation.generaldonation_id')
+										->select('generaldonation.*', 'devotee.chinese_name', 'receipt.cancelled_date')
+										->orderBy('generaldonation.generaldonation_id', 'desc')
+										->get();
+
+				if(count($receipts) > 0)
+				{
+					for($i = 0; $i < count($receipts); $i++)
+					{
+						$data = Receipt::where('generaldonation_id', $receipts[$i]->generaldonation_id)->pluck('xy_receipt');
+						$receipt_count = count($data);
+						$receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+					}
+				}
+
+				$ciji_receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+												 ->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+												 ->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
+												 ->where('receipt.glcode_id', 134)
+												 ->GroupBy('generaldonation.generaldonation_id')
+												 ->select('generaldonation.*', 'devotee.chinese_name', 'receipt.cancelled_date')
+												 ->orderBy('generaldonation.generaldonation_id', 'desc')
+												 ->get();
+
+
+
+				if(count($ciji_receipts) > 0)
+				{
+					for($i = 0; $i < count($ciji_receipts); $i++)
+					{
+						$data = Receipt::where('generaldonation_id', $ciji_receipts[$i]->generaldonation_id)->pluck('xy_receipt');
+						$receipt_count = count($data);
+						$ciji_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+					}
+				}
+
+				Session::put('receipts', $receipts);
+				Session::put('ciji_receipts', $ciji_receipts);
 				// Session::put('first_name', $cancellation_receipts[0]->first_name);
 				// Session::put('last_name', $cancellation_receipts[0]->last_name);
 				$request->session()->flash('success', 'The transaction is successfully cancelled.');
@@ -1620,19 +1691,50 @@ class StaffController extends Controller
 					}
 				}
 
-				// if($cancellation)
-				// {
-				// 	$receiptdetail = Receipt::join('user', 'user.id', '=', 'receipt.cancelled_by')
-				// 									->where('receipt.receipt_id', $input['receipt_id'])
-				// 									->select('receipt.*', 'user.first_name', 'user.last_name')
-				// 									->get();
-				//
-				// 	$cancelled_date = \Carbon\Carbon::parse($receiptdetail[0]->cancelled_date)->format("d/m/Y");
-				//
-				// 	Session::put('cancelled_date', $cancelled_date);
-				// 	Session::put('first_name', $receiptdetail[0]->first_name);
-				// 	Session::put('last_name', $receiptdetail[0]->last_name);
-				// }
+				$focus_devotee = Session::get('focus_devotee');
+
+				$receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+				            ->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+				            ->where('generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+				            ->whereIn('receipt.glcode_id', array(119,112))
+				            ->GroupBy('generaldonation.generaldonation_id')
+				            ->select('generaldonation.*', 'devotee.chinese_name', 'receipt.cancelled_date')
+				            ->orderBy('generaldonation.generaldonation_id', 'desc')
+				            ->get();
+
+				if(count($receipts) > 0)
+				{
+				  for($i = 0; $i < count($receipts); $i++)
+				  {
+				    $data = Receipt::where('generaldonation_id', $receipts[$i]->generaldonation_id)->pluck('xy_receipt');
+				    $receipt_count = count($data);
+				    $receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+				  }
+				}
+
+				$ciji_receipts = GeneralDonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
+				                 ->leftjoin('receipt', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+				                 ->where('generaldonation.focusdevotee_id', $focus_devotee[0]->devotee_id)
+				                 ->where('receipt.glcode_id', 134)
+				                 ->GroupBy('generaldonation.generaldonation_id')
+				                 ->select('generaldonation.*', 'devotee.chinese_name', 'receipt.cancelled_date')
+				                 ->orderBy('generaldonation.generaldonation_id', 'desc')
+				                 ->get();
+
+
+
+				if(count($ciji_receipts) > 0)
+				{
+				  for($i = 0; $i < count($ciji_receipts); $i++)
+				  {
+				    $data = Receipt::where('generaldonation_id', $ciji_receipts[$i]->generaldonation_id)->pluck('xy_receipt');
+				    $receipt_count = count($data);
+				    $ciji_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+				  }
+				}
+
+				Session::put('receipts', $receipts);
+				Session::put('ciji_receipts', $ciji_receipts);
 
 				return response()->json(array(
 				  'receipt' => $receipt
@@ -2119,7 +2221,7 @@ class StaffController extends Controller
 
 		if($samefamily_no > 6)
 		{
-			$loop = intval(round($samefamily_no / 6, 0));
+			$loop = intval($samefamily_no / 6, 0);
 			$modulus = $samefamily_no % 6;
 		}
 
@@ -2133,6 +2235,8 @@ class StaffController extends Controller
 		{
 			$loop = $loop + 1;
 		}
+
+		// dd($loop);
 
 		$count_familycode = 0;
 

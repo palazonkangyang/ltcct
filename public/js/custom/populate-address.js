@@ -126,7 +126,7 @@ $(function() {
 
     if(value == "home" || value == "office") {
       $(this).closest("div.form-group").find(".address-data").attr('readonly', true);
-      $(this).closest("div.form-group").find("input[name='address_data[]']").val('Please fill address on the right');
+      $(this).closest("div.form-group").find("input[name='address_data[]']").attr('placeholder', 'Please fill address on the right');
       $(this).closest("div.form-group").find(".address-data").attr('title', 'Please fill address on the right');
     }
 
@@ -156,7 +156,7 @@ $(function() {
 
     var value = $(this).val();
 
-    $(this).val(value);
+    $(this).attr('placehoder', value);
     $(this).attr('title', value);
   });
 

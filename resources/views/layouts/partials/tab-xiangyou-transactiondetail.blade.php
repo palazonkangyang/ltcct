@@ -30,14 +30,14 @@
     <div class="col-md-6">
     </div><!-- end col-md-6 -->
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="trans_wrap1">
       <div class="form-group">
         <br />
         <h5 style="font-weight: bold">TRANSACTION & RECEIPT VIEWER - 交易详情</h5>
       </div><!-- end form-group -->
     </div><!-- end col-md-12 -->
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="trans_wrap2">
 
       <div class="col-md-6">
         <div class="form-group">
@@ -90,7 +90,7 @@
 
     <hr>
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="trans_wrap3">
 
       <table class="table table-bordered table-striped" id="transaction-table">
        <thead>
@@ -116,13 +116,13 @@
 
    </div><!-- end col-md-12 -->
 
-   <div class="col-md-12">
+   <div class="col-md-12" id="trans_wrap4">
      <p class="text-center text-danger" id="transaction-text">
 
      </p>
    </div><!-- end col-md-12 -->
 
-   <div class="col-md-12">
+   <div class="col-md-12" id="trans_wrap5">
      <div class="form-group">
 
        <div class="col-md-6">
@@ -140,7 +140,7 @@
      </div><!-- end form-group -->
    </div><!-- end col-md-12 -->
 
-   <div class="col-md-12">
+   <div class="col-md-12" id="trans_wrap6">
      <div class="form-group">
 
        <label>Type of Receipt Printing :</label>
@@ -169,7 +169,7 @@
      class="form-horizontal form-bordered" id="">
      {!! csrf_field() !!}
 
-   <div class="col-md-12">
+   <div class="col-md-12" id="trans_wrap7">
      <br />
      <div class="form-group">
        <label class="col-md-2">Authorized Password</label>
@@ -186,7 +186,7 @@
     <br />
    </div><!-- end col-md-12 -->
 
-   <div class="col-md-12">
+   <div class="col-md-12" id="trans_wrap8">
 
     <div class="form-group">
      <input type="hidden" name="transaction_no" value="" id="hidden_transaction_no">

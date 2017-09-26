@@ -141,7 +141,7 @@ $(function() {
 
     var value = $(this).val();
 
-    $(this).val(value);
+    $(this).attr('placeholder', value);
     $(this).attr('title', value);
   });
 

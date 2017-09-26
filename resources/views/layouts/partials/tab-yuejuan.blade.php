@@ -51,12 +51,12 @@
                 @if(\Carbon\Carbon::parse($yuejuan_same_focusdevotee[0]->lasttransaction_at)->lt($date))
                 <span style="color: #a5a5a5">
                   <input type="hidden" name="member_id[]" value="{{ $yuejuan_same_focusdevotee[0]->member_id }}" class="member_id" id="member-hidden">
-                  {{ $yuejuan_same_focusdevotee[0]->member_id }}
+                  {{ $yuejuan_same_focusdevotee[0]->member }}
                 </span>
                 @else
                 <span>
                   <input type="hidden" name="member_id[]" value="{{ $yuejuan_same_focusdevotee[0]->member_id }}" class="member_id" id="member-hidden">
-                  {{ $yuejuan_same_focusdevotee[0]->member_id }}
+                  {{ $yuejuan_same_focusdevotee[0]->member }}
                 </span>
                 @endif
               </td>
@@ -138,12 +138,12 @@
                 @if(\Carbon\Carbon::parse($yj_family->lasttransaction_at)->lt($date))
                 <span style="color: #a5a5a5">
                   <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}" class="member_id" id="member-hidden">
-                  {{ $yj_family->member_id }}
+                  {{ $yj_family->member }}
                 </span>
                 @else
                 <span>
                   <input type="hidden" name="member_id[]" value="{{ $yj_family->member_id }}" class="member_id" id="member-hidden">
-                  {{ $yj_family->member_id }}
+                  {{ $yj_family->member }}
                 </span>
                 @endif
               </td>
@@ -261,12 +261,12 @@
                   @if(\Carbon\Carbon::parse($list->lasttransaction_at)->lt($date))
                   <span style="color: #a5a5a5">
                     <input type="hidden" name="member_id[]" value="{{ $list->member_id }}" class="member_id">
-                    {{ $list->member_id }}
+                    {{ $list->member }}
                   </span>
                   @else
                   <span>
                     <input type="hidden" name="member_id[]" value="{{ $list->member_id }}" class="member_id">
-                    {{ $list->member_id }}
+                    {{ $list->member }}
                   </span>
                   @endif
                 </td>

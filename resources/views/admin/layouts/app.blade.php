@@ -150,7 +150,7 @@
                                                           <a href="/paid/manage-paid" class="hylink">Paid</a>
                                                       </li>
                                                       <li>
-                                                          <a href="#" class="hylink">Peddy Cash</a>
+                                                          <a href="#" class="hylink">Petty Cash</a>
                                                       </li>
                                                   </ul>
                                               </div>
@@ -160,7 +160,7 @@
                                                           <h3>Setting</h3>
                                                       </li>
                                                       <li>
-                                                          <a href="#" class="hylink">Fiscal Year</a>
+                                                          <a href="/income/income-lists" class="hylink">Fiscal Year</a>
                                                       </li>
                                                       <li>
                                                           <a href="/job/manage-job" class="hylink">Jobs</a>

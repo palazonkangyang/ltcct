@@ -30,15 +30,6 @@
 
   @endphp
 
-	@if($samefamily_no > 8)
-		@php
-		$receipt_count = $samefamily_no % 6;
-		$receipt_count = $receipt_count + 6;
-		@endphp
-	@else
-		@php $receipt_count = 6; @endphp
-	@endif
-
   @if($print_format == 'hj')
 
   @for($j = 0; $j < $loop; $j++)
@@ -73,7 +64,9 @@
 						@if($count_familycode == 1)
 						<div class="label-right2">{{ $receipts[0]->xy_receipt }}</div><!-- end label-right -->
 		        @elseif($count > 6)
-		          <div class="label-right2">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
+		          <div class="label-right2">{{ $receipts[0]->xy_receipt }} - <br />
+								{{ $receipts[$samefamily_no - 1]->xy_receipt }}
+							</div><!-- end label-right -->
 		        @else
 		          <div class="label-right2">{{ $receipts[$count_family8]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
 		        @endif
@@ -90,7 +83,7 @@
 
 		      <div class="label-wrapper">
 		        <div class="label-left">Paid By <br /> (付款者)</div><!-- end label-left -->
-		        <div class="label-right">{{ $receipts[0]->chinese_name }} (D - {{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
+		        <div class="label-right">{{ $receipts[0]->chinese_name }} ({{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
 		      </div><!-- end label-wrapper -->
 
 		      <div class="label-wrapper2">
@@ -139,8 +132,8 @@
 		        <thead>
 		          <tr>
 		            <th width="1%">S/No</th>
+								<th width="5%">Devotee</th>
 		            <th width="15%">Chinese Name</th>
-		            <th width="5%">Devotee</th>
                 <th width="5%">Member</th>
 		            <th width="16%">Paid for</th>
 		            <th width="5%">Receipt</th>
@@ -182,8 +175,8 @@
 
 		          <tr>
 		            <td>{{ $rowno }}</td>
+								<td>{{ $receipts[$i]->devotee_id }}</td>
 		            <td>{{ $receipts[$i]->chinese_name }}</td>
-		            <td>{{ $receipts[$i]->devotee_id }}</td>
                 <td>{{ $receipts[$i]->member_id }}</td>
 		            <td>{{ $receipts[$i]->paid_for }}</td>
 		            <td>{{ $receipts[$i]->xy_receipt }}</td>
@@ -269,7 +262,7 @@
 		      <div class="paidby" style="width: 49mm; float: left;">
 		        <p style="font-weight: bold">Paid By (付款者)</p>
 		        <p>{{ $paid_by[0]->chinese_name }}<br />
-		        D - {{ $paid_by[0]->devotee_id }}</p>
+		        {{ $paid_by[0]->devotee_id }}</p>
 		        <p style="font-weight: bold">No of Set(s) / 份数</p>
 		      </div>
 
@@ -385,8 +378,8 @@
           <thead>
             <tr>
 							<th width="1%">S/No</th>
+							<th width="5%">Devotee</th>
               <th width="15%">Chinese Name</th>
-              <th width="5%">Devotee</th>
               <th width="5%">Member</th>
               <th width="11%">Paid for</th>
               <th width="15%">Receipt</th>
@@ -397,8 +390,8 @@
           <tbody>
             <tr>
               <td>1</td>
+							<td>{{ $receipts[$i]->devotee_id }}</td>
               <td>{{ $receipts[$i]->chinese_name }}</td>
-              <td>{{ $receipts[$i]->devotee_id }}</td>
               <td>{{ $receipts[$i]->member_id }}</td>
               <td>{{ $receipts[$i]->paid_for }}</td>
               <td>{{ $receipts[$i]->xy_receipt }}</td>
@@ -472,7 +465,7 @@
         <div class="paidby" style="width: 49mm; float: left;">
           <p style="font-weight: bold">Paid By (付款者)</p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
-          D - {{ $paid_by[0]->devotee_id }}</p>
+          {{ $paid_by[0]->devotee_id }}</p>
           <p style="font-weight: bold">No of Set(s) / 份数</p>
         </div>
 
@@ -527,7 +520,7 @@
 
         <div class="label-wrapper">
           <div class="label-left">Paid By <br /> (付款者)</div><!-- end label-left -->
-          <div class="label-right">{{ $receipts[0]->chinese_name }} (D - {{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
+          <div class="label-right">{{ $receipts[0]->chinese_name }} ({{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-wrapper2">
@@ -561,10 +554,9 @@
           <thead>
             <tr>
 							<th width="1%">S/No</th>
+							<th width="5%">Devotee</th>
               <th width="15%">Chinese Name</th>
-              <th width="5%">Devotee</th>
               <th width="5%">Member</th>
-              <th width="37%">Address</th>
               <th width="11%">Paid For</th>
               <th width="12%">Receipt</th>
               <th width="10%">Amount</th>
@@ -574,18 +566,9 @@
           <tbody>
             <tr>
               <td>1</td>
+							<td>{{ $receipt->devotee_id }}</td>
               <td>{{ $receipt->chinese_name }}</td>
-              <td>{{ $receipt->devotee_id }}</td>
               <td>{{ $receipt->member_id }}</td>
-              <td>
-                @if(isset($receipt->oversea_addr_in_chinese))
-                  {{ $receipt->oversea_addr_in_chinese }}
-                @elseif(isset($receipt->address_unit1) && isset($receipt->address_unit2))
-                  {{ $receipt->address_houseno }}, #{{ $receipt->address_unit1 }}-{{ $receipt->address_unit2 }}, {{ $receipt->address_street }}, {{ $receipt->address_postal }}
-                @else
-                  {{ $receipt->address_houseno }}, {{ $receipt->address_street }}, {{ $receipt->address_postal }}
-                @endif
-              </td>
               <td>{{ $receipt->paid_for }}</td>
               <td>{{ $receipt->xy_receipt }}</td>
               <td>{{ number_format( $receipt->amount, 2) }}</td>
@@ -664,7 +647,7 @@
         <div class="" style="width: 49mm; float: left;">
           <p style="font-size: 12px; font-weight: bold">Paid By (付款者)</p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
-          D - {{ $paid_by[0]->devotee_id }}</p>
+          {{ $paid_by[0]->devotee_id }}</p>
           <p style="font-size: 12px; font-weight: bold">No of Set(s) / 份数</p>
         </div>
 
@@ -695,6 +678,3 @@
 
 </body>
 </html>
-
-<script type="text/javascript">
-</script>

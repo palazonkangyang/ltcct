@@ -34,6 +34,15 @@ $(function() {
       dataType: 'json',
       success: function(response)
       {
+        $("#trans_wrap1").show();
+  			$("#trans_wrap2").show();
+  			$("#trans_wrap3").show();
+  			$("#trans_wrap4").show();
+  			$("#trans_wrap5").show();
+  			$("#trans_wrap6").show();
+  			$("#trans_wrap7").show();
+  			$("#trans_wrap8").show();
+
         $('#transaction-table tbody').empty();
 
         if(response.transaction.length != 0)
@@ -218,6 +227,15 @@ $(function() {
 
     if (validationFailed)
     {
+      $("#trans_wrap1").hide();
+			$("#trans_wrap2").hide();
+			$("#trans_wrap3").hide();
+			$("#trans_wrap4").hide();
+			$("#trans_wrap5").hide();
+			$("#trans_wrap6").hide();
+			$("#trans_wrap7").hide();
+			$("#trans_wrap8").hide();
+
       var errorMsgs = '';
 
       for(var i = 0; i < count; i++)
@@ -251,6 +269,15 @@ $(function() {
       dataType: 'json',
       success: function(response)
       {
+        $("#trans_wrap1").show();
+  			$("#trans_wrap2").show();
+  			$("#trans_wrap3").show();
+  			$("#trans_wrap4").show();
+  			$("#trans_wrap5").show();
+  			$("#trans_wrap6").show();
+  			$("#trans_wrap7").show();
+  			$("#trans_wrap8").show();
+
         $('#transaction-table tbody').empty();
 
         if(response.msg != null)

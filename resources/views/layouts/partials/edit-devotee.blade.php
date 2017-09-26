@@ -161,7 +161,7 @@
 													 Check Family Code
 											 </button>
 
-											 @if(Auth::user()->role == 5)
+											 @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 5)
 											 <a href="/admin/add-address" class="btn default">Add New Address</a>
 											 @endif
 										 </div><!-- end col-md-12 -->
@@ -329,7 +329,7 @@
 						   </div><!-- end col-md-3 -->
 
 						   <div class="col-md-3">
-						     <label>Member ID : {{ $focus_devotee[0]->member_id }}</label>
+						     <label>Member ID : {{ $focus_devotee[0]->member }}</label>
 						   </div><!-- end col-md-3 -->
 
 						   <div class="col-md-3">
@@ -355,7 +355,7 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-4">Title</label>
+	 									<label class="col-md-4">Title *</label>
 	 									<div class="col-md-8">
 	 											<select class="form-control" name="title" id="edit_title">
 	 													<option value="mr" <?php if ($focus_devotee[0]->title == "mr") echo "selected"; ?>>Mr</option>
@@ -368,7 +368,7 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-4">Chinese Name</label>
+	 									<label class="col-md-4">Chinese Name *</label>
 	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="chinese_name" value="{{ $focus_devotee[0]->chinese_name }}"
 	 													id="edit_chinese_name">
@@ -387,7 +387,7 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-4">Contact #</label>
+	 									<label class="col-md-4">Contact # *</label>
 	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="contact" value="{{ $focus_devotee[0]->contact }}" id="edit_contact">
 	 									</div><!-- end col-md-8 -->
@@ -405,7 +405,7 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-4">Address - House No</label>
+	 									<label class="col-md-4">Address - House No *</label>
 	 									<div style='width:16.66667%;float:left; padding-left: 15px;'>
 	 											<input type="text" class="form-control" name="address_houseno" value="{{ $focus_devotee[0]->address_houseno }}"
 	 													id="edit_address_houseno">
@@ -428,7 +428,7 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-4">Address - Street</label>
+	 									<label class="col-md-4">Address - Street *</label>
 	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="address_street"
 	 													value="{{ $focus_devotee[0]->address_street }}" id="edit_address_street">
@@ -438,7 +438,7 @@
 
 	 							<div class="form-group">
 
-	 									<label class="col-md-4">Address - Postal</label>
+	 									<label class="col-md-4">Address - Postal *</label>
 	 									<div class="col-md-8">
 	 											<input type="text" class="form-control" name="address_postal" value="{{ $focus_devotee[0]->address_postal }}"
 	 													id="edit_address_postal">
@@ -473,7 +473,7 @@
 	 												Check Family Code
 	 										</button>
 
-											@if(Auth::user()->role == 5)
+											@if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 5)
 											<a href="/admin/add-address" class="btn default">Add New Address</a>
 											@endif
 	 									</div><!-- end col-md-12 -->
@@ -622,7 +622,7 @@
 
 									<div class="form-group">
 
-											<label class="col-md-4">Mailer</label>
+											<label class="col-md-4">Mailer *</label>
 											<div class="col-md-3">
 													<select class="form-control" name="mailer">
 														<option value="No" <?php if ($focus_devotee[0]->mailer == "No") echo "selected"; ?>>No</option>
@@ -972,7 +972,7 @@
 										@if($optAddress->type == "home" || $optAddress->type == "office")
 
 										<div class='col-md-6' style='padding-right: 0;'>
-											<input type="text" class="form-control edit-address-data" name="address_data[]" value="Please fill address on the right"
+											<input type="text" class="form-control edit-address-data" name="address_data[]" placeholder="Please fill address on the right"
 												title="Please fill address on the right" readonly>
 										</div><!-- end col-md-6 -->
 
@@ -1208,7 +1208,7 @@
 								<h5>Local Address</h5>
 
 								<div class="form-group">
-									<label class="col-md-4 local-address">House No</label>
+									<label class="col-md-4 local-address">House No *</label>
 									<div style='width:16.66667%;float:left; padding-left: 15px;'>
 											<input type="text" class="form-control" name="populate_houseno"
 													value="{{ old('populate_houseno') }}" id="edit_populate_houseno">
@@ -1230,7 +1230,7 @@
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-4 local-address">Street</label>
+									<label class="col-md-4 local-address">Street *</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_street"
 													value="{{ old('populate_address_street') }}" id="edit_populate_street">
@@ -1238,7 +1238,7 @@
 								</div><!-- end form-group -->
 
 								<div class="form-group">
-									<label class="col-md-4 local-address">Postal</label>
+									<label class="col-md-4 local-address">Postal *</label>
 									<div class="col-md-8">
 											<input type="text" class="form-control" name="populate_postal"
 													value="{{ old('populate_postal') }}" id="edit_populate_postal">
@@ -1256,7 +1256,7 @@
 								<div class="form-group">
 									<label class="col-md-4 local-address">Oversea Addr in Chinese</label>
 									<div class="col-md-8">
-											<input type="text" class="form-control" name="populate_oversea_addr_in_china"
+											<input type="text" class="form-control" name="populate_oversea_addr_in_china" autocomplete="nope"
 													value="{{ old('populate_oversea_addr_in_china') }}" id="edit_populate_oversea_addr_in_china">
 									</div><!-- end col-md-8 -->
 								</div><!-- end form-group -->
@@ -1376,7 +1376,7 @@
                   <label class="col-md-3"></label>
                   <label class="col-md-5 control-label">Authorized Password</label>
                   <div class="col-md-4">
-                    <input type="password" class="form-control" name="authorized_password" id="authorized_password">
+                    <input type="password" class="form-control" name="authorized_password" id="authorized_password" autocomplete="new-password">
                   </div><!-- end col-md-4 -->
                 </div><!-- end form-group -->
 

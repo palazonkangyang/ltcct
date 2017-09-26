@@ -9,6 +9,7 @@ class Member extends Model
     protected $primaryKey = "member_id";
 
     protected $fillable = [
+        'member',
         'introduced_by1',
         'introduced_by2',
         'approved_date',

@@ -50,9 +50,9 @@
                   </td>
                   <td>
                     @if(\Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->lasttransaction_at)->lt($date))
-                    <span style="color: #a5a5a5">{{ $xianyou_same_focusdevotee[0]->member_id }}</span>
+                    <span style="color: #a5a5a5">{{ $xianyou_same_focusdevotee[0]->member }}</span>
                     @else
-                    <span>{{ $xianyou_same_focusdevotee[0]->member_id }}</span>
+                    <span>{{ $xianyou_same_focusdevotee[0]->member }}</span>
                     @endif
                   </td>
                   <td>
@@ -118,9 +118,9 @@
                   </td>
                   <td>
                     @if(\Carbon\Carbon::parse($xs_family->lasttransaction_at)->lt($date))
-                    <span style="color: #a5a5a5">{{ $xs_family->member_id }}</span>
+                    <span style="color: #a5a5a5">{{ $xs_family->member }}</span>
                     @else
-                    <span>{{ $xs_family->member_id }}</span>
+                    <span>{{ $xs_family->member }}</span>
                     @endif
                   </td>
                   <td>
@@ -229,9 +229,9 @@
                   </td>
                   <td>
                     @if(\Carbon\Carbon::parse($list->lasttransaction_at)->lt($date))
-                    <span style="color: #a5a5a5">{{ $list->member_id }}</span>
+                    <span style="color: #a5a5a5">{{ $list->member }}</span>
                     @else
-                    <span>{{ $list->member_id }}</span>
+                    <span>{{ $list->member }}</span>
                     @endif
                   </td>
                   <td>
@@ -510,7 +510,11 @@
                   <tbody>
                       @foreach($receipts as $receipt)
                       <tr>
+                          @if(isset($receipt->cancelled_date))
+                          <td class="text-danger">{{ $receipt->receipt_no }}</td>
+                          @else
                           <td>{{ $receipt->receipt_no }}</td>
+                          @endif
                           <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
                           <td>{{ $receipt->trans_no }}</td>
                           <td>{{ $receipt->description }}</td>

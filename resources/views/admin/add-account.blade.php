@@ -106,7 +106,7 @@
                                                 </div><!-- end form-group -->
 
                                                 <div class="form-group">
-                                                    <label>User Name</label>
+                                                    <label>User Name *</label>
 
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
@@ -120,7 +120,7 @@
                                                 </div><!-- end form-group -->
 
                                                 <div class="form-group">
-                                                    <label>Password</label>
+                                                    <label>Password *</label>
 
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
@@ -132,7 +132,7 @@
                                                 </div><!-- end form-group -->
 
                                                 <div class="form-group">
-                                                    <label>Confirm Password</label>
+                                                    <label>Confirm Password *</label>
 
                                                     <div class="input-group">
                                                         <span class="input-group-addon">

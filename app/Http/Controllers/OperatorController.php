@@ -38,7 +38,7 @@ class OperatorController extends Controller
 		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 								->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-        				->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+        				->select('devotee.*', 'member.paytill_date', 'member.member', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 								->orderBy('devotee.devotee_id', 'desc')
 								->GroupBy('devotee.devotee_id')
         				->get();
@@ -49,15 +49,16 @@ class OperatorController extends Controller
 								->whereNotNull('devotee.member_id')
 								->whereNull('deceased_year')
 								->orderBy('devotee_id', 'asc')
-        				->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+        				->select('devotee.*', 'member.paytill_date', 'member.member', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 								->orderBy('devotee.member_id', 'desc')
 								->GroupBy('devotee.devotee_id')
         				->get();
 
     $deceased_lists = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+											->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 											->whereNotNull('deceased_year')
 											->orderBy('devotee_id', 'desc')
-        							->select('devotee.*')
+        							->select('devotee.*', 'member.member')
         							->addSelect('familycode.familycode')
         							->get();
 
@@ -103,16 +104,17 @@ class OperatorController extends Controller
 							 ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 							 ->leftjoin('dialect', 'devotee.dialect', '=', 'dialect.dialect_id')
 							 ->select('devotee.*', 'dialect.dialect_name', 'familycode.familycode', 'member.introduced_by1',
-							 	'member.introduced_by2', 'member.approved_date', 'member.paytill_date')
+							 	'member.member', 'member.introduced_by2', 'member.approved_date', 'member.paytill_date')
 							 ->where('devotee.devotee_id', $devotee_id)
 							 ->get();
 
 
 		$devotee_lists = Devotee::join('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+										 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 					 		       ->where('devotee.familycode_id', $devotee[0]->familycode_id)
 					 		       ->where('devotee_id', '!=', $devotee[0]->devotee_id)
 					 		       ->orderBy('devotee_id', 'asc')
-					 		       ->select('devotee.*', 'familycode.familycode')
+					 		       ->select('devotee.*', 'member.member', 'familycode.familycode')
 					 		       ->get();
 
 		if(isset($devotee[0]->dob))
@@ -140,7 +142,7 @@ class OperatorController extends Controller
                            ->where('setting_generaldonation.address_code', '=', 'same')
                            ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
 													 ->where('setting_generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
-                           ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+                           ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 													 ->GroupBy('devotee.devotee_id')
                            ->get();
 
@@ -152,7 +154,7 @@ class OperatorController extends Controller
 			                           ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
 																 ->where('setting_generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
 																 ->where('setting_generaldonation.devotee_id', '=', $devotee[0]->devotee_id)
-			                           ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+			                           ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 																 ->GroupBy('devotee.devotee_id')
 			                           ->get();
 
@@ -164,7 +166,7 @@ class OperatorController extends Controller
 											          ->where('setting_generaldonation.address_code', '=', 'different')
 											          ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
 											          ->where('setting_generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
-											          ->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+											          ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 											          ->GroupBy('devotee.devotee_id')
 											          ->get();
 
@@ -177,7 +179,7 @@ class OperatorController extends Controller
 														->where('setting_generaldonation.address_code', '=', 'same')
 														->where('setting_generaldonation.yuejuan_id', '=', '1')
 														->where('setting_generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
-														->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+														->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 														->GroupBy('devotee.devotee_id')
 														->get();
 
@@ -189,7 +191,7 @@ class OperatorController extends Controller
 																 ->where('setting_generaldonation.yuejuan_id', '=', '1')
 																 ->where('setting_generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
 																 ->where('setting_generaldonation.devotee_id', '=', $devotee[0]->devotee_id)
-																 ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+																 ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 																 ->GroupBy('devotee.devotee_id')
 																 ->get();
 
@@ -201,7 +203,7 @@ class OperatorController extends Controller
 																->where('setting_generaldonation.address_code', '=', 'different')
 																->where('setting_generaldonation.yuejuan_id', '=', '1')
 																->where('setting_generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
-																->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+																->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 																->GroupBy('devotee.devotee_id')
 																->get();
 
@@ -217,7 +219,7 @@ class OperatorController extends Controller
 																	->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
 																	->where('devotee.familycode_id', $devotee[0]->familycode_id)
 																	->where('setting_generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
-																	->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+																	->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
 																	->GroupBy('devotee.devotee_id')
 																	->get();
 
@@ -226,7 +228,7 @@ class OperatorController extends Controller
 															->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 															->where('devotee.familycode_id', $devotee[0]->familycode_id)
 															->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
-															->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+															->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 															->GroupBy('devotee.devotee_id')
 															->get();
 
@@ -249,7 +251,7 @@ class OperatorController extends Controller
 														->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 														->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
 														->where('devotee.familycode_id', $devotee[0]->familycode_id)
-														->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+														->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 														->GroupBy('devotee.devotee_id')
 														->get();
 
@@ -272,7 +274,7 @@ class OperatorController extends Controller
 															->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 															->where('devotee.devotee_id', $devotee[0]->devotee_id)
 															->where('setting_generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
-															->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+															->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
 															->GroupBy('devotee.devotee_id')
 												     	->get();
 		}
@@ -283,7 +285,7 @@ class OperatorController extends Controller
 															->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 															->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 															->where('devotee.devotee_id', $devotee[0]->devotee_id)
-															->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+															->select('devotee.*', 'familycode.familycode', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 												     	->get();
 
 			$xianyou_focusdevotee[0]->xiangyou_ciji_id = 0;
@@ -296,7 +298,7 @@ class OperatorController extends Controller
 											         ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 											         ->where('setting_generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
 											         ->where('setting_generaldonation.address_code', '=', 'different')
-											         ->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+											         ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
 											         ->GroupBy('devotee.devotee_id')
 											         ->get();
 
@@ -392,7 +394,7 @@ class OperatorController extends Controller
 								->where('generaldonation.focusdevotee_id', '=', $devotee[0]->devotee_id)
 								->whereIn('receipt.glcode_id', array(119,112))
 								->GroupBy('generaldonation.generaldonation_id')
-								->select('generaldonation.*', 'devotee.chinese_name')
+								->select('generaldonation.*', 'devotee.chinese_name', 'receipt.cancelled_date')
 								->orderBy('generaldonation.generaldonation_id', 'desc')
 								->get();
 
@@ -411,7 +413,7 @@ class OperatorController extends Controller
 										 ->where('generaldonation.focusdevotee_id', $devotee[0]->devotee_id)
 										 ->where('receipt.glcode_id', 134)
 										 ->GroupBy('generaldonation.generaldonation_id')
-										 ->select('generaldonation.*', 'devotee.chinese_name')
+										 ->select('generaldonation.*', 'devotee.chinese_name', 'receipt.cancelled_date')
 										 ->orderBy('generaldonation.generaldonation_id', 'desc')
 										 ->get();
 
@@ -611,7 +613,6 @@ class OperatorController extends Controller
 	  ));
 	}
 
-
 	// Add New Devotee
 	public function postAddDevotee(Request $request)
 	{
@@ -691,7 +692,12 @@ class OperatorController extends Controller
 				    $approveNewDate = $input['approved_date'];
 				  }
 
+					$member_id = Member::all()->last()->member_id;
+				  $member_field = str_pad($member_id + 1, 5, 0, STR_PAD_LEFT);
+					$member_field = "8" . $member_field;
+
 				  $data = [
+						"member" => $member_field,
 				    "introduced_by1" => $input['introduced_by1'],
 				    "introduced_by2" => $input['introduced_by2'],
 				    "approved_date" => $approveNewDate
@@ -736,8 +742,11 @@ class OperatorController extends Controller
 				{
 				  // Create Family Code
 				  $familycode_id = FamilyCode::all()->last()->familycode_id;
-				  $new_familycode_id = $familycode_id + 1;
-				  $new_familycode = "F" . $new_familycode_id;
+				  // $new_familycode_id = $familycode_id + 1;
+				  // $new_familycode = "F" . $new_familycode_id;
+
+					$new_familycode_id = str_pad($familycode_id + 1, 5, 0, STR_PAD_LEFT);
+					$new_familycode = "FC" . $new_familycode_id;
 
 				  $familycode_data = [
 				    "familycode" => $new_familycode
@@ -809,8 +818,11 @@ class OperatorController extends Controller
 		  {
 		    // Create Family Code
 		    $familycode_id = FamilyCode::all()->last()->familycode_id;
-		    $new_familycode_id = $familycode_id + 1;
-		    $new_familycode = "F" . $new_familycode_id;
+		    // $new_familycode_id = $familycode_id + 1;
+		    // $new_familycode = "F" . $new_familycode_id;
+
+				$new_familycode_id = str_pad($familycode_id + 1, 5, 0, STR_PAD_LEFT);
+				$new_familycode = "FC" . $new_familycode_id;
 
 			  $familycode_data = [
 			    "familycode" => $new_familycode
@@ -1308,7 +1320,12 @@ class OperatorController extends Controller
 
 				if(isset($input['introduced_by1']) && isset($input['introduced_by2']))
 				{
+					$member_id = Member::all()->last()->member_id;
+					$member_field = str_pad($member_id + 1, 5, 0, STR_PAD_LEFT);
+					$member_field = "8" . $member_field;
+
 					$data = [
+						'member' => $member_field,
 					  "introduced_by1" => $input['introduced_by1'],
 					  "introduced_by2" => $input['introduced_by2'],
 					  "approved_date" => $approveNewDate,
@@ -1468,7 +1485,7 @@ class OperatorController extends Controller
 			 $devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 			             ->leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 									 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-			             ->select('devotee.*', 'familycode.familycode', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date',
+			             ->select('devotee.*', 'familycode.familycode', 'member.member', 'member.introduced_by1', 'member.introduced_by2', 'member.approved_date',
 									 'specialremarks.devotee_id as specialremarks_devotee_id')
 			             ->where('devotee.devotee_id', $input['devotee_id'])
 									 ->GroupBy('devotee.devotee_id')
@@ -2124,6 +2141,64 @@ class OperatorController extends Controller
 		));
 	}
 
+	// public function getSearchAddressHouseNo(Request $request)
+	// {
+	// 	$address_houseno = $_GET['address_houseno'];
+	//
+	// 	$address = TranslationStreet::where('address_houseno', $address_houseno)->first();
+	//
+	// 	return response()->json(array(
+	// 		'address' => $address
+	// 	));
+	// }
+
+	public function getCheckDevotee(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		if(isset($input['address_houseno']))
+		{
+			if(isset($input['address_unit1']))
+			{
+				$result = Devotee::where('chinese_name', $input['chinese_name'])
+									->where('address_houseno', $input['address_houseno'])
+									->where('address_unit1', $input['address_unit1'])
+									->where('address_unit2', $input['address_unit2'])
+									->where('address_street', $input['address_street'])
+									->where('address_postal', $input['address_postal'])
+									->first();
+			}
+			else
+			{
+				$result = Devotee::where('chinese_name', $input['chinese_name'])
+									->where('address_houseno', $input['address_houseno'])
+									->where('address_street', $input['address_street'])
+									->where('address_postal', $input['address_postal'])
+									->first();
+			}
+		}
+
+		else
+		{
+			$result = Devotee::where('chinese_name', $input['chinese_name'])
+								->where('oversea_addr_in_chinese', $input['oversea_addr_in_chinese'])
+								->first();
+		}
+
+		if($result)
+		{
+			return response()->json(array(
+				'msg' => 'Same Devotee'
+			));
+		}
+
+		else
+		{
+			return response()->json(array(
+				'msg' => 'No Devotee'
+			));
+		}
+	}
 
 	// Delete Devotee
 	public function deleteDevotee(Request $request, $devotee_id)

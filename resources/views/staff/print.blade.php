@@ -22,28 +22,22 @@
 
     $count = count($receipts);
     $familycode = $receipts[0]->familycode_id;
-		$flag_familymorethan8 = 0;
-    $count_family8 = 0;
+    $count_family6 = 0;
     $count_receipt = 0;
     $devotee_count = 0;
     $receipt_no = 0;
+		$rowno = 1;
+		$times = 0;
 
   @endphp
-
-	@if($samefamily_no > 8)
-		@php
-		$receipt_count = $samefamily_no % 6;
-		$receipt_count = $receipt_count + 6;
-		@endphp
-	@else
-		@php $receipt_count = 6; @endphp
-	@endif
 
   @if($print_format == 'hj')
 
   @for($j = 0; $j < $loop; $j++)
 
-  @if($receipts[0]->familycode_id == $receipts[$count_family8]->familycode_id)
+  @if($receipts[0]->familycode_id == $receipts[$count_family6]->familycode_id)
+
+		@php $times++; @endphp
 
 	  @if($samefamily_no > 0)
 
@@ -74,9 +68,15 @@
 						@if($count_familycode == 1)
 						<div class="label-right2">{{ $receipts[0]->xy_receipt }}</div><!-- end label-right -->
 		        @elseif($count > 6)
-		        <div class="label-right2">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
+		        <div class="label-right2">
+							{{ $receipts[0]->xy_receipt }} - <br />
+							{{ $receipts[$samefamily_no - 1]->xy_receipt }}
+						</div><!-- end label-right -->
 		        @else
-		        <div class="label-right2">{{ $receipts[$count_family8]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
+		        <div class="label-right2">
+							 {{ $receipts[$count_family6]->xy_receipt }} - <br />
+							 {{ $receipts[$samefamily_no - 1]->xy_receipt }}
+						</div><!-- end label-right -->
 		        @endif
 		      </div><!-- end label-wrapper -->
 
@@ -91,7 +91,7 @@
 
 		      <div class="label-wrapper">
 		        <div class="label-left">Paid By <br /> (付款者)</div><!-- end label-left -->
-		        <div class="label-right">{{ $receipts[0]->chinese_name }} (D - {{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
+		        <div class="label-right">{{ $receipts[0]->chinese_name }} ({{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
 		      </div><!-- end label-wrapper -->
 
 		      <div class="label-wrapper2">
@@ -138,66 +138,66 @@
 		        <thead>
 		          <tr>
 		            <th width="1%">S/No</th>
-		            <th width="15%">Chinese Name</th>
-		            <th width="5%">Devotee</th>
-		            <th width="11%">HJ/ GR</th>
-		            <th width="10%">Receipt</th>
+								<th width="5%">Devotee</th>
+		            <th width="25%">Chinese Name</th>
+		            <th width="15%">Receipt</th>
 		            <th width="10%">Amount</th>
 		          </tr>
 		        </thead>
 
 		        <tbody>
 
-		          @php $rowno = 1; $sum= 0; @endphp
+		          @php $sum = 0; @endphp
 
-		          @if ($samefamily_no > 6)
+							@if ($samefamily_no > 6)
 
-		          @php
-		            $startno = $count_family8;
-		            $divide = intval(round($samefamily_no / 6, 0));
+							@php
+							  $startno = $count_family6;
 								$modulus = $samefamily_no % 6;
-		          @endphp
+							@endphp
 
 							@if($j < 1)
-								@php $endno = 6; @endphp
+							  @php $endno = 6; @endphp
+							@elseif($times == $loop && $modulus != 0)
+								@php $endno = $count_family6 + $modulus; @endphp
 							@else
-								@php $endno = $count_family8 + $modulus; @endphp
+							  @php $endno = $count_family6 + 6; @endphp
 							@endif
 
-		          @else
+							@else
 
-		          @php
-								$divide = 1;
-		            $startno = $count_family8;
-		            $endno = $samefamily_no;
-		          @endphp
+							@php
+							  $startno = $count_family6;
+							  $endno = $samefamily_no;
+							@endphp
 
-		          @endif
+							@endif
 
 		          @for($i = $startno; $i < $endno; $i++)
 
-		          @if($receipts[$count_family8]->familycode_id == $receipts[$i]->familycode_id)
+		          @if($receipts[$count_family6]->familycode_id == $receipts[$i]->familycode_id)
 
 		          <tr>
 		            <td>{{ $rowno }}</td>
+								<td>{{ $receipts[$i]->devotee_id }}</td>
 		            @if(isset($receipts[$i]->deceased_year))
-								<td>{{ $receipts[$i]->chinese_name }} (已故)</td>
+									@if($receipts[$i]->hjgr == 'hj')
+										<td>{{ $receipts[$i]->chinese_name }} (已故) (合家)</td>
+									@else
+										<td>{{ $receipts[$i]->chinese_name }} (已故)</td>
+									@endif
 								@else
-								<td>{{ $receipts[$i]->chinese_name }}</td>
+									@if($receipts[$i]->hjgr == 'hj')
+										<td>{{ $receipts[$i]->chinese_name }} (合家)</td>
+									@else
+										<td>{{ $receipts[$i]->chinese_name }}</td>
+									@endif
 								@endif
-		            <td>{{ $receipts[$i]->devotee_id }}</td>
-		            <td>
-		              @if($receipts[$i]->hjgr == 'hj')
-		                合家
-		              @else
-		                个人
-		              @endif
-		            </td>
 		            <td>{{ $receipts[$i]->xy_receipt }}</td>
 		            <td>{{ number_format( $receipts[$i]->amount, 2) }}</td>
 		          </tr>
 
-		          @php $devotee_count++; $rowno++;  $sum += $receipts[$i]->amount; $count_family8++; @endphp
+		          @php $devotee_count++; $rowno++;  $sum += $receipts[$i]->amount; $count_family6++; @endphp
 
 		          @endif
 
@@ -276,7 +276,7 @@
 		      <div class="paidby" style="width: 49mm; float: left;">
 		        <p style="font-weight: bold">Paid By (付款者)</p>
 		        <p>{{ $paid_by[0]->chinese_name }}<br />
-		        D - {{ $paid_by[0]->devotee_id }}</p>
+		        {{ $paid_by[0]->devotee_id }}</p>
 		        <p style="margin-top: 15px; font-weight: bold">No of Set(s) / 份数</p>
 		      </div>
 
@@ -343,7 +343,7 @@
 
         <div class="label-wrapper">
           <div class="label-left">Paid By <br />(付款者)</div><!-- end label-left -->
-          <div class="label-right">{{ $receipts[0]->chinese_name }} (D - {{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
+          <div class="label-right">{{ $receipts[0]->chinese_name }} ({{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-wrapper2">
@@ -390,9 +390,8 @@
           <thead>
             <tr>
 							<th width="1%">S/No</th>
-              <th width="15%">Chinese Name</th>
-              <th width="5%">Devotee</th>
-              <th width="11%">HJ/ GR</th>
+							<th width="5%">Devotee</th>
+              <th width="25%">Chinese Name</th>
               <th width="15%">Receipt</th>
               <th width="18%">Amount</th>
             </tr>
@@ -401,15 +400,20 @@
           <tbody>
             <tr>
               <td>1</td>
-              <td>{{ $receipts[$i]->chinese_name }}</td>
-              <td>{{ $receipts[$i]->devotee_id }}</td>
-              <td>
-                @if($receipts[$i]->hjgr == 'hj')
-                  合家
-                @else
-                  个人
-                @endif
-              </td>
+							<td>{{ $receipts[$i]->devotee_id }}</td>
+							@if(isset($receipts[$i]->deceased_year))
+							  @if($receipts[$i]->hjgr == 'hj')
+							    <td>{{ $receipts[$i]->chinese_name }} (已故) (合家)</td>
+							  @else
+							    <td>{{ $receipts[$i]->chinese_name }} (已故)</td>
+							  @endif
+							@else
+							  @if($receipts[$i]->hjgr == 'hj')
+							    <td>{{ $receipts[$i]->chinese_name }} (合家)</td>
+							  @else
+							    <td>{{ $receipts[$i]->chinese_name }}</td>
+							  @endif
+							@endif
               <td>{{ $receipts[$i]->xy_receipt }}</td>
               <td>{{ number_format( $receipts[$i]->amount, 2) }}</td>
             </tr>
@@ -485,7 +489,7 @@
         <div class="paidby" style="width: 49mm; float: left;">
           <p style="font-weight: bold">Paid By (付款者)</p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
-          D - {{ $paid_by[0]->devotee_id }}</p>
+          {{ $paid_by[0]->devotee_id }}</p>
           <p style="margin-top: 15px; font-weight: bold">No of Set(s) / 份数</p>
         </div>
 
@@ -540,7 +544,7 @@
 
         <div class="label-wrapper">
           <div class="label-left">Paid By <br /> (付款者)</div><!-- end label-left -->
-          <div class="label-right">{{ $receipts[0]->chinese_name }} (D - {{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
+          <div class="label-right">{{ $receipts[0]->chinese_name }} ({{ $receipts[0]->focusdevotee_id }})</div><!-- end label-right -->
         </div><!-- end label-wrapper -->
 
         <div class="label-wrapper2">
@@ -587,9 +591,8 @@
           <thead>
             <tr>
 							<th width="1%">S/No</th>
+							<th width="8%">Devotee</th>
               <th width="20%">Chinese Name</th>
-              <th width="8%">Devotee</th>
-              <th width="11%">HJ/ GR</th>
               <th width="15%">Receipt</th>
               <th width="10%">Amount</th>
             </tr>
@@ -598,19 +601,20 @@
           <tbody>
             <tr>
               <td>1</td>
+							<td>{{ $receipt->devotee_id }}</td>
 							@if(isset($receipt->deceased_year))
-							<td>{{ $receipt->chinese_name }} (已故)</td>
+							  @if($receipt->hjgr == 'hj')
+							    <td>{{ $receipt->chinese_name }} (已故) (合家)</td>
+							  @else
+							    <td>{{ $receipt->chinese_name }} (已故)</td>
+							  @endif
 							@else
-							<td>{{ $receipt->chinese_name }}</td>
+							  @if($receipt->hjgr == 'hj')
+							    <td>{{ $receipt->chinese_name }} (合家)</td>
+							  @else
+							    <td>{{ $receipt->chinese_name }}</td>
+							  @endif
 							@endif
-              <td>{{ $receipt->devotee_id }}</td>
-              <td>
-                @if($receipt->hjgr == 'hj')
-                  合家
-                @else
-                  个人
-                @endif
-              </td>
               <td>{{ $receipt->xy_receipt }}</td>
               <td>{{ number_format( $receipt->amount, 2) }}</td>
             </tr>
@@ -688,7 +692,7 @@
         <div class="paidby" style="width: 49mm; float: left;">
           <p style="font-weight: bold">Paid By (付款者)</p>
           <p>{{ $paid_by[0]->chinese_name }}<br />
-          D - {{ $paid_by[0]->devotee_id }}</p>
+          {{ $paid_by[0]->devotee_id }}</p>
           <p style="margin-top: 15px; font-weight: bold">No of Set(s) / 份数</p>
         </div>
 

@@ -175,7 +175,7 @@
 
                             <div class="form-group">
                                 <label class="col-md-12">Member ID : <br />
-                                  <span id="member_id">{{ $focus_devotee[0]->member_id }}</span>
+                                  <span id="member_id">{{ $focus_devotee[0]->member }}</span>
                                 </label>
                             </div><!-- end form-group -->
 

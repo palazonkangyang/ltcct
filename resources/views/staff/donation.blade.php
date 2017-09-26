@@ -111,7 +111,7 @@
                                                   </li>
 
 																									<li class="pull-right">
-                                                    <a href="#tab_transactiondetail" data-toggle="tab">Translation <br> 翻译</a>
+                                                    <a href="#tab_transactiondetail" data-toggle="tab">Transaction <br> 交易详情</a>
                                                   </li>
 																									<li class="pull-right">
                                                     <a href="#tab_relative_friends" data-toggle="tab">Relative & Friends <br> 亲戚朋友</a>
@@ -177,9 +177,9 @@
 																													                  </td>
 																													                  <td>
 																													                    @if(\Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->lasttransaction_at)->lt($date))
-																													                    <span style="color: #a5a5a5">{{ $xianyou_same_focusdevotee[0]->member_id }}</span>
+																													                    <span style="color: #a5a5a5">{{ $xianyou_same_focusdevotee[0]->member }}</span>
 																													                    @else
-																													                    <span>{{ $xianyou_same_focusdevotee[0]->member_id }}</span>
+																													                    <span>{{ $xianyou_same_focusdevotee[0]->member }}</span>
 																													                    @endif
 																													                  </td>
 																													                  <td>
@@ -245,9 +245,9 @@
                                                                             	</td>
 																																							<td>
 																																								@if(\Carbon\Carbon::parse($xs_family->lasttransaction_at)->lt($date))
-																																								<span style="color: #a5a5a5">{{ $xs_family->member_id }}</span>
+																																								<span style="color: #a5a5a5">{{ $xs_family->member }}</span>
 																																								@else
-																																								<span>{{ $xs_family->member_id }}</span>
+																																								<span>{{ $xs_family->member }}</span>
 																																								@endif
 																																							</td>
                                                                             	<td>
@@ -356,9 +356,9 @@
 																																							</td>
 																																							<td>
 																																								@if(\Carbon\Carbon::parse($list->lasttransaction_at)->lt($date))
-																																								<span style="color: #a5a5a5">{{ $list->member_id }}</span>
+																																								<span style="color: #a5a5a5">{{ $list->member }}</span>
 																																								@else
-																																								<span>{{ $list->member_id }}</span>
+																																								<span>{{ $list->member }}</span>
 																																								@endif
 																																							</td>
 																																							<td>
@@ -668,8 +668,13 @@
 
                                                                             <tbody>
                                                                                 @foreach($receipts as $receipt)
+
                                                                                 <tr>
-                                                                                    <td>{{ $receipt->receipt_no }}</td>
+																																									@if(isset($receipt->cancelled_date))
+                                                                                    <td class="text-danger">{{ $receipt->receipt_no }}</td>
+																																									@else
+																																										<td>{{ $receipt->receipt_no }}</td>
+																																									@endif
                                                                                     <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
                                                                                     <td>{{ $receipt->trans_no }}</td>
                                                                                     <td>{{ $receipt->description }}</td>
@@ -765,6 +770,28 @@
 	<script type="text/javascript">
 		$(function() {
 
+			// $(window).bind("load", function() {
+			// 	var transno = localStorage.getItem('transno');
+			// 	var data = localStorage.getItem('data');
+			//
+			// 	console.log(data);
+			// 	console.log(transno)
+			//
+			// 	if(data == 1)
+			// 	{
+			// 		$("#trans_no").val(transno);
+			// 		$("#search_detail").click();
+			//
+			// 		setTimeout(function(){
+			// 			$("#authorized_password").attr('disabled', true);
+			// 			$("#cancel-replace-btn").attr('disabled', true);
+			// 			$("#cancel-transaction").attr('disabled', true);
+			// 		}, 1000);
+			// 	}
+			//
+			//
+			// });
+
 			// var cancel = localStorage.getItem('cancel');
 			// console.log(cancel);
 			//
@@ -789,6 +816,15 @@
 			//
 			// 	localStorage.removeItem('cancel');
 			// }
+
+			$("#trans_wrap1").hide();
+			$("#trans_wrap2").hide();
+			$("#trans_wrap3").hide();
+			$("#trans_wrap4").hide();
+			$("#trans_wrap5").hide();
+			$("#trans_wrap6").hide();
+			$("#trans_wrap7").hide();
+			$("#trans_wrap8").hide();
 
 			$(".display").attr('disabled', true);
 

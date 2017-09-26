@@ -39,6 +39,36 @@ $(function() {
 
   });
 
+  $("#content_deceased_year").on('focusout', function() {
+
+    var deceased_year = $(this).val();
+
+    if(deceased_year)
+    {
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+
+      var currentYear = (new Date).getFullYear();
+
+      if(deceased_year > currentYear)
+      {
+        $(this).parent().addClass('has-error');
+      }
+
+      else
+      {
+        $(this).parent().removeClass('has-error');
+      }
+    }
+
+    else
+    {
+      $(this).parent().removeClass('has-error');
+    }
+
+  });
+
   $("#content_other_race").on('focusout', function() {
 
     var count = 0;
@@ -75,6 +105,36 @@ $(function() {
           console.log(response);
         }
     });
+  });
+
+  $("#edit_deceased_year").on('focusout', function() {
+
+    var deceased_year = $(this).val();
+
+    if(deceased_year)
+    {
+      var count = 0;
+      var errors = new Array();
+      var validationFailed = false;
+
+      var currentYear = (new Date).getFullYear();
+
+      if(deceased_year > currentYear)
+      {
+        $(this).parent().addClass('has-error');
+      }
+
+      else
+      {
+        $(this).parent().removeClass('has-error');
+      }
+    }
+
+    else
+    {
+      $(this).parent().removeClass('has-error');
+    }
+
   });
 
   $("#edit_other_dialect").on('focusout', function() {

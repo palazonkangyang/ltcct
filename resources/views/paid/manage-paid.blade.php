@@ -384,7 +384,7 @@
                                     <div class="col-md-6">
                                       <label class="col-md-6">Authorized Password</label>
                                       <div class="col-md-6">
-                                        <input type="password" class="form-control" name="authorized_password" id="authorized_password">
+                                        <input type="password" class="form-control" name="authorized_password" id="authorized_password" autocomplete="new-password">
                                       </div><!-- end col-md-6 -->
                                     </div><!-- end col-md-6 -->
 

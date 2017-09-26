@@ -130,7 +130,7 @@
                                                                         <h3>Income & Expenditure</h3>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#" class="hylink">Income</a>
+                                                                        <a href="/income/income-lists" class="hylink">Income</a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="/expenditure/manage-expenditure" class="hylink">Expenditure</a>
@@ -139,7 +139,7 @@
                                                                         <a href="/paid/manage-paid" class="hylink">Paid</a>
                                                                     </li>
                                                                     <li>
-                                                                        <a href="#" class="hylink">Peddy Cash</a>
+                                                                        <a href="#" class="hylink">Petty Cash</a>
                                                                     </li>
                                                                 </ul>
                                                             </div>
