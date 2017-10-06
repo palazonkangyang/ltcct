@@ -91,7 +91,7 @@
 
                               <div class="form-group">
                                 <button type="submit" class="btn blue" id="report">Report</button>
-                                <button type="button" class="btn default">Clear</button>
+                                <button type="button" class="btn default" onClick="window.location.reload('true')">Clear</button>
                               </div><!-- end form-group -->
                           </form>
 

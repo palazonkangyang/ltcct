@@ -24,8 +24,6 @@ class VendorController extends Controller
   {
     $vendor = APVendor::all();
 
-    // dd($vendor->toArray());
-
     $payment_amount = [];
     $cash_amount = [];
 
@@ -33,6 +31,7 @@ class VendorController extends Controller
     {
       $expenditure = Expenditure::where('supplier', $vendor[$i]->ap_vendor_id)
                      ->orderBy('supplier', 'asc')
+                     ->where('status', '!=', 'draft')
                      ->sum('credit_total');
 
       $vendor[$i]->total = $expenditure;

@@ -625,12 +625,13 @@ class ReportController extends Controller
     $date = str_replace('/', '-', $input['date']);
     $date = date("Y-m-d", strtotime($date) );
 
-    $mode = ['cash', 'cheque', 'nets'];
+    $mode = ['cash', 'cheque', 'nets', 'receipt'];
     $glcode_array = [108, 110, 112, 119, 134];
     $total_cash = 0;
     $total_nets = 0;
     $total_cheque = 0;
     $total_amount = 0;
+    $total_receipt = 0;
 
     if($input['type'] == 0)
     {
@@ -644,6 +645,7 @@ class ReportController extends Controller
                   ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
                   DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
                   DB::raw('SUM(IF(generaldonation.mode_payment = "nets", receipt.amount, 0)) AS nets'),
+                  DB::raw('SUM(IF(generaldonation.mode_payment = "receipt", receipt.amount, 0)) AS receipt'),
                   'glcode.type_name')
                   ->get();
 
@@ -654,13 +656,14 @@ class ReportController extends Controller
       {
         if(isset($result_collection[$i]->cash))
         {
-          $result_collection[$i]->amount += $result_collection[$i]->cash + $result_collection[$i]->cheque + $result_collection[$i]->nets;
+          $result_collection[$i]->amount += $result_collection[$i]->cash + $result_collection[$i]->cheque + $result_collection[$i]->nets + $result_collection[$i]->receipt;
 
           $total_cash += $result_collection[$i]->cash;
           $total_nets += $result_collection[$i]->nets;
           $total_cheque += $result_collection[$i]->cheque;
+          $total_receipt += $result_collection[$i]->receipt;
 
-          $total_amount = $total_cash + $total_nets + $total_cheque;
+          $total_amount = $total_cash + $total_nets + $total_cheque + $total_receipt;
         }
 
         else
@@ -679,6 +682,7 @@ class ReportController extends Controller
         'total_cash' => $total_cash,
         'total_nets' => $total_nets,
         'total_cheque' => $total_cheque,
+        'total_receipt' => $total_receipt,
         'total_amount' => $total_amount
       ]);
     }

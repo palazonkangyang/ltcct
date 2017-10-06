@@ -368,6 +368,15 @@
                                       </div><!-- end form-group -->
 
                                       <div class="form-group">
+
+                                        <label class="col-md-3 control-label">Balance</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" value="{{ old('edit_balance') }}" id="edit_balance" readonly>
+                                        </div><!-- end col-md-9 -->
+
+                                      </div><!-- end form-group -->
+
+                                      <div class="form-group">
                                         <p>&nbsp;</p>
                                       </div><!-- end form-group -->
 
@@ -535,6 +544,7 @@
               $("#edit_job_id").val(response.glaccount['job_id']);
               $("#edit_next_sn_number").val(response.glaccount['next_sn_number']);
               $("#edit_receipt_prefix").val(response.glaccount['receipt_prefix']);
+              $("#edit_balance").val(response.glaccount['balance']);
 
               localStorage.setItem('glocodeid', response.glaccount['glcode_id']);
               localStorage.setItem('glcodegroup_id', response.glaccount['glcodegroup_id']);
@@ -633,9 +643,9 @@
 
             if(localStorage.getItem('edit_glcode_id'))
             {
-                var edit_glcode_id = localStorage.getItem('edit_glcode_id');
-                var edit_glcodegroup_id = localStorage.getItem('edit_glcodegroup_id');
-                var edit_job_id = localStorage.getItem('edit_job_id');
+              var edit_glcode_id = localStorage.getItem('edit_glcode_id');
+              var edit_glcodegroup_id = localStorage.getItem('edit_glcodegroup_id');
+              var edit_job_id = localStorage.getItem('edit_job_id');
             }
 
             $("#edit_glcode_id").val(edit_glcode_id);
@@ -647,6 +657,7 @@
             $("#edit_glcodegroup_id").val(edit_glcodegroup_id);
             $("#edit_next_sn_number").val(response.glcode['next_sn_number']);
             $("#edit_receipt_prefix").val(response.glcode['receipt_prefix']);
+            $("#edit_balance").val(response.glcode['balance']);
           },
 
           error: function (response) {
