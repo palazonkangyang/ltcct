@@ -452,13 +452,13 @@
       });
 
       if ( $('.alert-success').children().length > 0 ) {
-          localStorage.removeItem('glcodegroup_id');
-          localStorage.removeItem('balancesheet_side');
-          localStorage.removeItem('status');
+        localStorage.removeItem('glcodegroup_id');
+        localStorage.removeItem('balancesheet_side');
+        localStorage.removeItem('status');
 
-          localStorage.removeItem('edit_glcodegroup_id');
-          localStorage.removeItem('edit_balancesheet_side');
-          localStorage.removeItem('edit_status');
+        localStorage.removeItem('edit_glcodegroup_id');
+        localStorage.removeItem('edit_balancesheet_side');
+        localStorage.removeItem('edit_status');
       }
 
       else
@@ -577,7 +577,7 @@
 
             for(var i = 0; i < count; i++)
             {
-                errorMsgs = errorMsgs + errors[i] + "<br/>";
+              errorMsgs = errorMsgs + errors[i] + "<br/>";
             }
 
             $('html,body').animate({ scrollTop: 0 }, 'slow');
@@ -590,19 +590,26 @@
 
         else
         {
-            $(".validation-error").removeClass("bg-danger alert alert-error")
-            $(".validation-error").empty();
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
         }
       });
 
       // DataTable
-      var table = $('#glaccountgroup-table').DataTable({
-        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-      });
+      var table = $('#glaccountgroup-table').removeAttr('width').DataTable( {
+          "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+          columnDefs: [
+            { "width": "200px", "targets": 0 },
+            { "width": "100px", "targets": 1 },
+            { "width": "100px", "targets": 2 },
+            { "width": "100px", "targets": 3 }
+          ],
+          fixedColumns: true
+      } );
 
       $('#glaccountgroup-table thead tr#filter th').each( function () {
-            var title = $('#glaccountgroup-table thead th').eq( $(this).index() ).text();
-            $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+        var title = $('#glaccountgroup-table thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
       });
 
       // Apply the filter

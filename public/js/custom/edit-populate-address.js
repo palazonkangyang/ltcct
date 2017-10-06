@@ -26,18 +26,17 @@ $(function() {
   // }
 
   $("#edit_populate_unit_1").on('keyup', function() {
-    // edit_populate();
 
     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-unit1-hidden").val($(this).val());
   });
 
   $("#edit_populate_unit_2").on('keyup', function() {
-    // edit_populate();
 
     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-unit2-hidden").val($(this).val());
   });
 
   $("#edit_populate_oversea_addr_in_china").on('keyup', function() {
+    
     $(".hover").closest("div.edit_inner_opt_addr").find(".edit-address-oversea-hidden").val($(this).val());
   });
 

@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
 use App\Models\JournalEntry;
+use App\Models\JournalEntryItem;
 use App\Models\GlCode;
 use Auth;
 use DB;
@@ -21,14 +22,9 @@ class JournalEntryController extends Controller
 
   public function getManageJournalEntry()
   {
-    $glcode = GlCode::join('glcodegroup', 'glcodegroup.glcodegroup_id', '=', 'glcode.glcodegroup_id')
-              ->select('glcode.*', 'glcodegroup.balancesheet_side')
-              ->get();
+    $glcode = GlCode::all();
 
-    $journalentry = JournalEntry::join('glcode as gl1', 'gl1.glcode_id', '=', 'journalentry.debit')
-                    ->join('glcode as gl2', 'gl2.glcode_id', '=', 'journalentry.credit')
-                    ->select('journalentry.*', 'gl1.type_name as debit_account', 'gl2.type_name as credit_account')
-                    ->get();
+    $journalentry = JournalEntry::all();
 
     return view('journalentry.manage-journalentry', [
       'glcode' => $glcode,
@@ -58,17 +54,62 @@ class JournalEntryController extends Controller
 				  $newDate = "";
 				}
 
+        $year = date("y");
+
+        if(count(JournalEntry::all()))
+        {
+          $journalentry_id = JournalEntry::all()->last()->journalentry_id;
+          $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+        }
+
+        else
+        {
+          $journalentry_id = 0;
+          $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+        }
+
+        $reference_no = 'JE-' . $year . $journalentry_id;
+
         $data = [
-          "journalentry_no" => $input['journalentry_no'],
+          "journalentry_no" => $reference_no,
           "date" => $newDate,
           "description" => $input['description'],
-          "debit" => $input['debit'],
-          "credit" => $input['credit']
+          "total_debit_amount" => $input['total_debit_amount'],
+          "total_credit_amount" => $input['total_credit_amount']
         ];
 
-        // dd($data);
-
         $journalentry = JournalEntry::create($data);
+
+        for($i = 0; $i < count($input['glcode_id']); $i++)
+        {
+          $data = [
+            "glcode_id" => $input['glcode_id'][$i],
+            "debit_amount" => $input['debit_amount'][$i],
+            "credit_amount" => $input['credit_amount'][$i],
+            "journalentry_id" => $journalentry->journalentry_id
+          ];
+
+          JournalEntryItem::create($data);
+
+          if(isset($input['debit_amount'][$i]))
+          {
+            $glcode = GlCode::find($input['glcode_id'][$i]);
+            $glcode->balance -= $input['debit_amount'][$i];
+            $glcode->save();
+          }
+
+          if(isset($input['credit_amount'][$i]))
+          {
+            $glcode = GlCode::find($input['glcode_id'][$i]);
+            $glcode->balance += $input['credit_amount'][$i];
+            $glcode->save();
+          }
+        }
+
+        $success_msg = $reference_no . ' has been created!';
+
+        $request->session()->flash('success', $success_msg);
+        return redirect()->route('manage-journalentry-page');
       }
 
       else
@@ -76,16 +117,7 @@ class JournalEntryController extends Controller
         $request->session()->flash('error', "Password did not match. Please Try Again");
         return redirect()->back()->withInput();
       }
-
     }
-
-    if($journalentry)
-    {
-      $request->session()->flash('success', 'New Journal Entry has been created!');
-      return redirect()->route('manage-journalentry-page');
-    }
-
-    dd($input);
   }
 
   public function getJournalEntryDetail()
@@ -146,5 +178,21 @@ class JournalEntryController extends Controller
       $request->session()->flash('success', 'Journal Entry has been updated!');
       return redirect()->route('manage-journalentry-page');
     }
+  }
+
+  public function getDeleteJournalEntry($id)
+  {
+
+  }
+
+  public function getBalance(Request $request)
+  {
+    $glcode_id = $_GET['glcode_id'];
+
+    $glcode = GlCode::find($glcode_id);
+
+    return response()->json(array(
+      'glcode' => $glcode
+	  ));
   }
 }

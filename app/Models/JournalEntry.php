@@ -12,7 +12,7 @@ class JournalEntry extends Model
         'journalentry_no',
         'date',
         'description',
-        'debit',
-        'credit'
+        'total_debit_amount',
+        'total_credit_amount'
     ];
 }

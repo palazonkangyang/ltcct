@@ -141,15 +141,27 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::group(['prefix' => 'expenditure'], function () {
 		Route::get('/manage-expenditure', ['as' => 'manage-expenditure-page', 'uses' => 'ExpenditureController@getManageExpenditure']);
 		Route::get('/expenditure-detail', ['as' => 'expenditure-detail-page', 'uses' => 'ExpenditureController@getExpenditureDetail']);
+		Route::get('/search/supplier', ['as' => 'search-supplier-page', 'uses' => 'ExpenditureController@getSearchSupplier']);
 		Route::get('/delete/{id}', ['as' => 'delete-expenditure-page', 'uses' => 'ExpenditureController@deleteExpenditure']);
 
 		Route::post('/new-expenditure', ['as' => 'new-expenditure-page', 'uses' => 'ExpenditureController@postAddNewExpenditure']);
 		Route::post('/update-expenditure', ['as' => 'update-expenditure-page', 'uses' => 'ExpenditureController@postUpdateExpenditure']);
 	});
 
+	Route::group(['prefix' => 'vendor'], function () {
+		Route::get('/manage-ap-vendor', ['as' => 'manage-ap-vendor-page', 'uses' => 'VendorController@getManageVendor']);
+		Route::get('/vendor-detail', ['as' => 'vendor-detail-page', 'uses' => 'VendorController@getVendorDetail']);
+		Route::get('/delete/{id}', ['as' => 'delete-vendor-page', 'uses' => 'VendorController@deleteVendor']);
+
+		Route::post('/new-vendor', ['as' => 'new-vendor-page', 'uses' => 'VendorController@postAddNewVendor']);
+		Route::post('/update-vendor', ['as' => 'update-vendor-page', 'uses' => 'VendorController@postUpdateVendor']);
+	});
+
 	Route::group(['prefix' => 'journalentry'], function () {
 		Route::get('/manage-journalentry', ['as' => 'manage-journalentry-page', 'uses' => 'JournalEntryController@getManageJournalEntry']);
 		Route::get('/journalentry-detail', ['as' => 'journalentry-detail-page', 'uses' => 'JournalEntryController@getJournalEntryDetail']);
+		Route::get('/delete/{id}', ['as' => 'journalentry-delete-page', 'uses' => 'JournalEntryController@getDeleteJournalEntry']);
+		Route::get('/get-balance', ['as' => 'get-balance-page', 'uses' => 'JournalEntryController@getBalance']);
 
 		Route::post('/new-journalentry', ['as' => 'new-journalentry-page', 'uses' => 'JournalEntryController@postAddNewJournalentry']);
 		Route::post('/update-journalentry', ['as' => 'update-journalentry-page', 'uses' => 'JournalEntryController@postUpdateJournalentry']);
@@ -161,6 +173,20 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('/new-paid', ['as' => 'new-paid-page', 'uses' => 'PaidController@postAddNewPaid']);
 		Route::post('/update-paid', ['as' => 'update-paid-page', 'uses' => 'PaidController@postUpdatePaid']);
+	});
+
+	Route::group(['prefix' => 'payment'], function () {
+		Route::get('/manage-payment', ['as' => 'manage-payment-page', 'uses' => 'PaymentController@getManagePayment']);
+		Route::get('/get-balance', ['as' => 'get-balance-page', 'uses' => 'PaymentController@getBalance']);
+
+		Route::post('/new-payment', ['as' => 'new-payment-page', 'uses' => 'PaymentController@postAddNewPayment']);
+	});
+
+	Route::group(['prefix' => 'pettycash'], function () {
+		Route::get('/manage-pettycash', ['as' => 'manage-pettycash-page', 'uses' => 'PettyCashController@getManagePettyCash']);
+		Route::get('/supplier-name', ['as' => 'suppiler-name-page', 'uses' => 'PettyCashController@getSupplierName']);
+
+		Route::post('/new-pettycash', ['as' => 'new-pettycash-page', 'uses' => 'PettyCashController@postAddNewPettyCash']);
 	});
 
 	Route::group(['prefix' => 'job'], function () {

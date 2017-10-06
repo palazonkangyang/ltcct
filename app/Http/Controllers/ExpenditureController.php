@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\User;
 use App\Models\Expenditure;
+use App\Models\APVendor;
 use App\Models\GlCode;
 use Auth;
 use DB;
@@ -22,7 +23,10 @@ class ExpenditureController extends Controller
   public function getManageExpenditure()
   {
 
-    $expenditure = Expenditure::orderBy('created_at', 'desc')->get();
+    $expenditure = Expenditure::leftjoin('ap_vendor', 'expenditure.supplier', '=', 'ap_vendor.ap_vendor_id')
+                   ->select('expenditure.*', 'ap_vendor.vendor_name')
+                   ->orderBy('created_at', 'desc')->get();
+
     $glcode = Glcode::where('glcodegroup_id', 4)->get();
 
     return view('expenditure.manage-expenditure', [
@@ -35,8 +39,6 @@ class ExpenditureController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    // dd($input);
-
     if(isset($input['authorized_password']))
     {
       $user = User::find(Auth::user()->id);
@@ -44,6 +46,32 @@ class ExpenditureController extends Controller
 
       if (Hash::check($input['authorized_password'], $hashedPassword))
       {
+
+        if(isset($input['supplier_id']))
+        {
+          $supplier_id = $input['supplier_id'];
+        }
+        else
+        {
+          $vendor = APVendor::where('vendor_name', $input['supplier'])
+      							 ->where('ap_vendor_id', '!=', $input['supplier_id'])
+      							 ->first();
+
+          if($vendor)
+          {
+            $request->session()->flash('error', "Vendor Name is already exist.");
+            return redirect()->back()->withInput();
+          }
+
+          $data = [
+            "vendor_name" => $input['supplier']
+          ];
+
+          $result = APVendor::create($data);
+
+          $supplier_id = $result->ap_vendor_id;
+        }
+
         // Modify fields
 				if(isset($input['date']))
 				{
@@ -55,16 +83,26 @@ class ExpenditureController extends Controller
 				  $newDate = "";
 				}
 
-        $now = Carbon::now();
+        $year = date("y");
 
-        $result = Expenditure::all()->last()->expenditure_id;
+        if(count(Expenditure::all()))
+        {
+          $expenditure_id = Expenditure::all()->last()->expenditure_id;
+          $expenditure_id = str_pad($expenditure_id + 1, 4, 0, STR_PAD_LEFT);
+        }
 
-        $reference_no = $now->year . '-' . $result;
+        else
+        {
+          $expenditure_id = 0;
+          $expenditure_id = str_pad($expenditure_id + 1, 4, 0, STR_PAD_LEFT);
+        }
+
+        $reference_no = 'EXP-' . $year . $expenditure_id;
 
         $data = [
           "reference_no" => $reference_no,
           "date" => $newDate,
-          "supplier" => $input['supplier'],
+          "supplier" => $supplier_id,
           "description" => $input['description'],
           "glcode_id" => $input['glcode_id'],
           "credit_total" => $input['credit_total'],
@@ -73,7 +111,9 @@ class ExpenditureController extends Controller
 
         Expenditure::create($data);
 
-        $request->session()->flash('success', 'New Expenditure has been created!');
+        $success_msg = $reference_no . ' has been created!';
+
+        $request->session()->flash('success', $success_msg);
         return redirect()->route('manage-expenditure-page');
       }
 
@@ -159,5 +199,24 @@ class ExpenditureController extends Controller
 
 		$request->session()->flash('success', 'Selected Expenditure has been deleted.');
     return redirect()->back();
+  }
+
+  public function getSearchSupplier(Request $request)
+  {
+    $supplier = Input::get('term');
+    $results = array();
+
+    $queries = APVendor::where('vendor_name', 'like', '%'.$supplier.'%')
+               ->take(5)
+               ->get();
+
+    foreach ($queries as $query)
+    {
+      $results[] = [
+        'id' => $query->ap_vendor_id,
+        'value' => $query->vendor_name
+      ];
+    }
+    return response()->json($results);
   }
 }

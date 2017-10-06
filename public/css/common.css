@@ -6,7 +6,7 @@
   width: 100%!important;
 }
 
-#glaccountgroup-table{
+#glaccountgroup-table, #glaccount-table, #journalentry-table, #vendor-table, #pettycash-table, #payment-table{
   width: 100%!important;
 }
 
@@ -64,7 +64,7 @@
   cursor: pointer;
 }
 
-.removeAddressBtn1, .removeVehicleBtn1, .removeSpecRemarkBtn1{
+.removeAddressBtn1, .removeVehicleBtn1, .removeSpecRemarkBtn1, .removeRow{
   cursor: pointer;
   padding-top: 10px;
 }

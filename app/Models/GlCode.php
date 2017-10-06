@@ -12,6 +12,7 @@ class GlCode extends Model
         'accountcode',
         'type_name',
         'chinese_name',
+        'balance',
         'price',
         'job_id',
         'next_sn_number',

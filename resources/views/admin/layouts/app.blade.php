@@ -138,19 +138,22 @@
                                               <div class="col-md-4">
                                                   <ul class="mega-menu-submenu">
                                                       <li>
-                                                          <h3>Income & Expenditure</h3>
+                                                        <h3>Income & Expenditure</h3>
                                                       </li>
                                                       <li>
-                                                          <a href="#" class="hylink">Income</a>
+                                                        <a href="#" class="hylink">Income</a>
                                                       </li>
                                                       <li>
-                                                          <a href="/expenditure/manage-expenditure" class="hylink">Expenditure</a>
+                                                        <a href="/expenditure/manage-expenditure" class="hylink">Purchase/ Expenditure</a>
                                                       </li>
                                                       <li>
-                                                          <a href="/paid/manage-paid" class="hylink">Paid</a>
+                                                        <a href="/vendor/manage-ap-vendor" class="hylink">AP Vendor</a>
                                                       </li>
                                                       <li>
-                                                          <a href="#" class="hylink">Petty Cash</a>
+                                                        <a href="/payment/manage-payment" class="hylink">Payment Voucher</a>
+                                                      </li>
+                                                      <li>
+                                                        <a href="/pettycash/manage-pettycash" class="hylink">Petty Cash Voucher</a>
                                                       </li>
                                                   </ul>
                                               </div>

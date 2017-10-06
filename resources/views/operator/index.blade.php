@@ -1691,30 +1691,22 @@
 						return false;
 					});
 
-					// Disabled Quick Search Button
-			    // var chinese_name = $("#chinese_name").val();
-					//
-			    // if(chinese_name)
-			    // {
-					// 	$('.nav-tabs li:eq(6) a').tab('show');
-			    // }
-
 					$('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-							localStorage.setItem('activeTab', $(e.target).attr('href'));
+						localStorage.setItem('activeTab', $(e.target).attr('href'));
 					});
 
 					if ( $('.alert-success').children().length > 0 ) {
-							localStorage.removeItem('activeTab');
+						localStorage.removeItem('activeTab');
 					}
 
 					else
 					{
-							var activeTab = localStorage.getItem('activeTab');
+						var activeTab = localStorage.getItem('activeTab');
 					}
 
 					if (activeTab) {
-							$('a[href="' + activeTab + '"]').tab('show');
-							console.log(activeTab);
+						$('a[href="' + activeTab + '"]').tab('show');
+						console.log(activeTab);
 					}
 
 					$("#opt_address .removeAddressBtn1").first().remove();

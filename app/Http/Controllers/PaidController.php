@@ -34,7 +34,6 @@ class PaidController extends Controller
     return view('paid.manage-paid', [
       'paid' => $paid,
       'job' => $job,
-      // 'glcode' => $glcode,
       'expenditure' => $expenditure
     ]);
   }
@@ -42,8 +41,6 @@ class PaidController extends Controller
   public function postAddNewPaid(Request $request)
   {
     $input = array_except($request->all(), '_token');
-
-    // dd($input);
 
     if(isset($input['authorized_password']))
     {

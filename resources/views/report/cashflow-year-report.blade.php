@@ -110,6 +110,70 @@
                               @endfor
 
                               <tr>
+                                <td style="font-weight: bold; text-decoration: underline">Beginning Cash On Hand</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                              </tr>
+
+                              <tr>
+                                <td>{{ $ocbc_account[0]->type_name }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Jan, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Feb, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Mar, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Apr, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->May, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Jun, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->July, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Aug, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Sep, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Oct, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->Nov, 2) }}</td>
+                                <td>{{ number_format($ocbc_account[0]->December, 2) }}</td>
+                              </tr>
+
+                              <tr>
+                                <td>{{ $ocbc_account2[0]->type_name }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Jan, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Feb, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Mar, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Apr, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->May, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Jun, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->July, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Aug, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Sep, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Oct, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->Nov, 2) }}</td>
+                                <td>{{ number_format($ocbc_account2[0]->December, 2) }}</td>
+                              </tr>
+
+                              <tr>
+                                <td>{{ $cash_on_hand[0]->type_name }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Jan, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Feb, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Mar, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Apr, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->May, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Jun, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->July, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Aug, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Sep, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Oct, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->Nov, 2) }}</td>
+                                <td>{{ number_format($cash_on_hand[0]->December, 2) }}</td>
+                              </tr>
+
+                              <tr>
                                 <td style="font-weight: bold; text-decoration: underline">General Donation 香油</td>
                                 <td></td>
                                 <td></td>

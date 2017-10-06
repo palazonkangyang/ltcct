@@ -94,13 +94,12 @@
                                 <table class="table table-bordered" id="expenditure-table">
                                   <thead>
                                       <tr id="filter">
-                                        <th class="expenditure-filter1"></th>
-                                        <th class="expenditure-filter2"></th>
-                                        <th class="expenditure-filter3"></th>
-                                        <th class="expenditure-filter4"></th>
-                                        <th class="expenditure-filter5"></th>
-                                        <th class="expenditure-filter6"></th>
-                                        <th class="expenditure-filter7"></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                       </tr>
                                       <tr>
                                         <th>Reference No</th>
@@ -109,7 +108,6 @@
                                         <th>Description</th>
                                         <th>Credit Total</th>
                                         <th>Status</th>
-                                        <th>Actions</th>
                                       </tr>
                                   </thead>
 
@@ -122,17 +120,12 @@
                                               class="edit-item" id="{{ $exp->expenditure_id }}">{{ $exp->reference_no }}</a>
                                           </td>
                                           <td>{{ \Carbon\Carbon::parse($exp->date)->format("d/m/Y") }}</td>
-                                          <td>{{ $exp->supplier }}</td>
+                                          <td>{{ $exp->vendor_name }}</td>
                                           <td>
                                             <span style="display: inline-block; width: 300px; overflow-wrap: break-word;">{{ $exp->description }}</span>
                                           </td>
                                           <td>S$ {{ $exp->credit_total }}</td>
                                           <td class="text-capitalize">{{ $exp->status }}</td>
-                                          <td>
-                                            <a href="{{ URL::to('/expenditure/delete/' . $exp->expenditure_id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-item">
-                                              <i class="fa fa-trash-o"></i> Delete
-                                            </a>
-                                          </td>
                                         </tr>
                                         @endforeach
 
@@ -164,10 +157,14 @@
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Supplier *</label>
+                                    <label class="col-md-3 control-label">Vendor *</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="supplier" value="{{ old('supplier') }}" id="supplier">
                                     </div><!-- end col-md-9 -->
+                                  </div><!-- end form-group -->
+
+                                  <div class="form-group">
+                                    <input type="hidden" name="supplier_id" value="" id="supplier_id">
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
@@ -400,7 +397,19 @@
 
   $(function() {
 
-    $("#filter input[type=text]:last").css("display", "none");
+    var d = new Date();
+    var strDate = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+
+    $("#date").val(strDate);
+
+    $("#supplier").autocomplete({
+      source: "/expenditure/search/supplier",
+      minLength: 1,
+      select: function(event, ui) {
+        $('#supplier').val(ui.item.value);
+        $('#supplier_id').val(ui.item.id);
+      }
+    });
 
     $("#expenditure-table").on('click', '.delete-item', function() {
       if (!confirm("Do you confirm you want to delete this record? Note that this process is irreversable.")){
@@ -428,15 +437,13 @@
     var table = $('#expenditure-table').DataTable({
       "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
       "columnDefs": [
-        { "width": "10%", "targets": 0 },
-        { "width": "10%", "targets": 1 },
+        { "width": "15%", "targets": 0 },
+        { "width": "15%", "targets": 1 },
         { "width": "20%", "targets": 2 },
-        { "width": "10%", "targets": 3 },
-        { "width": "10%", "targets": 4 },
-        { "width": "10%", "targets": 5 },
-        { "width": "10%", "targets": 6 }
-      ],
-      fixedColumns: true
+        { "width": "20%", "targets": 3 },
+        { "width": "15%", "targets": 4 },
+        { "width": "15%", "targets": 5 }
+      ]
     });
 
     $('#expenditure-table thead tr#filter th').each( function () {
@@ -459,6 +466,8 @@
         evt.cancelBubble = true;
       }
     }
+
+    // $("#filter input[type=text]:last").css("display", "none");
 
     // Disabled Edit Tab
     $(".nav-tabs > li").click(function(){
@@ -552,11 +561,6 @@
               $('#expenditure-form select').attr('disabled', false);
               $("#edit_authorized_password").removeAttr('readonly', 'readonly');
               $('#expenditure-form #update_expenditure_btn').attr('disabled', false);
-            }
-
-            if(status == 'draft')
-            {
-
             }
 
             $("#edit_expenditure_id").val(expenditure_id);

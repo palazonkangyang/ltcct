@@ -92,41 +92,37 @@
 
                                     <table class="table table-bordered" id="glaccount-table">
                                       <thead>
-                                          <tr id="filter">
-                                              <th></th>
-                                              <th></th>
-                                              <th></th>
-                                              <th></th>
-                                              <th></th>
-                                              <th></th>
-                                          </tr>
-                                          <tr>
-                                              <th>Account Code</th>
-                                              <th>Type Name</th>
-                                              <th>Chinese Name</th>
-                                              <th>Account Group</th>
-                                              <th>Account Status</th>
-                                              <th>Actions</th>
-                                          </tr>
+                                        <tr id="filter">
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                          <th></th>
+                                        </tr>
+                                        <tr>
+                                          <th>Account Code</th>
+                                          <th>Type Name</th>
+                                          <th>Chinese Name</th>
+                                          <th>Account Group</th>
+                                          <th>Account Status</th>
+                                        </tr>
                                       </thead>
 
                                       <tbody>
-                                          @if(count($glaccount))
+                                        @if(count($glaccount))
 
-                                            @foreach($glaccount as $gl)
-                                            <tr>
-                                              <td><a href="#tab_editglaccount" data-toggle="tab"
-                                                  class="edit-item" id="{{ $gl->glcode_id }}">{{ $gl->accountcode }}</td>
-                                              <td>{{ $gl->type_name }}</td>
-                                              <td>{{ $gl->chinese_name }}</td>
-                                              <td>{{ $gl->glcodegroup_name }}</td>
-                                              <td class="text-capitalize">{{ $gl->status }}</td>
-                                              <td>
-                                              </td>
-                                            </tr>
-                                            @endforeach
+                                          @foreach($glaccount as $gl)
+                                          <tr>
+                                            <td><a href="#tab_editglaccount" data-toggle="tab"
+                                                class="edit-item" id="{{ $gl->glcode_id }}">{{ $gl->accountcode }}</td>
+                                            <td>{{ $gl->type_name }}</td>
+                                            <td>{{ $gl->chinese_name }}</td>
+                                            <td>{{ $gl->glcodegroup_name }}</td>
+                                            <td class="text-capitalize">{{ $gl->status }}</td>
+                                          </tr>
+                                          @endforeach
 
-                                          @endif
+                                        @endif
                                       </tbody>
                                     </table>
                                   </div><!-- end form-group -->
@@ -574,13 +570,13 @@
     });
 
     if ( $('.alert-success').children().length > 0 ) {
-        localStorage.removeItem('glocodeid');
-        localStorage.removeItem('glcodegroup_id');
-        localStorage.removeItem('job_id');
+      localStorage.removeItem('glocodeid');
+      localStorage.removeItem('glcodegroup_id');
+      localStorage.removeItem('job_id');
 
-        localStorage.removeItem('edit_glcode_id');
-        localStorage.removeItem('edit_glcodegroup_id');
-        localStorage.removeItem('edit_job_id');
+      localStorage.removeItem('edit_glcode_id');
+      localStorage.removeItem('edit_glcodegroup_id');
+      localStorage.removeItem('edit_job_id');
     }
 
     else
@@ -676,87 +672,94 @@
 
       if ($.trim(type_name).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Type Name field is empty."
+        validationFailed = true;
+        errors[count++] = "Type Name field is empty."
       }
 
       if ($.trim(chinese_name).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Chinese name field is empty."
+        validationFailed = true;
+        errors[count++] = "Chinese name field is empty."
       }
 
       if ($.trim(accountcode).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Account code field is empty."
+        validationFailed = true;
+        errors[count++] = "Account code field is empty."
       }
 
       if ($.trim(price).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Price field is empty."
+        validationFailed = true;
+        errors[count++] = "Price field is empty."
       }
 
       if ($.trim(next_sn_number).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Next sn number field is empty."
+        validationFailed = true;
+        errors[count++] = "Next sn number field is empty."
       }
 
       if ($.trim(receipt_prefix).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Receipt prefix field is empty."
+        validationFailed = true;
+        errors[count++] = "Receipt prefix field is empty."
       }
 
       if ($.trim(authorized_password).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Authorized pasword field is empty."
+        validationFailed = true;
+        errors[count++] = "Authorized pasword field is empty."
       }
 
       if (validationFailed)
       {
-          var errorMsgs = '';
+        var errorMsgs = '';
 
-          for(var i = 0; i < count; i++)
-          {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
-          }
+        for(var i = 0; i < count; i++)
+        {
+          errorMsgs = errorMsgs + errors[i] + "<br/>";
+        }
 
-          $('html,body').animate({ scrollTop: 0 }, 'slow');
+        $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-          $(".validation-error").addClass("bg-danger alert alert-error")
-          $(".validation-error").html(errorMsgs);
+        $(".validation-error").addClass("bg-danger alert alert-error")
+        $(".validation-error").html(errorMsgs);
 
-          return false;
+        return false;
       }
 
       else
       {
-          $(".validation-error").removeClass("bg-danger alert alert-error")
-          $(".validation-error").empty();
+        $(".validation-error").removeClass("bg-danger alert alert-error")
+        $(".validation-error").empty();
       }
 
     });
 
     // DataTable
-    var member_table = $('#glaccount-table').DataTable({
-        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-    });
+    var table = $('#glaccount-table').removeAttr('width').DataTable( {
+        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+        columnDefs: [
+          { "width": "80px", "targets": 0 },
+          { "width": "170px", "targets": 1 },
+          { "width": "190px", "targets": 2 },
+          { "width": "100px", "targets": 3 },
+          { "width": "80px", "targets": 4 }
+        ]
+    } );
 
     $('#glaccount-table thead tr#filter th').each( function () {
-          var title = $('#glaccount-table thead th').eq( $(this).index() ).text();
-          $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+      var title = $('#glaccount-table thead th').eq( $(this).index() ).text();
+      $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
     });
 
     // Apply the filter
     $("#glaccount-table thead input").on( 'keyup change', function () {
-        member_table
-          .column( $(this).parent().index()+':visible' )
-          .search( this.value )
-          .draw();
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
     });
 
     function stopPropagation(evt) {
@@ -783,67 +786,67 @@
 
       if ($.trim(type_name).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Type name field is empty."
+        validationFailed = true;
+        errors[count++] = "Type name field is empty."
       }
 
       if ($.trim(chinese_name).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Chinese name field is empty."
+        validationFailed = true;
+        errors[count++] = "Chinese name field is empty."
       }
 
       if ($.trim(accountcode).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Account code is empty."
+        validationFailed = true;
+        errors[count++] = "Account code is empty."
       }
 
       if ($.trim(price).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Price field is empty."
+        validationFailed = true;
+        errors[count++] = "Price field is empty."
       }
 
       if ($.trim(next_sn_number).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Next SN Number field is empty."
+        validationFailed = true;
+        errors[count++] = "Next SN Number field is empty."
       }
 
       if ($.trim(receipt_prefix).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Receipt Prefix field is empty."
+        validationFailed = true;
+        errors[count++] = "Receipt Prefix field is empty."
       }
 
       if ($.trim(authorized_password).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Authorized Pasword field is empty."
+        validationFailed = true;
+        errors[count++] = "Authorized Pasword field is empty."
       }
 
       if (validationFailed)
       {
-          var errorMsgs = '';
+        var errorMsgs = '';
 
-          for(var i = 0; i < count; i++)
-          {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
-          }
+        for(var i = 0; i < count; i++)
+        {
+          errorMsgs = errorMsgs + errors[i] + "<br/>";
+        }
 
-          $('html,body').animate({ scrollTop: 0 }, 'slow');
+        $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-          $(".validation-error").addClass("bg-danger alert alert-error")
-          $(".validation-error").html(errorMsgs);
+        $(".validation-error").addClass("bg-danger alert alert-error")
+        $(".validation-error").html(errorMsgs);
 
-          return false;
+        return false;
       }
 
       else
       {
-          $(".validation-error").removeClass("bg-danger alert alert-error")
-          $(".validation-error").empty();
+        $(".validation-error").removeClass("bg-danger alert alert-error")
+        $(".validation-error").empty();
       }
 
     });

@@ -93,18 +93,18 @@
 
                                 <table class="table table-bordered" id="joblist-table">
                                   <thead>
-                                      <tr id="filter">
-                                          <th>Job Reference No</th>
-                                          <th>Name</th>
-                                          <th>Description</th>
-                                          <th>Action</th>
-                                      </tr>
-                                      <tr>
-                                          <th>Job Reference No</th>
-                                          <th>Name</th>
-                                          <th>Description</th>
-                                          <th>Action</th>
-                                      </tr>
+                                    <tr id="filter">
+                                      <th>Job Reference No</th>
+                                      <th>Name</th>
+                                      <th>Description</th>
+                                      <th>Action</th>
+                                    </tr>
+                                    <tr>
+                                      <th>Job Reference No</th>
+                                      <th>Name</th>
+                                      <th>Description</th>
+                                      <th>Action</th>
+                                    </tr>
                                   </thead>
 
                                   <tbody>
@@ -112,16 +112,9 @@
 
                                       @foreach($job as $j)
                                       <tr>
-                                        <td><a href="#tab_editjob" data-toggle="tab"
-                                            class="edit-item" id="{{ $j->job_id }}">
-                                            <span style="display: inline-block; width: 100px; overflow-wrap: break-word;">{{ $j->job_reference_no }}</span>
-                                        </td>
-                                        <td>
-                                          <span style="display: inline-block; width: 400px; overflow-wrap: break-word;">{{ $j->job_name }}</span>
-                                        </td>
-                                        <td>
-                                          <span style="display: inline-block; width: 500px; overflow-wrap: break-word;">{{ $j->job_description }}</span>
-                                        </td>
+                                        <td><a href="#tab_editjob" data-toggle="tab" class="edit-item" id="{{ $j->job_id }}">{{ $j->job_reference_no }}</td>
+                                        <td>{{ $j->job_name }}</td>
+                                        <td>{{ $j->job_description }}</td>
                                         <td>
                                           <a href="{{ URL::to('/job/delete/' . $j->job_id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-job">
                                             <i class="fa fa-trash-o"></i> Delete
@@ -373,16 +366,16 @@
     }
 
     // DataTable
-    var table = $('#joblist-table').DataTable({
-      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-      "columnDefs": [
-        { "width": "200px", "targets": 0 },
-        { "width": "300px", "targets": 1 },
-        { "width": "300px", "targets": 2 },
-        { "width": "200px", "targets": 3 }
-      ],
-      fixedColumns: true
-    });
+    var table = $('#joblist-table').removeAttr('width').DataTable( {
+        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+        columnDefs: [
+          { "width": "300px", "targets": 0 },
+          { "width": "400px", "targets": 1 },
+          { "width": "400px", "targets": 2 },
+          { "width": "200px", "targets": 3 }
+        ],
+        fixedColumns: true
+    } );
 
     $('#joblist-table thead tr#filter th').each( function () {
           var title = $('#joblist-table thead th').eq( $(this).index() ).text();
