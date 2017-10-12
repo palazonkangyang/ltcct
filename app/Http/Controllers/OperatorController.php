@@ -1378,6 +1378,9 @@ class OperatorController extends Controller
 				if(Session::has('xianyou_different_family')) { Session::forget('xianyou_different_family'); }
 				if(Session::has('yuejuan_different_family')) { Session::forget('yuejuan_different_family'); }
 
+				Session::forget('kongdan_same_family');
+				Session::forget('kongdan_different_family');
+
 				$setting_data = [
 				  'focusdevotee_id' => $devotee_id,
 					'xiangyou_ciji_id' => 1,
