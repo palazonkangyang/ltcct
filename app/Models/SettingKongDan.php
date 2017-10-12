@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class SettingKongDan extends Model
+class SettingKongdan extends Model
 {
     protected $table = 'setting_kongdan';
 
