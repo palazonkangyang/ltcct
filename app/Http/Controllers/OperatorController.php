@@ -539,6 +539,7 @@ class OperatorController extends Controller
 															->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 															->where('devotee.devotee_id', $devotee[0]->devotee_id)
 															->where('setting_kongdan.focusdevotee_id', $devotee[0]->devotee_id)
+															->where('setting_kongdan.year', null)
 															->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_kongdan.kongdan_id')
 															->GroupBy('devotee.devotee_id')
 															->get();
