@@ -1496,7 +1496,7 @@ class OperatorController extends Controller
 		                                   ->leftjoin('setting_kongdan', 'setting_kongdan.devotee_id', '=', 'devotee.devotee_id')
 		                                   ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 		                                   ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-		                                   ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+		                                   ->where('setting_kongdan.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
 		                                   ->where('setting_kongdan.address_code', '=', 'different')
 		                                   ->where('setting_kongdan.year', null)
 		                                   ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_kongdan.kongdan_id')
