@@ -311,6 +311,7 @@ class FahuiController extends Controller
                             ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
                             ->where('devotee.familycode_id', $devotee->familycode_id)
                             ->where('devotee.devotee_id', $input['focusdevotee_id'])
+                            ->where('setting_kongdan.year', null)
                             ->where('setting_kongdan.focusdevotee_id', $input['focusdevotee_id'])
                             ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_kongdan.kongdan_id')
                             ->get();
