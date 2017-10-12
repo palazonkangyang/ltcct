@@ -1543,8 +1543,8 @@ class OperatorController extends Controller
 		}
 
 		// Setting Kongdan focusdevotee
-		$setting_kongdan = SettingKongdan::where('focusdevotee_id', $devotee[0]->devotee_id)
-		                   ->where('devotee_id', $devotee[0]->devotee_id)
+		$setting_kongdan = SettingKongdan::where('focusdevotee_id', $focus_devotee[0]->devotee_id)
+		                   ->where('devotee_id', $focus_devotee[0]->devotee_id)
 		                   ->get();
 
 		if(count($setting_kongdan) > 0)
@@ -1553,8 +1553,8 @@ class OperatorController extends Controller
 		                          ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
 		                          ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 		                          ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-		                          ->where('devotee.devotee_id', $devotee[0]->devotee_id)
-		                          ->where('setting_kongdan.focusdevotee_id', $devotee[0]->devotee_id)
+		                          ->where('devotee.devotee_id', $focus_devotee[0]->devotee_id)
+		                          ->where('setting_kongdan.focusdevotee_id', $focus_devotee[0]->devotee_id)
 		                          ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_kongdan.kongdan_id')
 		                          ->GroupBy('devotee.devotee_id')
 		                          ->get();
@@ -1565,7 +1565,7 @@ class OperatorController extends Controller
 		  $kongdan_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 		                          ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 		                          ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-		                          ->where('devotee.devotee_id', $devotee[0]->devotee_id)
+		                          ->where('devotee.devotee_id', $focus_devotee[0]->devotee_id)
 		                          ->select('devotee.*', 'familycode.familycode', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 		                          ->get();
 
@@ -1602,8 +1602,8 @@ class OperatorController extends Controller
 		                             ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 		                             ->where('setting_kongdan.address_code', '=', 'same')
 		                             ->where('setting_kongdan.kongdan_id', '=', '1')
-		                             ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
-		                             ->where('setting_kongdan.devotee_id', '=', $devotee[0]->devotee_id)
+		                             ->where('setting_kongdan.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+		                             ->where('setting_kongdan.devotee_id', '=', $focus_devotee[0]->devotee_id)
 		                             ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 		                             ->GroupBy('devotee.devotee_id')
 		                             ->get();
