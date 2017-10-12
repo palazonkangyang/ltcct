@@ -245,6 +245,7 @@ class FahuiController extends Controller
 
     SettingKongdan::where('focusdevotee_id', $input['focusdevotee_id'])
 												 ->where('address_code', 'same')
+                         ->where('year', null)
 												 ->delete();
 
     if(isset($input['focusdevotee_id']))
@@ -255,8 +256,7 @@ class FahuiController extends Controller
           "focusdevotee_id" => $input['focusdevotee_id'],
           "kongdan_id" => $input['hidden_kongdan_id'][$i],
           "devotee_id" => $input['devotee_id'][$i],
-          "address_code" => "same",
-          "year" => date('Y')
+          "address_code" => "same"
         ];
 
         SettingKongdan::create($list);
@@ -274,6 +274,7 @@ class FahuiController extends Controller
 													 ->where('setting_kongdan.focusdevotee_id', '=', $input['focusdevotee_id'])
 													 ->where('setting_kongdan.address_code', '=', 'same')
 													 ->where('setting_kongdan.kongdan_id', '=', '1')
+                           ->where('setting_kongdan.year', null)
 													 ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 													 ->GroupBy('devotee.devotee_id')
 													 ->get();
@@ -285,6 +286,7 @@ class FahuiController extends Controller
                        						->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
                        						->where('setting_kongdan.address_code', '=', 'same')
                        						->where('setting_kongdan.kongdan_id', '=', '1')
+                                  ->where('setting_kongdan.year', null)
                        						->where('setting_kongdan.focusdevotee_id', '=', $input['focusdevotee_id'])
                        						->where('setting_kongdan.devotee_id', '=', $input['focusdevotee_id'])
                        						->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
