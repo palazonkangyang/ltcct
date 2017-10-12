@@ -105,17 +105,31 @@
               <div class="hor-menu">
                 <ul class="nav navbar-nav">
 
-                  @if(Auth::user()->role != 4)
-                  <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
-                          <a href="/operator/index" class="hylink"> Main Page 主页
-                              <span class="arrow"></span>
-                          </a>
+                      @if(Auth::user()->role != 4)
+                      <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown">
+                        <a href="/operator/index" class="hylink"> Main Page 主页
+                          <span class="arrow"></span>
+                        </a>
                       </li>
 
                       <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
-                          <a href="/staff/donation" class="nav-link hylink"> General Donation 乐捐/月捐
-                              <span class="arrow"></span>
-                          </a>
+                        <a href="/staff/donation" class="nav-link hylink"> General Donation 乐捐/月捐
+                          <span class="arrow"></span>
+                        </a>
+                      </li>
+
+                      <li aria-haspopup="true" class="menu-dropdown classic-menu-dropdown ">
+                        <a href="javascript:;"> FaHui 法会
+                          <span class="arrow"></span>
+                        </a>
+                        <ul class="dropdown-menu pull-left">
+                          <li aria-haspopup="true">
+                            <a href="#" class="hylink">XiaoZai - 消灾</a>
+                          </li>
+                          <li aria-haspopup="true">
+                            <a href="/fahui/kongdan" class="hylink">KongDan 孔诞</a>
+                          </li>
+                        </ul>
                       </li>
 
                       <li aria-haspopup="true" class="menu-dropdown mega-menu-dropdown">
@@ -131,6 +145,7 @@
                               <a href="javascript:;"> Fund Account
                                   <span class="arrow"></span>
                               </a>
+
                               <ul class="dropdown-menu" style="min-width: 710px">
                                   <li>
                                       <div class="mega-menu-content">

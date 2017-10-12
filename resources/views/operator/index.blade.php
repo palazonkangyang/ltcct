@@ -1525,9 +1525,9 @@
 																																							</td>
 																												                      <td>
 																																								@if(\Carbon\Carbon::parse($fd->lasttransaction_at)->lt($date))
-																																			          <span style="color: #a5a5a5;">{{ $fd->member }}</span>
+																																			          <span style="color: #a5a5a5;">{{ $fd->member_id }}</span>
 																																			          @else
-																																			          <span>{{ $fd->member }}</span>
+																																			          <span>{{ $fd->member_id }}</span>
 																																			          @endif
 																																							</td>
 																												                      <td>

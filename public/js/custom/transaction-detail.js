@@ -518,7 +518,7 @@ $(function() {
       _token: $('meta[name="csrf-token"]').attr('content'),
       receipt_no: receipt_no,
       trans_no: trans_no,
-      authorized_password
+      authorized_password: authorized_password
     };
 
     $('#donation-form')[0].reset();

@@ -598,8 +598,7 @@
 
 	                                                    		@if(Session::has('focus_devotee'))
 	                                                    		<div class="form-group">
-	                                                    			<input type="hidden" name="focusdevotee_id"
-	                                                    				value="{{ $focus_devotee[0]->devotee_id }}">
+	                                                    			<input type="hidden" name="focusdevotee_id" value="{{ $focus_devotee[0]->devotee_id }}">
 	                                                    			<input type="hidden" name="total_amount" id="total_amount" value="">
 																														<input type="hidden" name="minimum_amount" id="minimum_amount" value="{{ $amount[0]->minimum_amount }}">
 	                                                    		</div>
@@ -607,8 +606,7 @@
 	                                                    		@else
 
 	                                                    		<div class="form-group">
-	                                                    			<input type="hidden" name="focusdevotee_id"
-	                                                    				value="">
+	                                                    			<input type="hidden" name="focusdevotee_id" value="">
 	                                                    			<input type="hidden" name="total_amount" id="total_amount" value="">
 																														<input type="hidden" name="minimum_amount" id="minimum_amount" value="{{ $amount[0]->minimum_amount }}">
 	                                                    		</div>

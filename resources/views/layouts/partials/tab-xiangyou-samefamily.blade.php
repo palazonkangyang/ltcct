@@ -1,4 +1,5 @@
 <div class="form-body">
+
   <form method="post" action="{{ URL::to('/staff/samefamily-setting') }}"
     class="form-horizontal form-bordered" id="samefamily_form">
 
@@ -27,11 +28,11 @@
         @if(Session::has('setting_samefamily'))
 
         @php
-            $setting_samefamily = Session::get('setting_samefamily');
-            $focus_devotee = Session::get('focus_devotee');
-            $setting_generaldonation = Session::get('setting_generaldonation');
-            $xianyou_focusdevotee = Session::get('xianyou_focusdevotee');
-            $nosetting_samefamily = Session::get('nosetting_samefamily');
+          $setting_samefamily = Session::get('setting_samefamily');
+          $focus_devotee = Session::get('focus_devotee');
+          $setting_generaldonation = Session::get('setting_generaldonation');
+          $xianyou_focusdevotee = Session::get('xianyou_focusdevotee');
+          $nosetting_samefamily = Session::get('nosetting_samefamily');
         @endphp
 
         <tbody id="has_session">

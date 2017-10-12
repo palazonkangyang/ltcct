@@ -150,6 +150,14 @@ table.datables, table.datatables tr {
     overflow-x: scroll;
 }
 
+#transaction_wrap .col-md-4{
+  padding-right: 0!important;
+}
+
+#transaction_wrap .col-md-8{
+  padding-left: 0!important;
+}
+
 /*.populate-data, .edit-populate-data{
   margin-left: 30px;
 }
