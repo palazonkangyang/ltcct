@@ -251,9 +251,11 @@
 
         @if(count($kongdan_setting_differentfamily_last1year) > 0)
 
+        @if(Session::has('focus_devotee'))
         <h5 style="font-weight: bold;">
           <span class="setting-history">KD-{{$this_year - 1}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
         </h5>
+        @endif
 
         <table class="table table-bordered kongdan_history_table">
           <thead>
@@ -332,9 +334,11 @@
 
         @if(count($kongdan_setting_differentfamily_last2year) > 0)
 
+        @if(Session::has('focus_devotee'))
         <h5 style="font-weight: bold;">
           <span class="setting-history">KD-{{$this_year - 2}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
         </h5>
+        @endif
 
         <table class="table table-bordered kongdan_history_table">
           <thead>
@@ -413,9 +417,11 @@
 
         @if(count($kongdan_setting_differentfamily_last3year) > 0)
 
+        @if(Session::has('focus_devotee'))
         <h5 style="font-weight: bold;">
           <span class="setting-history">KD-{{$this_year - 3}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
         </h5>
+        @endif
 
         <table class="table table-bordered kongdan_history_table">
           <thead>
@@ -494,9 +500,11 @@
 
         @if(count($kongdan_setting_differentfamily_last4year) > 0)
 
+        @if(Session::has('focus_devotee'))
         <h5 style="font-weight: bold;">
           <span class="setting-history">KD-{{$this_year - 4}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
         </h5>
+        @endif
 
         <table class="table table-bordered kongdan_history_table">
           <thead>
@@ -575,9 +583,11 @@
 
         @if(count($kongdan_setting_differentfamily_last5year) > 0)
 
+        @if(Session::has('focus_devotee'))
         <h5 style="font-weight: bold;">
           <span class="setting-history">KD-{{$this_year - 5}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
         </h5>
+        @endif
 
         <table class="table table-bordered kongdan_history_table">
           <thead>

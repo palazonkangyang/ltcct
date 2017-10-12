@@ -1468,15 +1468,81 @@ class OperatorController extends Controller
 			$setting_samefamily[$i]->yuejuan_id = 0;
 		}
 
-		 $setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-																->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
-																->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-																->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-																->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
-																->where('setting_generaldonation.address_code', '=', 'different')
-																->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
-																->GroupBy('devotee.devotee_id')
-																->get();
+		$setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+															 ->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
+															 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+															 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+															 ->where('setting_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+															 ->where('setting_generaldonation.address_code', '=', 'different')
+															 ->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_generaldonation.xiangyou_ciji_id', 'setting_generaldonation.yuejuan_id')
+															 ->GroupBy('devotee.devotee_id')
+															 ->get();
+
+		// Fahui Kongdan Setting Same family
+		$kongdan_result = SettingKongdan::where('focusdevotee_id', $devotee[0]->devotee_id)->get();
+
+		if(count($kongdan_result) > 0)
+		{
+		  $kongdan_setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+		                                ->leftjoin('setting_kongdan', 'setting_kongdan.devotee_id', '=', 'devotee.devotee_id')
+		                                ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+		                                ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+		                                ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+		                                ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+		                                ->where('setting_kongdan.focusdevotee_id', $devotee[0]->devotee_id)
+		                                ->where('setting_kongdan.address_code', '=', 'same')
+		                                ->where('setting_kongdan.year', null)
+		                                ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_kongdan.kongdan_id')
+		                                ->GroupBy('devotee.devotee_id')
+		                                ->get();
+
+		  $kongdan_nosetting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+		                                  ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+		                                  ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+		                                  ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+		                                  ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+		                                  ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+		                                  ->GroupBy('devotee.devotee_id')
+		                                  ->get();
+
+		  if(count($kongdan_nosetting_samefamily) > 0)
+		  {
+		    for($i = 0; $i < count($kongdan_nosetting_samefamily); $i++)
+		    {
+		      $kongdan_nosetting_samefamily[$i]->kongdan_id = 0;
+		    }
+
+		    $kongdan_setting_samefamily = $kongdan_nosetting_samefamily->merge($kongdan_setting_samefamily);
+		  }
+		}
+
+		else
+		{
+		  $kongdan_setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+		                                ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+		                                ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+		                                ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+		                                ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+		                                ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+		                                ->GroupBy('devotee.devotee_id')
+		                                ->get();
+
+		   for($i = 0; $i < count($kongdan_setting_samefamily); $i++)
+		   {
+		     $kongdan_setting_samefamily[$i]->kongdan_id = 0;
+		   }
+		}
+
+		$kongdan_setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+		                                   ->leftjoin('setting_kongdan', 'setting_kongdan.devotee_id', '=', 'devotee.devotee_id')
+		                                   ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+		                                   ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+		                                   ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+		                                   ->where('setting_kongdan.address_code', '=', 'different')
+		                                   ->where('setting_kongdan.year', null)
+		                                   ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_kongdan.kongdan_id')
+		                                   ->GroupBy('devotee.devotee_id')
+		                                   ->get();
 
 		$receipts = Receipt::leftjoin('generaldonation', 'generaldonation.generaldonation_id', '=', 'receipt.generaldonation_id')
 								->leftjoin('devotee', 'devotee.devotee_id', '=', 'generaldonation.focusdevotee_id')
@@ -1541,6 +1607,18 @@ class OperatorController extends Controller
 		                             ->GroupBy('devotee.devotee_id')
 		                             ->get();
 
+		$kongdan_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+		                             ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
+		                             ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+		                             ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+		                             ->where('setting_kongdan.address_code', '=', 'same')
+		                             ->where('setting_kongdan.kongdan_id', '=', '1')
+		                             ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+		                             ->where('setting_kongdan.devotee_id', '=', $devotee[0]->devotee_id)
+		                             ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+		                             ->GroupBy('devotee.devotee_id')
+		                             ->get();
+
 		$optionaladdresses = OptionalAddress::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 		$optionalvehicles = OptionalVehicle::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
 		$specialRemarks = SpecialRemarks::where('devotee_id', $focus_devotee[0]->devotee_id)->get();
@@ -1587,6 +1665,10 @@ class OperatorController extends Controller
 		 Session::put('specialRemarks', $specialRemarks);
 		 Session::put('receipts', $receipts);
 		 Session::put('focusdevotee_amount', $focudevotee_amount);
+
+		 Session::put('kongdan_same_focusdevotee', $kongdan_same_focusdevotee);
+		 Session::put('kongdan_setting_samefamily', $kongdan_setting_samefamily);
+		 Session::put('kongdan_setting_differentfamily', $kongdan_setting_differentfamily);
 
 		 $today = Carbon::today();
 

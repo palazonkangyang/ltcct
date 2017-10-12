@@ -191,9 +191,11 @@
 
       @if(count($kongdan_setting_samefamily_last1year) > 0)
 
+      @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
         <span class="setting-history">KD-{{$this_year - 1}}-FC{{ $focus_devotee[0]->devotee_id }}</span>
       </h5>
+      @endif
 
       <table class="table table-bordered" id="same_familycode_table">
         <thead>
@@ -225,7 +227,6 @@
               @endif
             </td>
             <td>
-              <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
               @if($devotee->specialremarks_devotee_id == null)
               <span>{{ $devotee->devotee_id }}</span>
               @else
@@ -276,9 +277,11 @@
 
       @if(count($kongdan_setting_samefamily_last2year) > 0)
 
+      @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
         <span class="setting-history">KD-{{$this_year - 2}}-FC{{ $focus_devotee[0]->devotee_id }}</span>
       </h5>
+      @endif
 
       <table class="table table-bordered" id="same_familycode_table">
         <thead>
@@ -310,7 +313,6 @@
               @endif
             </td>
             <td>
-              <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
               @if($devotee->specialremarks_devotee_id == null)
               <span>{{ $devotee->devotee_id }}</span>
               @else
@@ -361,9 +363,11 @@
 
       @if(count($kongdan_setting_samefamily_last3year) > 0)
 
+      @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
         <span class="setting-history">KD-{{$this_year - 3}}-FC{{ $focus_devotee[0]->devotee_id }}</span>
       </h5>
+      @endif
 
       <table class="table table-bordered" id="same_familycode_table">
         <thead>
@@ -395,7 +399,6 @@
               @endif
             </td>
             <td>
-              <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
               @if($devotee->specialremarks_devotee_id == null)
               <span>{{ $devotee->devotee_id }}</span>
               @else
@@ -446,9 +449,11 @@
 
       @if(count($kongdan_setting_samefamily_last4year) > 0)
 
+      @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
         <span class="setting-history">KD-{{$this_year - 4}}-FC{{ $focus_devotee[0]->devotee_id }}</span>
       </h5>
+      @endif
 
       <table class="table table-bordered" id="same_familycode_table">
         <thead>
@@ -480,7 +485,6 @@
               @endif
             </td>
             <td>
-              <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
               @if($devotee->specialremarks_devotee_id == null)
               <span>{{ $devotee->devotee_id }}</span>
               @else
@@ -531,9 +535,11 @@
 
       @if(count($kongdan_setting_samefamily_last5year) > 0)
 
+      @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
         <span class="setting-history">KD-{{$this_year - 5}}-FC{{ $focus_devotee[0]->devotee_id }}</span>
       </h5>
+      @endif
 
       <table class="table table-bordered" id="same_familycode_table">
         <thead>
@@ -565,7 +571,6 @@
               @endif
             </td>
             <td>
-              <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
               @if($devotee->specialremarks_devotee_id == null)
               <span>{{ $devotee->devotee_id }}</span>
               @else
