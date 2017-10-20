@@ -989,7 +989,7 @@ class XiaozaiController extends Controller
 			elseif($xiaozai_setting_differentfamily[$i]['type'] == 'home' || $xiaozai_setting_differentfamily[$i]['type'] == 'company'
 						|| $xiaozai_setting_differentfamily[$i]['type'] == 'stall' || $xiaozai_setting_differentfamily[$i]['type'] == 'office')
 			{
-				$result = OptionalAddress::where('devotee_id', $input['focusdevotee_id'])
+				$result = OptionalAddress::where('devotee_id', $xiaozai_setting_differentfamily[$i]['devotee_id'])
 									->where('type', $xiaozai_setting_differentfamily[$i]['type'])
 									->get();
 
