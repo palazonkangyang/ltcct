@@ -969,6 +969,8 @@ class XiaozaiController extends Controller
         															 'setting_xiaozai.type', 'setting_xiaozai.xiaozai_id')
         															 ->get();
 
+    dd($xiaozai_setting_differentfamily->toArray());
+
     $different_oa_count = 1;
     $different_ov_count = 1;
 
