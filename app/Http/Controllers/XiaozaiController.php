@@ -1032,6 +1032,8 @@ class XiaozaiController extends Controller
 			}
 		}
 
+    dd($xiaozai_setting_differentfamily->toArray());
+
     for($i = 0; $i < count($xiaozai_setting_differentfamily); $i++)
     {
       if(isset($xiaozai_setting_differentfamily[$i]->lasttransaction_at))
