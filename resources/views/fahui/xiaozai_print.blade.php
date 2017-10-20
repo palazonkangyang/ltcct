@@ -374,8 +374,6 @@
 
       <hr>
 
-			@php dd($receipts->toArray()); @endphp
-
       <div class="receipt-list">
 
         <table class="receipt-table">
