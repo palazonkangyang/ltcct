@@ -309,11 +309,9 @@
 		$loop = count($receipts) - $devotee_count;
 		$total = $loop + $devotee_count;
 
-		dd($devotee_count);
-
 	@endphp
 
-  @for($i = $devotee_count; $i <= 12; $i++)
+  @for($i = $devotee_count; $i < $total; $i++)
 
   <section class="sheet padding-5mm">
 
@@ -376,6 +374,8 @@
 
       <hr>
 
+			@php dd($receipts->toArray()); @endphp
+
       <div class="receipt-list">
 
         <table class="receipt-table">
@@ -392,7 +392,7 @@
 
           <tbody>
 
-						@for($i = $devotee_count; $i < 12; $i++)
+						@for($i = $devotee_count; $i < count($receipts); $i++)
 
 						@if($receipts[$devotee_count]->familycode_id == $receipts[$i]->familycode_id)
 
@@ -412,7 +412,7 @@
 									<td>{{ $receipts[$i]->chinese_name }}</td>
 								@endif
 							@endif
-							<td>个人</td>
+							<td>{{ $receipts[$i]->chinese_type }}</td>
 							<td>{{ $receipts[$i]->receipt_no }}</td>
 							<td>{{ number_format( $receipts[$i]->amount, 2) }}</td>
 						</tr>
@@ -422,27 +422,6 @@
 						@endif
 
 						@endfor
-
-            <!-- <tr>
-              <td>1</td>
-							<td>{{ $receipts[$i]->devotee_id }}</td>
-							@if(isset($receipts[$i]->deceased_year))
-							  @if($receipts[$i]->hjgr == 'hj')
-							    <td>{{ $receipts[$i]->chinese_name }} (已故) (合家)</td>
-							  @else
-							    <td>{{ $receipts[$i]->chinese_name }} (已故)</td>
-							  @endif
-							@else
-							  @if($receipts[$i]->hjgr == 'hj')
-							    <td>{{ $receipts[$i]->chinese_name }} (合家)</td>
-							  @else
-							    <td>{{ $receipts[$i]->chinese_name }}</td>
-							  @endif
-							@endif
-							<td>个人</td>
-              <td>{{ $receipts[$i]->receipt_no }}</td>
-              <td>{{ number_format( $receipts[$i]->amount, 2) }}</td>
-            </tr> -->
           </tbody>
         </table>
 
