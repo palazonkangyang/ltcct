@@ -305,9 +305,15 @@
 
   @endfor
 
-	@php $loop = count($receipts) - $devotee_count; @endphp
+	@php
+		$loop = count($receipts) - $devotee_count;
+		$total = $loop + $devotee_count;
 
-  @for($i = $devotee_count; $i < $loop; $i++)
+		dd($devotee_count);
+
+	@endphp
+
+  @for($i = $devotee_count; $i <= 12; $i++)
 
   <section class="sheet padding-5mm">
 
@@ -386,7 +392,7 @@
 
           <tbody>
 
-						@for($i = $devotee_count; $i < $loop; $i++)
+						@for($i = $devotee_count; $i < 12; $i++)
 
 						@if($receipts[$devotee_count]->familycode_id == $receipts[$i]->familycode_id)
 

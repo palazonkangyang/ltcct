@@ -206,6 +206,7 @@ $(function() {
     var notsamevalue = 0;
     var type_value = 0;
     var a = 0;
+    var devotee_len = 0;
 
     var count = 0;
     var errors = new Array();
@@ -219,11 +220,15 @@ $(function() {
     $('#different_xiaozai_familycode_table .append-devotee-id').each( function () {
       var type_value = $(this).closest('tr').find('.type').val();
 
+      // devotee_len.push($(this).val());
+
       if(type_value == "individual")
       {
         a = 1;
       }
     });
+
+    console.log(devotee_len);
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),

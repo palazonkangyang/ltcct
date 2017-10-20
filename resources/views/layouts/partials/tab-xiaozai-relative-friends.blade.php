@@ -290,7 +290,7 @@
             <th>Guiyi ID</th>
             <th>GY</th>
             <th>OPS</th>
-            <th>Type</th>
+            <th width="90px">Type</th>
             <th>Item Description</th>
             <th>M.Paid Till</th>
             <th>Paid By</th>
