@@ -84,7 +84,7 @@
                           </li>
 
                           <li class="pull-right">
-                            <a href="#tab_transactiondetail" data-toggle="tab">Transaction <br> 交易详情</a>
+                            <a href="#tab_xiaozai_transactiondetail" data-toggle="tab">Transaction <br> 交易详情</a>
                           </li>
                           <li class="pull-right">
                             <a href="#tab_relative_friends" data-toggle="tab">Relative & Friends <br> 亲戚朋友</a>
@@ -97,7 +97,7 @@
                         <div class="tab-content">
 
                           <div class="tab-pane active" id="tab_xiaozai">
-
+														@include('layouts.partials.tab-xiaozai')
                           </div><!-- end tab-pane tab_kongdan -->
 
                           <div class="tab-pane" id="tab_samefamily">
@@ -108,7 +108,7 @@
 														@include('layouts.partials.tab-xiaozai-relative-friends')
                           </div><!-- end tab-pane tab_relative_friends -->
 
-                          <div class="tab-pane" id="tab_transactiondetail">
+                          <div class="tab-pane" id="tab_xiaozai_transactiondetail">
 														@include('layouts.partials.tab-xiaozai-transactiondetail')
                           </div><!-- end tab-pane tab_transactiondetail -->
 
@@ -145,6 +145,23 @@
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script src="{{asset('js/custom/common.js')}}"></script>
 <script src="{{asset('js/custom/xiaozai-samefamily-setting.js')}}"></script>
-<script src="{{asset('js/custom/kongdan.js')}}"></script>
+<script src="{{asset('js/custom/xiaozai-relative-friends.js')}}"></script>
+<script src="{{asset('js/custom/xiaozai.js')}}"></script>
+<script src="{{asset('js/custom/xiaozai-transactiondetail.js')}}"></script>
+
+<script type="text/javascript">
+
+	$(function() {
+		$("#xiaozai_trans_wrap1").hide();
+		$("#xiaozai_trans_wrap2").hide();
+		$("#xiaozai_trans_wrap3").hide();
+		$("#xiaozai_trans_wrap4").hide();
+		$("#xiaozai_trans_wrap5").hide();
+		$("#xiaozai_trans_wrap6").hide();
+		$("#xiaozai_trans_wrap7").hide();
+		$("#xiaozai_trans_wrap8").hide();
+	});
+
+</script>
 
 @stop

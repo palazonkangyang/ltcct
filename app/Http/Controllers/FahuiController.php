@@ -514,16 +514,16 @@ class FahuiController extends Controller
     if(isset($input['trans_no']))
 		{
 			$receipts = KongdanReceipt::leftjoin('kongdan_generaldonation', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
-								 ->leftjoin('devotee', 'kongdan_receipt.devotee_id', '=', 'devotee.devotee_id')
-								 ->leftjoin('user', 'kongdan_receipt.staff_id', '=', 'user.id')
-								 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-								 ->leftjoin('festiveevent', 'kongdan_generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
-								 ->where('kongdan_generaldonation.trans_no', '=', $input['trans_no'])
-								 ->select('kongdan_receipt.*', 'member.paytill_date', 'member.member_id', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
-								 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
-								 	'kongdan_generaldonation.focusdevotee_id', 'kongdan_generaldonation.trans_no', 'user.first_name', 'user.last_name',
-								 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'kongdan_generaldonation.mode_payment')
-								 ->get();
+								  ->leftjoin('devotee', 'kongdan_receipt.devotee_id', '=', 'devotee.devotee_id')
+								  ->leftjoin('user', 'kongdan_receipt.staff_id', '=', 'user.id')
+								  ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+								  ->leftjoin('festiveevent', 'kongdan_generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
+								  ->where('kongdan_generaldonation.trans_no', '=', $input['trans_no'])
+								  ->select('kongdan_receipt.*', 'member.paytill_date', 'member.member_id', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
+								 	 'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id',
+								 	 'kongdan_generaldonation.focusdevotee_id', 'kongdan_generaldonation.trans_no', 'user.first_name', 'user.last_name',
+								 	 'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'kongdan_generaldonation.mode_payment')
+								  ->get();
 
 			for($i = 0; $i < count($receipts); $i++)
 			{
@@ -568,8 +568,6 @@ class FahuiController extends Controller
 		{
 			$loop = $loop + 1;
 		}
-
-		// dd($loop);
 
 		$count_familycode = 0;
 

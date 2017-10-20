@@ -41,7 +41,7 @@ $(function() {
 
     var this_master = $(this);
 
-    this_master.find("input[name='kongdan_id[]']").each( function () {
+    this_master.find("input[name='xiaozai_id[]']").each( function () {
       var checkbox_this = $(this);
       var hidden_xiaozai_id = checkbox_this.closest('.checkbox-col').find('.hidden_xiaozai_id');
 

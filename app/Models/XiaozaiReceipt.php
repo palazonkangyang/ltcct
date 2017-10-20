@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class KongdanReceipt extends Model
+class XiaozaiReceipt extends Model
 {
-    protected $table = 'kongdan_receipt';
+    protected $table = 'xiaozai_receipt';
 
     protected $primaryKey = "receipt_id";
 
@@ -12,6 +12,7 @@ class KongdanReceipt extends Model
       'receipt_no',
       'trans_date',
       'description',
+      'type',
       'amount',
       'hjgr',
       'cancelled_date',

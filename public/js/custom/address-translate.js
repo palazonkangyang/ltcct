@@ -178,8 +178,8 @@ $(function() {
     if(address_postal)
     {
       var formData = {
-          _token: $('meta[name="csrf-token"]').attr('content'),
-          address_postal: address_postal
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        address_postal: address_postal
       };
 
       $.ajax({

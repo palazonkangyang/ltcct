@@ -10,6 +10,7 @@ class SettingXiaozai extends Model
 
     protected $fillable = [
         'focusdevotee_id',
+        'type',
         'xiaozai_id',
         'devotee_id',
         'address_code',

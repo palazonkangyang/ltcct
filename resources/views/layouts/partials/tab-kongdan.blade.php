@@ -479,37 +479,36 @@
 
       @if(Session::has('kongdan_receipts'))
 
-          @php
+        @php
+          $receipts = Session::get('kongdan_receipts');
+        @endphp
 
-              $receipts = Session::get('kongdan_receipts');
-          @endphp
+        <tbody>
+          @foreach($receipts as $receipt)
 
-          <tbody>
-              @foreach($receipts as $receipt)
-
-              <tr>
-                @if(isset($receipt->cancelled_date))
-                  <td class="text-danger">{{ $receipt->receipt_no }}</td>
+          <tr>
+            @if(isset($receipt->cancelled_date))
+              <td class="text-danger">{{ $receipt->receipt_no }}</td>
+            @else
+              <td>{{ $receipt->receipt_no }}</td>
+            @endif
+              <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
+              <td>{{ $receipt->trans_no }}</td>
+              <td>{{ $receipt->description }}</td>
+              <td>{{ $receipt->chinese_name }}</td>
+              <td>{{ $receipt->focusdevotee_id }}</td>
+              <td>
+                @if($receipt->hjgr == "hj")
+                合家
                 @else
-                  <td>{{ $receipt->receipt_no }}</td>
+                个人
                 @endif
-                  <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
-                  <td>{{ $receipt->trans_no }}</td>
-                  <td>{{ $receipt->description }}</td>
-                  <td>{{ $receipt->chinese_name }}</td>
-                  <td>{{ $receipt->focusdevotee_id }}</td>
-                  <td>
-                    @if($receipt->hjgr == "hj")
-                    合家
-                    @else
-                    个人
-                    @endif
-                  </td>
-                  <td>{{ $receipt->total_amount }}</td>
-                  <td>{{ $receipt->manualreceipt }}</td>
-                  <td><a href="#tab_kongdan_transactiondetail" data-toggle="tab" id="{{ $receipt->trans_no }}" class="kongdan-receipt-id">Detail</a></td>
-              </tr>
-              @endforeach
+              </td>
+              <td>{{ $receipt->total_amount }}</td>
+              <td>{{ $receipt->manualreceipt }}</td>
+              <td><a href="#tab_kongdan_transactiondetail" data-toggle="tab" id="{{ $receipt->trans_no }}" class="kongdan-receipt-id">Detail</a></td>
+            </tr>
+            @endforeach
           </tbody>
 
       @else

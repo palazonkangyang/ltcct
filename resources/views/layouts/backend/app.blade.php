@@ -113,7 +113,7 @@
                                       </a>
                                       <ul class="dropdown-menu pull-left">
                                         <li aria-haspopup="true">
-                                          <a href="#" class="hylink">XiaoZai - 消灾</a>
+                                          <a href="/fahui/xiaozai" class="hylink">XiaoZai - 消灾</a>
                                         </li>
                                         <li aria-haspopup="true">
                                           <a href="/fahui/kongdan" class="hylink">KongDan 孔诞</a>

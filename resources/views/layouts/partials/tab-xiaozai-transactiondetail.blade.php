@@ -1,13 +1,13 @@
 <div class="form-body">
 
-  <form method="post" target="_blank" action="{{ URL::to('/fahui/reprint-xiaozai-detail') }}"
+  <form method="post" target="_blank" action="{{ URL::to('/fahui/xiaozai-reprint-detail') }}"
     class="form-horizontal form-bordered" id="">
     {!! csrf_field() !!}
 
     <div class="col-md-6">
 
       <div class="form-group">
-        <label class="col-md-3">Receipt No</label>
+        <label class="col-md-3" style="font-weight: bold;">Receipt No</label>
         <div class="col-md-5">
             <input type="text" class="form-control" id="receipt_no" name="receipt_no">
         </div><!-- end col-md-5 -->
@@ -16,12 +16,12 @@
       </div><!-- end form-group -->
 
       <div class="form-group">
-        <label class="col-md-3">Transaction No</label>
+        <label class="col-md-3" style="font-weight: bold;">Transaction No</label>
         <div class="col-md-5">
             <input type="text" class="form-control" id="trans_no" name="trans_no">
         </div><!-- end col-md-5 -->
         <div class="col-md-4">
-          <button type="button" class="btn default" id="search_detail">Detail</button>
+          <button type="button" class="btn default" id="xiaozai_search_detail">Detail</button>
         </div><!-- end col-md-4 -->
       </div><!-- end form-group -->
 
@@ -30,14 +30,14 @@
     <div class="col-md-6">
     </div><!-- end col-md-6 -->
 
-    <div class="col-md-12" id="trans_wrap1">
+    <div class="col-md-12" id="xiaozai_trans_wrap1">
       <div class="form-group">
         <br />
         <h5 style="font-weight: bold">TRANSACTION & RECEIPT VIEWER - 交易详情</h5>
       </div><!-- end form-group -->
     </div><!-- end col-md-12 -->
 
-    <div class="col-md-12" id="trans_wrap2">
+    <div class="col-md-12" id="xiaozai_trans_wrap2">
 
       <div class="col-md-6">
         <div class="form-group">
@@ -59,7 +59,7 @@
         </div><!-- end form-group -->
 
         <div class="form-group">
-          <label class="col-md-4">Donation for Next Event ( 法会香油 )</label>
+          <label class="col-md-4">Donation for Next Event (法会香油)</label>
           <label class="col-md-1">:</label>
           <label class="col-md-4" id="donation_event"></label>
         </div><!-- end form-group -->
@@ -90,7 +90,7 @@
 
     <hr>
 
-    <div class="col-md-12" id="trans_wrap3">
+    <div class="col-md-12" id="xiaozai_trans_wrap3">
 
       <table class="table table-bordered table-striped" id="transaction-table">
        <thead>
@@ -98,8 +98,8 @@
            <th width="5%">S/No</th>
            <th width="12%">Chinese Name</th>
            <th width="10%">Devotee</th>
-           <th width="10%" id="col-member" style="display: none;">Member</th>
-           <th width="25%">Address</th>
+           <th width="10%">Type</th>
+           <th width="25%">Item Description</th>
            <th width="10%" id="col-header">HJ/ GR</th>
            <th width="10%">Receipt</th>
            <th width="10%">Amount</th>
@@ -116,13 +116,13 @@
 
    </div><!-- end col-md-12 -->
 
-   <div class="col-md-12" id="trans_wrap4">
+   <div class="col-md-12" id="xiaozai_trans_wrap4">
      <p class="text-center text-danger" id="transaction-text">
 
      </p>
    </div><!-- end col-md-12 -->
 
-   <div class="col-md-12" id="trans_wrap5">
+   <div class="col-md-12" id="xiaozai_trans_wrap5">
      <div class="form-group">
 
        <div class="col-md-6">
@@ -140,7 +140,7 @@
      </div><!-- end form-group -->
    </div><!-- end col-md-12 -->
 
-   <div class="col-md-12" id="trans_wrap6">
+   <div class="col-md-12" id="xiaozai_trans_wrap6">
      <div class="form-group">
 
        <label>Type of Receipt Printing :</label>
@@ -148,13 +148,13 @@
        <div class="mt-radio-list">
 
          <label class="mt-radio mt-radio-outline"> 1 Receipt Printing for Same Address
-             <input type="radio" name="hjgr" value="hj" checked>
-             <span></span>
+           <input type="radio" name="hjgr" value="hj" checked>
+           <span></span>
          </label>
 
          <label class="mt-radio mt-radio-outline"> Individual Receipt Printing
-             <input type="radio" name="hjgr" value="gr">
-             <span></span>
+           <input type="radio" name="hjgr" value="gr">
+           <span></span>
          </label>
      </div><!-- end mt-radio-list -->
 
@@ -165,19 +165,19 @@
 
    </form>
 
-   <form method="post" action="{{ URL::to('/staff/cancel-transaction') }}"
+   <form method="post" action="{{ URL::to('/fahui/xiaozai-cancel-transaction') }}"
      class="form-horizontal form-bordered" id="">
      {!! csrf_field() !!}
 
-   <div class="col-md-12" id="trans_wrap7">
+   <div class="col-md-12" id="xiaozai_trans_wrap7">
      <br />
      <div class="form-group">
        <label class="col-md-2">Authorized Password</label>
        <div class="col-md-2">
          @if(Auth::user()->role != 5)
-           <input type="password" class="form-control" name="authorized_password" id="authorized_password">
+          <input type="password" class="form-control" name="authorized_password" id="authorized_password">
          @else
-            <input type="password" class="form-control" name="authorized_password" id="authorized_password" disabled>
+          <input type="password" class="form-control" name="authorized_password" id="authorized_password" disabled>
          @endif
        </div><!-- end col-md-4 -->
        <div class="col-md-4">
@@ -186,7 +186,7 @@
     <br />
    </div><!-- end col-md-12 -->
 
-   <div class="col-md-12" id="trans_wrap8">
+   <div class="col-md-12" id="xiaozai_trans_wrap8">
 
     <div class="form-group">
      <input type="hidden" name="transaction_no" value="" id="hidden_transaction_no">
@@ -197,8 +197,8 @@
 
      <div class="form-group">
        <div class="form-actions">
-        <button type="button" class="btn blue" id="cancel-replace-btn">Cancel & Replace Transaction</button>
-        <button type="submit" class="btn default" id="cancel-transaction">Cancel Transaction</button>
+        <button type="button" class="btn blue" id="cancel-xiaozai-replace-btn">Cancel & Replace Transaction</button>
+        <button type="submit" class="btn default" id="cancel-xiaozai-transaction">Cancel Transaction</button>
       </div><!-- end form-actions -->
      </div><!-- end form-group -->
 
@@ -206,8 +206,8 @@
 
      <div class="form-group">
        <div class="form-actions">
-        <button type="button" class="btn blue" id="cancel-replace-btn" disabled>Cancel & Replace Transaction</button>
-        <button type="submit" class="btn default" id="cancel-transaction" disabled>Cancel Transaction</button>
+        <button type="button" class="btn blue" id="cancel-xiaozai-replace-btn" disabled>Cancel & Replace Transaction</button>
+        <button type="submit" class="btn default" id="cancel-xiaozai-transaction" disabled>Cancel Transaction</button>
       </div><!-- end form-actions -->
      </div><!-- end form-group -->
 

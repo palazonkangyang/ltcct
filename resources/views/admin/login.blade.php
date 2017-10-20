@@ -25,7 +25,7 @@
 
 			<div class="col-md-12">
 				<div class="version">
-					<h5>Version : TMS 2017 - v1.40</h5>
+					<h5>Version : TMS 2017 - v1.41</h5>
 				</div>
 			</div>
 
@@ -38,14 +38,14 @@
 		            <h3 class="form-title font-green">Sign In</h3>
 
 		            <div class="alert alert-danger display-hide">
-		                <button class="close" data-close="alert"></button>
+		              <button class="close" data-close="alert"></button>
 		                <span> Enter any username and password.</span>
 		            </div><!-- end alert alert-danger display-hide -->
 
 		           	<div class="form-group">
-		                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-		                <label class="control-label visible-ie8 visible-ie9">User ID</label>
-		                <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off"
+		            	<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+		              <label class="control-label visible-ie8 visible-ie9">User ID</label>
+		              <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off"
 											placeholder="User ID" name="user_name" id="user_name" />
 		           	</div><!-- end form-group -->
 
