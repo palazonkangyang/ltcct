@@ -1031,7 +1031,7 @@ class XiaozaiController extends Controller
 				}
 			}
 		}
-    
+
     for($i = 0; $i < count($xiaozai_setting_differentfamily); $i++)
     {
       if(isset($xiaozai_setting_differentfamily[$i]->lasttransaction_at))
@@ -1044,8 +1044,6 @@ class XiaozaiController extends Controller
   			$xiaozai_setting_differentfamily[$i]->paytill_date = \Carbon\Carbon::parse($xiaozai_setting_differentfamily[$i]->paytill_date)->format("d/m/Y");
   		}
     }
-
-    dd($xiaozai_setting_differentfamily->toArray());
 
     Session::put('xiaozai_different_family', $xiaozai_different_family);
 		Session::put('xiaozai_setting_differentfamily', $xiaozai_setting_differentfamily);
