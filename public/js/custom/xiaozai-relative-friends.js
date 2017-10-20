@@ -220,15 +220,16 @@ $(function() {
     $('#different_xiaozai_familycode_table .append-devotee-id').each( function () {
       var type_value = $(this).closest('tr').find('.type').val();
 
-      // devotee_len.push($(this).val());
+      var id = $(this).val();
 
-      if(type_value == "individual")
+      if(devotee_id == id)
       {
-        a = 1;
+        if(type_value == "individual")
+        {
+          a = 1;
+        }
       }
     });
-
-    console.log(devotee_len);
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
