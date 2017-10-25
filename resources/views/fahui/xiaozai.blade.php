@@ -31,7 +31,7 @@
 
         <ul class="page-breadcrumb breadcrumb">
           <li>
-            <a href="/operator/index">Home</a>
+            <a href="/operator/index" class="hylink">Home</a>
             <i class="fa fa-circle"></i>
           </li>
           <li>

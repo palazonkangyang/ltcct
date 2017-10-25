@@ -641,38 +641,43 @@ class XiaozaiController extends Controller
     $oa_count = 1;
 		$ov_count = 1;
 
+
+
 		for($i = 0; $i < count($xiaozai_same_family); $i++)
 		{
-			if($xiaozai_same_family[$i]['type'] == 'car' || $xiaozai_same_family[$i]['type'] == 'ship')
+			if($xiaozai_same_family[$i]->type == 'car' || $xiaozai_same_family[$i]->type == 'ship')
 			{
+        // dd($xiaozai_same_family->toArray());
 				$result = OptionalVehicle::where('devotee_id', $xiaozai_same_family[$i]->devotee_id)
-									->where('type', $xiaozai_same_family[$i]['type'])
+									->where('type', $xiaozai_same_family[$i]->type)
 									->pluck('data');
 
-				$xiaozai_same_family[$i]['ops'] = "OV#" . $ov_count;
-				$xiaozai_same_family[$i]['item_description'] = $result[0];
+				$xiaozai_same_family[$i]->ops = "OV#" . $ov_count;
+
+        if(isset($result[0]))
+				    $xiaozai_same_family[$i]->item_description = $result[0];
 
 				$ov_count++;
 			}
 
-			elseif($xiaozai_same_family[$i]['type'] == 'home' || $xiaozai_same_family[$i]['type'] == 'company'
-						|| $xiaozai_same_family[$i]['type'] == 'stall' || $xiaozai_same_family[$i]['type'] == 'office')
+			elseif($xiaozai_same_family[$i]->type == 'home' || $xiaozai_same_family[$i]->type == 'company'
+						|| $xiaozai_same_family[$i]->type == 'stall' || $xiaozai_same_family[$i]->type == 'office')
 			{
 				$result = OptionalAddress::where('devotee_id', $xiaozai_same_family[$i]->devotee_id)
-									->where('type', $xiaozai_same_family[$i]['type'])
+									->where('type', $xiaozai_same_family[$i]->type)
 									->get();
 
 				if(isset($result[0]->address_translated))
 				{
-					$xiaozai_same_family[$i]['ops'] = "OA#" . $oa_count;
-					$xiaozai_same_family[$i]['item_description'] = $result[0]->address_translated;
+					$xiaozai_same_family[$i]->ops = "OA#" . $oa_count;
+					$xiaozai_same_family[$i]->item_description = $result[0]->address_translated;
 
           $oa_count++;
 				}
 				else
 				{
-					$xiaozai_same_family[$i]['ops'] = "OA#" . $oa_count;
-					$xiaozai_same_family[$i]['item_description'] = $result[0]->oversea_address;
+					$xiaozai_same_family[$i]->ops = "OA#" . $oa_count;
+					$xiaozai_same_family[$i]->item_description = $result[0]->oversea_address;
 
           $oa_count++;
 				}
@@ -684,19 +689,19 @@ class XiaozaiController extends Controller
 
 				if(isset($result->oversea_addr_in_chinese))
 				{
-					$xiaozai_same_family[$i]['item_description'] = $result->oversea_addr_in_chinese;
+					$xiaozai_same_family[$i]->item_description = $result->oversea_addr_in_chinese;
 					$xiaozai_same_family[$i]->ops = "";
 				}
 				elseif (isset($result->address_unit1) && isset($result->address_unit2))
 				{
-					$xiaozai_same_family[$i]['item_description'] = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+					$xiaozai_same_family[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
 																																			$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
 					$xiaozai_same_family[$i]->ops = "";
 				}
 
 				else
 				{
-					$xiaozai_same_family[$i]['item_description'] = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+					$xiaozai_same_family[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
 					$xiaozai_same_family[$i]->ops = "";
 				}
 			}
@@ -718,34 +723,34 @@ class XiaozaiController extends Controller
 
 		for($i = 0; $i < count($xiaozai_focusdevotee); $i++)
 		{
-			if($xiaozai_focusdevotee[$i]['type'] == 'car' || $xiaozai_focusdevotee[$i]['type'] == 'ship')
+			if($xiaozai_focusdevotee[$i]->type == 'car' || $xiaozai_focusdevotee[$i]->type == 'ship')
 			{
 				$result = OptionalVehicle::where('devotee_id', $xiaozai_focusdevotee[$i]->devotee_id)
-									->where('type', $xiaozai_focusdevotee[$i]['type'])
+									->where('type', $xiaozai_focusdevotee[$i]->type)
 									->pluck('data');
 
-				$xiaozai_focusdevotee[$i]['ops'] = "OV#" . $ov_count;
-				$xiaozai_focusdevotee[$i]['item_description'] = $result[0];
+				$xiaozai_focusdevotee[$i]->ops = "OV#" . $ov_count;
+				$xiaozai_focusdevotee[$i]->item_description = $result[0];
 
 				$ov_count++;
 			}
 
-			elseif($xiaozai_focusdevotee[$i]['type'] == 'home' || $xiaozai_focusdevotee[$i]['type'] == 'company'
-						|| $xiaozai_focusdevotee[$i]['type'] == 'stall' || $xiaozai_focusdevotee[$i]['type'] == 'office')
+			elseif($xiaozai_focusdevotee[$i]->type == 'home' || $xiaozai_focusdevotee[$i]->type == 'company'
+						|| $xiaozai_focusdevotee[$i]->type == 'stall' || $xiaozai_focusdevotee[$i]->type == 'office')
 			{
 				$result = OptionalAddress::where('devotee_id', $xiaozai_focusdevotee[$i]->devotee_id)
-									->where('type', $xiaozai_focusdevotee[$i]['type'])
+									->where('type', $xiaozai_focusdevotee[$i]->type)
 									->get();
 
 				if(isset($result[0]->address_translated))
 				{
-					$xiaozai_focusdevotee[$i]['ops'] = "OA#" . $oa_count;
-					$xiaozai_focusdevotee[$i]['item_description'] = $result[0]->address_translated;
+					$xiaozai_focusdevotee[$i]->ops = "OA#" . $oa_count;
+					$xiaozai_focusdevotee[$i]->item_description = $result[0]->address_translated;
 				}
 				else
 				{
-					$xiaozai_focusdevotee[$i]['ops'] = "OA#" . $oa_count;
-					$xiaozai_focusdevotee[$i]['item_description'] = $result[0]->oversea_address;
+					$xiaozai_focusdevotee[$i]->ops = "OA#" . $oa_count;
+					$xiaozai_focusdevotee[$i]->item_description = $result[0]->oversea_address;
 				}
 
 				$oa_count++;
@@ -757,19 +762,19 @@ class XiaozaiController extends Controller
 
 				if(isset($result->oversea_addr_in_chinese))
 				{
-					$xiaozai_focusdevotee[$i]['item_description'] = $result->oversea_addr_in_chinese;
+					$xiaozai_focusdevotee[$i]->item_description = $result->oversea_addr_in_chinese;
 					$xiaozai_focusdevotee[$i]->ops = "";
 				}
 				elseif (isset($result->address_unit1) && isset($result->address_unit2))
 				{
-					$xiaozai_focusdevotee[$i]['item_description'] = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+					$xiaozai_focusdevotee[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
 																																			$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
 					$xiaozai_focusdevotee[$i]->ops = "";
 				}
 
 				else
 				{
-					$xiaozai_focusdevotee[$i]['item_description'] = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+					$xiaozai_focusdevotee[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
 					$xiaozai_focusdevotee[$i]->ops = "";
 				}
 			}
@@ -790,34 +795,36 @@ class XiaozaiController extends Controller
 
 		for($i = 0; $i < count($xiaozai_setting_samefamily); $i++)
 		{
-			if($xiaozai_setting_samefamily[$i]['type'] == 'car' || $xiaozai_setting_samefamily[$i]['type'] == 'ship')
+			if($xiaozai_setting_samefamily[$i]->type == 'car' || $xiaozai_setting_samefamily[$i]->type == 'ship')
 			{
 				$result = OptionalVehicle::where('devotee_id', $xiaozai_setting_samefamily[$i]->devotee_id)
-									->where('type', $xiaozai_setting_samefamily[$i]['type'])
+									->where('type', $xiaozai_setting_samefamily[$i]->type)
 									->pluck('data');
 
-				$xiaozai_setting_samefamily[$i]['ops'] = "OV#" . $ov_count;
-				$xiaozai_setting_samefamily[$i]['item_description'] = $result[0];
+				$xiaozai_setting_samefamily[$i]->ops = "OV#" . $ov_count;
+
+        if(isset($result[0]))
+				    $xiaozai_setting_samefamily[$i]->item_description = $result[0];
 
 				$ov_count++;
 			}
 
-			elseif($xiaozai_setting_samefamily[$i]['type'] == 'home' || $xiaozai_setting_samefamily[$i]['type'] == 'company'
-						|| $xiaozai_setting_samefamily[$i]['type'] == 'stall' || $xiaozai_setting_samefamily[$i]['type'] == 'office')
+			elseif($xiaozai_setting_samefamily[$i]->type == 'home' || $xiaozai_setting_samefamily[$i]->type == 'company'
+						|| $xiaozai_setting_samefamily[$i]->type == 'stall' || $xiaozai_setting_samefamily[$i]->type == 'office')
 			{
 				$result = OptionalAddress::where('devotee_id', $xiaozai_setting_samefamily[$i]->devotee_id)
-									->where('type', $xiaozai_setting_samefamily[$i]['type'])
+									->where('type', $xiaozai_setting_samefamily[$i]->type)
 									->get();
 
 				if(isset($result[0]->address_translated))
 				{
-					$xiaozai_setting_samefamily[$i]['ops'] = "OA#" . $oa_count;
-					$xiaozai_setting_samefamily[$i]['item_description'] = $result[0]->address_translated;
+					$xiaozai_setting_samefamily[$i]->ops = "OA#" . $oa_count;
+					$xiaozai_setting_samefamily[$i]->item_description = $result[0]->address_translated;
 				}
 				else
 				{
-					$xiaozai_setting_samefamily[$i]['ops'] = "OA#" . $oa_count;
-					$xiaozai_setting_samefamily[$i]['item_description'] = $result[0]->oversea_address;
+					$xiaozai_setting_samefamily[$i]->ops = "OA#" . $oa_count;
+					$xiaozai_setting_samefamily[$i]->item_description = $result[0]->oversea_address;
 				}
 
 				$oa_count++;
@@ -829,12 +836,12 @@ class XiaozaiController extends Controller
 
 				if(isset($result->oversea_addr_in_chinese))
 				{
-					$xiaozai_setting_samefamily[$i]['item_description'] = $result->oversea_addr_in_chinese;
+					$xiaozai_setting_samefamily[$i]->item_description = $result->oversea_addr_in_chinese;
 					$xiaozai_setting_samefamily[$i]->ops = "";
 				}
 				elseif (isset($result->address_unit1) && isset($result->address_unit2))
 				{
-					$xiaozai_setting_samefamily[$i]['item_description'] = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+					$xiaozai_setting_samefamily[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
 																																			$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
 					$xiaozai_setting_samefamily[$i]->ops = "";
 				}
@@ -1077,7 +1084,8 @@ class XiaozaiController extends Controller
   									->where('type', $result[$i]->type)
   									->pluck('data');
 
-  				$result[$i]->item_description = $optional_result[0];
+          if(isset($optional_result[0]))
+  				    $result[$i]->item_description = $optional_result[0];
   			}
 
   			elseif($result[$i]->type == 'home' || $result[$i]->type == 'company'

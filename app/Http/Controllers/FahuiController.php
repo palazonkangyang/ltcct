@@ -137,7 +137,7 @@ class FahuiController extends Controller
     // remove session
 	  Session::forget('kongdan_receipts');
 
-    $devotee = Devotee::where()->get('devotee_id', $input['focusdevotee_id']);
+    $devotee = Devotee::where('devotee_id', $input['focusdevotee_id'])->get();
 
     $kongdan_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
                            ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')

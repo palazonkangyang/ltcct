@@ -92,7 +92,7 @@ $(function() {
       data: formData,
       dataType: 'json',
       success: function(response)
-      {
+      {        
         $("#xiaozai_trans_wrap1").show();
     		$("#xiaozai_trans_wrap2").show();
     		$("#xiaozai_trans_wrap3").show();
