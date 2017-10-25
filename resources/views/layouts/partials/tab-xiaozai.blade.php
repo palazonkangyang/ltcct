@@ -2,8 +2,6 @@
   $xiaozai_same_focusdevotee = Session::get('xiaozai_same_focusdevotee');
   $xiaozai_same_family = Session::get('xiaozai_same_family');
   $xiaozai_different_family = Session::get('xiaozai_different_family');
-
-  $focus_devotee = Session::get('focus_devotee');
 @endphp
 
 <div class="form-body">
@@ -54,6 +52,7 @@
             @elseif($devotee->type == 'company')
               <input type="checkbox" class="company_total_type" name="company_total_type[]" value="" style="display:none">
             @elseif($devotee->type == 'stall')
+              <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
             @elseif($devotee->type == 'office')
               <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
             @elseif($devotee->type == 'car')
@@ -99,7 +98,7 @@
             <input type="hidden" name="type[]" value="{{ $devotee->type }}">
             @elseif($devotee->type == 'stall')
             小贩
-            <input type="hidden" class="form-control" name="amount[]" value="">
+            <input type="hidden" class="form-control" name="amount[]" value="30">
             <input type="hidden" name="type[]" value="{{ $devotee->type }}">
             @elseif($devotee->type == 'office')
             办公址
@@ -116,17 +115,15 @@
             @endif
           </td>
           <td>{{ $devotee->item_description }}</td>
-          <td width="80px">
-            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($devotee->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+          <td width="80px">{{ $devotee->receipt_no }}</td>
+          <td></td>
+          <td>
+            @if(isset($devotee->lasttransaction_at))
+            <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
             @else
-            <span>{{ $devotee->paytill_date }}</span>
+            <span>{{ $devotee->lasttransaction_at }}</span>
             @endif
           </td>
-          <td></td>
-          <td></td>
         </tr>
 
         @endforeach
@@ -211,17 +208,15 @@
             @endif
           </td>
           <td>{{ $devotee->item_description }}</td>
-          <td width="80px">
-            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($devotee->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+          <td width="80px">{{ $devotee->receipt_no }}</td>
+          <td></td>
+          <td>
+            @if(isset($devotee->lasttransaction_at))
+            <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
             @else
-            <span>{{ $devotee->paytill_date }}</span>
+            <span>{{ $devotee->lasttransaction_at }}</span>
             @endif
           </td>
-          <td></td>
-          <td></td>
         </tr>
 
         @endforeach
@@ -351,17 +346,15 @@
                 @endif
               </td>
               <td>{{ $list->item_description }}</td>
+              <td>{{ $list->receipt_no }}</td>
+              <td></td>
               <td>
-                @if(isset($list->paytill_date) && \Carbon\Carbon::parse($list->paytill_date)->lt($now))
-                <span class="text-danger">{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
-                @elseif(isset($list->paytill_date))
-                <span>{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
+                @if(isset($devotee->lasttransaction_at))
+                <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
                 @else
-                <span>{{ $list->paytill_date }}</span>
+                <span>{{ $devotee->lasttransaction_at }}</span>
                 @endif
               </td>
-              <td></td>
-              <td></td>
             </tr>
 
           @endforeach

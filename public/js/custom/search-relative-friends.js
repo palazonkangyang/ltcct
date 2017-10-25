@@ -1,5 +1,7 @@
 $(function() {
 
+  $("#insert_devotee").attr("disabled", "disabled");
+
   $("#search_devotee_id").focusout(function() {
 
     if($(this).val() == "" && $("#search_member_id").val() == "" && $("#search_chinese_name").val() == "")
@@ -40,8 +42,9 @@ $(function() {
     $("#search_address_street").val('');
     $("#search_address_postal").val('');
     $("#search_country").val('');
-  }
 
+    $("#insert_devotee").attr("disabled", "disabled");
+  }
 
   $("#search_detail_btn").click(function() {
 
@@ -121,6 +124,8 @@ $(function() {
   $("#search_devotee_lists").on("mouseover", ".search-member", function(e) {
     var devotee_id = $(this).attr("id");
 
+    $("#insert_devotee").removeAttr("disabled");
+
     $("#search_devotee_lists").find('a').removeClass('highlight');
     $(this).addClass('highlight');
 
@@ -152,7 +157,7 @@ $(function() {
         $.each(response.devotee, function(index, data) {
 
           $("#searchby_devotee_id").val(data.devotee_id);
-          $("#searchby_member_id").val(data.member_id);
+          $("#searchby_member_id").val(data.member);
           $("#search_title").val(data.title);
           $("#searchby_chinese_name").val(data.chinese_name);
           $("#search_english_name").val(data.english_name);
@@ -160,7 +165,11 @@ $(function() {
           $("#search_contact").val(data.contact);
           $("#search_address_houseno").val(data.address_houseno);
 
-          if(data.address_unit1 != null && data.address_unit2 != null)
+          if(data.oversea_addr_in_chinese != null)
+          {
+            $("#search_oversea_addr_in_chinese").val(data.oversea_addr_in_chinese);
+          }
+          else if(data.address_unit1 != null && data.address_unit2 != null)
           {
             $("#search_address_unit").val("#" + data.address_unit1 + "-" + data.address_unit2);
           }
@@ -288,7 +297,7 @@ $(function() {
             "<input type='hidden' class='form-control hidden_yuejuan_id' name='hidden_yuejuan_id[]' value=''></td>" +
             "<td>" + data.chinese_name +"</td>" +
             "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
-            "<td>" + $.trim(data.member_id) + "</td>" +
+            "<td>" + $.trim(data.member) + "</td>" +
             "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
             "<td>" + $.trim(data.guiyi_name) + "</td>" +
             "<td>" + $.trim(data.contact) + "</td>" +

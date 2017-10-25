@@ -224,6 +224,13 @@
           </div><!-- end col-md-3 -->
         </div><!-- end form-group -->
 
+        <div class="form-group">
+          <label class="col-md-3">Oversea Addr in Chinese</label>
+          <div class="col-md-9">
+              <input type="text" class="form-control" id="search_oversea_addr_in_chinese">
+          </div><!-- end col-md-9 -->
+        </div><!-- end form-group -->
+
       </div><!-- end col-md-12 -->
 
     </div><!-- end col-md-6 -->

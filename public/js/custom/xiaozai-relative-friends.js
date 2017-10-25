@@ -1,5 +1,7 @@
 $(function() {
 
+  $("#insert_devotee").attr("disabled", "disabled");
+
   $("#search_devotee_id").focusout(function() {
 
     if($(this).val() == "" && $("#search_member_id").val() == "" && $("#search_chinese_name").val() == "")
@@ -40,6 +42,8 @@ $(function() {
     $("#search_address_street").val('');
     $("#search_address_postal").val('');
     $("#search_country").val('');
+
+    $("#insert_devotee").attr("disabled", "disabled");
   }
 
   $("#xiaozai_differentfamily_form").submit(function() {
@@ -140,6 +144,8 @@ $(function() {
   $("#search_devotee_lists").on("mouseover", ".search-member", function(e) {
     var devotee_id = $(this).attr("id");
 
+    $("#insert_devotee").removeAttr("disabled");
+
     $("#search_devotee_lists").find('a').removeClass('highlight');
     $(this).addClass('highlight');
 
@@ -171,7 +177,7 @@ $(function() {
         $.each(response.devotee, function(index, data) {
 
           $("#searchby_devotee_id").val(data.devotee_id);
-          $("#searchby_member_id").val(data.member_id);
+          $("#searchby_member_id").val(data.member);
           $("#search_title").val(data.title);
           $("#searchby_chinese_name").val(data.chinese_name);
           $("#search_english_name").val(data.english_name);
@@ -179,7 +185,11 @@ $(function() {
           $("#search_contact").val(data.contact);
           $("#search_address_houseno").val(data.address_houseno);
 
-          if(data.address_unit1 != null && data.address_unit2 != null)
+          if(data.oversea_addr_in_chinese != null)
+          {
+            $("#search_oversea_addr_in_chinese").val(data.oversea_addr_in_chinese);
+          }
+          else if(data.address_unit1 != null && data.address_unit2 != null)
           {
             $("#search_address_unit").val("#" + data.address_unit1 + "-" + data.address_unit2);
           }
@@ -244,8 +254,6 @@ $(function() {
       dataType: 'json',
       success: function(response)
       {
-        notsamevalue = 0;
-
         $.each(response.devotee, function(index, data) {
 
           notsamevalue = 0;
@@ -278,7 +286,7 @@ $(function() {
                 "<td>" + data.ops + "</td>" +
                 "<td><select class='form-control type' name='type[]'><option value='sameaddress' selected>合家</option>" +
                 "<option value='individual'>个人</option></select></td>" +
-                "<td>" + data.item_description + "</td>" +
+                "<td>" + (data.item_description !=null ? data.item_description : '') + "</td>" +
                 "<td>" + $.trim(data.paytill_date) + "</td>" +
                 "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
             }
@@ -296,7 +304,7 @@ $(function() {
                 "<td>" + data.ops + "</td>" +
                 "<td><select class='form-control type' name='type[]' style='display: none;'><option value='" + data.type  + "' selected>" + data.type + "</option>" +
                 "</select>" + data.chinese_type + "</td>" +
-                "<td>" + data.item_description + "</td>" +
+                "<td>" + (data.item_description !=null ? data.item_description : '') + "</td>" +
                 "<td>" + $.trim(data.paytill_date) + "</td>" +
                 "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
             }

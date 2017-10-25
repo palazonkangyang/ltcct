@@ -1,4 +1,4 @@
-    
+
     <form method="post" action="{{ URL::to('/staff/donation') }}" class="form-horizontal form-bordered">
 
             {!! csrf_field() !!}
@@ -29,8 +29,8 @@
 
                     @if(Session::has('devotee_lists'))
 
-                        @php 
-                    
+                        @php
+
                             $devotee_lists = Session::get('devotee_lists');
                             $focus_devotee = Session::get('focus_devotee');
 
@@ -118,7 +118,7 @@
                     @endif
 
                 </table>
-                                                                    
+
             </div><!-- end form-group -->
 
             <div class="form-group">
@@ -150,7 +150,7 @@
                     </tbody>
 
                 </table>
-                                                                    
+
             </div><!-- end form-group -->
 
         </div><!-- end form-body -->

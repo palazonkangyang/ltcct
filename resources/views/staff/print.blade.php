@@ -296,9 +296,13 @@
 						@if($count_familycode == 1)
 							<div class="rightlabel-right">{{ $receipts[0]->xy_receipt }}</div><!-- end label-right -->
 		        @elseif($count > 6)
-		          <div class="rightlabel-right">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
+		          <div class="rightlabel-right">
+								<span style="width: 21mm; display: block; text-align: left; margin-left: 11mm;">{{ $receipts[0]->xy_receipt }} - <br /> {{ $receipts[$samefamily_no - 1]->xy_receipt }}</span>
+							</div><!-- end label-right -->
 		        @else
-		          <div class="rightlabel-right">{{ $receipts[0]->xy_receipt }} - {{ $receipts[$samefamily_no - 1]->xy_receipt }}</div><!-- end label-right -->
+		          <div class="rightlabel-right">
+								<span style="width: 21mm; display: block; text-align: left; margin-left: 11mm;">{{ $receipts[0]->xy_receipt }} - <br /> {{ $receipts[$samefamily_no - 1]->xy_receipt }}</span>
+							</div><!-- end label-right -->
 		        @endif
 		      </div><!-- end label-wrapper -->
 		    </div><!-- end receipt-info -->

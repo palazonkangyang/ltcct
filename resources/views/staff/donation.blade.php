@@ -6,6 +6,9 @@
 		$xianyou_same_family = Session::get('xianyou_same_family');
 		$xianyou_same_focusdevotee = Session::get('xianyou_same_focusdevotee');
 		$xianyou_different_family = Session::get('xianyou_different_family');
+		$ciji_same_family = Session::get('ciji_same_family');
+		$ciji_same_focusdevotee = Session::get('ciji_same_focusdevotee');
+		$ciji_different_family = Session::get('ciji_different_family');
 		$yuejuan_same_family = Session::get('yuejuan_same_family');
 		$yuejuan_same_focusdevotee = Session::get('yuejuan_same_focusdevotee');
 		$yuejuan_different_family = Session::get('yuejuan_different_family');
@@ -47,7 +50,7 @@
 
             		<ul class="page-breadcrumb breadcrumb">
                         <li>
-                            <a href="/operator/index">Home</a>
+                            <a href="/operator/index" class="hylink">Home</a>
                             <i class="fa fa-circle"></i>
                         </li>
                         <li>
@@ -217,8 +220,14 @@
 																													                    </select>
 																																							<input type="hidden" name="display[]" class="display-hidden" value="">
 																													                  </td>
-																													                  <td></td>
-																													                  <td></td>
+																													                  <td>{{ $xianyou_same_focusdevotee[0]->xyreceipt }}</td>
+																													                  <td>
+																																							@if(isset($xianyou_same_focusdevotee[0]->lasttransaction_at))
+																																							<span>{{ \Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}</span>
+																																							@else
+																																							<span>{{ $xianyou_same_focusdevotee[0]->lasttransaction_at }}</span>
+																																							@endif
+																																						</td>
 																													                </tr>
 
 																													                @endif
@@ -274,9 +283,9 @@
                                                                             	</td>
                                                                             	<td width="100px">
                                                                             		<select class="form-control hjgr" name="hjgr_arr[]">
-	                                                                                    <option value="hj">合家</option>
-	                                                                                    <option value="gr">个人</option>
-	                                                                                </select>
+	                                                                                <option value="hj">合家</option>
+	                                                                              	<option value="gr">个人</option>
+	                                                                              </select>
                                                                             	</td>
                                                                             	<td width="80px">
                                                                             		<select class="form-control display" name="display[]">
@@ -285,8 +294,14 @@
 	                                                                              </select>
 																																								<input type="hidden" name="display[]" class="display-hidden" value="">
                                                                             	</td>
-                                                                            	<td></td>
-                                                                            	<td></td>
+                                                                            	<td>{{ $xs_family->xyreceipt }}</td>
+                                                                            	<td>
+																																								@if(isset($xs_family->lasttransaction_at))
+																																								<span>{{ \Carbon\Carbon::parse($xs_family->lasttransaction_at)->format("d/m/Y") }}</span>
+																																								@else
+																																								<span>{{ $xs_family->lasttransaction_at }}</span>
+																																								@endif
+																																							</td>
                                                                             </tr>
 
                                                                             @endforeach
@@ -396,8 +411,14 @@
 	                                                                              </select>
 																																								<input type="hidden" name="other_display[]" class="display-hidden" value="">
                                                                             	</td>
-                                                                            	<td></td>
-                                                                            	<td></td>
+                                                                            	<td>{{ $list->xyreceipt }}</td>
+                                                                            	<td>
+																																								@if(isset($list->lasttransaction_at))
+																																								<span>{{ \Carbon\Carbon::parse($list->lasttransaction_at)->format("d/m/Y") }}</span>
+																																								@else
+																																								<span>{{ $list->lasttransaction_at }}</span>
+																																								@endif
+																																							</td>
                                                                             </tr>
 
 																																					@endforeach
@@ -966,11 +987,19 @@
 
 					if(amount > minimum_amount)
 					{
+						$(this).closest('tr').find(".display").removeAttr('disabled');
+						$(this).closest('tr').find(".display").val('Y');
+						$(this).closest('tr').find(".display-hidden").val('Y');
+					}
+					else if(amount == minimum_amount)
+					{
+						$(this).closest('tr').find(".display").removeAttr('disabled');
 						$(this).closest('tr').find(".display").val('Y');
 						$(this).closest('tr').find(".display-hidden").val('Y');
 					}
 					else
 					{
+						$(this).closest('tr').find(".display").attr("disabled", "disabled");
 						$(this).closest('tr').find(".display").val('N');
 						$(this).closest('tr').find(".display-hidden").val('N');
 					}

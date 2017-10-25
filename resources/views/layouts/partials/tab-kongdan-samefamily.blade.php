@@ -153,6 +153,7 @@
               <span>{{ $devotee->paytill_date }}</span>
               @endif
             </td>
+            <td></td>
             <td>
               @if(isset($devotee->lasttransaction_at))
               {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
@@ -260,6 +261,7 @@
               <span>{{ $devotee->paytill_date }}</span>
               @endif
             </td>
+            <td></td>
             <td>
               @if(isset($devotee->lasttransaction_at))
               {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}

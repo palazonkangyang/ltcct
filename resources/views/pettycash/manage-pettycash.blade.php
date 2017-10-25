@@ -175,6 +175,13 @@
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
+                                    <label class="col-md-3 control-label">Cash In Hand</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" value="{{ $glcode[0] }}" disabled>
+                                    </div><!-- end col-md-9 -->
+                                  </div><!-- end form-group -->
+
+                                  <div class="form-group">
                                     <label class="col-md-3 control-label">Expenditure Total</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="expenditure_total" value="{{ old('expenditure_total') }}" id="expenditure_total" readonly>

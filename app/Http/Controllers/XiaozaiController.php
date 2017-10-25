@@ -95,6 +95,11 @@ class XiaozaiController extends Controller
       {
         if($input['hidden_xiaozai_amount'][$i] == 1)
         {
+          $devotee = Devotee::find($input['devotee_id'][$i]);
+
+          $devotee->lasttransaction_at = Carbon::now();
+          $devotee->save();
+
           if(count(XiaozaiReceipt::all()) > 0)
           {
             $same_receipt = XiaozaiReceipt::all()->last()->receipt_id;
@@ -146,6 +151,9 @@ class XiaozaiController extends Controller
 
     // remove session
 	  Session::forget('xiaozai_receipts');
+    Session::forget('xiaozai_same_focusdevotee');
+		Session::forget('xiaozai_same_family');
+		Session::forget('xiaozai_different_family');
 
     $xiaozai_receipts = XiaozaiGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'xiaozai_generaldonation.focusdevotee_id')
         								->leftjoin('xiaozai_receipt', 'xiaozai_receipt.generaldonation_id', '=', 'xiaozai_generaldonation.generaldonation_id')
@@ -336,13 +344,12 @@ class XiaozaiController extends Controller
 
 				if(isset($result->oversea_addr_in_chinese))
 				{
-					$devotee_collection[$i]['item_description'] = $result[0]->oversea_addr_in_chinese;
-          $devotee_collection[$i]['ops'] = "OA#" . $ops_count;
+					$devotee_collection[$i]['item_description'] = $result->oversea_addr_in_chinese;
 				}
 				elseif (isset($result->address_unit1) && isset($result->address_unit2))
 				{
 					$devotee_collection[$i]['item_description'] = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																															 $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
+																												$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
 				}
 
 				else
@@ -853,6 +860,8 @@ class XiaozaiController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
+    // dd($input);
+
     SettingXiaozai::where('focusdevotee_id', $input['focusdevotee_id'])
 												 ->where('address_code', 'different')
                          ->where('year', null)
@@ -906,7 +915,7 @@ class XiaozaiController extends Controller
 			elseif($xiaozai_different_family[$i]['type'] == 'home' || $xiaozai_different_family[$i]['type'] == 'company'
 						|| $xiaozai_different_family[$i]['type'] == 'stall' || $xiaozai_different_family[$i]['type'] == 'office')
 			{
-				$result = OptionalAddress::where('devotee_id', $input['focusdevotee_id'])
+				$result = OptionalAddress::where('devotee_id', $xiaozai_different_family[$i]['devotee_id'])
 									->where('type', $xiaozai_different_family[$i]['type'])
 									->get();
 
@@ -1290,19 +1299,19 @@ class XiaozaiController extends Controller
     // Check Transaction devotee and focus devotee is the same
 		$focusdevotee = Session::get('focus_devotee');
 
-		if(count($focusdevotee) == 0)
-		{
-			return response()->json(array(
-	      'msg' => 'Please select Focus Devotee.'
-	    ));
-		}
-
-    if($focusdevotee[0]->devotee_id != $result[0]->focusdevotee_id)
-		{
-			return response()->json(array(
-	      'msg' => 'Search receipt no or transaction no by focus devotee.'
-	    ));
-		}
+		// if(count($focusdevotee) == 0)
+		// {
+		// 	return response()->json(array(
+	  //     'msg' => 'Please select Focus Devotee.'
+	  //   ));
+		// }
+    //
+    // if($focusdevotee[0]->devotee_id != $result[0]->focusdevotee_id)
+		// {
+		// 	return response()->json(array(
+	  //     'msg' => 'Search receipt no or transaction no by focus devotee.'
+	  //   ));
+		// }
 
     if(count($result) > 0)
 		{
@@ -1509,26 +1518,30 @@ class XiaozaiController extends Controller
 
 				$focus_devotee = Session::get('focus_devotee');
 
-				$xiaozai_receipts = XiaozaiGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'xiaozai_generaldonation.focusdevotee_id')
-        										->leftjoin('xiaozai_receipt', 'xiaozai_receipt.generaldonation_id', '=', 'xiaozai_generaldonation.generaldonation_id')
-        										->where('xiaozai_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
-        										->whereIn('xiaozai_receipt.glcode_id', array(118, 120))
-        										->GroupBy('xiaozai_generaldonation.generaldonation_id')
-        										->select('xiaozai_generaldonation.*', 'devotee.chinese_name', 'xiaozai_receipt.cancelled_date')
-        										->orderBy('xiaozai_generaldonation.generaldonation_id', 'desc')
-        										->get();
+				if(count($focus_devotee) > 0)
+        {
+          $xiaozai_receipts = XiaozaiGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'xiaozai_generaldonation.focusdevotee_id')
+          										->leftjoin('xiaozai_receipt', 'xiaozai_receipt.generaldonation_id', '=', 'xiaozai_generaldonation.generaldonation_id')
+          										->where('xiaozai_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+          										->whereIn('xiaozai_receipt.glcode_id', array(118, 120))
+          										->GroupBy('xiaozai_generaldonation.generaldonation_id')
+          										->select('xiaozai_generaldonation.*', 'devotee.chinese_name', 'xiaozai_receipt.cancelled_date')
+          										->orderBy('xiaozai_generaldonation.generaldonation_id', 'desc')
+          										->get();
 
-				if(count($xiaozai_receipts) > 0)
-				{
-					for($i = 0; $i < count($xiaozai_receipts); $i++)
-					{
-						$data = XiaozaiReceipt::where('generaldonation_id', $xiaozai_receipts[$i]->generaldonation_id)->pluck('receipt_no');
-						$receipt_count = count($data);
-						$xiaozai_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
-					}
-				}
+  				if(count($xiaozai_receipts) > 0)
+  				{
+  					for($i = 0; $i < count($xiaozai_receipts); $i++)
+  					{
+  						$data = XiaozaiReceipt::where('generaldonation_id', $xiaozai_receipts[$i]->generaldonation_id)->pluck('receipt_no');
+  						$receipt_count = count($data);
+  						$xiaozai_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+  					}
+  				}
 
-				Session::put('xiaozai_receipts', $xiaozai_receipts);
+  				Session::put('xiaozai_receipts', $xiaozai_receipts);
+        }
+
 				$request->session()->flash('success', 'The transaction is successfully cancelled.');
 
 				return redirect()->back()->with([

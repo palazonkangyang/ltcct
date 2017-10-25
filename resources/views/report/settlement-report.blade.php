@@ -75,7 +75,7 @@
                             <div class="form-group">
                               <label style="padding:0;">Type</label>
                               <select class="form-control" name="type" id="type">
-                                <option value="">Please Select</option>
+                                <!-- <option value="">Please Select</option> -->
                                 <option value="0">All</option>
                                 @foreach($glcode as $g)
                                 <option value="{{ $g->glcode_id }}">{{ $g->type_name }}</option>
@@ -137,6 +137,11 @@
 				$(this).closest(".mega-menu-dropdown" ).addClass('active');
 	    }
    });
+
+   var d = new Date();
+   var date = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+
+   $("#date").val(date);
 
     $("#report").click(function() {
 

@@ -3,6 +3,7 @@ $(function() {
   $("#xiaozai_search_detail").click(function() {
 
     var user_id = $("#user_id").val();
+    var focusdevotee_id = $("#focusdevotee_id").val();
 
     $("#amount").removeClass('text-danger');
     $("#cancel-kongdan-replace-btn").attr('disabled', false);
@@ -215,8 +216,8 @@ $(function() {
         else
         {
           $("#amount").removeClass('text-danger');
-          $("#cancel-kongdan-replace-btn").attr('disabled', false);
-          $("#cancel-kongdan-transaction").attr('disabled', false);
+          $("#cancel-xiaozai-replace-btn").attr('disabled', false);
+          $("#cancel-xiaozai-transaction").attr('disabled', false);
           $("#authorized_password").attr('disabled', false);
           $("#transaction-text").text('');
           $(".mt-radio").attr('disabled', false);
@@ -224,10 +225,16 @@ $(function() {
           $("#refund").text('');
         }
 
+        if(response.transaction[0].focusdevotee_id != focusdevotee_id)
+        {
+          $("#cancel-xiaozai-replace-btn").attr('disabled', true);
+          $("#cancel-xiaozai-transaction").attr('disabled', true);
+        }
+
         if(($.trim(receipt_no).length > 0) && ($.trim($("#amount").val() > 0)))
         {
-          $("#cancel-kongdan-replace-btn").attr('disabled', true);
-          $("#cancel-kongdan-transaction").attr('disabled', true);
+          $("#cancel-xiaozai-replace-btn").attr('disabled', true);
+          $("#cancel-xiaozai-transaction").attr('disabled', true);
           $("#authorized_password").attr('disabled', true);
         }
       },
@@ -243,6 +250,7 @@ $(function() {
     $(".alert-success").remove();
 
     var trans_no = $(this).attr("id");
+    var focusdevotee_id = $("#focusdevotee_id").val();
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
@@ -368,6 +376,12 @@ $(function() {
           $(".mt-radio").attr('disabled', false);
           $("#reprint-btn").attr('disabled', false);
           $("#refund").text('');
+        }
+
+        if(response.transaction[0].focusdevotee_id != focusdevotee_id)
+        {
+          $("#cancel-xiaozai-replace-btn").attr('disabled', true);
+          $("#cancel-xiaozai-transaction").attr('disabled', true);
         }
       },
       error: function (response) {

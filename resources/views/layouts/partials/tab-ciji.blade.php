@@ -27,54 +27,54 @@
                 </tr>
             </thead>
 
-            @if(count($xianyou_same_family) > 0 || count($xianyou_same_focusdevotee) > 0)
+            @if(count($ciji_same_family) > 0 || count($ciji_same_focusdevotee) > 0)
 
             <tbody id="has_session">
-                @if(count($xianyou_same_focusdevotee) > 0)
+                @if(count($ciji_same_focusdevotee) > 0)
 
                 <tr>
                   <td>
-                    @if($xianyou_same_focusdevotee[0]->deceased_year != null)
-                    <span class="text-danger">{{ $xianyou_same_focusdevotee[0]->chinese_name }}</span>
+                    @if($ciji_same_focusdevotee[0]->deceased_year != null)
+                    <span class="text-danger">{{ $ciji_same_focusdevotee[0]->chinese_name }}</span>
                     @else
-                    <span>{{ $xianyou_same_focusdevotee[0]->chinese_name }}</span>
+                    <span>{{ $ciji_same_focusdevotee[0]->chinese_name }}</span>
                     @endif
                   </td>
                   <td>
-                    @if($xianyou_same_focusdevotee[0]->specialremarks_devotee_id == null)
-                    <span id="devotee">{{ $xianyou_same_focusdevotee[0]->devotee_id }}</span>
+                    @if($ciji_same_focusdevotee[0]->specialremarks_devotee_id == null)
+                    <span id="devotee">{{ $ciji_same_focusdevotee[0]->devotee_id }}</span>
                     @else
-                    <span class="text-danger" id="devotee">{{ $xianyou_same_focusdevotee[0]->devotee_id }}</span>
+                    <span class="text-danger" id="devotee">{{ $ciji_same_focusdevotee[0]->devotee_id }}</span>
                     @endif
-                    <input type="hidden" name="devotee_id[]" value="{{ $xianyou_same_focusdevotee[0]->devotee_id }}">
+                    <input type="hidden" name="devotee_id[]" value="{{ $ciji_same_focusdevotee[0]->devotee_id }}">
                   </td>
                   <td>
-                    @if(\Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->lasttransaction_at)->lt($date))
-                    <span style="color: #a5a5a5">{{ $xianyou_same_focusdevotee[0]->member }}</span>
+                    @if(\Carbon\Carbon::parse($ciji_same_focusdevotee[0]->lasttransaction_at)->lt($date))
+                    <span style="color: #a5a5a5">{{ $ciji_same_focusdevotee[0]->member }}</span>
                     @else
-                    <span>{{ $xianyou_same_focusdevotee[0]->member }}</span>
+                    <span>{{ $ciji_same_focusdevotee[0]->member }}</span>
                     @endif
                   </td>
                   <td>
-                    @if(isset($xianyou_same_focusdevotee[0]->oversea_addr_in_chinese))
-                      {{ $xianyou_same_focusdevotee[0]->oversea_addr_in_chinese }}
-                    @elseif(isset($xianyou_same_focusdevotee[0]->address_unit1) && isset($xianyou_same_focusdevotee[0]->address_unit2))
-                      {{ $xianyou_same_focusdevotee[0]->address_houseno }}, #{{ $xianyou_same_focusdevotee[0]->address_unit1 }}-{{ $xianyou_same_focusdevotee[0]->address_unit2 }}, {{ $xianyou_same_focusdevotee[0]->address_street }}, {{ $xianyou_same_focusdevotee[0]->address_postal }}
+                    @if(isset($ciji_same_focusdevotee[0]->oversea_addr_in_chinese))
+                      {{ $ciji_same_focusdevotee[0]->oversea_addr_in_chinese }}
+                    @elseif(isset($ciji_same_focusdevotee[0]->address_unit1) && isset($ciji_same_focusdevotee[0]->address_unit2))
+                      {{ $ciji_same_focusdevotee[0]->address_houseno }}, #{{ $ciji_same_focusdevotee[0]->address_unit1 }}-{{ $ciji_same_focusdevotee[0]->address_unit2 }}, {{ $ciji_same_focusdevotee[0]->address_street }}, {{ $ciji_same_focusdevotee[0]->address_postal }}
                     @else
-                      {{ $xianyou_same_focusdevotee[0]->address_houseno }}, {{ $xianyou_same_focusdevotee[0]->address_street }}, {{ $xianyou_same_focusdevotee[0]->address_postal }}
+                      {{ $ciji_same_focusdevotee[0]->address_houseno }}, {{ $ciji_same_focusdevotee[0]->address_street }}, {{ $ciji_same_focusdevotee[0]->address_postal }}
                     @endif
                   </td>
-                  <td>{{ $xianyou_same_focusdevotee[0]->guiyi_name }}</td>
+                  <td>{{ $ciji_same_focusdevotee[0]->guiyi_name }}</td>
                   <td width="80px" class="ciji-amount-col">
                     <input type="text" class="form-control ciji-amount" name="amount[]">
                   </td>
                   <td width="80px">
-                    @if(isset($xs_family->paytill_date) && \Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->paytill_date)->lt($now))
-                    <span class="text-danger">{{ \Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-                    @elseif(isset($xianyou_same_focusdevotee[0]->paytill_date))
-                    <span>{{ \Carbon\Carbon::parse($xianyou_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
+                    @if(isset($xs_family->paytill_date) && \Carbon\Carbon::parse($ciji_same_focusdevotee[0]->paytill_date)->lt($now))
+                    <span class="text-danger">{{ \Carbon\Carbon::parse($ciji_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
+                    @elseif(isset($ciji_same_focusdevotee[0]->paytill_date))
+                    <span>{{ \Carbon\Carbon::parse($ciji_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
                     @else
-                    <span>{{ $xianyou_same_focusdevotee[0]->paytill_date }}</span>
+                    <span>{{ $ciji_same_focusdevotee[0]->paytill_date }}</span>
                     @endif
                   </td>
                   <td width="100px">
@@ -90,15 +90,21 @@
                     </select>
                     <input type="hidden" name="display[]" class="ciji-display-hidden" value="">
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ $ciji_same_focusdevotee[0]->xyreceipt }}</td>
+                  <td>
+                    @if(isset($ciji_same_focusdevotee[0]->lasttransaction_at))
+                    <span>{{ \Carbon\Carbon::parse($ciji_same_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}</span>
+                    @else
+                    <span>{{ $ciji_same_focusdevotee[0]->lasttransaction_at }}</span>
+                    @endif
+                  </td>
                 </tr>
 
                 @endif
 
-                @if(count($xianyou_same_family) > 0)
+                @if(count($ciji_same_family) > 0)
 
-                @foreach($xianyou_same_family as $xs_family)
+                @foreach($ciji_same_family as $xs_family)
 
                 <tr>
                   <td>
@@ -147,9 +153,9 @@
                   </td>
                   <td width="100px">
                     <select class="form-control ciji-hjgr" name="hjgr_arr[]">
-                          <option value="hj">合家</option>
-                          <option value="gr">个人</option>
-                      </select>
+                      <option value="hj">合家</option>
+                      <option value="gr">个人</option>
+                    </select>
                   </td>
                   <td width="80px">
                     <select class="form-control ciji-display" name="display[]">
@@ -158,8 +164,14 @@
                     </select>
                     <input type="hidden" name="display[]" class="ciji-display-hidden" value="">
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ $xs_family->xyreceipt }}</td>
+                  <td>
+                    @if(isset($xs_family->lasttransaction_at))
+                    <span>{{ \Carbon\Carbon::parse($xs_family->lasttransaction_at)->format("d/m/Y") }}</span>
+                    @else
+                    <span>{{ $xs_family->lasttransaction_at }}</span>
+                    @endif
+                  </td>
                 </tr>
 
                 @endforeach
@@ -190,26 +202,26 @@
 
         <table class="table table-bordered" id="ciji_generaldonation_table2">
             <thead>
-                <tr>
-                    <th>Chinese Name</th>
-                    <th>Devotee#</th>
-                    <th>Member#</th>
-                    <th>Address</th>
-                    <th>Guiyi Name</th>
-                    <th width="80px">Amount</th>
-                    <th width="80px">Paid Till</th>
-                    <th width="100px">HJ/ GR</th>
-                    <th width="80px">Display</th>
-                    <th>XYReceipt</th>
-                    <th>Trans Date</th>
-                </tr>
+              <tr>
+                <th>Chinese Name</th>
+                <th>Devotee#</th>
+                <th>Member#</th>
+                <th>Address</th>
+                <th>Guiyi Name</th>
+                <th width="80px">Amount</th>
+                <th width="80px">Paid Till</th>
+                <th width="100px">HJ/ GR</th>
+                <th width="80px">Display</th>
+                <th>XYReceipt</th>
+                <th>Trans Date</th>
+              </tr>
             </thead>
 
-            @if(count($xianyou_different_family) > 0)
+            @if(count($ciji_different_family) > 0)
 
             <tbody id="appendDevoteeLists">
 
-              @foreach($xianyou_different_family as $list)
+              @foreach($ciji_different_family as $list)
 
                 <tr>
                   <td>
@@ -258,9 +270,9 @@
                   </td>
                   <td>
                     <select class="form-control ciji-hjgr" name="other_hjgr_arr[]">
-                          <option value="hj">合家</option>
-                          <option value="gr">个人</option>
-                      </select>
+                      <option value="hj">合家</option>
+                      <option value="gr">个人</option>
+                    </select>
                   </td>
                   <td>
                     <select class="form-control ciji-display">
@@ -269,8 +281,14 @@
                     </select>
                     <input type="hidden" name="other_display[]" class="ciji-display-hidden" value="">
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td>{{ $list->xyreceipt }}</td>
+                  <td>
+                    @if(isset($list->lasttransaction_at))
+                    <span>{{ \Carbon\Carbon::parse($list->lasttransaction_at)->format("d/m/Y") }}</span>
+                    @else
+                    <span>{{ $list->lasttransaction_at }}</span>
+                    @endif
+                  </td>
                 </tr>
               @endforeach
 

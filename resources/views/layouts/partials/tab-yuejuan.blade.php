@@ -11,19 +11,19 @@
       <h4>Same Family Code 同址善信</h4>
 
       <table class="table table-bordered" id="yuejuan_generaldonation_table">
-          <thead>
-              <tr>
-                  <th>Chinese Name</th>
-                  <th>Devotee#</th>
-                  <th>Member#</th>
-                  <th>Address</th>
-                  <th>Guiyi Name</th>
-                  <th width="190px">Amount</th>
-                  <th width="80px">Paid Till</th>
-                  <th>XYReceipt</th>
-                  <th>Trans Date</th>
-              </tr>
-          </thead>
+        <thead>
+          <tr>
+            <th>Chinese Name</th>
+            <th>Devotee#</th>
+            <th>Member#</th>
+            <th>Address</th>
+            <th>Guiyi Name</th>
+            <th width="190px">Amount</th>
+            <th width="80px">Paid Till</th>
+            <th>XYReceipt</th>
+            <th>Trans Date</th>
+          </tr>
+        </thead>
 
           @if(count($yuejuan_same_family) > 0 || count($yuejuan_same_focusdevotee) > 0)
 
@@ -107,8 +107,14 @@
                 <span>{{ $yuejuan_same_focusdevotee[0]->paytill_date }}</span>
                 @endif
               </td>
-              <td></td>
-              <td></td>
+              <td>{{ $yuejuan_same_focusdevotee[0]->xyreceipt }}</td>
+              <td>
+                @if(isset($yuejuan_same_focusdevotee[0]->lasttransaction_at))
+                <span>{{ \Carbon\Carbon::parse($yuejuan_same_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}</span>
+                @else
+                <span>{{ $yuejuan_same_focusdevotee[0]->lasttransaction_at }}</span>
+                @endif
+              </td>
             </tr>
 
             @endif
@@ -188,8 +194,14 @@
                 <span>{{ $yj_family->paytill_date }}</span>
                 @endif
               </td>
-              <td></td>
-              <td></td>
+              <td>{{ $yj_family->xyreceipt }}</td>
+              <td>
+                @if(isset($yj_family->lasttransaction_at))
+                <span>{{ \Carbon\Carbon::parse($yj_family->lasttransaction_at)->format("d/m/Y") }}</span>
+                @else
+                <span>{{ $yj_family->lasttransaction_at }}</span>
+                @endif
+              </td>
             </tr>
 
             @php $i++; @endphp
@@ -311,8 +323,14 @@
                   <span>{{ $list->paytill_date }}</span>
                   @endif
                 </td>
-                <td></td>
-                <td></td>
+                <td>{{ $list->xyreceipt }}</td>
+                <td>
+                  @if(isset($list->lasttransaction_at))
+                  <span>{{ \Carbon\Carbon::parse($list->lasttransaction_at)->format("d/m/Y") }}</span>
+                  @else
+                  <span>{{ $list->lasttransaction_at }}</span>
+                  @endif
+                </td>
               </tr>
 
               @php $i++; @endphp

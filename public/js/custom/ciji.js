@@ -24,11 +24,19 @@ $(function() {
 
       if(amount > minimum_amount)
       {
+        $(this).closest('tr').find(".ciji-display").removeAttr('disabled');
         $(this).closest('tr').find(".ciji-display").val('Y');
         $(this).closest('tr').find(".ciji-display-hidden").val('Y');
       }
+      else if(amount == minimum_amount)
+      {
+        $(this).closest('tr').find(".ciji-display").removeAttr('disabled');
+        $(this).closest('tr').find(".display").val('Y');
+        $(this).closest('tr').find(".display-hidden").val('Y');
+      }
       else
       {
+        $(this).closest('tr').find(".ciji-display").attr("disabled", "disabled");
         $(this).closest('tr').find(".ciji-display").val('N');
         $(this).closest('tr').find(".ciji-display-hidden").val('N');
       }
@@ -124,6 +132,7 @@ $(function() {
   $("#ciji_receipt_history_table").on('click', '.receipt-id', function() {
 
     $(".alert-success").remove();
+    var focusdevotee_id = $("#focusdevotee_id").val();
 
     var trans_no = $(this).attr("id");
 
@@ -148,7 +157,7 @@ $(function() {
   			$("#trans_wrap6").show();
   			$("#trans_wrap7").show();
   			$("#trans_wrap8").show();
-        
+
         $('#transaction-table tbody').empty();
 
         if(response.transaction.length != 0)
@@ -276,6 +285,12 @@ $(function() {
           $(".mt-radio").attr('disabled', false);
           $("#reprint-btn").attr('disabled', false);
           $("#refund").text('');
+        }
+
+        if(response.transaction[0].focusdevotee_id != focusdevotee_id)
+        {
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
         }
       },
       error: function (response) {

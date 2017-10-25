@@ -39,10 +39,11 @@ class ReportController extends Controller
 
   public function getSettlementReport()
   {
-    $user = User::all();
+    $user = User::orderBy("user_name")->get();
 
     $glcode = GlCode::whereIn('glcode_id', array(108, 110, 112, 119, 134))
               ->select('glcode_id', 'type_name')
+              ->orderBy('type_name')
               ->get();
 
     return view('report.settlement-report', [
@@ -709,9 +710,9 @@ class ReportController extends Controller
         //           ->select(DB::raw('SUM(receipt.amount) as ' . $mode[$i] . '_total'), 'glcode.type_name')
         //           ->get();
         //
-        $result_collection = $result_collection->merge($result);
+      $result_collection = $result_collection->merge($result);
 
-        $type_name = Glcode::where('glcode_id', $input['type'])->get();
+      $type_name = Glcode::where('glcode_id', $input['type'])->get();
 
 
       $user_name = User::where('id', $input['staff_id'])->pluck('user_name');
@@ -724,6 +725,4 @@ class ReportController extends Controller
       ]);
     }
   }
-
-
 }

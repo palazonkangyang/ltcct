@@ -20,6 +20,7 @@ $(function() {
     $(".alert-success").remove();
 
     var trans_no = $(this).attr("id");
+    var focusdevotee_id = $("#focusdevotee_id").val();
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
@@ -170,9 +171,15 @@ $(function() {
           $("#reprint-btn").attr('disabled', false);
           $("#refund").text('');
         }
+
+        if(response.transaction[0].focusdevotee_id != focusdevotee_id)
+        {
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
+        }
       },
       error: function (response) {
-          console.log(response);
+        console.log(response);
       }
     });
   });
@@ -180,6 +187,7 @@ $(function() {
   $("#search_detail").click(function() {
 
     var user_id = $("#user_id").val();
+    var focusdevotee_id = $("#focusdevotee_id").val();
 
     $("#amount").removeClass('text-danger');
     $("#cancel-replace-btn").attr('disabled', false);
@@ -448,6 +456,12 @@ $(function() {
           $(".mt-radio").attr('disabled', false);
           $("#reprint-btn").attr('disabled', false);
           $("#refund").text('');
+        }
+
+        if(response.transaction[0].focusdevotee_id != focusdevotee_id)
+        {
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
         }
 
         if(($.trim(receipt_no).length > 0) && ($.trim($("#amount").val() > 0)))

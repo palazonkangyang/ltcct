@@ -123,6 +123,7 @@ $(function() {
   $("#yuejuan_receipt_history_table").on('click', '.receipt-id', function() {
 
     var trans_no = $(this).attr("id");
+    var focusdevotee_id = $("#focusdevotee_id").val();
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
@@ -145,7 +146,7 @@ $(function() {
   			$("#trans_wrap6").show();
   			$("#trans_wrap7").show();
   			$("#trans_wrap8").show();
-        
+
         $('#transaction-table tbody').empty();
 
         if(response.transaction.length != 0)
@@ -274,6 +275,12 @@ $(function() {
           $(".mt-radio").attr('disabled', false);
           $("#reprint-btn").attr('disabled', false);
           $("#refund").text('');
+        }
+
+        if(response.transaction[0].focusdevotee_id != focusdevotee_id)
+        {
+          $("#cancel-replace-btn").attr('disabled', true);
+          $("#cancel-transaction").attr('disabled', true);
         }
       },
       error: function (response) {

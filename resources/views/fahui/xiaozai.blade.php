@@ -5,6 +5,8 @@
 @php
 	$date = \Carbon\Carbon::now()->subDays(365);
 	$now = \Carbon\Carbon::now();
+
+	$focus_devotee = Session::get('focus_devotee');
 @endphp
 
 <div class="page-container-fluid">

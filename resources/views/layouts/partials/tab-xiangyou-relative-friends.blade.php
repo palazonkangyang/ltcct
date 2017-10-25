@@ -67,9 +67,9 @@
             </td>
             <td>
               @if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
-              <span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
+              <span style="color: #a5a5a5">{{ $devotee->member }}</span>
               @else
-              <span>{{ $devotee->member_id }}</span>
+              <span>{{ $devotee->member }}</span>
               @endif
             </td>
             <td>
@@ -232,6 +232,13 @@
           <div class="col-md-4">
               <input type="text" class="form-control" id="search_country">
           </div><!-- end col-md-3 -->
+        </div><!-- end form-group -->
+
+        <div class="form-group">
+          <label class="col-md-3">Oversea Addr in Chinese</label>
+          <div class="col-md-9">
+              <input type="text" class="form-control" id="search_oversea_addr_in_chinese">
+          </div><!-- end col-md-9 -->
         </div><!-- end form-group -->
 
       </div><!-- end col-md-12 -->

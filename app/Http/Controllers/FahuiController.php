@@ -93,6 +93,11 @@ class FahuiController extends Controller
       {
         if($input['hidden_kongdan_amount'][$i] == 1)
         {
+          $devotee = Devotee::find($input['devotee_id'][$i]);
+
+          $devotee->lasttransaction_at = Carbon::now();
+          $devotee->save();
+
           if(count(KongdanReceipt::all()) > 0)
           {
             $same_receipt = KongdanReceipt::all()->last()->receipt_id;
@@ -132,6 +137,104 @@ class FahuiController extends Controller
     // remove session
 	  Session::forget('kongdan_receipts');
 
+    $devotee = Devotee::where()->get('devotee_id', $input['focusdevotee_id']);
+
+    $kongdan_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                           ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
+                           ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+                           ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                           ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+													 ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+                           ->where('setting_kongdan.address_code', '=', 'same')
+                           ->where('setting_kongdan.kongdan_id', '=', '1')
+													 ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+                           ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+													 ->GroupBy('devotee.devotee_id')
+                           ->get();
+
+		for($i = 0; $i < count($kongdan_same_family); $i++)
+		{
+			$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_same_family[$i]->devotee_id)->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = KongdanReceipt::all()
+													 ->where('devotee_id', $kongdan_same_family[$i]->devotee_id)
+													 ->last()
+													 ->xy_receipt;
+
+				$kongdan_same_family[$i]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$kongdan_same_family[$i]->xyreceipt = "";
+			}
+		}
+
+		$kongdan_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+			                           ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
+			                           ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+			                           ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+			                           ->where('setting_kongdan.address_code', '=', 'same')
+			                           ->where('setting_kongdan.kongdan_id', '=', '1')
+																 ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+																 ->where('setting_kongdan.devotee_id', '=', $devotee[0]->devotee_id)
+			                           ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+																 ->GroupBy('devotee.devotee_id')
+			                           ->get();
+
+		for($i = 0; $i < count($kongdan_same_focusdevotee); $i++)
+		{
+			$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_same_focusdevotee[0]->devotee_id)->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = KongdanReceipt::all()
+													 ->where('devotee_id', $kongdan_same_focusdevotee[0]->devotee_id)
+													 ->last()
+													 ->xy_receipt;
+
+				$kongdan_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$kongdan_same_focusdevotee[0]->xyreceipt = "";
+			}
+		}
+
+		$kongdan_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+											          ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
+											          ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+											          ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+											          ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+											          ->where('setting_kongdan.address_code', '=', 'different')
+											          ->where('setting_kongdan.kongdan_id', '=', '1')
+											          ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+											          ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+											          ->GroupBy('devotee.devotee_id')
+											          ->get();
+
+		for($i = 0; $i < count($kongdan_different_family); $i++)
+		{
+			$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_different_family[$i]->devotee_id)->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = KongdanReceipt::all()
+													 ->where('devotee_id', $kongdan_different_family[$i]->devotee_id)
+													 ->last()
+													 ->xy_receipt;
+
+				$kongdan_different_family[$i]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$kongdan_different_family[$i]->xyreceipt = "";
+			}
+		}
+
+    $kongdan_receipt_collection = collect();
+
     $kongdan_receipts = KongdanGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'kongdan_generaldonation.focusdevotee_id')
         								->leftjoin('kongdan_receipt', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
         								->where('kongdan_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
@@ -140,6 +243,14 @@ class FahuiController extends Controller
         								->select('kongdan_generaldonation.*', 'devotee.chinese_name', 'kongdan_receipt.cancelled_date')
         								->orderBy('kongdan_generaldonation.generaldonation_id', 'desc')
         								->get();
+
+    $paidby_otherkongdan_receipts = KongdanReceipt::leftjoin('kongdan_generaldonation', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
+																		->leftjoin('devotee', 'devotee.devotee_id', '=', 'kongdan_generaldonation.focusdevotee_id')
+																		->where('kongdan_receipt.devotee_id', $input['focusdevotee_id'])
+																		->where('kongdan_receipt.glcode_id', 117)
+																		->where('kongdan_generaldonation.focusdevotee_id', '!=', $input['focusdevotee_id'])
+																		->select('kongdan_generaldonation.*', 'devotee.chinese_name', 'kongdan_receipt.cancelled_date', 'kongdan_receipt.receipt_no')
+																		->get();
 
     if(count($kongdan_receipts) > 0)
 		{
@@ -158,6 +269,12 @@ class FahuiController extends Controller
 				}
 			}
 		}
+
+    $kongdan_receipt_collection = $kongdan_receipt_collection->merge($kongdan_receipts);
+		$kongdan_receipt_collection = $kongdan_receipt_collection->merge($paidby_otherkongdan_receipts);
+
+		$kongdan_receipts = $kongdan_receipt_collection->sortByDesc('generaldonation_id');
+		$kongdan_receipts->values()->all();
 
     Session::put('kongdan_receipts', $kongdan_receipts);
 
@@ -278,7 +395,6 @@ class FahuiController extends Controller
 													 ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 													 ->GroupBy('devotee.devotee_id')
 													 ->get();
-
 
     $kongdan_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
                        						->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
@@ -447,19 +563,19 @@ class FahuiController extends Controller
     // Check Transaction devotee and focus devotee is the same
 		$focusdevotee = Session::get('focus_devotee');
 
-		if(count($focusdevotee) == 0)
-		{
-			return response()->json(array(
-	      'msg' => 'Please select Focus Devotee.'
-	    ));
-		}
-
-    if($focusdevotee[0]->devotee_id != $result[0]->focusdevotee_id)
-		{
-			return response()->json(array(
-	      'msg' => 'Search receipt no or transaction no by focus devotee.'
-	    ));
-		}
+		// if(count($focusdevotee) == 0)
+		// {
+		// 	return response()->json(array(
+	  //     'msg' => 'Please select Focus Devotee.'
+	  //   ));
+		// }
+    //
+    // if($focusdevotee[0]->devotee_id != $result[0]->focusdevotee_id)
+		// {
+		// 	return response()->json(array(
+	  //     'msg' => 'Search receipt no or transaction no by focus devotee.'
+	  //   ));
+		// }
 
     if(count($result) > 0)
 		{
@@ -623,26 +739,30 @@ class FahuiController extends Controller
 
 				$focus_devotee = Session::get('focus_devotee');
 
-				$kongdan_receipts = KongdanGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'kongdan_generaldonation.focusdevotee_id')
-        										->leftjoin('kongdan_receipt', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
-        										->where('kongdan_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
-        										->where('kongdan_receipt.glcode_id', 117)
-        										->GroupBy('kongdan_generaldonation.generaldonation_id')
-        										->select('kongdan_generaldonation.*', 'devotee.chinese_name', 'kongdan_receipt.cancelled_date')
-        										->orderBy('kongdan_generaldonation.generaldonation_id', 'desc')
-        										->get();
+				if(count($focus_devotee) > 0)
+        {
+          $kongdan_receipts = KongdanGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'kongdan_generaldonation.focusdevotee_id')
+          										->leftjoin('kongdan_receipt', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
+          										->where('kongdan_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+          										->where('kongdan_receipt.glcode_id', 117)
+          										->GroupBy('kongdan_generaldonation.generaldonation_id')
+          										->select('kongdan_generaldonation.*', 'devotee.chinese_name', 'kongdan_receipt.cancelled_date')
+          										->orderBy('kongdan_generaldonation.generaldonation_id', 'desc')
+          										->get();
 
-				if(count($kongdan_receipts) > 0)
-				{
-					for($i = 0; $i < count($kongdan_receipts); $i++)
-					{
-						$data = KongdanReceipt::where('generaldonation_id', $kongdan_receipts[$i]->generaldonation_id)->pluck('receipt_no');
-						$receipt_count = count($data);
-						$kongdan_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
-					}
-				}
+  				if(count($kongdan_receipts) > 0)
+  				{
+  					for($i = 0; $i < count($kongdan_receipts); $i++)
+  					{
+  						$data = KongdanReceipt::where('generaldonation_id', $kongdan_receipts[$i]->generaldonation_id)->pluck('receipt_no');
+  						$receipt_count = count($data);
+  						$kongdan_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+  					}
+  				}
 
-				Session::put('kongdan_receipts', $kongdan_receipts);
+  				Session::put('kongdan_receipts', $kongdan_receipts);
+        }
+
 				$request->session()->flash('success', 'The transaction is successfully cancelled.');
 
 				return redirect()->back()->with([

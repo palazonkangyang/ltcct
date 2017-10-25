@@ -109,15 +109,7 @@
               @endif
             </td>
             <td>{{ $devotee->item_description }}</td>
-            <td>
-              @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-              <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-              @elseif(isset($devotee->paytill_date))
-              <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-              @else
-              <span>{{ $devotee->paytill_date }}</span>
-              @endif
-            </td>
+            <td></td>
             <td>
               @if(isset($devotee->lasttransaction_at))
               {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
@@ -255,6 +247,13 @@
           <div class="col-md-4">
               <input type="text" class="form-control" id="search_country">
           </div><!-- end col-md-3 -->
+        </div><!-- end form-group -->
+
+        <div class="form-group">
+          <label class="col-md-3">Oversea Addr in Chinese</label>
+          <div class="col-md-9">
+              <input type="text" class="form-control" id="search_oversea_addr_in_chinese">
+          </div><!-- end col-md-9 -->
         </div><!-- end form-group -->
 
       </div><!-- end col-md-12 -->

@@ -193,6 +193,19 @@
      <input type="hidden" value="{{ Auth::user()->role }}" id="user_id">
     </div><!-- end form-group -->
 
+    @if(Session::has('focus_devotee'))
+    <div class="form-group">
+      <input type="hidden" value="{{ $focus_devotee[0]->devotee_id }}" id="focusdevotee_id">
+    </div>
+
+    @else
+
+    <div class="form-group">
+      <input type="hidden" value="" id="focusdevotee_id">
+    </div>
+
+    @endif
+
     @if(Auth::user()->role != 5)
 
      <div class="form-group">

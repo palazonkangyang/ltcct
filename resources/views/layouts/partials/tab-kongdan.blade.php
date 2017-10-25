@@ -82,7 +82,13 @@
             @endif
           </td>
           <td></td>
-          <td></td>
+          <td>
+            @if(isset($kongdan_same_focusdevotee[0]->lasttransaction_at))
+            <span>{{ \Carbon\Carbon::parse($kongdan_same_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $kongdan_same_focusdevotee[0]->lasttransaction_at }}</span>
+            @endif
+          </td>
         </tr>
 
         @endif
@@ -134,7 +140,13 @@
             @endif
           </td>
           <td></td>
-          <td></td>
+          <td>
+            @if(isset($devotee->lasttransaction_at))
+            <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $devotee->lasttransaction_at }}</span>
+            @endif
+          </td>
         </tr>
 
         @endforeach
@@ -228,7 +240,13 @@
                   @endif
                 </td>
                 <td></td>
-                <td></td>
+                <td>
+                  @if(isset($list->lasttransaction_at))
+                  <span>{{ \Carbon\Carbon::parse($list->lasttransaction_at)->format("d/m/Y") }}</span>
+                  @else
+                  <span>{{ $list->lasttransaction_at }}</span>
+                  @endif
+                </td>
               </tr>
 
             @endforeach
