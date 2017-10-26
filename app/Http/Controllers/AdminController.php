@@ -543,9 +543,22 @@ class AdminController extends Controller
 
 	public function getAddressStreetLists()
 	{
-		$translation_street = TranslationStreet::all();
+		return view('admin.all-address-streets');
+	}
 
-		return view('admin.all-address-streets', [
+	public function SearchAddress(Request $request)
+	{
+		$input = array_except($request->all(), '_token');
+
+		$translation_street = TranslationStreet::where('chinese', 'like', '%' . $input['chinese'] . '%')
+													->where('english', 'like', '%' . $input['english'] . '%')
+													->where('address_houseno', 'like', '%' . $input['address_houseno'] . '%')
+													->where('address_postal', 'like', '%' . $input['address_postal'] . '%')
+													->get();
+
+		// dd($translation_street->toArray());
+
+		return view('admin.filter-streets', [
 			'translation_street' => $translation_street
 		]);
 	}

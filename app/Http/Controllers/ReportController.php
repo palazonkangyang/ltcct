@@ -67,7 +67,9 @@ class ReportController extends Controller
     }
 
     // INCOME
-    $income_glcode = Glcode::where('glcodegroup_id', 8)->get();
+    $income_glcode = Glcode::where('glcodegroup_id', 8)
+                    //  ->whereNotIn('glcode_id', 117)
+                     ->get();
 
     if(isset($input['year']) && isset($nmonth))
     {

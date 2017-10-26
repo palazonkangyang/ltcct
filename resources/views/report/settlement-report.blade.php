@@ -25,13 +25,13 @@
         <div class="container-fluid">
 
           <ul class="page-breadcrumb breadcrumb">
-              <li>
-                  <a href="/operator/index">Home</a>
-                  <i class="fa fa-circle"></i>
-              </li>
-              <li>
-                  <span>Settlement Report</span>
-              </li>
+            <li>
+              <a href="/operator/index">Home</a>
+              <i class="fa fa-circle"></i>
+            </li>
+            <li>
+              <span>Settlement Report</span>
+            </li>
           </ul>
 
           <div class="page-content-inner">

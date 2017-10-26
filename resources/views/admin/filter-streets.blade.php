@@ -76,52 +76,48 @@
                       </a>
                     </div><!-- end form-group -->
 
-                    <div class="col-md-12" style="margin-bottom: 40px;">
+                    <div class="col-md-12">
+                      <table class="table table-bordered" id="all-address-table">
+                          <thead>
+                            <tr id="filter">
+                              <th width="25%"></th>
+                              <th width="25%"></th>
+                              <th width="15%"></th>
+                              <th width="20%"></th>
+                              <th width="15%"></th>
+                            </tr>
+                            <tr>
+                              <th>Chinese</th>
+                              <th>English</th>
+                              <th>Address House No</th>
+                              <th>Address Postal</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
 
-                      <form action="{{ URL::to('/admin/search-address') }}" method="post">
-                        {!! csrf_field() !!}
+                          <tbody>
+                            @foreach($translation_street as $data)
 
-                        <div class="col-md-6">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label style="padding:0;">Chinese</label>
-                              <input type="text" class="form-control" name="chinese" value="{{ old('chinese') }}" id="chinese">
-                            </div><!-- end form-group -->
-                          </div><!-- end col-md-6 -->
+                            <tr>
+                              <td>{{ $data->chinese }}</td>
+                              <td>{{ $data->english }}</td>
+                              <td>{{ $data->address_houseno }}</td>
+                              <td>{{ $data->address_postal }}</td>
+                              <td>
+                                <a href="{{ URL::to('/admin/address-street/edit/' . $data->id) }}" class="btn btn-outline btn-circle btn-sm purple">
+                                  <i class="fa fa-edit"></i> Edit
+                                </a>
 
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label style="padding:0;">English</label>
-                              <input type="text" class="form-control" name="english" value="{{ old('english') }}" id="english">
-                            </div><!-- end form-group -->
-                          </div><!-- end col-md-6 -->
+                                <a href="{{ URL::to('/admin/address-street/delete/' . $data->id) }}" class="btn btn-outline btn-circle dark btn-sm black delete-address">
+                                  <i class="fa fa-trash-o"></i> Delete
+                                </a>
+                              </td>
+                            </tr>
 
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label style="padding:0;">Address Houseno</label>
-                              <input type="text" class="form-control" name="address_houseno" value="{{ old('address_houseno') }}" id="address_houseno">
-                            </div><!-- end form-group -->
-                          </div><!-- end col-md-6 -->
+                            @endforeach
+                          </tbody>
 
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <label style="padding:0;">Address Postal</label>
-                              <input type="text" class="form-control" name="address_postal" value="{{ old('address_postal') }}" id="address_postal">
-                            </div><!-- end form-group -->
-                          </div><!-- end col-md-6 -->
-
-                          <div class="col-md-6">
-                            <div class="form-group">
-                              <button type="submit" class="btn blue" id="report">Search</button>
-                              <button type="button" class="btn default" onClick="window.location.reload('true')">Clear</button>
-                            </div><!-- end form-group -->
-                          </div><!-- end col-md-6 -->
-                        </div><!-- end col-md-6 -->
-
-                        <div class="col-md-6">
-
-                        </div><!-- end col-md-6 -->
-                      </form>
+                      </table>
                     </div><!-- end col-md-12 -->
 
                     <div class="clearfix">

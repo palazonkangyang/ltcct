@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/address-street/edit/{id}', ['as' => 'edit-address-street-page', 'uses' => 'AdminController@getEditAddress']);
 		Route::get('/address-street/delete/{id}', ['as' => 'delete-address-street-page', 'uses' => 'AdminController@deleteAddress']);
 
+		Route::post('/search-address', ['as' => 'filter-address-page', 'uses' => 'AdminController@SearchAddress']);
 		Route::post('/add-account', ['as' => 'save-account-page', 'uses' => 'AdminController@postAddAccount']);
 		Route::post('/change-account', ['as' => 'change-account-page', 'uses' => 'AdminController@changeAccount']);
 		Route::post('/add-dialect', ['as' => 'save-dialect-page', 'uses' => 'AdminController@postAddDialect']);
