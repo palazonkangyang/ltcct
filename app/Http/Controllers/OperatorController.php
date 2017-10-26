@@ -1368,7 +1368,11 @@ class OperatorController extends Controller
 									->pluck('data');
 
 				$xiaozai_same_family[$i]->ops = "OV#" . $ov_count;
-				$xiaozai_same_family[$i]->item_description = $result[0];
+
+				if(isset($result[0]))
+				{
+					$xiaozai_same_family[$i]->item_description = $result[0];
+				}
 
 				$ov_count++;
 			}
