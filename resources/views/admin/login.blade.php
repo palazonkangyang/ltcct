@@ -25,7 +25,7 @@
 
 			<div class="col-md-12">
 				<div class="version">
-					<h5>Version : TMS 2017 - v1.56</h5>
+					<h5>Version : TMS 2017 - v1.57</h5>
 				</div>
 			</div>
 

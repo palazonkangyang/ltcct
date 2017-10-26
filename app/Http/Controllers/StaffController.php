@@ -769,7 +769,11 @@ class StaffController extends Controller
 	  for($i = 0; $i < count($result); $i++)
 		{
 			$result[$i]->trans_date = \Carbon\Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
-			$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
+
+			if($result[$i]->start_at)
+			{
+				$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
+			}
 		}
 
 		$familycode_id = $result[0]->familycode_id;
@@ -1150,7 +1154,11 @@ class StaffController extends Controller
 			for($i = 0; $i < count($result); $i++)
 			{
 				$result[$i]->trans_date = \Carbon\Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
-				$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
+
+				if($result[$i]->start_at)
+				{
+					$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
+				}
 			}
 
 			$familycode_id = $result[0]->familycode_id;
@@ -1556,7 +1564,11 @@ class StaffController extends Controller
 		for($i = 0; $i < count($result); $i++)
 		{
 			$result[$i]->trans_date = \Carbon\Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
-			$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
+
+			if(isset($result[$i]->start_at))
+			{
+				$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
+			}
 		}
 
 		$familycode_id = $result[0]->familycode_id;
@@ -1996,6 +2008,58 @@ class StaffController extends Controller
 																->select('devotee.*', 'familycode.familycode')
 																->get();
 
+		for($i = 0; $i < count($xianyou_different_family); $i++)
+		{
+			$hasreceipt = Receipt::where('devotee_id', $xianyou_different_family[$i]->devotee_id)
+										->where('description', 'General Donation - 香油')
+										->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = Receipt::all()
+													 ->where('devotee_id', $xianyou_different_family[$i]->devotee_id)
+													 ->where('description', 'General Donation - 香油')
+													 ->last()
+													 ->xy_receipt;
+
+				$xianyou_different_family[$i]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$xianyou_different_family[$i]->xyreceipt = "";
+			}
+		}
+
+		$ciji_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+														 ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
+														 ->where('setting_generaldonation.address_code', '=', 'different')
+														 ->where('setting_generaldonation.xiangyou_ciji_id', '=', '1')
+														 ->where('setting_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
+														 ->select('devotee.*', 'familycode.familycode')
+														 ->get();
+
+		for($i = 0; $i < count($ciji_different_family); $i++)
+		{
+			$hasreceipt = Receipt::where('devotee_id', $ciji_different_family[$i]->devotee_id)
+										->where('description', 'General Donation - 慈济')
+										->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = Receipt::all()
+													 ->where('devotee_id', $ciji_different_family[$i]->devotee_id)
+													 ->where('description', 'General Donation - 慈济')
+													 ->last()
+													 ->xy_receipt;
+
+				$ciji_different_family[$i]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$ciji_different_family[$i]->xyreceipt = "";
+			}
+		}
+
 		$setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 															 ->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
 															 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
@@ -2017,6 +2081,28 @@ class StaffController extends Controller
 													 			->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
 																->GroupBy('devotee.devotee_id')
 													 			->get();
+
+		for($i = 0; $i < count($yuejuan_different_family); $i++)
+		{
+			$hasreceipt = Receipt::where('devotee_id', $yuejuan_different_family[$i]->devotee_id)
+										->where('description', 'General Donation - 月捐')
+										->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = Receipt::all()
+													 ->where('devotee_id', $yuejuan_different_family[$i]->devotee_id)
+													 ->where('description', 'General Donation - 月捐')
+													 ->last()
+													 ->xy_receipt;
+
+				$yuejuan_different_family[$i]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$yuejuan_different_family[$i]->xyreceipt = "";
+			}
+		}
 
 		$amount = [];
 		$differentfamily_amount = [];
@@ -2048,6 +2134,7 @@ class StaffController extends Controller
 		}
 
 		Session::put('xianyou_different_family', $xianyou_different_family);
+		Session::put('ciji_different_family', $ciji_different_family);
 		Session::put('yuejuan_different_family', $yuejuan_different_family);
 		Session::put('differentfamily_amount', $differentfamily_amount);
 		Session::put('setting_differentfamily', $setting_differentfamily);
@@ -2825,7 +2912,11 @@ class StaffController extends Controller
 			for($i = 0; $i < count($receipts); $i++)
 			{
 				$receipts[$i]->trans_date = \Carbon\Carbon::parse($receipts[$i]->trans_date)->format("d/m/Y");
-				$receipts[$i]->start_at = \Carbon\Carbon::parse($receipts[$i]->start_at)->format("d/m/Y");
+
+				if(isset($receipts[$i]->start_at))
+				{
+					$receipts[$i]->start_at = \Carbon\Carbon::parse($receipts[$i]->start_at)->format("d/m/Y");
+				}
 			}
 
 			$familycode_id = $receipts[0]->familycode_id;
@@ -2865,8 +2956,6 @@ class StaffController extends Controller
 		{
 			$loop = $loop + 1;
 		}
-
-		// dd($loop);
 
 		$count_familycode = 0;
 
