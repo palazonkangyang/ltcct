@@ -137,7 +137,7 @@
       <table class="table table-bordered" id="search_devotee_lists">
         <tbody>
           <tr class="no-record">
-            <td>No Result Record!</td>
+            <td>No Result Found!</td>
           </tr>
         </tbody>
       </table>

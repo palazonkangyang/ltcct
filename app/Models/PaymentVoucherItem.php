@@ -2,16 +2,16 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class JournalEntryItem extends Model
+class PaymentVoucherItem extends Model
 {
-  protected $table = 'journalentry_item';
+  protected $table = 'payment_voucher_item';
 
-  protected $primaryKey = "journalentry_item_id";
+  protected $primaryKey = "payment_voucher_item_id";
 
   protected $fillable = [
     'glcode_id',
     'debit_amount',
     'credit_amount',
-    'journalentry_id'
+    'payment_voucher_id'
   ];
 }

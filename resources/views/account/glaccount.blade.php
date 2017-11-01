@@ -97,12 +97,10 @@
                                           <th></th>
                                           <th></th>
                                           <th></th>
-                                          <th></th>
                                         </tr>
                                         <tr>
                                           <th>Account Code</th>
                                           <th>Type Name</th>
-                                          <th>Chinese Name</th>
                                           <th>Account Group</th>
                                           <th>Account Status</th>
                                         </tr>
@@ -116,7 +114,6 @@
                                             <td><a href="#tab_editglaccount" data-toggle="tab"
                                                 class="edit-item" id="{{ $gl->glcode_id }}">{{ $gl->accountcode }}</td>
                                             <td>{{ $gl->type_name }}</td>
-                                            <td>{{ $gl->chinese_name }}</td>
                                             <td>{{ $gl->glcodegroup_name }}</td>
                                             <td class="text-capitalize">{{ $gl->status }}</td>
                                           </tr>
@@ -224,24 +221,6 @@
 
                                       <div class="form-group">
                                         <p>&nbsp;</p>
-                                      </div><!-- end form-group -->
-
-                                      <div class="form-group">
-
-                                        <div class="col-md-6">
-                                          <p>
-                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                            To Confirm, please enter authorized password to proceed.
-                                          </p>
-                                        </div><!-- end col-md-6 -->
-
-                                        <div class="col-md-6">
-                                          <label class="col-md-6">Authorized Password</label>
-                                          <div class="col-md-6">
-                                            <input type="password" class="form-control" name="authorized_password" value="" id="authorized_password">
-                                          </div><!-- end col-md-6 -->
-                                        </div><!-- end col-md-6 -->
-
                                       </div><!-- end form-group -->
 
                                       <div class="form-group">
@@ -378,24 +357,6 @@
 
                                       <div class="form-group">
                                         <p>&nbsp;</p>
-                                      </div><!-- end form-group -->
-
-                                      <div class="form-group">
-
-                                        <div class="col-md-6">
-                                          <p>
-                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                            To Confirm, please enter authorized password to proceed.
-                                          </p>
-                                        </div><!-- end col-md-6 -->
-
-                                        <div class="col-md-6">
-                                          <label class="col-md-6">Authorized Password</label>
-                                          <div class="col-md-6">
-                                            <input type="password" class="form-control" name="authorized_password" value="" id="edit_authorized_password">
-                                          </div><!-- end col-md-6 -->
-                                        </div><!-- end col-md-6 -->
-
                                       </div><!-- end form-group -->
 
                                       <div class="form-group">
@@ -679,7 +640,6 @@
       var price = $("#edit_price").val();
       var next_sn_number = $("#edit_next_sn_number").val();
       var receipt_prefix = $("#edit_receipt_prefix").val();
-      var authorized_password = $("#edit_authorized_password").val();
 
       if ($.trim(type_name).length <= 0)
       {
@@ -717,12 +677,6 @@
         errors[count++] = "Receipt prefix field is empty."
       }
 
-      if ($.trim(authorized_password).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Authorized pasword field is empty."
-      }
-
       if (validationFailed)
       {
         var errorMsgs = '';
@@ -754,9 +708,8 @@
         columnDefs: [
           { "width": "80px", "targets": 0 },
           { "width": "170px", "targets": 1 },
-          { "width": "190px", "targets": 2 },
-          { "width": "100px", "targets": 3 },
-          { "width": "80px", "targets": 4 }
+          { "width": "100px", "targets": 2 },
+          { "width": "80px", "targets": 3 }
         ]
     } );
 
@@ -793,7 +746,6 @@
       var price = $("#price").val();
       var next_sn_number = $("#next_sn_number").val();
       var receipt_prefix = $("#receipt_prefix").val();
-      var authorized_password = $("#authorized_password").val();
 
       if ($.trim(type_name).length <= 0)
       {
@@ -829,12 +781,6 @@
       {
         validationFailed = true;
         errors[count++] = "Receipt Prefix field is empty."
-      }
-
-      if ($.trim(authorized_password).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Authorized Pasword field is empty."
       }
 
       if (validationFailed)

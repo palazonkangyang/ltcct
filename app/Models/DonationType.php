@@ -4,11 +4,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class DonationType extends Model
 {
-    protected $table = 'donationtype';
+  protected $table = 'donationtype';
 
-    protected $primaryKey = "donationtype_id";
+  protected $primaryKey = "donationtype_id";
 
-    protected $fillable = [
-        'donationtype_name'
-    ];
+  protected $fillable = [
+    'donationtype_name'
+  ];
 }

@@ -2,340 +2,476 @@
 
 @section('main-content')
 
-  <div class="page-container-fluid">
+<div class="page-container-fluid">
 
-    <div class="page-content-wrapper">
+  <div class="page-content-wrapper">
 
-      <div class="page-head">
+    <div class="page-head">
 
-          <div class="container-fluid">
+      <div class="container-fluid">
 
-              <div class="page-title">
+        <div class="page-title">
 
-                  <h1>Payment Voucher</h1>
+          <h1>Bank Deposit & Payment</h1>
 
-              </div><!-- end page-title -->
+        </div><!-- end page-title -->
 
-          </div><!-- end container-fluid -->
+      </div><!-- end container-fluid -->
 
-      </div><!-- end page-head -->
+    </div><!-- end page-head -->
 
-      <div class="page-content">
+    <div class="page-content">
 
-        <div class="container-fluid">
+      <div class="container-fluid">
 
-          <ul class="page-breadcrumb breadcrumb">
-              <li>
-                  <a href="/operator/index">Home</a>
-                  <i class="fa fa-circle"></i>
-              </li>
-              <li>
-                  <span>Payment Voucher</span>
-              </li>
-          </ul>
+        <ul class="page-breadcrumb breadcrumb">
+          <li>
+            <a href="/operator/index">Home</a>
+            <i class="fa fa-circle"></i>
+          </li>
+          <li>
+            <span>Bank Deposit & Payment</span>
+          </li>
+        </ul>
 
-          <div class="page-content-inner">
+        <div class="page-content-inner">
 
-            <div class="inbox">
+          <div class="inbox">
 
-              <div class="row">
+            <div class="row">
 
-                <div class="col-md-12">
+              <div class="col-md-12">
 
-                  <div class="portlet light">
+                <div class="portlet light">
 
-                    <div class="validation-error">
-                    </div><!-- end validation-error -->
+                  <div class="validation-error">
+                  </div><!-- end validation-error -->
 
-                    @if($errors->any())
+                  @if($errors->any())
 
-                      <div class="alert alert-danger">
+                  <div class="alert alert-danger">
 
-                      @foreach($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                      @endforeach
+                    @foreach($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                    @endforeach
 
-                      </div><!-- end alert alert-danger -->
+                  </div><!-- end alert alert-danger -->
 
-                    @endif
+                  @endif
 
-                    @if(Session::has('success'))
-                      <div class="alert alert-success"><em> {{ Session::get('success') }}</em></div>
-                    @endif
+                  @if(Session::has('success'))
+                  <div class="alert alert-success"><em> {{ Session::get('success') }}</em></div>
+                  @endif
 
-                    @if(Session::has('error'))
-                      <div class="alert alert-danger"><em> {{ Session::get('error') }}</em></div>
-                    @endif
+                  @if(Session::has('error'))
+                  <div class="alert alert-danger"><em> {{ Session::get('error') }}</em></div>
+                  @endif
 
-                    <div class="portlet-body">
+                  <div class="portlet-body">
 
-                      <div class="tabbable-bordered">
+                    <div class="tabbable-bordered">
 
-                        <ul class="nav nav-tabs">
-                          <li class="active">
-                            <a href="#tab_paymentlist" data-toggle="tab">Payment List</a>
-                          </li>
-                          <li>
-                            <a href="#tab_newpayment" data-toggle="tab">New Payment</a>
-                          </li>
-                        </ul>
+                      <ul class="nav nav-tabs">
+                        <li class="active">
+                          <a href="#tab_paymentlist" data-toggle="tab">Payment List</a>
+                        </li>
+                        <li>
+                          <a href="#tab_newpayment" data-toggle="tab">New Payment</a>
+                        </li>
+                        <li id="payment-detail" >
+                          <a href="#tab_paymentdetail" data-toggle="tab">Payment Detail</a>
+                        </li>
+                      </ul>
 
-                        <div class="tab-content">
+                      <div class="tab-content">
 
-                          <div class="tab-pane active" id="tab_paymentlist">
+                        <div class="tab-pane active" id="tab_paymentlist">
 
-                            <div class="form-body">
+                          <div class="form-body">
+
+                            <div class="form-group">
+
+                              <table class="table table-bordered" id="payment-table">
+                                <thead>
+                                  <tr id="filter">
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                  </tr>
+                                  <tr>
+                                    <th>Voucher No</th>
+                                    <th>Date</th>
+                                    <th>Supplier</th>
+                                    <th>Cheque No</th>
+                                    <th>Cheque Account</th>
+                                    <th>Total Debit Amount</th>
+                                    <th>Total Credit Amount</th>
+                                    <th>Cheque From</th>
+                                  </tr>
+                                </thead>
+
+                                <tbody>
+                                  @foreach($payment_voucher as $data)
+                                  <tr>
+                                    <td><a href="#tab_paymentdetail" data-toggle="tab"
+                                      class="edit-item" id="{{ $data->payment_voucher_id }}">{{ $data->voucher_no }}</a>
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($data->date)->format("d/m/Y") }}</td>
+                                    <td>{{ $data->supplier }}</td>
+                                    <td>{{ $data->cheque_no }}</td>
+                                    <td>{{ $data->cheque_account }}</td>
+                                    <td>S$ {{ number_format($data->total_debit_amount, 2) }}</td>
+                                    <td>S$ {{ number_format($data->total_debit_amount, 2) }}</td>
+                                    <td>{{ $data->cheque_from }}</td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                              </table>
+
+                            </div><!-- end form-group -->
+
+                          </div><!-- end form-body -->
+
+                        </div><!-- end tab-pane tab_paymentlist -->
+
+                        <div class="tab-pane" id="tab_newpayment">
+
+                          <div class="form-body">
+
+                            <form method="post" action="{{ URL::to('/payment/new-payment') }}"
+                            class="form-horizontal form-bordered">
+
+                            {!! csrf_field() !!}
+
+                            <div class="col-md-6">
+
+                              <div class="form-group">
+                                <label class="col-md-3">Voucher No *</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="voucher_no" value="{{ $voucher_no }}" id="voucher_no">
+                                </div><!-- end col-md-8 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Date *</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="date" value="{{ old('date') }}" data-provide='datepicker' data-date-format='dd/mm/yyyy' id="date">
+                                </div><!-- end col-md-8 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Supplier *</label>
+                                <div class="col-md-8">
+                                  <input type="hidden" name="supplier_id" value="" id="supplier_id">
+                                  <input type="text" class="form-control" name="supplier_name" value="{{ old('supplier_name') }}" id="supplier_name">
+                                </div><!-- end col-md-8 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Description</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="description" value="{{ old('description') }}" id="description">
+                                </div><!-- end col-md-8 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Cheque No *</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="cheque_no" value="{{ old('cheque_no') }}" id="cheque_no">
+                                </div><!-- end col-md-8 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Cheque Account *</label>
+                                <div class="col-md-8">
+                                  <select class="form-control" name="cheque_account" id="cheque_account">
+                                    <option value="">Please Select</option>
+                                    <option value="7">OCBC A/C NO. 665700217001 华侨银行第一户</option>
+                                    <option value="8">OCBC A/C NO. 665700225001 华侨银行第二户</option>
+                                    <option value="14">May Bank AC 04141010804 Current Account</option>
+                                    <option value="15">May Bank AC 04141011213 慈济部</option>
+                                    <option value="16">May Bank FD 2-414-40-0925-1</option>
+                                  </select>
+                                </div><!-- end col-md-8 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <input type="hidden" value="" id="bank_amount">
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Issuing Banking</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="issuing_banking" value="{{ old('issuing_banking') }}" id="issuing_banking">
+                                </div><!-- end col-md-9 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Cheque From</label>
+                                <div class="col-md-8">
+                                  <input type="text" class="form-control" name="cheque_from" value="{{ old('cheque_from') }}" id="cheque_from">
+                                </div><!-- end col-md-9 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Job *</label>
+                                <div class="col-md-8">
+                                  <select class="form-control" name="job_id" id="job_id">
+                                    <option value="">Please Select</option>
+                                    @foreach($job as $j)
+                                    <option value="{{ $j->job_id }}">{{ $j->job_name }}</option>
+                                    @endforeach
+                                  </select>
+                                </div><!-- end col-md-8 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <label class="col-md-3">Remark</label>
+                                <div class="col-md-8">
+                                  <textarea name="remark" class="form-control" rows="3" id="remark">{{ old('remark') }}</textarea>
+                                </div><!-- end col-md-8 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <p>&nbsp;</p>
+                              </div><!-- end form-group -->
+
+                              <div class="clearfix">
+                              </div><!-- end clearfix -->
+                            </div><!-- end col-md-6 -->
+
+                            <div class="col-md-6">
+                            </div><!-- end col-md-6 -->
+
+                            <div class="col-md-12">
+                              <table class="table table-bordered" id="new-payment-table">
+                                <thead>
+                                  <tr>
+                                    <th width="2%">#</th>
+                                    <th width="40%">GL Account</th>
+                                    <th width="20%">Debit</th>
+                                    <th width="20%">Credit</th>
+                                    <th width="5%"></th>
+                                  </tr>
+                                </thead>
+
+                                <tbody>
+                                  <tr>
+                                    <td></td>
+                                    <td>
+                                      <input type="text" class="form-control" style="width: 80%;" id="bank_account" readonly>
+                                      <input type="hidden" name="glcode_id[]" value="" id="hidden_bank_account">
+                                    </td>
+                                    <td class="debit_amount_col">
+                                      <input type="text" class="form-control debit_amount" name="debit_amount[]" value="" style="width: 50%;">
+                                    </td>
+                                    <td class="credit_amount_col">
+                                      <input type="text" class="form-control credit_amount" name="credit_amount[]" value="" style="width: 50%;">
+                                    </td>
+                                    <td></td>
+                                  </tr>
+                                  <tr id="append-payment-row">
+                                    <td></td>
+                                    <td></td>
+                                    <td>S$ <span id="total_debit">0</span></td>
+                                    <td>S$ <span id="total_credit">0</span></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+
+                              <div class="form-group">
+                                <input type="hidden" name="total_debit_amount" value="0" id="total_debit_amount">
+                                <input type="hidden" name="total_credit_amount" value="0" id="total_credit_amount">
+                              </div><!-- end form-group -->
+
+                              <div class="form-group">
+                                <button type="button" class="btn green" style="width: 100px; margin: 0 25px 0 10px;" id="addRow">Add New
+                                </button>
+                              </div><!-- end form-group -->
 
                               <div class="form-group">
 
-                                <table class="table table-bordered" id="payment-table">
-                                  <thead>
-                                    <tr id="filter">
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
-                                    </tr>
-                                    <tr>
-                                      <th>Reference No</th>
-                                      <th>Date</th>
-                                      <th>Expenditure No</th>
-                                      <th>Expenditure Total</th>
-                                      <th>Cheque No</th>
-                                      <th>Cheque Account</th>
-                                      <th>Issuing Banking</th>
-                                      <th>Cheque From</th>
-                                      <th>Cheque Amount</th>
-                                    </tr>
-                                  </thead>
-
-                                  <tbody>
-                                    @foreach($payment_voucher as $pv)
-                                      <tr>
-                                        <td>{{ $pv->reference_no }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($pv->date)->format("d/m/Y") }}</td>
-                                        <td>{{ $pv->expenditure_reference_no }}</td>
-                                        <td>{{ $pv->expenditure_total }}</td>
-                                        <td>{{ $pv->cheque_no }}</td>
-                                        <td>{{ $pv->cheque_account }}</td>
-                                        <td>{{ $pv->issuing_banking }}</td>
-                                        <td>{{ $pv->cheque_from }}</td>
-                                        <td>{{ $pv->cheque_amount }}</td>
-                                      </tr>
-                                    @endforeach
-                                  </tbody>
-                                </table>
+                                <label class="col-md-3 control-label"></label>
+                                <div class="col-md-9">
+                                  <div class="form-actions pull-right">
+                                    <button type="submit" class="btn blue" id="confirm_btn">Confirm
+                                    </button>
+                                    <button type="button" class="btn default">Cancel</button>
+                                  </div><!-- end form-actions -->
+                                </div><!-- end col-md-8 -->
 
                               </div><!-- end form-group -->
+                            </div><!-- end col-md-12 -->
 
-                            </div><!-- end form-body -->
+                          </form>
 
-                          </div><!-- end tab-pane tab_paymentlist -->
+                          <table style="display: none;">
+                            <tr id="append-row">
+                              <td><i class='fa fa-minus-circle removeRow' aria-hidden='true'></i></td>
+                              <td>
+                                <select class="form-control" name="glcode_id[]" style="width: 80%;" id="glcode_id">
+                                  <option value="">Please Select</option>
+                                  @foreach($glcode as $gl)
+                                  <option value="{{ $gl->glcode_id }}">{{ $gl->type_name }}</option>
+                                  @endforeach
+                                </select>
+                              </td>
+                              <td class="debit_amount_col">
+                                <input type="text" class="form-control debit_amount" name="debit_amount[]" value="" style="width: 50%;">
+                              </td>
+                              <td class="credit_amount_col">
+                                <input type="text" class="form-control credit_amount" name="credit_amount[]" value="" style="width: 50%;">
+                              </td>
+                              <td></td>
+                            </tr>
+                          </table>
 
-                          <div class="tab-pane" id="tab_newpayment">
+                        </div><!-- end form-body -->
 
-                            <div class="form-body">
+                        <div class="clearfix"></div><!-- end clearfix -->
 
-                              <div class="col-md-6">
+                      </div><!-- end tab-pane tab_newpayment -->
 
-                                <form method="post" action="{{ URL::to('/payment/new-payment') }}"
-                                  class="form-horizontal form-bordered">
+                      <div class="tab-pane" id="tab_paymentdetail">
 
-                                  {!! csrf_field() !!}
+                        <div class="form-body">
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Date *</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="date" value="{{ old('date') }}" data-provide='datepicker' data-date-format='dd/mm/yyyy' id="date">
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                          <div class="col-md-6">
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Expenditure No *</label>
-                                    <div class="col-md-9">
-                                        <select class="form-control" name="expenditure_id" id="expenditure_id">
-                                          <option value="">Please Select</option>
-                                          @foreach($expenditure as $e)
+                            <div class="form-group">
+                              <label class="col-md-3">Voucher No</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_voucher_no" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                          @if($e->outstanding_total != 0)
-                                          <option value="{{ $e->expenditure_id }}">{{ $e->reference_no }}</option>
-                                          @endif
+                            <div class="form-group">
+                              <label class="col-md-3">Date</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_date" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                          @endforeach
-                                        </select>
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                            <div class="form-group">
+                              <label class="col-md-3">Supplier</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_supplier" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Supplier</label>
-                                    <div class="col-md-9">
-                                      <input type="hidden" name="supplier_id" value="" id="supplier_id">
-                                      <input type="text" class="form-control" name="supplier_name" value="{{ old('supplier_name') }}" id="supplier_name" readonly>
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                            <div class="form-group">
+                              <label class="col-md-3">Description</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_description" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Description</label>
-                                    <div class="col-md-9">
-                                      <input type="text" class="form-control" name="description" value="{{ old('description') }}" id="description">
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                            <div class="form-group">
+                              <label class="col-md-3">Cheque No</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_cheque_no" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Expenditure Total</label>
-                                    <div class="col-md-9">
-                                      <input type="text" class="form-control" name="expenditure_total" value="{{ old('expenditure_total') }}" id="expenditure_total" readonly>
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                            <div class="form-group">
+                              <label class="col-md-3">Cheque Account</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_cheque_account" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Outstanding Total</label>
-                                    <div class="col-md-9">
-                                      <input type="text" class="form-control" name="outstanding_total" value="{{ old('outstanding_total') }}" id="outstanding_total" readonly>
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                            <div class="form-group">
+                              <label class="col-md-3">Issuing Banking</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_issuing_banking" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Cheque No *</label>
-                                    <div class="col-md-9">
-                                      <input type="text" class="form-control" name="cheque_no" value="{{ old('cheque_no') }}" id="cheque_no">
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                            <div class="form-group">
+                              <label class="col-md-3">Cheque From</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_cheque_from" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Cheque Account *</label>
-                                    <div class="col-md-9">
-                                      <select class="form-control" name="cheque_account" id="cheque_account">
-                                        <option value="">Please Select</option>
-                                        <option value="7">OCBC A/C NO. 665700217001 华侨银行第一户</option>
-                                        <option value="8">OCBC A/C NO. 665700225001 华侨银行第二户</option>
-                                      </select>
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                            <div class="form-group">
+                              <label class="col-md-3">Job</label>
+                              <div class="col-md-8">
+                                <input type="text" class="form-control" id="show_job" readonly>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                  <div class="form-group">
-                                    <input type="hidden" value="" id="bank_amount">
-                                  </div><!-- end form-group -->
+                            <div class="form-group" style="margin-bottom: 30px;">
+                              <label class="col-md-3">Remark</label>
+                              <div class="col-md-8">
+                                <textarea class="form-control" id="show_remark" readonly></textarea>
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Issuing Banking</label>
-                                    <div class="col-md-9">
-                                      <input type="text" class="form-control" name="issuing_banking" value="{{ old('issuing_banking') }}" id="issuing_banking">
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                          </div><!-- end col-md-6 -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Cheque From</label>
-                                    <div class="col-md-9">
-                                      <input type="text" class="form-control" name="cheque_from" value="{{ old('cheque_from') }}" id="cheque_from">
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                          <div class="col-md-6">
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Cheque Amount *</label>
-                                    <div class="col-md-9">
-                                      <input type="text" class="form-control" name="cheque_amount" value="{{ old('cheque_amount') }}" id="cheque_amount">
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                          </div><!-- end col-md-6 -->
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Job</label>
-                                    <div class="col-md-9">
-                                      <select class="form-control" name="job_id" id="job_id">
-                                        <option value="">Please Select</option>
-                                        @foreach($job as $j)
-                                        <option value="{{ $j->job_id }}">{{ $j->job_name }}</option>
-                                        @endforeach
-                                      </select>
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                          <div class="col-md-12">
 
-                                  <div class="form-group">
-                                    <label class="col-md-3 control-label">Remark</label>
-                                    <div class="col-md-9">
-                                        <textarea name="remark" class="form-control" rows="3" id="remark">{{ old('remark') }}</textarea>
-                                    </div><!-- end col-md-9 -->
-                                  </div><!-- end form-group -->
+                            <table class="table table-bordered" id="payment-detail-table">
+                              <thead>
+                                <tr>
+                                  <th width="30%">GL Account</th>
+                                  <th width="20%">Debit</th>
+                                  <th width="20%">Credit</th>
+                                  <th width="5%"></th>
+                                </tr>
+                              </thead>
 
-                                  <div class="form-group">
-                                    <p>&nbsp;</p>
-                                  </div><!-- end form-group -->
+                              <tbody>
+                                <tr id="appendRow">
+                                  <td></td>
+                                  <td>S$ <span id="show_total_debit">0</span></td>
+                                  <td>S$ <span id="show_total_credit">0</span></td>
+                                </tr>
+                              </tbody>
 
-                                  <div class="clearfix">
-                                  </div><!-- end clearfix -->
+                            </table>
 
-                                  <div class="form-group">
+                          </div><!-- end col-md-12 -->
 
-                                    <div class="col-md-6">
-                                      <p>
-                                        If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                        To Confirm, please enter authorized password to proceed.
-                                      </p>
-                                    </div><!-- end col-md-6 -->
+                        </div><!-- end form-body -->
 
-                                    <div class="col-md-6">
-                                      <label class="col-md-6">Authorized Password</label>
-                                      <div class="col-md-6">
-                                        <input type="password" class="form-control" name="authorized_password" id="authorized_password" autocomplete="new-password">
-                                      </div><!-- end col-md-6 -->
-                                    </div><!-- end col-md-4 -->
+                        <div class="clearfix"></div><!-- end clearfix -->
 
-                                  </div><!-- end form-group -->
+                      </div><!-- end tab-pane tab_paymentdetail -->
 
-                                  <div class="form-group">
+                    </div><!-- end tab-content -->
 
-                                    <label class="col-md-3 control-label"></label>
-                                    <div class="col-md-9">
-                                      <div class="form-actions pull-right">
-                                        <button type="submit" class="btn blue" id="confirm_btn">Confirm
-                                        </button>
-                                        <button type="button" class="btn default">Cancel</button>
-                                      </div><!-- end form-actions -->
-                                    </div><!-- end col-md-9 -->
+                  </div><!-- end tabbable-bordered -->
 
-                                  </div><!-- end form-group -->
+                </div><!-- end portlet-body -->
 
-                                </form>
+              </div><!-- end portlet light -->
 
-                              </div><!-- end col-md-6 -->
+            </div><!-- end col-md-12 -->
 
-                              <div class="col-md-6">
-                              </div><!-- end col-md-6 -->
+          </div><!-- end row -->
 
-                            </div><!-- end form-body -->
+        </div><!-- end inbox -->
 
-                            <div class="clearfix"></div><!-- end clearfix -->
+      </div><!-- end page-content-inner -->
 
-                          </div><!-- end tab-pane tab_newpayment -->
+    </div><!-- end container-fluid -->
 
-                        </div><!-- end tab-content -->
+  </div><!-- end page-content -->
 
-                      </div><!-- end tabbable-bordered -->
+</div><!-- end page-content-wrapper -->
 
-                    </div><!-- end portlet-body -->
-
-                  </div><!-- end portlet light -->
-
-                </div><!-- end col-md-12 -->
-
-              </div><!-- end row -->
-
-            </div><!-- end inbox -->
-
-          </div><!-- end page-content-inner -->
-
-        </div><!-- end container-fluid -->
-
-      </div><!-- end page-content -->
-
-    </div><!-- end page-content-wrapper -->
-
-  </div><!-- end page-container-fluid -->
+</div><!-- end page-container-fluid -->
 
 
 @stop
@@ -349,231 +485,356 @@
 <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js"></script>
 
 <script type="text/javascript">
-  $(function() {
+$(function() {
 
-    var d = new Date();
-    var strDate = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+  var strDate = $.datepicker.formatDate('dd/mm/yy', new Date());
+  $("#date").val(strDate);
 
-    $("#date").val(strDate);
+  $("#supplier_name").autocomplete({
+    source: "/expenditure/search/supplier",
+    minLength: 1,
+    select: function(event, ui) {
+      $('#supplier_name').val(ui.item.value);
+      $('#supplier_id').val(ui.item.id);
+    }
+  });
 
-    $("#cheque_amount").keypress(function (e) {
-       //if the letter is not digit then display error and don't type anything
-       if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-          //display error message
-          return false;
+  $("#cheque_amount").keypress(function (e) {
+    //if the letter is not digit then display error and don't type anything
+    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+      //display error message
+      return false;
+    }
+  });
+
+  $(".debit_amount").on("input", function(evt) {
+    var self = $(this);
+    self.val(self.val().replace(/[^0-9\.]/g, ''));
+    if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57))
+    {
+      evt.preventDefault();
+    }
+  });
+
+  $(".credit_amount").on("input", function(evt) {
+    var self = $(this);
+    self.val(self.val().replace(/[^0-9\.]/g, ''));
+    if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57))
+    {
+      evt.preventDefault();
+    }
+  });
+
+  $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+    localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+
+  if ( $('.alert-success').children().length > 0 ) {
+    localStorage.removeItem('activeTab');
+  }
+
+  else
+  {
+    var activeTab = localStorage.getItem('activeTab');
+  }
+
+  if (activeTab) {
+    $('a[href="' + activeTab + '"]').tab('show');
+  }
+
+  // DataTable
+  var table = $('#payment-table').removeAttr('width').DataTable( {
+    "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+    columnDefs: [
+      { "width": "90px", "targets": 0 },
+      { "width": "80px", "targets": 1 },
+      { "width": "100px", "targets": 2 },
+      { "width": "80px", "targets": 3 },
+      { "width": "150px", "targets": 4 },
+      { "width": "100px", "targets": 5 },
+      { "width": "100px", "targets": 6 },
+      { "width": "90px", "targets": 7 }
+    ]
+  } );
+
+  $('#payment-table thead tr#filter th').each( function () {
+    var title = $('#payment-table thead th').eq( $(this).index() ).text();
+    $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+  });
+
+  // Apply the filter
+  $("#payment-table thead input").on( 'keyup change', function () {
+    table
+    .column( $(this).parent().index()+':visible' )
+    .search( this.value )
+    .draw();
+  });
+
+  function stopPropagation(evt) {
+    if (evt.stopPropagation !== undefined) {
+      evt.stopPropagation();
+    } else {
+      evt.cancelBubble = true;
+    }
+  }
+
+  $("#cheque_account").change(function() {
+    var cheque_account = $(this).val();
+
+    if(cheque_account)
+    {
+      var formData = {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        glcode_id: cheque_account
+      };
+
+      $.ajax({
+        type: 'GET',
+        url: "/payment/get-bank-name",
+        data: formData,
+        dataType: 'json',
+        success: function(response)
+        {
+          $("#bank_account").val(response.type_name);
+          $("#hidden_bank_account").val(response.glcode_id);
+        },
+
+        error: function (response) {
+          console.log(response);
+        }
+      });
+    }
+    else
+    {
+      $("#bank_account").val('');
+      $("#hidden_bank_account").val('');
+    }
+  });
+
+  $("#addRow").click(function() {
+    $("#append-row").clone().insertBefore("#append-payment-row");
+    $('#append-payment-row tr:last').prev().removeAttr('id');
+  });
+
+  $('body').on('input', '.debit_amount_col', function(){
+    var sum = 0;
+
+    $('.debit_amount').each(function(){
+
+      sum += +$(this).val();
+
+      $("#total_debit").text(sum);
+      $("#total_debit_amount").val(sum);
+    });
+  });
+
+  $('body').on('input', '.credit_amount_col', function(){
+    var sum = 0;
+
+    $('.credit_amount').each(function(){
+
+      sum += +$(this).val();
+
+      $("#total_credit").text(sum);
+      $("#total_credit_amount").val(sum);
+    });
+  });
+
+  $("#new-payment-table").on('click', '.removeRow', function() {
+    if (!confirm("Do you confirm you want to delete this record? Note that this process is irreversable.")){
+      return false;
+    }
+
+    else {
+      $(this).parent().parent().remove();
+
+      var debit_sum = 0;
+
+      $('.debit_amount').each(function(){
+
+        debit_sum += +$(this).val();
+
+        $("#total_debit").text(debit_sum);
+        $("#total_debit_amount").val(debit_sum);
+      });
+
+      var credit_sum = 0;
+
+      $('.credit_amount').each(function(){
+
+        credit_sum += +$(this).val();
+
+        $("#total_credit").text(credit_sum);
+        $("#total_credit_amount").val(credit_sum);
+      });
+    }
+
+  });
+
+  $("#payment-table").on('click','.edit-item',function(e) {
+
+    $("#payment-detail-table tbody").find("tr:not(:last)").remove();
+
+    $("#show_voucher_no").val('');
+    $("#show_date").val('');
+    $("#show_supplier").val('');
+    $("#show_description").val('');
+    $("#show_cheque_no").val('');
+    $("#show_cheque_account").val('');
+    $("#show_issuing_banking").val('');
+    $("#show_cheque_from").val('');
+    $("#show_job").val('');
+    $("#show_remark").val('');
+
+    $(".nav-tabs > li:first-child").removeClass("active");
+    $("#payment-detail").addClass("active");
+
+    var payment_voucher_id = $(this).attr("id");
+
+    var formData = {
+      _token: $('meta[name="csrf-token"]').attr('content'),
+      payment_voucher_id: payment_voucher_id
+    };
+
+    $.ajax({
+      type: 'GET',
+      url: "/payment/payment-voucher-detail",
+      data: formData,
+      dataType: 'json',
+      success: function(response)
+      {
+        $("#show_voucher_no").val(response.payment_voucher[0]['voucher_no']);
+        $("#show_date").val(response.payment_voucher[0]['date']);
+        $("#show_supplier").val(response.payment_voucher[0]['supplier']);
+        $("#show_description").val(response.payment_voucher[0]['description']);
+        $("#show_cheque_no").val(response.payment_voucher[0]['cheque_no']);
+        $("#show_cheque_account").val(response.payment_voucher[0]['cheque_account']);
+        $("#show_issuing_banking").val(response.payment_voucher[0]['issuing_banking']);
+        $("#show_cheque_from").val(response.payment_voucher[0]['cheque_from']);
+        $("#show_job").val(response.payment_voucher[0]['job_name']);
+        $("#show_remark").val(response.payment_voucher[0]['remark']);
+
+        $("#show_total_debit").text(response.payment_voucher[0]['total_debit_amount'].toFixed(2));
+        $("#show_total_credit").text(response.payment_voucher[0]['total_credit_amount'].toFixed(2));
+
+        $.each(response.payment_voucher, function(index, data) {
+
+          $( "<tr><td><label>" + data.type_name + "</label></td>" +
+          "<td><input class='form-control' value='" + (data.debit_amount !=null ? data.debit_amount.toFixed(2) : '') + "' style='width: 50%;' type='text' readonly></td>" +
+          "<td><input class='form-control' value='" + (data.credit_amount !=null ? data.credit_amount.toFixed(2) : '') + "' style='width: 50%;' type='text' readonly></td>" +
+          "</tr>" ).insertBefore( $( "#appendRow" ) );
+        });
+      },
+
+      error: function (response) {
+        console.log(response);
       }
     });
 
-    $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-      localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+
+  $("#confirm_btn").click(function() {
+
+    var count = 0;
+    var errors = new Array();
+    var validationFailed = false;
+
+    var voucher_no = $("#voucher_no").val();
+    var date = $("#date").val();
+    var supplier_name = $("#supplier_name").val();
+    var cheque_no = $("#cheque_no").val();
+    var cheque_account = $("#cheque_account").val();
+    var issuing_banking= $("#issuing_banking").val();
+    var cheque_from = $("#cheque_from").val();
+    var cheque_amount = $("#cheque_amount").val();
+    var job_id = $("#job_id").val();
+    var total_debit = $("#total_debit").text();
+    var total_credit = $("#total_credit").text();
+
+    if ($.trim(voucher_no).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Voucher No field is empty.";
+    }
+
+    if ($.trim(date).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Date field is empty.";
+    }
+
+    if ($.trim(supplier_name).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Supplier Name field is empty.";
+    }
+
+    if($.trim(cheque_no).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Cheque No field is empty.";
+    }
+
+    if($.trim(cheque_account).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Cheque Account field is empty.";
+    }
+
+    if($.trim(job_id).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Job field is empty.";
+    }
+
+    $("#new-payment-table select").each(function() {
+      var $optText = $(this).find('option:selected');
+
+      if ($optText.val() == "") {
+        validationFailed = true;
+        errors[count++] = "GL Account fields are empty.";
+        return false;
+      }
     });
 
-    if ( $('.alert-success').children().length > 0 ) {
-      localStorage.removeItem('activeTab');
+    if (total_debit != total_credit)
+    {
+      validationFailed = true;
+      errors[count++] = "Debit and Credit are not the same.";
+    }
+
+    if(total_debit == 0 && total_credit == 0)
+    {
+      validationFailed = true;
+      errors[count++] = "The amount is empty.";
+    }
+
+    if (validationFailed)
+    {
+      var errorMsgs = '';
+
+      for(var i = 0; i < count; i++)
+      {
+        errorMsgs = errorMsgs + errors[i] + "<br/>";
+      }
+
+      $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").html(errorMsgs);
+
+      return false;
     }
 
     else
     {
-      var activeTab = localStorage.getItem('activeTab');
+      $(".validation-error").removeClass("bg-danger alert alert-error")
+      $(".validation-error").empty();
     }
-
-    if (activeTab) {
-      $('a[href="' + activeTab + '"]').tab('show');
-      console.log(activeTab);
-    }
-
-    // DataTable
-    var table = $('#payment-table').removeAttr('width').DataTable( {
-        "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-        columnDefs: [
-          { "width": "90px", "targets": 0 },
-          { "width": "100px", "targets": 1 },
-          { "width": "100px", "targets": 2 },
-          { "width": "120px", "targets": 3 },
-          { "width": "90px", "targets": 4 },
-          { "width": "110px", "targets": 5 },
-          { "width": "100px", "targets": 6 },
-          { "width": "100px", "targets": 7 },
-          { "width": "100px", "targets": 8 }
-        ]
-    } );
-
-    $('#payment-table thead tr#filter th').each( function () {
-      var title = $('#payment-table thead th').eq( $(this).index() ).text();
-      $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
-    });
-
-    // Apply the filter
-    $("#payment-table thead input").on( 'keyup change', function () {
-        table
-            .column( $(this).parent().index()+':visible' )
-            .search( this.value )
-            .draw();
-    });
-
-    function stopPropagation(evt) {
-      if (evt.stopPropagation !== undefined) {
-        evt.stopPropagation();
-      } else {
-        evt.cancelBubble = true;
-      }
-    }
-
-    $("#cheque_account").change(function() {
-      var glcode_id = $(this).val();
-
-      if(glcode_id)
-      {
-        var formData = {
-          _token: $('meta[name="csrf-token"]').attr('content'),
-          glcode_id: glcode_id
-        };
-
-        $.ajax({
-            type: 'GET',
-            url: "/payment/get-balance",
-            data: formData,
-            dataType: 'json',
-            success: function(response)
-            {
-              $("#bank_amount").val(response.glcode['balance']);
-            },
-
-            error: function (response) {
-              console.log(response);
-            }
-        });
-      }
-      else
-      {
-        $("#bank_amount").val('');
-      }
-    });
-
-    $("#expenditure_id").change(function() {
-      var expenditure_id = $(this).val();
-
-      if(expenditure_id)
-      {
-        var formData = {
-          _token: $('meta[name="csrf-token"]').attr('content'),
-          expenditure_id: expenditure_id
-        };
-
-        $.ajax({
-            type: 'GET',
-            url: "/pettycash/supplier-name",
-            data: formData,
-            dataType: 'json',
-            success: function(response)
-            {
-              $("#supplier_id").val(response.supplier['ap_vendor_id']);
-              $("#supplier_name").val(response.supplier['vendor_name']);
-
-              $("#expenditure_total").val(response.expenditure['credit_total']);
-              $("#outstanding_total").val(response.outstanding_total);
-            },
-
-            error: function (response) {
-              console.log(response);
-            }
-        });
-      }
-      else
-      {
-        $("#supplier_id").val('');
-        $("#supplier_name").val('');
-
-        $("#expenditure_total").val('');
-        $("#outstanding_total").val('');
-      }
-    });
-
-    $("#confirm_btn").click(function() {
-
-      var count = 0;
-      var errors = new Array();
-      var validationFailed = false;
-
-      var date = $("#date").val();
-      var expenditure_id = $("#expenditure_id").val();
-      var outstanding_total = $("#outstanding_total").val();
-      var cheque_no = $("#cheque_no").val();
-      var cheque_account = $("#cheque_account").val();
-      var issuing_banking= $("#issuing_banking").val();
-      var cheque_from = $("#cheque_from").val();
-      var cheque_amount = $("#cheque_amount").val();
-      var job_id = $("#job_id").val();
-      var authorized_password = $("#authorized_password").val();
-
-      if ($.trim(date).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Date field is empty.";
-      }
-
-      if ($.trim(expenditure_id).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Expenditure No field is empty.";
-      }
-
-      if(parseInt(outstanding_total) < parseInt(cheque_amount))
-      {
-        validationFailed = true;
-        errors[count++] = "Cheque Amount should not be greater than Outstanding Total.";
-      }
-
-      if($.trim(cheque_no).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Cheque No field is empty.";
-      }
-
-      if($.trim(cheque_account).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Cheque Account field is empty.";
-      }
-
-      if($.trim(job_id).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Job field is empty.";
-      }
-
-      if($.trim(authorized_password).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Unauthorised User Access !! Changes will NOT be Saved !! Please re-enter Authorised User Access to save Changes !!";
-      }
-
-      if (validationFailed)
-      {
-        var errorMsgs = '';
-
-        for(var i = 0; i < count; i++)
-        {
-          errorMsgs = errorMsgs + errors[i] + "<br/>";
-        }
-
-        $('html,body').animate({ scrollTop: 0 }, 'slow');
-
-        $(".validation-error").addClass("bg-danger alert alert-error")
-        $(".validation-error").html(errorMsgs);
-
-        return false;
-      }
-
-      else
-      {
-        $(".validation-error").removeClass("bg-danger alert alert-error")
-        $(".validation-error").empty();
-      }
-
-    });
 
   });
+
+});
 </script>
 
 

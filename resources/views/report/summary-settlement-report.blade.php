@@ -12,7 +12,7 @@
 
               <div class="page-title">
 
-                  <h1>Settlement Report</h1>
+                  <h1>Summary Settlement Report</h1>
 
               </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
               <i class="fa fa-circle"></i>
             </li>
             <li>
-              <span>Settlement Report</span>
+              <span>Summary Settlement Report</span>
             </li>
           </ul>
 
@@ -53,7 +53,7 @@
 
                         <div class="col-md-3">
 
-                          <form action="{{ URL::to('/report/settlement-report') }}" method="post">
+                          <form action="{{ URL::to('/report/summary-settlement-report') }}" method="post">
                             {!! csrf_field() !!}
 
                             <div class="form-group">
@@ -88,10 +88,10 @@
                             <div class="form-group">
                             </div><!-- end form-group -->
 
-                              <div class="form-group">
-                                <button type="submit" class="btn blue" id="report">Report</button>
-                                <button type="button" class="btn default" onClick="window.location.reload('true')">Clear</button>
-                              </div><!-- end form-group -->
+                            <div class="form-group">
+                              <button type="submit" class="btn blue" id="report">Report</button>
+                              <button type="button" class="btn default" onClick="window.location.reload('true')">Clear</button>
+                            </div><!-- end form-group -->
                           </form>
 
                         </div><!-- end col-md-3 -->

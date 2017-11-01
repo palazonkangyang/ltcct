@@ -27,8 +27,6 @@ class IncomeController extends Controller
 								->orderBy('generaldonation.generaldonation_id', 'desc')
 								->get();
 
-    // dd($receipts->toArray());
-
     if(count($receipts) > 0)
     {
       for($i = 0; $i < count($receipts); $i++)

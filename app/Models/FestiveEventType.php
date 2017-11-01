@@ -4,12 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class FestiveEventType extends Model
 {
-    protected $table = 'festiveeventtype';
+  protected $table = 'festiveeventtype';
 
-    protected $primaryKey = "festiveeventtype_id";
+  protected $primaryKey = "festiveeventtype_id";
 
-    protected $fillable = [
-        'name',
-        'description'
-    ];
+  protected $fillable = [
+    'name',
+    'description'
+  ];
 }

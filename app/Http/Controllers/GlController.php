@@ -50,43 +50,27 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    // dd($input);
+    $result = GlCodeGroup::where('name', $input['name'])->first();
 
-    if(isset($input['authorized_password']))
+    if($result)
     {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
+      $request->session()->flash('error', 'Gl Account Name is already exit.');
+      return redirect()->back()->withInput();
+    }
 
-      if (Hash::check($input['authorized_password'], $hashedPassword)) {
+    else
+    {
+      $data = [
+        "name" => $input['name'],
+        "description" => $input['description'],
+        "balancesheet_side" => $input['balancesheet_side'],
+        "status" => $input['status']
+      ];
 
-        $result = GlCodeGroup::where('name', $input['name'])->first();
+      $glcodegroup = GlCodeGroup::create($data);
 
-        if($result)
-        {
-          $request->session()->flash('error', 'Gl Account Name is already exit.');
-          return redirect()->back()->withInput();
-        }
-
-        else
-        {
-          $data = [
-            "name" => $input['name'],
-            "description" => $input['description'],
-            "balancesheet_side" => $input['balancesheet_side'],
-            "status" => $input['status']
-          ];
-
-          $glcodegroup = GlCodeGroup::create($data);
-
-          $request->session()->flash('success', 'New GL Account Group has been created!');
-          return redirect()->route('new-glaccount-group-page');
-        }
-      }
-
-      else {
-        $request->session()->flash('error', "Password did not match. Please Try Again");
-        return redirect()->back()->withInput();
-      }
+      $request->session()->flash('success', 'New GL Account Group has been created!');
+      return redirect()->route('new-glaccount-group-page');
     }
   }
 
@@ -107,38 +91,24 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    if(isset($input['authorized_password']))
+    $result = GlCodeGroup::where('name', $input['edit_name'])
+                             ->where('glcodegroup_id', '!=', $input['glcodegroup_id'])
+                             ->first();
+    if($result)
     {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
+      $request->session()->flash('error', 'Gl Account Name is already exit.');
+      return redirect()->back()->withInput();
+    }
 
-      if (Hash::check($input['authorized_password'], $hashedPassword)) {
+    else {
+      $glcodegroup = GlCodeGroup::find($input['glcodegroup_id']);
 
-        $result = GlCodeGroup::where('name', $input['edit_name'])
-    														 ->where('glcodegroup_id', '!=', $input['glcodegroup_id'])
-    														 ->first();
-        if($result)
-        {
-          $request->session()->flash('error', 'Gl Account Name is already exit.');
-    			return redirect()->back()->withInput();
-        }
+      $glcodegroup->name = $input['edit_name'];
+      $glcodegroup->description = $input['edit_description'];
+      $glcodegroup->save();
 
-        else {
-          $glcodegroup = GlCodeGroup::find($input['glcodegroup_id']);
-
-          $glcodegroup->name = $input['edit_name'];
-          $glcodegroup->description = $input['edit_description'];
-          $glcodegroup->save();
-
-          $request->session()->flash('success', 'GL Account Group has been updated!');
-          return redirect()->route('new-glaccount-group-page');
-        }
-      }
-
-      else {
-        $request->session()->flash('error', "Password did not match. Please Try Again");
-        return redirect()->back()->withInput();
-      }
+      $request->session()->flash('success', 'GL Account Group has been updated!');
+      return redirect()->route('new-glaccount-group-page');
     }
   }
 
@@ -179,31 +149,18 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    if(isset($input['authorized_password']))
-    {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
+    $data = [
+      "accountcode" => $input['accountcode'],
+      "type_name" => $input['type_name'],
+      "chinese_name" => $input['chinese_name'],
+      "price" => $input['price'],
+      "job_id" => $input['job_id'],
+      "next_sn_number" => $input['next_sn_number'],
+      "receipt_prefix" => $input['receipt_prefix'],
+      "glcodegroup_id" => $input['glcodegroup_id']
+    ];
 
-      if (Hash::check($input['authorized_password'], $hashedPassword)) {
-        $data = [
-          "accountcode" => $input['accountcode'],
-          "type_name" => $input['type_name'],
-          "chinese_name" => $input['chinese_name'],
-          "price" => $input['price'],
-          "job_id" => $input['job_id'],
-          "next_sn_number" => $input['next_sn_number'],
-          "receipt_prefix" => $input['receipt_prefix'],
-          "glcodegroup_id" => $input['glcodegroup_id']
-        ];
-
-        $glcode = GlCode::create($data);
-      }
-
-      else {
-        $request->session()->flash('error', "Password did not match. Please Try Again");
-        return redirect()->back()->withInput();
-      }
-    }
+    $glcode = GlCode::create($data);
 
     if($glcode)
     {
@@ -230,31 +187,15 @@ class GlController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    // dd($input);
+    $glcode = GlCode::find($input['edit_glcode_id']);
 
-    if(isset($input['authorized_password']))
-    {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
-
-      if (Hash::check($input['authorized_password'], $hashedPassword)) {
-
-        $glcode = GlCode::find($input['edit_glcode_id']);
-
-        $glcode->accountcode = $input['edit_accountcode'];
-        $glcode->type_name = $input['edit_type_name'];
-        $glcode->chinese_name = $input['edit_chinese_name'];
-        $glcode->price = $input['edit_price'];
-        $glcode->next_sn_number = $input['edit_next_sn_number'];
-        $glcode->receipt_prefix = $input['edit_receipt_prefix'];
-        $result = $glcode->save();
-      }
-
-      else {
-        $request->session()->flash('error', "Password did not match. Please Try Again");
-        return redirect()->back()->withInput();
-      }
-    }
+    $glcode->accountcode = $input['edit_accountcode'];
+    $glcode->type_name = $input['edit_type_name'];
+    $glcode->chinese_name = $input['edit_chinese_name'];
+    $glcode->price = $input['edit_price'];
+    $glcode->next_sn_number = $input['edit_next_sn_number'];
+    $glcode->receipt_prefix = $input['edit_receipt_prefix'];
+    $result = $glcode->save();
 
     if($result)
     {

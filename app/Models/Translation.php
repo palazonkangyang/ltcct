@@ -4,12 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Translation extends Model
 {
-    protected $table = 'translation';
+  protected $table = 'translation';
 
-    protected $primaryKey = "translation_id";
+  protected $primaryKey = "translation_id";
 
-    protected $fillable = [
-        'from_en',
-        'to_cn'
-    ];
+  protected $fillable = [
+    'from_en',
+    'to_cn'
+  ];
 }

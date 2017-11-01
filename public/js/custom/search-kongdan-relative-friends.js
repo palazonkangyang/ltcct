@@ -169,6 +169,7 @@ $(function() {
     $("#search_address_street").val('');
     $("#search_address_postal").val('');
     $("#search_country").val('');
+    $("#search_oversea_addr_in_chinese").val('');
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),

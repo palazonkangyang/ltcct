@@ -35,20 +35,6 @@ class VendorController extends Controller
                      ->sum('credit_total');
 
       $vendor[$i]->total = $expenditure;
-
-      $payment_amount[] = PaymentVoucher::where('supplier_id', $vendor[$i]->ap_vendor_id)
-                          ->orderBy('supplier_id', 'asc')
-                          ->sum('payment_voucher.cheque_amount');
-
-      $cash_amount[] = PettyCashVoucher::where('supplier_id', $vendor[$i]->ap_vendor_id)
-                        ->orderBy('supplier_id', 'asc')
-                        ->sum('pettycash_voucher.cash_amount');
-    }
-
-    for($i = 0; $i < count($vendor); $i++)
-    {
-      $total = $payment_amount[$i] + $cash_amount[$i];
-      $vendor[$i]->payable = $vendor[$i]->total - $total;
     }
 
     return view('vendor.manage-vendor', [
@@ -60,27 +46,18 @@ class VendorController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    if(isset($input['authorized_password']))
+    $vendor = APVendor::where('vendor_name', $input['vendor_name'])->first();
+
+    if($vendor)
     {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
-
-      if (Hash::check($input['authorized_password'], $hashedPassword))
-      {
-        $vendor = APVendor::where('vendor_name', $input['vendor_name'])->first();
-
-        if($vendor)
-    		{
-    			$request->session()->flash('error', "Vendor Name is already exist.");
-    			return redirect()->back()->withInput();
-    		}
-
-        APVendor::create($input);
-
-        $request->session()->flash('success', 'New Vendor is successfully added!');
-    		return redirect()->back();
-      }
+      $request->session()->flash('error', "Vendor Name is already exist.");
+      return redirect()->back()->withInput();
     }
+
+    APVendor::create($input);
+
+    $request->session()->flash('success', 'New Vendor is successfully added!');
+    return redirect()->back();
   }
 
   public function getVendorDetail()
@@ -98,32 +75,23 @@ class VendorController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    if(isset($input['edit_authorized_password']))
+    $vendor = APVendor::where('vendor_name', $input['edit_vendor_name'])
+               ->where('ap_vendor_id', '!=', $input['edit_ap_vendor_id'])
+               ->first();
+
+    if($vendor)
     {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
-
-      if (Hash::check($input['edit_authorized_password'], $hashedPassword))
-      {
-        $vendor = APVendor::where('vendor_name', $input['edit_vendor_name'])
-    							 ->where('ap_vendor_id', '!=', $input['edit_ap_vendor_id'])
-    							 ->first();
-
-        if($vendor)
-        {
-          $request->session()->flash('error', "Vendor Name is already exist.");
-          return redirect()->back()->withInput();
-        }
-
-        $result = APVendor::find($input['edit_ap_vendor_id']);
-        $result->vendor_name = $input['edit_vendor_name'];
-        $result->description = $input['edit_description'];
-        $result->save();
-
-        $request->session()->flash('success', 'Vendor is successfully updated!');
-    		return redirect()->route('manage-ap-vendor-page');
-      }
+      $request->session()->flash('error', "Vendor Name is already exist.");
+      return redirect()->back()->withInput();
     }
+
+    $result = APVendor::find($input['edit_ap_vendor_id']);
+    $result->vendor_name = $input['edit_vendor_name'];
+    $result->description = $input['edit_description'];
+    $result->save();
+
+    $request->session()->flash('success', 'Vendor is successfully updated!');
+    return redirect()->route('manage-ap-vendor-page');
   }
 
   public function deleteVendor(Request $request, $id)

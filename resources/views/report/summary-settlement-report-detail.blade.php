@@ -49,60 +49,73 @@
                       <div class="form-body">
 
                         <h4 class="text-center" style="font-weight: bold;">
-                          Settlement Statement <br />
+                          Summary Settlement Statement <br />
                         </h4><br />
 
                         <div class="col-md-12">
                           <button type="button" class="btn blue print-btn">Print</button>
                         </div><!-- end col-md-12 -->
 
-                        <div class="col-md-12" id="">
+                        <div class="col-md-12" id="cashflow-report">
 
                           <div class="col-md-12">
-                            <table border="1" class="table table-bordered table-striped" id="settlement-report">
+                            <table border="1" class="table table-bordered table-striped" id="cashflow-monthly-report">
                               <thead>
-                                <tr id="filter">
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                  <th></th>
-                                </tr>
                        					<tr>
-                       						<th width="10%">Receipt</th>
-                                  <th width="15%">Manual Receipt</th>
-                                  <th width="10%">Date</th>
-                                  <th width="20%">Item Code</th>
-                                  <th width="15%">Customer</th>
-                                  <th width="10%">Paid</th>
-                                  <th width="10%">Method</th>
+                       						<th width="10%">Date</th>
+                                  <th width="30%">Type Name</th>
+                                  <th width="10%">Cash</th>
+                                  <th width="10%">Cheque</th>
+                                  <th width="10%">Nets</th>
+                                  <th width="10%">Receipts</th>
+                                  <th width="10%">Amount</th>
                                   <th width="10%">Attended By</th>
                        					</tr>
                        				</thead>
 
+                              @php $attendedby = $result[0]->attendedby; @endphp
+
                               <tbody>
+                                @for($i = 0; $i < count($result); $i++)
 
-                                @if(count($result) > 0 )
-
-                                  @for($i = 0; $i < count($result); $i++)
+                                  @if($result[$i]->amount != 0)
 
                                   <tr>
-                                    <td>{{ $result[$i]->xy_receipt }}</td>
-                                    <td>{{ $result[$i]->manualreceipt }}</td>
-                                    <td>{{ $result[$i]->trans_date }}</td>
+                                    <td>{{ $date }}</td>
                                     <td>{{ $result[$i]->type_name }}</td>
-                                    <td>{{ $result[$i]->chinese_name }}</td>
+                                    @if(isset($result[$i]->cash) && $result[$i]->cash != 0.0)
+                                    <td>{{ number_format($result[$i]->cash, 2) }}</td>
+                                    @else
+                                    <td></td>
+                                    @endif
+                                    @if(isset($result[$i]->cheque) && $result[$i]->cheque != 0.0)
+                                    <td>{{ number_format($result[$i]->cheque, 2) }}</td>
+                                    @else
+                                    <td></td>
+                                    @endif
+                                    @if(isset($result[$i]->nets) && $result[$i]->nets != 0.0)
+                                    <td>{{ number_format($result[$i]->nets, 2) }}</td>
+                                    @else
+                                    <td></td>
+                                    @endif
+                                    @if(isset($result[$i]->receipt) && $result[$i]->receipt != 0.0)
+                                    <td>{{ number_format($result[$i]->receipt, 2) }}</td>
+                                    @else
+                                    <td></td>
+                                    @endif
+                                    @if($result[$i]->amount != 0)
                                     <td>{{ number_format($result[$i]->amount, 2) }}</td>
-                                    <td>{{ $result[$i]->mode_payment }}</td>
-                                    <td>{{ $result[$i]->user_name }}</td>
+                                    @else
+                                    <td></td>
+                                    @endif
+                                    <td>{{ $result[$i]->attendedby }}</td>
                                   </tr>
 
-                                  @endfor
+                                  @endif
 
-                                @else
+                                @endfor
+
+                                @if($total_amount == 0)
 
                                 <tr>
                                   <td colspan="8">No Result Found!</td>
@@ -111,6 +124,18 @@
                                 @endif
                               </tbody>
                             </table>
+                          </div><!-- end col-md-6 -->
+
+                          <div class="col-md-6" style="font-size: 13px;">
+
+                            <p>
+                              Total for all cash Voucher : SGD {{ number_format($total_cash, 2) }} <br />
+                              Total for all cheque Voucher : SGD {{ number_format($total_cheque, 2) }} <br />
+                              Total for all nets Voucher : SGD {{ number_format($total_nets, 2) }} <br />
+                              Total for all receipts Voucher : SGD {{ number_format($total_receipt, 2) }} <br />
+                              Total for all Vouchers ({{ Carbon\Carbon::parse($todaydate)->format('d M Y ') }} - {{ Carbon\Carbon::parse($todaydate)->format('d M Y ') }}) : SGD {{ number_format($total_amount, 2) }} <br />
+                            </p>
+
                           </div><!-- end col-md-6 -->
 
                         </div><!-- end col-md-12 -->
@@ -156,36 +181,6 @@
 <script type="text/javascript">
 
   $(function(){
-
-    // DataTable
-    var table = $('#settlement-report').DataTable({
-      "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-      "order": [[ 1, "desc" ]],
-      dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
-       "<'row'<'col-sm-12'tr>>" +
-       "<'row'<'col-sm-5'i><'col-sm-7'p>>"
-    });
-
-    $('#settlement-report thead tr#filter th').each( function () {
-      var title = $('#income-table thead th').eq( $(this).index() ).text();
-      $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
-    });
-
-    // Apply the filter
-    $("#settlement-report thead input").on( 'keyup change', function () {
-        table
-            .column( $(this).parent().index()+':visible' )
-            .search( this.value, true, false )
-            .draw();
-    });
-
-    function stopPropagation(evt) {
-      if (evt.stopPropagation !== undefined) {
-        evt.stopPropagation();
-      } else {
-        evt.cancelBubble = true;
-      }
-    }
 
     function printData()
     {

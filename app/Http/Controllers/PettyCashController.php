@@ -8,6 +8,7 @@ use App\Models\Job;
 use App\Models\Expenditure;
 use App\Models\APVendor;
 use App\Models\PettyCashVoucher;
+use App\Models\PettyCashVoucherItem;
 use App\Models\PaymentVoucher;
 use App\Models\GlCode;
 use Auth;
@@ -24,53 +25,82 @@ class PettyCashController extends Controller
 {
   public function getManagePettyCash()
   {
-    $pettycash = PettyCashVoucher::leftjoin('expenditure', 'pettycash_voucher.expenditure_id', '=', 'expenditure.expenditure_id')
-                 ->select('pettycash_voucher.*', 'expenditure.reference_no as expenditure_reference_no')
-                 ->get();
+    // Create Journal
+		$year = date("y");
 
-    $glcode = GlCode::where('glcode_id', 11)->pluck('balance');
+    $count_payment = count(PaymentVoucher::all());
+    $count_pettycash = count(PettyCashVoucher::all());
+    $voucher_no = $count_payment + $count_pettycash;
 
-    $expenditure = Expenditure::all();
-
-    if(count($expenditure) > 0)
+    if($voucher_no)
     {
-      for($i = 0; $i < count($expenditure); $i++)
-      {
-        $cheque_amount = PaymentVoucher::where('expenditure_id', $expenditure[$i]->expenditure_id)->sum('payment_voucher.cheque_amount');
-        $cash_amount = PettyCashVoucher::where('expenditure_id', $expenditure[$i]->expenditure_id)->sum('pettycash_voucher.cash_amount');
-        $total_amount = $cheque_amount + $cash_amount;
-        $outstanding_total = $expenditure[$i]->credit_total - $total_amount;
-
-        $expenditure[$i]->outstanding_total = $outstanding_total;
-      }
+      $voucher_no_id = str_pad($voucher_no + 1, 4, 0, STR_PAD_LEFT);
     }
+
+    else
+    {
+      $voucher_no_id = 0;
+      $voucher_no_id = str_pad($voucher_no_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    $voucher_no = 'PV-' . $year . $voucher_no_id;
+
+    $pettycash_voucher = PettyCashVoucher::leftjoin('ap_vendor', 'pettycash_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
+                       ->select('pettycash_voucher.*', 'ap_vendor.vendor_name as supplier')
+                       ->orderBy('pettycash_voucher.pettycash_voucher_id')
+                       ->get();
+
+    $cash_in_hand = GlCode::select('glcode_id','type_name')->where('glcode_id', 11)->get();
+
+    $glcode = Glcode::where('glcodegroup_id', 4)->get();
 
     $job = Job::orderBy('created_at', 'desc')->get();
 
     return view('pettycash.manage-pettycash', [
-      'pettycash' => $pettycash,
-      'expenditure' => $expenditure,
-      'job' => $job,
-      'glcode' => $glcode
+      'voucher_no' => $voucher_no,
+      'pettycash_voucher' => $pettycash_voucher,
+      'cash_in_hand' => $cash_in_hand,
+      "glcode" => $glcode,
+      'job' => $job
     ]);
   }
 
-  public function getSupplierName(Request $request)
+  // public function getSupplierName(Request $request)
+  // {
+  //   $expenditure_id = $_GET['expenditure_id'];
+  //
+  //   $expenditure = Expenditure::find($expenditure_id);
+  //   $supplier = APVendor::find($expenditure->supplier);
+  //
+  //   $cheque_amount = PaymentVoucher::where('expenditure_id', $expenditure_id)->sum('payment_voucher.cheque_amount');
+  //   $cash_amount = PettyCashVoucher::where('expenditure_id', $expenditure_id)->sum('pettycash_voucher.cash_amount');
+  //   $total_amount = $cheque_amount + $cash_amount;
+  //   $outstanding_total = $expenditure->credit_total - $total_amount;
+  //
+  //   return response()->json(array(
+  //     'expenditure' => $expenditure,
+	//     'supplier' => $supplier,
+  //     'outstanding_total' => $outstanding_total
+	//   ));
+  // }
+
+  public function getPettyCashVoucherDetail()
   {
-    $expenditure_id = $_GET['expenditure_id'];
+    $pettycash_voucher_id = $_GET['pettycash_voucher_id'];
+    // $pettycash_voucher_id = 1;
 
-    $expenditure = Expenditure::find($expenditure_id);
-    $supplier = APVendor::find($expenditure->supplier);
+    $pettycash_voucher = PettyCashVoucher::leftjoin('pettycash_voucher_item', 'pettycash_voucher.pettycash_voucher_id', '=', 'pettycash_voucher_item.pettycash_voucher_id')
+                       ->leftjoin('glcode', 'pettycash_voucher_item.glcode_id', '=', 'glcode.glcode_id')
+                       ->leftjoin('job', 'pettycash_voucher.job_id', '=', 'job.job_id')
+                       ->leftjoin('ap_vendor', 'pettycash_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
+                       ->where('pettycash_voucher.pettycash_voucher_id', $pettycash_voucher_id)
+                       ->select('pettycash_voucher.*', 'pettycash_voucher_item.*', 'glcode.type_name', 'job.job_name', 'ap_vendor.vendor_name as supplier')
+                       ->get();
 
-    $cheque_amount = PaymentVoucher::where('expenditure_id', $expenditure_id)->sum('payment_voucher.cheque_amount');
-    $cash_amount = PettyCashVoucher::where('expenditure_id', $expenditure_id)->sum('pettycash_voucher.cash_amount');
-    $total_amount = $cheque_amount + $cash_amount;
-    $outstanding_total = $expenditure->credit_total - $total_amount;
+    $pettycash_voucher[0]->date = Carbon::parse($pettycash_voucher[0]->date)->format("d/m/Y");
 
     return response()->json(array(
-      'expenditure' => $expenditure,
-	    'supplier' => $supplier,
-      'outstanding_total' => $outstanding_total
+	    'pettycash_voucher' => $pettycash_voucher,
 	  ));
   }
 
@@ -78,71 +108,46 @@ class PettyCashController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    $glcode = GlCode::find(11);
-    $glcode->balance -= $input['cash_amount'];
-    $glcode->save();
-
-    if(isset($input['authorized_password']))
+    // Modify fields
+    if(isset($input['date']))
     {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
-
-      if (Hash::check($input['authorized_password'], $hashedPassword))
-      {
-        // Modify fields
-				if(isset($input['date']))
-				{
-				  $date = str_replace('/', '-', $input['date']);
-				  $newDate = date("Y-m-d", strtotime($date));
-				}
-
-				else {
-				  $newDate = "";
-				}
-
-        $year = date("y");
-
-        if(count(PettyCashVoucher::all()))
-        {
-          $pettycash_voucher_id = PettyCashVoucher::all()->last()->pettycash_voucher_id;
-          $pettycash_voucher_id = str_pad($pettycash_voucher_id + 1, 4, 0, STR_PAD_LEFT);
-        }
-
-        else
-        {
-          $pettycash_voucher_id = 0;
-          $pettycash_voucher_id = str_pad($pettycash_voucher_id + 1, 4, 0, STR_PAD_LEFT);
-        }
-
-        $reference_no = 'PC-' . $year . $pettycash_voucher_id;
-
-        $data = [
-          "reference_no" => $reference_no,
-          "date" => $newDate,
-          "expenditure_id" => $input['expenditure_id'],
-          "supplier_id" => $input['supplier_id'],
-          "glcode_id" => 11,
-          "description" => $input['description'],
-          "expenditure_total" => $input['expenditure_total'],
-          "cash_amount" => $input['cash_amount'],
-          "cash_payee" => $input['cash_payee'],
-          "job_id" => $input['job_id'],
-          "remark" => $input['remark']
-        ];
-
-        PettyCashVoucher::create($data);
-
-        $success_msg = $reference_no . ' has been created!';
-
-        $request->session()->flash('success', $success_msg);
-        return redirect()->route('manage-pettycash-page');
-      }
-
-      else
-      {
-        $request->session()->flash('error', "Password did not match. Please Try Again");
-        return redirect()->back()->withInput();
-      }
+      $date = str_replace('/', '-', $input['date']);
+      $newDate = date("Y-m-d", strtotime($date));
     }
+
+    else {
+      $newDate = "";
+    }
+
+    $data = [
+      "voucher_no" => $input['voucher_no'],
+      "date" => $newDate,
+      "supplier_id" => $input['supplier_id'],
+      "description" => $input['description'],
+      "payee" => $input['payee'],
+      "total_debit_amount" => $input['total_debit_amount'],
+      "total_credit_amount" => $input['total_credit_amount'],
+      "job_id" => $input['job_id'],
+      "remark" => $input['remark']
+    ];
+
+    $pettycash_voucher = PettyCashVoucher::create($data);
+
+    for($i = 0; $i < count($input['glcode_id']); $i++)
+    {
+      $data = [
+				"glcode_id" => $input['glcode_id'][$i],
+				"debit_amount" => $input['debit_amount'][$i],
+				"credit_amount" => $input['credit_amount'][$i],
+				"pettycash_voucher_id" => $pettycash_voucher->pettycash_voucher_id
+			];
+
+			PettyCashVoucherItem::create($data);
+    }
+
+    $success_msg = $input['voucher_no'] . ' has been created!';
+
+    $request->session()->flash('success', $success_msg);
+    return redirect()->route('manage-pettycash-page');
   }
 }

@@ -37,6 +37,21 @@ class ReportController extends Controller
     return view('report.trialbalance-report');
   }
 
+  public function getSummarySettlementReport()
+  {
+    $user = User::orderBy("user_name")->get();
+
+    $glcode = GlCode::whereIn('glcode_id', array(108, 110, 112, 119, 134))
+              ->select('glcode_id', 'type_name')
+              ->orderBy('type_name')
+              ->get();
+
+    return view('report.summary-settlement-report', [
+      'attendedby' => $user,
+      'glcode' => $glcode
+    ]);
+  }
+
   public function getSettlementReport()
   {
     $user = User::orderBy("user_name")->get();
@@ -273,56 +288,56 @@ class ReportController extends Controller
         $total_expenses_collection = $total_expenses_collection->merge($total_expenses);
       }
 
-      $ocbc_account = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                        ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
-                        ->where('payment_voucher.cheque_account', 7)
-                        ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
-                        ->where(DB::raw('MONTH(payment_voucher.date)'), '=', $nmonth)
-                        ->select(DB::raw('SUM(IF(YEAR(payment_voucher.date) =' . $input['year'] . ', payment_voucher.cheque_amount, 0))' . $input['month']),
-                        'glcode.accountcode', 'glcode.type_name')
-                        ->get();
-
-      $total_ocbc_account = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                              ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
-                              ->where('payment_voucher.cheque_account', 7)
-                              ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
-                              ->select(DB::raw('SUM(IF(YEAR(payment_voucher.date) =' . $input['year'] . ', payment_voucher.cheque_amount, 0)) AS total'),
-                                'glcode.accountcode', 'glcode.type_name')
-                              ->get();
-
-      $ocbc_account2 = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                        ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
-                        ->where('payment_voucher.cheque_account', 8)
-                        ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
-                        ->where(DB::raw('MONTH(payment_voucher.date)'), '=', $nmonth)
-                        ->select(DB::raw('SUM(IF(YEAR(payment_voucher.date) =' . $input['year'] . ', payment_voucher.cheque_amount, 0))' . $input['month']),
-                        'glcode.accountcode', 'glcode.type_name')
-                        ->get();
-
-      $total_ocbc_account2 = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                            ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
-                            ->where('payment_voucher.cheque_account', 8)
-                            ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
-                            ->select(DB::raw('SUM(IF(YEAR(payment_voucher.date) =' . $input['year'] . ', payment_voucher.cheque_amount, 0)) AS total'),
-                              'glcode.accountcode', 'glcode.type_name')
-                            ->get();
-
-      $cash_on_hand = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                      ->leftjoin('pettycash_voucher', 'glcode.glcode_id', '=', 'pettycash_voucher.glcode_id')
-                      ->where(DB::raw('YEAR(pettycash_voucher.date)'), '=', $input['year'])
-                      ->where(DB::raw('MONTH(pettycash_voucher.date)'), '=', $nmonth)
-                      ->select(DB::raw('SUM(IF(YEAR(pettycash_voucher.date) =' . $input['year'] . ', pettycash_voucher.cash_amount, 0))' . $input['month']),
-                        'glcode.accountcode', 'glcode.type_name')
-                      ->get();
-
-      $cash_on_hand[0]->type_name = "Beginning Cash On Hand Total";
-
-      $total_cash_on_hand = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                             ->leftjoin('pettycash_voucher', 'glcode.glcode_id', '=', 'pettycash_voucher.glcode_id')
-                             ->where(DB::raw('YEAR(pettycash_voucher.date)'), '=', $input['year'])
-                             ->select(DB::raw('SUM(IF(YEAR(pettycash_voucher.date) =' . $input['year'] . ', pettycash_voucher.cash_amount, 0)) AS total'),
-                              'glcode.accountcode', 'glcode.type_name')
-                             ->get();
+      // $ocbc_account = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                   ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
+      //                   ->where('payment_voucher.cheque_account', 7)
+      //                   ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
+      //                   ->where(DB::raw('MONTH(payment_voucher.date)'), '=', $nmonth)
+      //                   ->select(DB::raw('SUM(IF(YEAR(payment_voucher.date) =' . $input['year'] . ', payment_voucher.cheque_amount, 0))' . $input['month']),
+      //                   'glcode.accountcode', 'glcode.type_name')
+      //                   ->get();
+      //
+      // $total_ocbc_account = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                         ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
+      //                         ->where('payment_voucher.cheque_account', 7)
+      //                         ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
+      //                         ->select(DB::raw('SUM(IF(YEAR(payment_voucher.date) =' . $input['year'] . ', payment_voucher.cheque_amount, 0)) AS total'),
+      //                           'glcode.accountcode', 'glcode.type_name')
+      //                         ->get();
+      //
+      // $ocbc_account2 = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                   ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
+      //                   ->where('payment_voucher.cheque_account', 8)
+      //                   ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
+      //                   ->where(DB::raw('MONTH(payment_voucher.date)'), '=', $nmonth)
+      //                   ->select(DB::raw('SUM(IF(YEAR(payment_voucher.date) =' . $input['year'] . ', payment_voucher.cheque_amount, 0))' . $input['month']),
+      //                   'glcode.accountcode', 'glcode.type_name')
+      //                   ->get();
+      //
+      // $total_ocbc_account2 = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                       ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
+      //                       ->where('payment_voucher.cheque_account', 8)
+      //                       ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
+      //                       ->select(DB::raw('SUM(IF(YEAR(payment_voucher.date) =' . $input['year'] . ', payment_voucher.cheque_amount, 0)) AS total'),
+      //                         'glcode.accountcode', 'glcode.type_name')
+      //                       ->get();
+      //
+      // $cash_on_hand = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                 ->leftjoin('pettycash_voucher', 'glcode.glcode_id', '=', 'pettycash_voucher.glcode_id')
+      //                 ->where(DB::raw('YEAR(pettycash_voucher.date)'), '=', $input['year'])
+      //                 ->where(DB::raw('MONTH(pettycash_voucher.date)'), '=', $nmonth)
+      //                 ->select(DB::raw('SUM(IF(YEAR(pettycash_voucher.date) =' . $input['year'] . ', pettycash_voucher.cash_amount, 0))' . $input['month']),
+      //                   'glcode.accountcode', 'glcode.type_name')
+      //                 ->get();
+      //
+      // $cash_on_hand[0]->type_name = "Beginning Cash On Hand Total";
+      //
+      // $total_cash_on_hand = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                        ->leftjoin('pettycash_voucher', 'glcode.glcode_id', '=', 'pettycash_voucher.glcode_id')
+      //                        ->where(DB::raw('YEAR(pettycash_voucher.date)'), '=', $input['year'])
+      //                        ->select(DB::raw('SUM(IF(YEAR(pettycash_voucher.date) =' . $input['year'] . ', pettycash_voucher.cash_amount, 0)) AS total'),
+      //                         'glcode.accountcode', 'glcode.type_name')
+      //                        ->get();
 
       $entrance_fees = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
                         ->leftjoin('receipt', 'glcode.glcode_id', '=', 'receipt.glcode_id')
@@ -394,12 +409,12 @@ class ReportController extends Controller
       return view('report.cashflow-monthly-report', [
         'expenses' => $expenses_collection,
         'total_expenses' => $total_expenses_collection,
-        'ocbc_account' => $ocbc_account,
-        'total_ocbc_account' => $total_ocbc_account,
-        'ocbc_account2' => $ocbc_account2,
-        'total_ocbc_account2' => $total_ocbc_account2,
-        'cash_on_hand' => $cash_on_hand,
-        'total_cash_on_hand' => $total_cash_on_hand,
+        // 'ocbc_account' => $ocbc_account,
+        // 'total_ocbc_account' => $total_ocbc_account,
+        // 'ocbc_account2' => $ocbc_account2,
+        // 'total_ocbc_account2' => $total_ocbc_account2,
+        // 'cash_on_hand' => $cash_on_hand,
+        // 'total_cash_on_hand' => $total_cash_on_hand,
         'entrance_fees' => $entrance_fees,
         'total_entrance_fees' => $total_entrance_fees,
         'monthly_subscription' => $monthly_subscription,
@@ -486,62 +501,62 @@ class ReportController extends Controller
                               'glcode.type_name')
                               ->get();
 
-      $ocbc_account = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                      ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
-                      ->where('payment_voucher.cheque_account', 7)
-                      ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
-                      ->select(DB::raw('SUM(IF(MONTH(payment_voucher.date) = 1, payment_voucher.cheque_amount, 0)) AS Jan'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 2, payment_voucher.cheque_amount, 0)) AS Feb'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 3, payment_voucher.cheque_amount, 0)) AS Mar'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 4, payment_voucher.cheque_amount, 0)) AS Apr'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 5, payment_voucher.cheque_amount, 0)) AS May'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 6, payment_voucher.cheque_amount, 0)) AS Jun'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 7, payment_voucher.cheque_amount, 0)) AS July'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 8, payment_voucher.cheque_amount, 0)) AS Aug'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 9, payment_voucher.cheque_amount, 0)) AS Sep'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 10, payment_voucher.cheque_amount, 0)) AS Oct'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 11, payment_voucher.cheque_amount, 0)) AS Nov'),
-                      DB::raw('SUM(IF(MONTH(payment_voucher.date) = 12, payment_voucher.cheque_amount, 0)) AS December'),
-                      'glcode.type_name')
-                      ->get();
-
-      $ocbc_account2 = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                        ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
-                        ->where('payment_voucher.cheque_account', 8)
-                        ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
-                        ->select(DB::raw('SUM(IF(MONTH(payment_voucher.date) = 1, payment_voucher.cheque_amount, 0)) AS Jan'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 2, payment_voucher.cheque_amount, 0)) AS Feb'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 3, payment_voucher.cheque_amount, 0)) AS Mar'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 4, payment_voucher.cheque_amount, 0)) AS Apr'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 5, payment_voucher.cheque_amount, 0)) AS May'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 6, payment_voucher.cheque_amount, 0)) AS Jun'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 7, payment_voucher.cheque_amount, 0)) AS July'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 8, payment_voucher.cheque_amount, 0)) AS Aug'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 9, payment_voucher.cheque_amount, 0)) AS Sep'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 10, payment_voucher.cheque_amount, 0)) AS Oct'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 11, payment_voucher.cheque_amount, 0)) AS Nov'),
-                        DB::raw('SUM(IF(MONTH(payment_voucher.date) = 12, payment_voucher.cheque_amount, 0)) AS December'),
-                        'glcode.type_name')
-                        ->get();
-
-      $cash_on_hand = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
-                        ->leftjoin('pettycash_voucher', 'glcode.glcode_id', '=', 'pettycash_voucher.glcode_id')
-                        ->where('pettycash_voucher.glcode_id', 11)
-                        ->where(DB::raw('YEAR(pettycash_voucher.date)'), '=', $input['year'])
-                        ->select(DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 1, pettycash_voucher.cash_amount, 0)) AS Jan'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 2, pettycash_voucher.cash_amount, 0)) AS Feb'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 3, pettycash_voucher.cash_amount, 0)) AS Mar'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 4, pettycash_voucher.cash_amount, 0)) AS Apr'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 5, pettycash_voucher.cash_amount, 0)) AS May'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 6, pettycash_voucher.cash_amount, 0)) AS Jun'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 7, pettycash_voucher.cash_amount, 0)) AS July'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 8, pettycash_voucher.cash_amount, 0)) AS Aug'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 9, pettycash_voucher.cash_amount, 0)) AS Sep'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 10, pettycash_voucher.cash_amount, 0)) AS Oct'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 11, pettycash_voucher.cash_amount, 0)) AS Nov'),
-                        DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 12, pettycash_voucher.cash_amount, 0)) AS December'),
-                        'glcode.type_name')
-                        ->get();
+      // $ocbc_account = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                 ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
+      //                 ->where('payment_voucher.cheque_account', 7)
+      //                 ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
+      //                 ->select(DB::raw('SUM(IF(MONTH(payment_voucher.date) = 1, payment_voucher.cheque_amount, 0)) AS Jan'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 2, payment_voucher.cheque_amount, 0)) AS Feb'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 3, payment_voucher.cheque_amount, 0)) AS Mar'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 4, payment_voucher.cheque_amount, 0)) AS Apr'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 5, payment_voucher.cheque_amount, 0)) AS May'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 6, payment_voucher.cheque_amount, 0)) AS Jun'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 7, payment_voucher.cheque_amount, 0)) AS July'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 8, payment_voucher.cheque_amount, 0)) AS Aug'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 9, payment_voucher.cheque_amount, 0)) AS Sep'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 10, payment_voucher.cheque_amount, 0)) AS Oct'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 11, payment_voucher.cheque_amount, 0)) AS Nov'),
+      //                 DB::raw('SUM(IF(MONTH(payment_voucher.date) = 12, payment_voucher.cheque_amount, 0)) AS December'),
+      //                 'glcode.type_name')
+      //                 ->get();
+      //
+      // $ocbc_account2 = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                   ->leftjoin('payment_voucher', 'glcode.glcode_id', '=', 'payment_voucher.cheque_account')
+      //                   ->where('payment_voucher.cheque_account', 8)
+      //                   ->where(DB::raw('YEAR(payment_voucher.date)'), '=', $input['year'])
+      //                   ->select(DB::raw('SUM(IF(MONTH(payment_voucher.date) = 1, payment_voucher.cheque_amount, 0)) AS Jan'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 2, payment_voucher.cheque_amount, 0)) AS Feb'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 3, payment_voucher.cheque_amount, 0)) AS Mar'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 4, payment_voucher.cheque_amount, 0)) AS Apr'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 5, payment_voucher.cheque_amount, 0)) AS May'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 6, payment_voucher.cheque_amount, 0)) AS Jun'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 7, payment_voucher.cheque_amount, 0)) AS July'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 8, payment_voucher.cheque_amount, 0)) AS Aug'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 9, payment_voucher.cheque_amount, 0)) AS Sep'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 10, payment_voucher.cheque_amount, 0)) AS Oct'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 11, payment_voucher.cheque_amount, 0)) AS Nov'),
+      //                   DB::raw('SUM(IF(MONTH(payment_voucher.date) = 12, payment_voucher.cheque_amount, 0)) AS December'),
+      //                   'glcode.type_name')
+      //                   ->get();
+      //
+      // $cash_on_hand = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
+      //                   ->leftjoin('pettycash_voucher', 'glcode.glcode_id', '=', 'pettycash_voucher.glcode_id')
+      //                   ->where('pettycash_voucher.glcode_id', 11)
+      //                   ->where(DB::raw('YEAR(pettycash_voucher.date)'), '=', $input['year'])
+      //                   ->select(DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 1, pettycash_voucher.cash_amount, 0)) AS Jan'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 2, pettycash_voucher.cash_amount, 0)) AS Feb'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 3, pettycash_voucher.cash_amount, 0)) AS Mar'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 4, pettycash_voucher.cash_amount, 0)) AS Apr'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 5, pettycash_voucher.cash_amount, 0)) AS May'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 6, pettycash_voucher.cash_amount, 0)) AS Jun'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 7, pettycash_voucher.cash_amount, 0)) AS July'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 8, pettycash_voucher.cash_amount, 0)) AS Aug'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 9, pettycash_voucher.cash_amount, 0)) AS Sep'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 10, pettycash_voucher.cash_amount, 0)) AS Oct'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 11, pettycash_voucher.cash_amount, 0)) AS Nov'),
+      //                   DB::raw('SUM(IF(MONTH(pettycash_voucher.date) = 12, pettycash_voucher.cash_amount, 0)) AS December'),
+      //                   'glcode.type_name')
+      //                   ->get();
 
       $donation_non_members = GlCode::leftjoin('glcodegroup', 'glcode.glcodegroup_id', '=', 'glcodegroup.glcodegroup_id')
                               ->leftjoin('receipt', 'glcode.glcode_id', '=', 'receipt.glcode_id')
@@ -567,9 +582,9 @@ class ReportController extends Controller
         'expenses' => $expenses_collection,
         'entrance_fees' => $entrance_fees,
         'monthly_subscription' => $monthly_subscription,
-        'ocbc_account' => $ocbc_account,
-        'ocbc_account2' => $ocbc_account2,
-        'cash_on_hand' => $cash_on_hand,
+        // 'ocbc_account' => $ocbc_account,
+        // 'ocbc_account2' => $ocbc_account2,
+        // 'cash_on_hand' => $cash_on_hand,
         'donation_non_members' => $donation_non_members,
         'year' => $input['year']
       ]);
@@ -619,7 +634,7 @@ class ReportController extends Controller
     ]);
   }
 
-  public function getSettlementReportDetail(Request $request)
+  public function postSummarySettlementReport(Request $request)
   {
     $input = array_except($request->all(), '_token');
 
@@ -636,94 +651,324 @@ class ReportController extends Controller
     $total_amount = 0;
     $total_receipt = 0;
 
-    if($input['type'] == 0)
+    $total_staff = User::count();
+    $staff_array = User::orderBy('user_name')->pluck('id');
+
+    if($input['staff_id'] == 0)
     {
-      for($i = 0; $i < count($glcode_array); $i++)
+      if($input['type'] == 0)
+      {
+        for($i = 0; $i < $total_staff; $i++)
+        {
+          for($j = 0; $j < count($glcode_array); $j++)
+          {
+            $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                      ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                      ->where('receipt.staff_id', $staff_array[$i])
+                      ->where('receipt.trans_date', $date)
+                      ->where('receipt.glcode_id', $glcode_array[$j])
+                      ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
+                      DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
+                      DB::raw('SUM(IF(generaldonation.mode_payment = "nets", receipt.amount, 0)) AS nets'),
+                      DB::raw('SUM(IF(generaldonation.mode_payment = "receipt", receipt.amount, 0)) AS receipt'),
+                      'glcode.type_name')
+                      ->get();
+
+            $user_name = User::where('id', $staff_array[$i])->pluck('user_name');
+            $result[0]->attendedby = $user_name[0];
+
+            $result_collection = $result_collection->merge($result);
+          }
+        }
+
+        for($i = 0; $i < count($result_collection); $i++)
+        {
+          if(isset($result_collection[$i]->cash))
+          {
+            $result_collection[$i]->amount += $result_collection[$i]->cash + $result_collection[$i]->cheque + $result_collection[$i]->nets + $result_collection[$i]->receipt;
+
+            $total_cash += $result_collection[$i]->cash;
+            $total_nets += $result_collection[$i]->nets;
+            $total_cheque += $result_collection[$i]->cheque;
+            $total_receipt += $result_collection[$i]->receipt;
+
+            $total_amount = $total_cash + $total_nets + $total_cheque + $total_receipt;
+          }
+
+          else
+          {
+            $result_collection[$i]->amount = 0;
+          }
+        }
+
+        return view('report.summary-settlement-report-detail', [
+          'result' => $result_collection,
+          'date' => $input['date'],
+          'todaydate' => $date,
+          'total_cash' => $total_cash,
+          'total_nets' => $total_nets,
+          'total_cheque' => $total_cheque,
+          'total_receipt' => $total_receipt,
+          'total_amount' => $total_amount
+        ]);
+      }
+
+      else
+      {
+        for($i = 0; $i < $total_staff; $i++)
+        {
+          $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                    ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                    ->where('receipt.staff_id', $staff_array[$i])
+                    ->where('receipt.trans_date', $date)
+                    ->where('receipt.glcode_id', $input['type'])
+                    ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
+                    DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
+                    DB::raw('SUM(IF(generaldonation.mode_payment = "nets", receipt.amount, 0)) AS nets'),
+                    DB::raw('SUM(IF(generaldonation.mode_payment = "receipt", receipt.amount, 0)) AS receipt'),
+                    'glcode.type_name')
+                    ->get();
+
+          $user_name = User::where('id', $staff_array[$i])->pluck('user_name');
+          $result[0]->attendedby = $user_name[0];
+
+          $result_collection = $result_collection->merge($result);
+        }
+
+        for($i = 0; $i < count($result_collection); $i++)
+        {
+          if(isset($result_collection[$i]->cash))
+          {
+            $result_collection[$i]->amount += $result_collection[$i]->cash + $result_collection[$i]->cheque + $result_collection[$i]->nets + $result_collection[$i]->receipt;
+
+            $total_cash += $result_collection[$i]->cash;
+            $total_nets += $result_collection[$i]->nets;
+            $total_cheque += $result_collection[$i]->cheque;
+            $total_receipt += $result_collection[$i]->receipt;
+
+            $total_amount = $total_cash + $total_nets + $total_cheque + $total_receipt;
+          }
+
+          else
+          {
+            $result_collection[$i]->amount = 0;
+          }
+        }
+
+        $type_name = Glcode::where('glcode_id', $input['type'])->get();
+
+        return view('report.summary-settlement-report-by-type', [
+          'result' => $result_collection,
+          'date' => $input['date'],
+          'todaydate' => $date,
+          'type_name' => $type_name,
+          'total_cash' => $total_cash,
+          'total_nets' => $total_nets,
+          'total_cheque' => $total_cheque,
+          'total_receipt' => $total_receipt,
+          'total_amount' => $total_amount
+        ]);
+      }
+    }
+
+    else
+    {
+      if($input['type'] == 0)
+      {
+        for($i = 0; $i < count($glcode_array); $i++)
+        {
+          $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                    ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                    ->where('receipt.staff_id', $input['staff_id'])
+                    ->where('receipt.trans_date', $date)
+                    ->where('receipt.glcode_id', $glcode_array[$i])
+                    ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
+                    DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
+                    DB::raw('SUM(IF(generaldonation.mode_payment = "nets", receipt.amount, 0)) AS nets'),
+                    DB::raw('SUM(IF(generaldonation.mode_payment = "receipt", receipt.amount, 0)) AS receipt'),
+                    'glcode.type_name')
+                    ->get();
+
+          $user_name = User::where('id', $input['staff_id'])->pluck('user_name');
+          $result[0]->attendedby = $user_name[0];
+
+          $result_collection = $result_collection->merge($result);
+        }
+
+        for($i = 0; $i < count($result_collection); $i++)
+        {
+          if(isset($result_collection[$i]->cash))
+          {
+            $result_collection[$i]->amount += $result_collection[$i]->cash + $result_collection[$i]->cheque + $result_collection[$i]->nets + $result_collection[$i]->receipt;
+
+            $total_cash += $result_collection[$i]->cash;
+            $total_nets += $result_collection[$i]->nets;
+            $total_cheque += $result_collection[$i]->cheque;
+            $total_receipt += $result_collection[$i]->receipt;
+
+            $total_amount = $total_cash + $total_nets + $total_cheque + $total_receipt;
+          }
+
+          else
+          {
+            $result_collection[$i]->amount = 0;
+          }
+        }
+
+        return view('report.summary-settlement-report-detail', [
+          'result' => $result_collection,
+          'date' => $input['date'],
+          'todaydate' => $date,
+          'total_cash' => $total_cash,
+          'total_nets' => $total_nets,
+          'total_cheque' => $total_cheque,
+          'total_receipt' => $total_receipt,
+          'total_amount' => $total_amount
+        ]);
+      }
+
+      else
       {
         $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
                   ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
                   ->where('receipt.staff_id', $input['staff_id'])
                   ->where('receipt.trans_date', $date)
-                  ->where('receipt.glcode_id', $glcode_array[$i])
+                  ->where('receipt.glcode_id', $input['type'])
                   ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
                   DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
                   DB::raw('SUM(IF(generaldonation.mode_payment = "nets", receipt.amount, 0)) AS nets'),
-                  DB::raw('SUM(IF(generaldonation.mode_payment = "receipt", receipt.amount, 0)) AS receipt'),
                   'glcode.type_name')
                   ->get();
 
+        $user_name = User::where('id', $input['staff_id'])->pluck('user_name');
+        $result[0]->attendedby = $user_name[0];
+
         $result_collection = $result_collection->merge($result);
-      }
 
-      for($i = 0; $i < count($result_collection); $i++)
+        for($i = 0; $i < count($result_collection); $i++)
+        {
+          if(isset($result_collection[$i]->cash))
+          {
+            $result_collection[$i]->amount += $result_collection[$i]->cash + $result_collection[$i]->cheque + $result_collection[$i]->nets + $result_collection[$i]->receipt;
+
+            $total_cash += $result_collection[$i]->cash;
+            $total_nets += $result_collection[$i]->nets;
+            $total_cheque += $result_collection[$i]->cheque;
+            $total_receipt += $result_collection[$i]->receipt;
+
+            $total_amount = $total_cash + $total_nets + $total_cheque + $total_receipt;
+          }
+
+          else
+          {
+            $result_collection[$i]->amount = 0;
+          }
+        }
+
+        $type_name = Glcode::where('glcode_id', $input['type'])->get();
+
+        return view('report.summary-settlement-report-by-type', [
+          'result' => $result_collection,
+          'date' => $input['date'],
+          'todaydate' => $date,
+          'type_name' => $type_name,
+          'attendedby' => $user_name[0],
+          'total_cash' => $total_cash,
+          'total_nets' => $total_nets,
+          'total_cheque' => $total_cheque,
+          'total_receipt' => $total_receipt,
+          'total_amount' => $total_amount
+        ]);
+      }
+    }
+  }
+
+  public function postSettlementReport(Request $request)
+  {
+    $input = array_except($request->all(), '_token');
+
+    $date = str_replace('/', '-', $input['date']);
+    $date = date("Y-m-d", strtotime($date) );
+
+    if($input['staff_id'] == 0)
+    {
+      if($input['type'] == 0)
       {
-        if(isset($result_collection[$i]->cash))
-        {
-          $result_collection[$i]->amount += $result_collection[$i]->cash + $result_collection[$i]->cheque + $result_collection[$i]->nets + $result_collection[$i]->receipt;
-
-          $total_cash += $result_collection[$i]->cash;
-          $total_nets += $result_collection[$i]->nets;
-          $total_cheque += $result_collection[$i]->cheque;
-          $total_receipt += $result_collection[$i]->receipt;
-
-          $total_amount = $total_cash + $total_nets + $total_cheque + $total_receipt;
-        }
-
-        else
-        {
-          $result_collection[$i]->amount = 0;
-        }
+        $result = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                  ->leftjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                  ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
+                  ->leftjoin('user', 'receipt.staff_id', 'user.id')
+                  ->where('receipt.trans_date', $date)
+                  ->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.mode_payment',
+                    'glcode.type_name', 'user.user_name')
+                  ->orderBy('receipt.receipt_id', 'desc')
+                  ->get();
       }
 
-      $user_name = User::where('id', $input['staff_id'])->pluck('user_name');
+      else
+      {
+        $result = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                  ->leftjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                  ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
+                  ->leftjoin('user', 'receipt.staff_id', 'user.id')
+                  ->where('receipt.trans_date', $date)
+                  ->where('receipt.glcode_id', $input['type'])
+                  ->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.mode_payment',
+                    'glcode.type_name', 'user.user_name')
+                  ->orderBy('receipt.receipt_id', 'desc')
+                  ->get();
+      }
+
+      for($i = 0; $i < count($result); $i++)
+      {
+        $result[$i]->trans_date = Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
+      }
 
       return view('report.settlement-report-detail', [
-        'result' => $result_collection,
-        'date' => $input['date'],
-        'todaydate' => $date,
-        'attendedby' => $user_name[0],
-        'total_cash' => $total_cash,
-        'total_nets' => $total_nets,
-        'total_cheque' => $total_cheque,
-        'total_receipt' => $total_receipt,
-        'total_amount' => $total_amount
+        'result' => $result,
+        'date' => $input['date']
       ]);
     }
 
     else
     {
-      $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
-                ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
-                ->where('receipt.staff_id', $input['staff_id'])
-                ->where('receipt.trans_date', $date)
-                ->where('receipt.glcode_id', $input['type'])
-                ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
-                DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
-                DB::raw('SUM(IF(generaldonation.mode_payment = "nets", receipt.amount, 0)) AS nets'),
-                'glcode.type_name')
-                ->get();
+      if($input['type'] == 0)
+      {
+        $result = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                  ->leftjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                  ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
+                  ->leftjoin('user', 'receipt.staff_id', 'user.id')
+                  ->where('receipt.staff_id', $input['staff_id'])
+                  ->where('receipt.trans_date', $date)
+                  ->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.mode_payment',
+                    'glcode.type_name', 'user.user_name')
+                  ->orderBy('receipt.receipt_id', 'desc')
+                  ->get();
+      }
 
-        // $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
-        //           ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
-        //           ->where('receipt.staff_id', $input['staff_id'])
-        //           ->where('receipt.trans_date', $date)
-        //           ->where('receipt.glcode_id', $input['type'])
-        //           ->where('generaldonation.mode_payment', $mode[$i])
-        //           ->select(DB::raw('SUM(receipt.amount) as ' . $mode[$i] . '_total'), 'glcode.type_name')
-        //           ->get();
-        //
-      $result_collection = $result_collection->merge($result);
+      else
+      {
+        $result = Receipt::leftjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
+                  ->leftjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
+                  ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
+                  ->leftjoin('user', 'receipt.staff_id', 'user.id')
+                  ->where('receipt.staff_id', $input['staff_id'])
+                  ->where('receipt.trans_date', $date)
+                  ->where('receipt.glcode_id', $input['type'])
+                  ->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.mode_payment',
+                    'glcode.type_name', 'user.user_name')
+                  ->orderBy('receipt.receipt_id', 'desc')
+                  ->get();
+      }
 
-      $type_name = Glcode::where('glcode_id', $input['type'])->get();
-
-
-      $user_name = User::where('id', $input['staff_id'])->pluck('user_name');
+      for($i = 0; $i < count($result); $i++)
+      {
+        $result[$i]->trans_date = Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
+      }
 
       return view('report.settlement-report-by-type', [
-        'result' => $result_collection,
-        'date' => $input['date'],
-        'type_name' => $type_name,
-        'attendedby' => $user_name[0]
+        'result' => $result,
+        'date' => $input['date']
       ]);
     }
   }

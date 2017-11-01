@@ -4,14 +4,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $table = 'customer';
+  protected $table = 'customer';
 
-    protected $primaryKey = "customer_id";
+  protected $primaryKey = "customer_id";
 
-    protected $fillable = [
-        'name',
-        'address',
-        'contact_no',
-        'person_incharge'
-    ];
+  protected $fillable = [
+    'name',
+    'address',
+    'contact_no',
+    'person_incharge'
+  ];
 }

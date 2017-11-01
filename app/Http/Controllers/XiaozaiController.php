@@ -12,6 +12,8 @@ use App\Models\OptionalAddress;
 use App\Models\OptionalVehicle;
 use App\Models\XiaozaiGeneraldonation;
 use App\Models\XiaozaiReceipt;
+use App\Models\JournalEntry;
+use App\Models\JournalEntryItem;
 use Auth;
 use DB;
 use Hash;
@@ -42,6 +44,8 @@ class XiaozaiController extends Controller
   {
     $input = array_except($request->all(), '_token');
 		$total_amount = 0;
+    $member_credit_amount = 0;
+    $non_member_credit_amount = 0;
 
     // Modify Receipt At fields
 	  if(isset($input['receipt_at']))
@@ -125,11 +129,13 @@ class XiaozaiController extends Controller
           if(isset($devotee->member_id))
           {
             $glcode = 118;
+            $member_credit_amount += $input['amount'][$i];
           }
 
           else
           {
             $glcode = 120;
+            $non_member_credit_amount += $input['amount'][$i];
           }
 
           $data = [
@@ -148,6 +154,68 @@ class XiaozaiController extends Controller
         }
       }
     }
+
+    // Create Journal
+		$year = date("y");
+
+    if(count(JournalEntry::all()))
+    {
+      $journalentry_id = JournalEntry::all()->last()->journalentry_id;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    else
+    {
+      $journalentry_id = 0;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    $reference_no = 'J-' . $year . $journalentry_id;
+
+		$data = [
+      "journalentry_no" => $reference_no,
+      "date" => Carbon::now(),
+      "description" => "Xiaozai - 消灾",
+			"devotee_id" => $input['focusdevotee_id'],
+      "type" => "journal",
+      "total_debit_amount" => $input['total_amount'],
+      "total_credit_amount" => $input['total_amount']
+    ];
+
+		$journalentry = JournalEntry::create($data);
+
+		$data = [
+			"glcode_id" => 9,
+			"debit_amount" => $input['total_amount'],
+			"credit_amount" => null,
+			"journalentry_id" => $journalentry->journalentry_id
+		];
+
+		JournalEntryItem::create($data);
+
+		if($member_credit_amount != 0)
+		{
+			$data = [
+				"glcode_id" => 118,
+				"debit_amount" => null,
+				"credit_amount" => $member_credit_amount,
+				"journalentry_id" => $journalentry->journalentry_id
+			];
+
+			JournalEntryItem::create($data);
+		}
+
+		if($non_member_credit_amount != 0)
+		{
+			$data = [
+				"glcode_id" => 120,
+				"debit_amount" => null,
+				"credit_amount" => $non_member_credit_amount,
+				"journalentry_id" => $journalentry->journalentry_id
+			];
+
+			JournalEntryItem::create($data);
+		}
 
     // remove session
 	  Session::forget('xiaozai_receipts');

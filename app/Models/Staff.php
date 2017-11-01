@@ -11,15 +11,15 @@ class Staff extends Model implements CanResetPasswordContract
 {
 	use Authenticatable, CanResetPassword;
 
-    protected $table = 'staff';
+	protected $table = 'staff';
 
-    protected $primaryKey = "staff_id";
+	protected $primaryKey = "staff_id";
 
-    protected $fillable = [
-    	'role',
-    	'first_name',
-    	'last_name',
-    	'user_name',
-        'password'
-    ];
+	protected $fillable = [
+		'role',
+		'first_name',
+		'last_name',
+		'user_name',
+		'password'
+	];
 }

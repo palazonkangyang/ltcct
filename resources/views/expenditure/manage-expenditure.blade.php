@@ -150,14 +150,14 @@
                                   {!! csrf_field() !!}
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Date *</label>
+                                    <label class="col-md-3">Date *</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="date" value="{{ old('date') }}" data-provide="datepicker" data-date-format="dd/mm/yyyy" id="date">
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Vendor *</label>
+                                    <label class="col-md-3">Vendor *</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="supplier" value="{{ old('supplier') }}" id="supplier">
                                     </div><!-- end col-md-9 -->
@@ -168,14 +168,14 @@
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Description *</label>
+                                    <label class="col-md-3">Description *</label>
                                     <div class="col-md-9">
                                         <textarea name="description" class="form-control" rows="3" id="description">{{ old('description') }}</textarea>
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Glcode *</label>
+                                    <label class="col-md-3">Glcode *</label>
                                     <div class="col-md-9">
                                         <select class="form-control" name="glcode_id" id="glcode_id">
                                           @foreach($glcode as $gl)
@@ -186,14 +186,14 @@
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Credit Total *</label>
+                                    <label class="col-md-3">Credit Total *</label>
                                     <div class="col-md-9">
                                         <input type="text" class="form-control" name="credit_total" value="{{ old('credit_total') }}" id="credit_total">
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Status *</label>
+                                    <label class="col-md-3">Status *</label>
                                     <div class="col-md-9">
                                       <select class="form-control" name="status">
                                         <option value="draft">Draft</option>
@@ -204,24 +204,6 @@
 
                                   <div class="form-group">
                                     <p>&nbsp;</p>
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
-                                    <div class="col-md-6">
-                                      <p>
-                                        If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                        To Confirm, please enter authorized password to proceed.
-                                      </p>
-                                    </div><!-- end col-md-6 -->
-
-                                    <div class="col-md-6">
-                                      <label class="col-md-6">Authorized Password</label>
-                                      <div class="col-md-6">
-                                        <input type="password" class="form-control" name="authorized_password" id="authorized_password" autocomplete="new-password">
-                                      </div><!-- end col-md-6 -->
-                                    </div><!-- end col-md-6 -->
-
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
@@ -266,42 +248,42 @@
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Reference No *</label>
+                                    <label class="col-md-3">Reference No *</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="edit_reference_no" value="{{ old('edit_reference_no') }}" id="edit_reference_no" readonly>
+                                      <input type="text" class="form-control" name="edit_reference_no" value="{{ old('edit_reference_no') }}" id="edit_reference_no" readonly>
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Date *</label>
+                                    <label class="col-md-3">Date *</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="edit_date" value="{{ old('edit_date') }}" data-provide="datepicker" data-date-format="dd/mm/yyyy" id="edit_date">
+                                      <input type="text" class="form-control" name="edit_date" value="{{ old('edit_date') }}" data-provide="datepicker" data-date-format="dd/mm/yyyy" id="edit_date">
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Supplier *</label>
+                                    <label class="col-md-3">Vendor *</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="edit_supplier" value="{{ old('edit_supplier') }}" id="edit_supplier">
+                                      <input type="text" class="form-control" name="edit_supplier" value="{{ old('edit_supplier') }}" id="edit_supplier">
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Description *</label>
+                                    <label class="col-md-3">Description *</label>
                                     <div class="col-md-9">
-                                        <textarea name="edit_description" class="form-control" rows="3" id="edit_description">{{ old('edit_description') }}</textarea>
+                                      <textarea name="edit_description" class="form-control" rows="3" id="edit_description">{{ old('edit_description') }}</textarea>
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Credit Total *</label>
+                                    <label class="col-md-3">Credit Total *</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="edit_credit_total" value="{{ old('edit_credit_total') }}" id="edit_credit_total">
+                                      <input type="text" class="form-control" name="edit_credit_total" value="{{ old('edit_credit_total') }}" id="edit_credit_total">
                                     </div><!-- end col-md-9 -->
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
-                                    <label class="col-md-3 control-label">Status *</label>
+                                    <label class="col-md-3">Status *</label>
                                     <div class="col-md-9">
                                       <select class="form-control" name="edit_status" id="edit_status">
                                         <option value="draft">Draft</option>
@@ -312,24 +294,6 @@
 
                                   <div class="form-group">
                                     <p>&nbsp;</p>
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
-                                    <div class="col-md-6">
-                                      <p>
-                                        If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                        To Confirm, please enter authorized password to proceed.
-                                      </p>
-                                    </div><!-- end col-md-6 -->
-
-                                    <div class="col-md-6">
-                                      <label class="col-md-6">Authorized Password</label>
-                                      <div class="col-md-6">
-                                        <input type="password" class="form-control" name="edit_authorized_password" id="edit_authorized_password" autocomplete="new-password">
-                                      </div><!-- end col-md-6 -->
-                                    </div><!-- end col-md-6 -->
-
                                   </div><!-- end form-group -->
 
                                   <div class="form-group">
@@ -534,8 +498,8 @@
           dataType: 'json',
           success: function(response)
           {
-            localStorage.setItem('expenditure_id', response.expenditure['expenditure_id']);
-            localStorage.setItem('status', response.expenditure['status']);
+            localStorage.setItem('expenditure_id', response.expenditure[0]['expenditure_id']);
+            localStorage.setItem('status', response.expenditure[0]['status']);
 
             if(localStorage.getItem('expenditure_id'))
             {
@@ -564,11 +528,11 @@
             }
 
             $("#edit_expenditure_id").val(expenditure_id);
-            $("#edit_reference_no").val(response.expenditure['reference_no']);
-            $("#edit_date").val(response.expenditure['date']);
-            $("#edit_supplier").val(response.expenditure['supplier']);
-            $("#edit_description").val(response.expenditure['description']);
-            $("#edit_credit_total").val(response.expenditure['credit_total']);
+            $("#edit_reference_no").val(response.expenditure[0]['reference_no']);
+            $("#edit_date").val(response.expenditure[0]['date']);
+            $("#edit_supplier").val(response.expenditure[0]['supplier']);
+            $("#edit_description").val(response.expenditure[0]['description']);
+            $("#edit_credit_total").val(response.expenditure[0]['credit_total']);
             $("#edit_status").val(status);
           },
 
@@ -590,7 +554,6 @@
       var supplier = $("#supplier").val();
       var description = $("#description").val();
       var credit_total = $("#credit_total").val();
-      var authorized_password = $("#authorized_password").val();
 
       if ($.trim(date).length <= 0)
       {
@@ -614,12 +577,6 @@
       {
         validationFailed = true;
         errors[count++] = "Credit Total field is empty."
-      }
-
-      if ($.trim(authorized_password).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Authorized pasword field is empty."
       }
 
       if (validationFailed)
@@ -657,7 +614,6 @@
       var supplier = $("#edit_supplier").val();
       var description = $("#edit_description").val();
       var credit_total = $("#edit_credit_total").val();
-      var authorized_password = $("#edit_authorized_password").val();
 
       if ($.trim(date).length <= 0)
       {
@@ -681,12 +637,6 @@
       {
         validationFailed = true;
         errors[count++] = "Credit Total field is empty."
-      }
-
-      if ($.trim(authorized_password).length <= 0)
-      {
-        validationFailed = true;
-        errors[count++] = "Authorized pasword field is empty."
       }
 
       if (validationFailed)

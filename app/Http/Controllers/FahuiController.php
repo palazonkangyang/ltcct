@@ -10,6 +10,8 @@ use App\Models\KongdanGeneraldonation;
 use App\Models\KongdanReceipt;
 use App\Models\FestiveEvent;
 use App\Models\GlCode;
+use App\Models\JournalEntry;
+use App\Models\JournalEntryItem;
 use Auth;
 use DB;
 use Hash;
@@ -133,6 +135,53 @@ class FahuiController extends Controller
         }
       }
     }
+
+    // Create Journal
+		$year = date("y");
+
+    if(count(JournalEntry::all()))
+    {
+      $journalentry_id = JournalEntry::all()->last()->journalentry_id;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    else
+    {
+      $journalentry_id = 0;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    $reference_no = 'J-' . $year . $journalentry_id;
+
+		$data = [
+      "journalentry_no" => $reference_no,
+      "date" => Carbon::now(),
+      "description" => "Kongdan - 孔诞",
+			"devotee_id" => $input['focusdevotee_id'],
+      "type" => "journal",
+      "total_debit_amount" => $input['total_amount'],
+      "total_credit_amount" => $input['total_amount']
+    ];
+
+		$journalentry = JournalEntry::create($data);
+
+		$data = [
+			"glcode_id" => 9,
+			"debit_amount" => $input['total_amount'],
+			"credit_amount" => null,
+			"journalentry_id" => $journalentry->journalentry_id
+		];
+
+		JournalEntryItem::create($data);
+
+		$data = [
+			"glcode_id" => 117,
+			"debit_amount" => null,
+			"credit_amount" => $input['total_amount'],
+			"journalentry_id" => $journalentry->journalentry_id
+		];
+
+		JournalEntryItem::create($data);
 
     // remove session
 	  Session::forget('kongdan_receipts');

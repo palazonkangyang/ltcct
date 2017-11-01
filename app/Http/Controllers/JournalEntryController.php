@@ -19,12 +19,12 @@ use Carbon\Carbon;
 
 class JournalEntryController extends Controller
 {
-
   public function getManageJournalEntry()
   {
     $glcode = GlCode::all();
 
-    $journalentry = JournalEntry::all();
+    $journalentry = JournalEntry::where('journalentry.type', 'journalentry')
+                    ->orderBy('journalentry_id', 'desc')->get();
 
     return view('journalentry.manage-journalentry', [
       'glcode' => $glcode,
@@ -36,97 +36,73 @@ class JournalEntryController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    if(isset($input['authorized_password']))
+    // Modify fields
+    if(isset($input['date']))
     {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
-
-      if (Hash::check($input['authorized_password'], $hashedPassword))
-      {
-        // Modify fields
-				if(isset($input['date']))
-				{
-				  $date = str_replace('/', '-', $input['date']);
-				  $newDate = date("Y-m-d", strtotime($date));
-				}
-
-				else {
-				  $newDate = "";
-				}
-
-        $year = date("y");
-
-        if(count(JournalEntry::all()))
-        {
-          $journalentry_id = JournalEntry::all()->last()->journalentry_id;
-          $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
-        }
-
-        else
-        {
-          $journalentry_id = 0;
-          $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
-        }
-
-        $reference_no = 'JE-' . $year . $journalentry_id;
-
-        $data = [
-          "journalentry_no" => $reference_no,
-          "date" => $newDate,
-          "description" => $input['description'],
-          "total_debit_amount" => $input['total_debit_amount'],
-          "total_credit_amount" => $input['total_credit_amount']
-        ];
-
-        $journalentry = JournalEntry::create($data);
-
-        for($i = 0; $i < count($input['glcode_id']); $i++)
-        {
-          $data = [
-            "glcode_id" => $input['glcode_id'][$i],
-            "debit_amount" => $input['debit_amount'][$i],
-            "credit_amount" => $input['credit_amount'][$i],
-            "journalentry_id" => $journalentry->journalentry_id
-          ];
-
-          JournalEntryItem::create($data);
-
-          if(isset($input['debit_amount'][$i]))
-          {
-            $glcode = GlCode::find($input['glcode_id'][$i]);
-            $glcode->balance -= $input['debit_amount'][$i];
-            $glcode->save();
-          }
-
-          if(isset($input['credit_amount'][$i]))
-          {
-            $glcode = GlCode::find($input['glcode_id'][$i]);
-            $glcode->balance += $input['credit_amount'][$i];
-            $glcode->save();
-          }
-        }
-
-        $success_msg = $reference_no . ' has been created!';
-
-        $request->session()->flash('success', $success_msg);
-        return redirect()->route('manage-journalentry-page');
-      }
-
-      else
-      {
-        $request->session()->flash('error', "Password did not match. Please Try Again");
-        return redirect()->back()->withInput();
-      }
+      $date = str_replace('/', '-', $input['date']);
+      $newDate = date("Y-m-d", strtotime($date));
     }
+
+    else {
+      $newDate = "";
+    }
+
+    $year = date("y");
+
+    if(count(JournalEntry::all()))
+    {
+      $journalentry_id = JournalEntry::all()->last()->journalentry_id;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    else
+    {
+      $journalentry_id = 0;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    $reference_no = 'JE-' . $year . $journalentry_id;
+
+    $data = [
+      "journalentry_no" => $reference_no,
+      "date" => $newDate,
+      "description" => $input['description'],
+      "type" => 'journalentry',
+      "total_debit_amount" => $input['total_debit_amount'],
+      "total_credit_amount" => $input['total_credit_amount']
+    ];
+
+    $journalentry = JournalEntry::create($data);
+
+    for($i = 0; $i < count($input['glcode_id']); $i++)
+    {
+      $data = [
+        "glcode_id" => $input['glcode_id'][$i],
+        "debit_amount" => $input['debit_amount'][$i],
+        "credit_amount" => $input['credit_amount'][$i],
+        "journalentry_id" => $journalentry->journalentry_id
+      ];
+
+      JournalEntryItem::create($data);
+    }
+
+    $success_msg = $reference_no . ' has been created!';
+
+    $request->session()->flash('success', $success_msg);
+    return redirect()->route('manage-journalentry-page');
   }
 
   public function getJournalEntryDetail()
   {
     $journalentry_id = $_GET['journalentry_id'];
 
-    $journalentry = JournalEntry::find($journalentry_id);
+    $journalentry = JournalEntry::leftjoin('journalentry_item', 'journalentry.journalentry_id', '=', 'journalentry_item.journalentry_id')
+                    ->leftjoin('glcode', 'journalentry_item.glcode_id', '=', 'glcode.glcode_id')
+                    ->where('journalentry.journalentry_id', $journalentry_id)
+                    ->select('journalentry.*', 'journalentry_item.*', 'glcode.type_name')
+                    ->get();
 
-    $journalentry->date = Carbon::parse($journalentry->date)->format("d/m/Y");
+    $journalentry[0]->date = Carbon::parse($journalentry[0]->date)->format("d/m/Y");
 
     return response()->json(array(
 	    'journalentry' => $journalentry,
@@ -178,11 +154,6 @@ class JournalEntryController extends Controller
       $request->session()->flash('success', 'Journal Entry has been updated!');
       return redirect()->route('manage-journalentry-page');
     }
-  }
-
-  public function getDeleteJournalEntry($id)
-  {
-
   }
 
   public function getBalance(Request $request)

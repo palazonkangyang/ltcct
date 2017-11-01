@@ -4,10 +4,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Acknowledge extends Model
 {
-    protected $table = 'acknowledge';
+  protected $table = 'acknowledge';
 
-    protected $fillable = [
-        'prelogin_notes',
-        'show_prelogin'
-    ];
+  protected $fillable = [
+    'prelogin_notes',
+    'show_prelogin'
+  ];
 }

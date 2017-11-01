@@ -4,11 +4,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class FamilyCode extends Model
 {
-    protected $table = 'familycode';
+  protected $table = 'familycode';
 
-    protected $primaryKey = "familycode_id";
+  protected $primaryKey = "familycode_id";
 
-    protected $fillable = [
-        'familycode'
-    ];
+  protected $fillable = [
+    'familycode'
+  ];
 }

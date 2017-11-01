@@ -11,17 +11,17 @@
 |
 */
 
-	Route::post('/auth/login', ['as' => 'auth-page', 'uses' => 'AuthController@postAuthenticate']);
-  Route::get('/auth/login', ['uses' => 'AuthController@authenticate']);
+Route::post('/auth/login', ['as' => 'auth-page', 'uses' => 'AuthController@postAuthenticate']);
+Route::get('/auth/login', ['uses' => 'AuthController@authenticate']);
 
-  Route::get('/auth/logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
-	Route::get('/', ['as' => 'login-page', 'uses' => 'AdminController@login']);
+Route::get('/auth/logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
+Route::get('/', ['as' => 'login-page', 'uses' => 'AdminController@login']);
 
- 	Route::get('/login', ['as' => 'login-page', 'uses' => 'AdminController@login']);
- 	Route::get('/logout', ['as' => 'logout-page', 'uses' => 'AdminController@logout']);
+Route::get('/login', ['as' => 'login-page', 'uses' => 'AdminController@login']);
+Route::get('/logout', ['as' => 'logout-page', 'uses' => 'AdminController@logout']);
 
-	// Post Route
-	Route::post('/login', ['as' => 'post-login-page', 'uses' => 'AdminController@postLogin']);
+// Post Route
+Route::post('/login', ['as' => 'post-login-page', 'uses' => 'AdminController@postLogin']);
 
 
 Route::group(['middleware' => 'auth'], function () {
@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth'], function () {
 		// Get Route
 		Route::get('/prelogin-note', ['as' => 'prelogin-note-page', 'uses' => 'AdminController@getPreLoginNote']);
 		Route::get('/dashboard', ['as' => 'dashboard-page', 'uses' => 'AdminController@dashboard']);
-    Route::get('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@getAddAccount']);
+		Route::get('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@getAddAccount']);
 		Route::get('/all-accounts', ['as' => 'all-accounts-page', 'uses' => 'AdminController@getAllAccounts']);
 		Route::get('/account/edit/{id}', ['as' => 'all-account-page', 'uses' => 'AdminController@getEditAccount']);
 		Route::get('/account/delete/{id}', ['as' => 'all-account-page', 'uses' => 'AdminController@deleteAccount']);
@@ -62,9 +62,9 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-membership-fee', ['as' => 'update-membership-fee-page', 'uses' => 'AdminController@postUpdateMemebershipFee']);
 		Route::post('/add-address', ['as' => 'save-address-page', 'uses' => 'AdminController@postAddAddress']);
 		Route::post('/update-address', ['as' => 'update-address-page', 'uses' => 'AdminController@updateAddress']);
-  });
+	});
 
-  Route::group(['prefix' => 'operator'], function () {
+	Route::group(['prefix' => 'operator'], function () {
 
 		Route::get('/index', ['as' => 'main-page', 'uses' => 'OperatorController@index']);
 		Route::get('/search/autocomplete', ['as' => 'search-autocomplete-page', 'uses' => 'OperatorController@getAutocomplete']);
@@ -76,7 +76,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/address-translate', ['as' => 'address-translate-page', 'uses' => 'OperatorController@getAddressTranslate']);
 		Route::get('/search-dialect', ['as' => 'search-dialect-page', 'uses' => 'OperatorController@getSearchDialect']);
 		Route::get('/search-race', ['as' => 'search-race-page', 'uses' => 'OperatorController@getSearchRace']);
-		// Route::get('/search-addresshouseno', ['as' => 'search-addresshouseno-page', 'uses' => 'OperatorController@getSearchAddressHouseNo']);
 		Route::get('/search/check-devotee', ['as' => 'check-devotee-page', 'uses' => 'OperatorController@getCheckDevotee']);
 		Route::get('/devotee/edit/{devotee_id}', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@getEditDevotee']);
 		Route::match(["post", "get"], '/devotee/new-search', ['as' => 'get-json-focus-devotee-page', 'uses' => 'OperatorController@getRemoveFocusDevotee']);
@@ -92,23 +91,23 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/relocation', ['as' => 'relocation-devotee-page', 'uses' => 'OperatorController@postRelocationDevotees']);
 		Route::post('/new-devotee', ['as' => 'new-devotee-page', 'uses' => 'OperatorController@postAddDevotee']);
 		Route::post('/edit-devotee', ['as' => 'edit-devotee-page', 'uses' => 'OperatorController@postEditDevotee']);
-  });
+	});
 
-  Route::group(['prefix' => 'staff'], function () {
-    Route::get('/search-devotee', ['as' => 'search-devotee-page', 'uses' => 'StaffController@getSearchDevotee']);
+	Route::group(['prefix' => 'staff'], function () {
+		Route::get('/search-devotee', ['as' => 'search-devotee-page', 'uses' => 'StaffController@getSearchDevotee']);
 		Route::get('/search-devotee-id', ['as' => 'search-devotee-id-page', 'uses' => 'StaffController@getSearchDevoteeID']);
 		Route::get('/transaction-detail', ['as' => 'transaction-detail-page', 'uses' => 'StaffController@getTransactionDetail']);
 		Route::get('/yuejuan-transaction-detail', ['as' => 'yuejuan-transaction-detail-page', 'uses' => 'StaffController@getYueJuanTransactionDetail']);
 		Route::get('/insert-devotee', ['as' => 'insert-devotee-page', 'uses' => 'StaffController@getInsertDevotee']);
-    Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
-    Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
+		Route::get('/donation', ['as' => 'get-donation-page', 'uses' => 'StaffController@getDonation']);
+		Route::get('/receipt/{receipt_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getReceipt']);
 		Route::get('/generaldonation/{generaldonation_id}', ['as' => 'receipt-detail-page', 'uses' => 'StaffController@getReceiptDetail']);
-    Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
+		Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
 		Route::get('/create-festive-event', ['as' => 'create-festive-event-page', 'uses' => 'StaffController@getCreateFestiveEvent']);
 		Route::get('/print', ['as' => 'print-page', 'uses' => 'StaffController@getPrint']);
 
 		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);
-    Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
+		Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
 		Route::post('/postcijidoantion', ['as' => 'post-ciji-donation-page', 'uses' => 'StaffController@postCijiDonation']);
 		Route::post('/postyuejuandoantion', ['as' => 'post-yuejuan-donation-page', 'uses' => 'StaffController@postYuejuanDonation']);
 		Route::post('/samefamily-setting', ['as' => 'post-samefamily-setting-page', 'uses' => 'StaffController@postSameFamilySetting']);
@@ -118,7 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/cancel-transaction', ['as' => 'cancel-transaction-page', 'uses' => 'StaffController@postCancelTransaction']);
 		Route::post('/reprint-detail', ['as' => 'reprint-detail-page', 'uses' => 'StaffController@ReprintDetail']);
 		Route::get('/reprint-generaldonation', ['as' => 'reprint-generaldonation-page', 'uses' => 'StaffController@ReprintGeneralDonation']);
-  });
+	});
 
 	Route::group(['prefix' => 'fahui'], function () {
 		Route::get('/kongdan', ['as' => 'get-kongdan-page', 'uses' => 'FahuiController@getKongDan']);
@@ -144,10 +143,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/xiaozai-reprint-detail', ['as' => 'xiaozai-reprint-detail-page', 'uses' => 'XiaozaiController@ReprintDetail']);
 		Route::post('/xiaozai-cancel-replace-transaction', ['as' => 'kongdan-cancel-replace-transaction-page', 'uses' => 'XiaozaiController@postCancelReplaceTransaction']);
 		Route::post('/xiaozai-cancel-transaction', ['as' => 'xiaozai-cancel-transaction-page', 'uses' => 'XiaozaiController@postCancelTransaction']);
-  });
+	});
 
 	Route::group(['prefix' => 'account'], function () {
-    Route::get('/new-glaccountgroup', ['as' => 'new-glaccount-group-page', 'uses' => 'GlController@getAddNewGlAccountGroup']);
+		Route::get('/new-glaccountgroup', ['as' => 'new-glaccount-group-page', 'uses' => 'GlController@getAddNewGlAccountGroup']);
 		Route::get('/edit-glaccountgroup', ['as' => 'edit-glaccount-group-page', 'uses' => 'GlController@EditGlAccountGroup']);
 		Route::get('/new-glaccount', ['as' => 'new-glaccount-page', 'uses' => 'GlController@getAddNewGlAccount']);
 		Route::get('/edit-glaccount', ['as' => 'edit-glaccount-page', 'uses' => 'GlController@EditGlAccount']);
@@ -159,11 +158,11 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-glaccountgroup', ['as' => 'update-glaccount-group-page', 'uses' => 'GlController@UpdateGlAccountGroup']);
 		Route::post('/new-glaccount', ['as' => 'post-glaccount-page', 'uses' => 'GlController@postAddNewGlAccount']);
 		Route::post('/update-glaccount', ['as' => 'update-glaccount-page', 'uses' => 'GlController@UpdateGlAccount']);
-  });
+	});
 
 	Route::group(['prefix' => 'income'], function () {
-    Route::get('/income-lists', ['as' => 'income-lists-page', 'uses' => 'IncomeController@getAllIncomeLists']);
-  });
+		Route::get('/income-lists', ['as' => 'income-lists-page', 'uses' => 'IncomeController@getAllIncomeLists']);
+	});
 
 	Route::group(['prefix' => 'expenditure'], function () {
 		Route::get('/manage-expenditure', ['as' => 'manage-expenditure-page', 'uses' => 'ExpenditureController@getManageExpenditure']);
@@ -184,27 +183,26 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-vendor', ['as' => 'update-vendor-page', 'uses' => 'VendorController@postUpdateVendor']);
 	});
 
+	Route::group(['prefix' => 'journal'], function () {
+		Route::get('/manage-journal', ['as' => 'manage-journal-page', 'uses' => 'JournalController@getManageJournal']);
+		Route::get('/journal-detail', ['as' => 'journal-detail-page', 'uses' => 'JournalController@getJournalDetail']);
+		Route::get('/delete/{id}', ['as' => 'journalentry-delete-page', 'uses' => 'JournalController@getDeleteJournalEntry']);
+
+		Route::post('/new-journal', ['as' => 'new-journal-page', 'uses' => 'JournalController@postAddNewJournal']);
+	});
+
 	Route::group(['prefix' => 'journalentry'], function () {
 		Route::get('/manage-journalentry', ['as' => 'manage-journalentry-page', 'uses' => 'JournalEntryController@getManageJournalEntry']);
 		Route::get('/journalentry-detail', ['as' => 'journalentry-detail-page', 'uses' => 'JournalEntryController@getJournalEntryDetail']);
 		Route::get('/delete/{id}', ['as' => 'journalentry-delete-page', 'uses' => 'JournalEntryController@getDeleteJournalEntry']);
-		Route::get('/get-balance', ['as' => 'get-balance-page', 'uses' => 'JournalEntryController@getBalance']);
 
 		Route::post('/new-journalentry', ['as' => 'new-journalentry-page', 'uses' => 'JournalEntryController@postAddNewJournalentry']);
-		Route::post('/update-journalentry', ['as' => 'update-journalentry-page', 'uses' => 'JournalEntryController@postUpdateJournalentry']);
-	});
-
-	Route::group(['prefix' => 'paid'], function () {
-		Route::get('/manage-paid', ['as' => 'manage-paid-page', 'uses' => 'PaidController@getManagePaid']);
-		Route::get('/paid-detail', ['as' => 'paid-detail-page', 'uses' => 'PaidController@getPaidDetail']);
-
-		Route::post('/new-paid', ['as' => 'new-paid-page', 'uses' => 'PaidController@postAddNewPaid']);
-		Route::post('/update-paid', ['as' => 'update-paid-page', 'uses' => 'PaidController@postUpdatePaid']);
 	});
 
 	Route::group(['prefix' => 'payment'], function () {
 		Route::get('/manage-payment', ['as' => 'manage-payment-page', 'uses' => 'PaymentController@getManagePayment']);
-		Route::get('/get-balance', ['as' => 'get-balance-page', 'uses' => 'PaymentController@getBalance']);
+		Route::get('/get-bank-name', ['as' => 'get-bank-name-page', 'uses' => 'PaymentController@getBankName']);
+		Route::get('/payment-voucher-detail', ['as' => 'payment-voucher-detail-page', 'uses' => 'PaymentController@getPaymentVoucherDetail']);
 
 		Route::post('/new-payment', ['as' => 'new-payment-page', 'uses' => 'PaymentController@postAddNewPayment']);
 	});
@@ -212,30 +210,33 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::group(['prefix' => 'pettycash'], function () {
 		Route::get('/manage-pettycash', ['as' => 'manage-pettycash-page', 'uses' => 'PettyCashController@getManagePettyCash']);
 		Route::get('/supplier-name', ['as' => 'suppiler-name-page', 'uses' => 'PettyCashController@getSupplierName']);
+		Route::get('/pettycash-voucher-detail', ['as' => 'pettycash-voucher-detail-page', 'uses' => 'PettyCashController@getPettyCashVoucherDetail']);
 
 		Route::post('/new-pettycash', ['as' => 'new-pettycash-page', 'uses' => 'PettyCashController@postAddNewPettyCash']);
 	});
 
 	Route::group(['prefix' => 'job'], function () {
-    Route::get('/manage-job', ['as' => 'manage-job-page', 'uses' => 'JobController@getJob']);
+		Route::get('/manage-job', ['as' => 'manage-job-page', 'uses' => 'JobController@getJob']);
 		Route::get('/get-joblists', ['as' => 'get-joblists-page', 'uses' => 'JobController@getJobLists']);
 		Route::get('/job-detail', ['as' => 'job-detail-page', 'uses' => 'JobController@getJobDetail']);
 		Route::get('/delete/{id}', ['as' => 'delete-job-page', 'uses' => 'JobController@deleteJob']);
 
 		Route::post('/new-job', ['as' => 'new-job-page', 'uses' => 'JobController@postAddNewJob']);
 		Route::post('/update-job', ['as' => 'update-page', 'uses' => 'JobController@postUpdateJob']);
-  });
+	});
 
 	Route::group(['prefix' => 'report'], function () {
-    Route::get('/income-report', ['as' => 'income-report-page', 'uses' => 'ReportController@getIncomeReport']);
+		Route::get('/income-report', ['as' => 'income-report-page', 'uses' => 'ReportController@getIncomeReport']);
 		Route::get('/trialbalance-report', ['as' => 'trialbalance-report-page', 'uses' => 'ReportController@getTrialBalanceReport']);
 		Route::get('/cashflow-report', ['as' => 'cashflow-report-page', 'uses' => 'ReportController@getCashflowReport']);
+		Route::get('/summary-settlement-report', ['as' => 'summary-settlement-report-page', 'uses' => 'ReportController@getSummarySettlementReport']);
 		Route::get('/settlement-report', ['as' => 'settlement-report-page', 'uses' => 'ReportController@getSettlementReport']);
 
 		Route::post('/report-detail', ['as' => 'report-detail-page', 'uses' => 'ReportController@getReportDetail']);
 		Route::post('/cashflow-report-detail', ['as' => 'cashflow-report-detail-page', 'uses' => 'ReportController@getCashflowReportDetail']);
 		Route::post('/trialbalance-report-detail', ['as' => 'trialbalance-report-detail-page', 'uses' => 'ReportController@getTrialBalanceReportDetail']);
-		Route::post('/settlement-report-detail', ['as' => 'settlement-report-detail-page', 'uses' => 'ReportController@getSettlementReportDetail']);
-  });
+		Route::post('/summary-settlement-report', ['as' => 'summary-settlement-report-page', 'uses' => 'ReportController@postSummarySettlementReport']);
+		Route::post('/settlement-report', ['as' => 'settlement-report-page', 'uses' => 'ReportController@postSettlementReport']);
+	});
 
 });

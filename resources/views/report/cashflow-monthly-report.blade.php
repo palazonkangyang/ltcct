@@ -100,42 +100,6 @@
 
                               <tbody>
                                 <tr>
-                                  <td style="font-weight: bold; text-decoration: underline">Beginning Cash On Hand</td>
-                                  <td></td>
-                                  <td></td>
-                                </tr>
-
-                                <tr>
-                                  <td>{{ $ocbc_account[0]->type_name }}</td>
-                                  <td>{{ number_format($ocbc_account[0]->$month, 2) }}</td>
-                                  <td>{{ number_format($total_ocbc_account[0]->total, 2) }}</td>
-                                </tr>
-
-                                <tr>
-                                  <td>{{ $ocbc_account2[0]->type_name }}</td>
-                                  <td>{{ number_format($ocbc_account2[0]->$month, 2) }}</td>
-                                  <td>{{ number_format($total_ocbc_account2[0]->total, 2) }}</td>
-                                </tr>
-
-                                <tr>
-                                  <td>{{ $ocbc_account2[0]->type_name }}</td>
-                                  <td>{{ number_format($ocbc_account2[0]->$month, 2) }}</td>
-                                  <td>{{ number_format($total_ocbc_account2[0]->total, 2) }}</td>
-                                </tr>
-
-                                <tr>
-                                  <td>{{ $cash_on_hand[0]->type_name }}</td>
-                                  <td>{{ number_format($cash_on_hand[0]->$month, 2) }}</td>
-                                  <td>{{ number_format($total_cash_on_hand[0]->total, 2) }}</td>
-                                </tr>
-
-                                <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                </tr>
-
-                                <tr>
                                   <td style="font-weight: bold; text-decoration: underline">Revenue 收入</td>
                                   <td></td>
                                   <td></td>

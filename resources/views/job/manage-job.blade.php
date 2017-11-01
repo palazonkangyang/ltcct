@@ -167,24 +167,6 @@
 
                                   <div class="form-group">
 
-                                    <div class="col-md-6">
-                                      <p>
-                                        If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                        To Confirm, please enter authorized password to proceed.
-                                      </p>
-                                    </div><!-- end col-md-6 -->
-
-                                    <div class="col-md-6">
-                                      <label class="col-md-6">Authorized Password</label>
-                                      <div class="col-md-6">
-                                        <input type="password" class="form-control" name="authorized_password" value="" id="authorized_password">
-                                      </div><!-- end col-md-6 -->
-                                    </div><!-- end col-md-6 -->
-
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-9">
                                       <div class="form-actions pull-right">
@@ -257,24 +239,6 @@
 
                                   <div class="form-group">
 
-                                    <div class="col-md-6">
-                                      <p>
-                                        If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                        To Confirm, please enter authorized password to proceed.
-                                      </p>
-                                    </div><!-- end col-md-6 -->
-
-                                    <div class="col-md-6">
-                                      <label class="col-md-6">Authorized Password</label>
-                                      <div class="col-md-6">
-                                        <input type="password" class="form-control" name="edit_authorized_password" value="" id="edit_authorized_password">
-                                      </div><!-- end col-md-6 -->
-                                    </div><!-- end col-md-6 -->
-
-                                  </div><!-- end form-group -->
-
-                                  <div class="form-group">
-
                                     <label class="col-md-3 control-label"></label>
                                     <div class="col-md-9">
                                       <div class="form-actions pull-right">
@@ -336,16 +300,16 @@
 
     // Disabled Edit Tab
     $(".nav-tabs > li").click(function(){
-        if($(this).hasClass("disabled"))
-            return false;
+      if($(this).hasClass("disabled"))
+        return false;
     });
 
     $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-        localStorage.setItem('activeTab', $(e.target).attr('href'));
+      localStorage.setItem('activeTab', $(e.target).attr('href'));
     });
 
     if ( $('.alert-success').children().length > 0 ) {
-        localStorage.removeItem('activeTab');
+      localStorage.removeItem('activeTab');
     }
 
     else
@@ -361,8 +325,8 @@
     }
 
     if (activeTab) {
-        $('a[href="' + activeTab + '"]').tab('show');
-        console.log(activeTab);
+      $('a[href="' + activeTab + '"]').tab('show');
+      console.log(activeTab);
     }
 
     // DataTable
@@ -378,8 +342,8 @@
     } );
 
     $('#joblist-table thead tr#filter th').each( function () {
-          var title = $('#joblist-table thead th').eq( $(this).index() ).text();
-          $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
+      var title = $('#joblist-table thead th').eq( $(this).index() ).text();
+      $(this).html( '<input type="text" class="form-control" onclick="stopPropagation(event);" placeholder="" />' );
     });
 
     // Apply the filter
@@ -406,8 +370,8 @@
       var job_id = $(this).attr("id");
 
       var formData = {
-          _token: $('meta[name="csrf-token"]').attr('content'),
-          job_id: job_id
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        job_id: job_id
       };
 
       $.ajax({
@@ -417,12 +381,11 @@
           dataType: 'json',
           success: function(response)
           {
-
             localStorage.setItem('job_id', response.job['job_id']);
 
             if(localStorage.getItem('job_id'))
             {
-                var job_id = localStorage.getItem('job_id');
+              var job_id = localStorage.getItem('job_id');
             }
 
             $("#edit_job_id").val(job_id);
@@ -432,7 +395,7 @@
           },
 
           error: function (response) {
-              console.log(response);
+            console.log(response);
           }
       });
 
@@ -444,41 +407,34 @@
       var validationFailed = false;
 
       var job_name = $("#job_name").val();
-      var authorized_password = $("#authorized_password").val();
 
       if ($.trim(job_name).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Job Name field is empty."
-      }
-
-      if ($.trim(authorized_password).length <= 0)
-      {
-          validationFailed = true;
-          errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
+        validationFailed = true;
+        errors[count++] = "Job Name field is empty."
       }
 
       if (validationFailed)
       {
-          var errorMsgs = '';
+        var errorMsgs = '';
 
-          for(var i = 0; i < count; i++)
-          {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
-          }
+        for(var i = 0; i < count; i++)
+        {
+          errorMsgs = errorMsgs + errors[i] + "<br/>";
+        }
 
-          $('html,body').animate({ scrollTop: 0 }, 'slow');
+        $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-          $(".validation-error").addClass("bg-danger alert alert-error")
-          $(".validation-error").html(errorMsgs);
+        $(".validation-error").addClass("bg-danger alert alert-error")
+        $(".validation-error").html(errorMsgs);
 
-          return false;
+        return false;
       }
 
       else
       {
-          $(".validation-error").removeClass("bg-danger alert alert-error")
-          $(".validation-error").empty();
+        $(".validation-error").removeClass("bg-danger alert alert-error")
+        $(".validation-error").empty();
       }
     });
 
@@ -488,41 +444,34 @@
       var validationFailed = false;
 
       var job_name = $("#edit_job_name").val();
-      var authorized_password = $("#edit_authorized_password").val();
 
       if ($.trim(job_name).length <= 0)
       {
-          validationFailed = true;
-          errors[count++] = "Job Name field is empty."
-      }
-
-      if ($.trim(authorized_password).length <= 0)
-      {
-          validationFailed = true;
-          errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes."
+        validationFailed = true;
+        errors[count++] = "Job Name field is empty."
       }
 
       if (validationFailed)
       {
-          var errorMsgs = '';
+        var errorMsgs = '';
 
-          for(var i = 0; i < count; i++)
-          {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
-          }
+        for(var i = 0; i < count; i++)
+        {
+          errorMsgs = errorMsgs + errors[i] + "<br/>";
+        }
 
-          $('html,body').animate({ scrollTop: 0 }, 'slow');
+        $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-          $(".validation-error").addClass("bg-danger alert alert-error")
-          $(".validation-error").html(errorMsgs);
+        $(".validation-error").addClass("bg-danger alert alert-error")
+        $(".validation-error").html(errorMsgs);
 
-          return false;
+        return false;
       }
 
       else
       {
-          $(".validation-error").removeClass("bg-danger alert alert-error")
-          $(".validation-error").empty();
+        $(".validation-error").removeClass("bg-danger alert alert-error")
+        $(".validation-error").empty();
       }
     });
 

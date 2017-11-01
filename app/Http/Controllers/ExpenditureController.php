@@ -39,99 +39,86 @@ class ExpenditureController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    if(isset($input['authorized_password']))
+    if(isset($input['supplier_id']))
     {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
+      $supplier_id = $input['supplier_id'];
+    }
+    else
+    {
+      $vendor = APVendor::where('vendor_name', $input['supplier'])
+                ->where('ap_vendor_id', '!=', $input['supplier_id'])
+                ->first();
 
-      if (Hash::check($input['authorized_password'], $hashedPassword))
+      if($vendor)
       {
-
-        if(isset($input['supplier_id']))
-        {
-          $supplier_id = $input['supplier_id'];
-        }
-        else
-        {
-          $vendor = APVendor::where('vendor_name', $input['supplier'])
-      							 ->where('ap_vendor_id', '!=', $input['supplier_id'])
-      							 ->first();
-
-          if($vendor)
-          {
-            $request->session()->flash('error', "Vendor Name is already exist.");
-            return redirect()->back()->withInput();
-          }
-
-          $data = [
-            "vendor_name" => $input['supplier']
-          ];
-
-          $result = APVendor::create($data);
-
-          $supplier_id = $result->ap_vendor_id;
-        }
-
-        // Modify fields
-				if(isset($input['date']))
-				{
-				  $date = str_replace('/', '-', $input['date']);
-				  $newDate = date("Y-m-d", strtotime($date));
-				}
-
-				else {
-				  $newDate = "";
-				}
-
-        $year = date("y");
-
-        if(count(Expenditure::all()))
-        {
-          $expenditure_id = Expenditure::all()->last()->expenditure_id;
-          $expenditure_id = str_pad($expenditure_id + 1, 4, 0, STR_PAD_LEFT);
-        }
-
-        else
-        {
-          $expenditure_id = 0;
-          $expenditure_id = str_pad($expenditure_id + 1, 4, 0, STR_PAD_LEFT);
-        }
-
-        $reference_no = 'EXP-' . $year . $expenditure_id;
-
-        $data = [
-          "reference_no" => $reference_no,
-          "date" => $newDate,
-          "supplier" => $supplier_id,
-          "description" => $input['description'],
-          "glcode_id" => $input['glcode_id'],
-          "credit_total" => $input['credit_total'],
-          "status" => $input['status']
-        ];
-
-        Expenditure::create($data);
-
-        $success_msg = $reference_no . ' has been created!';
-
-        $request->session()->flash('success', $success_msg);
-        return redirect()->route('manage-expenditure-page');
-      }
-
-      else
-      {
-        $request->session()->flash('error', "Password did not match. Please Try Again");
+        $request->session()->flash('error', "Vendor Name is already exist.");
         return redirect()->back()->withInput();
       }
+
+      $data = [
+        "vendor_name" => $input['supplier']
+      ];
+
+      $result = APVendor::create($data);
+
+      $supplier_id = $result->ap_vendor_id;
     }
+
+    // Modify fields
+    if(isset($input['date']))
+    {
+      $date = str_replace('/', '-', $input['date']);
+      $newDate = date("Y-m-d", strtotime($date));
+    }
+
+    else {
+      $newDate = "";
+    }
+
+    $year = date("y");
+
+    if(count(Expenditure::all()))
+    {
+      $expenditure_id = Expenditure::all()->last()->expenditure_id;
+      $expenditure_id = str_pad($expenditure_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    else
+    {
+      $expenditure_id = 0;
+      $expenditure_id = str_pad($expenditure_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    $reference_no = 'EXP-' . $year . $expenditure_id;
+
+    $data = [
+      "reference_no" => $reference_no,
+      "date" => $newDate,
+      "supplier" => $supplier_id,
+      "description" => $input['description'],
+      "glcode_id" => $input['glcode_id'],
+      "credit_total" => $input['credit_total'],
+      "status" => $input['status']
+    ];
+
+    Expenditure::create($data);
+
+    $success_msg = $reference_no . ' has been created!';
+
+    $request->session()->flash('success', $success_msg);
+    return redirect()->route('manage-expenditure-page');
   }
 
   public function getExpenditureDetail()
   {
     $expenditure_id = $_GET['expenditure_id'];
 
-    $expenditure = Expenditure::find($expenditure_id);
+    $expenditure = Expenditure::leftjoin('ap_vendor', 'expenditure.supplier', '=', 'ap_vendor.ap_vendor_id')
+                   ->select('expenditure.*', 'ap_vendor.vendor_name as supplier')
+                   ->where('expenditure_id', $expenditure_id)
+                   ->get();
 
-    $expenditure->date = Carbon::parse($expenditure->date)->format("d/m/Y");
+    $expenditure[0]->date = Carbon::parse($expenditure[0]->date)->format("d/m/Y");
 
     return response()->json(array(
 	    'expenditure' => $expenditure,
@@ -142,42 +129,27 @@ class ExpenditureController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    if(isset($input['edit_authorized_password']))
+    // Modify fields
+    if(isset($input['edit_date']))
     {
-      $user = User::find(Auth::user()->id);
-      $hashedPassword = $user->password;
-
-      if (Hash::check($input['edit_authorized_password'], $hashedPassword))
-      {
-        // Modify fields
-				if(isset($input['edit_date']))
-				{
-				  $date = str_replace('/', '-', $input['edit_date']);
-				  $newDate = date("Y-m-d", strtotime($date));
-				}
-
-				else {
-				  $newDate = "";
-				}
-
-        $expenditure = Expenditure::find($input['edit_expenditure_id']);
-
-        $expenditure->reference_no = $input['edit_reference_no'];
-        $expenditure->date = $newDate;
-        $expenditure->supplier = $input['edit_supplier'];
-        $expenditure->description = $input['edit_description'];
-        $expenditure->credit_total = $input['edit_credit_total'];
-        $expenditure->status = $input['edit_status'];
-
-        $result = $expenditure->save();
-      }
-
-      else
-      {
-        $request->session()->flash('error', "Password did not match. Please Try Again");
-        return redirect()->back()->withInput();
-      }
+      $date = str_replace('/', '-', $input['edit_date']);
+      $newDate = date("Y-m-d", strtotime($date));
     }
+
+    else {
+      $newDate = "";
+    }
+
+    $expenditure = Expenditure::find($input['edit_expenditure_id']);
+
+    $expenditure->reference_no = $input['edit_reference_no'];
+    $expenditure->date = $newDate;
+    $expenditure->supplier = $input['edit_supplier'];
+    $expenditure->description = $input['edit_description'];
+    $expenditure->credit_total = $input['edit_credit_total'];
+    $expenditure->status = $input['edit_status'];
+
+    $result = $expenditure->save();
 
     if($result)
     {

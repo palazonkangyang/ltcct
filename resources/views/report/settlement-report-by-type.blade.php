@@ -61,47 +61,44 @@
                           <div class="col-md-12">
                             <table border="1" class="table table-bordered table-striped" id="cashflow-monthly-report">
                               <thead>
-                       					<tr>
-                       						<th width="10%">Date</th>
-                                  <th width="30%">Type Name</th>
-                                  <th width="10%">Cash</th>
-                                  <th width="10%">Cheque</th>
-                                  <th width="10%">Nets</th>
-                                  <th width="10%">Amount</th>
-                                  <th width="10%">Attended By</th>
+                                <tr>
+                                  <th width="10%">Receipt</th>
+                                  <th width="10%">Manual Receipt</th>
+                                  <th width="10%">Date</th>
+                                  <th width="20%">Item Code</th>
+                                  <th width="15%">Customer</th>
+                                  <th width="10%">Paid</th>
+                                  <th width="10%">Method</th>
+                                  <th width="15%">Attended By</th>
                        					</tr>
                        				</thead>
 
                               <tbody>
+
+                                @if(count($result) > 0)
+
+                                  @for($i = 0; $i < count($result); $i++)
+
+                                  <tr>
+                                    <td>{{ $result[$i]->xy_receipt }}</td>
+                                    <td>{{ $result[$i]->manualreceipt }}</td>
+                                    <td>{{ $result[$i]->trans_date }}</td>
+                                    <td>{{ $result[$i]->type_name }}</td>
+                                    <td>{{ $result[$i]->chinese_name }}</td>
+                                    <td>{{ number_format($result[$i]->amount, 2) }}</td>
+                                    <td>{{ $result[$i]->mode_payment }}</td>
+                                    <td>{{ $result[$i]->user_name }}</td>
+                                  </tr>
+
+                                  @endfor
+
+                                @else
+
                                 <tr>
-                                  <td>{{ $date }}</td>
-                                  @if(isset($result[0]->type_name))
-                                  <td>{{ $result[0]->type_name }}</td>
-                                  @else
-                                  <td>{{ $type_name[0]->type_name }}</td>
-                                  @endif
-                                  @if(isset($result[0]->cash))
-                                  <td>{{ number_format($result[0]->cash, 2) }}</td>
-                                  @else
-                                  <td></td>
-                                  @endif
-                                  @if(isset($result[0]->cheque))
-                                  <td>{{ number_format($result[0]->cheque, 2) }}</td>
-                                  @else
-                                  <td></td>
-                                  @endif
-                                  @if(isset($result[0]->nets))
-                                  <td>{{ number_format($result[0]->nets, 2) }}</td>
-                                  @else
-                                  <td></td>
-                                  @endif
-                                  @if(isset($result[0]->cash) || isset($result[0]->cheque) || isset($result[0]->nets))
-                                  <td>{{ number_format($result[0]->cash + $result[0]->cheque + $result[0]->nets, 2) }}</td>
-                                  @else
-                                  <td></td>
-                                  @endif
-                                  <td>{{ $attendedby }}</td>
+                                  <td colspan="8">No Result Found!</td>
                                 </tr>
+
+                                @endif
                               </tbody>
                             </table>
                           </div><!-- end col-md-6 -->

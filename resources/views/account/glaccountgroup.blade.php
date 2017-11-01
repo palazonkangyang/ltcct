@@ -189,24 +189,6 @@
 
                                       <div class="form-group">
 
-                                        <div class="col-md-6">
-                                          <p>
-                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                            To Confirm, please enter authorized password to proceed.
-                                          </p>
-                                        </div><!-- end col-md-6 -->
-
-                                        <div class="col-md-6">
-                                          <label class="col-md-6">Authorized Password</label>
-                                          <div class="col-md-6">
-                                            <input type="password" class="form-control" name="authorized_password" value="" id="authorized_password">
-                                          </div><!-- end col-md-6 -->
-                                        </div><!-- end col-md-6 -->
-
-                                      </div><!-- end form-group -->
-
-                                      <div class="form-group">
-
                                         <label class="col-md-3 control-label"></label>
                                         <div class="col-md-9">
                                           <div class="form-actions pull-right">
@@ -290,24 +272,6 @@
 
                                       <div class="form-group">
                                         <p>&nbsp;</p>
-                                      </div><!-- end form-group -->
-
-                                      <div class="form-group">
-
-                                        <div class="col-md-6">
-                                          <p>
-                                            If you have made Changes to the above. You need to CONFIRM to save the Changes.
-                                            To Confirm, please enter authorized password to proceed.
-                                          </p>
-                                        </div><!-- end col-md-6 -->
-
-                                        <div class="col-md-6">
-                                          <label class="col-md-6">Authorized Password</label>
-                                          <div class="col-md-6">
-                                            <input type="password" class="form-control" name="authorized_password" value="" id="edit_authorized_password">
-                                          </div><!-- end col-md-6 -->
-                                        </div><!-- end col-md-6 -->
-
                                       </div><!-- end form-group -->
 
                                       <div class="form-group">
@@ -551,41 +515,34 @@
 
         var name = $("#edit_name").val();
         var description = $("#edit_description").val();
-        var authorized_password = $("#edit_authorized_password").val();
 
         if ($.trim(name).length <= 0)
         {
-            validationFailed = true;
-            errors[count++] = "Group name is empty."
+          validationFailed = true;
+          errors[count++] = "Group name is empty."
         }
 
         if ($.trim(description).length <= 0)
         {
-            validationFailed = true;
-            errors[count++] = "Group description is empty."
-        }
-
-        if ($.trim(authorized_password).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Authorized Pasword is empty."
+          validationFailed = true;
+          errors[count++] = "Group description is empty."
         }
 
         if (validationFailed)
         {
-            var errorMsgs = '';
+          var errorMsgs = '';
 
-            for(var i = 0; i < count; i++)
-            {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
+          for(var i = 0; i < count; i++)
+          {
+            errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
 
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-            $(".validation-error").addClass("bg-danger alert alert-error")
-            $(".validation-error").html(errorMsgs);
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
 
-            return false;
+          return false;
         }
 
         else
@@ -636,47 +593,40 @@
 
         var name = $("#name").val();
         var description = $("#description").val();
-        var authorized_password = $("#authorized_password").val();
 
         if ($.trim(name).length <= 0)
         {
-            validationFailed = true;
-            errors[count++] = "Group name is empty."
+          validationFailed = true;
+          errors[count++] = "Group name is empty."
         }
 
         if ($.trim(description).length <= 0)
         {
-            validationFailed = true;
-            errors[count++] = "Group description is empty."
-        }
-
-        if ($.trim(authorized_password).length <= 0)
-        {
-            validationFailed = true;
-            errors[count++] = "Authorized Pasword is empty."
+          validationFailed = true;
+          errors[count++] = "Group description is empty."
         }
 
         if (validationFailed)
         {
-            var errorMsgs = '';
+          var errorMsgs = '';
 
-            for(var i = 0; i < count; i++)
-            {
-                errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
+          for(var i = 0; i < count; i++)
+          {
+            errorMsgs = errorMsgs + errors[i] + "<br/>";
+          }
 
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-            $(".validation-error").addClass("bg-danger alert alert-error")
-            $(".validation-error").html(errorMsgs);
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html(errorMsgs);
 
-            return false;
+          return false;
         }
 
         else
         {
-            $(".validation-error").removeClass("bg-danger alert alert-error")
-            $(".validation-error").empty();
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
         }
 
       });

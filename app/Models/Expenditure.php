@@ -4,17 +4,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Expenditure extends Model
 {
-    protected $table = 'expenditure';
+  protected $table = 'expenditure';
 
-    protected $primaryKey = "expenditure_id";
-
-    protected $fillable = [
-        'reference_no',
-        'date',
-        'supplier',
-        'description',
-        'glcode_id',
-        'credit_total',
-        'status'
-    ];
+  protected $primaryKey = "expenditure_id";
+  
+  protected $fillable = [
+    'reference_no',
+    'date',
+    'supplier',
+    'description',
+    'glcode_id',
+    'credit_total',
+    'status'
+  ];
 }

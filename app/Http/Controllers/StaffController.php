@@ -16,6 +16,8 @@ use App\Models\Receipt;
 use App\Models\GlCode;
 use App\Models\FestiveEvent;
 use App\Models\RelativeFriendLists;
+use App\Models\JournalEntry;
+use App\Models\JournalEntryItem;
 use App\Models\Job;
 use App\Models\SettingGeneralDonation;
 use App\Models\Amount;
@@ -56,6 +58,8 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 		$total_amount = 0;
+		$entrancefee_credit_amount = 0;
+		$monthlysubscription_credit_amount = 0;
 
 		for($i = 0; $i < count($input['amount']); $i++)
 		{
@@ -160,11 +164,13 @@ class StaffController extends Controller
 					{
 						$input['amount'][$i] = 10;
 						$glcode_id = 108;
+						$entrancefee_credit_amount += $input['amount'][$i];
 					}
 
 					else {
 						$input['amount'][$i] = $input['amount'][$i] * $membership->membership_fee;
 						$glcode_id = 110;
+						$monthlysubscription_credit_amount += $input['amount'][$i];
 					}
 
 					$receipt = [
@@ -183,6 +189,68 @@ class StaffController extends Controller
 					Receipt::create($receipt);
 				}
 			}
+		}
+
+		// Create Journal
+		$year = date("y");
+
+    if(count(JournalEntry::all()))
+    {
+      $journalentry_id = JournalEntry::all()->last()->journalentry_id;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    else
+    {
+      $journalentry_id = 0;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    $reference_no = 'J-' . $year . $journalentry_id;
+
+		$data = [
+      "journalentry_no" => $reference_no,
+      "date" => Carbon::now(),
+      "description" => "General Donation - 月捐",
+			"devotee_id" => $input['focusdevotee_id'],
+      "type" => "journal",
+      "total_debit_amount" => $input['total_amount'],
+      "total_credit_amount" => $input['total_amount']
+    ];
+
+		$journalentry = JournalEntry::create($data);
+
+		$data = [
+			"glcode_id" => 9,
+			"debit_amount" => $input['total_amount'],
+			"credit_amount" => null,
+			"journalentry_id" => $journalentry->journalentry_id
+		];
+
+		JournalEntryItem::create($data);
+
+		if($entrancefee_credit_amount != 0)
+		{
+			$data = [
+				"glcode_id" => 108,
+				"debit_amount" => null,
+				"credit_amount" => $entrancefee_credit_amount,
+				"journalentry_id" => $journalentry->journalentry_id
+			];
+
+			JournalEntryItem::create($data);
+		}
+
+		if($monthlysubscription_credit_amount != 0)
+		{
+			$data = [
+				"glcode_id" => 110,
+				"debit_amount" => null,
+				"credit_amount" => $monthlysubscription_credit_amount,
+				"journalentry_id" => $journalentry->journalentry_id
+			];
+
+			JournalEntryItem::create($data);
 		}
 
 		Session::forget('yuejuan_receipts');
@@ -981,6 +1049,53 @@ class StaffController extends Controller
 			}
 		}
 
+		// Create Journal
+		$year = date("y");
+
+    if(count(JournalEntry::all()))
+    {
+      $journalentry_id = JournalEntry::all()->last()->journalentry_id;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    else
+    {
+      $journalentry_id = 0;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    $reference_no = 'J-' . $year . $journalentry_id;
+
+		$data = [
+      "journalentry_no" => $reference_no,
+      "date" => Carbon::now(),
+      "description" => "General Donation - 慈济",
+			"devotee_id" => $input['focusdevotee_id'],
+      "type" => "journal",
+      "total_debit_amount" => $input['total_amount'],
+      "total_credit_amount" => $input['total_amount']
+    ];
+
+		$journalentry = JournalEntry::create($data);
+
+		$data = [
+			"glcode_id" => 9,
+			"debit_amount" => $input['total_amount'],
+			"credit_amount" => null,
+			"journalentry_id" => $journalentry->journalentry_id
+		];
+
+		JournalEntryItem::create($data);
+
+		$data = [
+			"glcode_id" => 134,
+			"debit_amount" => null,
+			"credit_amount" => $input['total_amount'],
+			"journalentry_id" => $journalentry->journalentry_id
+		];
+
+		JournalEntryItem::create($data);
+
 		Session::forget('ciji_receipts');
 		Session::forget('ciji_same_focusdevotee');
 		Session::forget('ciji_same_family');
@@ -1223,6 +1338,8 @@ class StaffController extends Controller
 	{
 		$input = array_except($request->all(), '_token');
 		$total_amount = 0;
+		$non_member_credit_amount = 0;
+		$member_credit_amount = 0;
 
 		// Modify Receipt At fields
 	  if(isset($input['receipt_at']))
@@ -1300,11 +1417,13 @@ class StaffController extends Controller
 						if(isset($devotee->member_id))
 					  {
 					    $glcode = 119;
+							$member_credit_amount += $input['amount'][$i];
 					  }
 
 					  else
 					  {
 					    $glcode = 112;
+							$non_member_credit_amount += $input['amount'][$i];
 					  }
 
 						$receipt = [
@@ -1361,11 +1480,13 @@ class StaffController extends Controller
 						if(isset($devotee->member_id))
 					  {
 					    $glcode = 119;
+							$member_credit_amount += $input['other_amount'][$i];
 					  }
 
 					  else
 					  {
 					    $glcode = 112;
+							$non_member_credit_amount += $input['other_amount'][$i];
 					  }
 
 						$receipt = [
@@ -1385,6 +1506,68 @@ class StaffController extends Controller
 					}
 				}
 			}
+		}
+
+		// Create Journal
+		$year = date("y");
+
+    if(count(JournalEntry::all()))
+    {
+      $journalentry_id = JournalEntry::all()->last()->journalentry_id;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    else
+    {
+      $journalentry_id = 0;
+      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+    }
+
+    $reference_no = 'J-' . $year . $journalentry_id;
+
+		$data = [
+      "journalentry_no" => $reference_no,
+      "date" => Carbon::now(),
+      "description" => "General Donation - 香油",
+			"devotee_id" => $input['focusdevotee_id'],
+      "type" => "journal",
+      "total_debit_amount" => $input['total_amount'],
+      "total_credit_amount" => $input['total_amount']
+    ];
+
+		$journalentry = JournalEntry::create($data);
+
+		$data = [
+			"glcode_id" => 9,
+			"debit_amount" => $input['total_amount'],
+			"credit_amount" => null,
+			"journalentry_id" => $journalentry->journalentry_id
+		];
+
+		JournalEntryItem::create($data);
+
+		if($member_credit_amount != 0)
+		{
+			$data = [
+				"glcode_id" => 119,
+				"debit_amount" => null,
+				"credit_amount" => $member_credit_amount,
+				"journalentry_id" => $journalentry->journalentry_id
+			];
+
+			JournalEntryItem::create($data);
+		}
+
+		if($non_member_credit_amount != 0)
+		{
+			$data = [
+				"glcode_id" => 112,
+				"debit_amount" => null,
+				"credit_amount" => $non_member_credit_amount,
+				"journalentry_id" => $journalentry->journalentry_id
+			];
+
+			JournalEntryItem::create($data);
 		}
 
 		// remove session
