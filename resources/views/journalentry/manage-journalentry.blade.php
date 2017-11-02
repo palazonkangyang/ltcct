@@ -139,7 +139,7 @@
 
                                 {!! csrf_field() !!}
 
-                                <div class="form-group" style="margin-bottom: 30px;">
+                                <div class="form-group">
                                   <label class="col-md-1">Date *</label>
                                   <div class="col-md-3">
                                     <input type="text" class="form-control" name="date" value="{{ old('date') }}" data-provide="datepicker" data-date-format="dd/mm/yyyy" id="date">
@@ -298,10 +298,6 @@
                                 </tbody>
 
                               </table>
-
-                              <div class="form-group">
-                                <p>&nbsp;</p>
-                              </div><!-- end form-group -->
 
                             </div><!-- end col-md-12 -->
 

@@ -20,15 +20,12 @@ Route::get('/', ['as' => 'login-page', 'uses' => 'AdminController@login']);
 Route::get('/login', ['as' => 'login-page', 'uses' => 'AdminController@login']);
 Route::get('/logout', ['as' => 'logout-page', 'uses' => 'AdminController@logout']);
 
-// Post Route
 Route::post('/login', ['as' => 'post-login-page', 'uses' => 'AdminController@postLogin']);
-
 
 Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['prefix' => 'admin'], function () {
 
-		// Get Route
 		Route::get('/prelogin-note', ['as' => 'prelogin-note-page', 'uses' => 'AdminController@getPreLoginNote']);
 		Route::get('/dashboard', ['as' => 'dashboard-page', 'uses' => 'AdminController@dashboard']);
 		Route::get('/add-account', ['as' => 'add-account-page', 'uses' => 'AdminController@getAddAccount']);
@@ -105,6 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/transaction/{generaldonation_id}', ['as' => 'receipt-page', 'uses' => 'StaffController@getTransaction']);
 		Route::get('/create-festive-event', ['as' => 'create-festive-event-page', 'uses' => 'StaffController@getCreateFestiveEvent']);
 		Route::get('/print', ['as' => 'print-page', 'uses' => 'StaffController@getPrint']);
+		Route::get('/reprint-generaldonation', ['as' => 'reprint-generaldonation-page', 'uses' => 'StaffController@ReprintGeneralDonation']);
 
 		Route::post('/create-festive-event', ['as' => 'add-new-festive-event-page', 'uses' => 'StaffController@postCreateFestiveEvent']);
 		Route::post('/donation', ['as' => 'post-donation-page', 'uses' => 'StaffController@postDonation']);
@@ -116,7 +114,6 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/cancel-replace-transaction', ['as' => 'cancel-replace-transaction-page', 'uses' => 'StaffController@postCancelReplaceTransaction']);
 		Route::post('/cancel-transaction', ['as' => 'cancel-transaction-page', 'uses' => 'StaffController@postCancelTransaction']);
 		Route::post('/reprint-detail', ['as' => 'reprint-detail-page', 'uses' => 'StaffController@ReprintDetail']);
-		Route::get('/reprint-generaldonation', ['as' => 'reprint-generaldonation-page', 'uses' => 'StaffController@ReprintGeneralDonation']);
 	});
 
 	Route::group(['prefix' => 'fahui'], function () {
@@ -165,13 +162,13 @@ Route::group(['middleware' => 'auth'], function () {
 	});
 
 	Route::group(['prefix' => 'expenditure'], function () {
-		Route::get('/manage-expenditure', ['as' => 'manage-expenditure-page', 'uses' => 'ExpenditureController@getManageExpenditure']);
-		Route::get('/expenditure-detail', ['as' => 'expenditure-detail-page', 'uses' => 'ExpenditureController@getExpenditureDetail']);
+		// Route::get('/manage-expenditure', ['as' => 'manage-expenditure-page', 'uses' => 'ExpenditureController@getManageExpenditure']);
+		// Route::get('/expenditure-detail', ['as' => 'expenditure-detail-page', 'uses' => 'ExpenditureController@getExpenditureDetail']);
 		Route::get('/search/supplier', ['as' => 'search-supplier-page', 'uses' => 'ExpenditureController@getSearchSupplier']);
-		Route::get('/delete/{id}', ['as' => 'delete-expenditure-page', 'uses' => 'ExpenditureController@deleteExpenditure']);
-
-		Route::post('/new-expenditure', ['as' => 'new-expenditure-page', 'uses' => 'ExpenditureController@postAddNewExpenditure']);
-		Route::post('/update-expenditure', ['as' => 'update-expenditure-page', 'uses' => 'ExpenditureController@postUpdateExpenditure']);
+		// Route::get('/delete/{id}', ['as' => 'delete-expenditure-page', 'uses' => 'ExpenditureController@deleteExpenditure']);
+		//
+		// Route::post('/new-expenditure', ['as' => 'new-expenditure-page', 'uses' => 'ExpenditureController@postAddNewExpenditure']);
+		// Route::post('/update-expenditure', ['as' => 'update-expenditure-page', 'uses' => 'ExpenditureController@postUpdateExpenditure']);
 	});
 
 	Route::group(['prefix' => 'vendor'], function () {

@@ -63,11 +63,45 @@ class VendorController extends Controller
   public function getVendorDetail()
   {
     $vendor_id = $_GET['vendor_id'];
+    $vendor_history = collect();
 
     $vendor = APVendor::find($vendor_id);
 
+    $payment_voucher = PaymentVoucher::leftjoin('ap_vendor', 'payment_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
+                       ->where('supplier_id', $vendor_id)
+                       ->select('payment_voucher.payment_voucher_id as voucher_id','payment_voucher.voucher_no', 'payment_voucher.date',
+                       'payment_voucher.description', 'payment_voucher.total_debit_amount', 'payment_voucher.total_credit_amount',
+                       'ap_vendor.vendor_name as supplier')
+                       ->get();
+
+    for($i = 0; $i < count($payment_voucher); $i++)
+    {
+      $payment_voucher[$i]->type = "payment";
+    }
+
+    $pettycash_voucher = PettyCashVoucher::leftjoin('ap_vendor', 'pettycash_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
+                         ->where('supplier_id', $vendor_id)
+                         ->select('pettycash_voucher.pettycash_voucher_id as voucher_id','pettycash_voucher.voucher_no', 'pettycash_voucher.date',
+                         'pettycash_voucher.description', 'pettycash_voucher.total_debit_amount', 'pettycash_voucher.total_credit_amount',
+                         'ap_vendor.vendor_name as supplier')
+                         ->get();
+
+    for($i = 0; $i < count($pettycash_voucher); $i++)
+    {
+      $pettycash_voucher[$i]->type = "pettycash";
+    }
+
+    $vendor_history = $vendor_history->merge($payment_voucher);
+    $vendor_history = $vendor_history->merge($pettycash_voucher);
+
+    for($i= 0; $i < count($vendor_history); $i++)
+    {
+      $vendor_history[$i]->date = Carbon::parse($vendor_history[$i]->date)->format("d/m/Y");
+    }
+
     return response()->json(array(
 	    'vendor' => $vendor,
+      'vendor_history' => $vendor_history
 	  ));
   }
 

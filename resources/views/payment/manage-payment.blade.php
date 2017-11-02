@@ -78,7 +78,7 @@
                         <li>
                           <a href="#tab_newpayment" data-toggle="tab">New Payment</a>
                         </li>
-                        <li id="payment-detail" >
+                        <li id="payment-detail" class="disabled">
                           <a href="#tab_paymentdetail" data-toggle="tab">Payment Detail</a>
                         </li>
                       </ul>
@@ -487,6 +487,102 @@
 <script type="text/javascript">
 $(function() {
 
+  $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+    localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+
+  function getParameter(theParameter) {
+    var params = window.location.search.substr(1).split('&');
+
+    for (var i = 0; i < params.length; i++) {
+
+      var p=params[i].split('=');
+      if (p[0] == theParameter) {
+        return decodeURIComponent(p[1]);
+      }
+
+    }
+    return false;
+  }
+
+  if(window.location.search.length)
+  {
+    var queryString = window.location.search;
+    var payment_voucher_id = getParameter('payment_voucher_id');
+
+    localStorage.setItem('activeTab', '#tab_paymentdetail');
+
+    if(payment_voucher_id)
+    {
+      $("#payment-detail-table tbody").find("tr:not(:last)").remove();
+
+      $("#show_voucher_no").val('');
+      $("#show_date").val('');
+      $("#show_supplier").val('');
+      $("#show_description").val('');
+      $("#show_cheque_no").val('');
+      $("#show_cheque_account").val('');
+      $("#show_issuing_banking").val('');
+      $("#show_cheque_from").val('');
+      $("#show_job").val('');
+      $("#show_remark").val('');
+
+      var formData = {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        payment_voucher_id: payment_voucher_id
+      };
+
+      $.ajax({
+        type: 'GET',
+        url: "/payment/payment-voucher-detail",
+        data: formData,
+        dataType: 'json',
+        success: function(response)
+        {
+          $("#show_voucher_no").val(response.payment_voucher[0]['voucher_no']);
+          $("#show_date").val(response.payment_voucher[0]['date']);
+          $("#show_supplier").val(response.payment_voucher[0]['supplier']);
+          $("#show_description").val(response.payment_voucher[0]['description']);
+          $("#show_cheque_no").val(response.payment_voucher[0]['cheque_no']);
+          $("#show_cheque_account").val(response.payment_voucher[0]['cheque_account']);
+          $("#show_issuing_banking").val(response.payment_voucher[0]['issuing_banking']);
+          $("#show_cheque_from").val(response.payment_voucher[0]['cheque_from']);
+          $("#show_job").val(response.payment_voucher[0]['job_name']);
+          $("#show_remark").val(response.payment_voucher[0]['remark']);
+
+          $("#show_total_debit").text(response.payment_voucher[0]['total_debit_amount'].toFixed(2));
+          $("#show_total_credit").text(response.payment_voucher[0]['total_credit_amount'].toFixed(2));
+
+          $.each(response.payment_voucher, function(index, data) {
+
+            $( "<tr><td><label>" + data.type_name + "</label></td>" +
+            "<td><input class='form-control' value='" + (data.debit_amount !=null ? data.debit_amount.toFixed(2) : '') + "' style='width: 50%;' type='text' readonly></td>" +
+            "<td><input class='form-control' value='" + (data.credit_amount !=null ? data.credit_amount.toFixed(2) : '') + "' style='width: 50%;' type='text' readonly></td>" +
+            "</tr>" ).insertBefore( $( "#appendRow" ) );
+          });
+        },
+
+        error: function (response) {
+          console.log(response);
+        }
+      });
+    }
+  }
+
+  if ( $('.alert-success').children().length > 0 ) {
+    localStorage.removeItem('activeTab');
+  }
+
+  else
+  {
+    var activeTab = localStorage.getItem('activeTab');
+  }
+
+  if (activeTab) {
+    $('a[href="' + activeTab + '"]').tab('show');
+    console.log(activeTab);
+  }
+
   var strDate = $.datepicker.formatDate('dd/mm/yy', new Date());
   $("#date").val(strDate);
 
@@ -517,22 +613,11 @@ $(function() {
     }
   });
 
-  $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-    localStorage.setItem('activeTab', $(e.target).attr('href'));
+  // Disabled Edit Tab
+  $(".nav-tabs > li").click(function(){
+    if($(this).hasClass("disabled"))
+    return false;
   });
-
-  if ( $('.alert-success').children().length > 0 ) {
-    localStorage.removeItem('activeTab');
-  }
-
-  else
-  {
-    var activeTab = localStorage.getItem('activeTab');
-  }
-
-  if (activeTab) {
-    $('a[href="' + activeTab + '"]').tab('show');
-  }
 
   // DataTable
   var table = $('#payment-table').removeAttr('width').DataTable( {

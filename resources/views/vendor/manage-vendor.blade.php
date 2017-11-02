@@ -198,15 +198,11 @@
                               </div><!-- end col-md-9 -->
                             </div><!-- end form-group -->
 
-                            <div class="form-group">
+                            <div class="form-group" style="margin-bottom: 30px;">
                               <label class="col-md-3">Description</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control" name="edit_description" value="{{ old('edit_description') }}" id="edit_description">
                               </div><!-- end col-md-9 -->
-                            </div><!-- end form-group -->
-
-                            <div class="form-group">
-                              <p>&nbsp;</p>
                             </div><!-- end form-group -->
 
                             <div class="form-group">
@@ -228,6 +224,30 @@
 
                         <div class="col-md-6">
                         </div><!-- end col-md-6 -->
+
+                        <div class="col-md-12" style="margin-top: 30px;">
+
+                          <table class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th width="8%">Voucher No</th>
+                                <th width="8%">Date</th>
+                                <th width="15%">Description</th>
+                                <th width="10%">Supplier</th>
+                                <th width="15%">Total Debit Amount</th>
+                                <th width="15%">Total Credit Amount</th>
+                                <th width="8%">View Detail</th>
+                              </tr>
+                            </thead>
+
+                            <tbody id="appendRow">
+                              <tr>
+                                <td colspan="8">No Result Found!</td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                        </div><!-- end col-md-12 -->
 
                       </div><!-- end form-body -->
 
@@ -312,16 +332,11 @@ $(function() {
   }
 
   // DataTable
-  // var table = $('#vendor-table').DataTable({
-  //   "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]]
-  // });
-
   var table = $('#vendor-table').removeAttr('width').DataTable( {
     "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
     columnDefs: [
       { width: 500, targets: 0 },
-      { width: 500, targets: 1 },
-      { width: 200, targets: 2 }
+      { width: 500, targets: 1 }
     ]
   } );
 
@@ -345,8 +360,6 @@ $(function() {
       evt.cancelBubble = true;
     }
   }
-
-  // $("#filter input[type=text]:last").css("display", "none");
 
   $("#confirm_btn").click(function() {
 
@@ -390,6 +403,11 @@ $(function() {
   $("#vendor-table").on('click','.edit-item',function(e) {
 
     $(".alert-success").remove();
+    $("#appendRow").empty();
+
+    $("#edit_ap_vendor_id").val('');
+    $("#edit_vendor_name").val('');
+    $("#edit_description").val('');
 
     $(".nav-tabs > li:first-child").removeClass("active");
     $("#edit-vendor").addClass("active");
@@ -418,6 +436,35 @@ $(function() {
         $("#edit_ap_vendor_id").val(ap_vendor_id);
         $("#edit_vendor_name").val(response.vendor['vendor_name']);
         $("#edit_description").val(response.vendor['description']);
+
+        if(response.vendor_history.length >= 1)
+        {
+          $.each(response.vendor_history, function(index, data) {
+
+            if(data.type == "payment")
+            {
+              $("#appendRow").append("<tr><td>" + data.voucher_no + "</td>" +
+               "<td>" + data.date + "</td>" + "<td>" + (data.description !=null ? data.description : '') + "</td>" +
+               "<td>" + data.supplier + "</td>" + "<td>S$ " + data.total_debit_amount.toFixed(2) + "</td>" +
+               "<td>S$ " + data.total_credit_amount.toFixed(2) + "</td>" +
+               "<td><a href='/payment/manage-payment?payment_voucher_id=" + data.voucher_id + "'>Detail</a></td>" +
+               "</tr>");
+            }
+
+            else {
+              $("#appendRow").append("<tr><td>" + data.voucher_no + "</td>" +
+               "<td>" + data.date + "</td>" + "<td>" + (data.description !=null ? data.description : '') + "</td>" +
+               "<td>" + data.supplier + "</td>" + "<td>S$ " + data.total_debit_amount.toFixed(2) + "</td>" +
+               "<td>S$ " + data.total_credit_amount.toFixed(2) + "</td>" +
+               "<td><a href='/pettycash/manage-pettycash?pettycash_voucher_id=" + data.voucher_id + "'>Detail</a></td>" +
+               "</tr>");
+            }
+          });
+        }
+
+        else {
+          $("#appendRow").append("<tr><td colspan='8'>No Result Found!</td></tr>");
+        }
       },
 
       error: function (response) {

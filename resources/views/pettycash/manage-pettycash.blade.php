@@ -431,6 +431,82 @@
 <script type="text/javascript">
 $(function() {
 
+  $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+    localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+
+  function getParameter(theParameter) {
+    var params = window.location.search.substr(1).split('&');
+
+    for (var i = 0; i < params.length; i++) {
+
+      var p=params[i].split('=');
+      if (p[0] == theParameter) {
+        return decodeURIComponent(p[1]);
+      }
+
+    }
+    return false;
+  }
+
+  if(window.location.search.length)
+  {
+    var queryString = window.location.search;
+    var pettycash_voucher_id = getParameter('pettycash_voucher_id');
+
+    localStorage.setItem('activeTab', '#tab_pettycashdetail');
+
+    if(pettycash_voucher_id)
+    {
+      $("#pettycash-detail-table tbody").find("tr:not(:last)").remove();
+
+      $("#show_voucher_no").val('');
+      $("#show_date").val('');
+      $("#show_supplier").val('');
+      $("#show_description").val('');
+      $("#show_payee").val('');
+      $("#show_job").val('');
+      $("#show_remark").val('');
+
+      var formData = {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        pettycash_voucher_id: pettycash_voucher_id
+      };
+
+      $.ajax({
+        type: 'GET',
+        url: "/pettycash/pettycash-voucher-detail",
+        data: formData,
+        dataType: 'json',
+        success: function(response)
+        {
+          $("#show_voucher_no").val(response.pettycash_voucher[0]['voucher_no']);
+          $("#show_date").val(response.pettycash_voucher[0]['date']);
+          $("#show_supplier").val(response.pettycash_voucher[0]['supplier']);
+          $("#show_description").val(response.pettycash_voucher[0]['description']);
+          $("#show_payee").val(response.pettycash_voucher[0]['payee']);
+          $("#show_job").val(response.pettycash_voucher[0]['job_name']);
+          $("#show_remark").val(response.pettycash_voucher[0]['remark']);
+
+          $("#show_total_debit").text(response.pettycash_voucher[0]['total_debit_amount'].toFixed(2));
+          $("#show_total_credit").text(response.pettycash_voucher[0]['total_credit_amount'].toFixed(2));
+
+          $.each(response.pettycash_voucher, function(index, data) {
+
+            $( "<tr><td><label>" + data.type_name + "</label></td>" +
+            "<td><input class='form-control' value='" + (data.debit_amount !=null ? data.debit_amount.toFixed(2) : '') + "' style='width: 50%;' type='text' readonly></td>" +
+            "<td><input class='form-control' value='" + (data.credit_amount !=null ? data.credit_amount.toFixed(2) : '') + "' style='width: 50%;' type='text' readonly></td>" +
+            "</tr>" ).insertBefore( $( "#appendRow" ) );
+          });
+        },
+
+        error: function (response) {
+          console.log(response);
+        }
+      });
+    }
+  }
+
   var strDate = $.datepicker.formatDate('dd/mm/yy', new Date());
   $("#date").val(strDate);
 
@@ -465,10 +541,6 @@ $(function() {
   $(".nav-tabs > li").click(function(){
     if($(this).hasClass("disabled"))
     return false;
-  });
-
-  $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-    localStorage.setItem('activeTab', $(e.target).attr('href'));
   });
 
   if ( $('.alert-success').children().length > 0 ) {
@@ -582,6 +654,8 @@ $(function() {
 
   $("#pettycash-table").on('click','.edit-item',function(e) {
 
+    var pettycash_voucher_id = $(this).attr("id");
+
     $("#pettycash-detail-table tbody").find("tr:not(:last)").remove();
 
     $("#show_voucher_no").val('');
@@ -594,8 +668,6 @@ $(function() {
 
     $(".nav-tabs > li:first-child").removeClass("active");
     $("#pettycash-detail").addClass("active");
-
-    var pettycash_voucher_id = $(this).attr("id");
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
@@ -633,7 +705,6 @@ $(function() {
         console.log(response);
       }
     });
-
   });
 
   $("#confirm_btn").click(function() {
