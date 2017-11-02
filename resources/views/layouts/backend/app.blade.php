@@ -2,7 +2,7 @@
 <html>
 
 @section('htmlheader')
-  @include('layouts.partials.header')
+@include('layouts.partials.header')
 @show
 
 <body class="page-container-bg-solid">
@@ -145,9 +145,6 @@
                       </li>
                       <li>
                         <a href="/income/income-lists" class="hylink">Income</a>
-                      </li>
-                      <li>
-                        <a href="/expenditure/manage-expenditure" class="hylink">Purchase/ Expenditure</a>
                       </li>
                       <li>
                         <a href="/vendor/manage-ap-vendor" class="hylink">AP Vendor</a>
@@ -302,7 +299,7 @@
 
 @section('scripts')
 
-  @include('layouts.partials.scripts')
+@include('layouts.partials.scripts')
 
 @show
 

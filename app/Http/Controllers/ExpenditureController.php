@@ -22,7 +22,6 @@ class ExpenditureController extends Controller
 
   public function getManageExpenditure()
   {
-
     $expenditure = Expenditure::leftjoin('ap_vendor', 'expenditure.supplier', '=', 'ap_vendor.ap_vendor_id')
                    ->select('expenditure.*', 'ap_vendor.vendor_name')
                    ->orderBy('created_at', 'desc')->get();
