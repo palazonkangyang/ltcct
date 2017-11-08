@@ -22,6 +22,9 @@ use App\Models\KongdanGeneraldonation;
 use App\Models\KongdanReceipt;
 use App\Models\SettingGeneralDonation;
 use App\Models\SettingKongdan;
+use App\Models\SettingQifu;
+use App\Models\QifuGeneraldonation;
+use App\Models\QifuReceipt;
 use App\Models\SettingXiaozai;
 use App\Models\XiaozaiGeneraldonation;
 use App\Models\XiaozaiReceipt;
@@ -544,6 +547,101 @@ class OperatorController extends Controller
 			}
 		}
 
+		// Qifu
+		$qifu_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                      	->leftjoin('setting_qifu', 'devotee.devotee_id', '=', 'setting_qifu.devotee_id')
+                        ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+                        ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                        ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+												->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+                        ->where('setting_qifu.address_code', '=', 'same')
+                        ->where('setting_qifu.qifu_id', '=', '1')
+												->where('setting_qifu.focusdevotee_id', '=', $devotee[0]->devotee_id)
+                        ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+												->GroupBy('devotee.devotee_id')
+                        ->get();
+
+		for($i = 0; $i < count($qifu_same_family); $i++)
+		{
+			$hasreceipt = QifuReceipt::where('devotee_id', $qifu_same_family[$i]->devotee_id)->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_receipt_no = QifuReceipt::all()
+													 ->where('devotee_id', $qifu_same_family[$i]->devotee_id)
+													 ->last()
+													 ->receipt_no;
+
+				$qifu_same_family[$i]->receipt_no = $same_receipt_no;
+			}
+
+			else {
+				$qifu_same_family[$i]->receipt_no = "";
+			}
+		}
+
+		$qifu_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+			                        ->leftjoin('setting_qifu', 'devotee.devotee_id', '=', 'setting_qifu.devotee_id')
+			                        ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+			                        ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+			                        ->where('setting_qifu.address_code', '=', 'same')
+			                        ->where('setting_qifu.qifu_id', '=', '1')
+															->where('setting_qifu.focusdevotee_id', '=', $devotee[0]->devotee_id)
+															->where('setting_qifu.devotee_id', '=', $devotee[0]->devotee_id)
+			                        ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+															->GroupBy('devotee.devotee_id')
+			                        ->get();
+
+		for($i = 0; $i < count($qifu_same_focusdevotee); $i++)
+		{
+			$hasreceipt = QifuReceipt::where('devotee_id', $qifu_same_focusdevotee[0]->devotee_id)->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_receipt_no = QifuReceipt::all()
+													 ->where('devotee_id', $qifu_same_focusdevotee[0]->devotee_id)
+													 ->last()
+													 ->receipt_no;
+
+				$qifu_same_focusdevotee[0]->receipt_no = $same_receipt_no;
+			}
+
+			else {
+				$qifu_same_focusdevotee[0]->receipt_no = "";
+			}
+		}
+
+		$qifu_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+											       ->leftjoin('setting_qifu', 'devotee.devotee_id', '=', 'setting_qifu.devotee_id')
+											       ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+											       ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+											       ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+											       ->where('setting_qifu.address_code', '=', 'different')
+											       ->where('setting_qifu.qifu_id', '=', '1')
+											       ->where('setting_qifu.focusdevotee_id', '=', $devotee[0]->devotee_id)
+											       ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+											       ->GroupBy('devotee.devotee_id')
+											       ->get();
+
+		for($i = 0; $i < count($qifu_different_family); $i++)
+		{
+			$hasreceipt = QifuReceipt::where('devotee_id', $qifu_different_family[$i]->devotee_id)->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_receipt_no = QifuReceipt::all()
+													 ->where('devotee_id', $qifu_different_family[$i]->devotee_id)
+													 ->last()
+													 ->receipt_no;
+
+				$qifu_different_family[$i]->receipt_no = $same_receipt_no;
+			}
+
+			else {
+				$qifu_different_family[$i]->receipt_no = "";
+			}
+		}
+
 		// Xiaozai
 		$xiaozai_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 			                           ->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
@@ -920,6 +1018,103 @@ class OperatorController extends Controller
 												     	->get();
 
 			$kongdan_focusdevotee[0]->kongdan_id = 0;
+		}
+
+		// Fahui Qifu Setting Same family
+		$qifu_result = SettingKongdan::where('focusdevotee_id', $devotee[0]->devotee_id)->get();
+
+		if(count($qifu_result) > 0)
+		{
+			$qifu_setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+																 ->leftjoin('setting_qifu', 'setting_qifu.devotee_id', '=', 'devotee.devotee_id')
+																 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+																 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+																 ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+																 ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+																 ->where('setting_qifu.focusdevotee_id', $devotee[0]->devotee_id)
+																 ->where('setting_qifu.address_code', '=', 'same')
+																 ->where('setting_qifu.year', null)
+																 ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_qifu.qifu_id')
+																 ->GroupBy('devotee.devotee_id')
+																 ->get();
+
+			$qifu_nosetting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+																	 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+																	 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+																	 ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+																	 ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+																	 ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+																	 ->GroupBy('devotee.devotee_id')
+																	 ->get();
+
+			if(count($qifu_nosetting_samefamily) > 0)
+			{
+				for($i = 0; $i < count($qifu_nosetting_samefamily); $i++)
+				{
+					$qifu_nosetting_samefamily[$i]->qifu_id = 0;
+				}
+
+				$qifu_setting_samefamily = $qifu_nosetting_samefamily->merge($qifu_setting_samefamily);
+			}
+		}
+
+		else
+		{
+			$qifu_setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+																 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+																 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+																 ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+																 ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+																 ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+																 ->GroupBy('devotee.devotee_id')
+																 ->get();
+
+			for($i = 0; $i < count($qifu_setting_samefamily); $i++)
+			{
+				$qifu_setting_samefamily[$i]->qifu_id = 0;
+			}
+		}
+
+		$qifu_setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+															      ->leftjoin('setting_qifu', 'setting_qifu.devotee_id', '=', 'devotee.devotee_id')
+															      ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+															      ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+															      ->where('setting_qifu.focusdevotee_id', '=', $devotee[0]->devotee_id)
+															      ->where('setting_qifu.address_code', '=', 'different')
+																		->where('setting_qifu.year', null)
+															      ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode', 'setting_qifu.qifu_id')
+															      ->GroupBy('devotee.devotee_id')
+															      ->get();
+
+		// Setting Kongdan focusdevotee
+		$setting_qifu = SettingQifu::where('focusdevotee_id', $devotee[0]->devotee_id)
+											 ->where('devotee_id', $devotee[0]->devotee_id)
+											 ->get();
+
+		if(count($setting_qifu) > 0)
+		{
+			$qifu_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+													 ->leftjoin('setting_qifu', 'devotee.devotee_id', '=', 'setting_qifu.devotee_id')
+													 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+													 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+													 ->where('devotee.devotee_id', $devotee[0]->devotee_id)
+													 ->where('setting_qifu.focusdevotee_id', $devotee[0]->devotee_id)
+													 ->where('setting_qifu.year', null)
+													 ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_qifu.qifu_id')
+													 ->GroupBy('devotee.devotee_id')
+													 ->get();
+		}
+
+		else
+		{
+			$qifu_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+													 ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+													 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+													 ->where('devotee.devotee_id', $devotee[0]->devotee_id)
+													 ->select('devotee.*', 'familycode.familycode', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+												   ->get();
+
+			$qifu_focusdevotee[0]->qifu_id = 0;
 		}
 
 		// Setting Xiaozai focusdevotee
@@ -2021,6 +2216,13 @@ class OperatorController extends Controller
 		Session::put('kongdan_setting_differentfamily', $kongdan_setting_differentfamily);
 		Session::put('kongdan_focusdevotee', $kongdan_focusdevotee);
 		Session::put('kongdan_receipts', $kongdan_receipts);
+
+		Session::put('qifu_same_family', $qifu_same_family);
+		Session::put('qifu_same_focusdevotee', $qifu_same_focusdevotee);
+		Session::put('qifu_different_family', $qifu_different_family);
+		Session::put('qifu_setting_samefamily', $qifu_setting_samefamily);
+		Session::put('qifu_setting_differentfamily', $qifu_setting_differentfamily);
+		Session::put('qifu_focusdevotee', $qifu_focusdevotee);
 
 		Session::put('xiaozai_same_focusdevotee', $xiaozai_same_focusdevotee);
 		Session::put('xiaozai_same_family', $xiaozai_same_family);

@@ -519,22 +519,29 @@ $(function() {
     }
   });
 
-  $(".debit_amount").on("input", function(evt) {
-    var self = $(this);
-    self.val(self.val().replace(/[^0-9\.]/g, ''));
-    if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57))
-    {
-      evt.preventDefault();
-    }
+  $("body").delegate('.debit_amount_col', 'focus', function() {
+
+    $(".debit_amount").on("input", function(evt) {
+      var self = $(this);
+      self.val(self.val().replace(/[^0-9\.]/g, ''));
+      if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57))
+      {
+        evt.preventDefault();
+      }
+    });
+
   });
 
-  $(".credit_amount").on("input", function(evt) {
-    var self = $(this);
-    self.val(self.val().replace(/[^0-9\.]/g, ''));
-    if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57))
-    {
-      evt.preventDefault();
-    }
+  $("body").delegate('.credit_amount_col', 'focus', function() {
+
+    $(".credit_amount").on("input", function(evt) {
+      var self = $(this);
+      self.val(self.val().replace(/[^0-9\.]/g, ''));
+      if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57))
+      {
+        evt.preventDefault();
+      }
+    });
   });
 
   // Disabled Edit Tab

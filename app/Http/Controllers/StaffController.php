@@ -2374,7 +2374,15 @@ class StaffController extends Controller
 						{
 							$data = Receipt::where('generaldonation_id', $receipts[$i]->generaldonation_id)->pluck('xy_receipt');
 							$receipt_count = count($data);
-							$receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+
+							if($receipt_count > 1)
+							{
+								$receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+							}
+							else
+							{
+								$receipts[$i]->receipt_no = $data[0];
+							}
 						}
 					}
 
@@ -2393,7 +2401,15 @@ class StaffController extends Controller
 						{
 							$data = Receipt::where('generaldonation_id', $ciji_receipts[$i]->generaldonation_id)->pluck('xy_receipt');
 							$receipt_count = count($data);
-							$ciji_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+
+							if($receipt_count > 1)
+							{
+								$ciji_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+							}
+							else
+							{
+								$ciji_receipts[$i]->receipt_no = $data[0];
+							}
 						}
 					}
 

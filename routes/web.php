@@ -117,6 +117,7 @@ Route::group(['middleware' => 'auth'], function () {
 	});
 
 	Route::group(['prefix' => 'fahui'], function () {
+		// KongDan
 		Route::get('/kongdan', ['as' => 'get-kongdan-page', 'uses' => 'FahuiController@getKongDan']);
 		Route::get('/insert-devotee', ['as' => 'xiaozai-insert-devotee-page', 'uses' => 'XiaozaiController@getInsertDevotee']);
 		Route::get('/insert-devotee-by-type', ['as' => 'xiaozai-insert-devotee-by-type-page', 'uses' => 'XiaozaiController@getInsertDevoteeByType']);
@@ -130,6 +131,18 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/kongdan-cancel-replace-transaction', ['as' => 'kongdan-cancel-replace-transaction-page', 'uses' => 'FahuiController@postCancelReplaceTransaction']);
 		Route::post('/kongdan-cancel-transaction', ['as' => 'kongdan-cancel-transaction-page', 'uses' => 'FahuiController@postCancelTransaction']);
 
+		// QiFu
+		Route::get('/qifu', ['as' => 'get-qifu-page', 'uses' => 'QiFuController@getQiFu']);
+		Route::get('/qifu-transaction-detail', ['as' => 'qifu-transaction-detail-page', 'uses' => 'QiFuController@getTransactionDetail']);
+
+		Route::post('/qifu', ['as' => 'post-qifu-page', 'uses' => 'QiFuController@postQiFu']);
+		Route::post('/qifu-samefamily-setting', ['as' => 'post-qifu-samefamily-setting-page', 'uses' => 'QiFuController@postQifuSameFamilySetting']);
+		Route::post('/qifu-differentfamily-setting', ['as' => 'post-qifu-differentfamily-setting-page', 'uses' => 'QiFuController@postQifuDifferentFamilySetting']);
+
+		Route::post('/qifu-reprint-detail', ['as' => 'qifu-reprint-detail-page', 'uses' => 'QiFuController@ReprintDetail']);
+		Route::post('/qifu-cancel-transaction', ['as' => 'qifu-cancel-transaction-page', 'uses' => 'QiFuController@postCancelTransaction']);
+
+		// XiaoZai
 		Route::get('/xiaozai', ['as' => 'get-xiaozai-page', 'uses' => 'XiaozaiController@getXiaoZai']);
 		Route::get('/xiaozai-transaction-detail', ['as' => 'xiaozai-transaction-detail-page', 'uses' => 'XiaozaiController@getTransactionDetail']);
 

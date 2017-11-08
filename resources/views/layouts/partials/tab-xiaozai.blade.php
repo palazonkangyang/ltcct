@@ -645,7 +645,7 @@
 
       <tbody>
         <tr>
-          <td colspan="10"></td>
+          <td colspan="10">No Result Found!</td>
         </tr>
       </tbody>
 

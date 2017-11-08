@@ -47,7 +47,7 @@ $(function() {
     $("#insert_devotee").attr("disabled", "disabled");
   }
 
-  if ($('.kongdan_history_table').length > 0) {
+  if ($('.qifu_history_table').length > 0) {
     $("#add_trick_list").attr('disabled', false);
   }
 
@@ -55,22 +55,22 @@ $(function() {
     $("#add_trick_list").attr('disabled', true);
   }
 
-  $("#kongdan_differentfamily_form").submit(function() {
+  $("#qifu_differentfamily_form").submit(function() {
 
     var this_master = $(this);
 
-    this_master.find("input[name='kongdan_id[]']").each( function () {
+    this_master.find("input[name='qifu_id[]']").each( function () {
       var checkbox_this = $(this);
-      var hidden_kongdan_id = checkbox_this.closest('.checkbox-col').find('.hidden_kongdan_id');
+      var hidden_qifu_id = checkbox_this.closest('.checkbox-col').find('.hidden_qifu_id');
 
       if( checkbox_this.is(":checked") == true ) {
-        hidden_kongdan_id.attr('value','1');
+        hidden_qifu_id.attr('value','1');
       }
 
       else {
-        hidden_kongdan_id.prop('checked', true);
+        hidden_qifu_id.prop('checked', true);
         //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
-        hidden_kongdan_id.attr('value','0');
+        hidden_qifu_id.attr('value','0');
       }
     });
   });
@@ -232,7 +232,7 @@ $(function() {
     var errors = new Array();
     var validationFailed = false;
 
-    $('#different_kongdan_familycode_table .append-devotee-id').each( function () {
+    $('#different_qifu_familycode_table .append-devotee-id').each( function () {
 
       var id = $(this).val();
 
@@ -321,8 +321,8 @@ $(function() {
           }
 
           $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
-          "<td class='checkbox-col'><input type='checkbox' name='kongdan_id[]' value='" + data.devotee_id + "' class='different kongdan_id'>" +
-          "<input type='hidden' class='form-control hidden_kongdan_id' name='hidden_kongdan_id[]'  value=''></td>" +
+          "<td class='checkbox-col'><input type='checkbox' name='qifu_id[]' value='" + data.devotee_id + "' class='different qifu_id'>" +
+          "<input type='hidden' class='form-control hidden_qifu_id' name='hidden_qifu_id[]'  value=''></td>" +
           "<td>" + data.chinese_name +"</td>" +
           "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
           "<td></td>" +
@@ -341,7 +341,7 @@ $(function() {
     });
   });
 
-  $("#update_kongdan_differentaddr_btn").click(function() {
+  $("#update_differentaddr_btn").click(function() {
 
     $(".alert-success").remove();
     $(".validation-error").empty();
@@ -384,7 +384,7 @@ $(function() {
   });
 
   // remove row
-  $("#different_kongdan_familycode_table").on('click', '.removeDevotee', function() {
+  $("#different_qifu_familycode_table").on('click', '.removeDevotee', function() {
 
     if (!confirm("Are you sure you want to delete this devotee from Relative and Friends List? This process is irreversible.")){
       return false;
@@ -395,136 +395,4 @@ $(function() {
     }
   });
 
-  $("#add_trick_list").click(function() {
-
-    var array = [];
-
-    $("input:checkbox:checked", ".kongdan_history_table").map(function() {
-      array.push($(this).val());
-    });
-
-    array = $.unique(array);
-
-    var count = 0;
-    var errors = new Array();
-    var validationFailed = false;
-
-    if(array.length <= 0)
-    {
-      validationFailed = true;
-      errors[count++] = "Please select the devotee in the history table";
-    }
-
-    $('#different_kongdan_familycode_table .append-devotee-id').each( function () {
-
-      var id = $(this).val();
-
-      $.each(array, function( i, val ) {
-
-        if(val == id)
-        {
-          validationFailed = true;
-          errors[count++] = "Selected devotee(s) are already exits.";
-        }
-      });
-    });
-
-    if (validationFailed)
-    {
-      var errorMsgs = '';
-
-      errorMsgs = errorMsgs + errors[0] + "<br/>";
-
-      $('html,body').animate({ scrollTop: 0 }, 'slow');
-
-      $(".validation-error").addClass("bg-danger alert alert-error")
-      $(".validation-error").html(errorMsgs);
-
-      return false;
-    }
-
-    else
-    {
-      $(".validation-error").removeClass("bg-danger alert alert-error")
-      $(".validation-error").empty();
-    }
-
-    $.each(array, function( i, val ) {
-
-      var formData = {
-        _token: $('meta[name="csrf-token"]').attr('content'),
-        devotee_id: val,
-      };
-
-      $.ajax({
-        type: 'GET',
-        url: "/staff/insert-devotee",
-        data: formData,
-        dataType: 'json',
-        success: function(response)
-        {
-          var familycode = $("#family_code").text();
-
-          if(familycode == response.devotee[0]['familycode'])
-          {
-            validationFailed = true;
-            errors[count++] = "Same Family Code cannot be inserted.";
-          }
-
-          if (validationFailed)
-          {
-            var errorMsgs = '';
-
-            for(var i = 0; i < count; i++)
-            {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
-
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
-
-            $(".validation-error").addClass("bg-danger alert alert-error")
-            $(".validation-error").html(errorMsgs);
-
-            return false;
-          }
-
-          else
-          {
-            $(".validation-error").removeClass("bg-danger alert alert-error")
-            $(".validation-error").empty();
-          }
-
-          $.each(response.devotee, function(index, data) {
-
-            if(data.address_unit1 != null && data.address_unit2 != null)
-            {
-              var full_address = data.address_houseno + ", #" + data.address_unit1 + "-" + data.address_unit2 + ", " + data.address_street + ", " + data.address_postal;
-            }
-            else
-            {
-              var full_address = data.address_houseno + ", " + data.address_street + ", " + data.address_postal;
-            }
-
-            $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
-            "<td class='checkbox-col'><input type='checkbox' name='kongdan_id[]' value='" + data.devotee_id + "' class='different kongdan_id'>" +
-            "<input type='hidden' class='form-control hidden_kongdan_id' name='hidden_kongdan_id[]'  value=''></td>" +
-            "<td>" + data.chinese_name +"</td>" +
-            "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
-            "<td></td>" +
-            "<td>" + $.trim(data.guiyi_name) + "</td>" +
-            "<td></td>" +
-            "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
-            "<td>" + $.trim(data.paytill_date) + "</td>" +
-            "<td></td>" +
-            "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
-          });
-        },
-        error: function (response) {
-          console.log(response);
-        }
-
-      });
-    });
-
-  });
 });
