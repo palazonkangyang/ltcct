@@ -248,7 +248,7 @@ $(function() {
 
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
-          $("#refund").text('(Refuned/ Returned)');
+          $("#refund").text('(Refunded/ Returned)');
         }
 
         else if (user_id == 5) {
