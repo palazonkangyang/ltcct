@@ -3924,8 +3924,8 @@ class OperatorController extends Controller
 		$member = Input::get('term');
 		$results = array();
 
-		$queries = Devotee::where('member_id', 'like', '%'.$member.'%')
-							 ->orderBy('member_id', 'asc')
+		$queries = Member::where('member', 'like', '%'.$member.'%')
+							 ->orderBy('member', 'asc')
 							 ->take(6)
 							 ->get();
 
@@ -3933,7 +3933,7 @@ class OperatorController extends Controller
 		{
 			$results[] = [
 				'id' => $query->member_id,
-				'value' => $query->member_id
+				'value' => $query->member
 			];
 		}
 		return response()->json($results);
