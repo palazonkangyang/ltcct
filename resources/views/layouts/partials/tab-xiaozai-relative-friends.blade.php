@@ -405,7 +405,7 @@
           To INSERT records from the below Tick List, tick on the records and Click on the ADD FROM TICK LIST Button.
         </p>
 
-        <button id="add_trick_list" type="button" name="button" class="btn blue">Add from Trick List</button>
+        <button id="add_trick_list" type="button" name="button" class="btn blue">Add from Tick List</button>
       </div>
     </div><!-- end form-group -->
 

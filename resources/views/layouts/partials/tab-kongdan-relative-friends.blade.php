@@ -246,7 +246,7 @@ $kongdan_setting_differentfamily_last5year = Session::get('kongdan_setting_diffe
         To INSERT records from the below Tick List, tick on the records and Click on the ADD FROM TICK LIST Button.
       </p>
 
-      <button type="button" name="button" class="btn blue" id="add_trick_list">Add from Trick List</button>
+      <button type="button" name="button" class="btn blue" id="add_trick_list">Add from Tick List</button>
     </div>
   </div><!-- end form-group -->
 
