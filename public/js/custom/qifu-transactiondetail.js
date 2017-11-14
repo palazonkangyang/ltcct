@@ -1,7 +1,17 @@
 $(function() {
 
   $("#qifu_search_detail").click(function() {
+    qifuSearchDetail();
+  });
 
+  $('#receipt_no,#trans_no').keypress(function (e) {
+    if (e.which == 13) {
+      qifuSearchDetail();
+      return false;
+    }
+  });
+
+  function qifuSearchDetail(){
     var user_id = $("#user_id").val();
     var focusdevotee_id = $("#focusdevotee_id").val();
 
@@ -251,7 +261,7 @@ $(function() {
       }
     });
 
-  });
+  }
 
   $("#cancel-qifu-transaction").click(function() {
 
