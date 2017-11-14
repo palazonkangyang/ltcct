@@ -880,4 +880,71 @@ class QiFuController extends Controller
 			}
 		}
   }
+
+  public static function getFocusDevotee($para){
+    $setting_qifu = SettingQifu::where('focusdevotee_id', $para['focus_devotee_id'])
+                               ->where('devotee_id', $para['focus_devotee_id'])
+                               ->get();
+
+    if(count($setting_qifu) > 0)
+    {
+      $focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                              ->leftjoin('setting_qifu', 'devotee.devotee_id', '=', 'setting_qifu.devotee_id')
+                              ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+                              ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                              ->where('devotee.devotee_id', $para['focus_devotee_id'])
+                              ->where('setting_qifu.focusdevotee_id', $para['focus_devotee_id'])
+                              ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_qifu.qifu_id')
+                              ->GroupBy('devotee.devotee_id')
+                              ->get();
+    }
+
+    else
+    {
+      $focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                              ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+                              ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                              ->where('devotee.devotee_id', $para['focus_devotee_id'])
+                              ->select('devotee.*', 'familycode.familycode', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+                              ->get();
+
+      $focusdevotee[0]->qifu_id = 0;
+    }
+
+    return $focusdevotee;
+  }
+
+  public static function getSameFocusDevotee($para){
+    $same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+																				->leftjoin('setting_qifu', 'devotee.devotee_id', '=', 'setting_qifu.devotee_id')
+																				->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+																				->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+																				->where('setting_qifu.address_code', '=', 'same')
+																				->where('setting_qifu.qifu_id', '=', '1')
+																				->where('setting_qifu.focusdevotee_id', '=', $para['focus_devotee_id'])
+																				->where('setting_qifu.devotee_id', '=', $para['focus_devotee_id'])
+																				->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+																				->GroupBy('devotee.devotee_id')
+																				->get();
+    return $same_focusdevotee;
+  }
+
+  public static function getSettingSameFamily($para){
+    $setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                                  ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+                                  ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                                  ->where('devotee.devotee_id', '!=', $para['focus_devotee_id'])
+                                  ->where('devotee.familycode_id', $para['familycode_id'])
+                                  ->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+                                  ->GroupBy('devotee.devotee_id')
+                                  ->get();
+
+    for($i = 0; $i < count($setting_samefamily); $i++)
+    {
+      $setting_samefamily[$i]->qifu_id = 0;
+    }
+
+    return $setting_samefamily;
+  }
+
 }

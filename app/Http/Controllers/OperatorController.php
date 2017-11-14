@@ -1021,7 +1021,7 @@ class OperatorController extends Controller
 		}
 
 		// Fahui Qifu Setting Same family
-		$qifu_result = SettingKongdan::where('focusdevotee_id', $devotee[0]->devotee_id)->get();
+		$qifu_result = SettingQifu::where('focusdevotee_id', $devotee[0]->devotee_id)->get();
 
 		if(count($qifu_result) > 0)
 		{
@@ -2742,6 +2742,10 @@ class OperatorController extends Controller
 				Session::forget('kongdan_same_family');
 				Session::forget('kongdan_different_family');
 
+				if(Session::has('qifu_focusdevotee')) { Session::forget('qifu_focusdevotee'); }
+				if(Session::has('qifu_same_focusdevotee')) { Session::forget('qifu_same_focusdevotee'); }
+				if(Session::has('qifu_setting_samefamily')) { Session::forget('qifu_setting_samefamily'); }
+				
 				// Setting General Donation
 				$setting_data = [
 				  'focusdevotee_id' => $devotee_id,
@@ -2753,6 +2757,15 @@ class OperatorController extends Controller
 
 				SettingGeneralDonation::create($setting_data);
 
+				// Setting QiFu
+				$setting_qifu = [
+				  'focusdevotee_id' => $devotee_id,
+					'qifu_id' => 1,
+					'devotee_id' => $devotee_id
+				];
+
+				SettingQifu::create($setting_qifu);
+
 				// Setting Kongdan
 				$setting_kongdan = [
 				  'focusdevotee_id' => $devotee_id,
@@ -2762,6 +2775,7 @@ class OperatorController extends Controller
 
 				SettingKongdan::create($setting_kongdan);
 
+				// Setting Xiaozai
 				$setting_xiazai = [
 					'focusdevotee_id' => $devotee_id,
 					'xiaozai_id' => 1,
@@ -2992,6 +3006,26 @@ class OperatorController extends Controller
 		  $kongdan_focusdevotee[0]->kongdan_id = 0;
 		}
 
+		// Qifu > qifu_focusdevotee
+		$para = array(
+			"focus_devotee_id" => $focus_devotee[0]->devotee_id,
+		);
+		$qifu_focusdevotee = QiFuController::getFocusDevotee($para);
+
+		// Qifu > qifu_same_focusdevotee
+		$para = array(
+			"focus_devotee_id" => $focus_devotee[0]->devotee_id,
+		);
+		$qifu_same_focusdevotee = QiFuController::getSameFocusDevotee($para);
+
+		// Qifu > qifu_setting_samefamily
+		$para = array(
+			"focus_devotee_id" => $focus_devotee[0]->devotee_id,
+			"familycode_id" => $familycode_id
+		);
+		$qifu_setting_samefamily = QiFuController::getSettingSameFamily($para);
+
+
 		$xianyou_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 		                             ->leftjoin('setting_generaldonation', 'devotee.devotee_id', '=', 'setting_generaldonation.devotee_id')
 		                             ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
@@ -3091,6 +3125,11 @@ class OperatorController extends Controller
 		 Session::put('kongdan_same_focusdevotee', $kongdan_same_focusdevotee);
 		 Session::put('kongdan_setting_samefamily', $kongdan_setting_samefamily);
 		 Session::put('kongdan_setting_differentfamily', $kongdan_setting_differentfamily);
+
+		 // Qifu Session
+		 Session::put('qifu_focusdevotee', $qifu_focusdevotee);
+		 Session::put('qifu_same_focusdevotee', $qifu_same_focusdevotee);
+		 Session::put('qifu_setting_samefamily', $qifu_setting_samefamily);
 
 		 // Xiaozai Session
 		 Session::put('xiaozai_same_focusdevotee', $xiaozai_same_focusdevotee);
@@ -3638,6 +3677,11 @@ class OperatorController extends Controller
 		Session::forget('kongdan_same_focusdevotee');
 		Session::forget('kongdan_same_family');
 		Session::forget('kongdan_different_family');
+
+		// Qifu Session
+		Session::forget('qifu_focusdevotee');
+		Session::forget('qifu_same_focusdevotee');
+		Session::forget('qifu_setting_samefamily');
 
     return redirect()->route('main-page')->with([
       'members' => $members,
