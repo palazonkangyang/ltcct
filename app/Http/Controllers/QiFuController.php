@@ -881,6 +881,93 @@ class QiFuController extends Controller
 		}
   }
 
+  public function postCancelReplaceTransaction(Request $request)
+  {
+    $input = array_except($request->all(), '_token');
+    $focusdevotee_id = "";
+
+    if(isset($input['authorized_password']))
+    {
+      $user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
+
+      if (Hash::check($input['authorized_password'], $hashedPassword))
+      {
+        if(!empty($input['receipt_no']))
+        {
+          $receipt = QifuReceipt::where('receipt_no', $input['receipt_no'])->get();
+          $result = QifuReceipt::find($receipt[0]['receipt_id']);
+
+          $generaldonation = QifuGeneraldonation::where('generaldonation_id', $receipt[0]['generaldonation_id'])->get();
+
+          $focusdevotee_id = $generaldonation[0]->focusdevotee_id;
+
+          $result->cancelled_date = Carbon::now();
+          $result->status = "cancelled";
+          $result->cancelled_by = Auth::user()->id;
+
+          $cancellation = $result->save();
+        }
+
+        if(!empty($input['trans_no']))
+        {
+          $generaldonation = QifuGeneraldonation::where('trans_no', $input['trans_no'])->get();
+
+          $focusdevotee_id = $generaldonation[0]->focusdevotee_id;
+
+          $receipt = QifuReceipt::where('generaldonation_id', $generaldonation[0]->generaldonation_id)->get();
+          $total_devotee = count($receipt);
+
+          for($i = 0; $i < count($receipt); $i++)
+          {
+            $result = QifuReceipt::find($receipt[$i]['receipt_id']);
+
+            $result->cancelled_date = Carbon::now();
+            $result->status = "cancelled";
+            $result->cancelled_by = Auth::user()->id;
+
+            $cancellation = $result->save();
+          }
+        }
+
+        $focus_devotee = Session::get('focus_devotee');
+
+        $qifu_receipts = QifuGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'qifu_generaldonation.focusdevotee_id')
+                            ->leftjoin('qifu_receipt', 'qifu_receipt.generaldonation_id', '=', 'qifu_generaldonation.generaldonation_id')
+                            ->where('qifu_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+                            ->where('qifu_receipt.glcode_id', 117)
+                            ->GroupBy('qifu_generaldonation.generaldonation_id')
+                            ->select('qifu_generaldonation.*', 'devotee.chinese_name', 'qifu_receipt.cancelled_date')
+                            ->orderBy('qifu_generaldonation.generaldonation_id', 'desc')
+                            ->get();
+
+        if(count($qifu_receipts) > 0)
+        {
+          for($i = 0; $i < count($qifu_receipts); $i++)
+          {
+            $data = QifuReceipt::where('generaldonation_id', $qifu_receipts[$i]->generaldonation_id)->pluck('receipt_no');
+            $receipt_count = count($data);
+            $qifu_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+          }
+        }
+
+        Session::put('qifu_receipts', $qifu_receipts);
+
+        return response()->json(array(
+          'receipt' => $receipt,
+          'total_devotee' => $total_devotee
+        ));
+      }
+
+      else
+      {
+        return response()->json(array(
+          'error' => 'not match'
+        ));
+      }
+    }
+  }
+
   public static function getFocusDevotee($para){
     $setting_qifu = SettingQifu::where('focusdevotee_id', $para['focus_devotee_id'])
                                ->where('devotee_id', $para['focus_devotee_id'])

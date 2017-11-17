@@ -466,6 +466,158 @@ $(function() {
         console.log(response);
       }
     });
+
+
   });
+
+  // cancel-qifu-replace-btn start
+  $("#cancel-qifu-replace-btn").click(function() {
+    $(".alert-success").remove();
+    $(".validation-error").empty();
+
+    var count = 0;
+    var errors = new Array();
+    var validationFailed = false;
+
+    var receipt_no = $("#receipt_no").val();
+    var trans_no = $("#trans_no").val();
+    var amount = $("#amount").text();
+    var authorized_password = $("#authorized_password").val();
+    var description = $("#description").text();
+    var total_devotee = 0;
+    //
+    if ($.trim(authorized_password).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes.";
+    }
+
+    if(amount == 0)
+    {
+      validationFailed = true;
+      errors[count++] = "There is no record in the table.";
+    }
+
+    if (validationFailed)
+    {
+      var errorMsgs = '';
+
+      for(var i = 0; i < count; i++)
+      {
+        errorMsgs = errorMsgs + errors[i] + "<br/>";
+      }
+    //
+      $('html,body').animate({ scrollTop: 0 }, 'slow');
+      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").html(errorMsgs);
+
+      return false;
+    }
+
+    else {
+      $(".validation-error").removeClass("bg-danger alert alert-error")
+      $(".validation-error").empty();
+    }
+
+    localStorage.setItem('cancel', 1);
+
+    var formData = {
+      _token: $('meta[name="csrf-token"]').attr('content'),
+      receipt_no: receipt_no,
+      trans_no: trans_no,
+      authorized_password: authorized_password
+    };
+
+    $('#qifu-form')[0].reset();
+
+    $.ajax({
+      type: 'POST',
+      url: "/fahui/qifu-cancel-replace-transaction",
+      data: formData,
+      dataType: 'json',
+      success: function(response)
+      {
+        total_devotee = response.total_devotee;
+
+        $("#qifu_trans_wrap1").hide();
+        $("#qifu_trans_wrap2").hide();
+        $("#qifu_trans_wrap3").hide();
+        $("#qifu_trans_wrap4").hide();
+        $("#qifu_trans_wrap5").hide();
+        $("#qifu_trans_wrap6").hide();
+        $("#qifu_trans_wrap7").hide();
+        $("#qifu_trans_wrap8").hide();
+
+        $('#transaction-table tbody').empty();
+        $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
+
+        $("#receipt_date").text('');
+        $("#paid_by").text('');
+        $("#donation_event").text('');
+        $("#receipt").text('');
+        $("#transaction_no").text('');
+        $("#description").text('');
+        $("#attended_by").text('');
+        $("#payment_mode").text('');
+        $("#amount").text('');
+
+        $('.nav-tabs li:eq(0) a').tab('show');
+
+        $.each(response.receipt, function(index, data) {
+
+          $("#qifu_table tbody tr").each(function() {
+            var devotee = $(this).find("#devotee").text();
+
+            if(devotee == data.devotee_id)
+            {
+              $(this).find('.amount').attr('checked', true);
+            }
+          });
+
+          $("#qifu_table2 tbody tr").each(function() {
+            var devotee = $(this).find("#devotee").text();
+
+            if(devotee == data.devotee_id)
+            {
+              $(this).find('.amount').attr('checked', true);
+            }
+          });
+        });
+
+        $(".total").html(total_devotee);
+        $(".total_amount").text(amount);
+        $("#total_amount").val(amount);
+
+        $("#authorized_password").val('');
+        $("#trans_no").val('');
+
+        $("#transaction_wrap").show();
+
+        if(trans_no != "")
+        {
+          $("#trans_info").html("<span style='font-weight: bold'>" + trans_no + "</span>" + " <span class='text-danger'>is about to Cancel & Replace.</span>");
+        }
+
+        if(response.error == "not match")
+        {
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+          $(".validation-error").addClass("bg-danger alert alert-error")
+          $(".validation-error").html("Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes.");
+        }
+
+        else
+        {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+        }
+      },
+      error: function (response) {
+        console.log(response);
+      }
+    });
+
+  });
+  // cancel-qifu-replace-btn end
 
 });
