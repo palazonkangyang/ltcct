@@ -160,7 +160,7 @@
                                <p>Payment Mode : {{ $generaldonation->mode_payment }}</p>
 
                                @if(Session::has('cancelled_date'))
-                                <p><span class="text-white">Payment Mode :</span><span class="text-danger">(Refuned/ Returned)</span></p>
+                                <p><span class="text-white">Payment Mode :</span><span class="text-danger">(Refunded/ Returned)</span></p>
 
                                @endif
 
