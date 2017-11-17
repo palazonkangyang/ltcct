@@ -1034,4 +1034,44 @@ class QiFuController extends Controller
     return $setting_samefamily;
   }
 
+  public static function getReceiptHistory($para){
+
+    $receipt_collection = collect();
+
+    $receipts = qifuGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'qifu_generaldonation.focusdevotee_id')
+                        ->leftjoin('qifu_receipt', 'qifu_receipt.generaldonation_id', '=', 'qifu_generaldonation.generaldonation_id')
+                        ->where('qifu_generaldonation.focusdevotee_id', '=', $para['devotee_id'])
+                        ->where('qifu_receipt.glcode_id', 136)
+                        ->GroupBy('qifu_generaldonation.generaldonation_id')
+                        ->select('qifu_generaldonation.*', 'devotee.chinese_name', 'qifu_receipt.cancelled_date')
+                        ->orderBy('qifu_generaldonation.generaldonation_id', 'desc')
+                        ->get();
+
+    $paidby_other_receipts = qifuReceipt::leftjoin('qifu_generaldonation', 'qifu_receipt.generaldonation_id', '=', 'qifu_generaldonation.generaldonation_id')
+                                    ->leftjoin('devotee', 'devotee.devotee_id', '=', 'qifu_generaldonation.focusdevotee_id')
+                                    ->where('qifu_receipt.devotee_id', $para['devotee_id'])
+                                    ->where('qifu_receipt.glcode_id', 136)
+                                    ->where('qifu_generaldonation.focusdevotee_id', '!=', $para['devotee_id'])
+                                    ->select('qifu_generaldonation.*', 'devotee.chinese_name', 'qifu_receipt.cancelled_date', 'qifu_receipt.receipt_no')
+                                    ->get();
+
+    if(count($receipts) > 0)
+    {
+      for($i = 0; $i < count($receipts); $i++)
+      {
+        $data = qifuReceipt::where('generaldonation_id', $receipts[$i]->generaldonation_id)->pluck('receipt_no');
+        $receipt_count = count($data);
+        $receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+      }
+    }
+
+    $receipt_collection = $receipt_collection->merge($receipts);
+    $receipt_collection = $receipt_collection->merge($paidby_other_receipts);
+
+    $receipts = $receipt_collection->sortByDesc('generaldonation_id');
+    $receipts->values()->all();
+
+    return $receipts;
+  }
+
 }

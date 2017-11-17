@@ -2127,6 +2127,13 @@ class OperatorController extends Controller
 		$kongdan_receipts = $kongdan_receipt_collection->sortByDesc('generaldonation_id');
 		$kongdan_receipts->values()->all();
 
+		// Get Qifu Receipts History
+		$para = array(
+			"devotee_id" => $devotee[0]->devotee_id,
+		);
+		$qifu_receipts = QiFuController::getReceiptHistory($para);
+
+
 		// Get Xiaozai Receipts History
 		$xiaozai_receipt_collection = collect();
 
@@ -2223,6 +2230,7 @@ class OperatorController extends Controller
 		Session::put('qifu_setting_samefamily', $qifu_setting_samefamily);
 		Session::put('qifu_setting_differentfamily', $qifu_setting_differentfamily);
 		Session::put('qifu_focusdevotee', $qifu_focusdevotee);
+		Session::put('qifu_receipts', $qifu_receipts);
 
 		Session::put('xiaozai_same_focusdevotee', $xiaozai_same_focusdevotee);
 		Session::put('xiaozai_same_family', $xiaozai_same_family);
@@ -2745,7 +2753,7 @@ class OperatorController extends Controller
 				if(Session::has('qifu_focusdevotee')) { Session::forget('qifu_focusdevotee'); }
 				if(Session::has('qifu_same_focusdevotee')) { Session::forget('qifu_same_focusdevotee'); }
 				if(Session::has('qifu_setting_samefamily')) { Session::forget('qifu_setting_samefamily'); }
-				
+
 				// Setting General Donation
 				$setting_data = [
 				  'focusdevotee_id' => $devotee_id,
