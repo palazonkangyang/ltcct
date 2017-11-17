@@ -1,7 +1,18 @@
 $(function() {
 
   $("#kongdan_search_detail").click(function() {
+    kongdanSearchDetail();
+  });
 
+  $('#receipt_no,#trans_no').keypress(function (e) {
+    if (e.which == 13) {
+      kongdanSearchDetail();
+      return false;
+    }
+  });
+
+
+  function kongdanSearchDetail(){
     var user_id = $("#user_id").val();
     var focusdevotee_id = $("#focusdevotee_id").val();
 
@@ -52,13 +63,13 @@ $(function() {
     if (validationFailed)
     {
       $("#kongdan_trans_wrap1").hide();
-  		$("#kongdan_trans_wrap2").hide();
-  		$("#kongdan_trans_wrap3").hide();
-  		$("#kongdan_trans_wrap4").hide();
-  		$("#kongdan_trans_wrap5").hide();
-  		$("#kongdan_trans_wrap6").hide();
-  		$("#kongdan_trans_wrap7").hide();
-  		$("#kongdan_trans_wrap8").hide();
+      $("#kongdan_trans_wrap2").hide();
+      $("#kongdan_trans_wrap3").hide();
+      $("#kongdan_trans_wrap4").hide();
+      $("#kongdan_trans_wrap5").hide();
+      $("#kongdan_trans_wrap6").hide();
+      $("#kongdan_trans_wrap7").hide();
+      $("#kongdan_trans_wrap8").hide();
 
       var errorMsgs = '';
 
@@ -94,13 +105,13 @@ $(function() {
       success: function(response)
       {
         $("#kongdan_trans_wrap1").show();
-    		$("#kongdan_trans_wrap2").show();
-    		$("#kongdan_trans_wrap3").show();
-    		$("#kongdan_trans_wrap4").show();
-    		$("#kongdan_trans_wrap5").show();
-    		$("#kongdan_trans_wrap6").show();
-    		$("#kongdan_trans_wrap7").show();
-    		$("#kongdan_trans_wrap8").show();
+        $("#kongdan_trans_wrap2").show();
+        $("#kongdan_trans_wrap3").show();
+        $("#kongdan_trans_wrap4").show();
+        $("#kongdan_trans_wrap5").show();
+        $("#kongdan_trans_wrap6").show();
+        $("#kongdan_trans_wrap7").show();
+        $("#kongdan_trans_wrap8").show();
 
         $('#transaction-table tbody').empty();
 
@@ -204,7 +215,7 @@ $(function() {
 
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
-          $("#refund").text('(Refuned/ Returned)');
+          $("#refund").text('(Refunded/ Returned)');
         }
 
         else if (user_id == 5) {
@@ -250,8 +261,7 @@ $(function() {
           console.log(response);
       }
     });
-
-  });
+  }
 
   $("#cancel-kongdan-transaction").click(function() {
 
@@ -417,7 +427,7 @@ $(function() {
 
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
-          $("#refund").text('(Refuned/ Returned)');
+          $("#refund").text('(Refunded/ Returned)');
         }
 
         else if (user_id == 5) {

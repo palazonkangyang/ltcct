@@ -1,7 +1,17 @@
 $(function() {
 
   $("#xiaozai_search_detail").click(function() {
+    xiaozaiSearchDetail();
+  });
 
+  $('#receipt_no,#trans_no').keypress(function (e) {
+    if (e.which == 13) {
+      xiaozaiSearchDetail();
+      return false;
+    }
+  });
+
+  function xiaozaiSearchDetail(){
     var user_id = $("#user_id").val();
     var focusdevotee_id = $("#focusdevotee_id").val();
 
@@ -52,13 +62,13 @@ $(function() {
     if (validationFailed)
     {
       $("#xiaozai_trans_wrap1").hide();
-  		$("#xiaozai_trans_wrap2").hide();
-  		$("#xiaozai_trans_wrap3").hide();
-  		$("#xiaozai_trans_wrap4").hide();
-  		$("#xiaozai_trans_wrap5").hide();
-  		$("#xiaozai_trans_wrap6").hide();
-  		$("#xiaozai_trans_wrap7").hide();
-  		$("#xiaozai_trans_wrap8").hide();
+      $("#xiaozai_trans_wrap2").hide();
+      $("#xiaozai_trans_wrap3").hide();
+      $("#xiaozai_trans_wrap4").hide();
+      $("#xiaozai_trans_wrap5").hide();
+      $("#xiaozai_trans_wrap6").hide();
+      $("#xiaozai_trans_wrap7").hide();
+      $("#xiaozai_trans_wrap8").hide();
 
       var errorMsgs = '';
 
@@ -92,15 +102,15 @@ $(function() {
       data: formData,
       dataType: 'json',
       success: function(response)
-      {        
+      {
         $("#xiaozai_trans_wrap1").show();
-    		$("#xiaozai_trans_wrap2").show();
-    		$("#xiaozai_trans_wrap3").show();
-    		$("#xiaozai_trans_wrap4").show();
-    		$("#xiaozai_trans_wrap5").show();
-    		$("#xiaozai_trans_wrap6").show();
-    		$("#xiaozai_trans_wrap7").show();
-    		$("#xiaozai_trans_wrap8").show();
+        $("#xiaozai_trans_wrap2").show();
+        $("#xiaozai_trans_wrap3").show();
+        $("#xiaozai_trans_wrap4").show();
+        $("#xiaozai_trans_wrap5").show();
+        $("#xiaozai_trans_wrap6").show();
+        $("#xiaozai_trans_wrap7").show();
+        $("#xiaozai_trans_wrap8").show();
 
         $('#transaction-table tbody').empty();
 
@@ -196,7 +206,7 @@ $(function() {
 
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
-          $("#refund").text('(Refuned/ Returned)');
+          $("#refund").text('(Refunded/ Returned)');
         }
 
         else if (user_id == 5) {
@@ -242,8 +252,7 @@ $(function() {
           console.log(response);
       }
     });
-
-  });
+  }
 
   $("#xiaozai_receipt_history_table").on('click', '.xiaozai-receipt-id', function() {
 
@@ -349,7 +358,7 @@ $(function() {
 
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
-          $("#refund").text('(Refuned/ Returned)');
+          $("#refund").text('(Refunded/ Returned)');
         }
 
         else if (user_id == 5) {

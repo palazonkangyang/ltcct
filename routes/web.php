@@ -140,6 +140,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/qifu-differentfamily-setting', ['as' => 'post-qifu-differentfamily-setting-page', 'uses' => 'QiFuController@postQifuDifferentFamilySetting']);
 
 		Route::post('/qifu-reprint-detail', ['as' => 'qifu-reprint-detail-page', 'uses' => 'QiFuController@ReprintDetail']);
+		Route::post('/qifu-cancel-replace-transaction', ['as' => 'qifu-cancel-replace-transaction-page', 'uses' => 'QiFuController@postCancelReplaceTransaction']);
 		Route::post('/qifu-cancel-transaction', ['as' => 'qifu-cancel-transaction-page', 'uses' => 'QiFuController@postCancelTransaction']);
 
 		// XiaoZai

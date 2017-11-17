@@ -1894,23 +1894,26 @@ class StaffController extends Controller
 																 ->GroupBy('devotee.devotee_id')
 											 			     ->get();
 
-		$hasreceipt = Receipt::where('devotee_id', $xianyou_same_focusdevotee[0]->devotee_id)
-									->where('description', 'General Donation - 香油')
-									->get();
-
-		if(count($hasreceipt) > 0)
+		if(count($xianyou_same_focusdevotee) > 0)
 		{
-			$same_xy_receipt = Receipt::all()
-												 ->where('devotee_id', $xianyou_same_focusdevotee[0]->devotee_id)
-												 ->where('description', 'General Donation - 香油')
-												 ->last()
-												 ->xy_receipt;
+			$hasreceipt = Receipt::where('devotee_id', $xianyou_same_focusdevotee[0]->devotee_id)
+										->where('description', 'General Donation - 香油')
+										->get();
 
-			$xianyou_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
-		}
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = Receipt::all()
+													 ->where('devotee_id', $xianyou_same_focusdevotee[0]->devotee_id)
+													 ->where('description', 'General Donation - 香油')
+													 ->last()
+													 ->xy_receipt;
 
-		else {
-			$xianyou_same_focusdevotee[0]->xyreceipt = "";
+				$xianyou_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$xianyou_same_focusdevotee[0]->xyreceipt = "";
+			}
 		}
 
 		$ciji_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
@@ -1960,24 +1963,28 @@ class StaffController extends Controller
 																 ->GroupBy('devotee.devotee_id')
 											 			     ->get();
 
-		$hasreceipt = Receipt::where('devotee_id', $ciji_same_focusdevotee[0]->devotee_id)
-									->where('description', 'General Donation - 慈济')
-									->get();
-
-		if(count($hasreceipt) > 0)
+		if(count($ciji_same_focusdevotee) > 0)
 		{
-			$same_xy_receipt = Receipt::all()
-												 ->where('devotee_id', $ciji_same_focusdevotee[0]->devotee_id)
-												 ->where('description', 'General Donation - 慈济')
-												 ->last()
-												 ->xy_receipt;
+			$hasreceipt = Receipt::where('devotee_id', $ciji_same_focusdevotee[0]->devotee_id)
+										->where('description', 'General Donation - 慈济')
+										->get();
 
-			$ciji_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = Receipt::all()
+													 ->where('devotee_id', $ciji_same_focusdevotee[0]->devotee_id)
+													 ->where('description', 'General Donation - 慈济')
+													 ->last()
+													 ->xy_receipt;
+
+				$ciji_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$ciji_same_focusdevotee[0]->xyreceipt = "";
+			}
 		}
 
-		else {
-			$ciji_same_focusdevotee[0]->xyreceipt = "";
-		}
 
 		$setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 											 		->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
@@ -2048,24 +2055,28 @@ class StaffController extends Controller
 							 										->GroupBy('devotee.devotee_id')
 							 										->get();
 
-		$hasreceipt = Receipt::where('devotee_id', $yuejuan_same_focusdevotee[0]->devotee_id)
-									->where('description', 'General Donation - 月捐')
-									->get();
-
-		if(count($hasreceipt) > 0)
+		if(count($yuejuan_same_focusdevotee) > 0)
 		{
-			$same_xy_receipt = Receipt::all()
-												 ->where('devotee_id', $yuejuan_same_focusdevotee[0]->devotee_id)
-												 ->where('description', 'General Donation - 月捐')
-												 ->last()
-												 ->xy_receipt;
+			$hasreceipt = Receipt::where('devotee_id', $yuejuan_same_focusdevotee[0]->devotee_id)
+										->where('description', 'General Donation - 月捐')
+										->get();
 
-			$yuejuan_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = Receipt::all()
+													 ->where('devotee_id', $yuejuan_same_focusdevotee[0]->devotee_id)
+													 ->where('description', 'General Donation - 月捐')
+													 ->last()
+													 ->xy_receipt;
+
+				$yuejuan_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
+			}
+
+			else {
+				$yuejuan_same_focusdevotee[0]->xyreceipt = "";
+			}
 		}
 
-		else {
-			$yuejuan_same_focusdevotee[0]->xyreceipt = "";
-		}
 
 		$membership = MembershipFee::all()->first();
 
