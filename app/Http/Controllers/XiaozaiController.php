@@ -28,6 +28,9 @@ class XiaozaiController extends Controller
 {
   public function getXiaoZai()
   {
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+
     $today = Carbon::today();
 
 		$events = FestiveEvent::orderBy('start_at', 'asc')
@@ -42,6 +45,8 @@ class XiaozaiController extends Controller
 
   public function postXiaozai(Request $request)
   {
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $input = array_except($request->all(), '_token');
 		$total_amount = 0;
     $member_credit_amount = 0;
@@ -87,7 +92,7 @@ class XiaozaiController extends Controller
 	    "receipt_at" =>	$receipt_at,
 	    "manualreceipt" => $input['manualreceipt'],
 	    "trans_at" => Carbon::now(),
-	    "focusdevotee_id" => $input['focusdevotee_id'],
+	    "focusdevotee_id" => $focus_devotee_id,
 	    "festiveevent_id" => $input['festiveevent_id']
 	  ];
 
@@ -176,7 +181,7 @@ class XiaozaiController extends Controller
       "journalentry_no" => $reference_no,
       "date" => Carbon::now(),
       "description" => "Xiaozai - 消灾",
-			"devotee_id" => $input['focusdevotee_id'],
+			"devotee_id" => $focus_devotee_id,
       "type" => "journal",
       "total_debit_amount" => $input['total_amount'],
       "total_credit_amount" => $input['total_amount']
@@ -218,39 +223,11 @@ class XiaozaiController extends Controller
 		}
 
     // remove session
-	  Session::forget('xiaozai_receipts');
-    Session::forget('xiaozai_same_focusdevotee');
-		Session::forget('xiaozai_same_family');
 		Session::forget('xiaozai_different_family');
 
-    $xiaozai_receipts = XiaozaiGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'xiaozai_generaldonation.focusdevotee_id')
-        								->leftjoin('xiaozai_receipt', 'xiaozai_receipt.generaldonation_id', '=', 'xiaozai_generaldonation.generaldonation_id')
-        								->where('xiaozai_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
-        								->GroupBy('xiaozai_generaldonation.generaldonation_id')
-        								->whereIn('xiaozai_receipt.glcode_id', array(118, 120))
-        								->select('xiaozai_generaldonation.*', 'devotee.chinese_name', 'xiaozai_receipt.cancelled_date')
-        								->orderBy('xiaozai_generaldonation.generaldonation_id', 'desc')
-        								->get();
-
-    if(count($xiaozai_receipts) > 0)
-		{
-			for($i = 0; $i < count($xiaozai_receipts); $i++)
-			{
-				$data = XiaozaiReceipt::where('generaldonation_id', $xiaozai_receipts[$i]->generaldonation_id)->pluck('receipt_no');
-				$receipt_count = count($data);
-
-				if($receipt_count > 1)
-				{
-					$xiaozai_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
-				}
-				else
-				{
-					$xiaozai_receipts[$i]->receipt_no = $data[0];
-				}
-			}
-		}
-
-    Session::put('xiaozai_receipts', $xiaozai_receipts);
+    XiaozaiController::updateSameFocusDevotee();
+    XiaozaiController::updateSameFamily();
+    XiaozaiController::updateXiaozaiReceipts();
 
     $xiaozai_generaldonation_id = $xiaozai_generaldonation->generaldonation_id;
 		$hjgr = $xiaozai_generaldonation->hjgr;
@@ -332,6 +309,7 @@ class XiaozaiController extends Controller
 
   public function getInsertDevotee(Request $request)
 	{
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
 		$devotee_id = $_GET['devotee_id'];
     $address = $_GET['address'];
 
@@ -408,7 +386,7 @@ class XiaozaiController extends Controller
 
 			else
 			{
-				$result = Devotee::find($devotee[0]->devotee_id);
+				$result = Devotee::find($focus_devotee_id);
 
 				if(isset($result->oversea_addr_in_chinese))
 				{
@@ -474,6 +452,7 @@ class XiaozaiController extends Controller
 
   public function getInsertDevoteeByType(Request $request)
   {
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $devotee_id = $_GET['devotee_id'];
     $type = $_GET['type'];
 
@@ -594,19 +573,20 @@ class XiaozaiController extends Controller
 
   public function postXiaozaiSameFamilySetting(Request $request)
   {
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $input = array_except($request->all(), '_token');
 
-    SettingXiaozai::where('focusdevotee_id', $input['focusdevotee_id'])
+    SettingXiaozai::where('focusdevotee_id', $focus_devotee_id)
 												 ->where('address_code', 'same')
                          ->where('year', null)
 												 ->delete();
 
-    if(isset($input['focusdevotee_id']))
+    if(isset($focus_devotee_id))
     {
       for($i = 0; $i < count($input['devotee_id']); $i++)
       {
         $list = [
-          "focusdevotee_id" => $input['focusdevotee_id'],
+          "focusdevotee_id" => $focus_devotee_id,
           "type" => $input['type'][$i],
           "xiaozai_id" => $input['hidden_xiaozai_id'][$i],
           "devotee_id" => $input['devotee_id'][$i],
@@ -617,315 +597,11 @@ class XiaozaiController extends Controller
       }
     }
 
-    $devotee = Devotee::find($input['focusdevotee_id']);
+    $devotee = Devotee::find($focus_devotee_id);
 
-    $xiaozai_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-                       						->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
-                       						->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-                       						->where('setting_xiaozai.address_code', '=', 'same')
-                       						->where('setting_xiaozai.xiaozai_id', '=', '1')
-                                  ->where('setting_xiaozai.year', null)
-                       						->where('setting_xiaozai.focusdevotee_id', '=', $input['focusdevotee_id'])
-                       						->where('setting_xiaozai.devotee_id', '=', $input['focusdevotee_id'])
-                       						->select('devotee.*', 'familycode.familycode', 'member.paytill_date','setting_xiaozai.xiaozai_id',
-                                    'setting_xiaozai.type')
-                       						->get();
-
-    $oa_count = 1;
-		$ov_count = 1;
-
-		for($i = 0; $i < count($xiaozai_same_focusdevotee); $i++)
-		{
-			if($xiaozai_same_focusdevotee[$i]['type'] == 'car' || $xiaozai_same_focusdevotee[$i]['type'] == 'ship')
-			{
-				$result = OptionalVehicle::where('devotee_id', $xiaozai_same_focusdevotee[$i]->devotee_id)
-									->where('type', $xiaozai_same_focusdevotee[$i]['type'])
-									->pluck('data');
-
-				$xiaozai_same_focusdevotee[$i]['ops'] = "OV#" . $ov_count;
-				$xiaozai_same_focusdevotee[$i]['item_description'] = $result[0];
-
-				$ov_count++;
-			}
-
-			elseif($xiaozai_same_focusdevotee[$i]['type'] == 'home' || $xiaozai_same_focusdevotee[$i]['type'] == 'company'
-						|| $xiaozai_same_focusdevotee[$i]['type'] == 'stall' || $xiaozai_same_focusdevotee[$i]['type'] == 'office')
-			{
-				$result = OptionalAddress::where('devotee_id', $xiaozai_same_focusdevotee[$i]->devotee_id)
-									->where('type', $xiaozai_same_focusdevotee[$i]['type'])
-									->get();
-
-				if(isset($result[0]->address_translated))
-				{
-					$xiaozai_same_focusdevotee[$i]['ops'] = "OA#" . $oa_count;
-					$xiaozai_same_focusdevotee[$i]['item_description'] = $result[0]->address_translated;
-				}
-				else
-				{
-					$xiaozai_same_focusdevotee[$i]['ops'] = "OA#" . $oa_count;
-					$xiaozai_same_focusdevotee[$i]['item_description'] = $result[0]->oversea_address;
-				}
-
-				$oa_count++;
-			}
-
-			else
-			{
-				$result = Devotee::find($xiaozai_same_focusdevotee[$i]->devotee_id);
-
-				if(isset($result->oversea_addr_in_chinese))
-				{
-					$xiaozai_same_focusdevotee[$i]['item_description'] = $result->oversea_addr_in_chinese;
-					$xiaozai_same_focusdevotee[$i]->ops = "";
-				}
-				elseif (isset($result->address_unit1) && isset($result->address_unit2))
-				{
-					$xiaozai_same_focusdevotee[$i]['item_description'] = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																																			$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_same_focusdevotee[$i]->ops = "";
-				}
-
-				else
-				{
-					$xiaozai_same_focusdevotee[$i]['item_description'] = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_same_focusdevotee[$i]->ops = "";
-				}
-			}
-		}
-
-    $xiaozai_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-													 ->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
-											 		 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-													 ->where('devotee.familycode_id', $devotee->familycode_id)
-													 ->where('devotee.devotee_id', '!=', $input['focusdevotee_id'])
-													 ->where('setting_xiaozai.focusdevotee_id', '=', $input['focusdevotee_id'])
-													 ->where('setting_xiaozai.address_code', '=', 'same')
-													 ->where('setting_xiaozai.xiaozai_id', '=', '1')
-                           ->where('setting_xiaozai.year', null)
-													 ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'setting_xiaozai.xiaozai_id',
-                             'setting_xiaozai.type')
-													 ->get();
-
-    $oa_count = 1;
-		$ov_count = 1;
-
-
-
-		for($i = 0; $i < count($xiaozai_same_family); $i++)
-		{
-			if($xiaozai_same_family[$i]->type == 'car' || $xiaozai_same_family[$i]->type == 'ship')
-			{
-        // dd($xiaozai_same_family->toArray());
-				$result = OptionalVehicle::where('devotee_id', $xiaozai_same_family[$i]->devotee_id)
-									->where('type', $xiaozai_same_family[$i]->type)
-									->pluck('data');
-
-				$xiaozai_same_family[$i]->ops = "OV#" . $ov_count;
-
-        if(isset($result[0]))
-				    $xiaozai_same_family[$i]->item_description = $result[0];
-
-				$ov_count++;
-			}
-
-			elseif($xiaozai_same_family[$i]->type == 'home' || $xiaozai_same_family[$i]->type == 'company'
-						|| $xiaozai_same_family[$i]->type == 'stall' || $xiaozai_same_family[$i]->type == 'office')
-			{
-				$result = OptionalAddress::where('devotee_id', $xiaozai_same_family[$i]->devotee_id)
-									->where('type', $xiaozai_same_family[$i]->type)
-									->get();
-
-				if(isset($result[0]->address_translated))
-				{
-					$xiaozai_same_family[$i]->ops = "OA#" . $oa_count;
-					$xiaozai_same_family[$i]->item_description = $result[0]->address_translated;
-
-          $oa_count++;
-				}
-				else
-				{
-					$xiaozai_same_family[$i]->ops = "OA#" . $oa_count;
-					$xiaozai_same_family[$i]->item_description = $result[0]->oversea_address;
-
-          $oa_count++;
-				}
-			}
-
-			else
-			{
-				$result = Devotee::find($xiaozai_same_family[$i]->devotee_id);
-
-				if(isset($result->oversea_addr_in_chinese))
-				{
-					$xiaozai_same_family[$i]->item_description = $result->oversea_addr_in_chinese;
-					$xiaozai_same_family[$i]->ops = "";
-				}
-				elseif (isset($result->address_unit1) && isset($result->address_unit2))
-				{
-					$xiaozai_same_family[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																																			$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_same_family[$i]->ops = "";
-				}
-
-				else
-				{
-					$xiaozai_same_family[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_same_family[$i]->ops = "";
-				}
-			}
-		}
-
-    $xiaozai_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-                            ->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
-                            ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-                            ->where('devotee.familycode_id', $devotee->familycode_id)
-                            ->where('devotee.devotee_id', $input['focusdevotee_id'])
-                            ->where('setting_xiaozai.year', null)
-                            ->where('setting_xiaozai.focusdevotee_id', $input['focusdevotee_id'])
-                            ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'setting_xiaozai.xiaozai_id',
-                              'setting_xiaozai.type')
-                            ->get();
-
-    $oa_count = 1;
-		$ov_count = 1;
-
-		for($i = 0; $i < count($xiaozai_focusdevotee); $i++)
-		{
-			if($xiaozai_focusdevotee[$i]->type == 'car' || $xiaozai_focusdevotee[$i]->type == 'ship')
-			{
-				$result = OptionalVehicle::where('devotee_id', $xiaozai_focusdevotee[$i]->devotee_id)
-									->where('type', $xiaozai_focusdevotee[$i]->type)
-									->pluck('data');
-
-				$xiaozai_focusdevotee[$i]->ops = "OV#" . $ov_count;
-				$xiaozai_focusdevotee[$i]->item_description = $result[0];
-
-				$ov_count++;
-			}
-
-			elseif($xiaozai_focusdevotee[$i]->type == 'home' || $xiaozai_focusdevotee[$i]->type == 'company'
-						|| $xiaozai_focusdevotee[$i]->type == 'stall' || $xiaozai_focusdevotee[$i]->type == 'office')
-			{
-				$result = OptionalAddress::where('devotee_id', $xiaozai_focusdevotee[$i]->devotee_id)
-									->where('type', $xiaozai_focusdevotee[$i]->type)
-									->get();
-
-				if(isset($result[0]->address_translated))
-				{
-					$xiaozai_focusdevotee[$i]->ops = "OA#" . $oa_count;
-					$xiaozai_focusdevotee[$i]->item_description = $result[0]->address_translated;
-				}
-				else
-				{
-					$xiaozai_focusdevotee[$i]->ops = "OA#" . $oa_count;
-					$xiaozai_focusdevotee[$i]->item_description = $result[0]->oversea_address;
-				}
-
-				$oa_count++;
-			}
-
-			else
-			{
-				$result = Devotee::find($xiaozai_focusdevotee[$i]->devotee_id);
-
-				if(isset($result->oversea_addr_in_chinese))
-				{
-					$xiaozai_focusdevotee[$i]->item_description = $result->oversea_addr_in_chinese;
-					$xiaozai_focusdevotee[$i]->ops = "";
-				}
-				elseif (isset($result->address_unit1) && isset($result->address_unit2))
-				{
-					$xiaozai_focusdevotee[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																																			$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_focusdevotee[$i]->ops = "";
-				}
-
-				else
-				{
-					$xiaozai_focusdevotee[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_focusdevotee[$i]->ops = "";
-				}
-			}
-		}
-
-    $xiaozai_setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-                                  ->leftjoin('setting_xiaozai', 'setting_xiaozai.devotee_id', '=', 'devotee.devotee_id')
-                                  ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-                                  ->where('devotee.devotee_id', '!=', $input['focusdevotee_id'])
-                                  ->where('devotee.familycode_id', $devotee->familycode_id)
-                                  ->where('setting_xiaozai.focusdevotee_id', '=', $input['focusdevotee_id'])
-                                  ->where('setting_xiaozai.address_code', '=', 'same')
-                                  ->select('devotee.*', 'member.paytill_date', 'familycode.familycode', 'setting_xiaozai.xiaozai_id', 'setting_xiaozai.type')
-                                  ->get();
-
-    $oa_count = 1;
-		$ov_count = 1;
-
-		for($i = 0; $i < count($xiaozai_setting_samefamily); $i++)
-		{
-			if($xiaozai_setting_samefamily[$i]->type == 'car' || $xiaozai_setting_samefamily[$i]->type == 'ship')
-			{
-				$result = OptionalVehicle::where('devotee_id', $xiaozai_setting_samefamily[$i]->devotee_id)
-									->where('type', $xiaozai_setting_samefamily[$i]->type)
-									->pluck('data');
-
-				$xiaozai_setting_samefamily[$i]->ops = "OV#" . $ov_count;
-
-        if(isset($result[0]))
-				    $xiaozai_setting_samefamily[$i]->item_description = $result[0];
-
-				$ov_count++;
-			}
-
-			elseif($xiaozai_setting_samefamily[$i]->type == 'home' || $xiaozai_setting_samefamily[$i]->type == 'company'
-						|| $xiaozai_setting_samefamily[$i]->type == 'stall' || $xiaozai_setting_samefamily[$i]->type == 'office')
-			{
-				$result = OptionalAddress::where('devotee_id', $xiaozai_setting_samefamily[$i]->devotee_id)
-									->where('type', $xiaozai_setting_samefamily[$i]->type)
-									->get();
-
-				if(isset($result[0]->address_translated))
-				{
-					$xiaozai_setting_samefamily[$i]->ops = "OA#" . $oa_count;
-					$xiaozai_setting_samefamily[$i]->item_description = $result[0]->address_translated;
-				}
-				else
-				{
-					$xiaozai_setting_samefamily[$i]->ops = "OA#" . $oa_count;
-					$xiaozai_setting_samefamily[$i]->item_description = $result[0]->oversea_address;
-				}
-
-				$oa_count++;
-			}
-
-			else
-			{
-				$result = Devotee::find($xiaozai_setting_samefamily[$i]->devotee_id);
-
-				if(isset($result->oversea_addr_in_chinese))
-				{
-					$xiaozai_setting_samefamily[$i]->item_description = $result->oversea_addr_in_chinese;
-					$xiaozai_setting_samefamily[$i]->ops = "";
-				}
-				elseif (isset($result->address_unit1) && isset($result->address_unit2))
-				{
-					$xiaozai_setting_samefamily[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																																			$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_setting_samefamily[$i]->ops = "";
-				}
-
-				else
-				{
-					$xiaozai_setting_samefamily[$i]['item_description'] = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_setting_samefamily[$i]->ops = "";
-				}
-			}
-		}
-
-    Session::put('xiaozai_setting_samefamily', $xiaozai_setting_samefamily);
-    Session::put('xiaozai_focusdevotee', $xiaozai_focusdevotee);
-    Session::put('xiaozai_same_focusdevotee', $xiaozai_same_focusdevotee);
-    Session::put('xiaozai_same_family', $xiaozai_same_family);
+    XiaozaiController::updateSameFocusDevotee();
+    XiaozaiController::updateFocusDevotee();
+    XiaozaiController::updateSettingSameFamily();
 
     $request->session()->flash('success', 'Setting for same address is successfully created.');
 		return redirect()->back();
@@ -933,11 +609,10 @@ class XiaozaiController extends Controller
 
   public function postXiaozaiDifferentFamilySetting(Request $request)
   {
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $input = array_except($request->all(), '_token');
 
-    // dd($input);
-
-    SettingXiaozai::where('focusdevotee_id', $input['focusdevotee_id'])
+    SettingXiaozai::where('focusdevotee_id', $focus_devotee_id)
 												 ->where('address_code', 'different')
                          ->where('year', null)
 												 ->delete();
@@ -947,7 +622,7 @@ class XiaozaiController extends Controller
 			for($i = 0; $i < count($input['devotee_id']); $i++)
 			{
 				$list = [
-					"focusdevotee_id" => $input['focusdevotee_id'],
+					"focusdevotee_id" => $focus_devotee_id,
           "type" => $input['type'][$i],
 	        "xiaozai_id" => $input['hidden_xiaozai_id'][$i],
 					"devotee_id" => $input['devotee_id'][$i],
@@ -959,165 +634,10 @@ class XiaozaiController extends Controller
 			}
 		}
 
-    $devotee = Devotee::find($input['focusdevotee_id']);
+    $devotee = Devotee::find($focus_devotee_id);
 
-    $xiaozai_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-																->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
-																->where('setting_xiaozai.address_code', '=', 'different')
-																->where('setting_xiaozai.xiaozai_id', '=', '1')
-																->where('setting_xiaozai.focusdevotee_id', '=', $input['focusdevotee_id'])
-                                ->where('year', null)
-																->select('devotee.*', 'familycode.familycode', 'setting_xiaozai.type')
-																->get();
-
-    $oa_count = 1;
-    $ov_count = 1;
-
-    for($i = 0; $i < count($xiaozai_different_family); $i++)
-		{
-			if($xiaozai_different_family[$i]['type'] == 'car' || $xiaozai_different_family[$i]['type'] == 'ship')
-			{
-				$result = OptionalVehicle::where('devotee_id', $xiaozai_different_family[0]->devotee_id)
-									->where('type', $xiaozai_different_family[$i]['type'])
-									->pluck('data');
-
-				$xiaozai_different_family[$i]['item_description'] = $result[0];
-        $xiaozai_different_family[$i]['ops'] = "OV#" . $ov_count;
-
-        $ov_count++;
-			}
-
-			elseif($xiaozai_different_family[$i]['type'] == 'home' || $xiaozai_different_family[$i]['type'] == 'company'
-						|| $xiaozai_different_family[$i]['type'] == 'stall' || $xiaozai_different_family[$i]['type'] == 'office')
-			{
-				$result = OptionalAddress::where('devotee_id', $xiaozai_different_family[$i]['devotee_id'])
-									->where('type', $xiaozai_different_family[$i]['type'])
-									->get();
-
-				if(isset($result[0]->address_translated))
-				{
-					$xiaozai_different_family[$i]['item_description'] = $result[0]->address_translated;
-          $xiaozai_different_family[$i]['ops'] = "OA#" . $oa_count;
-				}
-				else
-				{
-					$xiaozai_different_family[$i]['item_description'] = $result[0]->oversea_address;
-          $xiaozai_different_family[$i]['ops'] = "OA#" . $oa_count;
-				}
-
-        $oa_count++;
-			}
-
-			else
-			{
-				$result = Devotee::find($input['focusdevotee_id']);
-
-				if(isset($result->oversea_addr_in_chinese))
-				{
-					$xiaozai_different_family[$i]['item_description'] = $result[0]->oversea_addr_in_chinese;
-          $xiaozai_different_family[$i]['ops'] = "OA#" . $ops_count;
-				}
-				elseif (isset($result->address_unit1) && isset($result->address_unit2))
-				{
-					$xiaozai_different_family[$i]['item_description'] = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																															 $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
-				}
-
-				else
-				{
-					$xiaozai_different_family[$i]['item_description'] = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
-				}
-			}
-		}
-
-    for($i = 0; $i < count($xiaozai_different_family); $i++)
-    {
-      if(isset($xiaozai_different_family[$i]->lasttransaction_at))
-  		{
-  			$xiaozai_different_family[$i]->lasttransaction_at = \Carbon\Carbon::parse($xiaozai_different_family[$i]->lasttransaction_at)->format("d/m/Y");
-  		}
-
-  		if(isset($xiaozai_different_family[$i]->paytill_date))
-  		{
-  			$xiaozai_different_family[$i]->paytill_date = \Carbon\Carbon::parse($xiaozai_different_family[$i]->paytill_date)->format("d/m/Y");
-  		}
-    }
-
-    $xiaozai_setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-        															 ->leftjoin('setting_xiaozai', 'setting_xiaozai.devotee_id', '=', 'devotee.devotee_id')
-        															 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-        															 ->where('setting_xiaozai.focusdevotee_id', '=', $input['focusdevotee_id'])
-        															 ->where('setting_xiaozai.address_code', '=', 'different')
-                                       ->where('year', null)
-        															 ->select('devotee.*', 'member.paytill_date', 'familycode.familycode',
-        															 'setting_xiaozai.type', 'setting_xiaozai.xiaozai_id')
-        															 ->get();
-
-    $different_oa_count = 1;
-    $different_ov_count = 1;
-
-    for($i = 0; $i < count($xiaozai_setting_differentfamily); $i++)
-		{
-			if($xiaozai_setting_differentfamily[$i]['type'] == 'car' || $xiaozai_setting_differentfamily[$i]['type'] == 'ship')
-			{
-				$result = OptionalVehicle::where('devotee_id', $xiaozai_setting_differentfamily[0]->devotee_id)
-									->where('type', $xiaozai_setting_differentfamily[$i]['type'])
-									->pluck('data');
-
-				$xiaozai_setting_differentfamily[$i]['item_description'] = $result[0];
-        $xiaozai_setting_differentfamily[$i]['ops'] = "OV#" . $different_ov_count;
-
-        $different_ov_count++;
-			}
-
-			elseif($xiaozai_setting_differentfamily[$i]['type'] == 'home' || $xiaozai_setting_differentfamily[$i]['type'] == 'company'
-						|| $xiaozai_setting_differentfamily[$i]['type'] == 'stall' || $xiaozai_setting_differentfamily[$i]['type'] == 'office')
-			{
-				$result = OptionalAddress::where('devotee_id', $xiaozai_setting_differentfamily[$i]['devotee_id'])
-									->where('type', $xiaozai_setting_differentfamily[$i]['type'])
-									->get();
-
-				if(isset($result[0]->address_translated))
-				{
-					$xiaozai_setting_differentfamily[$i]['item_description'] = $result[0]->address_translated;
-          $xiaozai_setting_differentfamily[$i]['ops'] = "OA#" . $different_oa_count;
-				}
-				else
-				{
-					$xiaozai_setting_differentfamily[$i]['item_description'] = $result[0]->oversea_address;
-          $xiaozai_setting_differentfamily[$i]['ops'] = "OA#" . $different_oa_count;
-				}
-
-        $oa_count++;
-			}
-
-			else
-			{
-				$result = Devotee::find($input['focusdevotee_id']);
-
-				if(isset($result->oversea_addr_in_chinese))
-				{
-					$xiaozai_setting_differentfamily[$i]['item_description'] = $result[0]->oversea_addr_in_chinese;
-          $xiaozai_setting_differentfamily[$i]['ops'] = "";
-				}
-				elseif (isset($result->address_unit1) && isset($result->address_unit2))
-				{
-					$xiaozai_setting_differentfamily[$i]['item_description'] = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																															 $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
-
-          $xiaozai_setting_differentfamily[$i]['ops'] = "";
-				}
-
-				else
-				{
-					$xiaozai_setting_differentfamily[$i]['item_description'] = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
-          $xiaozai_setting_differentfamily[$i]['ops'] = "";
-				}
-			}
-		}
-
-    Session::put('xiaozai_different_family', $xiaozai_different_family);
-		Session::put('xiaozai_setting_differentfamily', $xiaozai_setting_differentfamily);
+    XiaozaiController::updateDifferentFamily();
+    XiaozaiController::updateSettingDifferentFamily();
 
     $request->session()->flash('success', 'Setting for different address is successfully created.');
 		return redirect()->back();
@@ -1125,6 +645,7 @@ class XiaozaiController extends Controller
 
   public function getTransactionDetail(Request $request)
   {
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $input = array_except($request->all(), '_token');
 
     if(isset($input['trans_no']))
@@ -1412,6 +933,7 @@ class XiaozaiController extends Controller
 
   public function ReprintDetail(Request $request)
   {
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $input = array_except($request->all(), '_token');
 
 		$total_amount = 0;
@@ -1565,6 +1087,7 @@ class XiaozaiController extends Controller
 
   public function postCancelTransaction(Request $request)
   {
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $input = array_except($request->all(), '_token');
 
     if(isset($input['authorized_password']))
@@ -1631,6 +1154,7 @@ class XiaozaiController extends Controller
 
   public function postCancelReplaceTransaction(Request $request)
   {
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $input = array_except($request->all(), '_token');
 		$focusdevotee_id = "";
 
@@ -1715,4 +1239,779 @@ class XiaozaiController extends Controller
 			}
 		}
   }
+
+  public static function forgetSession(){
+    if(Session::has('xiaozai_focusdevotee')) { Session::forget('xiaozai_focusdevotee'); }
+    if(Session::has('xiaozai_same_focusdevotee')) { Session::forget('xiaozai_same_focusdevotee'); }
+    if(Session::has('xiaozai_same_family')) { Session::forget('xiaozai_same_family'); }
+    if(Session::has('xiaozai_different_family')) { Session::forget('xiaozai_different_family'); }
+    if(Session::has('xiaozai_receipts')) { Session::forget('xiaozai_receipts'); }
+    if(Session::has('xiaozai_setting_samefamily')) { Session::forget('xiaozai_setting_samefamily'); }
+    if(Session::has('xiaozai_setting_differentfamily')) { Session::forget('xiaozai_setting_differentfamily'); }
+  }
+
+  // update session xiaozai_focusdevotee
+  public static function updateFocusDevotee(){
+    if(Session::has('xiaozai_focusdevotee')) { Session::forget('xiaozai_focusdevotee'); }
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+    $setting_xiaozai = SettingXiaozai::where('focusdevotee_id', $focus_devotee_id)
+                       ->where('devotee_id', $focus_devotee_id)
+                       ->get();
+
+    $xiaozai_focusdevotee_collection = collect();
+
+		if(count($setting_xiaozai) > 0)
+		{
+			$xiaozai_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+															->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
+															->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+															->where('devotee.devotee_id', $focus_devotee_id)
+															->where('setting_xiaozai.focusdevotee_id', $focus_devotee_id)
+															->where('setting_xiaozai.year', null)
+															->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'setting_xiaozai.xiaozai_id',
+																'setting_xiaozai.type')
+															->get();
+
+			$xiaozai_focusdevotee[0]->ops = "";
+
+			$oa_count = 1;
+	    $ov_count = 1;
+
+	    for($i = 0; $i < count($xiaozai_focusdevotee); $i++)
+			{
+				if($xiaozai_focusdevotee[$i]->type == 'car' || $xiaozai_focusdevotee[$i]->type == 'ship')
+				{
+					$result = OptionalVehicle::where('devotee_id', $focus_devotee_id)
+										->where('type', $xiaozai_focusdevotee[$i]->type)
+										->pluck('data');
+
+					$xiaozai_focusdevotee[$i]->item_description = $result[0];
+	        $xiaozai_focusdevotee[$i]->ops = "OV#" . $ov_count;
+
+	        $ov_count++;
+				}
+
+				elseif($xiaozai_focusdevotee[$i]->type == 'home' || $xiaozai_focusdevotee[$i]->type == 'company'
+							|| $xiaozai_focusdevotee[$i]->type == 'stall' || $xiaozai_focusdevotee[$i]->type == 'office')
+				{
+					$result = OptionalAddress::where('devotee_id', $focus_devotee_id)
+										->where('type', $xiaozai_focusdevotee[$i]->type)
+										->get();
+
+					if(isset($result[0]->address_translated))
+					{
+						$xiaozai_focusdevotee[$i]->item_description = $result[0]->address_translated;
+	          $xiaozai_focusdevotee[$i]->ops = "OA#" . $oa_count;
+					}
+					else
+					{
+						$xiaozai_focusdevotee[$i]->item_description = $result[0]->oversea_address;
+	          $xiaozai_focusdevotee[$i]->ops = "OA#" . $oa_count;
+					}
+
+	        $oa_count++;
+				}
+
+				else
+				{
+					$result = Devotee::find($focus_devotee_id);
+
+					if(isset($result->oversea_addr_in_chinese))
+					{
+						$xiaozai_focusdevotee[$i]->item_description = $result->oversea_addr_in_chinese;
+					}
+					elseif (isset($result->address_unit1) && isset($result->address_unit2))
+					{
+						$xiaozai_focusdevotee[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+																												 	$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
+					}
+
+					else
+					{
+						$xiaozai_focusdevotee[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+					}
+				}
+			}
+		}
+
+		else
+		{
+			$xiaozai_focusdevotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+															->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
+															->select('devotee.*', 'member.paytill_date', 'familycode.familycode')
+															->where('devotee.devotee_id', $focus_devotee_id)
+															->get();
+
+			$xiaozai_focusdevotee[0]->type = "sameaddress";
+	    $xiaozai_focusdevotee[0]->ops = "";
+
+			$xiaozai_focusdevotee_collection = $xiaozai_focusdevotee_collection->merge($xiaozai_focusdevotee);
+
+			$optionaladdress_devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+	                							 ->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
+	                               ->leftjoin('optionaladdress', 'devotee.devotee_id', '=', 'optionaladdress.devotee_id')
+	                							 ->select('devotee.*', 'member.paytill_date', 'familycode.familycode', 'optionaladdress.type')
+	                							 ->where('devotee.devotee_id', $focus_devotee_id)
+	                							 ->get();
+
+	    $optionalvehicle_devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+	                							 ->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
+	                               ->leftjoin('optionalvehicle', 'devotee.devotee_id', '=', 'optionalvehicle.devotee_id')
+	                							 ->select('devotee.*', 'member.paytill_date', 'familycode.familycode', 'optionalvehicle.type')
+	                							 ->where('devotee.devotee_id', $focus_devotee_id)
+	                							 ->get();
+
+			if(isset($optionaladdress_devotee[0]->type))
+			{
+				$xiaozai_focusdevotee_collection = $xiaozai_focusdevotee_collection->merge($optionaladdress_devotee);
+			}
+
+			if(isset($optionalvehicle_devotee[0]->type))
+			{
+				$xiaozai_focusdevotee_collection = $xiaozai_focusdevotee_collection->merge($optionalvehicle_devotee);
+			}
+
+			$oa_count = 1;
+	    $ov_count = 1;
+
+	    for($i = 0; $i < count($xiaozai_focusdevotee_collection); $i++)
+			{
+				if($xiaozai_focusdevotee_collection[$i]->type == 'car' || $xiaozai_focusdevotee_collection[$i]->type == 'ship')
+				{
+					$result = OptionalVehicle::where('devotee_id', $xiaozai_focusdevotee_collection[$i]->devotee_id)
+										->where('type', $xiaozai_focusdevotee_collection[$i]->type)
+										->pluck('data');
+
+	        $xiaozai_focusdevotee_collection[$i]->ops = "OV#" . $ov_count;
+					$xiaozai_focusdevotee_collection[$i]->item_description = $result[0];
+					$xiaozai_focusdevotee_collection[$i]->xiaozai_id = 0;
+
+	        $ov_count++;
+				}
+
+				elseif($xiaozai_focusdevotee_collection[$i]->type == 'home' || $xiaozai_focusdevotee_collection[$i]->type == 'company'
+							|| $xiaozai_focusdevotee_collection[$i]->type == 'stall' || $xiaozai_focusdevotee_collection[$i]->type == 'office')
+				{
+					$result = OptionalAddress::where('devotee_id', $focus_devotee_id)
+										->where('type', $xiaozai_focusdevotee_collection[$i]->type)
+										->get();
+
+					if(isset($result[0]->address_translated))
+					{
+	          $xiaozai_focusdevotee_collection[$i]->ops = "OA#" . $oa_count;
+						$xiaozai_focusdevotee_collection[$i]->item_description = $result[0]->address_translated;
+						$xiaozai_focusdevotee_collection[$i]->xiaozai_id = 0;
+					}
+					else
+					{
+	          $xiaozai_focusdevotee_collection[$i]->ops = "OA#" . $oa_count;
+						$xiaozai_focusdevotee_collection[$i]->item_description = $result[0]->oversea_address;
+						$xiaozai_focusdevotee_collection[$i]->xiaozai_id = 0;
+					}
+
+	        $oa_count++;
+				}
+
+				else
+				{
+					$result = Devotee::find($focus_devotee_id);
+
+					if(isset($result->oversea_addr_in_chinese))
+					{
+						$xiaozai_focusdevotee_collection[$i]->item_description = $result->oversea_addr_in_chinese;
+						$xiaozai_focusdevotee_collection[$i]->xiaozai_id = 0;
+					}
+					elseif (isset($result->address_unit1) && isset($result->address_unit2))
+					{
+						$xiaozai_focusdevotee_collection[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+																																 				$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
+					 	$xiaozai_focusdevotee_collection[$i]->xiaozai_id = 0;
+					}
+
+					else
+					{
+						$xiaozai_focusdevotee_collection[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+						$xiaozai_focusdevotee_collection[$i]->xiaozai_id = 0;
+					}
+				}
+			}
+
+			$xiaozai_focusdevotee = $xiaozai_focusdevotee_collection;
+		}
+
+    Session::put('xiaozai_focusdevotee', $xiaozai_focusdevotee);
+  }
+
+  // update session xiaozai_same_focusdevotee
+  public static function updateSameFocusDevotee(){
+
+    if(Session::has('xiaozai_same_focusdevotee')) { Session::forget('xiaozai_same_focusdevotee'); }
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+
+    $xiaozai_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                                 ->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
+                                 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                                 ->where('setting_xiaozai.address_code', '=', 'same')
+                                 ->where('setting_xiaozai.xiaozai_id', '=', '1')
+                                 ->where('setting_xiaozai.focusdevotee_id', '=', $focus_devotee_id)
+                                 ->where('setting_xiaozai.devotee_id', '=', $focus_devotee_id)
+                                 ->where('setting_xiaozai.year', null)
+                                 ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'setting_xiaozai.type')
+                                 ->get();
+
+ 		for($i = 0; $i < count($xiaozai_same_focusdevotee); $i++)
+ 		{
+ 			if($xiaozai_same_focusdevotee[$i]->type == 'car' || $xiaozai_same_focusdevotee[$i]->type == 'ship')
+ 			{
+ 				$result = OptionalVehicle::where('devotee_id', $focus_devotee_id)
+ 									->where('type', $xiaozai_same_focusdevotee[$i]->type)
+ 									->pluck('data');
+
+ 				$xiaozai_same_focusdevotee[$i]->item_description = $result[0];
+ 			}
+
+ 			elseif($xiaozai_same_focusdevotee[$i]->type == 'home' || $xiaozai_same_focusdevotee[$i]->type == 'company'
+ 						|| $xiaozai_same_focusdevotee[$i]->type == 'stall' || $xiaozai_same_focusdevotee[$i]->type == 'office')
+ 			{
+ 				$result = OptionalAddress::where('devotee_id', $focus_devotee_id)
+ 									->where('type', $xiaozai_same_focusdevotee[$i]->type)
+ 									->get();
+
+ 				if(isset($result[0]->address_translated))
+ 				{
+ 					$xiaozai_same_focusdevotee[$i]->item_description = $result[0]->address_translated;
+ 				}
+ 				else
+ 				{
+ 					$xiaozai_same_focusdevotee[$i]->item_description = $result[0]->oversea_address;
+ 				}
+ 			}
+
+ 			else
+ 			{
+ 				$result = Devotee::find($focus_devotee_id);
+
+ 				if(isset($result->oversea_addr_in_chinese))
+ 				{
+ 					$xiaozai_same_focusdevotee[$i]->item_description = $result->oversea_addr_in_chinese;
+ 				}
+ 				elseif (isset($result->address_unit1) && isset($result->address_unit2))
+ 				{
+ 					$xiaozai_same_focusdevotee[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+ 																															$result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
+ 				}
+
+ 				else
+ 				{
+ 					$xiaozai_same_focusdevotee[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+ 				}
+ 			}
+ 		}
+
+    for($i = 0; $i < count($xiaozai_same_focusdevotee); $i++)
+		{
+			$hasreceipt = XiaozaiReceipt::where('devotee_id', $xiaozai_same_focusdevotee[$i]->devotee_id)
+										->where('type', $xiaozai_same_focusdevotee[$i]->type)
+										->get();
+
+			if(count($hasreceipt) > 0)
+			{
+				$same_xy_receipt = XiaozaiReceipt::all()
+													 ->where('devotee_id', $xiaozai_same_focusdevotee[$i]->devotee_id)
+													 ->where('type', $xiaozai_same_focusdevotee[$i]->type)
+													 ->last()
+													 ->receipt_no;
+
+				$xiaozai_same_focusdevotee[$i]->receipt_no = $same_xy_receipt;
+			}
+
+			else {
+				$xiaozai_same_focusdevotee[$i]->receipt_no = "";
+			}
+		}
+
+    Session::put('xiaozai_same_focusdevotee', $xiaozai_same_focusdevotee);
+  }
+
+  // update session xiaozai_same_family
+  public static function updateSameFamily(){
+
+    if(Session::has('xiaozai_same_family')) { Session::forget('xiaozai_same_family'); }
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+    $familycode_id = session()->get('focus_devotee')[0]['familycode_id'];
+
+    $xiaozai_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                           ->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
+                           ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                           ->where('devotee.familycode_id', $familycode_id)
+                           ->where('devotee.devotee_id', '!=', $focus_devotee_id)
+                           ->where('setting_xiaozai.focusdevotee_id', '=', $focus_devotee_id)
+                           ->where('setting_xiaozai.address_code', '=', 'same')
+                           ->where('setting_xiaozai.xiaozai_id', '=', '1')
+                           ->where('setting_xiaozai.year', null)
+                           ->select('devotee.*', 'familycode.familycode', 'member.paytill_date', 'setting_xiaozai.xiaozai_id',
+                             'setting_xiaozai.type')
+                           ->get();
+
+    $oa_count = 1;
+    $ov_count = 1;
+
+    for($i = 0; $i < count($xiaozai_same_family); $i++)
+    {
+      if($xiaozai_same_family[$i]->type == 'car' || $xiaozai_same_family[$i]->type == 'ship')
+      {
+        $result = OptionalVehicle::where('devotee_id', $xiaozai_same_family[$i]->devotee_id)
+                  ->where('type', $xiaozai_same_family[$i]->type)
+                  ->pluck('data');
+
+        $xiaozai_same_family[$i]->ops = "OV#" . $ov_count;
+
+        if(isset($result[0]))
+        {
+          $xiaozai_same_family[$i]->item_description = $result[0];
+        }
+
+        $ov_count++;
+      }
+
+      elseif($xiaozai_same_family[$i]->type == 'home' || $xiaozai_same_family[$i]->type == 'company'
+            || $xiaozai_same_family[$i]->type == 'stall' || $xiaozai_same_family[$i]->type == 'office')
+      {
+        $result = OptionalAddress::where('devotee_id', $xiaozai_same_family[$i]->devotee_id)
+                  ->where('type', $xiaozai_same_family[$i]->type)
+                  ->get();
+
+        if(isset($result[0]->address_translated))
+        {
+          $xiaozai_same_family[$i]->ops = "OA#" . $oa_count;
+          $xiaozai_same_family[$i]->item_description = $result[0]->address_translated;
+
+          $oa_count++;
+        }
+        else
+        {
+          $xiaozai_same_family[$i]->ops = "OA#" . $oa_count;
+          $xiaozai_same_family[$i]->item_description = $result[0]->oversea_address;
+
+          $oa_count++;
+        }
+      }
+
+      else
+      {
+        $result = Devotee::find($xiaozai_same_family[$i]->devotee_id);
+
+        if(isset($result->oversea_addr_in_chinese))
+        {
+          $xiaozai_same_family[$i]->item_description = $result->oversea_addr_in_chinese;
+          $xiaozai_same_family[$i]->ops = "";
+        }
+        elseif (isset($result->address_unit1) && isset($result->address_unit2))
+        {
+          $xiaozai_same_family[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+                                                         $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
+          $xiaozai_same_family[$i]->ops = "";
+        }
+
+        else
+        {
+          $xiaozai_same_family[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+          $xiaozai_same_family[$i]->ops = "";
+        }
+      }
+    }
+
+    Session::put('xiaozai_same_family', $xiaozai_same_family);
+  }
+
+  // update session xiaozai_different_family
+  public static function updateDifferentFamily(){
+
+    if(Session::has('xiaozai_different_family')) { Session::forget('xiaozai_different_family'); }
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+
+    $xiaozai_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                                ->leftjoin('setting_xiaozai', 'devotee.devotee_id', '=', 'setting_xiaozai.devotee_id')
+                                ->where('setting_xiaozai.address_code', '=', 'different')
+                                ->where('setting_xiaozai.xiaozai_id', '=', '1')
+                                ->where('setting_xiaozai.focusdevotee_id', '=', $focus_devotee_id)
+                                ->where('year', null)
+                                ->select('devotee.*', 'familycode.familycode', 'setting_xiaozai.type')
+                                ->get();
+
+    $oa_count = 1;
+    $ov_count = 1;
+
+    for($i = 0; $i < count($xiaozai_different_family); $i++)
+    {
+      if($xiaozai_different_family[$i]->type == 'car' || $xiaozai_different_family[$i]->type == 'ship')
+      {
+        $result = OptionalVehicle::where('devotee_id', $xiaozai_different_family[$i]->devotee_id)
+                  ->where('type', $xiaozai_different_family[$i]->type)
+                  ->pluck('data');
+
+        $xiaozai_different_family[$i]->item_description = $result[0];
+        $xiaozai_different_family[$i]->ops = "OV#" . $ov_count;
+
+        $ov_count++;
+      }
+
+      elseif($xiaozai_different_family[$i]->type == 'home' || $xiaozai_different_family[$i]->type == 'company'
+            || $xiaozai_different_family[$i]->type == 'stall' || $xiaozai_different_family[$i]->type == 'office')
+      {
+        $result = OptionalAddress::where('devotee_id', $xiaozai_different_family[$i]->devotee_id)
+                  ->where('type', $xiaozai_different_family[$i]->type)
+                  ->get();
+
+        if(isset($result[0]->address_translated))
+        {
+          $xiaozai_different_family[$i]->item_description = $result[0]->address_translated;
+          $xiaozai_different_family[$i]->ops = "OA#" . $oa_count;
+        }
+        else
+        {
+          $xiaozai_different_family[$i]->item_description = $result[0]->oversea_address;
+          $xiaozai_different_family[$i]->ops = "OA#" . $oa_count;
+        }
+
+        $oa_count++;
+      }
+
+      else
+      {
+        $result = Devotee::find($focus_devotee_id);
+
+        if(isset($result->oversea_addr_in_chinese))
+        {
+          $xiaozai_different_family[$i]->item_description = $result[0]->oversea_addr_in_chinese;
+          $xiaozai_different_family[$i]->ops = "OA#" . $ops_count;
+        }
+        elseif (isset($result->address_unit1) && isset($result->address_unit2))
+        {
+          $xiaozai_different_family[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+                                                            $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
+        }
+
+        else
+        {
+          $xiaozai_different_family[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+        }
+      }
+    }
+
+    for($i = 0; $i < count($xiaozai_different_family); $i++)
+    {
+      $hasreceipt = XiaozaiReceipt::where('devotee_id', $xiaozai_different_family[$i]->devotee_id)
+                    ->where('type', $xiaozai_different_family[$i]->type)
+                    ->get();
+
+      if(count($hasreceipt) > 0)
+      {
+        $same_xy_receipt = XiaozaiReceipt::all()
+                           ->where('devotee_id', $xiaozai_different_family[$i]->devotee_id)
+                           ->where('type', $xiaozai_different_family[$i]->type)
+                           ->last()
+                           ->receipt_no;
+
+        $xiaozai_different_family[$i]->receipt_no = $same_xy_receipt;
+      }
+
+      else {
+        $xiaozai_different_family[$i]->receipt_no = "";
+      }
+    }
+
+    Session::put('xiaozai_different_family', $xiaozai_different_family);
+  }
+
+  // update session xiaozai_receipts
+  public static function updateXiaozaiReceipts(){
+
+    if(Session::has('xiaozai_receipts')) { Session::forget('xiaozai_receipts'); }
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+
+    $xiaozai_receipt_collection = collect();
+
+		$xiaozai_receipts = XiaozaiGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'xiaozai_generaldonation.focusdevotee_id')
+        								->leftjoin('xiaozai_receipt', 'xiaozai_receipt.generaldonation_id', '=', 'xiaozai_generaldonation.generaldonation_id')
+        								->where('xiaozai_generaldonation.focusdevotee_id', '=', $focus_devotee_id)
+        								->GroupBy('xiaozai_generaldonation.generaldonation_id')
+        								->whereIn('xiaozai_receipt.glcode_id', array(118, 120))
+        								->select('xiaozai_generaldonation.*', 'devotee.chinese_name', 'xiaozai_receipt.cancelled_date')
+        								->orderBy('xiaozai_generaldonation.generaldonation_id', 'desc')
+        								->get();
+
+		$paidby_otherxiaozai_receipts = XiaozaiReceipt::leftjoin('xiaozai_generaldonation', 'xiaozai_receipt.generaldonation_id', '=', 'xiaozai_generaldonation.generaldonation_id')
+																		->leftjoin('devotee', 'devotee.devotee_id', '=', 'xiaozai_generaldonation.focusdevotee_id')
+																		->where('xiaozai_receipt.devotee_id', $focus_devotee_id)
+																		->whereIn('xiaozai_receipt.glcode_id', array(118, 120))
+																		->where('xiaozai_generaldonation.focusdevotee_id', '!=', $focus_devotee_id)
+																		->select('xiaozai_generaldonation.*', 'devotee.chinese_name', 'xiaozai_receipt.cancelled_date', 'xiaozai_receipt.receipt_no')
+																		->get();
+
+    if(count($xiaozai_receipts) > 0)
+		{
+			for($i = 0; $i < count($xiaozai_receipts); $i++)
+			{
+				$data = XiaozaiReceipt::where('generaldonation_id', $xiaozai_receipts[$i]->generaldonation_id)->pluck('receipt_no');
+				$receipt_count = count($data);
+
+				if($receipt_count > 1)
+				{
+					$xiaozai_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+				}
+				else
+				{
+					$xiaozai_receipts[$i]->receipt_no = $data[0];
+				}
+			}
+		}
+
+		$xiaozai_receipt_collection = $xiaozai_receipt_collection->merge($xiaozai_receipts);
+		$xiaozai_receipt_collection = $xiaozai_receipt_collection->merge($paidby_otherxiaozai_receipts);
+
+		$xiaozai_receipts = $xiaozai_receipt_collection->sortByDesc('generaldonation_id');
+		$xiaozai_receipts->values()->all();
+
+    Session::put('xiaozai_receipts', $xiaozai_receipts);
+  }
+
+  // update session xiaozai_setting_samefamily
+  public static function updateSettingSameFamily(){
+
+    if(Session::has('xiaozai_setting_samefamily')) { Session::forget('xiaozai_setting_samefamily'); }
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+    $familycode_id = session()->get('focus_devotee')[0]['familycode_id'];
+
+    $xiaozai_setting_samefamily_collection = collect();
+    $xiaozai_result = SettingXiaozai::where('focusdevotee_id', $focus_devotee_id)->get();
+
+    if(count($xiaozai_result) > 0)
+    {
+      $xiaozai_setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                                    ->leftjoin('setting_xiaozai', 'setting_xiaozai.devotee_id', '=', 'devotee.devotee_id')
+                                    ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                                    ->where('devotee.devotee_id', '!=', $focus_devotee_id)
+                                    ->where('devotee.familycode_id', $familycode_id)
+                                    ->where('setting_xiaozai.focusdevotee_id', $focus_devotee_id)
+                                    ->where('setting_xiaozai.address_code', '=', 'same')
+                                    ->where('setting_xiaozai.year', null)
+                                    ->select('devotee.*', 'member.member', 'member.paytill_date', 'familycode.familycode', 'setting_xiaozai.xiaozai_id', 'setting_xiaozai.type')
+                                    ->get();
+
+      $xiaozai_nosetting_devotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                                   ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                                   ->where('devotee.familycode_id', $familycode_id)
+                                   ->where('devotee.devotee_id', '!=', $focus_devotee_id)
+                                   ->select('devotee.*', 'member.member', 'member.paytill_date', 'familycode.familycode')
+                                   ->get();
+
+      for($i = 0; $i < count($xiaozai_nosetting_devotee); $i++)
+      {
+        $xiaozai_nosetting_devotee[$i]->type = "sameaddress";
+      }
+
+      $xiaozai_setting_samefamily_collection = $xiaozai_setting_samefamily_collection->merge($xiaozai_nosetting_devotee);
+
+      $xiaozai_optionaladdress = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                                 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                                 ->leftjoin('optionaladdress', 'devotee.devotee_id', '=', 'optionaladdress.devotee_id')
+                                 ->where('devotee.familycode_id', $familycode_id)
+                                 ->where('devotee.devotee_id', '!=', $focus_devotee_id)
+                                 ->select('devotee.*', 'member.member', 'member.paytill_date', 'familycode.familycode', 'optionaladdress.type')
+                                 ->get();
+
+      $xiaozai_setting_samefamily_collection = $xiaozai_setting_samefamily_collection->merge($xiaozai_optionaladdress);
+
+      $xiaozai_optionalvehicle = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                                 ->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
+                                 ->leftjoin('optionalvehicle', 'devotee.devotee_id', '=', 'optionalvehicle.devotee_id')
+                                 ->select('devotee.*', 'member.member', 'member.paytill_date', 'familycode.familycode', 'optionalvehicle.type')
+                                 ->where('devotee.familycode_id', $familycode_id)
+                                 ->where('devotee.devotee_id', '!=', $focus_devotee_id)
+                                 ->get();
+
+      $xiaozai_setting_samefamily_collection = $xiaozai_setting_samefamily_collection->merge($xiaozai_optionalvehicle);
+      $xiaozai_setting_samefamily = $xiaozai_setting_samefamily_collection;
+
+      for($i = 0; $i < count($xiaozai_setting_samefamily); $i++)
+      {
+        $xiaozai_setting_samefamily[$i]->xiaozai_id = 0;
+      }
+    }
+
+    else
+    {
+      $xiaozai_setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                                    ->leftjoin('setting_xiaozai', 'setting_xiaozai.devotee_id', '=', 'devotee.devotee_id')
+                                    ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                                    ->where('devotee.devotee_id', '!=', $focus_devotee_id)
+                                    ->where('devotee.familycode_id', $familycode_id)
+                                    ->where('setting_xiaozai.focusdevotee_id', $focus_devotee_id)
+                                    ->where('setting_xiaozai.address_code', '=', 'same')
+                                    ->where('setting_xiaozai.year', null)
+                                    ->select('devotee.*', 'member.paytill_date', 'familycode.familycode', 'setting_xiaozai.xiaozai_id', 'setting_xiaozai.type')
+                                    ->get();
+    }
+
+    $oa_count = 1;
+    $ov_count = 1;
+
+    for($i = 0; $i < count($xiaozai_setting_samefamily); $i++)
+    {
+      if($xiaozai_setting_samefamily[$i]->type == 'car' || $xiaozai_setting_samefamily[$i]->type == 'ship')
+      {
+        $result = OptionalVehicle::where('devotee_id', $xiaozai_setting_samefamily[$i]->devotee_id)
+                  ->where('type', $xiaozai_setting_samefamily[$i]->type)
+                  ->pluck('data');
+
+        $xiaozai_setting_samefamily[$i]['ops'] = "OV#" . $ov_count;
+        $xiaozai_setting_samefamily[$i]['item_description'] = $result[0];
+
+        $ov_count++;
+      }
+
+      elseif($xiaozai_setting_samefamily[$i]->type == 'home' || $xiaozai_setting_samefamily[$i]->type == 'company'
+            || $xiaozai_setting_samefamily[$i]->type == 'stall' || $xiaozai_setting_samefamily[$i]->type == 'office')
+      {
+        $result = OptionalAddress::where('devotee_id', $xiaozai_setting_samefamily[$i]->devotee_id)
+                  ->where('type', $xiaozai_setting_samefamily[$i]->type)
+                  ->get();
+
+        if(isset($result[0]->address_translated))
+        {
+          $xiaozai_setting_samefamily[$i]->ops = "OA#" . $oa_count;
+          $xiaozai_setting_samefamily[$i]->item_description = $result[0]->address_translated;
+        }
+        else
+        {
+          $xiaozai_setting_samefamily[$i]->ops = "OA#" . $oa_count;
+          $xiaozai_setting_samefamily[$i]->item_description = $result[0]->oversea_address;
+        }
+
+        $oa_count++;
+      }
+
+      else
+      {
+        $result = Devotee::find($xiaozai_setting_samefamily[$i]->devotee_id);
+
+        if(isset($result->oversea_addr_in_chinese))
+        {
+          $xiaozai_setting_samefamily[$i]->item_description = $result->oversea_addr_in_chinese;
+        }
+        elseif (isset($result->address_unit1) && isset($result->address_unit2))
+        {
+          $xiaozai_setting_samefamily[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+                                                                $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
+        }
+
+        else
+        {
+          $xiaozai_setting_samefamily[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+        }
+
+        $xiaozai_setting_samefamily[$i]->ops = "";
+      }
+    }
+
+    $xiaozai_setting_samefamily = $xiaozai_setting_samefamily->sortBy('devotee_id');
+
+    // $xiaozai_setting_samefamily = $xiaozai_setting_samefamily->sortBy(['devotee_id', 'order']);
+    $xiaozai_setting_samefamily->values()->all();
+
+    // $xiaozai_setting_samefamily = $xiaozai_setting_samefamily->sort();
+    // $xiaozai_setting_samefamily->values()->all();
+    Session::put('xiaozai_setting_samefamily', $xiaozai_setting_samefamily);
+  }
+
+  // update session xiaozai_setting_differentfamily
+  public static function updateSettingDifferentFamily(){
+
+    if(Session::has('xiaozai_setting_differentfamily')) { Session::forget('xiaozai_setting_differentfamily'); }
+
+    $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+
+    $xiaozai_setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+                                       ->leftjoin('setting_xiaozai', 'setting_xiaozai.devotee_id', '=', 'devotee.devotee_id')
+                                       ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+                                       ->where('setting_xiaozai.focusdevotee_id', '=', $focus_devotee_id)
+                                       ->where('setting_xiaozai.address_code', '=', 'different')
+                                       ->where('year', null)
+                                       ->select('devotee.*', 'member.paytill_date', 'familycode.familycode',
+                                       'setting_xiaozai.type', 'setting_xiaozai.xiaozai_id')
+                                       ->get();
+
+    $different_oa_count = 1;
+    $different_ov_count = 1;
+
+    for($i = 0; $i < count($xiaozai_setting_differentfamily); $i++)
+    {
+      if($xiaozai_setting_differentfamily[$i]['type'] == 'car' || $xiaozai_setting_differentfamily[$i]['type'] == 'ship')
+      {
+        $result = OptionalVehicle::where('devotee_id', $xiaozai_setting_differentfamily[0]->devotee_id)
+                  ->where('type', $xiaozai_setting_differentfamily[$i]['type'])
+                  ->pluck('data');
+
+        $xiaozai_setting_differentfamily[$i]['item_description'] = $result[0];
+        $xiaozai_setting_differentfamily[$i]['ops'] = "OV#" . $different_ov_count;
+
+        $different_ov_count++;
+      }
+
+      elseif($xiaozai_setting_differentfamily[$i]['type'] == 'home' || $xiaozai_setting_differentfamily[$i]['type'] == 'company'
+            || $xiaozai_setting_differentfamily[$i]['type'] == 'stall' || $xiaozai_setting_differentfamily[$i]['type'] == 'office')
+      {
+        $result = OptionalAddress::where('devotee_id', $xiaozai_setting_differentfamily[$i]['devotee_id'])
+                  ->where('type', $xiaozai_setting_differentfamily[$i]['type'])
+                  ->get();
+
+        if(isset($result[0]->address_translated))
+        {
+          $xiaozai_setting_differentfamily[$i]['item_description'] = $result[0]->address_translated;
+          $xiaozai_setting_differentfamily[$i]['ops'] = "OA#" . $different_oa_count;
+        }
+        else
+        {
+          $xiaozai_setting_differentfamily[$i]['item_description'] = $result[0]->oversea_address;
+          $xiaozai_setting_differentfamily[$i]['ops'] = "OA#" . $different_oa_count;
+        }
+
+        $different_oa_count++;
+      }
+
+      else
+      {
+        $result = Devotee::find($focus_devotee_id);
+
+        if(isset($result->oversea_addr_in_chinese))
+        {
+          $xiaozai_setting_differentfamily[$i]['item_description'] = $result[0]->oversea_addr_in_chinese;
+          $xiaozai_setting_differentfamily[$i]['ops'] = "";
+        }
+        elseif (isset($result->address_unit1) && isset($result->address_unit2))
+        {
+          $xiaozai_setting_differentfamily[$i]['item_description'] = $result->address_houseno . "#" . $result->address_unit1 . '-' .
+                                                               $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
+
+          $xiaozai_setting_differentfamily[$i]['ops'] = "";
+        }
+
+        else
+        {
+          $xiaozai_setting_differentfamily[$i]['item_description'] = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
+          $xiaozai_setting_differentfamily[$i]['ops'] = "";
+        }
+      }
+    }
+
+      Session::put('xiaozai_setting_differentfamily', $xiaozai_setting_differentfamily);
+  }
+
 }

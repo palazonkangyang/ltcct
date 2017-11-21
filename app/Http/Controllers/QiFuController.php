@@ -968,9 +968,9 @@ class QiFuController extends Controller
     }
   }
 
-  public static function getFocusDevotee($para){
-    $setting_qifu = SettingQifu::where('focusdevotee_id', $para['focus_devotee_id'])
-                               ->where('devotee_id', $para['focus_devotee_id'])
+  public static function getFocusDevotee($param){
+    $setting_qifu = SettingQifu::where('focusdevotee_id', $param['focus_devotee_id'])
+                               ->where('devotee_id', $param['focus_devotee_id'])
                                ->get();
 
     if(count($setting_qifu) > 0)
@@ -979,8 +979,8 @@ class QiFuController extends Controller
                               ->leftjoin('setting_qifu', 'devotee.devotee_id', '=', 'setting_qifu.devotee_id')
                               ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
                               ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-                              ->where('devotee.devotee_id', $para['focus_devotee_id'])
-                              ->where('setting_qifu.focusdevotee_id', $para['focus_devotee_id'])
+                              ->where('devotee.devotee_id', $param['focus_devotee_id'])
+                              ->where('setting_qifu.focusdevotee_id', $param['focus_devotee_id'])
                               ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'setting_qifu.qifu_id')
                               ->GroupBy('devotee.devotee_id')
                               ->get();
@@ -991,7 +991,7 @@ class QiFuController extends Controller
       $focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
                               ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
                               ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-                              ->where('devotee.devotee_id', $para['focus_devotee_id'])
+                              ->where('devotee.devotee_id', $param['focus_devotee_id'])
                               ->select('devotee.*', 'familycode.familycode', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
                               ->get();
 
@@ -1001,27 +1001,27 @@ class QiFuController extends Controller
     return $focusdevotee;
   }
 
-  public static function getSameFocusDevotee($para){
+  public static function getSameFocusDevotee($param){
     $same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 																				->leftjoin('setting_qifu', 'devotee.devotee_id', '=', 'setting_qifu.devotee_id')
 																				->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 																				->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 																				->where('setting_qifu.address_code', '=', 'same')
 																				->where('setting_qifu.qifu_id', '=', '1')
-																				->where('setting_qifu.focusdevotee_id', '=', $para['focus_devotee_id'])
-																				->where('setting_qifu.devotee_id', '=', $para['focus_devotee_id'])
+																				->where('setting_qifu.focusdevotee_id', '=', $param['focus_devotee_id'])
+																				->where('setting_qifu.devotee_id', '=', $param['focus_devotee_id'])
 																				->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
 																				->GroupBy('devotee.devotee_id')
 																				->get();
     return $same_focusdevotee;
   }
 
-  public static function getSettingSameFamily($para){
+  public static function getSettingSameFamily($param){
     $setting_samefamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
                                   ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
                                   ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-                                  ->where('devotee.devotee_id', '!=', $para['focus_devotee_id'])
-                                  ->where('devotee.familycode_id', $para['familycode_id'])
+                                  ->where('devotee.devotee_id', '!=', $param['focus_devotee_id'])
+                                  ->where('devotee.familycode_id', $param['familycode_id'])
                                   ->select('devotee.*', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
                                   ->GroupBy('devotee.devotee_id')
                                   ->get();
@@ -1034,13 +1034,13 @@ class QiFuController extends Controller
     return $setting_samefamily;
   }
 
-  public static function getReceiptHistory($para){
+  public static function getReceiptHistory($param){
 
     $receipt_collection = collect();
 
     $receipts = qifuGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'qifu_generaldonation.focusdevotee_id')
                         ->leftjoin('qifu_receipt', 'qifu_receipt.generaldonation_id', '=', 'qifu_generaldonation.generaldonation_id')
-                        ->where('qifu_generaldonation.focusdevotee_id', '=', $para['devotee_id'])
+                        ->where('qifu_generaldonation.focusdevotee_id', '=', $param['devotee_id'])
                         ->where('qifu_receipt.glcode_id', 136)
                         ->GroupBy('qifu_generaldonation.generaldonation_id')
                         ->select('qifu_generaldonation.*', 'devotee.chinese_name', 'qifu_receipt.cancelled_date')
@@ -1049,9 +1049,9 @@ class QiFuController extends Controller
 
     $paidby_other_receipts = qifuReceipt::leftjoin('qifu_generaldonation', 'qifu_receipt.generaldonation_id', '=', 'qifu_generaldonation.generaldonation_id')
                                     ->leftjoin('devotee', 'devotee.devotee_id', '=', 'qifu_generaldonation.focusdevotee_id')
-                                    ->where('qifu_receipt.devotee_id', $para['devotee_id'])
+                                    ->where('qifu_receipt.devotee_id', $param['devotee_id'])
                                     ->where('qifu_receipt.glcode_id', 136)
-                                    ->where('qifu_generaldonation.focusdevotee_id', '!=', $para['devotee_id'])
+                                    ->where('qifu_generaldonation.focusdevotee_id', '!=', $param['devotee_id'])
                                     ->select('qifu_generaldonation.*', 'devotee.chinese_name', 'qifu_receipt.cancelled_date', 'qifu_receipt.receipt_no')
                                     ->get();
 
