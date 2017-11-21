@@ -520,7 +520,7 @@ $(function() {
       {
         total_devotee = response.total_devotee;
 
-        alert(JSON.stringify(response.receipt));
+        //alert(JSON.stringify(response.receipt));
 
         $("#xiaozai_trans_wrap1").hide();
     		$("#xiaozai_trans_wrap2").hide();
