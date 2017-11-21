@@ -223,11 +223,11 @@ class XiaozaiController extends Controller
 		}
 
     // remove session
-		Session::forget('xiaozai_different_family');
 
     XiaozaiController::updateSameFocusDevotee();
     XiaozaiController::updateSameFamily();
-    XiaozaiController::updateXiaozaiReceipts();
+    XiaozaiController::updateDifferentFamily();
+    XiaozaiController::updateReceipts();
 
     $xiaozai_generaldonation_id = $xiaozai_generaldonation->generaldonation_id;
 		$hjgr = $xiaozai_generaldonation->hjgr;
@@ -333,17 +333,18 @@ class XiaozaiController extends Controller
                 							 ->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
                                ->leftjoin('optionaladdress', 'devotee.devotee_id', '=', 'optionaladdress.devotee_id')
                 							 ->select('devotee.*', 'member.paytill_date', 'familycode.familycode', 'optionaladdress.type')
-                							 ->where('devotee.devotee_id', $devotee_id)
+                							 ->where('optionaladdress.devotee_id', $devotee_id)
                 							 ->get();
 
     $optionalvehicle_devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
                 							 ->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
                                ->leftjoin('optionalvehicle', 'devotee.devotee_id', '=', 'optionalvehicle.devotee_id')
                 							 ->select('devotee.*', 'member.paytill_date', 'familycode.familycode', 'optionalvehicle.type')
-                							 ->where('devotee.devotee_id', $devotee_id)
+                							 ->where('optionalvehicle.devotee_id', $devotee_id)
                 							 ->get();
 
     $devotee_collection = $devotee_collection->merge($optionaladdress_devotee);
+
     $devotee_collection = $devotee_collection->merge($optionalvehicle_devotee);
 
     $oa_count = 1;
@@ -1352,14 +1353,14 @@ class XiaozaiController extends Controller
 	                							 ->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
 	                               ->leftjoin('optionaladdress', 'devotee.devotee_id', '=', 'optionaladdress.devotee_id')
 	                							 ->select('devotee.*', 'member.paytill_date', 'familycode.familycode', 'optionaladdress.type')
-	                							 ->where('devotee.devotee_id', $focus_devotee_id)
+	                							 ->where('optionaladdress.devotee_id', $focus_devotee_id)
 	                							 ->get();
 
 	    $optionalvehicle_devotee = Devotee::leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 	                							 ->leftjoin('familycode', 'familycode.familycode_id' , '=', 'devotee.familycode_id')
 	                               ->leftjoin('optionalvehicle', 'devotee.devotee_id', '=', 'optionalvehicle.devotee_id')
 	                							 ->select('devotee.*', 'member.paytill_date', 'familycode.familycode', 'optionalvehicle.type')
-	                							 ->where('devotee.devotee_id', $focus_devotee_id)
+	                							 ->where('optionaladdress.devotee_id', $focus_devotee_id)
 	                							 ->get();
 
 			if(isset($optionaladdress_devotee[0]->type))
@@ -1729,7 +1730,7 @@ class XiaozaiController extends Controller
   }
 
   // update session xiaozai_receipts
-  public static function updateXiaozaiReceipts(){
+  public static function updateReceipts(){
 
     if(Session::has('xiaozai_receipts')) { Session::forget('xiaozai_receipts'); }
 

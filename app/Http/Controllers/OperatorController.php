@@ -1489,9 +1489,7 @@ class OperatorController extends Controller
 
 
 		// Get Xiaozai Receipts History
-		XiaozaiController::updateXiaozaiReceipts();
-
-
+		XiaozaiController::updateReceipts();
 
 	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 	  $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
@@ -2000,7 +1998,11 @@ class OperatorController extends Controller
 					        "devotee_id" => $devotee_id
 					      ];
 
-					      OptionalAddress::create($optional_address1);
+								// do not create optional address if both address and oversea_address are null
+								if(($address != null) || ($oversea_address != null) ){
+									 OptionalAddress::create($optional_address1);
+								}
+
 							}
 				    }
 
