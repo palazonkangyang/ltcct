@@ -533,8 +533,8 @@
 
         <div class="form-group">
           <label class="col-md-12">
-            <p style="font-size: 15px;"><span class="address_total">0</span> 合家 / 宅址 @ S$ 30.00	=	S$ <span class="address_total_amount">0</span></p>
-            <p style="font-size: 15px;"><span class="individual_office_total">0</span> 个人 / 办公址 @ S$ 20.00	=	S$ <span class="individual_office_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="address_total">0</span> 合家 @ S$ 30.00	=	S$ <span class="address_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="individual_office_total">0</span> 个人 @ S$ 20.00	=	S$ <span class="individual_office_total_amount">0</span></p>
             <p style="font-size: 15px;"><span class="company_total">0</span> 公司 @ S$ 100.00	=	S$ <span class="company_total_amount">0</span></p>
             <p style="font-size: 15px;"><span class="vehicle_total">0</span> 车辆 @ S$ 30.00	=	S$ <span class="vehicle_total_amount">0</span></p>
           </label>
