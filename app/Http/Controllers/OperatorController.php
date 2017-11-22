@@ -1044,178 +1044,8 @@ class OperatorController extends Controller
 		XiaozaiController::updateSettingSameFamily();
 		XiaozaiController::updateSameFamily();
 		XiaozaiController::updateSettingDifferentFamily();
-
-		$this_year = date("Y");
-
-		$xiaozai_setting_samefamily_last1year = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-																						->leftjoin('setting_xiaozai', 'setting_xiaozai.devotee_id', '=', 'devotee.devotee_id')
-																						->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-																						->where('setting_xiaozai.focusdevotee_id', '=', $devotee[0]->devotee_id)
-																						->where('setting_xiaozai.address_code', '=', 'same')
-																						->where('setting_xiaozai.year', $this_year - 1)
-																						->select('devotee.*', 'member.member', 'member.paytill_date', 'familycode.familycode', 'setting_xiaozai.xiaozai_id', 'setting_xiaozai.type')
-																						->get();
-
-		$oa_count = 1;
-    $ov_count = 1;
-
-    for($i = 0; $i < count($xiaozai_setting_samefamily_last1year); $i++)
-		{
-			if($xiaozai_setting_samefamily_last1year[$i]->type == 'car' || $xiaozai_setting_samefamily_last1year[$i]->type == 'ship')
-			{
-				$result = OptionalVehicle::where('devotee_id', $xiaozai_setting_samefamily_last1year[0]->devotee_id)
-									->where('type', $xiaozai_setting_samefamily_last1year[$i]->type)
-									->pluck('data');
-
-				$xiaozai_setting_samefamily_last1year[$i]->item_description = $result[0];
-        $xiaozai_setting_samefamily_last1year[$i]->ops = "OV#" . $ov_count;
-
-        $ov_count++;
-			}
-
-			elseif($xiaozai_setting_samefamily_last1year[$i]->type == 'home' || $xiaozai_setting_samefamily_last1year[$i]->type == 'company'
-						|| $xiaozai_setting_samefamily_last1year[$i]->type == 'stall' || $xiaozai_setting_samefamily_last1year[$i]->type == 'office')
-			{
-				$result = OptionalAddress::where('devotee_id', $xiaozai_setting_samefamily_last1year[$i]->devotee_id)
-									->where('type', $xiaozai_setting_samefamily_last1year[$i]->type)
-									->get();
-
-				if(isset($result[0]->address_translated))
-				{
-					$xiaozai_setting_samefamily_last1year[$i]->item_description = $result[0]->address_translated;
-          $xiaozai_setting_samefamily_last1year[$i]->ops = "OA#" . $oa_count;
-				}
-				else
-				{
-					$xiaozai_setting_samefamily_last1year[$i]->item_description = $result[0]->oversea_address;
-          $xiaozai_setting_samefamily_last1year[$i]->ops = "OA#" . $oa_count;
-				}
-
-        $oa_count++;
-			}
-
-			else
-			{
-				$result = Devotee::find($xiaozai_setting_samefamily_last1year[$i]->devotee_id);
-
-				if(isset($result->oversea_addr_in_chinese))
-				{
-					$xiaozai_setting_samefamily_last1year[$i]->item_description = $result[0]->oversea_addr_in_chinese;
-          $xiaozai_setting_samefamily_last1year[$i]->ops = "";
-				}
-				elseif (isset($result->address_unit1) && isset($result->address_unit2))
-				{
-					$xiaozai_setting_samefamily_last1year[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																															 $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
-
-					$xiaozai_setting_samefamily_last1year[$i]->ops = "";
-				}
-
-				else
-				{
-					$xiaozai_setting_samefamily_last1year[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_setting_samefamily_last1year[$i]->ops = "";
-				}
-			}
-		}
-
-    // for($i = 0; $i < count($xiaozai_setting_samefamily_last1year); $i++)
-    // {
-    //   if(isset($xiaozai_setting_samefamily_last1year[$i]->lasttransaction_at))
-  	// 	{
-  	// 		$xiaozai_setting_samefamily_last1year[$i]->lasttransaction_at = \Carbon\Carbon::parse($xiaozai_setting_samefamily_last1year[$i]->lasttransaction_at)->format("d/m/Y");
-  	// 	}
-		//
-  	// 	if(isset($xiaozai_setting_samefamily_last1year[$i]->paytill_date))
-  	// 	{
-  	// 		$xiaozai_setting_samefamily_last1year[$i]->paytill_date = \Carbon\Carbon::parse($xiaozai_setting_samefamily_last1year[$i]->paytill_date)->format("d/m/Y");
-  	// 	}
-    // }
-
-		$xiaozai_setting_differentfamily_last1year = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-																									->leftjoin('setting_xiaozai', 'setting_xiaozai.devotee_id', '=', 'devotee.devotee_id')
-																									->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-																									->where('setting_xiaozai.focusdevotee_id', '=', $devotee[0]->devotee_id)
-																									->where('setting_xiaozai.address_code', '=', 'different')
-																									->where('setting_xiaozai.year', $this_year - 1)
-																									->select('devotee.*', 'member.member', 'member.paytill_date', 'familycode.familycode', 'setting_xiaozai.xiaozai_id', 'setting_xiaozai.type')
-																									->get();
-
-		$oa_count = 1;
-    $ov_count = 1;
-
-    for($i = 0; $i < count($xiaozai_setting_differentfamily_last1year); $i++)
-		{
-			if($xiaozai_setting_differentfamily_last1year[$i]->type == 'car' || $xiaozai_setting_differentfamily_last1year[$i]->type == 'ship')
-			{
-				$result = OptionalVehicle::where('devotee_id', $xiaozai_setting_differentfamily_last1year[$i]->devotee_id)
-									->where('type', $xiaozai_setting_differentfamily_last1year[$i]->type)
-									->pluck('data');
-
-				$xiaozai_setting_differentfamily_last1year[$i]->item_description = $result[0];
-        $xiaozai_setting_differentfamily_last1year[$i]->ops = "OV#" . $ov_count;
-
-        $ov_count++;
-			}
-
-			elseif($xiaozai_setting_differentfamily_last1year[$i]->type == 'home' || $xiaozai_setting_differentfamily_last1year[$i]->type == 'company'
-						|| $xiaozai_setting_differentfamily_last1year[$i]->type == 'stall' || $xiaozai_setting_differentfamily_last1year[$i]->type == 'office')
-			{
-				$result = OptionalAddress::where('devotee_id', $xiaozai_setting_differentfamily_last1year[$i]->devotee_id)
-									->where('type', $xiaozai_setting_differentfamily_last1year[$i]->type)
-									->get();
-
-				if(isset($result[0]->address_translated))
-				{
-					$xiaozai_setting_differentfamily_last1year[$i]->item_description = $result[0]->address_translated;
-          $xiaozai_setting_differentfamily_last1year[$i]->ops = "OA#" . $oa_count;
-				}
-				else
-				{
-					$xiaozai_setting_differentfamily_last1year[$i]->item_description = $result[0]->oversea_address;
-          $xiaozai_setting_differentfamily_last1year[$i]->ops = "OA#" . $oa_count;
-				}
-
-        $oa_count++;
-			}
-
-			else
-			{
-				$result = Devotee::find($xiaozai_setting_differentfamily_last1year[$i]->devotee_id);
-
-				if(isset($result->oversea_addr_in_chinese))
-				{
-					$xiaozai_setting_differentfamily_last1year[$i]->item_description = $result[0]->oversea_addr_in_chinese;
-          $xiaozai_setting_differentfamily_last1year[$i]->ops = "";
-				}
-				elseif (isset($result->address_unit1) && isset($result->address_unit2))
-				{
-					$xiaozai_setting_differentfamily_last1year[$i]->item_description = $result->address_houseno . "#" . $result->address_unit1 . '-' .
-																															 $result->address_unit2 . ", " . $result->address_street . ", " . $result->address_postal;
-
-					$xiaozai_setting_differentfamily_last1year[$i]->ops = "";
-				}
-
-				else
-				{
-					$xiaozai_setting_differentfamily_last1year[$i]->item_description = $result->address_houseno . ", " . $result->address_street . ", " . $result->address_postal;
-					$xiaozai_setting_differentfamily_last1year[$i]->ops = "";
-				}
-			}
-		}
-
-    // for($i = 0; $i < count($xiaozai_setting_differentfamily_last1year); $i++)
-    // {
-    //   if(isset($xiaozai_setting_differentfamily_last1year[$i]->lasttransaction_at))
-  	// 	{
-  	// 		$xiaozai_setting_differentfamily_last1year[$i]->lasttransaction_at = \Carbon\Carbon::parse($xiaozai_setting_differentfamily_last1year[$i]->lasttransaction_at)->format("d/m/Y");
-  	// 	}
-		//
-  	// 	if(isset($xiaozai_setting_differentfamily_last1year[$i]->paytill_date))
-  	// 	{
-  	// 		$xiaozai_setting_differentfamily_last1year[$i]->paytill_date = \Carbon\Carbon::parse($xiaozai_setting_differentfamily_last1year[$i]->paytill_date)->format("d/m/Y");
-  	// 	}
-    // }
+		XiaozaiController::updateSettingSameFamilyLast1Year();
+		XiaozaiController::updateSettingDifferentFamilyLast1Year();
 
 		$setting_differentfamily = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
 											         ->leftjoin('setting_generaldonation', 'setting_generaldonation.devotee_id', '=', 'devotee.devotee_id')
@@ -1489,9 +1319,7 @@ class OperatorController extends Controller
 
 
 		// Get Xiaozai Receipts History
-		XiaozaiController::updateXiaozaiReceipts();
-
-
+		XiaozaiController::updateReceipts();
 
 	  $optionaladdresses = OptionalAddress::where('devotee_id', $devotee_id)->get();
 	  $optionalvehicles = OptionalVehicle::where('devotee_id', $devotee_id)->get();
@@ -1558,10 +1386,6 @@ class OperatorController extends Controller
 		Session::put('kongdan_setting_samefamily_last3year', $kongdan_setting_samefamily_last3year);
 		Session::put('kongdan_setting_samefamily_last4year', $kongdan_setting_samefamily_last4year);
 		Session::put('kongdan_setting_samefamily_last5year', $kongdan_setting_samefamily_last5year);
-
-		Session::put('xiaozai_setting_samefamily_last1year', $xiaozai_setting_samefamily_last1year);
-
-		Session::put('xiaozai_setting_differentfamily_last1year', $xiaozai_setting_differentfamily_last1year);
 
 		$today = Carbon::today();
 
@@ -1941,7 +1765,7 @@ class OperatorController extends Controller
 				      if($input['address_type'][$i] == 'company' || $input['address_type'][$i] == 'stall')
 							{
 								if(isset($input['address_data_hidden'][$i]))
-								{
+								{	
 									$address = $input['address_data_hidden'][$i];
 									$address_translated = $input['address_translated_hidden'][$i];
 								}
@@ -2000,7 +1824,11 @@ class OperatorController extends Controller
 					        "devotee_id" => $devotee_id
 					      ];
 
-					      OptionalAddress::create($optional_address1);
+								// do not create optional address if both address and oversea_address are null
+								if(($address != null) || ($oversea_address != null) ){
+									 OptionalAddress::create($optional_address1);
+								}
+
 							}
 				    }
 
@@ -2785,6 +2613,8 @@ class OperatorController extends Controller
 				Session::put('optionalvehicles', $optionalvehicles);
 				Session::put('specialRemarks', $special_remark);
 				Session::put('focusdevotee_specialremarks', $focusdevotee_specialremarks);
+
+				XiaozaiController::putSession();
 
 				$request->session()->flash('success', 'Profile is successfully updated.');
 				return redirect()->back();

@@ -84,9 +84,9 @@
                 <option value="individual" selected>个人</option>
               </select>
               @elseif($devotee->type == 'home')
-              宅址
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="home" selected>宅址</option>
+              <select class="form-control type" name="type[]">
+                <option value="sameaddress">合家</option>
+                <option value="individual" selected>个人</option>
               </select>
               @elseif($devotee->type == 'company')
               公司
@@ -99,9 +99,9 @@
                 <option value="stall" selected>小贩</option>
               </select>
               @elseif($devotee->type == 'office')
-              办公址
+              个人
               <select class="form-control type" name="type[]" style="display: none;">
-                <option value="office" selected>办公址</option>
+                <option value="individual" selected>个人</option>
               </select>
               @elseif($devotee->type == 'car')
               车辆
