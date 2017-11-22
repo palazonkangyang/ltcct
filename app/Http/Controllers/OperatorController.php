@@ -1765,7 +1765,7 @@ class OperatorController extends Controller
 				      if($input['address_type'][$i] == 'company' || $input['address_type'][$i] == 'stall')
 							{
 								if(isset($input['address_data_hidden'][$i]))
-								{
+								{	
 									$address = $input['address_data_hidden'][$i];
 									$address_translated = $input['address_translated_hidden'][$i];
 								}

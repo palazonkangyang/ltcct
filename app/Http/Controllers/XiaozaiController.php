@@ -373,8 +373,13 @@ class XiaozaiController extends Controller
 
 				if(isset($result[0]->address_translated))
 				{
-					$devotee_collection[$i]['item_description'] = $result[0]->address_translated;
           $devotee_collection[$i]['ops'] = "OA#" . $oa_count;
+          if($devotee_collection[$i]['type'] == 'company' || $devotee_collection[$i]['type'] == 'stall'){
+            $devotee_collection[$i]['item_description'] = $result[0]->data . " @ " .$result[0]->address;
+          }
+          else{
+            $devotee_collection[$i]['item_description'] = $result[0]->address_translated;
+          }
 				}
 				else
 				{
@@ -2120,7 +2125,7 @@ class XiaozaiController extends Controller
 
     $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
 
-
+    $this_year = date("Y");
 
     $xiaozai_setting_differentfamily_last1year = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
                                                   ->leftjoin('setting_xiaozai', 'setting_xiaozai.devotee_id', '=', 'devotee.devotee_id')
