@@ -14,6 +14,7 @@ use App\Models\XiaozaiGeneraldonation;
 use App\Models\XiaozaiReceipt;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryItem;
+use App\Models\SfcXiaoZai;
 use Auth;
 use DB;
 use Hash;
@@ -2200,6 +2201,15 @@ class XiaozaiController extends Controller
     }
 
     Session::put('xiaozai_setting_differentfamily_last1year', $xiaozai_setting_differentfamily_last1year);
+  }
+
+  public static function updateSameFamilyCodeUniqueField($same_family_code){
+
+    foreach($same_family_code as $sfc){
+      $sfc['type'] = SfcXiaoZai::find($sfc['sfc_id'])['type'];
+    }
+    
+    return $same_family_code;
   }
 
 

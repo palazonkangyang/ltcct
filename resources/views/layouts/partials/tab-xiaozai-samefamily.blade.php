@@ -4,6 +4,8 @@
   $focus_devotee = Session::get('focus_devotee');
 
   $xiaozai_setting_samefamily_last1year = Session::get('xiaozai_setting_samefamily_last1year');
+
+  $same_family_code = Session::get('same_family_code');
 @endphp
 
 <div class="form-body">
@@ -33,7 +35,7 @@
           </tr>
         </thead>
 
-        @if(Session::has('xiaozai_setting_samefamily'))
+        @if(Session::has('same_family_code'))
 
         <tbody id="has_session">
           @if(count($xiaozai_focusdevotee) > 0)
@@ -139,11 +141,11 @@
 
           @endif
 
-          @foreach($xiaozai_setting_samefamily as $devotee)
+          @foreach($same_family_code as $devotee)
           <tr>
             <td class="checkbox-col">
               <input type="checkbox" class="same xiaozai_id" name="xiaozai_id[]"
-              value="1" <?php if ($devotee->xiaozai_id == '1'){ ?>checked="checked"<?php }?>>
+              value="1" <?php if ($devotee->is_checked == '1'){ ?>checked="checked"<?php }?>>
               <input type="hidden" class="form-control hidden_xiaozai_id" name="hidden_xiaozai_id[]"
               value="">
             </td>

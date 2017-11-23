@@ -44,6 +44,7 @@ class OperatorController extends Controller
 	// Home Page
 	public function index()
 	{
+		
 		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 								->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
@@ -1394,6 +1395,8 @@ class OperatorController extends Controller
 							->take(1)
 							->get();
 
+		SameFamilyCodeController::updateAllSameFamilyCode();
+
 		return redirect()->route('get-donation-page', [
 			'events' => $events
 		]);
@@ -1765,7 +1768,7 @@ class OperatorController extends Controller
 				      if($input['address_type'][$i] == 'company' || $input['address_type'][$i] == 'stall')
 							{
 								if(isset($input['address_data_hidden'][$i]))
-								{	
+								{
 									$address = $input['address_data_hidden'][$i];
 									$address_translated = $input['address_translated_hidden'][$i];
 								}
