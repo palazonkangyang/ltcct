@@ -17,4 +17,10 @@ class Sfc extends Model
     'is_checked',
     'year'
   ];
+
+  public static function getDevoteeIdBySfcId($sfc_id){
+    return Sfc::where('sfc_id','=',$sfc_id)->pluck('devotee_id')->first();
+  }
+
+
 }

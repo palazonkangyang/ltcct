@@ -1,6 +1,6 @@
 @php
-  $xiaozai_same_focusdevotee = Session::get('xiaozai_same_focusdevotee');
-  $xiaozai_same_family = Session::get('xiaozai_same_family');
+  $same_family_code = Session::get('same_family_code')['xiaozai'];
+
   $xiaozai_different_family = Session::get('xiaozai_different_family');
 @endphp
 
@@ -32,193 +32,100 @@
           </tr>
         </thead>
 
-        @if(count($xiaozai_same_focusdevotee) > 0)
+        @if(Session::has('same_family_code'))
 
         <tbody id="has_session">
+        @if(count($same_family_code) > 0)
+        @foreach($same_family_code as $devotee)
+          @if($devotee->is_checked == 1)
+            <tr>
+              <td class="xiaozai-amount-col">
+                <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
+                <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]"
+                value="">
+                @if($devotee->type == 'sameaddress')
+                  <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
+                @elseif($devotee->type == 'individual')
+                  <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
+                @elseif($devotee->type == 'home')
+                  <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
+                @elseif($devotee->type == 'company')
+                  <input type="checkbox" class="company_total_type" name="company_total_type[]" value="" style="display:none">
+                @elseif($devotee->type == 'stall')
+                @elseif($devotee->type == 'office')
+                  <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
+                @elseif($devotee->type == 'car')
+                  <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
+                @else
+                  <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
+                @endif
+              </td>
+              <td>
+                @if($devotee->deceased_year != null)
+                <span class="text-danger">{{ $devotee->chinese_name }}</span>
+                @else
+                <span>{{ $devotee->chinese_name }}</span>
+                @endif
+              </td>
+              <td>
+                @if($devotee->specialremarks_devotee_id == null)
+                <span id="devotee">{{ $devotee->devotee_id }}</span>
+                @else
+                <span class="text-danger" id="devotee">{{ $devotee->devotee_id }}</span>
+                @endif
+                <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
+              </td>
+              <td></td>
+              <td>{{ $devotee->guiyi_name }}</td>
+              <td>{{ $devotee->ops }}</td>
+              <td class="xiaozai-type-col">
+                @if($devotee->type == 'sameaddress')
+                合家
+                <input type="hidden" class="form-control" name="amount[]" value="30">
+                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @elseif($devotee->type == 'individual')
+                个人
+                <input type="hidden" class="form-control" name="amount[]" value="20">
+                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @elseif($devotee->type == 'home')
+                宅址
+                <input type="hidden" class="form-control" name="amount[]" value="30">
+                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @elseif($devotee->type == 'company')
+                公司
+                <input type="hidden" class="form-control" name="amount[]" value="100">
+                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @elseif($devotee->type == 'stall')
+                小贩
+                <input type="hidden" class="form-control" name="amount[]" value="">
+                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @elseif($devotee->type == 'office')
+                办公址
+                <input type="hidden" class="form-control" name="amount[]" value="20">
+                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @elseif($devotee->type == 'car')
+                车辆
+                <input type="hidden" class="form-control" name="amount[]" value="30">
+                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @else
+                船只
+                <input type="hidden" class="form-control" name="amount[]" value="30">
+                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @endif
+              </td>
+              <td>{{ $devotee->item_description }}</td>
+              <td width="80px">{{ $devotee->receipt_no }}</td>
+              <td></td>
+              <td>
+                @if(isset($devotee->lasttransaction_at))
+                <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
+                @else
+                <span>{{ $devotee->lasttransaction_at }}</span>
+                @endif
+              </td>
+            </tr>
 
-        @foreach($xiaozai_same_focusdevotee as $devotee)
-
-        <tr>
-          <td class="xiaozai-amount-col">
-            <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]"
-            value="">
-            @if($devotee->type == 'sameaddress')
-              <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'individual')
-              <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'home')
-              <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'company')
-              <input type="checkbox" class="company_total_type" name="company_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'stall')
-              <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'office')
-              <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'car')
-              <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
-            @else
-              <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
-            @endif
-          </td>
-          <td>
-            @if($devotee->deceased_year != null)
-            <span class="text-danger">{{ $devotee->chinese_name }}</span>
-            @else
-            <span>{{ $devotee->chinese_name }}</span>
-            @endif
-          </td>
-          <td>
-            @if($devotee->specialremarks_devotee_id == null)
-            <span id="devotee">{{ $devotee->devotee_id }}</span>
-            @else
-            <span class="text-danger" id="devotee">{{ $devotee->devotee_id }}</span>
-            @endif
-            <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
-          </td>
-          <td></td>
-          <td>{{ $devotee->guiyi_name }}</td>
-          <td>{{ $devotee->ops }}</td>
-          <td class="xiaozai-type-col">
-            @if($devotee->type == 'sameaddress')
-            合家
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'individual')
-            个人
-            <input type="hidden" class="form-control" name="amount[]" value="20">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'home')
-            宅址
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'company')
-            公司
-            <input type="hidden" class="form-control" name="amount[]" value="100">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'stall')
-            小贩
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'office')
-            办公址
-            <input type="hidden" class="form-control" name="amount[]" value="20">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'car')
-            车辆
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @else
-            船只
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @endif
-          </td>
-          <td>{{ $devotee->item_description }}</td>
-          <td width="80px">{{ $devotee->receipt_no }}</td>
-          <td></td>
-          <td>
-            @if(isset($devotee->lasttransaction_at))
-            <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $devotee->lasttransaction_at }}</span>
-            @endif
-          </td>
-        </tr>
-
-        @endforeach
-
-        @if(count($xiaozai_same_family) > 0)
-
-        @foreach($xiaozai_same_family as $devotee)
-
-        <tr>
-          <td class="xiaozai-amount-col">
-            <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]"
-            value="">
-            @if($devotee->type == 'sameaddress')
-              <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'individual')
-              <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'home')
-              <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'company')
-              <input type="checkbox" class="company_total_type" name="company_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'stall')
-            @elseif($devotee->type == 'office')
-              <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
-            @elseif($devotee->type == 'car')
-              <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
-            @else
-              <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
-            @endif
-          </td>
-          <td>
-            @if($devotee->deceased_year != null)
-            <span class="text-danger">{{ $devotee->chinese_name }}</span>
-            @else
-            <span>{{ $devotee->chinese_name }}</span>
-            @endif
-          </td>
-          <td>
-            @if($devotee->specialremarks_devotee_id == null)
-            <span id="devotee">{{ $devotee->devotee_id }}</span>
-            @else
-            <span class="text-danger" id="devotee">{{ $devotee->devotee_id }}</span>
-            @endif
-            <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
-          </td>
-          <td></td>
-          <td>{{ $devotee->guiyi_name }}</td>
-          <td>{{ $devotee->ops }}</td>
-          <td class="xiaozai-type-col">
-            @if($devotee->type == 'sameaddress')
-            合家
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'individual')
-            个人
-            <input type="hidden" class="form-control" name="amount[]" value="20">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'home')
-            宅址
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'company')
-            公司
-            <input type="hidden" class="form-control" name="amount[]" value="100">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'stall')
-            小贩
-            <input type="hidden" class="form-control" name="amount[]" value="">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'office')
-            办公址
-            <input type="hidden" class="form-control" name="amount[]" value="20">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @elseif($devotee->type == 'car')
-            车辆
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @else
-            船只
-            <input type="hidden" class="form-control" name="amount[]" value="30">
-            <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-            @endif
-          </td>
-          <td>{{ $devotee->item_description }}</td>
-          <td width="80px">{{ $devotee->receipt_no }}</td>
-          <td></td>
-          <td>
-            @if(isset($devotee->lasttransaction_at))
-            <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $devotee->lasttransaction_at }}</span>
-            @endif
-          </td>
-        </tr>
-
+          @endif
         @endforeach
 
         @endif

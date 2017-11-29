@@ -15,6 +15,7 @@ use App\Models\XiaozaiReceipt;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryItem;
 use App\Models\SfcXiaoZai;
+use App\Models\Sfc;
 use Auth;
 use DB;
 use Hash;
@@ -578,6 +579,7 @@ class XiaozaiController extends Controller
 
   }
 
+  // to be deleted, using updateSameFamilyCodeSetting
   public function postXiaozaiSameFamilySetting(Request $request)
   {
     $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
@@ -2203,14 +2205,6 @@ class XiaozaiController extends Controller
     Session::put('xiaozai_setting_differentfamily_last1year', $xiaozai_setting_differentfamily_last1year);
   }
 
-  public static function updateSameFamilyCodeUniqueField($same_family_code){
 
-    foreach($same_family_code as $sfc){
-      $sfc['type'] = SfcXiaoZai::find($sfc['sfc_id'])['type'];
-    }
-    
-    return $same_family_code;
-  }
-
-
+  
 }

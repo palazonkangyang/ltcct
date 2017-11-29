@@ -1,7 +1,5 @@
 @php
-
-  $qifu_focusdevotee = Session::get('qifu_focusdevotee');
-  $qifu_setting_samefamily = Session::get('qifu_setting_samefamily');
+  $same_family_code = Session::get('same_family_code')['qifu'];
   $focus_devotee = Session::get('focus_devotee');
 
 @endphp
@@ -18,7 +16,7 @@
 
   <form method="post" action="{{ URL::to('/fahui/qifu-samefamily-setting') }}"
     class="form-horizontal form-bordered" id="qifu_samefamily_form">
-
+    <input type="hidden" name="mod_id" value=9>
     {!! csrf_field() !!}
 
     <div class="form-group">
@@ -39,72 +37,16 @@
           </tr>
         </thead>
 
-        @if(Session::has('qifu_setting_samefamily'))
+        @if(Session::has('same_family_code'))
 
         <tbody id="has_session">
-          @if(count($qifu_focusdevotee) > 0)
-
+          @foreach($same_family_code as $devotee)
+          <input type="hidden" name="sfc_id[]" value="{{ $devotee->sfc_id }}">
           <tr>
             <td class="checkbox-col">
               <input type="checkbox" class="same qifu_id" name="qifu_id[]"
-              value="1" <?php if ($qifu_focusdevotee[0]->qifu_id == '1'){ ?>checked="checked"<?php }?>>
-              <input type="hidden" class="form-control hidden_qifu_id" name="hidden_qifu_id[]"
-              value="">
-            </td>
-            <td>
-              @if($qifu_focusdevotee[0]->deceased_year != null)
-              <span class="text-danger">{{ $qifu_focusdevotee[0]->chinese_name }}</span>
-              @else
-              <span>{{ $qifu_focusdevotee[0]->chinese_name }}</span>
-              @endif
-            </td>
-            <td>
-              <input type="hidden" name="devotee_id[]" value="{{ $qifu_focusdevotee[0]->devotee_id }}">
-              @if($qifu_focusdevotee[0]->specialremarks_devotee_id == null)
-              <span>{{ $qifu_focusdevotee[0]->devotee_id }}</span>
-              @else
-              <span class="text-danger">{{ $qifu_focusdevotee[0]->devotee_id }}</span>
-              @endif
-            </td>
-            <td></td>
-            <td>{{ $qifu_focusdevotee[0]->guiyi_name }}</td>
-            <td></td>
-            <td>
-              @if(isset($qifu_focusdevotee[0]->oversea_addr_in_chinese))
-                {{ $qifu_focusdevotee[0]->oversea_addr_in_chinese }}
-              @elseif(isset($qifu_focusdevotee[0]->address_unit1) && isset($qifu_focusdevotee[0]->address_unit2))
-                {{ $qifu_focusdevotee[0]->address_houseno }}, #{{ $qifu_focusdevotee[0]->address_unit1 }}-{{ $qifu_focusdevotee[0]->address_unit2 }}, {{ $qifu_focusdevotee[0]->address_street }}, {{ $qifu_focusdevotee[0]->address_postal }}
-              @else
-                {{ $qifu_focusdevotee[0]->address_houseno }}, {{ $qifu_focusdevotee[0]->address_street }}, {{ $qifu_focusdevotee[0]->address_postal }}
-              @endif
-            </td>
-            <td>
-              @if(isset($qifu_focusdevotee[0]->paytill_date) && \Carbon\Carbon::parse($qifu_focusdevotee[0]->paytill_date)->lt($now))
-              <span class="text-danger">{{ \Carbon\Carbon::parse($qifu_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-              @elseif(isset($qifu_focusdevotee[0]->paytill_date))
-              <span>{{ \Carbon\Carbon::parse($qifu_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-              @else
-              <span>{{ $qifu_focusdevotee[0]->paytill_date }}</span>
-              @endif
-            </td>
-            <td></td>
-            <td>
-              @if(isset($qifu_focusdevotee[0]->lasttransaction_at))
-              {{ \Carbon\Carbon::parse($qifu_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}
-              @else
-              {{ $qifu_focusdevotee[0]->lasttransaction_at }}
-              @endif
-            </td>
-          </tr>
-
-          @endif
-
-          @foreach($qifu_setting_samefamily as $devotee)
-          <tr>
-            <td class="checkbox-col">
-              <input type="checkbox" class="same qifu_id" name="qifu_id[]"
-              value="1" <?php if ($devotee->qifu_id == '1'){ ?>checked="checked"<?php }?>>
-              <input type="hidden" class="form-control hidden_qifu_id" name="hidden_qifu_id[]"
+              value="1" <?php if ($devotee->is_checked == 1){ ?>checked="checked"<?php }?>>
+              <input type="hidden" class="form-control hidden_qifu_id" name="is_checked[]"
               value="">
             </td>
             <td>

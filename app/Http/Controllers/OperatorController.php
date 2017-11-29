@@ -44,7 +44,6 @@ class OperatorController extends Controller
 	// Home Page
 	public function index()
 	{
-		
 		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 								->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
@@ -1395,7 +1394,8 @@ class OperatorController extends Controller
 							->take(1)
 							->get();
 
-		SameFamilyCodeController::updateAllSameFamilyCode();
+	  SameFamilyCodeController::getAllSameFamilyCode();
+
 
 		return redirect()->route('get-donation-page', [
 			'events' => $events
@@ -2280,6 +2280,11 @@ class OperatorController extends Controller
 								->where('start_at', '>', $today)
 								->take(1)
 								->get();
+
+			SameFamilyCodeController::createAllSameFamilyCode();
+			SameFamilyCodeController::updateAllSameFamilyCodeAfterCreateNewDevotee();
+			SameFamilyCodeController::getAllSameFamilyCode();
+
 
 			if($member_id != null)
 		  {
