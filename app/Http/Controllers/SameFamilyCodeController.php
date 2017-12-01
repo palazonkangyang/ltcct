@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use App\Models\Devotee;
+use App\Models\Module;
 use App\Models\Sfc;
 use App\Models\SfcXiangYou;
 use App\Models\SfcCiji;
@@ -19,26 +20,208 @@ use App\Models\OptionalVehicle;
 
 class SameFamilyCodeController extends Controller
 {
-    public static function createAllSameFamilyCode(){
-      //SameFamilyCodeController::createSameFamilyCode(1);  // Xiang You
-      //SameFamilyCodeController::createSameFamilyCode(2);  // Ci Ji
-      //SameFamilyCodeController::createSameFamilyCode(3);  // Yue Juan
-      //SameFamilyCodeController::createSameFamilyCode(4);  // Zhu Xue Jin
-      SameFamilyCodeController::createSameFamilyCode(5);  // Xiao Zai Da Fa Hui
-      //SameFamilyCodeController::createSameFamilyCode(6);  // Qian Fo Fa Hui
-      //SameFamilyCodeController::createSameFamilyCode(7);  // Da Bei Fa Hui
-      // SameFamilyCodeController::createSameFamilyCode(8);  // Yao Shi Fa Hui
-      SameFamilyCodeController::createSameFamilyCode(9);  // Qi Fu Fa Hui
-      SameFamilyCodeController::createSameFamilyCode(10);  // Kong Dan
-      //SameFamilyCodeController::createSameFamilyCode(11);  // Pu Du
-      // SameFamilyCodeController::createSameFamilyCode(12);  // Chao Du
-      // SameFamilyCodeController::createSameFamilyCode(13);  // Shou Sheng Ku Qian
+
+    public static function stepToCreateSameFamilyCodeAfterCreateNewDevotee(){
+      $param['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
+      $param['familycode_id'] = session()->get('focus_devotee')[0]['familycode_id'];
+      $param['sfc_list'] = collect(new Sfc);
+      $param['sfc_xiaozai_list'] = collect(new SfcXiaoZai);
+      $param['mod_list'] = Module::getReleasedModuleList();
+
+      // upon devotee creation, new devotee add family records (including devotee) into sfc table for all module
+      $param = SameFamilyCodeController::createSfcFocusDevoteeAddFamilyForAllModule($param);
+      $param['var'] = null;
+      // each of the family member add new devotees into their records into sfc table for all module
+      $param = SameFamilyCodeController::createSfcFamilyAddFocusDevoteeForAllModule($param);
+      $param['var'] = null;
+      // for all family member, create record into sfc children (sfc_*) table
+      $param = SameFamilyCodeController::createSfcChildrenForAllModule($param);
+      $param['var'] = null;
     }
 
-    public static function createSameFamilyCode($mod_id){
+    public static function createSfcFocusDevoteeAddFamilyForAllModule($param){
+      foreach($param['mod_list'] as $index=> $mod){
+        $param['var']['mod_id'] = $mod['mod_id'];
+        $param = SameFamilyCodeController::createSfcFocusDevoteeAddFamily($param);
+      }
+      return $param;
+    }
+
+    public static function createSfcFocusDevoteeAddFamily($param){
+      $family_list = Devotee::where('familycode_id','=',$param['familycode_id'])
+                            ->get();
+
+      // sort focus devotee to top of the family lists
+      $focusdevotee_collection = $family_list->pop();
+      $family_list = $family_list->reverse()->push($focusdevotee_collection)->reverse();
+
+      $param['var']['focusdevotee_id'] = $param['focusdevotee_id'];
+      foreach($family_list as $family){
+        $param['var']['devotee_id'] = $family['devotee_id'];
+        $param['var']['is_checked'] = ($param['var']['focusdevotee_id'] == $family['devotee_id']) ? true : false;
+        $param['var']['year'] = null;
+        $param = SameFamilyCodeController::createSfc($param);
+      }
+      return $param;
+    }
+
+    public static function createSfc($param){
+      $list['devotee_id'] = $param['var']['devotee_id'];
+      $list['focusdevotee_id'] = $param['var']['focusdevotee_id'];
+      $list['mod_id'] = $param['var']['mod_id'];
+      $list['is_checked'] = $param['var']['is_checked'];
+      $list['year'] = $param['var']['year'];
+      $list['sfc_id'] = Sfc::create($list)->sfc_id;
+      $param['var']['sfc_id'] = $list['sfc_id'];
+      $param['sfc_list']->push($list);
+      return $param;
+    }
+
+    public static function createSfcFamilyAddFocusDevoteeForAllModule($param){
+      foreach($param['mod_list'] as $index=> $mod){
+        $param['var']['mod_id'] = $mod['mod_id'];
+        $param = SameFamilyCodeController::createSfcFamilyAddFocusDevotee($param);
+      }
+      return $param;
+    }
+
+    public static function createSfcFamilyAddFocusDevotee($param){
+      $family_list = Devotee::where('familycode_id','=',$param['familycode_id'])
+                            ->get();
+
+      // sort focus devotee to top of the family lists
+      $focusdevotee_collection = $family_list->pop();
+      $family_list = $family_list->reverse()->push($focusdevotee_collection)->reverse();
+
+      foreach($family_list as $family){
+        if($family['devotee_id'] != $param['focusdevotee_id']){
+          $param['var']['focusdevotee_id'] = $family['devotee_id'];
+          $param['var']['devotee_id'] = $param['focusdevotee_id'];
+          $param['var']['is_checked'] = false;
+          $param['var']['year'] = null;
+          $param = SameFamilyCodeController::createSfc($param);
+        }
+      }
+      return $param;
+    }
+
+    public static function createSfcChildrenForAllModule($param){
+      foreach($param['mod_list'] as $index=> $mod){
+        $param['var']['mod_id'] = $mod['mod_id'];
+        $param = SameFamilyCodeController::createSfcChildrenForEachModule($param);
+      }
+      return $param;
+    }
+
+    public static function createSfcChildrenForEachModule($param){
+      foreach($param['sfc_list'] as $index=> $sfc){
+        $param['var']['sfc_id'] = $sfc['sfc_id'];
+        $param['var']['focusdevotee_id'] = $sfc['focusdevotee_id'];
+        $param['var']['devotee_id'] = $sfc['devotee_id'];
+        $param = SameFamilyCodeController::createSfcChildren($param);
+      }
+      return $param;
+    }
+
+    public static function createSfcChildren($param){
+      $list['sfc_id'] = $param['var']['sfc_id'];
+      switch ($param['var']['mod_id']) {
+      // Xiang You
+      case 1:
+
+        break;
+
+      // Ci Ji
+      case 2:
+
+        break;
+
+      // Yue Juan
+      case 3:
+
+        break;
+
+      // Zhu Xue Jin
+      case 4:
+
+        break;
+
+      // Xiao Zai Da Fa Hui
+      case 5:
+        $param = XiaoZaiController::createSfcXiaoZaiFromBaseHome($param);
+        $param = XiaoZaiController::createSfcXiaoZaiFromOptionalAddress($param);
+        $param = XiaoZaiController::createSfcXiaoZaiFromOptionalVehicle($param);
+        break;
+
+      // Qian Fo Fa Hui
+      case 6:
+
+        break;
+
+      // Da Bei Fa Hui
+      case 7:
+
+        break;
+
+      // Yao Shi Fa Hui
+      case 8:
+
+        break;
+
+      // Qi Fu Fa Hui
+      case 9:
+        $param['sfc_qifu_list']->push(SfcQiFu::create($list));
+        break;
+
+      // Kong Dan
+      case 10:
+        $param['sfc_kongdan_list']->push(SfcKongDan::create($list));
+        break;
+
+      // Pu Du
+      case 11:
+
+        break;
+
+      // Chao Du
+      case 12:
+
+        break;
+
+      // Shou Sheng Ku Qian
+      case 13:
+
+        break;
+
+      default:
+
+      }
+      return $param;
+    }
+
+
+
+
+    public static function createAllSameFamilyCodeRecord(){
+      //SameFamilyCodeController::createSameFamilyCodeRecord(1);  // Xiang You
+      //SameFamilyCodeController::createSameFamilyCodeRecord(2);  // Ci Ji
+      //SameFamilyCodeController::createSameFamilyCodeRecord(3);  // Yue Juan
+      //SameFamilyCodeController::createSameFamilyCodeRecord(4);  // Zhu Xue Jin
+      SameFamilyCodeController::createSameFamilyCodeRecord(5,session()->get('focus_devotee')[0]['devotee_id']);  // Xiao Zai Da Fa Hui
+      //SameFamilyCodeController::createSameFamilyCodeRecord(6);  // Qian Fo Fa Hui
+      //SameFamilyCodeController::createSameFamilyCodeRecord(7);  // Da Bei Fa Hui
+      // SameFamilyCodeController::createSameFamilyCodeRecord(8);  // Yao Shi Fa Hui
+      SameFamilyCodeController::createSameFamilyCodeRecord(9,session()->get('focus_devotee')[0]['devotee_id']);  // Qi Fu Fa Hui
+      SameFamilyCodeController::createSameFamilyCodeRecord(10,session()->get('focus_devotee')[0]['devotee_id']);  // Kong Dan
+      //SameFamilyCodeController::createSameFamilyCodeRecord(11);  // Pu Du
+      // SameFamilyCodeController::createSameFamilyCodeRecord(12);  // Chao Du
+      // SameFamilyCodeController::createSameFamilyCodeRecord(13);  // Shou Sheng Ku Qian
+    }
+
+    public static function createSameFamilyCodeRecord($mod_id,$devotee_id){
 
       // declare variable
-      $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+      $focus_devotee_id = $devotee_id;
       $familycode_id = session()->get('focus_devotee')[0]['familycode_id'];
       $param = [];
       $param['mod_id'] = $mod_id;
@@ -102,7 +285,7 @@ class SameFamilyCodeController extends Controller
 
         // Xiao Zai Da Fa Hui
         if($mod_id == 5){
-          $oa_list = OptionalAddress::where('devotee_id','=',$focus_devotee_id)
+          $oa_list = OptionalAddress::where('devotee_id','=',$sfc_m['devotee_id'])
                                     ->get();
 
           // create record for family member of focused devotee in Sfc with Xiao Zai data
@@ -114,7 +297,7 @@ class SameFamilyCodeController extends Controller
             array_push($param['sfc_list'],$list);
           }
 
-          $ov_list = OptionalVehicle::where('devotee_id','=',$focus_devotee_id)
+          $ov_list = OptionalVehicle::where('devotee_id','=',$sfc_m['devotee_id'])
                                     ->get();
 
           foreach($ov_list as $ov){
@@ -272,29 +455,44 @@ class SameFamilyCodeController extends Controller
                            ->get();
 
       foreach($sfc_member as $sfc_m){
-        $list = [
-          "devotee_id" => $focus_devotee_id,
-          "focusdevotee_id" => $sfc_m['devotee_id'],
-          "mod_id" => $mod_id,
-          "is_checked" => false,
-          "year" => null
-        ];
-        Sfc::create($list);
+        // $list = [
+        //   "devotee_id" => $focus_devotee_id,
+        //   "focusdevotee_id" => $sfc_m['devotee_id'],
+        //   "mod_id" => $mod_id,
+        //   "is_checked" => false,
+        //   "year" => null
+        // ];
+        // Sfc::create($list);
+        if($mod_id == 5){
+        SameFamilyCodeController::createSameFamilyCodeRecord(5,$sfc_m['devotee_id']);
+        }
       }
+
+
 
     }
 
     public function updateSameFamilySetting(Request $request)
     {
-
       $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+      $mod_id = $request->mod_id;
       $sfc_id_list = $request->sfc_id;
       $is_checked_list = $request->is_checked;
+      $hjgr_list = $request->hjgr;
 
       foreach ($sfc_id_list as $index => $sfc_id){
+
         $sfc = Sfc::find($sfc_id);
         $sfc->is_checked = $is_checked_list[$index];
         $sfc->save();
+        if($mod_id == 5){
+          $sfc_xiaozai = SfcXiaoZai::where('sfc_id','=',$sfc_id)->first();
+
+          $sfc_xiaozai->hjgr = $hjgr_list[$index];
+
+          $sfc_xiaozai->save();
+
+        }
       }
 
       switch ($request->mod_id) {
@@ -469,7 +667,7 @@ class SameFamilyCodeController extends Controller
             $sfc['item_description'] = null;
         }
       }
-            dd($param);
+
       return $param['sfc_list'];
     }
 

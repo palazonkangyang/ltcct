@@ -2281,9 +2281,10 @@ class OperatorController extends Controller
 								->take(1)
 								->get();
 
-			SameFamilyCodeController::createAllSameFamilyCode();
-			SameFamilyCodeController::updateAllSameFamilyCodeAfterCreateNewDevotee();
-			SameFamilyCodeController::getAllSameFamilyCode();
+			SameFamilyCodeController::stepToCreateSameFamilyCodeAfterCreateNewDevotee();
+			//SameFamilyCodeController::createAllSameFamilyCode();
+			//SameFamilyCodeController::updateAllSameFamilyCodeAfterCreateNewDevotee();
+			//SameFamilyCodeController::getAllSameFamilyCode();
 
 
 			if($member_id != null)

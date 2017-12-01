@@ -79,38 +79,40 @@
               <td>{{ $devotee->guiyi_name }}</td>
               <td>{{ $devotee->ops }}</td>
               <td class="xiaozai-type-col">
-                @if($devotee->type == 'sameaddress')
-                合家
-                <input type="hidden" class="form-control" name="amount[]" value="30">
-                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-                @elseif($devotee->type == 'individual')
-                个人
-                <input type="hidden" class="form-control" name="amount[]" value="20">
-                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                {{ Form::hidden('type[]',$devotee->type)}}
+                @if($devotee->type == 'base_home')
+                  @if($devotee->hjgr == 'hj')
+                    合家
+                  @elseif($devotee->hjgr == 'gr')
+                    个人
+                  @else
+                  @endif
+                {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'home')
-                宅址
-                <input type="hidden" class="form-control" name="amount[]" value="30">
-                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                @if($devotee->hjgr == 'hj')
+                  合家
+                @elseif($devotee->hjgr == 'gr')
+                  个人
+                @else
+                @endif
+                {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'company')
                 公司
-                <input type="hidden" class="form-control" name="amount[]" value="100">
-                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'stall')
                 小贩
-                <input type="hidden" class="form-control" name="amount[]" value="">
-                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                {{ Form::hidden('amount[]',0)}}
                 @elseif($devotee->type == 'office')
-                办公址
-                <input type="hidden" class="form-control" name="amount[]" value="20">
-                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                个人
+                {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'car')
                 车辆
-                <input type="hidden" class="form-control" name="amount[]" value="30">
-                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
-                @else
+                {{ Form::hidden('amount[]',30)}}
+                @elseif($devotee->type == 'ship')
                 船只
-                <input type="hidden" class="form-control" name="amount[]" value="30">
-                <input type="hidden" name="type[]" value="{{ $devotee->type }}">
+                {{ Form::hidden('amount[]',30)}}
+                @else
+                {{ Form::hidden('amount[]',0)}}
                 @endif
               </td>
               <td>{{ $devotee->item_description }}</td>

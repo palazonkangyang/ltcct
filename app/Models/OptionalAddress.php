@@ -22,8 +22,9 @@ class OptionalAddress extends Model
         return $this->belongsTo( \App\Models\Devotee::class );
     }
 
-    public static function getOptionalAddressByDevoteeId($devotee_id){
-      return OptionalAddress::where('devotee_id','=',$devotee_id)->get();
+    public static function getOptionalAddressByDevoteeId($param){
+      return OptionalAddress::where('devotee_id','=',$param['var']['devotee_id'])
+                            ->get();
     }
 
     public static function getOptionalAddressByOptionalAddressId($optionaladdress_id){

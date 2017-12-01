@@ -8,7 +8,6 @@
 
   <form method="post" action="{{ URL::to('/fahui/xiaozai-samefamily-setting') }}"
     class="form-horizontal form-bordered" id="xiaozai_samefamily_form">
-
     <input type="hidden" name="mod_id" value=5>
     {!! csrf_field() !!}
 
@@ -71,42 +70,26 @@
             <td>{{ $devotee->ops }}</td>
             <td>
               @if($devotee->type == 'base_home')
-              <select class="form-control type" name="hjgr[]">
-                <option value="hj" selected>合家</option>
-                <option value="gr">个人</option>
-              </select>
+              {{ Form::select('hjgr[]', ['hj' => '合家','gr' => '个人'],$devotee->hjgr) }}
               @elseif($devotee->type == 'home')
-              <select class="form-control type" name="hjgr[]">
-                <option value="hj" selected>合家</option>
-                <option value="gr">个人</option>
-              </select>
+              {{ Form::select('hjgr[]', ['hj' => '合家','gr' => '个人'],$devotee->hjgr) }}
               @elseif($devotee->type == 'company')
               公司
-              <select class="form-control type" name="hjgr[]" style="display: none;">
-                <option value="null" selected></option>
-              </select>
+              {{ Form::hidden('hjgr[]',null)}}
               @elseif($devotee->type == 'stall')
               小贩
-              <select class="form-control type" name="hjgr[]" style="display: none;">
-                <option value="null" selected>小贩</option>
-              </select>
+              {{ Form::hidden('hjgr[]',null)}}
               @elseif($devotee->type == 'office')
               个人
-              <select class="form-control type" name="hjgr[]" style="display: none;">
-                <option value="gr" selected>办公址</option>
-              </select>
+              {{ Form::hidden('hjgr[]','gr')}}
               @elseif($devotee->type == 'car')
               车辆
-              <select class="form-control type" name="hjgr[]" style="display: none;">
-                <option value="null" selected>车辆</option>
-              </select>
+              {{ Form::hidden('hjgr[]',null)}}
               @elseif($devotee->type == 'ship')
               船只
-              <select class="form-control type" name="hjgr[]" style="display: none;">
-                <option value="null" selected>船只</option>
-              </select>
+              {{ Form::hidden('hjgr[]',null)}}
               @else
-
+              {{ Form::hidden('hjgr[]',null)}}
               @endif
             </td>
             <td>{{ $devotee->item_description }}</td>
