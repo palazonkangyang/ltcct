@@ -1,6 +1,5 @@
 @php
   $same_family_code = Session::get('same_family_code')['xiaozai'];
-
   $xiaozai_different_family = Session::get('xiaozai_different_family');
 @endphp
 

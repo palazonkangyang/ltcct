@@ -21,7 +21,7 @@ class Module extends Model
   }
 
   public static function getReleasedModuleList(){
-    $released_module = array(5);
+    $released_module = array(5,9,10);
     $module_list = Module::getAllModuleList();
     $released_module_list =$module_list->filter(function ($value, $key) use ($released_module) {
       if(in_array($value['mod_id'],$released_module)){

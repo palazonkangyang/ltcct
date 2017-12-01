@@ -1394,8 +1394,7 @@ class OperatorController extends Controller
 							->take(1)
 							->get();
 
-	  SameFamilyCodeController::getAllSameFamilyCode();
-
+	  SameFamilyCodeController::getSfcForAllModule();
 
 		return redirect()->route('get-donation-page', [
 			'events' => $events
@@ -2282,8 +2281,9 @@ class OperatorController extends Controller
 								->get();
 
 			SameFamilyCodeController::stepToCreateSameFamilyCodeAfterCreateNewDevotee();
+			SameFamilyCodeController::getSfcForAllModule();
+			//dd(Session::all());
 			//SameFamilyCodeController::createAllSameFamilyCode();
-			//SameFamilyCodeController::updateAllSameFamilyCodeAfterCreateNewDevotee();
 			//SameFamilyCodeController::getAllSameFamilyCode();
 
 

@@ -2276,6 +2276,4 @@ class XiaozaiController extends Controller
     }
     return $param;
   }
-
-
 }

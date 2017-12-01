@@ -24,6 +24,13 @@ class OptionalVehicle extends Model
                             ->get();
     }
 
+    public static function getOptionalVehicleByOptionalAddressId($optionalvehicle_id){
+      return OptionalVehicle::where('optionalvehicle_id','=',$optionalvehicle_id)
+                            ->first();
+    }
+
+
+
 
 
 }
