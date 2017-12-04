@@ -273,19 +273,19 @@ class SameFamilyCodeController extends Controller
           });
 
           $sfc_focus_devotee= $sfc_list->filter(function ($value, $key) use($param) {
-              if($value['focusdevotee_id'] == $param['var']['focusdevotee_id'] ){
+              if($value['devotee_id'] == $param['var']['focusdevotee_id'] ){
               return $value;
             }
           });
 
           $sfc_family= $sfc_list->filter(function ($value, $key) use($param) {
-              if($value['focusdevotee_id'] != $param['var']['focusdevotee_id'] ){
+              if($value['devotee_id'] != $param['var']['focusdevotee_id'] ){
               return $value;
             }
           });
 
           $sfc_list = $sfc_focus_devotee->merge($sfc_family);
-          dd($sfc_focus_devotee);
+          //dd($sfc_list);
           Session::put('same_family_code.xiaozai',$sfc_list);
           break;
 
