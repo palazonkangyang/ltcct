@@ -16,8 +16,6 @@ use App\Models\SfcKongDan;
 use App\Models\OptionalAddress;
 use App\Models\OptionalVehicle;
 
-
-
 class SameFamilyCodeController extends Controller
 {
     public static function stepToCreateSameFamilyCodeAfterCreateNewDevotee(){
@@ -38,8 +36,6 @@ class SameFamilyCodeController extends Controller
       $param = SameFamilyCodeController::createSfcChildrenForFamily($param);
       $param['var'] = null;
     }
-
-
 
     public static function createSfcFocusDevoteeAddFamilyForAllModule($param){
       $param['mod_list'] = Module::getReleasedModuleList();
@@ -267,10 +263,6 @@ class SameFamilyCodeController extends Controller
         case 5:
           $param['sfc_list'] = $sfc_list;
           $sfc_list = SameFamilyCodeController::getSfcXiaoZai($param);
-          $sorted = $sfc_list->sortBy(function ($value, $key) {
-
-            return count($value['colors']);
-          });
 
           $sfc_focus_devotee= $sfc_list->filter(function ($value, $key) use($param) {
               if($value['devotee_id'] == $param['var']['focusdevotee_id'] ){
@@ -285,7 +277,7 @@ class SameFamilyCodeController extends Controller
           });
 
           $sfc_list = $sfc_focus_devotee->merge($sfc_family);
-          //dd($sfc_list);
+
           Session::put('same_family_code.xiaozai',$sfc_list);
           break;
 

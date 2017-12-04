@@ -1,4 +1,5 @@
 @php
+  $relative_and_friends = Session::get('relative_and_friends')['xiaozai'];
   $xiaozai_setting_differentfamily = Session::get('xiaozai_setting_differentfamily');
 
   $xiaozai_setting_differentfamily_last1year = Session::get('xiaozai_setting_differentfamily_last1year');
@@ -35,9 +36,9 @@
 
         <tbody id="appendDifferentFamilyCodeTable">
 
-          @if(Session::has('xiaozai_setting_differentfamily'))
+          @if(Session::has('relative_and_friends'))
 
-          @foreach($xiaozai_setting_differentfamily as $devotee)
+          @foreach($relative_and_friends as $devotee)
           <tr>
             <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
             <td class="checkbox-col">

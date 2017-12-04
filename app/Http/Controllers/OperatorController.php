@@ -1395,6 +1395,7 @@ class OperatorController extends Controller
 							->get();
 
 	  SameFamilyCodeController::getSfcForAllModule();
+		RelativeAndFriendsController::getRafForAllModule();
 
 		return redirect()->route('get-donation-page', [
 			'events' => $events

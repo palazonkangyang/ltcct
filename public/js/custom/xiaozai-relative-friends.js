@@ -250,7 +250,7 @@ $(function() {
 
     $.ajax({
       type: 'GET',
-      url: "/fahui/insert-devotee",
+      url: "/fahui/add-relative-and-friends",
       data: formData,
       dataType: 'json',
       success: function(response)
