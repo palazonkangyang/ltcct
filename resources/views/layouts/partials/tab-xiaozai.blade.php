@@ -1,6 +1,6 @@
 @php
   $same_family_code = Session::get('same_family_code')['xiaozai'];
-  $xiaozai_different_family = Session::get('xiaozai_different_family');
+  $relative_and_friends = Session::get('relative_and_friends')['xiaozai'];
 @endphp
 
 <div class="form-body">
@@ -85,8 +85,9 @@
                   @elseif($devotee->hjgr == 'gr')
                     个人
                   @else
+
                   @endif
-                {{ Form::hidden('amount[]',30)}}
+                  {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'home')
                 @if($devotee->hjgr == 'hj')
                   合家
@@ -172,12 +173,12 @@
           </tr>
         </thead>
 
-        @if(count($xiaozai_different_family) > 0)
+        @if(count($relative_and_friends) > 0)
 
         <tbody id="appendDevoteeLists">
 
-          @foreach($xiaozai_different_family as $list)
-
+          @foreach($relative_and_friends as $list)
+            @if($list->is_checked == 1)
             <tr>
               <td class="xiaozai-amount-col">
                 <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
@@ -219,38 +220,40 @@
               <td>{{ $list->guiyi_name }}</td>
               <td>{{ $list->ops }}</td>
               <td>
-                @if($list->type == 'sameaddress')
-                合家
-                <input type="hidden" class="form-control" name="amount[]" value="30">
-                <input type="hidden" name="type[]" value="{{ $list->type }}">
-                @elseif($list->type == 'individual')
-                个人
-                <input type="hidden" class="form-control" name="amount[]" value="20">
-                <input type="hidden" name="type[]" value="{{ $list->type }}">
+                {{ Form::hidden('type[]',$list->type)}}
+                @if($list->type == 'base_home')
+                  @if($list->hjgr == 'hj')
+                    合家
+                  @elseif($list->hjgr == 'gr')
+                    个人
+                  @else
+                  @endif
+                {{ Form::hidden('amount[]',30)}}
                 @elseif($list->type == 'home')
-                宅址
-                <input type="hidden" class="form-control" name="amount[]" value="30">
-                <input type="hidden" name="type[]" value="{{ $list->type }}">
+                @if($list->hjgr == 'hj')
+                  合家
+                @elseif($list->hjgr == 'gr')
+                  个人
+                @else
+                @endif
+                {{ Form::hidden('amount[]',20)}}
                 @elseif($list->type == 'company')
                 公司
-                <input type="hidden" class="form-control" name="amount[]" value="100">
-                <input type="hidden" name="type[]" value="{{ $list->type }}">
+                {{ Form::hidden('amount[]',100)}}
                 @elseif($list->type == 'stall')
                 小贩
-                <input type="hidden" class="form-control" name="amount[]" value="">
-                <input type="hidden" name="type[]" value="{{ $list->type }}">
+                {{ Form::hidden('amount[]',0)}}
                 @elseif($list->type == 'office')
-                办公址
-                <input type="hidden" class="form-control" name="amount[]" value="20">
-                <input type="hidden" name="type[]" value="{{ $list->type }}">
+                个人
+                {{ Form::hidden('amount[]',20)}}
                 @elseif($list->type == 'car')
                 车辆
-                <input type="hidden" class="form-control" name="amount[]" value="30">
-                <input type="hidden" name="type[]" value="{{ $list->type }}">
-                @else
+                {{ Form::hidden('amount[]',30)}}
+                @elseif($list->type == 'ship')
                 船只
-                <input type="hidden" class="form-control" name="amount[]" value="30">
-                <input type="hidden" name="type[]" value="{{ $list->type }}">
+                {{ Form::hidden('amount[]',30)}}
+                @else
+                {{ Form::hidden('amount[]',0)}}
                 @endif
               </td>
               <td>{{ $list->item_description }}</td>
@@ -264,7 +267,7 @@
                 @endif
               </td>
             </tr>
-
+            @endif
           @endforeach
 
         </tbody>

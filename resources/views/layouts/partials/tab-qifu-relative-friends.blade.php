@@ -1,5 +1,5 @@
 @php
-  $qifu_setting_differentfamily = Session::get('qifu_setting_differentfamily');
+  $relative_and_friends = Session::get('relative_and_friends')['qifu'];
 @endphp
 
 <div class="form-body">
@@ -32,7 +32,7 @@
 
         @if(Session::has('qifu_setting_differentfamily'))
 
-        @foreach($qifu_setting_differentfamily as $devotee)
+        @foreach($relative_and_friends as $devotee)
         <tr>
           <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
           <td class="checkbox-col">

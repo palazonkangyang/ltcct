@@ -44,6 +44,7 @@ class OperatorController extends Controller
 	// Home Page
 	public function index()
 	{
+		//dd(Session()->all());
 		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 								->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
@@ -87,6 +88,7 @@ class OperatorController extends Controller
 
 	public function getDevoteeByID(Request $request, $devotee_id)
 	{
+		SessionController::forgetSession();
 		// remove session data
 		Session::forget('focus_devotee');
 		Session::forget('searchfocus_devotee');
@@ -1396,6 +1398,7 @@ class OperatorController extends Controller
 
 	  SameFamilyCodeController::getSfcForAllModule();
 		RelativeAndFriendsController::getRafForAllModule();
+		//dd(Session()->all());
 
 		return redirect()->route('get-donation-page', [
 			'events' => $events

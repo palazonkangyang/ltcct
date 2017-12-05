@@ -20,15 +20,91 @@ class RelativeAndFriendsController extends Controller
     $param['raf_xiaozai_list'] = collect(new RafXiaoZai);
     $param['raf_qifu_list'] = collect(new RafQiFu);
     $param['raf_kongdan_list'] = collect(new RafKongDan);
+    $param['var']['mod_id'] = $request['mod_id'];
     $param['var']['devotee_id'] = $request['devotee_id'];
     $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
     $param['var']['is_checked'] = false;
     $param['var']['year'] = null;
     RelativeAndFriendsController::createRafForAllModule($param);
     RelativeAndFriendsController::getRafForAllModule();
+
+    switch ($param['var']['mod_id']) {
+    // Xiang You
+    case 1:
+
+      break;
+
+    // Ci Ji
+    case 2:
+
+      break;
+
+    // Yue Juan
+    case 3:
+
+      break;
+
+    // Zhu Xue Jin
+    case 4:
+
+      break;
+
+    // Xiao Zai Da Fa Hui
+    case 5:
+      return response()->json([
+        'devotee' => Session()->get('relative_and_friends.xiaozai')
+      ]);
+      break;
+
+    // Qian Fo Fa Hui
+    case 6:
+
+      break;
+
+    // Da Bei Fa Hui
+    case 7:
+
+      break;
+
+    // Yao Shi Fa Hui
+    case 8:
+
+      break;
+
+    // Qi Fu Fa Hui
+    case 9:
+      return response()->json([
+        'devotee' => Session()->get('relative_and_friends.fahui')
+      ]);
+      break;
+
+    // Kong Dan
+    case 10:
+      return response()->json([
+        'devotee' => Session()->get('relative_and_friends.kongdan')
+      ]);
+      break;
+
+    // Pu Du
+    case 11:
+
+      break;
+
+    // Chao Du
+    case 12:
+
+      break;
+
+    // Shou Sheng Ku Qian
+    case 13:
+
+      break;
+
+    default:
+    }
   }
 
-  public static function createRafForAllModule(){
+  public static function createRafForAllModule($param){
     $param['mod_list'] = Module::getReleasedFaHuiModuleList();
     foreach($param['mod_list'] as $index=> $mod){
       $param['var']['mod_id'] = $mod['mod_id'];
@@ -387,6 +463,37 @@ class RelativeAndFriendsController extends Controller
       }
     }
     return $param['raf_list'];
+  }
+
+  public function updateRafSetting(Request $request)
+  {
+    $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
+    $param['var']['mod_id'] = $request->mod_id;
+    $param['var']['year'] = null;
+    $raf_id_list = $request->raf_id;
+    $is_checked_list = $request->is_checked;
+    $hjgr_list = $request->hjgr;
+
+    foreach ($raf_id_list as $index => $raf_id){
+      $raf = Raf::find($raf_id);
+      $raf->is_checked = $is_checked_list[$index];
+      $raf->save();
+      if($param['var']['mod_id'] == 5){
+        $raf_xiaozai = RafXiaoZai::where('raf_id','=',$raf_id)->first();
+        $raf_xiaozai->hjgr = $hjgr_list[$index];
+        $raf_xiaozai->save();
+      }
+    }
+
+    RelativeAndFriendsController::getRaf($param);
+
+    $request->session()->flash('success', 'Setting for relative and friends is successfully updated.');
+    return redirect()->back();
+
+  }
+
+  public static function deleteRelativeAndFriends(Request $request){
+
   }
 
 

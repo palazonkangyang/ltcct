@@ -1,6 +1,5 @@
 @php
   $relative_and_friends = Session::get('relative_and_friends')['xiaozai'];
-  $xiaozai_setting_differentfamily = Session::get('xiaozai_setting_differentfamily');
 
   $xiaozai_setting_differentfamily_last1year = Session::get('xiaozai_setting_differentfamily_last1year');
 
@@ -39,12 +38,15 @@
           @if(Session::has('relative_and_friends'))
 
           @foreach($relative_and_friends as $devotee)
+          <input type="hidden" name="mod_id" value=5>
+          <input type="hidden" name="raf_id[]" value="{{$devotee->raf_id}}">
+          <input type="hidden" class="form-control hidden_xiaozai_id" name="hidden_xiaozai_id[]"
           <tr>
             <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
             <td class="checkbox-col">
               <input type="checkbox" class="same xiaozai_id" name="xiaozai_id[]"
-              value="1" <?php if ($devotee->xiaozai_id == '1'){ ?>checked="checked"<?php }?>>
-              <input type="hidden" class="form-control hidden_xiaozai_id" name="hidden_xiaozai_id[]"
+              value="1" <?php if ($devotee->is_checked == '1'){ ?>checked="checked"<?php }?>>
+              <input type="hidden" class="form-control hidden_xiaozai_id" name="is_checked[]"
               value="">
             </td>
             <td>
@@ -67,46 +69,27 @@
             <td></td>
             <td>{{ $devotee->ops }}</td>
             <td>
-              @if($devotee->type == 'sameaddress')
-              <select class="form-control type" name="type[]">
-                <option value="sameaddress" selected>合家</option>
-                <option value="individual">个人</option>
-              </select>
-              @elseif($devotee->type == 'individual')
-              <select class="form-control type" name="type[]">
-                <option value="sameaddress">合家</option>
-                <option value="individual" selected>个人</option>
-              </select>
+              @if($devotee->type == 'base_home')
+              {{ Form::select('hjgr[]', ['hj' => '合家','gr' => '个人'],$devotee->hjgr) }}
               @elseif($devotee->type == 'home')
-              宅址
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="home" selected>宅址</option>
-              </select>
+              {{ Form::select('hjgr[]', ['hj' => '合家','gr' => '个人'],$devotee->hjgr) }}
               @elseif($devotee->type == 'company')
               公司
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="company" selected>公司</option>
-              </select>
+              {{ Form::hidden('hjgr[]',null)}}
               @elseif($devotee->type == 'stall')
               小贩
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="stall" selected>小贩</option>
-              </select>
+              {{ Form::hidden('hjgr[]',null)}}
               @elseif($devotee->type == 'office')
-              办公址
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="office" selected>办公址</option>
-              </select>
+              个人
+              {{ Form::hidden('hjgr[]','gr')}}
               @elseif($devotee->type == 'car')
               车辆
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="car" selected>车辆</option>
-              </select>
-              @else
+              {{ Form::hidden('hjgr[]',null)}}
+              @elseif($devotee->type == 'ship')
               船只
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="ship" selected>船只</option>
-              </select>
+              {{ Form::hidden('hjgr[]',null)}}
+              @else
+              {{ Form::hidden('hjgr[]',null)}}
               @endif
             </td>
             <td>{{ $devotee->item_description }}</td>

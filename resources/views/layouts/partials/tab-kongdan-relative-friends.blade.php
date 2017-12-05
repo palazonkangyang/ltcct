@@ -1,5 +1,5 @@
 @php
-$kongdan_setting_differentfamily = Session::get('kongdan_setting_differentfamily');
+$relative_and_friends = Session::get('relative_and_friends')['kongdan'];
 $focus_devotee = Session::get('focus_devotee');
 
 $kongdan_setting_differentfamily_last1year = Session::get('kongdan_setting_differentfamily_last1year');
@@ -39,7 +39,7 @@ $kongdan_setting_differentfamily_last5year = Session::get('kongdan_setting_diffe
 
         @if(Session::has('kongdan_setting_differentfamily'))
 
-        @foreach($kongdan_setting_differentfamily as $devotee)
+        @foreach($relative_and_friends as $devotee)
         <tr>
           <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
           <td class="checkbox-col">
