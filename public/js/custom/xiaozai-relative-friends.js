@@ -331,6 +331,10 @@ $(function() {
         {
           $(".validation-error").removeClass("bg-danger alert alert-error")
           $(".validation-error").empty();
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $(".validation-error").addClass("bg-success alert alert-error")
+          $(".validation-error").html("New relative and friend has been inserted");
         }
       },
       error: function (response) {
