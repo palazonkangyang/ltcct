@@ -5,7 +5,7 @@
 
 <div class="form-body">
 
-  <form target="_blank" method="post" action="{{ URL::to('/fahui/xiaozai') }}"
+  <form target="_blank" method="post" action="{{ URL::to('/transaction/create') }}"
     class="form-horizontal form-bordered" id="xiaozai-form">
 
     {!! csrf_field() !!}
