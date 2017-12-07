@@ -19,4 +19,5 @@ class FestiveEvent extends Model
     'job_id',
     'letter_template_id'
   ];
+
 }

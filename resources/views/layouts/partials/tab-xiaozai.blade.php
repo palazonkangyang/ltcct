@@ -9,7 +9,7 @@
     class="form-horizontal form-bordered" id="xiaozai-form">
 
     {!! csrf_field() !!}
-
+    {{ Form::hidden('mod_id',5)}}
     <div class="form-group">
 
       <h4>Same Family Code 同址善信</h4>
@@ -40,23 +40,36 @@
             <tr>
               <td class="xiaozai-amount-col">
                 <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
-                <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]"
-                value="">
-                @if($devotee->type == 'sameaddress')
-                  <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-                @elseif($devotee->type == 'individual')
-                  <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
+                <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]" value="">
+                @if($devotee->type == 'base_home')
+                  @if($devotee->hjgr == 'hj')
+                    <input type="checkbox" class="hj" name="hj[]" value="" style="display:none">
+                  @elseif($devotee->hjgr == 'gr')
+                    <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
+                  @else
+
+                  @endif
+
                 @elseif($devotee->type == 'home')
-                  <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-                @elseif($devotee->type == 'company')
-                  <input type="checkbox" class="company_total_type" name="company_total_type[]" value="" style="display:none">
-                @elseif($devotee->type == 'stall')
-                @elseif($devotee->type == 'office')
-                  <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
-                @elseif($devotee->type == 'car')
-                  <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
+                  @if($devotee->hjgr == 'hj')
+                    <input type="checkbox" class="hj" name="hj[]" value="" style="display:none">
+                  @elseif($devotee->hjgr == 'gr')
+                    <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
                 @else
-                  <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
+                @endif
+
+                @elseif($devotee->type == 'company')
+                  <input type="checkbox" class="company" name="company[]" value="" style="display:none">
+                @elseif($devotee->type == 'stall')
+                  <input type="checkbox" class="stall" name="stall[]" value="" style="display:none">
+                @elseif($devotee->type == 'office')
+                  <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
+                @elseif($devotee->type == 'car')
+                  <input type="checkbox" class="car" name="car[]" value="" style="display:none">
+                @elseif($devotee->type == 'ship')
+                  <input type="checkbox" class="ship" name="ship[]" value="" style="display:none">
+                @else
+
                 @endif
               </td>
               <td>
@@ -101,7 +114,7 @@
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'stall')
                 小贩
-                {{ Form::hidden('amount[]',0)}}
+                {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'office')
                 个人
                 {{ Form::hidden('amount[]',20)}}
@@ -177,87 +190,101 @@
 
         <tbody id="appendDevoteeLists">
 
-          @foreach($relative_and_friends as $list)
-            @if($list->is_checked == 1)
+          @foreach($relative_and_friends as $devotee)
+            @if($devotee->is_checked == 1)
             <tr>
               <td class="xiaozai-amount-col">
                 <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
                 <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]"
                 value="">
-                @if($list->type == 'sameaddress')
-                  <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-                @elseif($list->type == 'individual')
-                  <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
-                @elseif($list->type == 'home')
-                  <input type="checkbox" class="address_total_type" name="address_total_type[]" value="" style="display:none">
-                @elseif($list->type == 'company')
-                  <input type="checkbox" class="company_total_type" name="company_total_type[]" value="" style="display:none">
-                @elseif($list->type == 'stall')
-                @elseif($list->type == 'office')
-                  <input type="checkbox" class="individual_office_total_type" name="individual_office_total_type[]" value="" style="display:none">
-                @elseif($list->type == 'car')
-                  <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
+                @if($devotee->type == 'base_home')
+                  @if($devotee->hjgr == 'hj')
+                    <input type="checkbox" class="hj" name="hj[]" value="" style="display:none">
+                  @elseif($devotee->hjgr == 'gr')
+                    <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
+                  @else
+
+                  @endif
+
+                @elseif($devotee->type == 'home')
+                  @if($devotee->hjgr == 'hj')
+                    <input type="checkbox" class="hj" name="hj[]" value="" style="display:none">
+                  @elseif($devotee->hjgr == 'gr')
+                    <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
                 @else
-                  <input type="checkbox" class="vehicle_total_type" name="vehicle_total_type[]" value="" style="display:none">
+                @endif
+
+                @elseif($devotee->type == 'company')
+                  <input type="checkbox" class="company" name="company[]" value="" style="display:none">
+                @elseif($devotee->type == 'stall')
+                  <input type="checkbox" class="stall" name="stall[]" value="" style="display:none">
+                @elseif($devotee->type == 'office')
+                  <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
+                @elseif($devotee->type == 'car')
+                  <input type="checkbox" class="car" name="car[]" value="" style="display:none">
+                @elseif($devotee->type == 'ship')
+                  <input type="checkbox" class="ship" name="ship[]" value="" style="display:none">
+                @else
+
                 @endif
               </td>
               <td>
-                @if($list->deceased_year != null)
-                <span class="text-danger">{{ $list->chinese_name }}</span>
+                @if($devotee->deceased_year != null)
+                <span class="text-danger">{{ $devotee->chinese_name }}</span>
                 @else
-                <span>{{ $list->chinese_name }}</span>
+                <span>{{ $devotee->chinese_name }}</span>
                 @endif
               </td>
               <td>
-                @if($list->specialremarks_devotee_id == null)
-                <span id="devotee">{{ $list->devotee_id }}</span>
+                @if($devotee->specialremarks_devotee_id == null)
+                <span id="devotee">{{ $devotee->devotee_id }}</span>
                 @else
-                <span class="text-danger" id="devotee">{{ $list->devotee_id }}</span>
+                <span class="text-danger" id="devotee">{{ $devotee->devotee_id }}</span>
                 @endif
-              <input type="hidden" name="devotee_id[]" value="{{ $list->devotee_id }}">
+              <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
               </td>
               <td></td>
-              <td>{{ $list->guiyi_name }}</td>
-              <td>{{ $list->ops }}</td>
+              <td>{{ $devotee->guiyi_name }}</td>
+              <td>{{ $devotee->ops }}</td>
               <td>
-                {{ Form::hidden('type[]',$list->type)}}
-                @if($list->type == 'base_home')
-                  @if($list->hjgr == 'hj')
+                {{ Form::hidden('type[]',$devotee->type)}}
+                @if($devotee->type == 'base_home')
+                  @if($devotee->hjgr == 'hj')
                     合家
-                  @elseif($list->hjgr == 'gr')
+                  @elseif($devotee->hjgr == 'gr')
                     个人
                   @else
                   @endif
                 {{ Form::hidden('amount[]',30)}}
-                @elseif($list->type == 'home')
-                @if($list->hjgr == 'hj')
+                @elseif($devotee->type == 'home')
+                @if($devotee->hjgr == 'hj')
                   合家
-                @elseif($list->hjgr == 'gr')
+                @elseif($devotee->hjgr == 'gr')
                   个人
                 @else
                 @endif
                 {{ Form::hidden('amount[]',20)}}
-                @elseif($list->type == 'company')
+                @elseif($devotee->type == 'company')
                 公司
                 {{ Form::hidden('amount[]',100)}}
-                @elseif($list->type == 'stall')
+                @elseif($devotee->type == 'stall')
                 小贩
-                {{ Form::hidden('amount[]',0)}}
-                @elseif($list->type == 'office')
+                {{ Form::hidden('amount[]',100)}}
+                @elseif($devotee->type == 'office')
                 个人
                 {{ Form::hidden('amount[]',20)}}
-                @elseif($list->type == 'car')
+                @elseif($devotee->type == 'car')
                 车辆
                 {{ Form::hidden('amount[]',30)}}
-                @elseif($list->type == 'ship')
+                @elseif($devotee->type == 'ship')
                 船只
                 {{ Form::hidden('amount[]',30)}}
                 @else
                 {{ Form::hidden('amount[]',0)}}
                 @endif
               </td>
-              <td>{{ $list->item_description }}</td>
-              <td>{{ $list->receipt_no }}</td>
+              <td>{{ $devotee->item_description }}</td>
+              <td>{{ $devotee->receipt_no }}</td>
               <td></td>
               <td>
                 @if(isset($devotee->lasttransaction_at))
@@ -393,12 +420,12 @@
             <div class="mt-radio-list">
 
               <label class="mt-radio mt-radio-outline"> 1 Receipt Printing for Same Address
-                <input type="radio" name="hjgr" value="hj" checked>
+                <input type="radio" name="receipt_printing_type" value="one_receipt_printing_for_same_address" checked>
                 <span></span>
               </label>
 
               <label class="mt-radio mt-radio-outline"> Individual Receipt Printing
-                <input type="radio" name="hjgr" value="gr">
+                <input type="radio" name="receipt_printing_type" value="individual_receipt_printing">
                 <span></span>
               </label>
             </div><!-- end mt-radio-list -->
@@ -444,8 +471,8 @@
 
         <div class="form-group">
           <label class="col-md-12">
-            <p style="font-size: 15px;"><span class="address_total">0</span> 合家 @ S$ 30.00	=	S$ <span class="address_total_amount">0</span></p>
-            <p style="font-size: 15px;"><span class="individual_office_total">0</span> 个人 @ S$ 20.00	=	S$ <span class="individual_office_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="hj_total">0</span> 合家 @ S$ 30.00	=	S$ <span class="hj_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="gr_total">0</span> 个人 @ S$ 20.00	=	S$ <span class="gr_total_amount">0</span></p>
             <p style="font-size: 15px;"><span class="company_total">0</span> 公司 @ S$ 100.00	=	S$ <span class="company_total_amount">0</span></p>
             <p style="font-size: 15px;"><span class="vehicle_total">0</span> 车辆 @ S$ 30.00	=	S$ <span class="vehicle_total_amount">0</span></p>
           </label>
