@@ -207,9 +207,17 @@ class Devotee extends Model
     return $devotee;
   }
 
+  public static function getDevotee($devotee_id){
+    return Devotee::where('devotee_id',$devotee_id)->first();
+  }
+
   public static function isMember($devotee_id){
     return !empty(Devotee::where('devotee_id',$devotee_id)->pluck('member_id')->first());
 
+  }
+
+  public static function getChineseName($devotee_id){
+    return Devotee::where('devotee_id',$devotee_id)->pluck('chinese_name')->first();
   }
 
 }

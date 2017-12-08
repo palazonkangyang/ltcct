@@ -25,7 +25,7 @@ class Rct extends Model
     'trans_date'
   ];
 
-  public static function getReceiptList($trn_id){
+  public static function getReceipts($trn_id){
     return Rct::where('trn_id',$trn_id)->get();
   }
 

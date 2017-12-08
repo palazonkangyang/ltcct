@@ -104,7 +104,7 @@ class RelativeAndFriendsController extends Controller
       }
 
       $request->session()->flash('success', 'Setting for different addresses are successfully created.');
-    
+
     return redirect()->back();
   }
 

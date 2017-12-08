@@ -103,9 +103,9 @@ class XiaozaiController extends Controller
 
     if($xiaozai_generaldonation)
 		{
-      for($i = 0; $i < count($input['hidden_xiaozai_amount']); $i++)
+      for($i = 0; $i < count($input['hidden_xiaozai_id']); $i++)
       {
-        if($input['hidden_xiaozai_amount'][$i] == 1)
+        if($input['hidden_xiaozai_id'][$i] == 1)
         {
           $devotee = Devotee::find($input['devotee_id'][$i]);
 

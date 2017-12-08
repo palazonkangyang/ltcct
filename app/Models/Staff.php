@@ -22,4 +22,8 @@ class Staff extends Model implements CanResetPasswordContract
 		'user_name',
 		'password'
 	];
+
+	public static function getStaff($staff_id){
+		return Staff::where('staff_id',$staff_id)->first();
+	}
 }

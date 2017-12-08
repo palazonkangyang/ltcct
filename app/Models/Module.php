@@ -16,6 +16,10 @@ class Module extends Model
       'chinese_name'
   ];
 
+  public static function getModule($mod_id){
+    return Module::where('mod_id',$mod_id)->first();
+  }
+
   public static function getAllModuleList(){
     return Module::all();
   }

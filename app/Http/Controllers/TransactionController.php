@@ -9,10 +9,14 @@ use Carbon\Carbon;
 use App\Models\Trn;
 use App\Models\Rct;
 use App\Models\Module;
+use App\Models\Devotee;
+use App\Models\Staff;
+use App\Models\FestiveEvent;
 
 class TransactionController extends Controller
 {
     public function createTransaction(Request $request){
+
       $param['transaction']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['transaction']['festiveevent_id'] = $request['festiveevent_id'];
       $param['transaction']['mod_id'] = $request['mod_id'];
@@ -32,7 +36,8 @@ class TransactionController extends Controller
       $param['var']['devotee_id_list'] = $request['devotee_id'];
       $param['receipt']['mod_id'] = $request['mod_id'];
 
-      $param['var']['is_checked_list'] = $request['hidden_xiaozai_amount'];
+      $param['var']['is_checked_list'] = $request['hidden_xiaozai_id'];
+      dd($request);
       $param['var']['amount_list'] = $request['amount'];
       $param['receipt']['status'] = null;
       $param['receipt']['cancelled_by'] = null;
@@ -46,20 +51,22 @@ class TransactionController extends Controller
       ReceiptController::createReceipt($param);
 
       $transaction = Trn::getTransaction($param['receipt']['trn_id']);
-      $receipt_list = Rct::getReceiptList($param['receipt']['trn_id']);
+      $receipts = Rct::getReceipts($param['receipt']['trn_id']);
 
-      count($receipt_list) > 1 ? $receipt_no_combine = $receipt_list->first()['receipt_no'] . ' - ' . $receipt_list->last()['receipt_no'] : $receipt_no_combine;
-      $loop = intval(ceil(count($receipt_list) / 6),0);
-      dd($receipt_no_combine);
+      count($receipts) > 1 ? $receipt_no_combine = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $receipt_no_combine = $receipt_no_combine = $receipts->first()['receipt_no'];
+      $loop = intval(ceil(count($receipts) / 6),0);
 
-      return view('fahui.xiaozai_print', [
+      return view('staff.print_receipt', [
+        'module' => Module::getModule($request['mod_id']),
   			'transaction' => $transaction,
-        'receipt_list' => $receipt_list,
+        'staff' => Staff::getStaff(Auth::user()->id),
+        'receipts' => $receipts,
+        'next_event' => FestiveEvent::getNextEvent(),
   			'loop' => $loop,
-  			'count_familycode' => $count_familycode, //XY170359 - XY170360
-  			'samefamily_no' => $samefamily_no,       //last index of family member
-  			'total_amount' => number_format($total_amount, 2),
-  			'paid_by' => $paid_by
+        'family_address' => AddressController::getAddressByDevoteeId(session()->get('focus_devotee')[0]['devotee_id']),
+  			'receipt_no_combine' => $receipt_no_combine,
+        'time_now' => Carbon::now('Singapore'),
+  			'paid_by_devotee' => Devotee::getDevotee(session()->get('focus_devotee')[0]['devotee_id'])
   		]);
     }
 
