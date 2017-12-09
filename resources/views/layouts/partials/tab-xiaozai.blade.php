@@ -40,7 +40,7 @@
             <tr>
               <td class="xiaozai-amount-col">
                 <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
-                <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]" value="">
+                <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')
                     <input type="checkbox" class="hj" name="hj[]" value="" style="display:none">
@@ -129,6 +129,7 @@
                 @endif
               </td>
               <td>{{ $devotee->item_description }}</td>
+              {{ Form::hidden('item_description_list[]',$devotee->item_description)}}
               <td width="80px">{{ $devotee->receipt_no }}</td>
               <td></td>
               <td>
@@ -195,7 +196,7 @@
             <tr>
               <td class="xiaozai-amount-col">
                 <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
-                <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]"
+                <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]"
                 value="">
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')
@@ -284,6 +285,7 @@
                 @endif
               </td>
               <td>{{ $devotee->item_description }}</td>
+              {{ Form::hidden('item_description_list[]',$devotee->item_description)}}
               <td>{{ $devotee->receipt_no }}</td>
               <td></td>
               <td>

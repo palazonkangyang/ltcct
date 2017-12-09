@@ -19,6 +19,7 @@ class Rct extends Model
     'receipt_no',
     'hjgr',
     'amount',
+    'item_description',
     'status',
     'cancelled_by',
     'cancelled_date',
@@ -26,7 +27,16 @@ class Rct extends Model
   ];
 
   public static function getReceipts($trn_id){
-    return Rct::where('trn_id',$trn_id)->get();
+
+    $receipts = Rct::where('trn_id',$trn_id)->get();
+
+    foreach($receipts as $index=>$receipt){
+      if(Module::isXiaoZai($receipt['mod_id'])){
+        $receipt['type'] = RctXiaoZai::getType($receipt['rct_id']);
+      }
+    }
+
+    return $receipts;
   }
 
   public static function getGLCode($devotee_id,$mod_id){
@@ -113,7 +123,8 @@ class Rct extends Model
   }
 
   public static function getLastReceiptNoOfModule($mod_id){
-    return Rct::where('mod_id',$mod_id)->latest()->first()->receipt_no;
+    return Rct::where('mod_id',$mod_id)->orderBy('rct_id','desc')->pluck('receipt_no')->first();
   }
+
 
 }

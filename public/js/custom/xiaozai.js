@@ -67,16 +67,16 @@ $(function() {
 
     this_master.find("input[name='xiaozai_amount[]']").each( function () {
       var checkbox_this = $(this);
-      var hidden_xiaozai_amount = checkbox_this.closest('.xiaozai-amount-col').find('.hidden_xiaozai_amount');
+      var is_checked_list = checkbox_this.closest('.xiaozai-amount-col').find('.is_checked_list');
 
       if( checkbox_this.is(":checked") == true ) {
-        hidden_xiaozai_amount.attr('value','1');
+        is_checked_list.attr('value','1');
       }
 
       else {
-        hidden_xiaozai_amount.prop('checked', true);
+        is_checked_list.prop('checked', true);
         //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
-        hidden_xiaozai_amount.attr('value','0');
+        is_checked_list.attr('value','0');
       }
     });
   });

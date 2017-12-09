@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Session;  
+use Session;
 
 class Trn extends Model
 {
@@ -51,6 +51,14 @@ class Trn extends Model
     $trans_no = sprintf("%05d", $trans_no);
     $trans_no = $prefix . $trans_no;
     return $trans_no;
+  }
+
+  public static function isCombinePrinting($trn_id){
+    return Trn::where('trn_id',$trn_id)->pluck('receipt_printing_type')->first() == 'one_receipt_printing_for_same_address';
+  }
+
+  public static function isIndividualPrinting($trn_id){
+    return Trn::where('trn_id',$trn_id)->pluck('receipt_printing_type')->first() == 'individual_receipt_printing';
   }
 
 }

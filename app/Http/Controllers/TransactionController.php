@@ -36,10 +36,10 @@ class TransactionController extends Controller
       $param['var']['devotee_id_list'] = $request['devotee_id'];
       $param['receipt']['mod_id'] = $request['mod_id'];
 
-      $param['var']['is_checked_list'] = $request['hidden_xiaozai_amount'];
-      dd($request);
+      $param['var']['is_checked_list'] = $request['is_checked_list'];
       $param['var']['amount_list'] = $request['amount'];
       $param['receipt']['status'] = null;
+      $param['var']['item_description_list'] = $request['item_description_list'];
       $param['receipt']['cancelled_by'] = null;
       $param['receipt']['cancelled_date'] = null;
       $param['receipt']['trans_date'] = Carbon::now();
@@ -47,16 +47,29 @@ class TransactionController extends Controller
       Module::isXiangYou($request['mod_id']) ? $param['receipt']['hjgr'] = $request['hjgr'] : false ;
       Module::isCiJi($request['mod_id']) ? $param['receipt']['hjgr'] = $request['hjgr'] : false ;
       Module::isXiaoZai($request['mod_id']) ? $param['var']['type_list'] = $request['type'] : false ;
-
       ReceiptController::createReceipt($param);
+
+      if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
+
+      }
+
+      elseif(Trn::isIndividualPrinting($param['receipt']['trn_id'])){
+
+      }
 
       $transaction = Trn::getTransaction($param['receipt']['trn_id']);
       $receipts = Rct::getReceipts($param['receipt']['trn_id']);
-
       count($receipts) > 1 ? $receipt_no_combine = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $receipt_no_combine = $receipt_no_combine = $receipts->first()['receipt_no'];
       $loop = intval(ceil(count($receipts) / 6),0);
 
-      return view('staff.print_receipt', [
+      //dd($receipts);
+
+
+
+
+
+
+      return view('receipt.receipt_xiaozai', [
         'module' => Module::getModule($request['mod_id']),
   			'transaction' => $transaction,
         'staff' => Staff::getStaff(Auth::user()->id),

@@ -17,6 +17,7 @@ class ReceiptController extends Controller
           $param['receipt']['glcode_id'] = Rct::getGLCode($devotee_id , $param['receipt']['mod_id']);
           $param['receipt']['receipt_no'] = Rct::generateReceiptNo($param['receipt']['mod_id'],$param['receipt']['glcode_id']);
           $param['receipt']['amount'] = $param['var']['amount_list'][$index];
+          $param['receipt']['item_description'] = $param['var']['item_description_list'][$index];
           $param['receipt_children']['rct_id'] = Rct::create($param['receipt'])->rct_id;
           $mod_id = $param['receipt']['mod_id'];
           if(Module::isXiangYou($mod_id)){
