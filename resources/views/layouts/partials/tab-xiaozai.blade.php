@@ -40,7 +40,7 @@
             <tr>
               <td class="xiaozai-amount-col">
                 <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
-                <input type="hidden" class="form-control hidden_xiaozai_id" name="hidden_xiaozai_id[]" value="">
+                <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]" value="">
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')
                     <input type="checkbox" class="hj" name="hj[]" value="" style="display:none">
@@ -195,7 +195,7 @@
             <tr>
               <td class="xiaozai-amount-col">
                 <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
-                <input type="hidden" class="form-control hidden_xiaozai_id" name="hidden_xiaozai_id[]"
+                <input type="hidden" class="form-control hidden_xiaozai_amount" name="hidden_xiaozai_amount[]"
                 value="">
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')

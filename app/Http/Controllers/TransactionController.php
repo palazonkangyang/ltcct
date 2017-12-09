@@ -36,7 +36,7 @@ class TransactionController extends Controller
       $param['var']['devotee_id_list'] = $request['devotee_id'];
       $param['receipt']['mod_id'] = $request['mod_id'];
 
-      $param['var']['is_checked_list'] = $request['hidden_xiaozai_id'];
+      $param['var']['is_checked_list'] = $request['hidden_xiaozai_amount'];
       dd($request);
       $param['var']['amount_list'] = $request['amount'];
       $param['receipt']['status'] = null;
