@@ -144,50 +144,9 @@ class Rct extends Model
       }
     }
 
-    dd($receipts_array);
+    $receipts_array[0]['receipt'] = array_chunk($receipts_array[0]['receipt'],6);
 
-
-    // $devotee_receipts_index = 0;
-    // foreach($receipts_array as $index1=>$receipt){
-    //   $unique_devotee_receipt_index = 0;
-    //   $receipt_count = count($receipt['receipt']);
-    //   $quotient = (int)($receipt_count / 6);
-    //   $remainder = $receipt_count % 6;
-    //   for($index2 = 0 ; $index2 < $quotient ; $index2 ++){
-    //
-    //     $total_amount = 0;
-    //     for($index3 = 0 ; $index3 < 6 ; $index3 ++){
-    //
-    //       // $total_amount = $total_amount + $receipt['receipt'][$unique_devotee_receipt_index]['amount'] ;
-    //       $devotee_receipts[$index3]['receipts'] = $receipt['receipt'];
-    //       if($index3 == 6){
-    //         // $devotee_receipts[$index3]['total_amount'] = $total_amount;
-    //         // $devotee_receipts[$index3]['devotee_id'] = $receipt['devotee_id'];
-    //         // $devotee_receipts[$index3]['receipt_no_first'] = $receipt[0]['receipt_no'];
-    //         // $devotee_receipts[$index3]['receipt_no_last'] = $receipt[5]['receipt_no'];
-    //         // $devotee_receipts[$index3]['no_of_set'] = 6;
-    //       }
-    //       $unique_devotee_receipt_index ++;
-    //       $devotee_receipts_index ++;
-    //     }
-    //   }
-    //
-    //     for($index4 = 0 ; $index4 < $remainder ; $index4 ++){
-    //       $unique_devotee_receipt_index ++;
-    //       $devotee_receipts_index ++;
-    //     }
-    //
-    // }
-
-    // $unique_devotee_receipt_index = 0;
-    // $receipt_count = count($receipts_array[0]['receipt']);
-    // $quotient = (int)($receipt_count / 6);
-    // $remainder = $receipt_count % 6;
-    //
-    // //0 1 2 3 4 5 6
-    //
-    //
-    // dd($receipt_count);
+    //dd($receipts_array);
 
 
 
