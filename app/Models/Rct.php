@@ -126,5 +126,119 @@ class Rct extends Model
     return Rct::where('mod_id',$mod_id)->orderBy('rct_id','desc')->pluck('receipt_no')->first();
   }
 
+  public static function paginateSingleReceipt($receipts){
+
+    // unique devotee
+    $receipts_array = [];
+
+    $unique_devotee_ids = $receipts->unique('devotee_id')->pluck('devotee_id');
+    foreach($unique_devotee_ids as $index1=>$unique_devotee_id){
+      $receipts_array[$index1]['devotee'] = Devotee::getDevotee($unique_devotee_id);
+
+      $index_count = 0;
+      foreach($receipts as $index2=>$receipt){
+        if(Devotee::isSameDevoteeId($unique_devotee_id,$receipt['devotee_id'])){
+           $receipts_array[$index1]['receipt'][$index_count] = $receipt;
+           $index_count++;
+        }
+      }
+    }
+
+    dd($receipts_array);
+
+
+    // $devotee_receipts_index = 0;
+    // foreach($receipts_array as $index1=>$receipt){
+    //   $unique_devotee_receipt_index = 0;
+    //   $receipt_count = count($receipt['receipt']);
+    //   $quotient = (int)($receipt_count / 6);
+    //   $remainder = $receipt_count % 6;
+    //   for($index2 = 0 ; $index2 < $quotient ; $index2 ++){
+    //
+    //     $total_amount = 0;
+    //     for($index3 = 0 ; $index3 < 6 ; $index3 ++){
+    //
+    //       // $total_amount = $total_amount + $receipt['receipt'][$unique_devotee_receipt_index]['amount'] ;
+    //       $devotee_receipts[$index3]['receipts'] = $receipt['receipt'];
+    //       if($index3 == 6){
+    //         // $devotee_receipts[$index3]['total_amount'] = $total_amount;
+    //         // $devotee_receipts[$index3]['devotee_id'] = $receipt['devotee_id'];
+    //         // $devotee_receipts[$index3]['receipt_no_first'] = $receipt[0]['receipt_no'];
+    //         // $devotee_receipts[$index3]['receipt_no_last'] = $receipt[5]['receipt_no'];
+    //         // $devotee_receipts[$index3]['no_of_set'] = 6;
+    //       }
+    //       $unique_devotee_receipt_index ++;
+    //       $devotee_receipts_index ++;
+    //     }
+    //   }
+    //
+    //     for($index4 = 0 ; $index4 < $remainder ; $index4 ++){
+    //       $unique_devotee_receipt_index ++;
+    //       $devotee_receipts_index ++;
+    //     }
+    //
+    // }
+
+    // $unique_devotee_receipt_index = 0;
+    // $receipt_count = count($receipts_array[0]['receipt']);
+    // $quotient = (int)($receipt_count / 6);
+    // $remainder = $receipt_count % 6;
+    //
+    // //0 1 2 3 4 5 6
+    //
+    //
+    // dd($receipt_count);
+
+
+
+  }
+
+  public static function paginateCombineReceiptOfFamily($receipts){
+    $receipts_of_family = $receipts->filter(function ($value, $key) {
+      if(Devotee::isSameFamily(session()->get('focus_devotee')[0]['devotee_id'],$value['devotee_id'])){
+        return $value;
+      }
+    });
+
+    // to be implement for combine algorithm
+
+    return $receipts_of_family;
+  }
+
+  public static function paginateSingleReceiptOfFamily($receipts){
+    $receipts_of_family = $receipts->filter(function ($value, $key) {
+      if(Devotee::isSameFamily(session()->get('focus_devotee')[0]['devotee_id'],$value['devotee_id'])){
+        return $value;
+      }
+    });
+
+    $receipts_collect = collect(new Rct);
+    dd($receipts_collect);
+
+    $unique_devotee_ids = $receipts_of_family->unique('devotee_id')->pluck('devotee_id');
+
+    foreach($receipts_of_family as $index=>$receipt){
+
+    }
+
+    // foreach($unique_devotee_ids){
+    //
+    // }
+
+    return $receipts_of_family;
+  }
+
+  public static function paginateSingleReceiptOfRelative($receipts){
+    $receipts_of_relatives = $receipts->filter(function ($value, $key) {
+      if(Devotee::isRelative(session()->get('focus_devotee')[0]['devotee_id'],$value['devotee_id'])){
+        return $value;
+      }
+    });
+
+    return $receipts_of_relatives;
+  }
+
+
+
 
 }

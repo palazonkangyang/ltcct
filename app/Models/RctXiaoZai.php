@@ -18,4 +18,7 @@ class RctXiaoZai extends Model
   public static function getType($rct_id){
     return RctXiaoZai::where('rct_id',$rct_id)->pluck('type')->first();
   }
+
+  
+
 }

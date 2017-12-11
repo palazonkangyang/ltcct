@@ -49,25 +49,23 @@ class TransactionController extends Controller
       Module::isXiaoZai($request['mod_id']) ? $param['var']['type_list'] = $request['type'] : false ;
       ReceiptController::createReceipt($param);
 
-      if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
 
-      }
-
-      elseif(Trn::isIndividualPrinting($param['receipt']['trn_id'])){
-
-      }
 
       $transaction = Trn::getTransaction($param['receipt']['trn_id']);
       $receipts = Rct::getReceipts($param['receipt']['trn_id']);
       count($receipts) > 1 ? $receipt_no_combine = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $receipt_no_combine = $receipt_no_combine = $receipts->first()['receipt_no'];
       $loop = intval(ceil(count($receipts) / 6),0);
 
-      //dd($receipts);
+      if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
+        $receipts_of_family = Rct::paginateCombineReceiptOfFamily($receipts);
+        $receipts_of_relative = Rct::paginateSingleReceiptOfRelative($receipts);
+      }
 
-
-
-
-
+      elseif(Trn::isIndividualPrinting($param['receipt']['trn_id'])){
+        $receipts = Rct::paginateSingleReceipt($receipts);
+        //$receipts_of_family = Rct::paginateSingleReceiptOfFamily($receipts);
+        //$receipts_of_relative = Rct::paginateSingleReceiptOfRelative($receipts);
+      }
 
       return view('receipt.receipt_xiaozai', [
         'module' => Module::getModule($request['mod_id']),
