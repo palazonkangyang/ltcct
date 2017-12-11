@@ -19,4 +19,8 @@ class GlCode extends Model
     'receipt_prefix',
     'glcodegroup_id'
   ];
+
+  public static function getReceiptPrefixByGLCodeId($glcode_id){
+    return GlCode::where('glcode_id',$glcode_id)->pluck('receipt_prefix')->first();
+  }
 }

@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class FestiveEvent extends Model
 {
@@ -19,4 +20,12 @@ class FestiveEvent extends Model
     'job_id',
     'letter_template_id'
   ];
+
+  public static function getNextEvent(){
+    return FestiveEvent::where('end_at','>',Carbon::now())
+                       ->first();
+  }
+
+
+
 }

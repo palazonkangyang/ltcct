@@ -18,4 +18,19 @@ class OptionalVehicle extends Model
     {
         return $this->belongsTo( \App\Models\Devotee::class );
     }
+
+    public static function getOptionalVehicleByDevoteeId($param){
+      return OptionalVehicle::where('devotee_id','=',$param['var']['devotee_id'])
+                            ->get();
+    }
+
+    public static function getOptionalVehicleByOptionalAddressId($optionalvehicle_id){
+      return OptionalVehicle::where('optionalvehicle_id','=',$optionalvehicle_id)
+                            ->first();
+    }
+
+
+
+
+
 }

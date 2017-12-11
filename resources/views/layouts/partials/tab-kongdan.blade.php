@@ -1,6 +1,5 @@
 @php
-$kongdan_same_family = Session::get('kongdan_same_family');
-$kongdan_same_focusdevotee = Session::get('kongdan_same_focusdevotee');
+$same_family_code = Session::get('same_family_code')['kongdan'];
 
 $kongdan_different_family = Session::get('kongdan_different_family');
 $focus_devotee = Session::get('focus_devotee');
@@ -33,122 +32,64 @@ $focus_devotee = Session::get('focus_devotee');
         </tr>
       </thead>
 
-      @if(count($kongdan_same_focusdevotee) > 0 || count($kongdan_same_family) > 0)
+      @if(Session::has('same_family_code'))
 
       <tbody id="has_session">
-
-        @if(count($kongdan_same_focusdevotee) > 0)
-
-        <tr>
-          <td class="kongdan-amount-col">
-            <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]"
-            value="">
-          </td>
-          <td>
-            @if($kongdan_same_focusdevotee[0]->deceased_year != null)
-            <span class="text-danger">{{ $kongdan_same_focusdevotee[0]->chinese_name }}</span>
-            @else
-            <span>{{ $kongdan_same_focusdevotee[0]->chinese_name }}</span>
-            @endif
-          </td>
-          <td>
-            @if($kongdan_same_focusdevotee[0]->specialremarks_devotee_id == null)
-            <span id="devotee">{{ $kongdan_same_focusdevotee[0]->devotee_id }}</span>
-            @else
-            <span class="text-danger" id="devotee">{{ $kongdan_same_focusdevotee[0]->devotee_id }}</span>
-            @endif
-            <input type="hidden" name="devotee_id[]" value="{{ $kongdan_same_focusdevotee[0]->devotee_id }}">
-          </td>
-          <td></td>
-          <td>{{ $kongdan_same_focusdevotee[0]->guiyi_name }}</td>
-          <td></td>
-          <td>
-            @if(isset($kongdan_same_focusdevotee[0]->oversea_addr_in_chinese))
-            {{ $kongdan_same_focusdevotee[0]->oversea_addr_in_chinese }}
-            @elseif(isset($kongdan_same_focusdevotee[0]->address_unit1) && isset($kongdan_same_focusdevotee[0]->address_unit2))
-            {{ $kongdan_same_focusdevotee[0]->address_houseno }}, #{{ $kongdan_same_focusdevotee[0]->address_unit1 }}-{{ $kongdan_same_focusdevotee[0]->address_unit2 }}, {{ $kongdan_same_focusdevotee[0]->address_street }}, {{ $kongdan_same_focusdevotee[0]->address_postal }}
-            @else
-            {{ $kongdan_same_focusdevotee[0]->address_houseno }}, {{ $kongdan_same_focusdevotee[0]->address_street }}, {{ $kongdan_same_focusdevotee[0]->address_postal }}
-            @endif
-          </td>
-          <td width="80px">
-            @if(isset($kongdan_same_focusdevotee->paytill_date) && \Carbon\Carbon::parse($kongdan_same_focusdevotee[0]->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($kongdan_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($kongdan_same_focusdevotee[0]->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($kongdan_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $kongdan_same_focusdevotee[0]->paytill_date }}</span>
-            @endif
-          </td>
-          <td></td>
-          <td>
-            @if(isset($kongdan_same_focusdevotee[0]->lasttransaction_at))
-            <span>{{ \Carbon\Carbon::parse($kongdan_same_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $kongdan_same_focusdevotee[0]->lasttransaction_at }}</span>
-            @endif
-          </td>
-        </tr>
-
-        @endif
-
-        @if(count($kongdan_same_family) > 0)
-
-        @foreach($kongdan_same_family as $devotee)
-
-        <tr>
-          <td class="kongdan-amount-col">
-            <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]"
-            value="">
-          </td>
-          <td>
-            @if($devotee->deceased_year != null)
-            <span class="text-danger">{{ $devotee->chinese_name }}</span>
-            @else
-            <span>{{ $devotee->chinese_name }}</span>
-            @endif
-          </td>
-          <td>
-            @if($devotee->specialremarks_devotee_id == null)
-            <span id="devotee">{{ $devotee->devotee_id }}</span>
-            @else
-            <span class="text-danger" id="devotee">{{ $devotee->devotee_id }}</span>
-            @endif
-            <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
-          </td>
-          <td></td>
-          <td>{{ $devotee->guiyi_name }}</td>
-          <td></td>
-          <td>
-            @if(isset($devotee->oversea_addr_in_chinese))
-            {{ $devotee->oversea_addr_in_chinese }}
-            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-            @else
-            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-            @endif
-          </td>
-          <td width="80px">
-            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($devotee->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $devotee->paytill_date }}</span>
-            @endif
-          </td>
-          <td></td>
-          <td>
-            @if(isset($devotee->lasttransaction_at))
-            <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $devotee->lasttransaction_at }}</span>
-            @endif
-          </td>
-        </tr>
-
+        @if(count($same_family_code) > 0)
+        @foreach($same_family_code as $devotee)
+          @if($devotee->is_checked == 1)
+            <tr>
+            <td class="kongdan-amount-col">
+              <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
+              <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]"
+              value="">
+            </td>
+            <td>
+              @if($devotee->deceased_year != null)
+              <span class="text-danger">{{ $devotee->chinese_name }}</span>
+              @else
+              <span>{{ $devotee->chinese_name }}</span>
+              @endif
+            </td>
+            <td>
+              @if($devotee->specialremarks_devotee_id == null)
+              <span id="devotee">{{ $devotee->devotee_id }}</span>
+              @else
+              <span class="text-danger" id="devotee">{{ $devotee->devotee_id }}</span>
+              @endif
+              <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}">
+            </td>
+            <td></td>
+            <td>{{ $devotee->guiyi_name }}</td>
+            <td></td>
+            <td>
+              @if(isset($devotee->oversea_addr_in_chinese))
+              {{ $devotee->oversea_addr_in_chinese }}
+              @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+              {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+              @else
+              {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+              @endif
+            </td>
+            <td width="80px">
+              @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+              <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+              @elseif(isset($devotee->paytill_date))
+              <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+              @else
+              <span>{{ $devotee->paytill_date }}</span>
+              @endif
+            </td>
+            <td></td>
+            <td>
+              @if(isset($devotee->lasttransaction_at))
+              <span>{{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}</span>
+              @else
+              <span>{{ $devotee->lasttransaction_at }}</span>
+              @endif
+            </td>
+          </tr>
+          @endif
         @endforeach
 
         @endif

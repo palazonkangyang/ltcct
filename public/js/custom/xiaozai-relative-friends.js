@@ -245,12 +245,13 @@ $(function() {
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
       devotee_id: devotee_id,
+      mod_id: 5,
       address: a
     };
 
     $.ajax({
       type: 'GET',
-      url: "/fahui/insert-devotee",
+      url: "/fahui/add-relative-and-friends",
       data: formData,
       dataType: 'json',
       success: function(response)
@@ -267,8 +268,8 @@ $(function() {
             if(id == data.devotee_id && type == data.type)
             {
               notsamevalue = 1;
-              validationFailed = true;
-              errors[count++] = "Some Addresses are already exits. Some Addresses are inserted.";
+              //validationFailed = true;
+              //errors[count++] = "Some Addresses are already exits. Some Addresses are inserted.";
             }
           });
 
@@ -330,6 +331,10 @@ $(function() {
         {
           $(".validation-error").removeClass("bg-danger alert alert-error")
           $(".validation-error").empty();
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $(".validation-error").addClass("bg-success alert alert-error")
+          $(".validation-error").html("New relative and friend has been inserted");
         }
       },
       error: function (response) {
@@ -389,7 +394,33 @@ $(function() {
     }
 
     else {
-      $(this).closest('tr').remove();
+      var formData = {
+        _token: $('meta[name="csrf-token"]').attr('content')
+
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: "/fahui/delete-relative-and-friends",
+        data: formData,
+        dataType: 'json',
+        success: function(response)
+        {
+          alert(response);
+          //if(response.devotee.length != 0)
+          //{
+          //  $(this).closest('tr').remove();
+          //}
+
+          // else
+          // {
+          //   $('#search_devotee_lists tbody').append("<tr><td>Failed to delete record</td></tr>");
+          // }
+        },
+        error: function (response) {
+            console.log(response);
+        }
+      });
     }
   });
 

@@ -2823,7 +2823,6 @@ class StaffController extends Controller
 	public function getSearchDevoteeID(Request $request)
 	{
 		$devotee_id = $_GET['devotee_id'];
-
 		$devotee = Devotee::leftjoin('country', 'devotee.nationality', '=', 'country.id')
 							 ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
 							 ->select('devotee.*', 'country.country_name', 'member.member')

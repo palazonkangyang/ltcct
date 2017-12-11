@@ -1,6 +1,5 @@
 @php
-  $kongdan_focusdevotee = Session::get('kongdan_focusdevotee');
-  $kongdan_setting_samefamily = Session::get('kongdan_setting_samefamily');
+  $same_family_code = Session::get('same_family_code')['kongdan'];
   $focus_devotee = Session::get('focus_devotee');
 
   $kongdan_setting_samefamily_last1year = Session::get('kongdan_setting_samefamily_last1year');
@@ -8,6 +7,7 @@
   $kongdan_setting_samefamily_last3year = Session::get('kongdan_setting_samefamily_last3year');
   $kongdan_setting_samefamily_last4year = Session::get('kongdan_setting_samefamily_last4year');
   $kongdan_setting_samefamily_last5year = Session::get('kongdan_setting_samefamily_last5year');
+
 @endphp
 
 <div class="form-body">
@@ -22,7 +22,7 @@
 
   <form method="post" action="{{ URL::to('/fahui/kongdan-samefamily-setting') }}"
     class="form-horizontal form-bordered" id="kongdan_samefamily_form">
-
+    <input type="hidden" name="mod_id" value=10>
     {!! csrf_field() !!}
 
     <div class="form-group">
@@ -43,72 +43,16 @@
           </tr>
         </thead>
 
-        @if(Session::has('kongdan_setting_samefamily'))
+        @if(Session::has('same_family_code'))
 
         <tbody id="has_session">
-          @if(count($kongdan_focusdevotee) > 0)
-
+          @foreach($same_family_code as $devotee)
+          <input type="hidden" name="sfc_id[]" value="{{ $devotee->sfc_id }}">
           <tr>
             <td class="checkbox-col">
               <input type="checkbox" class="same kongdan_id" name="kongdan_id[]"
-              value="1" <?php if ($kongdan_focusdevotee[0]->kongdan_id == '1'){ ?>checked="checked"<?php }?>>
-              <input type="hidden" class="form-control hidden_kongdan_id" name="hidden_kongdan_id[]"
-              value="">
-            </td>
-            <td>
-              @if($kongdan_focusdevotee[0]->deceased_year != null)
-              <span class="text-danger">{{ $kongdan_focusdevotee[0]->chinese_name }}</span>
-              @else
-              <span>{{ $kongdan_focusdevotee[0]->chinese_name }}</span>
-              @endif
-            </td>
-            <td>
-              <input type="hidden" name="devotee_id[]" value="{{ $kongdan_focusdevotee[0]->devotee_id }}">
-              @if($kongdan_focusdevotee[0]->specialremarks_devotee_id == null)
-              <span>{{ $kongdan_focusdevotee[0]->devotee_id }}</span>
-              @else
-              <span class="text-danger">{{ $kongdan_focusdevotee[0]->devotee_id }}</span>
-              @endif
-            </td>
-            <td></td>
-            <td>{{ $kongdan_focusdevotee[0]->guiyi_name }}</td>
-            <td></td>
-            <td>
-              @if(isset($kongdan_focusdevotee[0]->oversea_addr_in_chinese))
-                {{ $kongdan_focusdevotee[0]->oversea_addr_in_chinese }}
-              @elseif(isset($kongdan_focusdevotee[0]->address_unit1) && isset($kongdan_focusdevotee[0]->address_unit2))
-                {{ $kongdan_focusdevotee[0]->address_houseno }}, #{{ $kongdan_focusdevotee[0]->address_unit1 }}-{{ $kongdan_focusdevotee[0]->address_unit2 }}, {{ $kongdan_focusdevotee[0]->address_street }}, {{ $kongdan_focusdevotee[0]->address_postal }}
-              @else
-                {{ $kongdan_focusdevotee[0]->address_houseno }}, {{ $kongdan_focusdevotee[0]->address_street }}, {{ $kongdan_focusdevotee[0]->address_postal }}
-              @endif
-            </td>
-            <td>
-              @if(isset($kongdan_focusdevotee[0]->paytill_date) && \Carbon\Carbon::parse($kongdan_focusdevotee[0]->paytill_date)->lt($now))
-              <span class="text-danger">{{ \Carbon\Carbon::parse($kongdan_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-              @elseif(isset($kongdan_focusdevotee[0]->paytill_date))
-              <span>{{ \Carbon\Carbon::parse($kongdan_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-              @else
-              <span>{{ $kongdan_focusdevotee[0]->paytill_date }}</span>
-              @endif
-            </td>
-            <td></td>
-            <td>
-              @if(isset($kongdan_focusdevotee[0]->lasttransaction_at))
-              {{ \Carbon\Carbon::parse($kongdan_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}
-              @else
-              {{ $kongdan_focusdevotee[0]->lasttransaction_at }}
-              @endif
-            </td>
-          </tr>
-
-          @endif
-
-          @foreach($kongdan_setting_samefamily as $devotee)
-          <tr>
-            <td class="checkbox-col">
-              <input type="checkbox" class="same kongdan_id" name="kongdan_id[]"
-              value="1" <?php if ($devotee->kongdan_id == '1'){ ?>checked="checked"<?php }?>>
-              <input type="hidden" class="form-control hidden_kongdan_id" name="hidden_kongdan_id[]"
+              value="1" <?php if ($devotee->is_checked == 1){ ?>checked="checked"<?php }?>>
+              <input type="hidden" class="form-control hidden_kongdan_id" name="is_checked[]"
               value="">
             </td>
             <td>
