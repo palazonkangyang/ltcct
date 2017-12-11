@@ -2,50 +2,60 @@ $(function() {
 
   $('body').on('change', '.xiaozai-amount-col', function(){
 
-    var address_sum = 0;
-    var individual_office_sum = 0;
+    var hj_sum = 0;
+    var gr_sum = 0;
     var company_sum = 0;
-    var vehicle_sum = 0;
+    var stall_sum = 0;
+    var car_sum = 0;
+    var ship_sum = 0;
     var total = 0;
 
     $("input[name='xiaozai_amount[]']").each( function () {
 
       if( $(this).is(":checked") == true ) {
-        $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',true);
-        $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',true);
-        $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',true);
-        $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',true);
+        $(this).closest('.xiaozai-amount-col').find('.hj').prop('checked',true);
+        $(this).closest('.xiaozai-amount-col').find('.gr').prop('checked',true);
+        $(this).closest('.xiaozai-amount-col').find('.company').prop('checked',true);
+        $(this).closest('.xiaozai-amount-col').find('.stall').prop('checked',true);
+        $(this).closest('.xiaozai-amount-col').find('.car').prop('checked',true);
+        $(this).closest('.xiaozai-amount-col').find('.ship').prop('checked',true);
       }
 
       else {
-        $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',false);
-        $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',false);
-        $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',false);
-        $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',false);
+        $(this).closest('.xiaozai-amount-col').find('.hj').prop('checked',false);
+        $(this).closest('.xiaozai-amount-col').find('.gr').prop('checked',false);
+        $(this).closest('.xiaozai-amount-col').find('.company').prop('checked',false);
+        $(this).closest('.xiaozai-amount-col').find('.stall').prop('checked',false);
+        $(this).closest('.xiaozai-amount-col').find('.car').prop('checked',false);
+        $(this).closest('.xiaozai-amount-col').find('.ship').prop('checked',false);
       }
     });
 
-    var address_length = $("input[name='address_total_type[]']:checked").length;
-    var individual_office_length = $("input[name='individual_office_total_type[]']:checked").length;
-    var company_length = $("input[name='company_total_type[]']:checked").length;
-    var vehicle_length = $("input[name='vehicle_total_type[]']:checked").length;
+    var hj_count = $("input[name='hj[]']:checked").length;
+    var gr_count = $("input[name='gr[]']:checked").length;
+    var company_count = $("input[name='company[]']:checked").length;
+    var stall_count = $("input[name='stall[]']:checked").length;
+    var car_count = $("input[name='car[]']:checked").length;
+    var ship_count = $("input[name='ship[]']:checked").length;
 
-    $(".address_total").html(address_length);
-    $(".individual_office_total").html(individual_office_length);
-    $(".company_total").html(company_length);
-    $(".vehicle_total").html(vehicle_length);
+    $(".hj_total").html(hj_count);
+    $(".gr_total").html(gr_count);
+    $(".company_total").html(company_count+stall_count);
+    $(".vehicle_total").html(car_count+ship_count);
 
-    address_sum += address_length * 30;
-    individual_office_sum += individual_office_length * 20;
-    company_sum += company_length * 100;
-    vehicle_sum += vehicle_length * 30;
+    hj_sum += hj_count * 30;
+    gr_sum += gr_count * 20;
+    company_sum += company_count * 100;
+    stall_sum += stall_count * 100;
+    car_sum += car_count * 30;
+    ship_sum += ship_count * 30;
 
-    $(".address_total_amount").html(address_sum);
-    $(".individual_office_total_amount").html(individual_office_sum);
-    $(".company_total_amount").html(company_sum);
-    $(".vehicle_total_amount").html(vehicle_sum);
+    $(".hj_total_amount").html(hj_sum);
+    $(".gr_total_amount").html(gr_sum);
+    $(".company_total_amount").html(company_sum + stall_sum);
+    $(".vehicle_total_amount").html(car_sum + ship_sum);
 
-    total = address_sum + individual_office_sum + company_sum + vehicle_sum;
+    total = hj_sum + gr_sum + company_sum + stall_sum + car_sum + ship_sum;
 
     $(".total_payable").html(total);
     $("#total_amount").val(total);
@@ -57,16 +67,16 @@ $(function() {
 
     this_master.find("input[name='xiaozai_amount[]']").each( function () {
       var checkbox_this = $(this);
-      var hidden_xiaozai_amount = checkbox_this.closest('.xiaozai-amount-col').find('.hidden_xiaozai_amount');
+      var is_checked_list = checkbox_this.closest('.xiaozai-amount-col').find('.is_checked_list');
 
       if( checkbox_this.is(":checked") == true ) {
-        hidden_xiaozai_amount.attr('value','1');
+        is_checked_list.attr('value','1');
       }
 
       else {
-        hidden_xiaozai_amount.prop('checked', true);
+        is_checked_list.prop('checked', true);
         //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
-        hidden_xiaozai_amount.attr('value','0');
+        is_checked_list.attr('value','0');
       }
     });
   });

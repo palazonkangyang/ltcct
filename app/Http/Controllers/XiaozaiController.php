@@ -14,6 +14,9 @@ use App\Models\XiaozaiGeneraldonation;
 use App\Models\XiaozaiReceipt;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryItem;
+use App\Models\SfcXiaoZai;
+use App\Models\Sfc;
+use App\Models\ RafXiaoZai;
 use Auth;
 use DB;
 use Hash;
@@ -100,9 +103,9 @@ class XiaozaiController extends Controller
 
     if($xiaozai_generaldonation)
 		{
-      for($i = 0; $i < count($input['hidden_xiaozai_amount']); $i++)
+      for($i = 0; $i < count($input['hidden_xiaozai_id']); $i++)
       {
-        if($input['hidden_xiaozai_amount'][$i] == 1)
+        if($input['hidden_xiaozai_id'][$i] == 1)
         {
           $devotee = Devotee::find($input['devotee_id'][$i]);
 
@@ -577,6 +580,7 @@ class XiaozaiController extends Controller
 
   }
 
+  // to be deleted, using updateSameFamilyCodeSetting
   public function postXiaozaiSameFamilySetting(Request $request)
   {
     $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
@@ -2202,5 +2206,148 @@ class XiaozaiController extends Controller
     Session::put('xiaozai_setting_differentfamily_last1year', $xiaozai_setting_differentfamily_last1year);
   }
 
+  public static function createSfcXiaoZaiFromBaseHome($param){
+    $list['sfc_id'] = $param['var']['sfc_id'];
+    $list['optionaladdress_id'] = null;
+    $list['optionalvehicle_id'] = null;
+    $list['type'] = 'base_home';
+    $list['hjgr'] = 'hj';
+    $param['sfc_xiaozai_list']->push(SfcXiaoZai::create($list));
+    return $param;
+  }
+
+  public static function createRafXiaoZaiFromBaseHome($param){
+    $list['raf_id'] = $param['var']['raf_id'];
+    $list['optionaladdress_id'] = null;
+    $list['optionalvehicle_id'] = null;
+    $list['type'] = 'base_home';
+    $list['hjgr'] = 'hj';
+    $param['raf_xiaozai_list']->push(RafXiaoZai::create($list));
+    return $param;
+  }
+
+  public static function createSfcXiaoZaiFromOptionalAddress($param){
+    $optional_address_list = OptionalAddress::getOptionalAddressByDevoteeId($param);
+    foreach($optional_address_list as $oa){
+      $param['var']['is_checked'] = false;
+      $param['var']['year'] = null;
+      $param = SameFamilyCodeController::createSfc($param);
+      $list['sfc_id'] = $param['var']['sfc_id'];
+      $list['optionaladdress_id'] = $oa['optionaladdress_id'];
+      $list['optionalvehicle_id'] = null;
+      $list['type'] = $oa['type'];
+      switch ($list['type']) {
+        case 'home':
+          $list['hjgr'] = 'hj';
+          break;
+        case 'company':
+          $list['hjgr'] = null;
+          break;
+        case 'stall':
+          $list['hjgr'] = null;
+          break;
+        case 'office':
+          $list['hjgr'] = 'gr';
+          break;
+        default:
+          $list['hjgr'] = null;
+      }
+      $param['sfc_xiaozai_list']->push(SfcXiaoZai::create($list));
+    }
+    return $param;
+  }
+
+  public static function createRafXiaoZaiFromOptionalAddress($param){
+    $optional_address_list = OptionalAddress::getOptionalAddressByDevoteeId($param);
+    foreach($optional_address_list as $oa){
+      $param['var']['is_checked'] = false;
+      $param['var']['year'] = null;
+      $param = RelativeAndFriendsController::createRaf($param);
+      $list['raf_id'] = $param['var']['raf_id'];
+      $list['optionaladdress_id'] = $oa['optionaladdress_id'];
+      $list['optionalvehicle_id'] = null;
+      $list['type'] = $oa['type'];
+      switch ($list['type']) {
+        case 'home':
+          $list['hjgr'] = 'hj';
+          break;
+        case 'company':
+          $list['hjgr'] = null;
+          break;
+        case 'stall':
+          $list['hjgr'] = null;
+          break;
+        case 'office':
+          $list['hjgr'] = 'gr';
+          break;
+        default:
+          $list['hjgr'] = null;
+      }
+      $param['raf_xiaozai_list']->push(RafXiaoZai::create($list));
+    }
+    return $param;
+  }
+
+  public static function createSfcXiaoZaiFromOptionalVehicle($param){
+    $optional_vehicle_list = OptionalVehicle::getOptionalVehicleByDevoteeId($param);
+    foreach($optional_vehicle_list as $ov){
+      $param['var']['is_checked'] = false;
+      $param['var']['year'] = null;
+      $param = SameFamilyCodeController::createSfc($param);
+      $list['sfc_id'] = $param['var']['sfc_id'];
+      $list['optionaladdress_id'] = null;
+      $list['optionalvehicle_id'] = $ov['optionalvehicle_id'];
+      $list['type'] = $ov['type'];
+      switch ($list['type']) {
+        case 'home':
+          $list['hjgr'] = 'hj';
+          break;
+        case 'company':
+          $list['hjgr'] = null;
+          break;
+        case 'stall':
+          $list['hjgr'] = null;
+          break;
+        case 'office':
+          $list['hjgr'] = 'gr';
+          break;
+        default:
+          $list['hjgr'] = null;
+      }
+      $param['sfc_xiaozai_list']->push(SfcXiaoZai::create($list));
+    }
+    return $param;
+  }
+
+  public static function createRafXiaoZaiFromOptionalVehicle($param){
+    $optional_vehicle_list = OptionalVehicle::getOptionalVehicleByDevoteeId($param);
+    foreach($optional_vehicle_list as $ov){
+      $param['var']['is_checked'] = false;
+      $param['var']['year'] = null;
+      $param = RelativeAndFriendsController::createRaf($param);
+      $list['raf_id'] = $param['var']['raf_id'];
+      $list['optionaladdress_id'] = null;
+      $list['optionalvehicle_id'] = $ov['optionalvehicle_id'];
+      $list['type'] = $ov['type'];
+      switch ($list['type']) {
+        case 'home':
+          $list['hjgr'] = 'hj';
+          break;
+        case 'company':
+          $list['hjgr'] = null;
+          break;
+        case 'stall':
+          $list['hjgr'] = null;
+          break;
+        case 'office':
+          $list['hjgr'] = 'gr';
+          break;
+        default:
+          $list['hjgr'] = null;
+      }
+      $param['raf_xiaozai_list']->push(RafXiaoZai::create($list));
+    }
+    return $param;
+  }
 
 }

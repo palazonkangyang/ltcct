@@ -1,7 +1,5 @@
 @php
-
-  $qifu_same_family = Session::get('qifu_same_family');
-  $qifu_same_focusdevotee = Session::get('qifu_same_focusdevotee');
+  $same_family_code = Session::get('same_family_code')['qifu'];
 
   $qifu_different_family = Session::get('qifu_different_family');
   $focus_devotee = Session::get('focus_devotee');
@@ -34,71 +32,13 @@
         </tr>
       </thead>
 
-      @if(count($qifu_same_focusdevotee) > 0 || count($qifu_same_family) > 0)
+      @if(Session::has('same_family_code'))
 
       <tbody id="has_session">
-
-        @if(count($qifu_same_focusdevotee) > 0)
-
-        <tr>
-          <td class="qifu-amount-col">
-            <input type="checkbox" class="amount" name="qifu_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_qifu_amount" name="hidden_qifu_amount[]"
-            value="">
-          </td>
-          <td>
-            @if($qifu_same_focusdevotee[0]->deceased_year != null)
-            <span class="text-danger">{{ $qifu_same_focusdevotee[0]->chinese_name }}</span>
-            @else
-            <span>{{ $qifu_same_focusdevotee[0]->chinese_name }}</span>
-            @endif
-          </td>
-          <td>
-            @if($qifu_same_focusdevotee[0]->specialremarks_devotee_id == null)
-            <span id="devotee">{{ $qifu_same_focusdevotee[0]->devotee_id }}</span>
-            @else
-            <span class="text-danger" id="devotee">{{ $qifu_same_focusdevotee[0]->devotee_id }}</span>
-            @endif
-            <input type="hidden" name="devotee_id[]" value="{{ $qifu_same_focusdevotee[0]->devotee_id }}">
-          </td>
-          <td></td>
-          <td>{{ $qifu_same_focusdevotee[0]->guiyi_name }}</td>
-          <td></td>
-          <td>
-            @if(isset($qifu_same_focusdevotee[0]->oversea_addr_in_chinese))
-            {{ $qifu_same_focusdevotee[0]->oversea_addr_in_chinese }}
-            @elseif(isset($qifu_same_focusdevotee[0]->address_unit1) && isset($qifu_same_focusdevotee[0]->address_unit2))
-            {{ $qifu_same_focusdevotee[0]->address_houseno }}, #{{ $qifu_same_focusdevotee[0]->address_unit1 }}-{{ $qifu_same_focusdevotee[0]->address_unit2 }}, {{ $qifu_same_focusdevotee[0]->address_street }}, {{ $qifu_same_focusdevotee[0]->address_postal }}
-            @else
-            {{ $qifu_same_focusdevotee[0]->address_houseno }}, {{ $qifu_same_focusdevotee[0]->address_street }}, {{ $qifu_same_focusdevotee[0]->address_postal }}
-            @endif
-          </td>
-          <td width="80px">
-            @if(isset($qifu_same_focusdevotee->paytill_date) && \Carbon\Carbon::parse($qifu_same_focusdevotee[0]->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($qifu_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($qifu_same_focusdevotee[0]->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($qifu_same_focusdevotee[0]->paytill_date)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $qifu_same_focusdevotee[0]->paytill_date }}</span>
-            @endif
-          </td>
-          <td></td>
-          <td>
-            @if(isset($qifu_same_focusdevotee[0]->lasttransaction_at))
-            <span>{{ \Carbon\Carbon::parse($qifu_same_focusdevotee[0]->lasttransaction_at)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $qifu_same_focusdevotee[0]->lasttransaction_at }}</span>
-            @endif
-          </td>
-        </tr>
-
-        @endif
-
-        @if(count($qifu_same_family) > 0)
-
-        @foreach($qifu_same_family as $devotee)
-
-        <tr>
+        @if(count($same_family_code) > 0)
+        @foreach($same_family_code as $devotee)
+          @if($devotee->is_checked == 1)
+            <tr>
           <td class="qifu-amount-col">
             <input type="checkbox" class="amount" name="qifu_amount[]" value="1">
             <input type="hidden" class="form-control hidden_qifu_amount" name="hidden_qifu_amount[]"
@@ -149,7 +89,7 @@
             @endif
           </td>
         </tr>
-
+          @endif
         @endforeach
 
         @endif
