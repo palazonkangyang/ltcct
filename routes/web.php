@@ -120,6 +120,7 @@ Route::group(['middleware' => 'auth'], function () {
 		//Fa Hui
 		Route::get('/add-relative-and-friends', ['as' => 'add-relative-and-friends', 'uses' => 'RelativeAndFriendsController@addRelativeAndFriends']);
 		Route::post('/delete-relative-and-friends', ['as' => 'delete-relative-and-friends', 'uses' => 'RelativeAndFriendsController@deleteRelativeAndFriends']);
+		Route::get('/participant-list',['as' => 'fahui-participant-list', 'uses' => 'FahuiController@getParticipantList']);
 
 		// KongDan
 		Route::get('/kongdan', ['as' => 'get-kongdan-page', 'uses' => 'FahuiController@getKongDan']);

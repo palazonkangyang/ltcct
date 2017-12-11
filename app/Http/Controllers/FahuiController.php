@@ -12,6 +12,7 @@ use App\Models\FestiveEvent;
 use App\Models\GlCode;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryItem;
+use App\Models\Rct;
 use Auth;
 use DB;
 use Hash;
@@ -908,6 +909,41 @@ class FahuiController extends Controller
 				));
 			}
 		}
+  }
+
+  public function getParticipantList(){
+
+    $participant_list = Rct::leftjoin('module','rct.mod_id','module.mod_id')
+                           ->leftjoin('devotee','rct.devotee_id','devotee.devotee_id')
+                           ->select('module.chinese_name as module_chinese_name','rct.trans_date as year','rct.devotee_id','devotee.chinese_name as devotee_chinese_name')
+                           ->groupBy('module.mod_id',DB::raw('YEAR(rct.trans_date )'),'rct.devotee_id')
+                           ->get();
+
+
+    foreach($participant_list as $index=>$participant){
+      $participant['year'] = date("Y", strtotime($participant['year']));
+    }
+
+    $checkFahui = $participant_list[0]['module_chinese_name'];
+    $checkYear = $participant_list[0]['year'];
+    $sn = 1;
+    foreach($participant_list as $index=>$participant){
+      if($checkFahui == $participant['module_chinese_name'] && $checkYear == $participant['year']){
+        $participant['sn'] = $sn;
+        $sn ++;
+      }
+
+      else{
+        $sn = 1;
+        $participant['sn'] = $sn;
+      }
+
+    }
+
+
+    return view('fahui.participant-list',[
+      'participant_list' => $participant_list
+    ]);
   }
 
 }
