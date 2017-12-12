@@ -17,7 +17,7 @@
 
 </head>
 <body class="A5 landscape">
-	@foreach($receipts as $index=>$receipt)
+	@foreach($paginate_receipts as $index=>$paginate_receipt)
 	  <section class="sheet padding-5mm">
 
 	    <header>
@@ -39,7 +39,13 @@
 
 	        <div class="label-wrapper2">
 	          <div class="label-left" style="font-weight: bold">Receipt No <br />(收据)</div><!-- end label-left -->
-	          <div class="label-right2"> {{ $receipt_no_combine }}</div><!-- end label-right -->
+	          <div class="label-right2">
+							@if($paginate_receipt['first_receipt_no'] == $paginate_receipt['last_receipt_no'])
+								{{ $paginate_receipt['first_receipt_no'] }}
+							@elseif($paginate_receipt['first_receipt_no'] != $paginate_receipt['last_receipt_no'])
+								{{ $paginate_receipt['first_receipt_no'] }} - {{ $paginate_receipt['last_receipt_no'] }}
+							@endif
+						</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 
 	        <div class="label-wrapper">
@@ -89,16 +95,21 @@
 	          <tbody>
 							<tr>
 	              <td></td>
-								<td colspan="4" style="text-align: left;">insert name here (insert id here)</td>
+								<td colspan="4" style="text-align: left;">{{ $paginate_receipt['devotee']['chinese_name'] }} ({{ $paginate_receipt['devotee']['devotee_id'] }})</td>
 	            </tr>
 
+							@foreach($paginate_receipt['receipt'] as $index=>$rct)
 							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td style="text-align: left;">{{ $receipt->receipt_no }}</td>
-								<td>S$ {{ $receipt->amount }}</td>
+								<td>{{$rct['sn_no']}}</td>
+								<td>
+									{{ $rct['type_chinese_name'] }}
+								</td>
+								<td>3</td>
+								<td>4</td>
+								<td>5</td>
 							</tr>
+							@endforeach
+
 	          </tbody>
 	        </table>
 
@@ -107,22 +118,22 @@
 	      <div style="overflow: hidden;">
 
 	        <div style="float:left; width: 60%;">
-	          <p style="font-weight: bold;">Payment Mode :
+	          <p><span style="font-weight:bold;">Payment Mode:</span>
 							@if($transaction->mode_payment == 'cash')
 								Cash
-							@elseif($devotee->type == 'cheque')
+							@elseif($rct['type'] == 'cheque')
 								Cheque
-							@elseif($devotee->type == 'nets')
+							@elseif($rct['type'] == 'nets')
 								NETS
-							@elseif($devotee->type == 'receipt')
+							@elseif($rct['type'] == 'receipt')
 								Manual Receipt
 							@endif
 
-						<br /> (付款方式)</p>
+						<br /><span style="font-weight:bold;">(付款方式)</span></p>
 	        </div>
 
 	        <div class="float: right: width: 40%;">
-	          <p style="font-weight: bold;">Total Amount S$  <br /> (总额)</p>
+	          <p><span style="font-weight: bold;">Total Amount:</span> S$ {{ $paginate_receipt['total_amount'] }}  <br /><span style="font-weight: bold;">(总额)</span></p>
 	        </div>
 
 	      </div>
@@ -189,12 +200,18 @@
 	      <div class="receipt-info">
 	        <div class="label-rightwrapper">
 	          <div class="rightlabel-left" style="font-weight: bold">Total Amount (总额)</div><!-- end label-left -->
-	          <div class="rightlabel-right">S$ {{ $transaction->total_amount }}</div><!-- end label-right -->
+	          <div class="rightlabel-right">S$ {{ $paginate_receipt['total_amount'] }}</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 
 	        <div class="label-rightwrapper">
 	          <div class="rightlabel-left" style="font-weight: bold">Receipt No (收据)</div><!-- end label-left -->
-	          <div class="rightlabel-right">{{ $receipt_no_combine }}</div><!-- end label-right -->
+	          <div class="rightlabel-right">
+							@if($paginate_receipt['first_receipt_no'] == $paginate_receipt['last_receipt_no'])
+								{{ $paginate_receipt['first_receipt_no'] }}
+							@elseif($paginate_receipt['first_receipt_no'] != $paginate_receipt['last_receipt_no'])
+								{{ $paginate_receipt['first_receipt_no'] }} -{{ $paginate_receipt['last_receipt_no'] }} &nbsp
+							@endif
+						</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 	      </div><!-- end receipt-info -->
 

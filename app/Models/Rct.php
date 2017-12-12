@@ -128,28 +128,88 @@ class Rct extends Model
 
   public static function paginateSingleReceipt($receipts){
 
-    // unique devotee
     $receipts_array = [];
-
     $unique_devotee_ids = $receipts->unique('devotee_id')->pluck('devotee_id');
-    foreach($unique_devotee_ids as $index1=>$unique_devotee_id){
-      $receipts_array[$index1]['devotee'] = Devotee::getDevotee($unique_devotee_id);
-
+    foreach($unique_devotee_ids as $unique_devotee_id_index=>$unique_devotee_id){
+      $receipts_array[$unique_devotee_id_index]['devotee'] = Devotee::getDevotee($unique_devotee_id);
       $index_count = 0;
-      foreach($receipts as $index2=>$receipt){
+      foreach($receipts as $receipt_index=>$receipt){
         if(Devotee::isSameDevoteeId($unique_devotee_id,$receipt['devotee_id'])){
-           $receipts_array[$index1]['receipt'][$index_count] = $receipt;
+           $receipts_array[$unique_devotee_id_index]['receipt'][$index_count] = $receipt;
+           $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['sn_no'] = $index_count + 1 ;
+           $type = $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type'];
+           $hjgr = $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type'];
+           if($type == 'base_home'){
+             if(){
+
+             }
+            $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type_chinese_name'] = '';
+           }
+           elseif($type == 'home'){
+             $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type_chinese_name'] = '';
+           }
+           elseif($type == 'company'){
+             $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type_chinese_name'] = '公司';
+           }
+           elseif($type == 'stall'){
+             $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type_chinese_name'] = '小贩';
+           }
+           elseif($type == 'office'){
+             $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type_chinese_name'] = '个人';
+           }
+           elseif($type == 'car'){
+             $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type_chinese_name'] = '车辆';
+           }
+           elseif($type == 'ship'){
+             $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['type_chinese_name'] = '船只';
+           }
+
            $index_count++;
         }
       }
+
     }
 
-    $receipts_array[0]['receipt'] = array_chunk($receipts_array[0]['receipt'],6);
+    $paginate_receipts = [];
 
-    //dd($receipts_array);
+    foreach($receipts_array as $receipt_index=>$receipt){
 
+      if(count($receipt['receipt']) > 5){
+        $chunk_receipts = array_chunk($receipt['receipt'],5);
+        foreach($chunk_receipts as $chunk_index=>$chunk_receipt){
+          $total_amount = 0;
+          foreach($chunk_receipt as $individual_receipt_index=>$individual_receipt){
+            $total_amount = $total_amount + $individual_receipt['amount'];
+          }
+          $list['devotee'] = $receipt['devotee'];
+          $list['receipt'] = $chunk_receipt;
+          $list['total_amount'] = number_format($total_amount, 2, '.', '');
+          $list['first_receipt_no'] = $chunk_receipt[0]['receipt_no'];
+          $list['last_receipt_no'] = $chunk_receipt[count($chunk_receipt)-1]['receipt_no'];
+          $list['no_of_set'] = count($chunk_receipt);
+          array_push($paginate_receipts,$list);
+          $list = [];
+        }
+      }
+      elseif(count($receipt['receipt'] <= 5)){
+        $total_amount = 0;
+        foreach($receipt['receipt'] as $index=>$individual_receipt){
+          $total_amount = $total_amount + $individual_receipt['amount'];
+          $list['receipt'][$index] = $individual_receipt;
+        }
+        $list['devotee'] = $receipt['devotee'];
+        $list['total_amount'] = number_format($total_amount, 2, '.', '');
+        $list['first_receipt_no'] = $receipt['receipt'][0]['receipt_no'];
+        $list['last_receipt_no'] = $receipt['receipt'][count($receipt['receipt'])-1]['receipt_no'];
+        $list['no_of_set'] = count($receipt['receipt']);
+        array_push($paginate_receipts,$list);
+        $list = [];
 
+      }
 
+    }
+
+    return $paginate_receipts;
   }
 
   public static function paginateCombineReceiptOfFamily($receipts){
