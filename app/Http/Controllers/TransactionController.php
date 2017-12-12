@@ -64,10 +64,9 @@ class TransactionController extends Controller
         $receipts_of_family = Rct::getReceiptOfFamily($receipts);
         $paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts_of_family);
 
-        //$receipts_of_relative = Rct::getReceiptOfRelative($receipts);
-        //$paginate_receipts_of_relative = Rct::paginateSingleReceipt($receipts_of_relative);
-
-        $paginate_receipts = $paginate_receipts_of_family;
+        $receipts_of_relative = Rct::getReceiptOfRelative($receipts);
+        $paginate_receipts_of_relative = Rct::paginateSingleReceipt($receipts_of_relative);
+        $paginate_receipts = array_merge($paginate_receipts_of_family,$paginate_receipts_of_relative);
       }
 
       elseif(Trn::isIndividualPrinting($param['receipt']['trn_id'])){
