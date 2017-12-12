@@ -46,8 +46,6 @@
                     <input type="checkbox" class="hj" name="hj[]" value="" style="display:none">
                   @elseif($devotee->hjgr == 'gr')
                     <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
-                  @else
-
                   @endif
 
                 @elseif($devotee->type == 'home')
@@ -95,8 +93,10 @@
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')
                     合家
+                    {{ Form::hidden('type_chinese_name_list[]','合家')}}
                   @elseif($devotee->hjgr == 'gr')
                     个人
+                    {{ Form::hidden('type_chinese_name_list[]','个人')}}
                   @else
 
                   @endif
@@ -104,27 +104,35 @@
                 @elseif($devotee->type == 'home')
                 @if($devotee->hjgr == 'hj')
                   合家
+                  {{ Form::hidden('type_chinese_name_list[]','合家')}}
                 @elseif($devotee->hjgr == 'gr')
                   个人
+                  {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 @else
                 @endif
                 {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'company')
                 公司
+                {{ Form::hidden('type_chinese_name_list[]','公司')}}
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'stall')
                 小贩
+                {{ Form::hidden('type_chinese_name_list[]','小贩')}}
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'office')
                 个人
+                {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'car')
                 车辆
+                {{ Form::hidden('type_chinese_name_list[]','车辆')}}
                 {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'ship')
                 船只
+                {{ Form::hidden('type_chinese_name_list[]','船只')}}
                 {{ Form::hidden('amount[]',30)}}
                 @else
+                {{ Form::hidden('type_chinese_name_list[]','')}}
                 {{ Form::hidden('amount[]',0)}}
                 @endif
               </td>
@@ -252,35 +260,45 @@
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')
                     合家
+                    {{ Form::hidden('type_chinese_name_list[]','合家')}}
                   @elseif($devotee->hjgr == 'gr')
                     个人
+                    {{ Form::hidden('type_chinese_name_list[]','个人')}}
                   @else
                   @endif
                 {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'home')
                 @if($devotee->hjgr == 'hj')
                   合家
+                  {{ Form::hidden('type_chinese_name_list[]','合家')}}
                 @elseif($devotee->hjgr == 'gr')
                   个人
+                  {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 @else
                 @endif
                 {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'company')
                 公司
+                {{ Form::hidden('type_chinese_name_list[]','公司')}}
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'stall')
                 小贩
+                {{ Form::hidden('type_chinese_name_list[]','小贩')}}
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'office')
                 个人
+                {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'car')
                 车辆
+                {{ Form::hidden('type_chinese_name_list[]','车辆')}}
                 {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'ship')
                 船只
+                {{ Form::hidden('type_chinese_name_list[]','船只')}}
                 {{ Form::hidden('amount[]',30)}}
                 @else
+                {{ Form::hidden('type_chinese_name_list[]','')}}
                 {{ Form::hidden('amount[]',0)}}
                 @endif
               </td>

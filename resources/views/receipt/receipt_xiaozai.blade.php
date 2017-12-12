@@ -81,12 +81,12 @@
 
 	      <div class="receipt-list">
 
-	        <table class="receipt-table" style="text-align: left;">
+	        <table class="receipt-table">
 	          <thead>
-	            <tr>
+	            <tr style="text-align:left;">
 								<th width="1%">S/No</th>
-								<th width="1%">Name</th>
-	              <th width="96%">Description</th>
+								<th width="12%">Name</th>
+	              <th width="85%">Description</th>
 	              <th width="1%">Receipt</th>
 	              <th width="1%">Amount</th>
 	            </tr>
@@ -95,18 +95,21 @@
 	          <tbody>
 							<tr>
 	              <td></td>
-								<td colspan="4" style="text-align: left;">{{ $paginate_receipt['devotee']['chinese_name'] }} ({{ $paginate_receipt['devotee']['devotee_id'] }})</td>
+								<td colspan="4" style="text-align: left; font-weight:bold;"></td>
 	            </tr>
 
 							@foreach($paginate_receipt['receipt'] as $index=>$rct)
 							<tr>
-								<td>{{$rct['sn_no']}}</td>
-								<td>
-									{{ $rct['type_chinese_name'] }}
-								</td>
-								<td>3</td>
-								<td>4</td>
-								<td>5</td>
+								<td style="text-align: left;">{{$rct['sn_no']}}</td>
+								@if($rct['is_receipt'] == false)
+									<td style="text-align: left; font-weight:bold;">{{$rct['name']}}</td>
+									<td style="text-align: left; font-weight:bold;">{{ $rct['item_description'] }}</td>
+								@else
+									<td style="text-align: left;">{{$rct['name']}}</td>
+									<td style="text-align: left; font-size:0.8em;">{{ $rct['item_description'] }}</td>
+								@endif
+								<td style="text-align: left;">{{ $rct['receipt_no'] }}</td>
+								<td style="text-align: right;">{{ $rct['amount'] }}</td>
 							</tr>
 							@endforeach
 
@@ -193,7 +196,7 @@
 	        </div>
 
 	        <div style="width: 22mm; float: left; border: 1px solid black; height: 2.7cm; line-height: 2.7cm; text-align: center; vertical-align: middle;">
-	          <span style="font-size: 70px; font-weight: bold;"></span>
+	          <span style="font-size: 70px; font-weight: bold;">{{ $paginate_receipt['no_of_set'] }}</span>
 	        </div>
 	      </div><!-- end receipt-info -->
 

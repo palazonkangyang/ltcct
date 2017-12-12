@@ -47,6 +47,7 @@ class TransactionController extends Controller
       Module::isXiangYou($request['mod_id']) ? $param['receipt']['hjgr'] = $request['hjgr'] : false ;
       Module::isCiJi($request['mod_id']) ? $param['receipt']['hjgr'] = $request['hjgr'] : false ;
       Module::isXiaoZai($request['mod_id']) ? $param['var']['type_list'] = $request['type'] : false ;
+      Module::isXiaoZai($request['mod_id']) ? $param['var']['type_chinese_name_list'] = $request['type_chinese_name_list'] : false ;
       ReceiptController::createReceipt($param);
 
 
@@ -57,17 +58,21 @@ class TransactionController extends Controller
       $loop = intval(ceil(count($receipts) / 6),0);
 
       if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
-        $receipts_of_family = Rct::paginateCombineReceiptOfFamily($receipts);
-        $receipts_of_relative = Rct::paginateSingleReceiptOfRelative($receipts);
+
+        //$paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts);
+
+        $receipts_of_family = Rct::getReceiptOfFamily($receipts);
+        $paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts_of_family);
+
+        //$receipts_of_relative = Rct::getReceiptOfRelative($receipts);
+        //$paginate_receipts_of_relative = Rct::paginateSingleReceipt($receipts_of_relative);
+
+        $paginate_receipts = $paginate_receipts_of_family;
       }
 
       elseif(Trn::isIndividualPrinting($param['receipt']['trn_id'])){
         $paginate_receipts = Rct::paginateSingleReceipt($receipts);
-        //$receipts_of_family = Rct::paginateSingleReceiptOfFamily($receipts);
-        //$receipts_of_relative = Rct::paginateSingleReceiptOfRelative($receipts);
       }
-
-      //dd($paginate_receipts);
 
       return view('receipt.receipt_xiaozai', [
         'module' => Module::getModule($request['mod_id']),

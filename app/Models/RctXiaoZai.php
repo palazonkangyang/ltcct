@@ -12,13 +12,16 @@ class RctXiaoZai extends Model
 
   protected $fillable = [
     'rct_id',
-    'type'
+    'type',
+    'type_chinese_name'
   ];
 
   public static function getType($rct_id){
     return RctXiaoZai::where('rct_id',$rct_id)->pluck('type')->first();
   }
 
-  
+  public static function getTypeChineseName($rct_id){
+    return RctXiaoZai::where('rct_id',$rct_id)->pluck('type_chinese_name')->first();
+  }
 
 }
