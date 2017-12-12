@@ -38,6 +38,7 @@ class ReceiptController extends Controller
 
           elseif (Module::isXiaoZai($mod_id)){
             $param['receipt_children']['type'] = $param['var']['type_list'][$index];
+            $param['receipt_children']['type_chinese_name'] = $param['var']['type_chinese_name_list'][$index];
             RctXiaoZai::create($param['receipt_children']);
           }
 

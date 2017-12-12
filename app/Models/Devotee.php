@@ -220,4 +220,20 @@ class Devotee extends Model
     return Devotee::where('devotee_id',$devotee_id)->pluck('chinese_name')->first();
   }
 
+  public static function isSameDevoteeId($devotee_id_1,$devotee_id_2){
+    return $devotee_id_1 == $devotee_id_2;
+  }
+
+  public static function isSameFamily($devotee_id_1,$devotee_id_2){
+    return Devotee::getFamilyCode($devotee_id_1) == Devotee::getFamilyCode($devotee_id_2);
+  }
+
+  public static function isRelative($devotee_id_1,$devotee_id_2){
+    return Devotee::getFamilyCode($devotee_id_1) != Devotee::getFamilyCode($devotee_id_2);
+  }
+
+  public static function getFamilyCode($devotee_id){
+    return Devotee::where('devotee_id',$devotee_id)->pluck('familycode_id')->first();
+  }
+
 }

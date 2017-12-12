@@ -17,7 +17,7 @@
 
 </head>
 <body class="A5 landscape">
-	@foreach($receipts as $index=>$receipt)
+	@foreach($paginate_receipts as $index=>$paginate_receipt)
 	  <section class="sheet padding-5mm">
 
 	    <header>
@@ -39,7 +39,13 @@
 
 	        <div class="label-wrapper2">
 	          <div class="label-left" style="font-weight: bold">Receipt No <br />(收据)</div><!-- end label-left -->
-	          <div class="label-right2"> {{ $receipt_no_combine }}</div><!-- end label-right -->
+	          <div class="label-right2">
+							@if($paginate_receipt['first_receipt_no'] == $paginate_receipt['last_receipt_no'])
+								{{ $paginate_receipt['first_receipt_no'] }}
+							@elseif($paginate_receipt['first_receipt_no'] != $paginate_receipt['last_receipt_no'])
+								{{ $paginate_receipt['first_receipt_no'] }} - {{ $paginate_receipt['last_receipt_no'] }}
+							@endif
+						</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 
 	        <div class="label-wrapper">
@@ -75,12 +81,12 @@
 
 	      <div class="receipt-list">
 
-	        <table class="receipt-table" style="text-align: left;">
+	        <table class="receipt-table">
 	          <thead>
-	            <tr>
+	            <tr style="text-align:left;">
 								<th width="1%">S/No</th>
-								<th width="1%">Name</th>
-	              <th width="96%">Description</th>
+								<th width="12%">Name</th>
+	              <th width="85%">Description</th>
 	              <th width="1%">Receipt</th>
 	              <th width="1%">Amount</th>
 	            </tr>
@@ -89,16 +95,24 @@
 	          <tbody>
 							<tr>
 	              <td></td>
-								<td colspan="4" style="text-align: left;">insert name here (insert id here)</td>
+								<td colspan="4" style="text-align: left; font-weight:bold;"></td>
 	            </tr>
 
+							@foreach($paginate_receipt['receipt'] as $index=>$rct)
 							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td style="text-align: left;">{{ $receipt->receipt_no }}</td>
-								<td>S$ {{ $receipt->amount }}</td>
+								<td style="text-align: left;">{{$rct['sn_no']}}</td>
+								@if($rct['is_receipt'] == false)
+									<td style="text-align: left; font-weight:bold;">{{$rct['name']}}</td>
+									<td style="text-align: left; font-weight:bold;">{{ $rct['item_description'] }}</td>
+								@else
+									<td style="text-align: left;">{{$rct['name']}}</td>
+									<td style="text-align: left; font-size:0.8em;">{{ $rct['item_description'] }}</td>
+								@endif
+								<td style="text-align: left;">{{ $rct['receipt_no'] }}</td>
+								<td style="text-align: right;">{{ $rct['amount'] }}</td>
 							</tr>
+							@endforeach
+
 	          </tbody>
 	        </table>
 
@@ -107,22 +121,22 @@
 	      <div style="overflow: hidden;">
 
 	        <div style="float:left; width: 60%;">
-	          <p style="font-weight: bold;">Payment Mode :
+	          <p><span style="font-weight:bold;">Payment Mode:</span>
 							@if($transaction->mode_payment == 'cash')
 								Cash
-							@elseif($devotee->type == 'cheque')
+							@elseif($rct['type'] == 'cheque')
 								Cheque
-							@elseif($devotee->type == 'nets')
+							@elseif($rct['type'] == 'nets')
 								NETS
-							@elseif($devotee->type == 'receipt')
+							@elseif($rct['type'] == 'receipt')
 								Manual Receipt
 							@endif
 
-						<br /> (付款方式)</p>
+						<br /><span style="font-weight:bold;">(付款方式)</span></p>
 	        </div>
 
 	        <div class="float: right: width: 40%;">
-	          <p style="font-weight: bold;">Total Amount S$  <br /> (总额)</p>
+	          <p><span style="font-weight: bold;">Total Amount:</span> S$ {{ $paginate_receipt['total_amount'] }}  <br /><span style="font-weight: bold;">(总额)</span></p>
 	        </div>
 
 	      </div>
@@ -182,19 +196,25 @@
 	        </div>
 
 	        <div style="width: 22mm; float: left; border: 1px solid black; height: 2.7cm; line-height: 2.7cm; text-align: center; vertical-align: middle;">
-	          <span style="font-size: 70px; font-weight: bold;"></span>
+	          <span style="font-size: 70px; font-weight: bold;">{{ $paginate_receipt['no_of_set'] }}</span>
 	        </div>
 	      </div><!-- end receipt-info -->
 
 	      <div class="receipt-info">
 	        <div class="label-rightwrapper">
 	          <div class="rightlabel-left" style="font-weight: bold">Total Amount (总额)</div><!-- end label-left -->
-	          <div class="rightlabel-right">S$ {{ $transaction->total_amount }}</div><!-- end label-right -->
+	          <div class="rightlabel-right">S$ {{ $paginate_receipt['total_amount'] }}</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 
 	        <div class="label-rightwrapper">
 	          <div class="rightlabel-left" style="font-weight: bold">Receipt No (收据)</div><!-- end label-left -->
-	          <div class="rightlabel-right">{{ $receipt_no_combine }}</div><!-- end label-right -->
+	          <div class="rightlabel-right">
+							@if($paginate_receipt['first_receipt_no'] == $paginate_receipt['last_receipt_no'])
+								{{ $paginate_receipt['first_receipt_no'] }}
+							@elseif($paginate_receipt['first_receipt_no'] != $paginate_receipt['last_receipt_no'])
+								{{ $paginate_receipt['first_receipt_no'] }} -{{ $paginate_receipt['last_receipt_no'] }} &nbsp
+							@endif
+						</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 	      </div><!-- end receipt-info -->
 

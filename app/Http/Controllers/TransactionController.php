@@ -47,33 +47,37 @@ class TransactionController extends Controller
       Module::isXiangYou($request['mod_id']) ? $param['receipt']['hjgr'] = $request['hjgr'] : false ;
       Module::isCiJi($request['mod_id']) ? $param['receipt']['hjgr'] = $request['hjgr'] : false ;
       Module::isXiaoZai($request['mod_id']) ? $param['var']['type_list'] = $request['type'] : false ;
+      Module::isXiaoZai($request['mod_id']) ? $param['var']['type_chinese_name_list'] = $request['type_chinese_name_list'] : false ;
       ReceiptController::createReceipt($param);
 
-      if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
 
-      }
-
-      elseif(Trn::isIndividualPrinting($param['receipt']['trn_id'])){
-
-      }
 
       $transaction = Trn::getTransaction($param['receipt']['trn_id']);
       $receipts = Rct::getReceipts($param['receipt']['trn_id']);
       count($receipts) > 1 ? $receipt_no_combine = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $receipt_no_combine = $receipt_no_combine = $receipts->first()['receipt_no'];
       $loop = intval(ceil(count($receipts) / 6),0);
 
-      //dd($receipts);
+      if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
 
+        //$paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts);
 
+        $receipts_of_family = Rct::getReceiptOfFamily($receipts);
+        $paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts_of_family);
 
+        $receipts_of_relative = Rct::getReceiptOfRelative($receipts);
+        $paginate_receipts_of_relative = Rct::paginateSingleReceipt($receipts_of_relative);
+        $paginate_receipts = array_merge($paginate_receipts_of_family,$paginate_receipts_of_relative);
+      }
 
-
+      elseif(Trn::isIndividualPrinting($param['receipt']['trn_id'])){
+        $paginate_receipts = Rct::paginateSingleReceipt($receipts);
+      }
 
       return view('receipt.receipt_xiaozai', [
         'module' => Module::getModule($request['mod_id']),
   			'transaction' => $transaction,
         'staff' => Staff::getStaff(Auth::user()->id),
-        'receipts' => $receipts,
+        'paginate_receipts' => $paginate_receipts,
         'next_event' => FestiveEvent::getNextEvent(),
   			'loop' => $loop,
         'family_address' => AddressController::getAddressByDevoteeId(session()->get('focus_devotee')[0]['devotee_id']),
