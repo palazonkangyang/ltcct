@@ -105,7 +105,7 @@
                                   </tr>
                                   <tr>
                                     <th>Voucher No</th>
-                                    <th>Date</th>
+                                    <th>Cheque Date</th>
                                     <th>Supplier</th>
                                     <th>Cheque No</th>
                                     <th>Cheque Account</th>
@@ -158,7 +158,7 @@
                               </div><!-- end form-group -->
 
                               <div class="form-group">
-                                <label class="col-md-3">Date *</label>
+                                <label class="col-md-3">Cheque Date *</label>
                                 <div class="col-md-8">
                                   <input type="text" class="form-control" name="date" value="{{ old('date') }}" data-provide='datepicker' data-date-format='dd/mm/yyyy' id="date">
                                 </div><!-- end col-md-8 -->
@@ -351,7 +351,7 @@
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                              <label class="col-md-3">Date</label>
+                              <label class="col-md-3">Cheque Date</label>
                               <div class="col-md-8">
                                 <input type="text" class="form-control" id="show_date" readonly>
                               </div><!-- end col-md-8 -->
