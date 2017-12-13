@@ -50,7 +50,7 @@
 
 	        <div class="label-wrapper">
 	          <div class="label-left" style="font-weight: bold">Paid By <br />(付款者)</div><!-- end label-left -->
-	          <div class="label-right">{{ $paid_by_devotee->chinese_name }} ({{ $paid_by_devotee->devotee_id }})</div><!-- end label-right -->
+	          <div class="label-right">{{ $transaction->paid_by }} ({{ $transaction->focusdevotee_id }})</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 
 	        <div class="label-wrapper2">
@@ -180,9 +180,7 @@
 	      <div class="receipt-info">
 	        <div class="paidby" style="width: 49mm; float: left;">
 	          <p style="font-weight: bold">Paid By (付款者)</p>
-	          <p>{{ $paid_by_devotee->chinese_name }} ({{ $paid_by_devotee->devotee_id }})
-
-	          </p>
+	          <p>{{ $transaction->paid_by }} ({{ $transaction->focusdevotee_id }})</p>
 	          <p style="margin-top: 15px; font-weight: bold">No of Set(s) / 份数</p>
 	        </div>
 

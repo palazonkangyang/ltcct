@@ -98,7 +98,7 @@ $(function() {
 
     $.ajax({
       type: 'GET',
-      url: "/fahui/xiaozai-transaction-detail",
+      url: "/fahui/transaction-detail",
       data: formData,
       dataType: 'json',
       success: function(response)
@@ -144,39 +144,30 @@ $(function() {
           var total_amount = 0;
           var count = response.transaction.length;
 
-          if(count > 1)
-          {
-            $("#receipt").text(response.transaction.receipt_no + " - " + response.transaction[count - 1].receipt_no);
-          }
-          else
-          {
-            $("#receipt").text(response.transaction.receipt_no);
-          }
-
+          $("#receipt").text(response.transaction.receipt);
+          $('#receipt_date').text(response.transaction.trans_at);
           $("#description").text(response.transaction.description);
-          $('#receipt_date').text(response.transaction.trans_date);
-          $("#paid_by").text(response.focusdevotee + " (D - " + response.transaction.focusdevotee_id + ")");
-          $("#donation_event").text((response.transaction.event !=null ? response.transaction.event : ''));
+          $("#paid_by").text(response.transaction.paid_by + " (" + response.transaction.focusdevotee_id + ")");
+          $("#donation_event").text(response.next_event.event);
           $("#transaction_no").text(response.transaction.trans_no);
-          $("#attended_by").text(response.transaction.first_name + " " + response.transaction.last_name);
+          $("#attended_by").text(response.transaction.attended_by);
           $("#payment_mode").text(response.transaction.mode_payment);
 
-          $.each(response.transaction, function(index, data) {
+          $.each(response.receipts, function(index, data) {
 
             $('#transaction-table tbody').append("<tr><td>" + rowno + "</td>" +
-            "<td>" + data.chinese_name + "</td>" +
+            "<td>" + data.devotee_chinese_name + "</td>" +
             "<td>" + data.devotee_id + "</td>" +
-            "<td>" + data.chinese_type + "</td>" +
+            "<td>" + data.type_chinese_name + "</td>" +
             "<td>" + (data.item_description != null ? data.item_description : '') + "</td>" +
-            "<td>" + (data.hjgr == 'hj' ? '合家' : '个人') + "</td>" +
             "<td>" + data.receipt_no + "</td>" +
             "<td>" + data.amount + "</td>");
 
             rowno++;
-            total_amount += data.amount;
           });
 
-          $("#amount").text(total_amount);
+          $("#amount").text(response.transaction.total_amount);
+          $('.nav-tabs li:eq(1) a').tab('show');
         }
 
         else

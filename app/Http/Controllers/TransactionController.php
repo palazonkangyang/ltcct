@@ -55,14 +55,14 @@ class TransactionController extends Controller
 
       Trn::updateReceiptNoOfTransaction($param['receipt']['trn_id']);
 
-
+      // Trn::printReceipt(,);
+      // public static function printReceipt($trn_id){
+      //
+      // }
       $transaction = Trn::getTransaction($param['receipt']['trn_id']);
       $receipts = Rct::getReceipts($param['receipt']['trn_id']);
 
       if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
-
-        //$paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts);
-
         $receipts_of_family = Rct::getReceiptOfFamily($receipts);
         $paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts_of_family);
 
@@ -82,18 +82,27 @@ class TransactionController extends Controller
         'paginate_receipts' => $paginate_receipts,
         'next_event' => FestiveEvent::getNextEvent(),
         'family_address' => AddressController::getAddressByDevoteeId(session()->get('focus_devotee')[0]['devotee_id']),
-        'time_now' => Carbon::now('Singapore'),
-  			'paid_by_devotee' => Devotee::getDevotee(session()->get('focus_devotee')[0]['devotee_id']),
-        'devotee_id' => session()->get('focus_devotee')[0]['devotee_id']
+        'time_now' => Carbon::now('Singapore')
   		]);
     }
 
     public function getTransactionDetail(Request $request)
     {
+      $receipt_no = $request['receipt_no'];
       $trans_no = $request['trans_no'];
 
-      $transaction = Trn::where('trans_no',$trans_no)
-                         ->first();
+      if($trans_no != null){
+        $transaction = Trn::where('trans_no',$trans_no)
+                           ->first();
+      }
+
+      elseif($receipt_no != null){
+        $trn_id = Rct::where('receipt_no',$receipt_no)
+                     ->pluck('trn_id')
+                     ->first();
+        $transaction = Trn::where('trn_id',$trn_id)
+                           ->first();
+      }
 
       $next_event = FestiveEvent::getNextEvent();
 
@@ -113,6 +122,10 @@ class TransactionController extends Controller
       foreach($mod_list as $index=> $mod){
         Trn::getTrn($focusdevotee_id,$mod->mod_id);
       }
+    }
+
+    public static function ReprintReceipt(Request $request){
+      dd($request);
     }
 
 

@@ -1,6 +1,6 @@
 <div class="form-body">
 
-  <form method="post" target="_blank" action="{{ URL::to('/fahui/xiaozai-reprint-detail') }}"
+  <form method="post" target="_blank" action="{{ URL::to('/fahui/reprint-receipt') }}"
     class="form-horizontal form-bordered" id="">
     {!! csrf_field() !!}
 
