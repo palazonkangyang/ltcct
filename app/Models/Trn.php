@@ -16,7 +16,9 @@ class Trn extends Model
     'festiveevent_id',
     'mod_id',
     'staff_id',
+    'receipt',
     'description',
+    'paid_by',
     'mode_payment',
     'trans_no',
     'nets_no',
@@ -32,8 +34,29 @@ class Trn extends Model
   public static function getTransaction($trn_id){
       if(Session::has('transaction')) { Session::forget('transaction'); }
       $transaction = Trn::where('trn_id',$trn_id)->first();
-      Session::put('transaction',$transaction);
       return $transaction;
+  }
+
+  public static function getTransactionOfDevotee($devotee_id,$mod_id){
+      if(Session::has('transaction.xiaozai')) { Session::forget('transaction.xiaozai'); }
+      $transactions = Trn::where('focusdevotee_id',$devotee_id)
+                        ->where('mod_id',$mod_id)
+                        ->orderBy('trn_id','desc')
+                        ->get();
+
+      Module::isXiaoZai($mod_id) ? Session::put('transaction.xiaozai',$transactions) : false;
+      return $transactions;
+  }
+
+  public static function updateReceiptNoOfTransaction($trn_id){
+    if(Session::has('transaction.xiaozai')) { Session::forget('transaction.xiaozai'); }
+
+      $receipts = Rct::where('trn_id',$trn_id)
+                     ->get();
+
+      $transaction = Trn::find($trn_id);
+      count($receipts) > 1 ? $transaction->receipt = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $transaction->receipt = $receipt_no_combine = $receipts->first()['receipt_no'];
+      $transaction->save();
   }
 
   public static function generateTransactionNo(){

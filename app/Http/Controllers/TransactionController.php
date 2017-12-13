@@ -21,7 +21,9 @@ class TransactionController extends Controller
       $param['transaction']['festiveevent_id'] = $request['festiveevent_id'];
       $param['transaction']['mod_id'] = $request['mod_id'];
       $param['transaction']['description'] = Module::getDescription($request['mod_id']);
+      $param['transaction']['paid_by'] = Devotee::getChineseName(session()->get('focus_devotee')[0]['devotee_id']);
       $param['transaction']['staff_id'] = Auth::user()->id;
+      $param['transaction']['receipt'] = null;
       $param['transaction']['mode_payment'] = $request['mode_payment'];
       $param['transaction']['trans_no'] = Trn::generateTransactionNo();
       $param['transaction']['nets_no'] = $request['nets_no'];
@@ -50,12 +52,11 @@ class TransactionController extends Controller
       Module::isXiaoZai($request['mod_id']) ? $param['var']['type_chinese_name_list'] = $request['type_chinese_name_list'] : false ;
       ReceiptController::createReceipt($param);
 
+      Trn::updateReceiptNoOfTransaction($param['receipt']['trn_id']);
 
 
       $transaction = Trn::getTransaction($param['receipt']['trn_id']);
       $receipts = Rct::getReceipts($param['receipt']['trn_id']);
-      count($receipts) > 1 ? $receipt_no_combine = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $receipt_no_combine = $receipt_no_combine = $receipts->first()['receipt_no'];
-      $loop = intval(ceil(count($receipts) / 6),0);
 
       if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
 
@@ -73,17 +74,17 @@ class TransactionController extends Controller
         $paginate_receipts = Rct::paginateSingleReceipt($receipts);
       }
 
+      Trn::getTransactionOfDevotee(session()->get('focus_devotee')[0]['devotee_id'],$request['mod_id']);
       return view('receipt.receipt_xiaozai', [
         'module' => Module::getModule($request['mod_id']),
   			'transaction' => $transaction,
         'staff' => Staff::getStaff(Auth::user()->id),
         'paginate_receipts' => $paginate_receipts,
         'next_event' => FestiveEvent::getNextEvent(),
-  			'loop' => $loop,
         'family_address' => AddressController::getAddressByDevoteeId(session()->get('focus_devotee')[0]['devotee_id']),
-  			'receipt_no_combine' => $receipt_no_combine,
         'time_now' => Carbon::now('Singapore'),
-  			'paid_by_devotee' => Devotee::getDevotee(session()->get('focus_devotee')[0]['devotee_id'])
+  			'paid_by_devotee' => Devotee::getDevotee(session()->get('focus_devotee')[0]['devotee_id']),
+        'devotee_id' => session()->get('focus_devotee')[0]['devotee_id']
   		]);
     }
 
