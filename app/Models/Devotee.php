@@ -16,6 +16,7 @@ class Devotee extends Model
     'contact',
     'email',
     'guiyi_name',
+    'guiyi_date',
     'address_houseno',
     'address_unit1',
     'address_unit2',

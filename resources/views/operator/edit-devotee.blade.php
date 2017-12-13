@@ -7,7 +7,7 @@
         <div class="page-content-wrapper">
 
             <div class="page-head">
-                
+
                 <div class="container-fluid">
 
                     <div class="page-title">
@@ -57,7 +57,7 @@
                                                 @foreach($errors->all() as $error)
                                                     <p>{{ $error }}</p>
                                                 @endforeach
-                                                
+
                                             </div>
 
                                         @endif
@@ -118,7 +118,7 @@
 
                                                         <label class="col-md-3 control-label">Contact #</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control" name="contact" 
+                                                            <input type="text" class="form-control" name="contact"
                                                                 value="{{ $devotee->contact }}">
                                                         </div><!-- end col-md-9 -->
 
@@ -128,7 +128,7 @@
 
                                                     <label class="col-md-3 control-label">Guiyi Name</label>
                                                     <div class="col-md-9">
-                                                        <input type="text" class="form-control" name="guiyi_name" 
+                                                        <input type="text" class="form-control" name="guiyi_name"
                                                             value="{{ $devotee->guiyi_name }}">
                                                     </div><!-- end col-md-9 -->
 
@@ -187,7 +187,7 @@
 
                                                     <label class="col-md-3 control-label">Address - Postal</label>
                                                     <div class="col-md-9">
-                                                        <input type="text" class="form-control" name="address_postal" 
+                                                        <input type="text" class="form-control" name="address_postal"
                                                             value="{{ $devotee->address_postal }}">
                                                     </div><!-- end col-md-9 -->
 
@@ -221,7 +221,7 @@
 
                                                         <label class="col-md-3 control-label">NRIC</label>
                                                         <div class="col-md-9">
-                                                            <input type="text" class="form-control" name="nric" 
+                                                            <input type="text" class="form-control" name="nric"
                                                                 value="{{ $devotee->nric }}">
                                                         </div><!-- end col-md-9 -->
 
@@ -298,7 +298,7 @@
                                                         </div><!-- end col-md-9 -->
 
                                                     </div><!-- end form-group -->
-                                                    
+
                                                 </div><!-- end col-md-6 -->
 
                                                 <div class="clearfix"></div>

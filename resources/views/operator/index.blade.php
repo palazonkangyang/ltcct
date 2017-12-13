@@ -496,10 +496,30 @@
 
 																<div class="form-group">
 
+																	<label class="col-md-4">Email Address</label>
+																	<div class="col-md-8">
+																		<input type="text" class="form-control" name="email"
+																		value="" id="content_email_address">
+																	</div><!-- end col-md-8 -->
+
+																</div><!-- end form-group -->
+
+																<div class="form-group">
+
 																	<label class="col-md-4">Guiyi Name</label>
 																	<div class="col-md-8">
 																		<input type="text" class="form-control" name="guiyi_name"
 																		value="{{ old('guiyi_name') }}" id="content_guiyi_name">
+																	</div><!-- end col-md-9 -->
+
+																</div><!-- end form-group -->
+
+																<div class="form-group">
+
+																	<label class="col-md-4">Guiyi Date</label>
+																	<div class="col-md-8">
+																		<input type="text" class="form-control" name="guiyi_date" id="content_guiyi_date"
+																		data-provide="datepicker" data-date-format="dd/mm/yyyy" value="">
 																	</div><!-- end col-md-9 -->
 
 																</div><!-- end form-group -->

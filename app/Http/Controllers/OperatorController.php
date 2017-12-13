@@ -1533,6 +1533,13 @@ class OperatorController extends Controller
 		$approveNewDate = "";
 		$input = array_except($request->all(), '_token');
 
+		$guiyi_date = $input['guiyi_date'];
+		if($input['guiyi_date'] != null)
+		{
+			$guiyi_date = str_replace('/', '-', $input['guiyi_date']);
+			$guiyi_date = date("Y-m-d", strtotime($guiyi_date));
+		}
+
     if(isset($input['authorized_password']))
 		{
 			$user = User::find(Auth::user()->id);
@@ -1626,7 +1633,9 @@ class OperatorController extends Controller
 				    "chinese_name" => $input['chinese_name'],
 				    "english_name" => $input['english_name'],
 				    "contact" => $input['contact'],
+						"email" => $input['email'],
 				    "guiyi_name" => $input['guiyi_name'],
+						"guiyi_date" => $guiyi_date,
 				    "address_houseno" => $input['address_houseno'],
 				    "address_unit1" => $input['address_unit1'],
 				    "address_unit2" => $input['address_unit2'],
@@ -1668,7 +1677,9 @@ class OperatorController extends Controller
 				   "chinese_name" => $input['chinese_name'],
 				   "english_name" => $input['english_name'],
 				   "contact" => $input['contact'],
-				   "guiyi_name" => $input['guiyi_name'],
+					 "email" => $input['email'],
+					 "guiyi_name" => $input['guiyi_name'],
+					 "guiyi_date" => $guiyi_date,
 				   "address_houseno" => $input['address_houseno'],
 				   "address_unit1" => $input['address_unit1'],
 				   "address_unit2" => $input['address_unit2'],
@@ -1700,7 +1711,9 @@ class OperatorController extends Controller
 		      "chinese_name" => $input['chinese_name'],
 		      "english_name" => $input['english_name'],
 		      "contact" => $input['contact'],
-		      "guiyi_name" => $input['guiyi_name'],
+					"email" => $input['email'],
+					"guiyi_name" => $input['guiyi_name'],
+					"guiyi_date" => $guiyi_date,
 		      "address_houseno" => $input['address_houseno'],
 		      "address_unit1" => $input['address_unit1'],
 		      "address_unit2" => $input['address_unit2'],
@@ -1741,7 +1754,9 @@ class OperatorController extends Controller
 		      "chinese_name" => $input['chinese_name'],
 		      "english_name" => $input['english_name'],
 		      "contact" => $input['contact'],
-		      "guiyi_name" => $input['guiyi_name'],
+					"email" => $input['email'],
+					"guiyi_name" => $input['guiyi_name'],
+					"guiyi_date" => $guiyi_date,
 		      "address_houseno" => $input['address_houseno'],
 		      "address_unit1" => $input['address_unit1'],
 		      "address_unit2" => $input['address_unit2'],
@@ -2331,6 +2346,13 @@ class OperatorController extends Controller
 		$cancelledNewDate = "";
 		$reason_for_cancel = "";
 
+		$guiyi_date = $request['guiyi_date'];
+		if($guiyi_date != null)
+		{
+			$guiyi_date = str_replace('/', '-', $guiyi_date);
+			$guiyi_date = date("Y-m-d", strtotime($guiyi_date));
+		}
+
 		$input = array_except($request->all(), '_token');
 
 		if(isset($input['authorized_password']))
@@ -2465,7 +2487,9 @@ class OperatorController extends Controller
 			  $devotee->chinese_name = $input['chinese_name'];
 			  $devotee->english_name = $input['english_name'];
 			  $devotee->contact = $input['contact'];
+				$devotee->email = $input['email'];
 			  $devotee->guiyi_name = $input['guiyi_name'];
+				$devotee->guiyi_date = $guiyi_date;
 			  $devotee->address_houseno = $input['address_houseno'];
 			  $devotee->address_unit1 = $input['address_unit1'];
 			  $devotee->address_unit2 = $input['address_unit2'];
