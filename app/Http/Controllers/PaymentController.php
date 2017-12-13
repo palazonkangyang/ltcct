@@ -27,6 +27,7 @@ class PaymentController extends Controller
   {
     // Create Journal
 		$year = date("y");
+    $month = date("m");
 
     $count_payment = count(PaymentVoucher::all());
     $count_pettycash = count(PettyCashVoucher::all());
@@ -34,16 +35,16 @@ class PaymentController extends Controller
 
     if($voucher_no)
     {
-      $voucher_no_id = str_pad($voucher_no + 1, 4, 0, STR_PAD_LEFT);
+      $voucher_no_id = str_pad($voucher_no + 1, 3, 0, STR_PAD_LEFT);
     }
 
     else
     {
       $voucher_no_id = 0;
-      $voucher_no_id = str_pad($voucher_no_id + 1, 4, 0, STR_PAD_LEFT);
+      $voucher_no_id = str_pad($voucher_no_id + 1, 3, 0, STR_PAD_LEFT);
     }
 
-    $voucher_no = 'PV-' . $year . $voucher_no_id;
+    $voucher_no = 'PV-' . $year . $month . $voucher_no_id;
 
     $payment_voucher = PaymentVoucher::leftjoin('ap_vendor', 'payment_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
                        ->leftjoin('glcode', 'payment_voucher.cheque_account', '=', 'glcode.glcode_id')
