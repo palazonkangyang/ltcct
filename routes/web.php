@@ -154,7 +154,10 @@ Route::group(['middleware' => 'auth'], function () {
 		//Route::get('/xiaozai-transaction-detail', ['as' => 'xiaozai-transaction-detail-page', 'uses' => 'XiaoZaiController@getTransactionDetail']);
 		Route::get('/transaction-detail', ['as' => 'transaction-detail-page', 'uses' => 'TransactionController@getTransactionDetail']);
 		// Route::post('/xiaozai-reprint-detail', ['as' => 'xiaozai-reprint-detail-page', 'uses' => 'XiaozaiController@ReprintDetail']);
-		Route::post('/reprint-receipt', ['as' => 'reprint-detail-page', 'uses' => 'TransactionController@ReprintReceipt']);
+		Route::post('/reprint-receipt', ['as' => 'reprint-detail-page', 'uses' => 'TransactionController@reprintReceipt']);
+		//Route::post('/xiaozai-cancel-transaction', ['as' => 'xiaozai-cancel-transaction-page', 'uses' => 'XiaozaiController@postCancelTransaction']);
+		Route::post('/cancel-transaction', ['as' => 'cancel-transaction-page', 'uses' => 'TransactionController@cancelTransaction']);
+
 
 		Route::post('/xiaozai', ['as' => 'post-xiaozai-page', 'uses' => 'XiaozaiController@postXiaozai']);
 		Route::post('/xiaozai-samefamily-setting', ['as' => 'post-xiaozai-samefamily-setting-page', 'uses' => 'SameFamilyCodeController@updateSfcSetting']);
@@ -162,7 +165,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 		Route::post('/xiaozai-cancel-replace-transaction', ['as' => 'kongdan-cancel-replace-transaction-page', 'uses' => 'XiaozaiController@postCancelReplaceTransaction']);
-		Route::post('/xiaozai-cancel-transaction', ['as' => 'xiaozai-cancel-transaction-page', 'uses' => 'XiaozaiController@postCancelTransaction']);
+
 	});
 
 	Route::group(['prefix' => 'transaction'], function () {

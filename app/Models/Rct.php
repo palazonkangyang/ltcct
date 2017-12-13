@@ -41,6 +41,12 @@ class Rct extends Model
     return $receipts;
   }
 
+  public static function getTrnIdByReceiptNo($receipt_no){
+    return Rct::where('receipt_no',$receipt_no)
+              ->pluck('trn_id')
+              ->first();
+  }
+
   public static function getGLCode($devotee_id,$mod_id){
 
     $devoteeIsMember = Devotee::isMember($devotee_id);

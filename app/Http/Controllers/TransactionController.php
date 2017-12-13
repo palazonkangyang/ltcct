@@ -55,35 +55,8 @@ class TransactionController extends Controller
 
       Trn::updateReceiptNoOfTransaction($param['receipt']['trn_id']);
 
-      // Trn::printReceipt(,);
-      // public static function printReceipt($trn_id){
-      //
-      // }
-      $transaction = Trn::getTransaction($param['receipt']['trn_id']);
-      $receipts = Rct::getReceipts($param['receipt']['trn_id']);
-
-      if(Trn::isCombinePrinting($param['receipt']['trn_id'])){
-        $receipts_of_family = Rct::getReceiptOfFamily($receipts);
-        $paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts_of_family);
-
-        $receipts_of_relative = Rct::getReceiptOfRelative($receipts);
-        $paginate_receipts_of_relative = Rct::paginateSingleReceipt($receipts_of_relative);
-        $paginate_receipts = array_merge($paginate_receipts_of_family,$paginate_receipts_of_relative);
-      }
-
-      elseif(Trn::isIndividualPrinting($param['receipt']['trn_id'])){
-        $paginate_receipts = Rct::paginateSingleReceipt($receipts);
-      }
-
-      Trn::getTrn(session()->get('focus_devotee')[0]['devotee_id'],$request['mod_id']);
-      return view('receipt.receipt_xiaozai', [
-        'module' => Module::getModule($request['mod_id']),
-  			'transaction' => $transaction,
-        'paginate_receipts' => $paginate_receipts,
-        'next_event' => FestiveEvent::getNextEvent(),
-        'family_address' => AddressController::getAddressByDevoteeId(session()->get('focus_devotee')[0]['devotee_id']),
-        'time_now' => Carbon::now('Singapore')
-  		]);
+      $view = Trn::printReceipt($param['receipt']['trn_id'],$param['transaction']['receipt_printing_type']);
+      return $view;
     }
 
     public function getTransactionDetail(Request $request)
@@ -124,8 +97,25 @@ class TransactionController extends Controller
       }
     }
 
-    public static function ReprintReceipt(Request $request){
-      dd($request);
+    public static function reprintReceipt(Request $request){
+      $trans_no = $request['trans_no'];
+      $receipt_no = $request['receipt_no'];
+      $receipt_printing_type = $request['receipt_printing_type'];
+
+      if($trans_no != null){
+        $trn_id= Trn::getTrnIdByTransNo($trans_no);
+      }
+
+      elseif($receipt_no != null){
+        $trn_id = Rct::getTrnIdByReceiptNo($receipt_no);
+      }
+
+      $view = Trn::printReceipt($trn_id,$receipt_printing_type);
+      return $view;
+    }
+
+    public static function cancelTransaction(Request $request){
+      
     }
 
 
