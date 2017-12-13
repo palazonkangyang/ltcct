@@ -96,11 +96,10 @@
        <thead>
          <tr>
            <th width="5%">S/No</th>
-           <th width="12%">Chinese Name</th>
+           <th width="17%">Chinese Name</th>
            <th width="10%">Devotee</th>
            <th width="10%">Type</th>
-           <th width="25%">Item Description</th>
-           <th width="10%" id="col-header">HJ/ GR</th>
+           <th width="30%">Item Description</th>
            <th width="10%">Receipt</th>
            <th width="10%">Amount</th>
          </tr>

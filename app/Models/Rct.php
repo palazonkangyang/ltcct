@@ -14,6 +14,7 @@ class Rct extends Model
   protected $fillable = [
     'trn_id',
     'devotee_id',
+    'devotee_chinese_name',
     'glcode_id',
     'mod_id',
     'receipt_no',

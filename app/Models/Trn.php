@@ -27,9 +27,11 @@ class Trn extends Model
     'total_amount',
     'hjgr',
     'receipt_printing_type',
+    'attended_by',
     'receipt_at',
     'trans_at'
   ];
+
 
   public static function getTransaction($trn_id){
       if(Session::has('transaction')) { Session::forget('transaction'); }
@@ -37,15 +39,28 @@ class Trn extends Model
       return $transaction;
   }
 
-  public static function getTransactionOfDevotee($devotee_id,$mod_id){
-      if(Session::has('transaction.xiaozai')) { Session::forget('transaction.xiaozai'); }
-      $transactions = Trn::where('focusdevotee_id',$devotee_id)
-                        ->where('mod_id',$mod_id)
-                        ->orderBy('trn_id','desc')
-                        ->get();
+  public static function getTrn($devotee_id,$mod_id){
 
-      Module::isXiaoZai($mod_id) ? Session::put('transaction.xiaozai',$transactions) : false;
-      return $transactions;
+    $transactions = Trn::where('focusdevotee_id',$devotee_id)
+                      ->where('mod_id',$mod_id)
+                      ->orderBy('trn_id','desc')
+                      ->get();
+
+    if(Module::isXiaoZai($mod_id)){
+      Session::has('transaction.xiaozai') ? Session::forget('transaction.xiaozai') : false;
+      Session::put('transaction.xiaozai',$transactions);
+    }
+
+    elseif(Module::isKongDan($mod_id)){
+      Session::has('transaction.kongdan') ? Session::forget('transaction.kongdan') : false;
+      Session::put('transaction.kongdan',$transactions);
+    }
+
+    elseif(Module::isQiFu($mod_id)){
+      Session::has('transaction.qifu') ? Session::forget('transaction.qifu') : false;
+      Session::put('transaction.qifu',$transactions);
+    }
+    return $transactions;
   }
 
   public static function updateReceiptNoOfTransaction($trn_id){

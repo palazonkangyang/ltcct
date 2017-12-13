@@ -65,7 +65,7 @@
 
 	        <div class="label-wrapper2">
 	          <div class="label-left" style="font-weight: bold">Attended By <br />(接待者)</div><!-- end label-left -->
-	          <div class="label-right2">{{ $staff->first_name }} {{ $staff->last_name }}</div><!-- end label-right -->
+	          <div class="label-right2">{{ $transaction->attended_by }}</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->
 
 					<div class="label-mainwrapper">
@@ -122,16 +122,7 @@
 
 	        <div style="float:left; width: 60%;">
 	          <p><span style="font-weight:bold;">Payment Mode:</span>
-							@if($transaction->mode_payment == 'cash')
-								Cash
-							@elseif($rct['type'] == 'cheque')
-								Cheque
-							@elseif($rct['type'] == 'nets')
-								NETS
-							@elseif($rct['type'] == 'receipt')
-								Manual Receipt
-							@endif
-
+							{{ $transaction->mode_payment }}
 						<br /><span style="font-weight:bold;">(付款方式)</span></p>
 	        </div>
 

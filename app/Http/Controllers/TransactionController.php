@@ -10,8 +10,8 @@ use App\Models\Trn;
 use App\Models\Rct;
 use App\Models\Module;
 use App\Models\Devotee;
-use App\Models\Staff;
 use App\Models\FestiveEvent;
+use App\Models\User;
 
 class TransactionController extends Controller
 {
@@ -23,6 +23,7 @@ class TransactionController extends Controller
       $param['transaction']['description'] = Module::getDescription($request['mod_id']);
       $param['transaction']['paid_by'] = Devotee::getChineseName(session()->get('focus_devotee')[0]['devotee_id']);
       $param['transaction']['staff_id'] = Auth::user()->id;
+      $param['transaction']['attended_by'] = User::getUserName(Auth::user()->id);
       $param['transaction']['receipt'] = null;
       $param['transaction']['mode_payment'] = $request['mode_payment'];
       $param['transaction']['trans_no'] = Trn::generateTransactionNo();
@@ -74,11 +75,10 @@ class TransactionController extends Controller
         $paginate_receipts = Rct::paginateSingleReceipt($receipts);
       }
 
-      Trn::getTransactionOfDevotee(session()->get('focus_devotee')[0]['devotee_id'],$request['mod_id']);
+      Trn::getTrn(session()->get('focus_devotee')[0]['devotee_id'],$request['mod_id']);
       return view('receipt.receipt_xiaozai', [
         'module' => Module::getModule($request['mod_id']),
   			'transaction' => $transaction,
-        'staff' => Staff::getStaff(Auth::user()->id),
         'paginate_receipts' => $paginate_receipts,
         'next_event' => FestiveEvent::getNextEvent(),
         'family_address' => AddressController::getAddressByDevoteeId(session()->get('focus_devotee')[0]['devotee_id']),
@@ -87,6 +87,34 @@ class TransactionController extends Controller
         'devotee_id' => session()->get('focus_devotee')[0]['devotee_id']
   		]);
     }
+
+    public function getTransactionDetail(Request $request)
+    {
+      $trans_no = $request['trans_no'];
+
+      $transaction = Trn::where('trans_no',$trans_no)
+                         ->first();
+
+      $next_event = FestiveEvent::getNextEvent();
+
+      $receipts = Rct::getReceipts($transaction['trn_id']);
+
+      return response()->json(array(
+        'transaction' => $transaction,
+        'next_event' => $next_event,
+        'receipts' => $receipts,
+      ));
+    }
+
+    public static function getTrnForAllModule(){
+      Session::has('transaction') ? Session::forget('transaction') : false;
+      $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+      $mod_list = Module::getReleasedModuleList();
+      foreach($mod_list as $index=> $mod){
+        Trn::getTrn($focusdevotee_id,$mod->mod_id);
+      }
+    }
+
 
 
 }

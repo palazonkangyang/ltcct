@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Rct;
 use App\Models\Module;
 use App\Models\RctXiaoZai;
+use App\Models\Devotee;
 
 class ReceiptController extends Controller
 {
@@ -14,6 +15,7 @@ class ReceiptController extends Controller
       foreach($param['var']['devotee_id_list'] as $index=>$devotee_id){
         if($param['var']['is_checked_list'][$index] == true){
           $param['receipt']['devotee_id'] = $devotee_id;
+          $param['receipt']['devotee_chinese_name'] = Devotee::getChineseName($devotee_id);
           $param['receipt']['glcode_id'] = Rct::getGLCode($devotee_id , $param['receipt']['mod_id']);
           $param['receipt']['receipt_no'] = Rct::generateReceiptNo($param['receipt']['mod_id'],$param['receipt']['glcode_id']);
           $param['receipt']['amount'] = $param['var']['amount_list'][$index];
