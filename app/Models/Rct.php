@@ -116,7 +116,7 @@ class Rct extends Model
       $last_receipt_no_running_number = 0;
     }
 
-    $receipt_prefix = GLCode::getReceiptPrefixByGLCodeId($glcode_id);
+    $receipt_prefix = GLCode::getReceiptPrefixByGlCodeId($glcode_id);
     $year = date('y');
     $next_receipt_no_number = $last_receipt_no_running_number + 1;
     $next_receipt_no_number = str_pad($next_receipt_no_number, 4, 0, STR_PAD_LEFT);

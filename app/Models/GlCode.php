@@ -20,7 +20,12 @@ class GlCode extends Model
     'glcodegroup_id'
   ];
 
-  public static function getReceiptPrefixByGLCodeId($glcode_id){
+  public static function getReceiptPrefixByGlCodeId($glcode_id){
     return GlCode::where('glcode_id',$glcode_id)->pluck('receipt_prefix')->first();
   }
+
+  public static function getChineseNameByGlCodeId($glcode_id){
+    return GlCode::where('glcode_id',$glcode_id)->pluck('chinese_name')->first();
+  }
+
 }

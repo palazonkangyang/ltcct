@@ -102,6 +102,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                   </tr>
                                   <tr>
                                     <th>Voucher No</th>
@@ -109,6 +110,7 @@
                                     <th>Supplier</th>
                                     <th>Cheque No</th>
                                     <th>Cheque Account</th>
+                                    <th>GL Description</th>
                                     <th>Total Debit Amount</th>
                                     <th>Total Credit Amount</th>
                                     <th>Cheque From</th>
@@ -125,6 +127,12 @@
                                     <td>{{ $data->supplier }}</td>
                                     <td>{{ $data->cheque_no }}</td>
                                     <td>{{ $data->cheque_account }}</td>
+                                    <td>
+                                      @foreach($data->gl_description_list as $index=>$gl_description)
+                                        &#9679; {{ $gl_description }}
+                                      <br/>
+                                      @endforeach
+                                    </td>
                                     <td>S$ {{ number_format($data->total_debit_amount, 2) }}</td>
                                     <td>S$ {{ number_format($data->total_debit_amount, 2) }}</td>
                                     <td>{{ $data->cheque_from }}</td>
@@ -630,14 +638,15 @@ $(function() {
   var table = $('#payment-table').removeAttr('width').DataTable( {
     "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
     columnDefs: [
-      { "width": "90px", "targets": 0 },
-      { "width": "80px", "targets": 1 },
-      { "width": "100px", "targets": 2 },
+      { "width": "80px", "targets": 0 },
+      { "width": "70px", "targets": 1 },
+      { "width": "70px", "targets": 2 },
       { "width": "80px", "targets": 3 },
-      { "width": "150px", "targets": 4 },
-      { "width": "100px", "targets": 5 },
+      { "width": "200px", "targets": 4 },
+      { "width": "150px", "targets": 5 },
       { "width": "100px", "targets": 6 },
-      { "width": "90px", "targets": 7 }
+      { "width": "100px", "targets": 7 },
+      { "width": "100px", "targets": 8 }
     ]
   } );
 

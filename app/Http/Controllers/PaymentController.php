@@ -52,10 +52,21 @@ class PaymentController extends Controller
                        ->orderBy('payment_voucher.payment_voucher_id')
                        ->get();
 
+    foreach($payment_voucher as $index_pv=>$pv){
+
+      $glcode_list = PaymentVoucherItem::getGlCodeIdListByPaymentVoucherId($pv['payment_voucher_id']);
+      $list['gl_description'] = [];
+      foreach($glcode_list as $index_gi=>$glcode){
+        array_push($list['gl_description'] , GlCode::getChineseNameByGlCodeId($glcode['glcode_id']));
+
+      }
+      $pv['gl_description_list'] = $list['gl_description'];
+    }
+
+
     $glcode = Glcode::where('glcodegroup_id', 4)->get();
 
     $job = Job::all();
-
     return view('payment.manage-payment', [
       'voucher_no' => $voucher_no,
       'payment_voucher' => $payment_voucher,
