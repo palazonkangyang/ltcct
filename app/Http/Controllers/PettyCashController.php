@@ -61,6 +61,7 @@ class PettyCashController extends Controller
       'voucher_no' => $voucher_no,
       'pettycash_voucher' => $pettycash_voucher,
       'cash_in_hand' => $cash_in_hand,
+      'cash_in_hand_balance' => GlCode::getBalance(GlCode::getGlCodeOfCashInHand()),
       "glcode" => $glcode,
       'job' => $job
     ]);

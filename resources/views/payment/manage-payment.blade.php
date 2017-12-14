@@ -199,11 +199,10 @@
                                 <div class="col-md-8">
                                   <select class="form-control" name="cheque_account" id="cheque_account">
                                     <option value="">Please Select</option>
-                                    <option value="7">OCBC A/C NO. 665700217001 华侨银行第一户</option>
-                                    <option value="8">OCBC A/C NO. 665700225001 华侨银行第二户</option>
-                                    <option value="14">May Bank AC 04141010804 Current Account</option>
-                                    <option value="15">May Bank AC 04141011213 慈济部</option>
-                                    <option value="16">May Bank FD 2-414-40-0925-1</option>
+                                    @foreach($cheque_account_list as $index=>$cheque_account)
+                                      <option value="{{ $cheque_account['glcode_id'] }}">{{ $cheque_account['chinese_name'] }} (${{ $cheque_account['balance'] }})</option>
+
+                                    @endforeach
                                   </select>
                                 </div><!-- end col-md-8 -->
                               </div><!-- end form-group -->
@@ -688,7 +687,7 @@ $(function() {
         dataType: 'json',
         success: function(response)
         {
-          $("#bank_account").val(response.type_name);
+          $("#bank_account").val(response.type_name + ' ($' + response.balance + ' )');
           $("#hidden_bank_account").val(response.glcode_id);
         },
 

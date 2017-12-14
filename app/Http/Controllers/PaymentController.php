@@ -65,13 +65,13 @@ class PaymentController extends Controller
 
 
     $glcode = Glcode::where('glcodegroup_id', 4)->get();
-
     $job = Job::all();
     return view('payment.manage-payment', [
       'voucher_no' => $voucher_no,
       'payment_voucher' => $payment_voucher,
       'job' => $job,
-      'glcode' => $glcode
+      'glcode' => $glcode,
+      'cheque_account_list' => GlCode::getChequeAccountList()
     ]);
   }
 
@@ -81,10 +81,12 @@ class PaymentController extends Controller
 
     $glcode = GlCode::find($glcode_id);
     $type_name = $glcode->type_name;
+    $balance = GlCode::getBalance($glcode_id);
     $glcode_id = $glcode->glcode_id;
 
     return response()->json(array(
       'type_name' => $type_name,
+      'balance' => $balance,
       'glcode_id' => $glcode_id
 	  ));
   }
