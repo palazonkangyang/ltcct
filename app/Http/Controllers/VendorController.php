@@ -37,13 +37,17 @@ class VendorController extends Controller
       $vendor[$i]->total = $expenditure;
     }
 
+    $vendor_type_list = APVendorType::getAll();
+
     return view('vendor.manage-vendor', [
-      'vendor' => $vendor
+      'vendor' => $vendor,
+      'vendor_type_list' => $vendor_type_list
     ]);
   }
 
   public function postAddNewVendor(Request $request)
   {
+    //dd($request);
     $input = array_except($request->all(), '_token');
 
     $vendor = APVendor::where('vendor_name', $input['vendor_name'])->first();

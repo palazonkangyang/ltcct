@@ -134,9 +134,35 @@
                               {!! csrf_field() !!}
 
                               <div class="form-group" style="margin-bottom: 30px;">
+                                <label class="col-md-3">Vendor Code *</label>
+                                <div class="col-md-9">
+                                  <input type="text" class="form-control" name="vendor_code" value="{{ old('vendor_code') }}" id="vendor_code">
+                                </div><!-- end col-md-9 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group" style="margin-bottom: 30px;">
                                 <label class="col-md-3">Vendor Name *</label>
                                 <div class="col-md-9">
                                   <input type="text" class="form-control" name="vendor_name" value="{{ old('vendor_name') }}" id="vendor_name">
+                                </div><!-- end col-md-9 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group" style="margin-bottom: 30px;">
+                                <label class="col-md-3">Vendor Type</label>
+                                <div class="col-md-9">
+                                  <input type="text" class="form-control" name="vendor_type" value="{{ old('vendor_type') }}" id="vendor_type">
+
+                                  @foreach($vendor_type_list as $vendor_type)
+                                    <!-- paused here -->
+                                  @endforeach
+
+                                </div><!-- end col-md-9 -->
+                              </div><!-- end form-group -->
+
+                              <div class="form-group" style="margin-bottom: 30px;">
+                                <label class="col-md-3">Contact Information</label>
+                                <div class="col-md-9">
+                                  <input type="text" class="form-control" name="contact_information" value="{{ old('contact_information') }}" id="contact_information">
                                 </div><!-- end col-md-9 -->
                               </div><!-- end form-group -->
 
