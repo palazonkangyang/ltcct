@@ -99,13 +99,17 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
+                                    <th></th>
                                   </tr>
                                   <tr>
                                     <th>Journal Entry No</th>
                                     <th>Date</th>
                                     <th>Description</th>
                                     <th>Debit</th>
+                                    <th>Debit GL</th>
                                     <th>Credit</th>
+                                    <th>Credit GL</th>
                                   </tr>
                                 </thead>
 
@@ -117,7 +121,19 @@
                                       <td>{{ \Carbon\Carbon::parse($j->date)->format("d/m/Y") }}</td>
                                       <td>{{ $j->description }}</td>
                                       <td>S$ {{ number_format($j->total_debit_amount, 2) }}</td>
+                                      <td>
+                                        @foreach($j['debit_gl_list'] as $debit_gl)
+                                          &#9679; {{ $debit_gl }}
+                                          <br/>
+                                        @endforeach
+                                      </td>
                                       <td>S$ {{ number_format($j->total_debit_amount, 2) }}</td>
+                                      <td>
+                                        @foreach($j['credit_gl_list'] as $credit_gl)
+                                          &#9679; {{ $credit_gl }}
+                                          <br/>
+                                        @endforeach
+                                      </td>
                                     </tr>
                                     @endforeach
                                   </tbody>
@@ -503,7 +519,9 @@ $(function() {
       { "width": "200px", "targets": 1 },
       { "width": "300px", "targets": 2 },
       { "width": "200px", "targets": 3 },
-      { "width": "200px", "targets": 4 }
+      { "width": "600px", "targets": 4 },
+      { "width": "200px", "targets": 5 },
+      { "width": "600px", "targets": 6 }
     ],
     fixedColumns: true
   });

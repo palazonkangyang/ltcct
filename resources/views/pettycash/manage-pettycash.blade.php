@@ -229,7 +229,7 @@
                                   <tr>
                                     <td></td>
                                     <td>
-                                      <input type="text" class="form-control" value="{{ $cash_in_hand[0]->type_name }} (${{ $cash_in_hand_balance }})" style="width: 80%;" id="cash_in_hand" readonly>
+                                      <input type="text" class="form-control" value="{{ $cash_in_hand[0]->type_name }} (S$ {{ $cash_in_hand_balance }})" style="width: 80%;" id="cash_in_hand" readonly>
                                       <input type="hidden" name="glcode_id[]" value="{{ $cash_in_hand[0]->glcode_id }}" id="hidden_cash_in_hand">
                                     </td>
                                     <td class="debit_amount_col">

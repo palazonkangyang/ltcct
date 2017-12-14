@@ -200,7 +200,7 @@
                                   <select class="form-control" name="cheque_account" id="cheque_account">
                                     <option value="">Please Select</option>
                                     @foreach($cheque_account_list as $index=>$cheque_account)
-                                      <option value="{{ $cheque_account['glcode_id'] }}">{{ $cheque_account['chinese_name'] }} (${{ $cheque_account['balance'] }})</option>
+                                      <option value="{{ $cheque_account['glcode_id'] }}">{{ $cheque_account['chinese_name'] }} (S$ {{ $cheque_account['balance'] }})</option>
 
                                     @endforeach
                                   </select>
@@ -687,7 +687,7 @@ $(function() {
         dataType: 'json',
         success: function(response)
         {
-          $("#bank_account").val(response.type_name + ' ($' + response.balance + ' )');
+          $("#bank_account").val(response.type_name + ' (S$ ' + response.balance + ' )');
           $("#hidden_bank_account").val(response.glcode_id);
         },
 
