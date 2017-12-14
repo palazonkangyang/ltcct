@@ -208,6 +208,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('/new-vendor', ['as' => 'new-vendor-page', 'uses' => 'VendorController@postAddNewVendor']);
 		Route::post('/update-vendor', ['as' => 'update-vendor-page', 'uses' => 'VendorController@postUpdateVendor']);
+
+		Route::get('/manage-ap-vendor-type', ['as' => 'manage-ap-vendor-type-page', 'uses' => 'VendorTypeController@getManageVendorType']);
+		Route::get('/vendor-type-detail', ['as' => 'vendor-type-detail-page', 'uses' => 'VendorTypeController@getVendorTypeDetail']);
+
+		Route::post('/new-vendor-type', ['as' => 'new-vendor-type-page', 'uses' => 'VendorTypeController@postAddNewVendorType']);
+		Route::post('/update-vendor-type', ['as' => 'update-vendor-type-page', 'uses' => 'VendorTypeController@postUpdateVendorType']);
 	});
 
 	Route::group(['prefix' => 'journal'], function () {

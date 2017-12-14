@@ -153,6 +153,9 @@
                         <a href="/income/income-lists" class="hylink">Income</a>
                       </li>
                       <li>
+                        <a href="/vendor/manage-ap-vendor-type" class="hylink">AP Vendor Type</a>
+                      </li>
+                      <li>
                         <a href="/vendor/manage-ap-vendor" class="hylink">AP Vendor</a>
                       </li>
                       <li>
