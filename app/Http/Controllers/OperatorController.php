@@ -29,6 +29,7 @@ use App\Models\SettingXiaozai;
 use App\Models\XiaozaiGeneraldonation;
 use App\Models\XiaozaiReceipt;
 use App\Models\MembershipFee;
+use App\Models\Module;
 use Auth;
 use DB;
 use Hash;
@@ -44,7 +45,8 @@ class OperatorController extends Controller
 	// Home Page
 	public function index()
 	{
-		//dd(Session()->all());
+		Module::storeSessionModule();
+		// dd(session()->all());
 		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 								->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')

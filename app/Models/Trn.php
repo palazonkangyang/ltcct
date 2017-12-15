@@ -124,10 +124,12 @@ class Trn extends Model
       $paginate_receipts_of_relative = Rct::paginateSingleReceipt($receipts_of_relative);
       $paginate_receipts = array_merge($paginate_receipts_of_family,$paginate_receipts_of_relative);
     }
-
     elseif(Trn::isIndividualPrinting($receipt_printing_type)){
       $paginate_receipts = Rct::paginateSingleReceipt($receipts);
     }
+
+
+
 
     Trn::getTrn($devotee_id,$mod_id);
 
@@ -141,6 +143,18 @@ class Trn extends Model
         'time_now' => Carbon::now('Singapore')
       ]);
     }
+
+    if(Module::isKongDan($mod_id)){
+      return view('receipt.receipt_xiaozai', [
+        'module' => Module::getModule($mod_id),
+        'transaction' => $transaction,
+        'paginate_receipts' => $paginate_receipts,
+        'next_event' => FestiveEvent::getNextEvent(),
+        'family_address' => AddressController::getAddressByDevoteeId($devotee_id),
+        'time_now' => Carbon::now('Singapore')
+      ]);
+    }
+
   }
 
 }

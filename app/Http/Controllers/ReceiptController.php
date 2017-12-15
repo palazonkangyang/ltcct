@@ -11,7 +11,6 @@ use App\Models\Devotee;
 class ReceiptController extends Controller
 {
     public static function createReceipt($param){
-
       foreach($param['var']['devotee_id_list'] as $index=>$devotee_id){
         if($param['var']['is_checked_list'][$index] == true){
           $param['receipt']['devotee_id'] = $devotee_id;
@@ -22,6 +21,7 @@ class ReceiptController extends Controller
           $param['receipt']['item_description'] = $param['var']['item_description_list'][$index];
           $param['receipt_children']['rct_id'] = Rct::create($param['receipt'])->rct_id;
           $mod_id = $param['receipt']['mod_id'];
+
           if(Module::isXiangYou($mod_id)){
 
           }
@@ -62,6 +62,7 @@ class ReceiptController extends Controller
 
           elseif (Module::isKongDan($mod_id)){
 
+            RctKongDan::create($param['receipt_children']);
           }
 
           elseif (Module::isPuDu($mod_id)){

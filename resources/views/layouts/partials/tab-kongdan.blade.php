@@ -7,11 +7,11 @@ $focus_devotee = Session::get('focus_devotee');
 
 <div class="form-body">
 
-  <form target="_blank" method="post" action="{{ URL::to('/fahui/kongdan') }}"
+  <form target="_blank" method="post" action="{{ URL::to('/transaction/create') }}"
   class="form-horizontal form-bordered" id="kongdan-form">
 
   {!! csrf_field() !!}
-
+  {{ Form::hidden('mod_id',Session::get('module.kongdan_id'))}}
   <div class="form-group">
 
     <h4>Same Family Code 同址善信</h4>
@@ -41,8 +41,8 @@ $focus_devotee = Session::get('focus_devotee');
             <tr>
             <td class="kongdan-amount-col">
               <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
-              <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]"
-              value="">
+              <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]" value="">
+              <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
             </td>
             <td>
               @if($devotee->deceased_year != null)
@@ -141,8 +141,8 @@ $focus_devotee = Session::get('focus_devotee');
         <tr>
           <td class="kongdan-amount-col">
             <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]"
-            value="">
+            <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]" value="">
+            <input type="hidden" class="is_checked_list" name="is_checked_list[]" value="">
           </td>
           <td>
             @if($list->deceased_year != null)
@@ -315,12 +315,12 @@ $focus_devotee = Session::get('focus_devotee');
           <div class="mt-radio-list">
 
             <label class="mt-radio mt-radio-outline"> 1 Receipt Printing for Same Address
-              <input type="radio" name="hjgr" value="hj" checked>
+              <input type="radio" name="receipt_printing_type" value="one_receipt_printing_for_same_address" checked>
               <span></span>
             </label>
 
             <label class="mt-radio mt-radio-outline"> Individual Receipt Printing
-              <input type="radio" name="hjgr" value="gr">
+              <input type="radio" name="receipt_printing_type" value="individual_receipt_printing">
               <span></span>
             </label>
           </div><!-- end mt-radio-list -->

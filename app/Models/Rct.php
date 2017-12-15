@@ -88,7 +88,7 @@ class Rct extends Model
     }
 
     elseif(Module::isKongDan($mod_id)){
-
+      return 117;
     }
 
     elseif(Module::isPuDu($mod_id)){
@@ -290,7 +290,7 @@ class Rct extends Model
     foreach($paginate_receipts_list as $chunk=>$paginate_receipts){
       $paginate_combine_receipt = [];
       $paginate_combine_receipt['receipt'] = [];
-      $total_amount = 0.00 ;
+      $total_amount = 0;
       $no_of_set = 0;
       foreach($paginate_receipts as $individual_index=>$individual_receipt){
         array_push($paginate_combine_receipt['receipt'],$individual_receipt);

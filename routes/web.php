@@ -129,7 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/insert-devotee-by-type', ['as' => 'xiaozai-insert-devotee-by-type-page', 'uses' => 'XiaozaiController@getInsertDevoteeByType']);
 		Route::get('/kongdan-transaction-detail', ['as' => 'kongdan-transaction-detail-page', 'uses' => 'FahuiController@getTransactionDetail']);
 
-		Route::post('/kongdan', ['as' => 'post-kongdan-page', 'uses' => 'FahuiController@postKongDan']);
+		// Route::post('/kongdan', ['as' => 'post-kongdan-page', 'uses' => 'FahuiController@postKongDan']);
 		Route::post('/kongdan-samefamily-setting', ['as' => 'post-kongdan-samefamily-setting-page', 'uses' => 'SameFamilyCodeController@updateSfcSetting']);
 		Route::post('/kongdan-differentfamily-setting', ['as' => 'post-kongdan-differentfamily-setting-page', 'uses' => 'FahuiController@postKongdanDifferentFamilySetting']);
 

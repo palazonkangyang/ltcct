@@ -39,372 +39,372 @@ class FahuiController extends Controller
 		]);
   }
 
-  public function postKongDan(Request $request)
-  {
-    $input = array_except($request->all(), '_token');
-		$total_amount = 0;
-
-    // Modify Receipt At fields
-	  if(isset($input['receipt_at']))
-	  {
-	    $input_receipt_at = str_replace('/', '-', $input['receipt_at']);
-	    $receipt_at = date("Y-m-d", strtotime($input_receipt_at));
-	  }
-	  else
-	  {
-	    $receipt_at = $input['receipt_at'];
-	  }
-
-    if(count(KongdanGeneraldonation::all()) > 0)
-    {
-      $trans_id = KongdanGeneraldonation::all()->last()->generaldonation_id;
-    }
-
-    else {
-      $trans_id = 0;
-    }
-
-	  $prefix = "T";
-	  $trans_id += 1;
-	  $trans_id = $prefix . $trans_id;
-
-    if(empty($input['festiveevent_id']))
-		{
-			$input['festiveevent_id'] = 0;
-		}
-
-    $data = [
-	    "trans_no" => $trans_id,
-	    "description" => "KongDan - 孔诞",
-	    "hjgr" => $input['hjgr'],
-	    "total_amount" => $input['total_amount'],
-	    "mode_payment" => $input['mode_payment'],
-	    "cheque_no" => $input['cheque_no'],
-			"nets_no" => $input['nets_no'],
-	    "receipt_at" =>	$receipt_at,
-	    "manualreceipt" => $input['manualreceipt'],
-	    "trans_at" => Carbon::now(),
-	    "focusdevotee_id" => $input['focusdevotee_id'],
-	    "festiveevent_id" => $input['festiveevent_id']
-	  ];
-
-    $kongdan_generaldonation = KongdanGeneraldonation::create($data);
-
-    if($kongdan_generaldonation)
-		{
-      for($i = 0; $i < count($input['hidden_kongdan_amount']); $i++)
-      {
-        if($input['hidden_kongdan_amount'][$i] == 1)
-        {
-          $devotee = Devotee::find($input['devotee_id'][$i]);
-
-          $devotee->lasttransaction_at = Carbon::now();
-          $devotee->save();
-
-          if(count(KongdanReceipt::all()) > 0)
-          {
-            $same_receipt = KongdanReceipt::all()->last()->receipt_id;
-          }
-
-          else {
-            $result = GlCode::where('glcode_id', '117')->pluck('next_sn_number');
-            $same_receipt = $result[0];
-          }
-
-          $prefix = GlCode::where('glcode_id', '117')->pluck('receipt_prefix');
-          $prefix = $prefix[0];
-          $same_receipt += 1;
-
-          $year = date('Y');
-          $year = substr( $year, -2);
-
-          $receipt = str_pad($same_receipt, 4, 0, STR_PAD_LEFT);
-          $receipt = $prefix . $year . $receipt;
-
-          $data = [
-            "receipt_no" => $receipt,
-            "trans_date" => Carbon::now(),
-            "description" => "KongDan - 孔诞",
-            "amount" => 10,
-            "glcode_id" => 117,
-            "devotee_id" => $input['devotee_id'][$i],
-            "generaldonation_id" => $kongdan_generaldonation->generaldonation_id,
-            "staff_id" => Auth::user()->id
-          ];
-
-          KongdanReceipt::create($data);
-        }
-      }
-    }
-
-    // Create Journal
-		$year = date("y");
-
-    if(count(JournalEntry::all()))
-    {
-      $journalentry_id = JournalEntry::all()->last()->journalentry_id;
-      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
-    }
-
-    else
-    {
-      $journalentry_id = 0;
-      $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
-    }
-
-    $reference_no = 'J-' . $year . $journalentry_id;
-
-		$data = [
-      "journalentry_no" => $reference_no,
-      "date" => Carbon::now(),
-      "description" => "Kongdan - 孔诞",
-			"devotee_id" => $input['focusdevotee_id'],
-      "type" => "journal",
-      "total_debit_amount" => $input['total_amount'],
-      "total_credit_amount" => $input['total_amount']
-    ];
-
-		$journalentry = JournalEntry::create($data);
-
-		$data = [
-			"glcode_id" => 9,
-			"debit_amount" => $input['total_amount'],
-			"credit_amount" => null,
-			"journalentry_id" => $journalentry->journalentry_id
-		];
-
-		JournalEntryItem::create($data);
-
-		$data = [
-			"glcode_id" => 117,
-			"debit_amount" => null,
-			"credit_amount" => $input['total_amount'],
-			"journalentry_id" => $journalentry->journalentry_id
-		];
-
-		JournalEntryItem::create($data);
-
-    // remove session
-	  Session::forget('kongdan_receipts');
-
-    $devotee = Devotee::where('devotee_id', $input['focusdevotee_id'])->get();
-
-    $kongdan_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-                           ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
-                           ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-                           ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-                           ->where('devotee.familycode_id', $devotee[0]->familycode_id)
-													 ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
-                           ->where('setting_kongdan.address_code', '=', 'same')
-                           ->where('setting_kongdan.kongdan_id', '=', '1')
-													 ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
-                           ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
-													 ->GroupBy('devotee.devotee_id')
-                           ->get();
-
-		for($i = 0; $i < count($kongdan_same_family); $i++)
-		{
-			$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_same_family[$i]->devotee_id)->get();
-
-			if(count($hasreceipt) > 0)
-			{
-				$same_xy_receipt = KongdanReceipt::all()
-													 ->where('devotee_id', $kongdan_same_family[$i]->devotee_id)
-													 ->last()
-													 ->xy_receipt;
-
-				$kongdan_same_family[$i]->xyreceipt = $same_xy_receipt;
-			}
-
-			else {
-				$kongdan_same_family[$i]->xyreceipt = "";
-			}
-		}
-
-		$kongdan_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-			                           ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
-			                           ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-			                           ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-			                           ->where('setting_kongdan.address_code', '=', 'same')
-			                           ->where('setting_kongdan.kongdan_id', '=', '1')
-																 ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
-																 ->where('setting_kongdan.devotee_id', '=', $devotee[0]->devotee_id)
-			                           ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
-																 ->GroupBy('devotee.devotee_id')
-			                           ->get();
-
-		for($i = 0; $i < count($kongdan_same_focusdevotee); $i++)
-		{
-			$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_same_focusdevotee[0]->devotee_id)->get();
-
-			if(count($hasreceipt) > 0)
-			{
-				$same_xy_receipt = KongdanReceipt::all()
-													 ->where('devotee_id', $kongdan_same_focusdevotee[0]->devotee_id)
-													 ->last()
-													 ->xy_receipt;
-
-				$kongdan_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
-			}
-
-			else {
-				$kongdan_same_focusdevotee[0]->xyreceipt = "";
-			}
-		}
-
-		$kongdan_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
-											          ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
-											          ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
-											          ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
-											          ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
-											          ->where('setting_kongdan.address_code', '=', 'different')
-											          ->where('setting_kongdan.kongdan_id', '=', '1')
-											          ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
-											          ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
-											          ->GroupBy('devotee.devotee_id')
-											          ->get();
-
-		for($i = 0; $i < count($kongdan_different_family); $i++)
-		{
-			$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_different_family[$i]->devotee_id)->get();
-
-			if(count($hasreceipt) > 0)
-			{
-				$same_xy_receipt = KongdanReceipt::all()
-													 ->where('devotee_id', $kongdan_different_family[$i]->devotee_id)
-													 ->last()
-													 ->xy_receipt;
-
-				$kongdan_different_family[$i]->xyreceipt = $same_xy_receipt;
-			}
-
-			else {
-				$kongdan_different_family[$i]->xyreceipt = "";
-			}
-		}
-
-    $kongdan_receipt_collection = collect();
-
-    $kongdan_receipts = KongdanGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'kongdan_generaldonation.focusdevotee_id')
-        								->leftjoin('kongdan_receipt', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
-        								->where('kongdan_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
-        								->GroupBy('kongdan_generaldonation.generaldonation_id')
-        								->where('kongdan_receipt.glcode_id', 117)
-        								->select('kongdan_generaldonation.*', 'devotee.chinese_name', 'kongdan_receipt.cancelled_date')
-        								->orderBy('kongdan_generaldonation.generaldonation_id', 'desc')
-        								->get();
-
-    $paidby_otherkongdan_receipts = KongdanReceipt::leftjoin('kongdan_generaldonation', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
-																		->leftjoin('devotee', 'devotee.devotee_id', '=', 'kongdan_generaldonation.focusdevotee_id')
-																		->where('kongdan_receipt.devotee_id', $input['focusdevotee_id'])
-																		->where('kongdan_receipt.glcode_id', 117)
-																		->where('kongdan_generaldonation.focusdevotee_id', '!=', $input['focusdevotee_id'])
-																		->select('kongdan_generaldonation.*', 'devotee.chinese_name', 'kongdan_receipt.cancelled_date', 'kongdan_receipt.receipt_no')
-																		->get();
-
-    if(count($kongdan_receipts) > 0)
-		{
-			for($i = 0; $i < count($kongdan_receipts); $i++)
-			{
-				$data = KongdanReceipt::where('generaldonation_id', $kongdan_receipts[$i]->generaldonation_id)->pluck('receipt_no');
-				$receipt_count = count($data);
-
-				if($receipt_count > 1)
-				{
-					$kongdan_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
-				}
-				else
-				{
-					$kongdan_receipts[$i]->receipt_no = $data[0];
-				}
-			}
-		}
-
-    $kongdan_receipt_collection = $kongdan_receipt_collection->merge($kongdan_receipts);
-		$kongdan_receipt_collection = $kongdan_receipt_collection->merge($paidby_otherkongdan_receipts);
-
-		$kongdan_receipts = $kongdan_receipt_collection->sortByDesc('generaldonation_id');
-		$kongdan_receipts->values()->all();
-
-    Session::put('kongdan_receipts', $kongdan_receipts);
-
-    $kongdan_generaldonation_id = $kongdan_generaldonation->generaldonation_id;
-		$hjgr = $kongdan_generaldonation->hjgr;
-
-    $result = KongdanReceipt::leftjoin('kongdan_generaldonation', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
-							 ->leftjoin('devotee', 'kongdan_receipt.devotee_id', '=', 'devotee.devotee_id')
-							 ->leftjoin('user', 'kongdan_receipt.staff_id', '=', 'user.id')
-							 ->leftjoin('festiveevent', 'kongdan_generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
-							 ->where('kongdan_generaldonation.generaldonation_id', '=', $kongdan_generaldonation_id)
-							 ->select('kongdan_receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
-							 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id', 'devotee.deceased_year',
-							 	'kongdan_generaldonation.focusdevotee_id', 'kongdan_generaldonation.trans_no', 'user.first_name', 'user.last_name',
-							 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'kongdan_generaldonation.mode_payment')
-							 ->get();
-
-    for($i = 0; $i < count($result); $i++)
-		{
-			$result[$i]->trans_date = \Carbon\Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
-			$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
-		}
-
-    $familycode_id = $result[0]->familycode_id;
-		$samefamily_no = 0;
-
-		for($i = 0; $i < count($result); $i++)
-		{
-			if($result[$i]->familycode_id == $familycode_id)
-			{
-				$samefamily_no += 1;
-				$total_amount += intval($result[$i]->amount);
-			}
-
-			$familycode_id = $result[$i]->familycode_id;
-		}
-
-		$paid_by = Devotee::where('devotee.devotee_id', $result[0]->focusdevotee_id)
-							 ->select('chinese_name', 'devotee_id')
-							 ->get();
-
-		if($samefamily_no > 6)
-		{
-			$loop = intval($samefamily_no / 6, 0);
-			$modulus = $samefamily_no % 6;
-		}
-
-		else
-		{
-			$loop = 1;
-			$modulus = 0;
-		}
-
-		if($modulus > 0)
-		{
-			$loop = $loop + 1;
-		}
-
-		$count_familycode = 0;
-
-		for($i = 0; $i < count($result); $i++)
-		{
-		  $first_familycode = $result[0]->familycode_id;
-
-		  if($first_familycode == $result[$i]->familycode_id)
-		  {
-		    $count_familycode++;
-		  }
-		}
-
-		return view('fahui.kongdan_print', [
-			'receipts' => $result,
-			'print_format' => $hjgr,
-			'loop' => $loop,
-			'count_familycode' => $count_familycode,
-			'samefamily_no' => $samefamily_no,
-			'total_amount' => number_format($total_amount, 2),
-			'paid_by' => $paid_by
-		]);
-  }
+  // public function postKongDan(Request $request)
+  // {
+  //   $input = array_except($request->all(), '_token');
+	// 	$total_amount = 0;
+  // 
+  //   // Modify Receipt At fields
+	//   if(isset($input['receipt_at']))
+	//   {
+	//     $input_receipt_at = str_replace('/', '-', $input['receipt_at']);
+	//     $receipt_at = date("Y-m-d", strtotime($input_receipt_at));
+	//   }
+	//   else
+	//   {
+	//     $receipt_at = $input['receipt_at'];
+	//   }
+  //
+  //   if(count(KongdanGeneraldonation::all()) > 0)
+  //   {
+  //     $trans_id = KongdanGeneraldonation::all()->last()->generaldonation_id;
+  //   }
+  //
+  //   else {
+  //     $trans_id = 0;
+  //   }
+  //
+	//   $prefix = "T";
+	//   $trans_id += 1;
+	//   $trans_id = $prefix . $trans_id;
+  //
+  //   if(empty($input['festiveevent_id']))
+	// 	{
+	// 		$input['festiveevent_id'] = 0;
+	// 	}
+  //
+  //   $data = [
+	//     "trans_no" => $trans_id,
+	//     "description" => "KongDan - 孔诞",
+	//     "hjgr" => $input['hjgr'],
+	//     "total_amount" => $input['total_amount'],
+	//     "mode_payment" => $input['mode_payment'],
+	//     "cheque_no" => $input['cheque_no'],
+	// 		"nets_no" => $input['nets_no'],
+	//     "receipt_at" =>	$receipt_at,
+	//     "manualreceipt" => $input['manualreceipt'],
+	//     "trans_at" => Carbon::now(),
+	//     "focusdevotee_id" => $input['focusdevotee_id'],
+	//     "festiveevent_id" => $input['festiveevent_id']
+	//   ];
+  //
+  //   $kongdan_generaldonation = KongdanGeneraldonation::create($data);
+  //
+  //   if($kongdan_generaldonation)
+	// 	{
+  //     for($i = 0; $i < count($input['hidden_kongdan_amount']); $i++)
+  //     {
+  //       if($input['hidden_kongdan_amount'][$i] == 1)
+  //       {
+  //         $devotee = Devotee::find($input['devotee_id'][$i]);
+  //
+  //         $devotee->lasttransaction_at = Carbon::now();
+  //         $devotee->save();
+  //
+  //         if(count(KongdanReceipt::all()) > 0)
+  //         {
+  //           $same_receipt = KongdanReceipt::all()->last()->receipt_id;
+  //         }
+  //
+  //         else {
+  //           $result = GlCode::where('glcode_id', '117')->pluck('next_sn_number');
+  //           $same_receipt = $result[0];
+  //         }
+  //
+  //         $prefix = GlCode::where('glcode_id', '117')->pluck('receipt_prefix');
+  //         $prefix = $prefix[0];
+  //         $same_receipt += 1;
+  //
+  //         $year = date('Y');
+  //         $year = substr( $year, -2);
+  //
+  //         $receipt = str_pad($same_receipt, 4, 0, STR_PAD_LEFT);
+  //         $receipt = $prefix . $year . $receipt;
+  //
+  //         $data = [
+  //           "receipt_no" => $receipt,
+  //           "trans_date" => Carbon::now(),
+  //           "description" => "KongDan - 孔诞",
+  //           "amount" => 10,
+  //           "glcode_id" => 117,
+  //           "devotee_id" => $input['devotee_id'][$i],
+  //           "generaldonation_id" => $kongdan_generaldonation->generaldonation_id,
+  //           "staff_id" => Auth::user()->id
+  //         ];
+  //
+  //         KongdanReceipt::create($data);
+  //       }
+  //     }
+  //   }
+  //
+  //   // Create Journal
+	// 	$year = date("y");
+  //
+  //   if(count(JournalEntry::all()))
+  //   {
+  //     $journalentry_id = JournalEntry::all()->last()->journalentry_id;
+  //     $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+  //   }
+  //
+  //   else
+  //   {
+  //     $journalentry_id = 0;
+  //     $journalentry_id = str_pad($journalentry_id + 1, 4, 0, STR_PAD_LEFT);
+  //   }
+  //
+  //   $reference_no = 'J-' . $year . $journalentry_id;
+  //
+	// 	$data = [
+  //     "journalentry_no" => $reference_no,
+  //     "date" => Carbon::now(),
+  //     "description" => "Kongdan - 孔诞",
+	// 		"devotee_id" => $input['focusdevotee_id'],
+  //     "type" => "journal",
+  //     "total_debit_amount" => $input['total_amount'],
+  //     "total_credit_amount" => $input['total_amount']
+  //   ];
+  //
+	// 	$journalentry = JournalEntry::create($data);
+  //
+	// 	$data = [
+	// 		"glcode_id" => 9,
+	// 		"debit_amount" => $input['total_amount'],
+	// 		"credit_amount" => null,
+	// 		"journalentry_id" => $journalentry->journalentry_id
+	// 	];
+  //
+	// 	JournalEntryItem::create($data);
+  //
+	// 	$data = [
+	// 		"glcode_id" => 117,
+	// 		"debit_amount" => null,
+	// 		"credit_amount" => $input['total_amount'],
+	// 		"journalentry_id" => $journalentry->journalentry_id
+	// 	];
+  //
+	// 	JournalEntryItem::create($data);
+  //
+  //   // remove session
+	//   Session::forget('kongdan_receipts');
+  //
+  //   $devotee = Devotee::where('devotee_id', $input['focusdevotee_id'])->get();
+  //
+  //   $kongdan_same_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+  //                          ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
+  //                          ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+  //                          ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+  //                          ->where('devotee.familycode_id', $devotee[0]->familycode_id)
+	// 												 ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+  //                          ->where('setting_kongdan.address_code', '=', 'same')
+  //                          ->where('setting_kongdan.kongdan_id', '=', '1')
+	// 												 ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+  //                          ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+	// 												 ->GroupBy('devotee.devotee_id')
+  //                          ->get();
+  //
+	// 	for($i = 0; $i < count($kongdan_same_family); $i++)
+	// 	{
+	// 		$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_same_family[$i]->devotee_id)->get();
+  //
+	// 		if(count($hasreceipt) > 0)
+	// 		{
+	// 			$same_xy_receipt = KongdanReceipt::all()
+	// 												 ->where('devotee_id', $kongdan_same_family[$i]->devotee_id)
+	// 												 ->last()
+	// 												 ->xy_receipt;
+  //
+	// 			$kongdan_same_family[$i]->xyreceipt = $same_xy_receipt;
+	// 		}
+  //
+	// 		else {
+	// 			$kongdan_same_family[$i]->xyreceipt = "";
+	// 		}
+	// 	}
+  //
+	// 	$kongdan_same_focusdevotee = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+	// 		                           ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
+	// 		                           ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+	// 		                           ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+	// 		                           ->where('setting_kongdan.address_code', '=', 'same')
+	// 		                           ->where('setting_kongdan.kongdan_id', '=', '1')
+	// 															 ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+	// 															 ->where('setting_kongdan.devotee_id', '=', $devotee[0]->devotee_id)
+	// 		                           ->select('devotee.*', 'member.member', 'familycode.familycode', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id')
+	// 															 ->GroupBy('devotee.devotee_id')
+	// 		                           ->get();
+  //
+	// 	for($i = 0; $i < count($kongdan_same_focusdevotee); $i++)
+	// 	{
+	// 		$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_same_focusdevotee[0]->devotee_id)->get();
+  //
+	// 		if(count($hasreceipt) > 0)
+	// 		{
+	// 			$same_xy_receipt = KongdanReceipt::all()
+	// 												 ->where('devotee_id', $kongdan_same_focusdevotee[0]->devotee_id)
+	// 												 ->last()
+	// 												 ->xy_receipt;
+  //
+	// 			$kongdan_same_focusdevotee[0]->xyreceipt = $same_xy_receipt;
+	// 		}
+  //
+	// 		else {
+	// 			$kongdan_same_focusdevotee[0]->xyreceipt = "";
+	// 		}
+	// 	}
+  //
+	// 	$kongdan_different_family = Devotee::leftjoin('familycode', 'familycode.familycode_id', '=', 'devotee.familycode_id')
+	// 										          ->leftjoin('setting_kongdan', 'devotee.devotee_id', '=', 'setting_kongdan.devotee_id')
+	// 										          ->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
+	// 										          ->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
+	// 										          ->where('devotee.devotee_id', '!=', $devotee[0]->devotee_id)
+	// 										          ->where('setting_kongdan.address_code', '=', 'different')
+	// 										          ->where('setting_kongdan.kongdan_id', '=', '1')
+	// 										          ->where('setting_kongdan.focusdevotee_id', '=', $devotee[0]->devotee_id)
+	// 										          ->select('devotee.*', 'member.member', 'member.paytill_date', 'specialremarks.devotee_id as specialremarks_devotee_id', 'familycode.familycode')
+	// 										          ->GroupBy('devotee.devotee_id')
+	// 										          ->get();
+  //
+	// 	for($i = 0; $i < count($kongdan_different_family); $i++)
+	// 	{
+	// 		$hasreceipt = KongdanReceipt::where('devotee_id', $kongdan_different_family[$i]->devotee_id)->get();
+  //
+	// 		if(count($hasreceipt) > 0)
+	// 		{
+	// 			$same_xy_receipt = KongdanReceipt::all()
+	// 												 ->where('devotee_id', $kongdan_different_family[$i]->devotee_id)
+	// 												 ->last()
+	// 												 ->xy_receipt;
+  //
+	// 			$kongdan_different_family[$i]->xyreceipt = $same_xy_receipt;
+	// 		}
+  //
+	// 		else {
+	// 			$kongdan_different_family[$i]->xyreceipt = "";
+	// 		}
+	// 	}
+  //
+  //   $kongdan_receipt_collection = collect();
+  //
+  //   $kongdan_receipts = KongdanGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'kongdan_generaldonation.focusdevotee_id')
+  //       								->leftjoin('kongdan_receipt', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
+  //       								->where('kongdan_generaldonation.focusdevotee_id', '=', $input['focusdevotee_id'])
+  //       								->GroupBy('kongdan_generaldonation.generaldonation_id')
+  //       								->where('kongdan_receipt.glcode_id', 117)
+  //       								->select('kongdan_generaldonation.*', 'devotee.chinese_name', 'kongdan_receipt.cancelled_date')
+  //       								->orderBy('kongdan_generaldonation.generaldonation_id', 'desc')
+  //       								->get();
+  //
+  //   $paidby_otherkongdan_receipts = KongdanReceipt::leftjoin('kongdan_generaldonation', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
+	// 																	->leftjoin('devotee', 'devotee.devotee_id', '=', 'kongdan_generaldonation.focusdevotee_id')
+	// 																	->where('kongdan_receipt.devotee_id', $input['focusdevotee_id'])
+	// 																	->where('kongdan_receipt.glcode_id', 117)
+	// 																	->where('kongdan_generaldonation.focusdevotee_id', '!=', $input['focusdevotee_id'])
+	// 																	->select('kongdan_generaldonation.*', 'devotee.chinese_name', 'kongdan_receipt.cancelled_date', 'kongdan_receipt.receipt_no')
+	// 																	->get();
+  //
+  //   if(count($kongdan_receipts) > 0)
+	// 	{
+	// 		for($i = 0; $i < count($kongdan_receipts); $i++)
+	// 		{
+	// 			$data = KongdanReceipt::where('generaldonation_id', $kongdan_receipts[$i]->generaldonation_id)->pluck('receipt_no');
+	// 			$receipt_count = count($data);
+  //
+	// 			if($receipt_count > 1)
+	// 			{
+	// 				$kongdan_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+	// 			}
+	// 			else
+	// 			{
+	// 				$kongdan_receipts[$i]->receipt_no = $data[0];
+	// 			}
+	// 		}
+	// 	}
+  //
+  //   $kongdan_receipt_collection = $kongdan_receipt_collection->merge($kongdan_receipts);
+	// 	$kongdan_receipt_collection = $kongdan_receipt_collection->merge($paidby_otherkongdan_receipts);
+  //
+	// 	$kongdan_receipts = $kongdan_receipt_collection->sortByDesc('generaldonation_id');
+	// 	$kongdan_receipts->values()->all();
+  //
+  //   Session::put('kongdan_receipts', $kongdan_receipts);
+  //
+  //   $kongdan_generaldonation_id = $kongdan_generaldonation->generaldonation_id;
+	// 	$hjgr = $kongdan_generaldonation->hjgr;
+  //
+  //   $result = KongdanReceipt::leftjoin('kongdan_generaldonation', 'kongdan_receipt.generaldonation_id', '=', 'kongdan_generaldonation.generaldonation_id')
+	// 						 ->leftjoin('devotee', 'kongdan_receipt.devotee_id', '=', 'devotee.devotee_id')
+	// 						 ->leftjoin('user', 'kongdan_receipt.staff_id', '=', 'user.id')
+	// 						 ->leftjoin('festiveevent', 'kongdan_generaldonation.festiveevent_id', '=', 'festiveevent.festiveevent_id')
+	// 						 ->where('kongdan_generaldonation.generaldonation_id', '=', $kongdan_generaldonation_id)
+	// 						 ->select('kongdan_receipt.*', 'devotee.chinese_name', 'devotee.oversea_addr_in_chinese', 'devotee.address_houseno', 'devotee.address_unit1',
+	// 						 	'devotee.address_unit2', 'devotee.address_street', 'devotee.address_postal', 'devotee.familycode_id', 'devotee.deceased_year',
+	// 						 	'kongdan_generaldonation.focusdevotee_id', 'kongdan_generaldonation.trans_no', 'user.first_name', 'user.last_name',
+	// 						 	'festiveevent.start_at', 'festiveevent.time', 'festiveevent.event', 'festiveevent.lunar_date', 'kongdan_generaldonation.mode_payment')
+	// 						 ->get();
+  //
+  //   for($i = 0; $i < count($result); $i++)
+	// 	{
+	// 		$result[$i]->trans_date = \Carbon\Carbon::parse($result[$i]->trans_date)->format("d/m/Y");
+	// 		$result[$i]->start_at = \Carbon\Carbon::parse($result[$i]->start_at)->format("d/m/Y");
+	// 	}
+  //
+  //   $familycode_id = $result[0]->familycode_id;
+	// 	$samefamily_no = 0;
+  //
+	// 	for($i = 0; $i < count($result); $i++)
+	// 	{
+	// 		if($result[$i]->familycode_id == $familycode_id)
+	// 		{
+	// 			$samefamily_no += 1;
+	// 			$total_amount += intval($result[$i]->amount);
+	// 		}
+  //
+	// 		$familycode_id = $result[$i]->familycode_id;
+	// 	}
+  //
+	// 	$paid_by = Devotee::where('devotee.devotee_id', $result[0]->focusdevotee_id)
+	// 						 ->select('chinese_name', 'devotee_id')
+	// 						 ->get();
+  //
+	// 	if($samefamily_no > 6)
+	// 	{
+	// 		$loop = intval($samefamily_no / 6, 0);
+	// 		$modulus = $samefamily_no % 6;
+	// 	}
+  //
+	// 	else
+	// 	{
+	// 		$loop = 1;
+	// 		$modulus = 0;
+	// 	}
+  //
+	// 	if($modulus > 0)
+	// 	{
+	// 		$loop = $loop + 1;
+	// 	}
+  //
+	// 	$count_familycode = 0;
+  //
+	// 	for($i = 0; $i < count($result); $i++)
+	// 	{
+	// 	  $first_familycode = $result[0]->familycode_id;
+  //
+	// 	  if($first_familycode == $result[$i]->familycode_id)
+	// 	  {
+	// 	    $count_familycode++;
+	// 	  }
+	// 	}
+  //
+	// 	return view('fahui.kongdan_print', [
+	// 		'receipts' => $result,
+	// 		'print_format' => $hjgr,
+	// 		'loop' => $loop,
+	// 		'count_familycode' => $count_familycode,
+	// 		'samefamily_no' => $samefamily_no,
+	// 		'total_amount' => number_format($total_amount, 2),
+	// 		'paid_by' => $paid_by
+	// 	]);
+  // }
 
   public function postKongdanSameFamilySetting(Request $request)
   {
