@@ -27,6 +27,7 @@ class PettyCashController extends Controller
   {
     // Create Journal
 		$year = date("y");
+    $month = date("m");
 
     $count_payment = count(PaymentVoucher::all());
     $count_pettycash = count(PettyCashVoucher::all());
@@ -34,16 +35,16 @@ class PettyCashController extends Controller
 
     if($voucher_no)
     {
-      $voucher_no_id = str_pad($voucher_no + 1, 4, 0, STR_PAD_LEFT);
+      $voucher_no_id = str_pad($voucher_no + 1, 3, 0, STR_PAD_LEFT);
     }
 
     else
     {
       $voucher_no_id = 0;
-      $voucher_no_id = str_pad($voucher_no_id + 1, 4, 0, STR_PAD_LEFT);
+      $voucher_no_id = str_pad($voucher_no_id + 1, 3, 0, STR_PAD_LEFT);
     }
 
-    $voucher_no = 'PV-' . $year . $voucher_no_id;
+    $voucher_no = 'PV-' . $year . $month . $voucher_no_id;
 
     $pettycash_voucher = PettyCashVoucher::leftjoin('ap_vendor', 'pettycash_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
                        ->select('pettycash_voucher.*', 'ap_vendor.vendor_name as supplier')
@@ -60,6 +61,7 @@ class PettyCashController extends Controller
       'voucher_no' => $voucher_no,
       'pettycash_voucher' => $pettycash_voucher,
       'cash_in_hand' => $cash_in_hand,
+      'cash_in_hand_balance' => GlCode::getBalance(GlCode::getGlCodeOfCashInHand()),
       "glcode" => $glcode,
       'job' => $job
     ]);

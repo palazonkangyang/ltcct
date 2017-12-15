@@ -16,7 +16,7 @@ use App\Models\JournalEntry;
 use App\Models\JournalEntryItem;
 use App\Models\SfcXiaoZai;
 use App\Models\Sfc;
-use App\Models\ RafXiaoZai;
+use App\Models\RafXiaoZai;
 use Auth;
 use DB;
 use Hash;

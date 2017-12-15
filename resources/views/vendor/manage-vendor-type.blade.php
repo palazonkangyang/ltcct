@@ -12,7 +12,7 @@
 
         <div class="page-title">
 
-          <h1>AP Vendor</h1>
+          <h1>AP Vendor Type</h1>
 
         </div><!-- end page-title -->
 
@@ -30,7 +30,7 @@
             <i class="fa fa-circle"></i>
           </li>
           <li>
-            <span>AP Vendor</span>
+            <span>AP Vendor Type</span>
           </li>
         </ul>
 
@@ -73,13 +73,13 @@
 
                       <ul class="nav nav-tabs">
                         <li class="active">
-                          <a href="#tab_vendorlist" data-toggle="tab">AP Vendor List</a>
+                          <a href="#tab_vendorlist" data-toggle="tab">AP Vendor Type List</a>
                         </li>
                         <li>
-                          <a href="#tab_newvendor" data-toggle="tab">New AP Vendor</a>
+                          <a href="#tab_newvendor" data-toggle="tab">New AP Vendor Type</a>
                         </li>
                         <li id="edit-vendor" class="disabled">
-                          <a href="#tab_editvendor" data-toggle="tab">Edit AP Vendor</a>
+                          <a href="#tab_editvendor" data-toggle="tab">Edit AP Vendor Type</a>
                         </li>
                       </ul>
 
@@ -95,11 +95,9 @@
                                 <thead>
                                   <tr id="filter">
                                     <th></th>
-                                    <th></th>
                                   </tr>
                                   <tr>
-                                    <th>Vendor Name</th>
-                                    <th>Description</th>
+                                    <th>Vendor Type Name</th>
                                   </tr>
                                 </thead>
 
@@ -108,9 +106,8 @@
                                   <tr>
                                     <td>
                                       <a href="#tab_editvendor" data-toggle="tab"
-                                      class="edit-item" id="{{ $data->ap_vendor_id }}">{{ $data->vendor_name }}</a>
+                                      class="edit-item" id="{{ $data->ap_vendor_type_id }}">{{ $data->vendor_type_name }}</a>
                                     </td>
-                                    <td>{{ $data->description }}</td>
                                   </tr>
                                   @endforeach
                                 </tbody>
@@ -128,46 +125,15 @@
 
                             <div class="col-md-6">
 
-                              <form method="post" action="{{ URL::to('/vendor/new-vendor') }}"
+                              <form method="post" action="{{ URL::to('/vendor/new-vendor-type') }}"
                               class="form-horizontal form-bordered">
 
                               {!! csrf_field() !!}
 
                               <div class="form-group" style="margin-bottom: 30px;">
-                                <label class="col-md-3">Vendor Code *</label>
+                                <label class="col-md-3">Vendor Type Name *</label>
                                 <div class="col-md-9">
-                                  <input type="text" class="form-control" name="vendor_code" value="{{ old('vendor_code') }}" id="vendor_code">
-                                </div><!-- end col-md-9 -->
-                              </div><!-- end form-group -->
-
-                              <div class="form-group" style="margin-bottom: 30px;">
-                                <label class="col-md-3">Vendor Name *</label>
-                                <div class="col-md-9">
-                                  <input type="text" class="form-control" name="vendor_name" value="{{ old('vendor_name') }}" id="vendor_name">
-                                </div><!-- end col-md-9 -->
-                              </div><!-- end form-group -->
-
-                              <div class="form-group" style="margin-bottom: 30px;">
-                                <label class="col-md-3">Vendor Type</label>
-                                <div class="col-md-9">
-                                  <input type="text" class="form-control" name="vendor_type" value="{{ old('vendor_type') }}" id="vendor_type">
-
-
-
-                                </div><!-- end col-md-9 -->
-                              </div><!-- end form-group -->
-
-                              <div class="form-group" style="margin-bottom: 30px;">
-                                <label class="col-md-3">Contact Information</label>
-                                <div class="col-md-9">
-                                  <input type="text" class="form-control" name="contact_information" value="{{ old('contact_information') }}" id="contact_information">
-                                </div><!-- end col-md-9 -->
-                              </div><!-- end form-group -->
-
-                              <div class="form-group" style="margin-bottom: 30px;">
-                                <label class="col-md-3">Description</label>
-                                <div class="col-md-9">
-                                  <input type="text" class="form-control" name="description" value="{{ old('description') }}" id="description">
+                                  <input type="text" class="form-control" name="vendor_type_name" value="{{ old('vendor_type_name') }}" id="vendor_name">
                                 </div><!-- end col-md-9 -->
                               </div><!-- end form-group -->
 
@@ -206,26 +172,19 @@
 
                           <div class="col-md-6">
 
-                            <form method="post" action="{{ URL::to('/vendor/update-vendor') }}"
+                            <form method="post" action="{{ URL::to('/vendor/update-vendor-type') }}"
                             class="form-horizontal form-bordered">
 
                             {!! csrf_field() !!}
 
                             <div class="form-group">
-                              <input type="hidden" name="edit_ap_vendor_id" id="edit_ap_vendor_id" value="">
+                              <input type="hidden" name="edit_ap_vendor_type_id" id="edit_ap_vendor_type_id" value="">
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                              <label class="col-md-3">Vendor Name *</label>
+                              <label class="col-md-3">Vendor Type Name *</label>
                               <div class="col-md-9">
-                                <input type="text" class="form-control" name="edit_vendor_name" value="{{ old('edit_vendor_name') }}" id="edit_vendor_name">
-                              </div><!-- end col-md-9 -->
-                            </div><!-- end form-group -->
-
-                            <div class="form-group" style="margin-bottom: 30px;">
-                              <label class="col-md-3">Description</label>
-                              <div class="col-md-9">
-                                <input type="text" class="form-control" name="edit_description" value="{{ old('edit_description') }}" id="edit_description">
+                                <input type="text" class="form-control" name="edit_vendor_type_name" value="{{ old('edit_vendor_type_name') }}" id="edit_vendor_type_name">
                               </div><!-- end col-md-9 -->
                             </div><!-- end form-group -->
 
@@ -248,30 +207,6 @@
 
                         <div class="col-md-6">
                         </div><!-- end col-md-6 -->
-
-                        <div class="col-md-12" style="margin-top: 30px;">
-
-                          <table class="table table-bordered">
-                            <thead>
-                              <tr>
-                                <th width="8%">Voucher No</th>
-                                <th width="8%">Date</th>
-                                <th width="15%">Description</th>
-                                <th width="10%">Supplier</th>
-                                <th width="15%">Total Debit Amount</th>
-                                <th width="15%">Total Credit Amount</th>
-                                <th width="8%">View Detail</th>
-                              </tr>
-                            </thead>
-
-                            <tbody id="appendRow">
-                              <tr>
-                                <td colspan="8">No Result Found!</td>
-                              </tr>
-                            </tbody>
-                          </table>
-
-                        </div><!-- end col-md-12 -->
 
                       </div><!-- end form-body -->
 
@@ -319,17 +254,17 @@ $(function() {
 
   if ( $('.alert-success').children().length > 0 ) {
     localStorage.removeItem('activeTab');
-    localStorage.removeItem('ap_vendor_id');
+    localStorage.removeItem('ap_vendor_type_id');
   }
 
   else
   {
-    if(localStorage.getItem('ap_vendor_id'))
+    if(localStorage.getItem('ap_vendor_type_id'))
     {
-      var ap_vendor_id = localStorage.getItem('ap_vendor_id');
+      var ap_vendor_type_id = localStorage.getItem('ap_vendor_type_id');
     }
 
-    $("#edit_ap_vendor_id").val(ap_vendor_id);
+    $("#edit_ap_vendor_type_id").val(ap_vendor_type_id);
   }
 
   $(".nav-tabs > li").click(function(){
@@ -359,8 +294,7 @@ $(function() {
   var table = $('#vendor-table').removeAttr('width').DataTable( {
     "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
     columnDefs: [
-      { width: 500, targets: 0 },
-      { width: 500, targets: 1 }
+      { width: 500, targets: 0 }
     ]
   } );
 
@@ -429,66 +363,34 @@ $(function() {
     $(".alert-success").remove();
     $("#appendRow").empty();
 
-    $("#edit_ap_vendor_id").val('');
-    $("#edit_vendor_name").val('');
-    $("#edit_description").val('');
+    $("#edit_ap_vendor_type_id").val('');
+    $("#edit_type_vendor_name").val('');
 
     $(".nav-tabs > li:first-child").removeClass("active");
     $("#edit-vendor").addClass("active");
 
-    var vendor_id = $(this).attr("id");
+    var vendor_type_id = $(this).attr("id");
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
-      vendor_id: vendor_id
+      vendor_type_id: vendor_type_id
     };
 
     $.ajax({
       type: 'GET',
-      url: "/vendor/vendor-detail",
+      url: "/vendor/vendor-type-detail",
       data: formData,
       dataType: 'json',
       success: function(response)
       {
-        localStorage.setItem('ap_vendor_id', response.vendor['ap_vendor_id']);
-
-        if(localStorage.getItem('ap_vendor_id'))
+        localStorage.setItem('ap_vendor_type_id', response.vendor_type['ap_vendor_type_id']);
+        if(localStorage.getItem('ap_vendor_type_id'))
         {
-          var ap_vendor_id = localStorage.getItem('ap_vendor_id');
+          var ap_vendor_type_id = localStorage.getItem('ap_vendor_type_id');
         }
 
-        $("#edit_ap_vendor_id").val(ap_vendor_id);
-        $("#edit_vendor_name").val(response.vendor['vendor_name']);
-        $("#edit_description").val(response.vendor['description']);
-
-        if(response.vendor_history.length >= 1)
-        {
-          $.each(response.vendor_history, function(index, data) {
-
-            if(data.type == "payment")
-            {
-              $("#appendRow").append("<tr><td>" + data.voucher_no + "</td>" +
-               "<td>" + data.date + "</td>" + "<td>" + (data.description !=null ? data.description : '') + "</td>" +
-               "<td>" + data.supplier + "</td>" + "<td>S$ " + data.total_debit_amount.toFixed(2) + "</td>" +
-               "<td>S$ " + data.total_credit_amount.toFixed(2) + "</td>" +
-               "<td><a href='/payment/manage-payment?payment_voucher_id=" + data.voucher_id + "'>Detail</a></td>" +
-               "</tr>");
-            }
-
-            else {
-              $("#appendRow").append("<tr><td>" + data.voucher_no + "</td>" +
-               "<td>" + data.date + "</td>" + "<td>" + (data.description !=null ? data.description : '') + "</td>" +
-               "<td>" + data.supplier + "</td>" + "<td>S$ " + data.total_debit_amount.toFixed(2) + "</td>" +
-               "<td>S$ " + data.total_credit_amount.toFixed(2) + "</td>" +
-               "<td><a href='/pettycash/manage-pettycash?pettycash_voucher_id=" + data.voucher_id + "'>Detail</a></td>" +
-               "</tr>");
-            }
-          });
-        }
-
-        else {
-          $("#appendRow").append("<tr><td colspan='8'>No Result Found!</td></tr>");
-        }
+        $("#edit_ap_vendor_type_id").val(ap_vendor_type_id);
+        $("#edit_vendor_type_name").val(response.vendor_type['vendor_type_name']);
       },
 
       error: function (response) {
@@ -504,12 +406,12 @@ $(function() {
     var errors = new Array();
     var validationFailed = false;
 
-    var vendor_name = $("#edit_vendor_name").val();
+    var vendor_type_name = $("#edit_vendor_type_name").val();
 
-    if($.trim(vendor_name).length <= 0)
+    if($.trim(vendor_type_name).length <= 0)
     {
       validationFailed = true;
-      errors[count++] = "Vendor Name is empty.";
+      errors[count++] = "Vendor Type Name is empty.";
     }
 
     if (validationFailed)

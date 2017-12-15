@@ -94,6 +94,8 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
+                                    <th></th>
                                   </tr>
                                   <tr>
                                     <th>Journal No</th>
@@ -102,7 +104,9 @@
                                     <th>Paid By</th>
                                     <th>Devotee ID</th>
                                     <th>Debit</th>
+                                    <th>Debit GL</th>
                                     <th>Credit</th>
+                                    <th>Credit GL</th>
                                   </tr>
                                 </thead>
 
@@ -116,7 +120,19 @@
                                       <td>{{ $j->paidby }}</td>
                                       <td>{{ $j->devotee_id }}</td>
                                       <td>S$ {{ number_format($j->total_debit_amount, 2) }}</td>
+                                      <td>
+                                        @foreach($j['debit_gl_list'] as $debit_gl)
+                                          &#9679; {{ $debit_gl }}
+                                          <br/>
+                                        @endforeach
+                                      </td>
                                       <td>S$ {{ number_format($j->total_debit_amount, 2) }}</td>
+                                      <td>
+                                        @foreach($j['credit_gl_list'] as $credit_gl)
+                                          &#9679; {{ $credit_gl }}
+                                          <br/>
+                                        @endforeach
+                                      </td>
                                     </tr>
                                     @endforeach
                                   </tbody>
@@ -259,7 +275,9 @@
         { "width": "200px", "targets": 3 },
         { "width": "200px", "targets": 4 },
         { "width": "200px", "targets": 5 },
-        { "width": "200px", "targets": 6 }
+        { "width": "600px", "targets": 6 },
+        { "width": "200px", "targets": 7 },
+        { "width": "600px", "targets": 8 }
       ],
       fixedColumns: true
     });

@@ -14,4 +14,8 @@ class PaymentVoucherItem extends Model
     'credit_amount',
     'payment_voucher_id'
   ];
+
+  public static function getGlCodeIdListByPaymentVoucherId($payment_voucher_id){
+    return PaymentVoucherItem::where('payment_voucher_id',$payment_voucher_id)->where('credit_amount','!=',NULL)->select('glcode_id')->get();
+  }
 }

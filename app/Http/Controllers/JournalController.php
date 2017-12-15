@@ -21,14 +21,34 @@ class JournalController extends Controller
 {
   public function getManageJournal()
   {
-    $journal = JournalEntry::leftjoin('devotee', 'journalentry.devotee_id', '=', 'devotee.devotee_id')
+    $journal_list = JournalEntry::leftjoin('devotee', 'journalentry.devotee_id', '=', 'devotee.devotee_id')
                ->where('journalentry.type', 'journal')
                ->orderBy('journalentry_id', 'desc')
                ->select('journalentry.*', 'devotee.chinese_name as paidby')
                ->get();
 
+    foreach($journal_list as $journal){
+      $journal_entry_item_list_of_debit = JournalEntryItem::getListOfDebitByJournalEntryId($journal['journalentry_id']);
+      $list['debit_gl_list'] = [];
+      foreach($journal_entry_item_list_of_debit as $journal_entry_item_of_debit){
+        array_push($list['debit_gl_list'],GlCode::getChineseNameByGlCodeId($journal_entry_item_of_debit['glcode_id']));
+      }
+      $journal['debit_gl_list'] = $list['debit_gl_list'];
+
+      $journal_entry_item_list_of_credit = JournalEntryItem::getListOfCreditByJournalEntryId($journal['journalentry_id']);
+      $list['credit_gl_list'] = [];
+      foreach($journal_entry_item_list_of_credit as $journal_entry_item_of_credit){
+        array_push($list['credit_gl_list'],GlCode::getChineseNameByGlCodeId($journal_entry_item_of_credit['glcode_id']));
+      }
+      $journal['debit_gl_list'] = $list['debit_gl_list'];
+      $journal['credit_gl_list'] = $list['credit_gl_list'];
+    }
+
+    // dd($journal_list[0]['debit_gl'][0]);
+
+
     return view('journal.manage-journal', [
-      'journal' => $journal
+      'journal' => $journal_list
     ]);
   }
 

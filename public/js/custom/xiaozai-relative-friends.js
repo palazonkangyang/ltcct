@@ -268,48 +268,126 @@ $(function() {
             if(id == data.devotee_id && type == data.type)
             {
               notsamevalue = 1;
-              //validationFailed = true;
-              //errors[count++] = "Some Addresses are already exits. Some Addresses are inserted.";
+              validationFailed = true;
+              errors[count++] = "Some Addresses are already exits. Some Addresses are inserted.";
             }
           });
 
           if(notsamevalue != 1)
           {
-            if(data.type == "sameaddress")
-            {
-              $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
-                "<td class='checkbox-col'><input type='checkbox' name='xiaozai_id[]' value='" + data.devotee_id + "' class='different xiaozai_id'>" +
-                "<input type='hidden' class='form-control hidden_xiaozai_id' name='hidden_xiaozai_id[]'  value=''></td>" +
-                "<td>" + data.chinese_name +"</td>" +
-                "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
-                "<td></td>" +
-                "<td>" + $.trim(data.guiyi_name) + "</td>" +
-                "<td></td>" +
-                "<td>" + data.ops + "</td>" +
-                "<td><select class='form-control type' name='type[]'><option value='sameaddress' selected>合家</option>" +
-                "<option value='individual'>个人</option></select></td>" +
-                "<td>" + (data.item_description !=null ? data.item_description : '') + "</td>" +
-                "<td>" + $.trim(data.paytill_date) + "</td>" +
-                "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
+            $td_is_checked =        "<td class='checkbox-col'><input type='checkbox' name='xiaozai_id[]' value='" + data.devotee_id + "' class='different xiaozai_id'>" +
+                                    "<input type='hidden' class='hidden_xiaozai_id' name='hidden_xiaozai_id[]'  value=''>"+
+                                    "<input type='hidden' name='is_checked[]' /></td>";
+            $td_chinese_name =       "<td>" + data.chinese_name +"</td>";
+            $td_devotee_id =        "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>";
+            $td_register_by =       "<td></td>";
+            $td_guiyi_id =          "<td>" + $.trim(data.guiyi_name) + "</td>";
+            $td_gy =                "<td></td>";
+            $td_ops =               "<td></td>";
+            $td_item_description =  "<td>" + (data.item_description !=null ? data.item_description : '') + "</td>";
+            $td_paid_by =           "<td>" + $.trim(data.paytill_date) + "</td>";
+            $td_trans_date =        "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>";
+
+            if(data.type == "base_home"){
+              $td_type = "<td><select class='type' name='hjgr[]'><option value='hj' selected>合家</option><option value='gr'>个人</option></select></td>";
+            }
+            else if(data.type == "home"){
+              $td_type = "<td><select class='type' name='hjgr[]'><option value='hj' selected>合家</option><option value='gr'>个人</option></select></td>";
+            }
+            else if(data.type == "company"){
+              $td_type = "<td>公司<input type='hidden' name='hjgr[]'  value='' /></td>";
+            }
+            else if(data.type == "stall"){
+              $td_type = "<td>小贩<input type='hidden' name='hjgr[]'  value='' /></td>";
+            }
+            else if(data.type == "office"){
+              $td_type = "<td>个人<input type='hidden' name='hjgr[]'  value='gr' /></td>";
+            }
+            else if(data.type == "car"){
+              $td_type = "<td>车辆<input type='hidden' name='hjgr[]'  value='' /></td>";
+            }
+            else if(data.type == "ship"){
+              $td_type = "<td>船只<input type='hidden' name='hjgr[]'  value='' /></td>";
+            }
+            else{
+              $td_type = "<td><input type='hidden' name='hjgr[]'  value='' /></td>";
             }
 
-            else
-            {
-              $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
-                "<td class='checkbox-col'><input type='checkbox' name='xiaozai_id[]' value='" + data.devotee_id + "' class='different xiaozai_id'>" +
-                "<input type='hidden' class='form-control hidden_xiaozai_id' name='hidden_xiaozai_id[]'  value=''></td>" +
-                "<td>" + data.chinese_name +"</td>" +
-                "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
-                "<td></td>" +
-                "<td>" + $.trim(data.guiyi_name) + "</td>" +
-                "<td></td>" +
-                "<td>" + data.ops + "</td>" +
-                "<td><select class='form-control type' name='type[]' style='display: none;'><option value='" + data.type  + "' selected>" + data.type + "</option>" +
-                "</select>" + data.chinese_type + "</td>" +
-                "<td>" + (data.item_description !=null ? data.item_description : '') + "</td>" +
-                "<td>" + $.trim(data.paytill_date) + "</td>" +
-                "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
-            }
+            // "<td>"+
+            //   "@if($devotee->type == 'base_home')"+
+            //   "{{ Form::select('hjgr[]', ['hj' => '合家','gr' => '个人'],$devotee->hjgr) }}"+
+            //   "@elseif($devotee->type == 'home')"+
+            //   "{{ Form::select('hjgr[]', ['hj' => '合家','gr' => '个人'],$devotee->hjgr) }}"+
+            //   "@elseif($devotee->type == 'company')"+
+            //   "公司"+
+            //   "{{ Form::hidden('hjgr[]',null)}}"+
+            //   "@elseif($devotee->type == 'stall')"+
+            //   "小贩"+
+            //   "{{ Form::hidden('hjgr[]',null)}}"+
+            //   "@elseif($devotee->type == 'office')"+
+            //   "个人"+
+            //   "{{ Form::hidden('hjgr[]','gr')}}"+
+            //   "@elseif($devotee->type == 'car')"+
+            //   "车辆"+
+            //   "{{ Form::hidden('hjgr[]',null)}}"+
+            //   "@elseif($devotee->type == 'ship')"+
+            //   "船只"+
+            //   "{{ Form::hidden('hjgr[]',null)}}"+
+            //   "@else"+
+            //   "{{ Form::hidden('hjgr[]',null)}}"+
+            //   "@endif"+
+            // "</td>"+
+
+
+            $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
+            $td_is_checked +
+            $td_chinese_name +
+            $td_devotee_id +
+            $td_register_by +
+            $td_guiyi_id +
+            $td_gy +
+            $td_ops +
+            $td_type +
+            $td_item_description +
+            $td_paid_by +
+            $td_trans_date
+            );
+
+            // if(data.type == "sameaddress")
+            // {
+              // $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
+              //   "<td class='checkbox-col'><input type='checkbox' name='xiaozai_id[]' value='" + data.devotee_id + "' class='different xiaozai_id'>" +
+              //   "<input type='hidden' class='form-control hidden_xiaozai_id' name='hidden_xiaozai_id[]'  value=''></td>" +
+              //   "<td>" + data.chinese_name +"</td>" +
+              //   "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
+              //   "<td></td>" +
+              //   "<td>" + $.trim(data.guiyi_name) + "</td>" +
+              //   "<td></td>" +
+              //   "<td></td>" +
+              //   "<td><select class='form-control type' name='type[]'><option value='sameaddress' selected>合家</option>" +
+              //   "<option value='individual'>个人</option></select></td>" +
+              //   "<td>" + (data.item_description !=null ? data.item_description : '') + "</td>" +
+              //   "<td>" + $.trim(data.paytill_date) + "</td>" +
+              //   "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
+            // }
+            //
+            // else
+            // {
+              // $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
+              //   "<td class='checkbox-col'><input type='checkbox' name='xiaozai_id[]' value='" + data.devotee_id + "' class='different xiaozai_id'>" +
+              //   "<input type='hidden' class='form-control hidden_xiaozai_id' name='hidden_xiaozai_id[]'  value=''></td>" +
+              //   "<td>" + data.chinese_name +"</td>" +
+              //   "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
+              //   "<td></td>" +
+              //   "<td>" + $.trim(data.guiyi_name) + "</td>" +
+              //   "<td></td>" +
+              //   "<td>" + data.ops + "</td>" +
+              //   "<td><select class='form-control type' name='type[]' style='display: none;'><option value='" + data.type  + "' selected>" + data.type + "</option>" +
+              //   "</select>" + data.chinese_type + "</td>" +
+              //   "<td>" + (data.item_description !=null ? data.item_description : '') + "</td>" +
+              //   "<td>" + $.trim(data.paytill_date) + "</td>" +
+              //   "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
+            // }
           }
         });
 

@@ -640,8 +640,10 @@ class ReportController extends Controller
 
     $result_collection = collect();
 
-    $date = str_replace('/', '-', $input['date']);
-    $date = date("Y-m-d", strtotime($date) );
+    $from_date = str_replace('/', '-', $input['from_date']);
+    $from_date = date("Y-m-d", strtotime($from_date) );
+    $to_date = str_replace('/', '-', $input['to_date']);
+    $to_date = date("Y-m-d", strtotime($to_date) );
 
     $mode = ['cash', 'cheque', 'nets', 'receipt'];
     $glcode_array = [108, 110, 112, 119, 134];
@@ -665,7 +667,8 @@ class ReportController extends Controller
             $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
                       ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
                       ->where('receipt.staff_id', $staff_array[$i])
-                      ->where('receipt.trans_date', $date)
+                      ->where('receipt.trans_date','>=', $from_date)
+                      ->where('receipt.trans_date','<=', $to_date)
                       ->where('receipt.glcode_id', $glcode_array[$j])
                       ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
                       DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
@@ -703,8 +706,9 @@ class ReportController extends Controller
 
         return view('report.summary-settlement-report-detail', [
           'result' => $result_collection,
-          'date' => $input['date'],
-          'todaydate' => $date,
+          'from_date' => $input['from_date'],
+          'to_date' => $input['to_date'],
+          'todaydate' => $input['from_date'],
           'total_cash' => $total_cash,
           'total_nets' => $total_nets,
           'total_cheque' => $total_cheque,
@@ -720,7 +724,8 @@ class ReportController extends Controller
           $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
                     ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
                     ->where('receipt.staff_id', $staff_array[$i])
-                    ->where('receipt.trans_date', $date)
+                    ->where('receipt.trans_date','>=', $from_date)
+                    ->where('receipt.trans_date','<=', $to_date)
                     ->where('receipt.glcode_id', $input['type'])
                     ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
                     DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
@@ -759,8 +764,9 @@ class ReportController extends Controller
 
         return view('report.summary-settlement-report-by-type', [
           'result' => $result_collection,
-          'date' => $input['date'],
-          'todaydate' => $date,
+          'from_date' => $input['from_date'],
+          'to_date' => $input['to_date'],
+          'todaydate' => $input['from_date'],
           'type_name' => $type_name,
           'total_cash' => $total_cash,
           'total_nets' => $total_nets,
@@ -780,7 +786,8 @@ class ReportController extends Controller
           $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
                     ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
                     ->where('receipt.staff_id', $input['staff_id'])
-                    ->where('receipt.trans_date', $date)
+                    ->where('receipt.trans_date','>=', $from_date)
+                    ->where('receipt.trans_date','<=', $to_date)
                     ->where('receipt.glcode_id', $glcode_array[$i])
                     ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
                     DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
@@ -817,8 +824,9 @@ class ReportController extends Controller
 
         return view('report.summary-settlement-report-detail', [
           'result' => $result_collection,
-          'date' => $input['date'],
-          'todaydate' => $date,
+          'from_date' => $input['from_date'],
+          'to_date' => $input['to_date'],
+          'todaydate' => $input['from_date'],
           'total_cash' => $total_cash,
           'total_nets' => $total_nets,
           'total_cheque' => $total_cheque,
@@ -832,7 +840,8 @@ class ReportController extends Controller
         $result = Receipt::rightjoin('generaldonation', 'receipt.generaldonation_id', '=', 'generaldonation.generaldonation_id')
                   ->rightjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
                   ->where('receipt.staff_id', $input['staff_id'])
-                  ->where('receipt.trans_date', $date)
+                  ->where('receipt.trans_date','>=', $from_date)
+                  ->where('receipt.trans_date','<=', $to_date)
                   ->where('receipt.glcode_id', $input['type'])
                   ->select(DB::raw('SUM(IF(generaldonation.mode_payment = "cash", receipt.amount, 0)) AS cash'),
                   DB::raw('SUM(IF(generaldonation.mode_payment = "cheque", receipt.amount, 0)) AS cheque'),
@@ -869,8 +878,9 @@ class ReportController extends Controller
 
         return view('report.summary-settlement-report-by-type', [
           'result' => $result_collection,
-          'date' => $input['date'],
-          'todaydate' => $date,
+          'from_date' => $input['from_date'],
+          'to_date' => $input['to_date'],
+          'todaydate' => $input['from_date'],
           'type_name' => $type_name,
           'attendedby' => $user_name[0],
           'total_cash' => $total_cash,
@@ -886,9 +896,10 @@ class ReportController extends Controller
   public function postSettlementReport(Request $request)
   {
     $input = array_except($request->all(), '_token');
-
-    $date = str_replace('/', '-', $input['date']);
-    $date = date("Y-m-d", strtotime($date) );
+    $from_date = str_replace('/', '-', $input['from_date']);
+    $from_date = date("Y-m-d", strtotime($from_date) );
+    $to_date = str_replace('/', '-', $input['to_date']);
+    $to_date = date("Y-m-d", strtotime($to_date) );
 
     if($input['staff_id'] == 0)
     {
@@ -898,9 +909,9 @@ class ReportController extends Controller
                   ->leftjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
                   ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
                   ->leftjoin('user', 'receipt.staff_id', 'user.id')
-                  ->where('receipt.trans_date', $date)
-                  ->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.mode_payment',
-                    'glcode.type_name', 'user.user_name')
+                  ->where('receipt.trans_date','>=', $from_date)
+                  ->where('receipt.trans_date','<=', $to_date)
+                  ->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.mode_payment','glcode.type_name', 'user.user_name')
                   ->orderBy('receipt.receipt_id', 'desc')
                   ->get();
       }
@@ -911,7 +922,8 @@ class ReportController extends Controller
                   ->leftjoin('glcode', 'receipt.glcode_id', '=', 'glcode.glcode_id')
                   ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
                   ->leftjoin('user', 'receipt.staff_id', 'user.id')
-                  ->where('receipt.trans_date', $date)
+                  ->where('receipt.trans_date','>=', $from_date)
+                  ->where('receipt.trans_date','<=', $to_date)
                   ->where('receipt.glcode_id', $input['type'])
                   ->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.mode_payment',
                     'glcode.type_name', 'user.user_name')
@@ -926,7 +938,8 @@ class ReportController extends Controller
 
       return view('report.settlement-report-detail', [
         'result' => $result,
-        'date' => $input['date']
+        'from_date' => $input['from_date'],
+        'to_date' => $input['to_date']
       ]);
     }
 
@@ -953,7 +966,8 @@ class ReportController extends Controller
                   ->leftjoin('devotee', 'receipt.devotee_id', '=', 'devotee.devotee_id')
                   ->leftjoin('user', 'receipt.staff_id', 'user.id')
                   ->where('receipt.staff_id', $input['staff_id'])
-                  ->where('receipt.trans_date', $date)
+                  ->where('receipt.trans_date','>=', $from_date)
+                  ->where('receipt.trans_date','<=', $to_date)
                   ->where('receipt.glcode_id', $input['type'])
                   ->select('receipt.*', 'devotee.chinese_name', 'generaldonation.manualreceipt', 'generaldonation.mode_payment',
                     'glcode.type_name', 'user.user_name')
@@ -968,7 +982,8 @@ class ReportController extends Controller
 
       return view('report.settlement-report-by-type', [
         'result' => $result,
-        'date' => $input['date']
+        'from_date' => $input['from_date'],
+        'to_date' => $input['to_date']
       ]);
     }
   }

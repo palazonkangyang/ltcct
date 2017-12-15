@@ -27,6 +27,7 @@ class PaymentController extends Controller
   {
     // Create Journal
 		$year = date("y");
+    $month = date("m");
 
     $count_payment = count(PaymentVoucher::all());
     $count_pettycash = count(PettyCashVoucher::all());
@@ -34,16 +35,16 @@ class PaymentController extends Controller
 
     if($voucher_no)
     {
-      $voucher_no_id = str_pad($voucher_no + 1, 4, 0, STR_PAD_LEFT);
+      $voucher_no_id = str_pad($voucher_no + 1, 3, 0, STR_PAD_LEFT);
     }
 
     else
     {
       $voucher_no_id = 0;
-      $voucher_no_id = str_pad($voucher_no_id + 1, 4, 0, STR_PAD_LEFT);
+      $voucher_no_id = str_pad($voucher_no_id + 1, 3, 0, STR_PAD_LEFT);
     }
 
-    $voucher_no = 'PV-' . $year . $voucher_no_id;
+    $voucher_no = 'PV-' . $year . $month . $voucher_no_id;
 
     $payment_voucher = PaymentVoucher::leftjoin('ap_vendor', 'payment_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
                        ->leftjoin('glcode', 'payment_voucher.cheque_account', '=', 'glcode.glcode_id')
@@ -51,15 +52,26 @@ class PaymentController extends Controller
                        ->orderBy('payment_voucher.payment_voucher_id')
                        ->get();
 
+    foreach($payment_voucher as $index_pv=>$pv){
+
+      $glcode_list = PaymentVoucherItem::getGlCodeIdListByPaymentVoucherId($pv['payment_voucher_id']);
+      $list['gl_description'] = [];
+      foreach($glcode_list as $index_gi=>$glcode){
+        array_push($list['gl_description'] , GlCode::getChineseNameByGlCodeId($glcode['glcode_id']));
+
+      }
+      $pv['gl_description_list'] = $list['gl_description'];
+    }
+
+
     $glcode = Glcode::where('glcodegroup_id', 4)->get();
-
     $job = Job::all();
-
     return view('payment.manage-payment', [
       'voucher_no' => $voucher_no,
       'payment_voucher' => $payment_voucher,
       'job' => $job,
-      'glcode' => $glcode
+      'glcode' => $glcode,
+      'cheque_account_list' => GlCode::getChequeAccountList()
     ]);
   }
 
@@ -69,10 +81,12 @@ class PaymentController extends Controller
 
     $glcode = GlCode::find($glcode_id);
     $type_name = $glcode->type_name;
+    $balance = GlCode::getBalance($glcode_id);
     $glcode_id = $glcode->glcode_id;
 
     return response()->json(array(
       'type_name' => $type_name,
+      'balance' => $balance,
       'glcode_id' => $glcode_id
 	  ));
   }

@@ -79,7 +79,7 @@
                                   @if($result[$i]->amount != 0)
 
                                   <tr>
-                                    <td>{{ $date }}</td>
+                                    <td>{{ $from_date }}</td>
                                     <td>{{ $result[$i]->type_name }}</td>
                                     @if(isset($result[$i]->cash) && $result[$i]->cash != 0.0)
                                     <td>{{ number_format($result[$i]->cash, 2) }}</td>
@@ -131,7 +131,7 @@
                               Total for all cheque Voucher : SGD {{ number_format($total_cheque, 2) }} <br />
                               Total for all nets Voucher : SGD {{ number_format($total_nets, 2) }} <br />
                               Total for all receipts Voucher : SGD {{ number_format($total_receipt, 2) }} <br />
-                              Total for all Vouchers ({{ Carbon\Carbon::parse($todaydate)->format('d M Y ') }} - {{ Carbon\Carbon::parse($todaydate)->format('d M Y ') }}) : SGD {{ number_format($total_amount, 2) }} <br />
+                              Total for all Vouchers ({{ $from_date }} - {{ $to_date }}) : SGD {{ number_format($total_amount, 2) }} <br />
                             </p>
 
                           </div><!-- end col-md-6 -->

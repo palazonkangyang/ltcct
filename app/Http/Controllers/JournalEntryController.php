@@ -26,6 +26,23 @@ class JournalEntryController extends Controller
     $journalentry = JournalEntry::where('journalentry.type', 'journalentry')
                     ->orderBy('journalentry_id', 'desc')->get();
 
+    foreach($journalentry as $journal){
+      $journal_entry_item_list_of_debit = JournalEntryItem::getListOfDebitByJournalEntryId($journal['journalentry_id']);
+      $list['debit_gl_list'] = [];
+      foreach($journal_entry_item_list_of_debit as $journal_entry_item_of_debit){
+        array_push($list['debit_gl_list'],GlCode::getChineseNameByGlCodeId($journal_entry_item_of_debit['glcode_id']));
+      }
+      $journal['debit_gl_list'] = $list['debit_gl_list'];
+
+      $journal_entry_item_list_of_credit = JournalEntryItem::getListOfCreditByJournalEntryId($journal['journalentry_id']);
+      $list['credit_gl_list'] = [];
+      foreach($journal_entry_item_list_of_credit as $journal_entry_item_of_credit){
+        array_push($list['credit_gl_list'],GlCode::getChineseNameByGlCodeId($journal_entry_item_of_credit['glcode_id']));
+      }
+      $journal['debit_gl_list'] = $list['debit_gl_list'];
+      $journal['credit_gl_list'] = $list['credit_gl_list'];
+    }
+
     return view('journalentry.manage-journalentry', [
       'glcode' => $glcode,
       'journalentry' => $journalentry

@@ -120,6 +120,7 @@ Route::group(['middleware' => 'auth'], function () {
 		//Fa Hui
 		Route::get('/add-relative-and-friends', ['as' => 'add-relative-and-friends', 'uses' => 'RelativeAndFriendsController@addRelativeAndFriends']);
 		Route::post('/delete-relative-and-friends', ['as' => 'delete-relative-and-friends', 'uses' => 'RelativeAndFriendsController@deleteRelativeAndFriends']);
+		Route::get('/participant-list',['as' => 'fahui-participant-list', 'uses' => 'FahuiController@getParticipantList']);
 
 		// KongDan
 		Route::get('/kongdan', ['as' => 'get-kongdan-page', 'uses' => 'FahuiController@getKongDan']);
@@ -128,7 +129,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/insert-devotee-by-type', ['as' => 'xiaozai-insert-devotee-by-type-page', 'uses' => 'XiaozaiController@getInsertDevoteeByType']);
 		Route::get('/kongdan-transaction-detail', ['as' => 'kongdan-transaction-detail-page', 'uses' => 'FahuiController@getTransactionDetail']);
 
-		Route::post('/kongdan', ['as' => 'post-kongdan-page', 'uses' => 'FahuiController@postKongDan']);
+		// Route::post('/kongdan', ['as' => 'post-kongdan-page', 'uses' => 'FahuiController@postKongDan']);
 		Route::post('/kongdan-samefamily-setting', ['as' => 'post-kongdan-samefamily-setting-page', 'uses' => 'SameFamilyCodeController@updateSfcSetting']);
 		Route::post('/kongdan-differentfamily-setting', ['as' => 'post-kongdan-differentfamily-setting-page', 'uses' => 'FahuiController@postKongdanDifferentFamilySetting']);
 
@@ -150,15 +151,21 @@ Route::group(['middleware' => 'auth'], function () {
 
 		// XiaoZai
 		Route::get('/xiaozai', ['as' => 'get-xiaozai-page', 'uses' => 'XiaozaiController@getXiaoZai']);
-		Route::get('/xiaozai-transaction-detail', ['as' => 'xiaozai-transaction-detail-page', 'uses' => 'XiaoZaiController@getTransactionDetail']);
+		//Route::get('/xiaozai-transaction-detail', ['as' => 'xiaozai-transaction-detail-page', 'uses' => 'XiaoZaiController@getTransactionDetail']);
+		Route::get('/transaction-detail', ['as' => 'transaction-detail-page', 'uses' => 'TransactionController@getTransactionDetail']);
+		// Route::post('/xiaozai-reprint-detail', ['as' => 'xiaozai-reprint-detail-page', 'uses' => 'XiaozaiController@ReprintDetail']);
+		Route::post('/reprint-receipt', ['as' => 'reprint-detail-page', 'uses' => 'TransactionController@reprintReceipt']);
+		//Route::post('/xiaozai-cancel-transaction', ['as' => 'xiaozai-cancel-transaction-page', 'uses' => 'XiaozaiController@postCancelTransaction']);
+		Route::post('/cancel-transaction', ['as' => 'cancel-transaction-page', 'uses' => 'TransactionController@cancelTransaction']);
+
 
 		Route::post('/xiaozai', ['as' => 'post-xiaozai-page', 'uses' => 'XiaozaiController@postXiaozai']);
 		Route::post('/xiaozai-samefamily-setting', ['as' => 'post-xiaozai-samefamily-setting-page', 'uses' => 'SameFamilyCodeController@updateSfcSetting']);
 		Route::post('/xiaozai-differentfamily-setting', ['as' => 'post-xiaozai-differentfamily-setting-page', 'uses' => 'RelativeAndFriendsController@updateRafSetting']);
 
-		Route::post('/xiaozai-reprint-detail', ['as' => 'xiaozai-reprint-detail-page', 'uses' => 'XiaozaiController@ReprintDetail']);
+
 		Route::post('/xiaozai-cancel-replace-transaction', ['as' => 'kongdan-cancel-replace-transaction-page', 'uses' => 'XiaozaiController@postCancelReplaceTransaction']);
-		Route::post('/xiaozai-cancel-transaction', ['as' => 'xiaozai-cancel-transaction-page', 'uses' => 'XiaozaiController@postCancelTransaction']);
+
 	});
 
 	Route::group(['prefix' => 'transaction'], function () {
@@ -201,6 +208,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('/new-vendor', ['as' => 'new-vendor-page', 'uses' => 'VendorController@postAddNewVendor']);
 		Route::post('/update-vendor', ['as' => 'update-vendor-page', 'uses' => 'VendorController@postUpdateVendor']);
+
+		Route::get('/manage-ap-vendor-type', ['as' => 'manage-ap-vendor-type-page', 'uses' => 'VendorTypeController@getManageVendorType']);
+		Route::get('/vendor-type-detail', ['as' => 'vendor-type-detail-page', 'uses' => 'VendorTypeController@getVendorTypeDetail']);
+
+		Route::post('/new-vendor-type', ['as' => 'new-vendor-type-page', 'uses' => 'VendorTypeController@postAddNewVendorType']);
+		Route::post('/update-vendor-type', ['as' => 'update-vendor-type-page', 'uses' => 'VendorTypeController@postUpdateVendorType']);
 	});
 
 	Route::group(['prefix' => 'journal'], function () {

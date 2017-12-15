@@ -1,6 +1,6 @@
 <div class="form-body">
 
-  <form method="post" target="_blank" action="{{ URL::to('/fahui/xiaozai-reprint-detail') }}"
+  <form method="post" target="_blank" action="{{ URL::to('/fahui/reprint-receipt') }}"
     class="form-horizontal form-bordered" id="">
     {!! csrf_field() !!}
 
@@ -96,11 +96,10 @@
        <thead>
          <tr>
            <th width="5%">S/No</th>
-           <th width="12%">Chinese Name</th>
+           <th width="17%">Chinese Name</th>
            <th width="10%">Devotee</th>
            <th width="10%">Type</th>
-           <th width="25%">Item Description</th>
-           <th width="10%" id="col-header">HJ/ GR</th>
+           <th width="30%">Item Description</th>
            <th width="10%">Receipt</th>
            <th width="10%">Amount</th>
          </tr>
@@ -148,12 +147,12 @@
        <div class="mt-radio-list">
 
          <label class="mt-radio mt-radio-outline"> 1 Receipt Printing for Same Address
-           <input type="radio" name="hjgr" value="hj" checked>
+           <input type="radio" name="receipt_printing_type" value="one_receipt_printing_for_same_address" checked>
            <span></span>
          </label>
 
          <label class="mt-radio mt-radio-outline"> Individual Receipt Printing
-           <input type="radio" name="hjgr" value="gr">
+           <input type="radio" name="receipt_printing_type" value="individual_receipt_printing">
            <span></span>
          </label>
      </div><!-- end mt-radio-list -->
@@ -165,7 +164,7 @@
 
    </form>
 
-   <form method="post" action="{{ URL::to('/fahui/xiaozai-cancel-transaction') }}"
+   <form method="post" action="{{ URL::to('/fahui/cancel-transaction') }}"
      class="form-horizontal form-bordered" id="">
      {!! csrf_field() !!}
 

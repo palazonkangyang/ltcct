@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Session;
 
 class Module extends Model
 {
@@ -15,6 +16,18 @@ class Module extends Model
       'english_name',
       'chinese_name'
   ];
+
+  public static function getModIdOfXiaoZai(){
+    return 5;
+  }
+
+  public static function getModIdOfQiFu(){
+    return 9;
+  }
+
+  public static function getModIdOfKongDan(){
+    return 10;
+  }
 
   public static function getModule($mod_id){
     return Module::where('mod_id',$mod_id)->first();
@@ -105,6 +118,13 @@ class Module extends Model
 
   public static function isShouSheng($mod_id){
     return $mod_id == 13;
+  }
+
+  public static function storeSessionModule(){
+    if(Session::has('module')) { Session::forget('module'); }
+    Session::put('module.xiaozai_id',Module::getModIdOfXiaoZai());
+    Session::put('module.qifu_id',Module::getModIdOfQiFu());
+    Session::put('module.kongdan_id',Module::getModIdOfKongDan());
   }
 
 }

@@ -67,9 +67,15 @@
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                              <label style="padding:0;">Date</label>
-                              <input type="text" class="form-control" name="date" value="{{ old('date') }}"
-                              data-provide="datepicker" data-date-format="dd/mm/yyyy" id="date">
+                              <label style="padding:0;">From Date</label>
+                              <input type="text" class="form-control" name="from_date" value="{{ old('date') }}"
+                              data-provide="datepicker" data-date-format="dd/mm/yyyy" id="from_date">
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                              <label style="padding:0;">To Date</label>
+                              <input type="text" class="form-control" name="to_date" value="{{ old('date') }}"
+                              data-provide="datepicker" data-date-format="dd/mm/yyyy" id="to_date">
                             </div><!-- end form-group -->
 
                             <div class="form-group">
@@ -140,7 +146,8 @@
    var d = new Date();
    var date = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
 
-   $("#date").val(date);
+   $("#from_date").val(date);
+   $("#to_date").val(date);
 
     $("#report").click(function() {
 
@@ -148,9 +155,10 @@
       var errors = new Array();
       var validationFailed = false;
 
-      var date = $("#date").val();
+      var from_date = $("#from_date").val();
+      var to_date = $("#to_date").val();
 
-      if($.trim(date).length <= 0)
+      if($.trim(from_date).length == '' || $.trim(to_date).length == '')
       {
         validationFailed = true;
         errors[count++] = "Date field is empty.";

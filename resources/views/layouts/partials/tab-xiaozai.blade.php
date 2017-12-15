@@ -46,8 +46,6 @@
                     <input type="checkbox" class="hj" name="hj[]" value="" style="display:none">
                   @elseif($devotee->hjgr == 'gr')
                     <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
-                  @else
-
                   @endif
 
                 @elseif($devotee->type == 'home')
@@ -95,8 +93,10 @@
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')
                     合家
+                    {{ Form::hidden('type_chinese_name_list[]','合家')}}
                   @elseif($devotee->hjgr == 'gr')
                     个人
+                    {{ Form::hidden('type_chinese_name_list[]','个人')}}
                   @else
 
                   @endif
@@ -104,27 +104,35 @@
                 @elseif($devotee->type == 'home')
                 @if($devotee->hjgr == 'hj')
                   合家
+                  {{ Form::hidden('type_chinese_name_list[]','合家')}}
                 @elseif($devotee->hjgr == 'gr')
                   个人
+                  {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 @else
                 @endif
                 {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'company')
                 公司
+                {{ Form::hidden('type_chinese_name_list[]','公司')}}
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'stall')
                 小贩
+                {{ Form::hidden('type_chinese_name_list[]','小贩')}}
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'office')
                 个人
+                {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'car')
                 车辆
+                {{ Form::hidden('type_chinese_name_list[]','车辆')}}
                 {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'ship')
                 船只
+                {{ Form::hidden('type_chinese_name_list[]','船只')}}
                 {{ Form::hidden('amount[]',30)}}
                 @else
+                {{ Form::hidden('type_chinese_name_list[]','')}}
                 {{ Form::hidden('amount[]',0)}}
                 @endif
               </td>
@@ -252,35 +260,45 @@
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')
                     合家
+                    {{ Form::hidden('type_chinese_name_list[]','合家')}}
                   @elseif($devotee->hjgr == 'gr')
                     个人
+                    {{ Form::hidden('type_chinese_name_list[]','个人')}}
                   @else
                   @endif
                 {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'home')
                 @if($devotee->hjgr == 'hj')
                   合家
+                  {{ Form::hidden('type_chinese_name_list[]','合家')}}
                 @elseif($devotee->hjgr == 'gr')
                   个人
+                  {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 @else
                 @endif
                 {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'company')
                 公司
+                {{ Form::hidden('type_chinese_name_list[]','公司')}}
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'stall')
                 小贩
+                {{ Form::hidden('type_chinese_name_list[]','小贩')}}
                 {{ Form::hidden('amount[]',100)}}
                 @elseif($devotee->type == 'office')
                 个人
+                {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'car')
                 车辆
+                {{ Form::hidden('type_chinese_name_list[]','车辆')}}
                 {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'ship')
                 船只
+                {{ Form::hidden('type_chinese_name_list[]','船只')}}
                 {{ Form::hidden('amount[]',30)}}
                 @else
+                {{ Form::hidden('type_chinese_name_list[]','')}}
                 {{ Form::hidden('amount[]',0)}}
                 @endif
               </td>
@@ -540,46 +558,33 @@
           <th>Description</th>
           <th>Paid By</th>
           <th>Devotee ID</th>
-          <th>HJ/ GR</th>
           <th>Amount</th>
           <th>Manual Receipt</th>
           <th>View Details</th>
         </tr>
       </thead>
 
-      @if(Session::has('xiaozai_receipts'))
+      @if(Session::has('transaction.xiaozai'))
 
         @php
-          $receipts = Session::get('xiaozai_receipts');
+          $transactions = Session::get('transaction.xiaozai');
         @endphp
 
         <tbody>
-          @foreach($receipts as $receipt)
-
+          @foreach($transactions as $transaction)
           <tr>
-            @if(isset($receipt->cancelled_date))
-              <td class="text-danger">{{ $receipt->receipt_no }}</td>
-            @else
-              <td>{{ $receipt->receipt_no }}</td>
-            @endif
-              <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
-              <td>{{ $receipt->trans_no }}</td>
-              <td>{{ $receipt->description }}</td>
-              <td>{{ $receipt->chinese_name }}</td>
-              <td>{{ $receipt->focusdevotee_id }}</td>
-              <td>
-                @if($receipt->hjgr == "hj")
-                合家
-                @else
-                个人
-                @endif
-              </td>
-              <td>{{ $receipt->total_amount }}</td>
-              <td>{{ $receipt->manualreceipt }}</td>
-              <td><a href="#tab_xiaozai_transactiondetail" data-toggle="tab" id="{{ $receipt->trans_no }}" class="xiaozai-receipt-id">Detail</a></td>
-            </tr>
-            @endforeach
-          </tbody>
+            <td>{{ $transaction->receipt }}</td>
+            <td>{{ $transaction->trans_at }}</td>
+            <td>{{ $transaction->trans_no }}</td>
+            <td>{{ $transaction->description }}</td>
+            <td>{{ $transaction->paid_by }}</td>
+            <td>{{ $transaction->focusdevotee_id }}</td>
+            <td>{{ $transaction->total_amount }}</td>
+            <td>{{ $transaction->manualreceipt }}</td>
+            <td><a href="#tab_xiaozai_transactiondetail" data-toggle="tab" id="{{ $transaction->trans_no }}" class="xiaozai-receipt-id">Detail</a></td>
+          </tr>
+          @endforeach
+        </tbody>
 
       @else
 

@@ -14,4 +14,12 @@ class JournalEntryItem extends Model
     'credit_amount',
     'journalentry_id'
   ];
+
+  public static function getListOfDebitByJournalEntryId($journalentry_id){
+    return JournalEntryItem::where('journalentry_id',$journalentry_id)->where('debit_amount','!=',NULL)->get();
+  }
+
+  public static function getListOfCreditByJournalEntryId($journalentry_id){
+    return JournalEntryItem::where('journalentry_id',$journalentry_id)->where('credit_amount','!=',NULL)->get();
+  }
 }

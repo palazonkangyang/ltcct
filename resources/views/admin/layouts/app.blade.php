@@ -121,6 +121,9 @@
                     <li aria-haspopup="true">
                       <a href="/fahui/kongdan" class="hylink">KongDan FaHui - 孔诞法会</a>
                     </li>
+                    <li aria-haspopup="true">
+                      <a href="/fahui/participant-list" class="hylink">FaHui Participant List -<br/>法会参加者列表</a>
+                    </li>
                   </ul>
                 </li>
 
@@ -149,6 +152,9 @@
                               </li>
                               <li>
                                 <a href="#" class="hylink">Income</a>
+                              </li>
+                              <li>
+                                <a href="/vendor/manage-ap-vendor-type" class="hylink">AP Vendor Type</a>
                               </li>
                               <li>
                                 <a href="/vendor/manage-ap-vendor" class="hylink">AP Vendor</a>

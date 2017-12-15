@@ -102,13 +102,15 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                   </tr>
                                   <tr>
                                     <th>Voucher No</th>
-                                    <th>Date</th>
+                                    <th>Cheque Date</th>
                                     <th>Supplier</th>
                                     <th>Cheque No</th>
                                     <th>Cheque Account</th>
+                                    <th>GL Description</th>
                                     <th>Total Debit Amount</th>
                                     <th>Total Credit Amount</th>
                                     <th>Cheque From</th>
@@ -125,6 +127,12 @@
                                     <td>{{ $data->supplier }}</td>
                                     <td>{{ $data->cheque_no }}</td>
                                     <td>{{ $data->cheque_account }}</td>
+                                    <td>
+                                      @foreach($data->gl_description_list as $index=>$gl_description)
+                                        &#9679; {{ $gl_description }}
+                                      <br/>
+                                      @endforeach
+                                    </td>
                                     <td>S$ {{ number_format($data->total_debit_amount, 2) }}</td>
                                     <td>S$ {{ number_format($data->total_debit_amount, 2) }}</td>
                                     <td>{{ $data->cheque_from }}</td>
@@ -158,7 +166,7 @@
                               </div><!-- end form-group -->
 
                               <div class="form-group">
-                                <label class="col-md-3">Date *</label>
+                                <label class="col-md-3">Cheque Date *</label>
                                 <div class="col-md-8">
                                   <input type="text" class="form-control" name="date" value="{{ old('date') }}" data-provide='datepicker' data-date-format='dd/mm/yyyy' id="date">
                                 </div><!-- end col-md-8 -->
@@ -191,11 +199,10 @@
                                 <div class="col-md-8">
                                   <select class="form-control" name="cheque_account" id="cheque_account">
                                     <option value="">Please Select</option>
-                                    <option value="7">OCBC A/C NO. 665700217001 华侨银行第一户</option>
-                                    <option value="8">OCBC A/C NO. 665700225001 华侨银行第二户</option>
-                                    <option value="14">May Bank AC 04141010804 Current Account</option>
-                                    <option value="15">May Bank AC 04141011213 慈济部</option>
-                                    <option value="16">May Bank FD 2-414-40-0925-1</option>
+                                    @foreach($cheque_account_list as $index=>$cheque_account)
+                                      <option value="{{ $cheque_account['glcode_id'] }}">{{ $cheque_account['chinese_name'] }} (S$ {{ $cheque_account['balance'] }})</option>
+
+                                    @endforeach
                                   </select>
                                 </div><!-- end col-md-8 -->
                               </div><!-- end form-group -->
@@ -351,7 +358,7 @@
                             </div><!-- end form-group -->
 
                             <div class="form-group">
-                              <label class="col-md-3">Date</label>
+                              <label class="col-md-3">Cheque Date</label>
                               <div class="col-md-8">
                                 <input type="text" class="form-control" id="show_date" readonly>
                               </div><!-- end col-md-8 -->
@@ -630,14 +637,15 @@ $(function() {
   var table = $('#payment-table').removeAttr('width').DataTable( {
     "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
     columnDefs: [
-      { "width": "90px", "targets": 0 },
-      { "width": "80px", "targets": 1 },
-      { "width": "100px", "targets": 2 },
+      { "width": "80px", "targets": 0 },
+      { "width": "70px", "targets": 1 },
+      { "width": "70px", "targets": 2 },
       { "width": "80px", "targets": 3 },
-      { "width": "150px", "targets": 4 },
-      { "width": "100px", "targets": 5 },
+      { "width": "200px", "targets": 4 },
+      { "width": "150px", "targets": 5 },
       { "width": "100px", "targets": 6 },
-      { "width": "90px", "targets": 7 }
+      { "width": "100px", "targets": 7 },
+      { "width": "100px", "targets": 8 }
     ]
   } );
 
@@ -679,7 +687,7 @@ $(function() {
         dataType: 'json',
         success: function(response)
         {
-          $("#bank_account").val(response.type_name);
+          $("#bank_account").val(response.type_name + ' (S$ ' + response.balance + ' )');
           $("#hidden_bank_account").val(response.glcode_id);
         },
 

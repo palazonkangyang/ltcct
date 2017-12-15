@@ -29,6 +29,7 @@ use App\Models\SettingXiaozai;
 use App\Models\XiaozaiGeneraldonation;
 use App\Models\XiaozaiReceipt;
 use App\Models\MembershipFee;
+use App\Models\Module;
 use Auth;
 use DB;
 use Hash;
@@ -44,7 +45,8 @@ class OperatorController extends Controller
 	// Home Page
 	public function index()
 	{
-		//dd(Session()->all());
+		Module::storeSessionModule();
+		// dd(session()->all());
 		$devotees = Devotee::leftjoin('familycode', 'devotee.familycode_id', '=', 'familycode.familycode_id')
 								->leftjoin('specialremarks', 'devotee.devotee_id', '=', 'specialremarks.devotee_id')
 								->leftjoin('member', 'devotee.member_id', '=', 'member.member_id')
@@ -1398,6 +1400,7 @@ class OperatorController extends Controller
 
 	  SameFamilyCodeController::getSfcForAllModule();
 		RelativeAndFriendsController::getRafForAllModule();
+		TransactionController::getTrnForAllModule();
 		//dd(Session()->all());
 
 		return redirect()->route('get-donation-page', [
@@ -1527,10 +1530,18 @@ class OperatorController extends Controller
 	// Add New Devotee
 	public function postAddDevotee(Request $request)
 	{
+		SessionController::forgetSession();
 		$member_id = "";
 		$devotee_id = "";
 		$approveNewDate = "";
 		$input = array_except($request->all(), '_token');
+
+		$guiyi_date = $input['guiyi_date'];
+		if($input['guiyi_date'] != null)
+		{
+			$guiyi_date = str_replace('/', '-', $input['guiyi_date']);
+			$guiyi_date = date("Y-m-d", strtotime($guiyi_date));
+		}
 
     if(isset($input['authorized_password']))
 		{
@@ -1625,7 +1636,9 @@ class OperatorController extends Controller
 				    "chinese_name" => $input['chinese_name'],
 				    "english_name" => $input['english_name'],
 				    "contact" => $input['contact'],
+						"email" => $input['email'],
 				    "guiyi_name" => $input['guiyi_name'],
+						"guiyi_date" => $guiyi_date,
 				    "address_houseno" => $input['address_houseno'],
 				    "address_unit1" => $input['address_unit1'],
 				    "address_unit2" => $input['address_unit2'],
@@ -1667,7 +1680,9 @@ class OperatorController extends Controller
 				   "chinese_name" => $input['chinese_name'],
 				   "english_name" => $input['english_name'],
 				   "contact" => $input['contact'],
-				   "guiyi_name" => $input['guiyi_name'],
+					 "email" => $input['email'],
+					 "guiyi_name" => $input['guiyi_name'],
+					 "guiyi_date" => $guiyi_date,
 				   "address_houseno" => $input['address_houseno'],
 				   "address_unit1" => $input['address_unit1'],
 				   "address_unit2" => $input['address_unit2'],
@@ -1699,7 +1714,9 @@ class OperatorController extends Controller
 		      "chinese_name" => $input['chinese_name'],
 		      "english_name" => $input['english_name'],
 		      "contact" => $input['contact'],
-		      "guiyi_name" => $input['guiyi_name'],
+					"email" => $input['email'],
+					"guiyi_name" => $input['guiyi_name'],
+					"guiyi_date" => $guiyi_date,
 		      "address_houseno" => $input['address_houseno'],
 		      "address_unit1" => $input['address_unit1'],
 		      "address_unit2" => $input['address_unit2'],
@@ -1740,7 +1757,9 @@ class OperatorController extends Controller
 		      "chinese_name" => $input['chinese_name'],
 		      "english_name" => $input['english_name'],
 		      "contact" => $input['contact'],
-		      "guiyi_name" => $input['guiyi_name'],
+					"email" => $input['email'],
+					"guiyi_name" => $input['guiyi_name'],
+					"guiyi_date" => $guiyi_date,
 		      "address_houseno" => $input['address_houseno'],
 		      "address_unit1" => $input['address_unit1'],
 		      "address_unit2" => $input['address_unit2'],
@@ -2330,6 +2349,13 @@ class OperatorController extends Controller
 		$cancelledNewDate = "";
 		$reason_for_cancel = "";
 
+		$guiyi_date = $request['guiyi_date'];
+		if($guiyi_date != null)
+		{
+			$guiyi_date = str_replace('/', '-', $guiyi_date);
+			$guiyi_date = date("Y-m-d", strtotime($guiyi_date));
+		}
+
 		$input = array_except($request->all(), '_token');
 
 		if(isset($input['authorized_password']))
@@ -2464,7 +2490,9 @@ class OperatorController extends Controller
 			  $devotee->chinese_name = $input['chinese_name'];
 			  $devotee->english_name = $input['english_name'];
 			  $devotee->contact = $input['contact'];
+				$devotee->email = $input['email'];
 			  $devotee->guiyi_name = $input['guiyi_name'];
+				$devotee->guiyi_date = $guiyi_date;
 			  $devotee->address_houseno = $input['address_houseno'];
 			  $devotee->address_unit1 = $input['address_unit1'];
 			  $devotee->address_unit2 = $input['address_unit2'];
