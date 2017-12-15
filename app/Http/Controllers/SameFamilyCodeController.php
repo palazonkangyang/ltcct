@@ -263,21 +263,7 @@ class SameFamilyCodeController extends Controller
         case 5:
           $param['sfc_list'] = $sfc_list;
           $sfc_list = SameFamilyCodeController::getSfcXiaoZai($param);
-
-          $sfc_focus_devotee= $sfc_list->filter(function ($value, $key) use($param) {
-              if($value['devotee_id'] == $param['var']['focusdevotee_id'] ){
-              return $value;
-            }
-          });
-
-          $sfc_family= $sfc_list->filter(function ($value, $key) use($param) {
-              if($value['devotee_id'] != $param['var']['focusdevotee_id'] ){
-              return $value;
-            }
-          });
-
-          $sfc_list = $sfc_focus_devotee->merge($sfc_family);
-
+          $sfc_list = Sfc::sortListByFocusDevotee($sfc_list,$param['var']['focusdevotee_id']);
           Session::put('same_family_code.xiaozai',$sfc_list);
           break;
 
@@ -303,6 +289,9 @@ class SameFamilyCodeController extends Controller
 
         // Kong Dan
         case 10:
+          $param['sfc_list'] = $sfc_list;
+          $sfc_list = SameFamilyCodeController::getSfcKongDan($param);
+          $sfc_list = Sfc::sortListByFocusDevotee($sfc_list,$param['var']['focusdevotee_id']);
           Session::put('same_family_code.kongdan',$sfc_list);
           break;
 
@@ -323,6 +312,15 @@ class SameFamilyCodeController extends Controller
 
         default:
       }
+    }
+
+    public static function getSfcKongDan($param){
+      foreach($param['sfc_list'] as $index=>$sfc){
+        $sfc_kongdan = SfcKongDan::where('sfc_id','=',$sfc['sfc_id'])
+                                 ->first();
+        $sfc['item_description'] = AddressController::getAddressByDevoteeId($sfc['devotee_id']);
+      }
+      return $param['sfc_list'];
     }
 
     public static function getSfcXiaoZai($param){

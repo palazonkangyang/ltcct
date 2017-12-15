@@ -43,7 +43,7 @@ class FahuiController extends Controller
   // {
   //   $input = array_except($request->all(), '_token');
 	// 	$total_amount = 0;
-  // 
+  //
   //   // Modify Receipt At fields
 	//   if(isset($input['receipt_at']))
 	//   {

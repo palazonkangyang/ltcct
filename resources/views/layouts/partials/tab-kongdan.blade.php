@@ -1,7 +1,6 @@
 @php
 $same_family_code = Session::get('same_family_code')['kongdan'];
-
-$kongdan_different_family = Session::get('kongdan_different_family');
+$relative_and_friends = Session::get('relative_and_friends')['kongdan'];
 $focus_devotee = Session::get('focus_devotee');
 @endphp
 
@@ -40,6 +39,7 @@ $focus_devotee = Session::get('focus_devotee');
           @if($devotee->is_checked == 1)
             <tr>
             <td class="kongdan-amount-col">
+              {{ Form::hidden('amount[]',10)}}
               <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
               <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]" value="">
               <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
@@ -62,15 +62,7 @@ $focus_devotee = Session::get('focus_devotee');
             <td></td>
             <td>{{ $devotee->guiyi_name }}</td>
             <td></td>
-            <td>
-              @if(isset($devotee->oversea_addr_in_chinese))
-              {{ $devotee->oversea_addr_in_chinese }}
-              @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-              {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-              @else
-              {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-              @endif
-            </td>
+            <td>{{ $devotee->item_description }}</td>
             <td width="80px">
               @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
               <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
@@ -132,14 +124,15 @@ $focus_devotee = Session::get('focus_devotee');
         </tr>
       </thead>
 
-      @if(count($kongdan_different_family) > 0)
+      @if(count($relative_and_friends) > 0)
 
       <tbody id="appendDevoteeLists">
 
-        @foreach($kongdan_different_family as $list)
+        @foreach($relative_and_friends as $list)
 
         <tr>
           <td class="kongdan-amount-col">
+            {{ Form::hidden('amount[]',10)}}
             <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
             <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]" value="">
             <input type="hidden" class="is_checked_list" name="is_checked_list[]" value="">
@@ -162,15 +155,7 @@ $focus_devotee = Session::get('focus_devotee');
           <td></td>
           <td>{{ $list->guiyi_name }}</td>
           <td></td>
-          <td>
-            @if(isset($list->oversea_addr_in_chinese))
-            {{ $list->oversea_addr_in_chinese }}
-            @elseif(isset($list->address_unit1) && isset($list->address_unit2))
-            {{ $list->address_houseno }}, #{{ $list->address_unit1 }}-{{ $list->address_unit2 }}, {{ $list->address_street }}, {{ $list->address_postal }}
-            @else
-            {{ $list->address_houseno }}, {{ $list->address_street }}, {{ $list->address_postal }}
-            @endif
-          </td>
+          <td>{{ $list->item_description }}</td>
           <td>
             @if(isset($list->paytill_date) && \Carbon\Carbon::parse($list->paytill_date)->lt($now))
             <span class="text-danger">{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
@@ -454,6 +439,7 @@ $focus_devotee = Session::get('focus_devotee');
           <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
           <td>{{ $receipt->trans_no }}</td>
           <td>{{ $receipt->description }}</td>
+          {{ Form::hidden('item_description_list[]',$receipt->description)}}
           <td>{{ $receipt->chinese_name }}</td>
           <td>{{ $receipt->focusdevotee_id }}</td>
           <td>

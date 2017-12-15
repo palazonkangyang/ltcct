@@ -16,7 +16,7 @@ use App\Models\User;
 class TransactionController extends Controller
 {
     public function createTransaction(Request $request){
-      //dd($request);
+      // dd(session()->get('relative_and_friends'));
       $param['transaction']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['transaction']['festiveevent_id'] = $request['festiveevent_id'];
       $param['transaction']['mod_id'] = $request['mod_id'];

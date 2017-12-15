@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Session;
-use App\http\Controllers\AddressController;
+use App\Http\Controllers\AddressController;
 use Carbon\Carbon;
 
 class Trn extends Model
@@ -118,14 +118,14 @@ class Trn extends Model
 
     if(Trn::isCombinePrinting($receipt_printing_type)){
       $receipts_of_family = Rct::getReceiptOfFamily($receipts);
-      $paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts_of_family);
+      $paginate_receipts_of_family = Rct::paginateCombineReceipt($receipts_of_family,$mod_id);
 
       $receipts_of_relative = Rct::getReceiptOfRelative($receipts);
-      $paginate_receipts_of_relative = Rct::paginateSingleReceipt($receipts_of_relative);
+      $paginate_receipts_of_relative = Rct::paginateSingleReceipt($receipts_of_relative,$mod_id);
       $paginate_receipts = array_merge($paginate_receipts_of_family,$paginate_receipts_of_relative);
     }
     elseif(Trn::isIndividualPrinting($receipt_printing_type)){
-      $paginate_receipts = Rct::paginateSingleReceipt($receipts);
+      $paginate_receipts = Rct::paginateSingleReceipt($receipts,$mod_id);
     }
 
 
@@ -133,19 +133,8 @@ class Trn extends Model
 
     Trn::getTrn($devotee_id,$mod_id);
 
-    if(Module::isXiaoZai($mod_id)){
-      return view('receipt.receipt_xiaozai', [
-        'module' => Module::getModule($mod_id),
-        'transaction' => $transaction,
-        'paginate_receipts' => $paginate_receipts,
-        'next_event' => FestiveEvent::getNextEvent(),
-        'family_address' => AddressController::getAddressByDevoteeId($devotee_id),
-        'time_now' => Carbon::now('Singapore')
-      ]);
-    }
 
-    if(Module::isKongDan($mod_id)){
-      return view('receipt.receipt_xiaozai', [
+      return view('receipt.preview', [
         'module' => Module::getModule($mod_id),
         'transaction' => $transaction,
         'paginate_receipts' => $paginate_receipts,
@@ -153,7 +142,7 @@ class Trn extends Model
         'family_address' => AddressController::getAddressByDevoteeId($devotee_id),
         'time_now' => Carbon::now('Singapore')
       ]);
-    }
+
 
   }
 
