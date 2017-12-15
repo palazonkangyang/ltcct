@@ -152,9 +152,7 @@
                                 <div class="col-md-9">
                                   <input type="text" class="form-control" name="vendor_type" value="{{ old('vendor_type') }}" id="vendor_type">
 
-                                  @foreach($vendor_type_list as $vendor_type)
-                                    <!-- paused here -->
-                                  @endforeach
+
 
                                 </div><!-- end col-md-9 -->
                               </div><!-- end form-group -->

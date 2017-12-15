@@ -37,11 +37,11 @@ class VendorController extends Controller
       $vendor[$i]->total = $expenditure;
     }
 
-    $vendor_type_list = APVendorType::getAll();
+    //$vendor_type_list = APVendorType::getAll();
 
     return view('vendor.manage-vendor', [
-      'vendor' => $vendor,
-      'vendor_type_list' => $vendor_type_list
+      'vendor' => $vendor
+      //'vendor_type_list' => $vendor_type_list
     ]);
   }
 

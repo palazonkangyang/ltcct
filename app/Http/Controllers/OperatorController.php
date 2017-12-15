@@ -1528,6 +1528,7 @@ class OperatorController extends Controller
 	// Add New Devotee
 	public function postAddDevotee(Request $request)
 	{
+		SessionController::forgetSession();
 		$member_id = "";
 		$devotee_id = "";
 		$approveNewDate = "";

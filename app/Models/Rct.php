@@ -207,7 +207,7 @@ class Rct extends Model
       $list = [];
       foreach($receipts as $receipt_index=>$receipt){
         if(Devotee::isSameDevoteeId($unique_devotee_id,$receipt['devotee_id'])){
-          $list['receipt']['sn_no'] = null;
+          $list['receipt']['sn_no'] = $receipt_index + 1;
           $list['receipt']['name'] =  $receipt['type_chinese_name'];
           $list['receipt']['item_description'] = $receipt['item_description'];
           $list['receipt']['receipt_no'] = $receipt['receipt_no'];
@@ -249,7 +249,7 @@ class Rct extends Model
                                                         })['receipt_no'];
 
         $paginate_combine_receipt['no_of_set'] = $no_of_set;
-        $paginate_combine_receipt['total_amount'] = $total_amount;
+          $paginate_combine_receipt['total_amount'] = number_format($total_amount, 2, '.', '');
         array_push($paginate_combine_receipts,$paginate_combine_receipt);
         $paginate_combine_receipt = [];
       }
@@ -273,7 +273,7 @@ class Rct extends Model
       $list = [];
       foreach($receipts as $receipt_index=>$receipt){
         if(Devotee::isSameDevoteeId($unique_devotee_id,$receipt['devotee_id'])){
-          $list['receipt']['sn_no'] = null;
+          $list['receipt']['sn_no'] = $receipt_index + 1;
           $list['receipt']['name'] =  $receipt['type_chinese_name'];
           $list['receipt']['item_description'] = $receipt['item_description'];
           $list['receipt']['receipt_no'] = $receipt['receipt_no'];
@@ -290,7 +290,7 @@ class Rct extends Model
     foreach($paginate_receipts_list as $chunk=>$paginate_receipts){
       $paginate_combine_receipt = [];
       $paginate_combine_receipt['receipt'] = [];
-      $total_amount = 0 ;
+      $total_amount = 0.00 ;
       $no_of_set = 0;
       foreach($paginate_receipts as $individual_index=>$individual_receipt){
         array_push($paginate_combine_receipt['receipt'],$individual_receipt);
@@ -309,7 +309,7 @@ class Rct extends Model
                                                       })['receipt_no'];
 
       $paginate_combine_receipt['no_of_set'] = $no_of_set;
-      $paginate_combine_receipt['total_amount'] = $total_amount;
+      $paginate_combine_receipt['total_amount'] = number_format($total_amount, 2, '.', '');
       array_push($paginate_combine_receipts,$paginate_combine_receipt);
       $paginate_combine_receipt = [];
     }

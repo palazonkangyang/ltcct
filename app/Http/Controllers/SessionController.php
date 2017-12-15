@@ -67,7 +67,8 @@ class SessionController extends Controller
                           'kongdan_setting_samefamily_last4year',
                           'kongdan_setting_samefamily_last5year',
                           'same_family_code',
-                          'relative_and_friends'
+                          'relative_and_friends',
+                          'transaction'
                          );
 
       foreach(Session()->all() as $key => $value) {
