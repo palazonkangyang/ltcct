@@ -27,7 +27,6 @@ class RelativeAndFriendsController extends Controller
       $param['var']['year'] = null;
       RelativeAndFriendsController::createRafForAllModule($param);
       RelativeAndFriendsController::getRafForAllModule();
-
       switch ($param['var']['mod_id']) {
       // Xiang You
       case 1:
@@ -54,6 +53,7 @@ class RelativeAndFriendsController extends Controller
         return response()->json([
           'devotee' => Session()->get('relative_and_friends.xiaozai')
         ]);
+
         break;
 
       // Qian Fo Fa Hui
@@ -104,7 +104,6 @@ class RelativeAndFriendsController extends Controller
       }
 
       $request->session()->flash('success', 'Setting for different addresses are successfully created.');
-
     return redirect()->back();
   }
 
