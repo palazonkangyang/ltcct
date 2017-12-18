@@ -59,6 +59,13 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/update-membership-fee', ['as' => 'update-membership-fee-page', 'uses' => 'AdminController@postUpdateMemebershipFee']);
 		Route::post('/add-address', ['as' => 'save-address-page', 'uses' => 'AdminController@postAddAddress']);
 		Route::post('/update-address', ['as' => 'update-address-page', 'uses' => 'AdminController@updateAddress']);
+
+		Route::group(['prefix' => 'fahui-setting'], function () {
+			Route::get('/','SystemSettingController@getFaHuiSetting');
+
+			Route::post('/update-fahui-setting', ['as' => 'update-fahui-setting-page', 'uses' => 'SystemSettingController@postUpdateFaHuiSetting']);
+		});
+
 	});
 
 	Route::group(['prefix' => 'operator'], function () {
