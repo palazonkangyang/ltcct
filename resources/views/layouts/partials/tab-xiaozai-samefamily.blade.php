@@ -38,7 +38,7 @@
           <input type="hidden" name="sfc_id[]" value="{{ $devotee->sfc_id }}">
           <tr>
             <td class="checkbox-col">
-              <input type="checkbox" class="same xiaozai_id" name="xiaozai_id[]"
+              <input type="checkbox" class="same xiaozai_id amount checkbox-multi-select-module-xiaozai-tab-sfc-section-sfc" name="xiaozai_id[]"
               value="1" <?php if ($devotee->is_checked == 1){ ?>checked="checked"<?php }?>>
               <input type="hidden" class="form-control hidden_xiaozai_id" name="is_checked[]"
               value="">
