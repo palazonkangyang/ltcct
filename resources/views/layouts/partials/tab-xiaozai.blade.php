@@ -39,7 +39,7 @@
           @if($devotee->is_checked == 1)
             <tr>
               <td class="xiaozai-amount-col">
-                <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
+                <input type="checkbox" class="amount checkbox-multi-select-module-xiaozai-tab-xiaozai-section-sfc" name="xiaozai_amount[]" value="1">
                 <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
                 @if($devotee->type == 'base_home')
                   @if($devotee->hjgr == 'hj')
@@ -94,43 +94,46 @@
                   @if($devotee->hjgr == 'hj')
                     合家
                     {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                    {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
                   @elseif($devotee->hjgr == 'gr')
                     个人
                     {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                    {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
                   @else
 
                   @endif
-                  {{ Form::hidden('amount[]',30)}}
+
                 @elseif($devotee->type == 'home')
                 @if($devotee->hjgr == 'hj')
                   合家
                   {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                  {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
                 @elseif($devotee->hjgr == 'gr')
                   个人
                   {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                  {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
                 @else
                 @endif
-                {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'company')
                 公司
                 {{ Form::hidden('type_chinese_name_list[]','公司')}}
-                {{ Form::hidden('amount[]',100)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_company)}}
                 @elseif($devotee->type == 'stall')
                 小贩
                 {{ Form::hidden('type_chinese_name_list[]','小贩')}}
-                {{ Form::hidden('amount[]',100)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_stall)}}
                 @elseif($devotee->type == 'office')
                 个人
                 {{ Form::hidden('type_chinese_name_list[]','个人')}}
-                {{ Form::hidden('amount[]',20)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
                 @elseif($devotee->type == 'car')
                 车辆
                 {{ Form::hidden('type_chinese_name_list[]','车辆')}}
-                {{ Form::hidden('amount[]',30)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_car)}}
                 @elseif($devotee->type == 'ship')
                 船只
                 {{ Form::hidden('type_chinese_name_list[]','船只')}}
-                {{ Form::hidden('amount[]',30)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_ship)}}
                 @else
                 {{ Form::hidden('type_chinese_name_list[]','')}}
                 {{ Form::hidden('amount[]',0)}}
@@ -203,7 +206,7 @@
             @if($devotee->is_checked == 1)
             <tr>
               <td class="xiaozai-amount-col">
-                <input type="checkbox" class="amount" name="xiaozai_amount[]" value="1">
+                <input type="checkbox" class="amount checkbox-multi-select-module-xiaozai-tab-xiaozai-section-raf" name="xiaozai_amount[]" value="1">
                 <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]"
                 value="">
                 @if($devotee->type == 'base_home')
@@ -261,42 +264,44 @@
                   @if($devotee->hjgr == 'hj')
                     合家
                     {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                    {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
                   @elseif($devotee->hjgr == 'gr')
                     个人
                     {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                    {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
                   @else
                   @endif
-                {{ Form::hidden('amount[]',30)}}
                 @elseif($devotee->type == 'home')
                 @if($devotee->hjgr == 'hj')
                   合家
                   {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                  {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
                 @elseif($devotee->hjgr == 'gr')
                   个人
                   {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                  {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
                 @else
                 @endif
-                {{ Form::hidden('amount[]',20)}}
                 @elseif($devotee->type == 'company')
                 公司
                 {{ Form::hidden('type_chinese_name_list[]','公司')}}
-                {{ Form::hidden('amount[]',100)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_company)}}
                 @elseif($devotee->type == 'stall')
                 小贩
                 {{ Form::hidden('type_chinese_name_list[]','小贩')}}
-                {{ Form::hidden('amount[]',100)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_stall)}}
                 @elseif($devotee->type == 'office')
                 个人
                 {{ Form::hidden('type_chinese_name_list[]','个人')}}
-                {{ Form::hidden('amount[]',20)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
                 @elseif($devotee->type == 'car')
                 车辆
                 {{ Form::hidden('type_chinese_name_list[]','车辆')}}
-                {{ Form::hidden('amount[]',30)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_car)}}
                 @elseif($devotee->type == 'ship')
                 船只
                 {{ Form::hidden('type_chinese_name_list[]','船只')}}
-                {{ Form::hidden('amount[]',30)}}
+                {{ Form::hidden('amount[]',$xiaozai_price_ship)}}
                 @else
                 {{ Form::hidden('type_chinese_name_list[]','')}}
                 {{ Form::hidden('amount[]',0)}}
@@ -491,10 +496,12 @@
 
         <div class="form-group">
           <label class="col-md-12">
-            <p style="font-size: 15px;"><span class="hj_total">0</span> 合家 @ S$ 30.00	=	S$ <span class="hj_total_amount">0</span></p>
-            <p style="font-size: 15px;"><span class="gr_total">0</span> 个人 @ S$ 20.00	=	S$ <span class="gr_total_amount">0</span></p>
-            <p style="font-size: 15px;"><span class="company_total">0</span> 公司 @ S$ 100.00	=	S$ <span class="company_total_amount">0</span></p>
-            <p style="font-size: 15px;"><span class="vehicle_total">0</span> 车辆 @ S$ 30.00	=	S$ <span class="vehicle_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="hj_total">0</span> 合家 @ S$ <span id="xiaozai_price_hj">{{ $xiaozai_price_hj }}</span>	=	S$ <span class="hj_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="gr_total">0</span> 个人 @ S$ <span id="xiaozai_price_gr">{{ $xiaozai_price_gr }}</span>	=	S$ <span class="gr_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="company_total">0</span> 公司 @ S$ <span id="xiaozai_price_company">{{ $xiaozai_price_company }}</span>	=	S$ <span class="company_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="stall_total">0</span> 小贩 @ S$ <span id="xiaozai_price_stall">{{ $xiaozai_price_stall }}</span>	=	S$ <span class="stall_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="car_total">0</span> 车辆 @ S$ <span id="xiaozai_price_car">{{ $xiaozai_price_car }}</span>	=	S$ <span class="car_total_amount">0</span></p>
+            <p style="font-size: 15px;"><span class="ship_total">0</span> 船只 @ S$ <span id="xiaozai_price_ship">{{ $xiaozai_price_ship }}</span>	=	S$ <span class="ship_total_amount">0</span></p>
           </label>
         </div><!-- end form-group -->
 

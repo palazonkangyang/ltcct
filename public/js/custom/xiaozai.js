@@ -1,5 +1,8 @@
 $(function() {
 
+  checkbox_multi_select('checkbox-multi-select-module-xiaozai-tab-xiaozai-section-sfc');
+  checkbox_multi_select('checkbox-multi-select-module-xiaozai-tab-xiaozai-section-raf');
+
   $('body').on('change', '.xiaozai-amount-col', function(){
 
     var hj_sum = 0;
@@ -40,20 +43,31 @@ $(function() {
 
     $(".hj_total").html(hj_count);
     $(".gr_total").html(gr_count);
-    $(".company_total").html(company_count+stall_count);
-    $(".vehicle_total").html(car_count+ship_count);
+    $(".company_total").html(company_count);
+    $(".stall_total").html(stall_count);
+    $(".car_total").html(car_count);
+    $(".ship_total").html(ship_count);
 
-    hj_sum += hj_count * 30;
-    gr_sum += gr_count * 20;
-    company_sum += company_count * 100;
-    stall_sum += stall_count * 100;
-    car_sum += car_count * 30;
-    ship_sum += ship_count * 30;
+    var xiaozai_price_hj= $("#xiaozai_price_hj").text();
+    var xiaozai_price_gr= $("#xiaozai_price_gr").text();
+    var xiaozai_price_company= $("#xiaozai_price_company").text();
+    var xiaozai_price_stall= $("#xiaozai_price_stall").text();
+    var xiaozai_price_car= $("#xiaozai_price_car").text();
+    var xiaozai_price_ship= $("#xiaozai_price_ship").text();
+
+    hj_sum += hj_count * xiaozai_price_hj;
+    gr_sum += gr_count * xiaozai_price_gr;
+    company_sum += company_count * xiaozai_price_company;
+    stall_sum += stall_count * xiaozai_price_stall;
+    car_sum += car_count * xiaozai_price_car;
+    ship_sum += ship_count * xiaozai_price_ship;
 
     $(".hj_total_amount").html(hj_sum);
     $(".gr_total_amount").html(gr_sum);
-    $(".company_total_amount").html(company_sum + stall_sum);
-    $(".vehicle_total_amount").html(car_sum + ship_sum);
+    $(".company_total_amount").html(company_sum);
+    $(".stall_total_amount").html(stall_sum);
+    $(".car_total_amount").html(car_sum);
+    $(".ship_total_amount").html(ship_sum);
 
     total = hj_sum + gr_sum + company_sum + stall_sum + car_sum + ship_sum;
 

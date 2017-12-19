@@ -17,6 +17,7 @@ use App\Models\JournalEntryItem;
 use App\Models\SfcXiaoZai;
 use App\Models\Sfc;
 use App\Models\RafXiaoZai;
+use App\Models\SystemSetting;
 use Auth;
 use DB;
 use Hash;
@@ -31,7 +32,6 @@ class XiaozaiController extends Controller
 {
   public function getXiaoZai()
   {
-
     $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
 
     $today = Carbon::today();
@@ -41,9 +41,15 @@ class XiaozaiController extends Controller
 							->take(1)
 							->get();
 
-    return view('fahui.xiaozai', [
-			'events' => $events
-		]);
+    $data['events'] = $events;
+    $data['xiaozai_price_hj'] = SystemSetting::getValueAmountOfXiaozaiPriceHj();
+    $data['xiaozai_price_gr'] = SystemSetting::getValueAmountOfXiaozaiPriceGr();
+    $data['xiaozai_price_company'] = SystemSetting::getValueAmountOfXiaozaiPriceCompany();
+    $data['xiaozai_price_stall'] = SystemSetting::getValueAmountOfXiaozaiPriceStall();
+    $data['xiaozai_price_car'] = SystemSetting::getValueAmountOfXiaozaiPriceCar();
+    $data['xiaozai_price_ship'] = SystemSetting::getValueAmountOfXiaozaiPriceShip();
+
+    return view('fahui.xiaozai', $data);
   }
 
   public function postXiaozai(Request $request)

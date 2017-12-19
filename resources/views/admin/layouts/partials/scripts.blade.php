@@ -22,7 +22,7 @@
 
         <!-- END CORE PLUGINS -->
         <!-- BEGIN THEME GLOBAL SCRIPTS -->
-        
+
 
         <script src="{{ asset('/js/app.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/dashboard.min.js') }}" type="text/javascript"></script>
@@ -32,3 +32,6 @@
         <script src="{{ asset('/js/demo.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/quick-sidebar.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/quick-nav.min.js') }}" type="text/javascript"></script>
+
+        <!-- common -->
+        <script src="{{ asset('/js/custom/multi-select-checkbox.js') }}" type="text/javascript"></script>
