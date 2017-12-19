@@ -221,6 +221,10 @@ class Devotee extends Model
     return Devotee::where('devotee_id',$devotee_id)->pluck('chinese_name')->first();
   }
 
+  public static function getGuiyiName($devotee_id){
+    return Devotee::where('devotee_id',$devotee_id)->pluck('guiyi_name')->first();
+  }
+
   public static function isSameDevoteeId($devotee_id_1,$devotee_id_2){
     return $devotee_id_1 == $devotee_id_2;
   }

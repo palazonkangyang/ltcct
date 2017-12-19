@@ -18,7 +18,7 @@
       <table class="table table-bordered" id="different_xiaozai_familycode_table">
         <thead>
           <tr>
-            <th>#</th>
+            <th></th>
             <th>#</th>
             <th width="120px">Chinese Name</th>
             <th width="80px">Devotee#</th>
@@ -37,17 +37,19 @@
 
           @if(Session::has('relative_and_friends'))
 
-          @foreach($relative_and_friends as $devotee)
+          @foreach($relative_and_friends as $index=>$devotee)
           <input type="hidden" name="mod_id" value=5>
           <input type="hidden" name="raf_id[]" value="{{$devotee->raf_id}}">
-          <input type="hidden" class="form-control hidden_xiaozai_id" name="hidden_xiaozai_id[]"
+          <input type="hidden" class="form-control hidden_xiaozai_id" name="hidden_xiaozai_id[]">
           <tr>
+            @if($index == 0)
             <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
-            <td class="checkbox-col">
-              <input type="checkbox" class="same xiaozai_id" name="xiaozai_id[]"
-              value="1" <?php if ($devotee->is_checked == '1'){ ?>checked="checked"<?php }?>>
-              <input type="hidden" class="form-control hidden_xiaozai_id" name="is_checked[]"
-              value="">
+            @elseif($index != 0)
+            <td></td>
+            @endif
+            <td class='checkbox-col'>
+              <input type='checkbox' class='xiaozai_id checkbox-multi-select-module-xiaozai-tab-raf-section-raf' name='xiaozai_id[]' value='1' <?php if ($devotee->is_checked == '1'){ ?>checked='checked'<?php }?>>
+              <input type='hidden' class='hidden_xiaozai_id' name='is_checked[]' value=''>
             </td>
             <td>
               @if($devotee->deceased_year != null)
@@ -57,7 +59,7 @@
               @endif
             </td>
             <td>
-              <input type="hidden" name="devotee_id[]" value="{{ $devotee->devotee_id }}" class="append-devotee-id">
+              <input type="hidden" name="devotee_id[]" class="append-devotee-id" value="{{ $devotee->devotee_id }}">
               @if($devotee->specialremarks_devotee_id == null)
               <span>{{ $devotee->devotee_id }}</span>
               @else
@@ -75,21 +77,21 @@
               {{ Form::select('hjgr[]', ['hj' => '合家','gr' => '个人'],$devotee->hjgr) }}
               @elseif($devotee->type == 'company')
               公司
-              {{ Form::hidden('hjgr[]',null)}}
+              {{ Form::hidden('hjgr[]','')}}
               @elseif($devotee->type == 'stall')
               小贩
-              {{ Form::hidden('hjgr[]',null)}}
+              {{ Form::hidden('hjgr[]','')}}
               @elseif($devotee->type == 'office')
               个人
               {{ Form::hidden('hjgr[]','gr')}}
               @elseif($devotee->type == 'car')
               车辆
-              {{ Form::hidden('hjgr[]',null)}}
+              {{ Form::hidden('hjgr[]','')}}
               @elseif($devotee->type == 'ship')
               船只
-              {{ Form::hidden('hjgr[]',null)}}
+              {{ Form::hidden('hjgr[]','')}}
               @else
-              {{ Form::hidden('hjgr[]',null)}}
+              {{ Form::hidden('hjgr[]','')}}
               @endif
             </td>
             <td>{{ $devotee->item_description }}</td>

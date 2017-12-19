@@ -10,12 +10,76 @@ use App\Models\RafKongDan;
 use App\Models\Module;
 use App\Models\OptionalAddress;
 use App\Models\OptionalVehicle;
+use App\Models\Devotee;
 use Session;
 
 class RelativeAndFriendsController extends Controller
 {
+  // public static function insertRelativeAndFriends(Request $request){
+  //   $devotee_id = $request['devotee_id'];
+  //   $mod_id = $request['mod_id'];
+  //
+  //   return RelativeAndFriendsController::generateRaf($devotee_id,$mod_id);
+  // }
 
-  public static function addRelativeAndFriends(Request $request){
+  public static function generateRaf($devotee_id,$mod_id){
+    $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+    $is_checked = false;
+    $year = DateController::getCurrentYearFormatYYYY();
+
+    $is_checked_list = [];
+    $chinese_name_list = [];
+    $devotee_id_list = [];
+    $register_by_list = [];
+    $guiyi_id_list = [];
+    $gy_list = [];
+    $ops_list = [];
+    $type_list = [];
+    $item_description_list = [];
+    $paid_by_list = [];
+    $trans_date_list = [];
+
+    $is_checked = 0;
+    $chinese_name = Devotee::getChineseName($devotee_id);
+    $register_by = '';
+    $guiyi_id = '';
+    Devotee::getGuiyiName($devotee_id) != null ? $gy = Devotee::getGuiyiName($devotee_id) : $gy ='' ;
+    $ops = '';
+    $type = 'base_home';
+    $item_description = AddressController::getAddressByDevoteeId($devotee_id);
+    $paid_by = '';
+    $trans_date = '';
+
+    /* add own address*/
+    array_push($is_checked_list,$is_checked);
+    array_push($chinese_name_list,$chinese_name);
+    array_push($devotee_id_list,$devotee_id);
+    array_push($register_by_list,$register_by);
+    array_push($guiyi_id_list,$guiyi_id);
+    array_push($gy_list,$gy);
+    array_push($ops_list,$ops);
+    array_push($type_list,$type);
+    array_push($item_description_list,$item_description);
+    array_push($paid_by_list,$paid_by);
+    array_push($trans_date_list,$trans_date);
+
+    return response()->json([
+      'is_checked_list' => $is_checked_list,
+      'chinese_name_list' => $chinese_name_list ,
+      'devotee_id_list' => $devotee_id_list ,
+      'register_by_list' => $register_by_list ,
+      'guiyi_id_list' => $guiyi_id_list ,
+      'gy_list' => $gy_list ,
+      'ops_list' => $ops_list ,
+      'type_list' => $type_list ,
+      'item_description_list' => $item_description_list ,
+      'paid_by_list' => $paid_by_list ,
+      'trans_date_list' => $trans_date_list
+    ]);
+
+  }
+
+  public static function insertRelativeAndFriends(Request $request){
       $param['raf_list'] = collect(new Raf);
       $param['raf_xiaozai_list'] = collect(new RafXiaoZai);
       $param['raf_qifu_list'] = collect(new RafQiFu);
@@ -470,6 +534,7 @@ class RelativeAndFriendsController extends Controller
 
   public function updateRafSetting(Request $request)
   {
+    dd($request);
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['var']['mod_id'] = $request->mod_id;
       $param['var']['year'] = null;
@@ -498,7 +563,9 @@ class RelativeAndFriendsController extends Controller
   }
 
   public static function deleteRelativeAndFriends(Request $request){
-
+  //  dd($request);
+    //$request->session()->flash('success', 'Setting for different address is successfully created.');
+    //return redirect()->back();
   }
 
 
