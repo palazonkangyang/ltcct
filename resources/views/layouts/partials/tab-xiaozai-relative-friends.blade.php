@@ -36,15 +36,14 @@
         <tbody id="appendDifferentFamilyCodeTable">
 
           @if(Session::has('relative_and_friends'))
-
           @foreach($relative_and_friends as $index=>$devotee)
           <input type="hidden" name="mod_id" value=5>
           <input type="hidden" name="raf_id[]" value="{{$devotee->raf_id}}">
           <input type="hidden" class="form-control hidden_xiaozai_id" name="hidden_xiaozai_id[]">
           <tr>
-            @if($index == 0)
-            <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
-            @elseif($index != 0)
+            @if($devotee['type'] == 'base_home')
+            <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true' data-devotee_id='{{ $devotee->devotee_id }}' ></i></td>
+            @elseif($devotee['type'] != 'base_home')
             <td></td>
             @endif
             <td class='checkbox-col'>

@@ -1,5 +1,8 @@
 $(function() {
 
+	// tab update URL
+	  $('.tabbable-bordered ul li a').click(function () {location.hash = $(this).attr('href');});
+
 	$('.nav-tabs a').click(function(){
 	    $(".alert-success").remove();
 			$(".validation-error").empty();

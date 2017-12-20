@@ -1401,7 +1401,8 @@ class OperatorController extends Controller
 	  SameFamilyCodeController::getSfcForAllModule();
 		RelativeAndFriendsController::getRafForAllModule();
 		TransactionController::getTrnForAllModule();
-		//dd(Session()->all());
+		// dd(Session()->all());
+		// dd(Session()->get('relative_and_friends'));
 
 		return redirect()->route('get-donation-page', [
 			'events' => $events

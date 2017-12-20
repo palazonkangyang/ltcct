@@ -259,77 +259,77 @@ $(function() {
       success: function(response)
       {
         // remove records with same devotee_id
-        $.each(response.devotee_id_list, function(index, data) {
-          $('#different_xiaozai_familycode_table .append-devotee-id').each( function () {
-            var current_devotee_id = $(this).val();
-            var new_devotee_id = response.devotee_id_list[index];
-            if(current_devotee_id == new_devotee_id)
-            {
-              $(this).closest('tr').remove();
-            }
-          });
-        });
+        // $.each(response.devotee_id_list, function(index, data) {
+        //   $('#different_xiaozai_familycode_table .append-devotee-id').each( function () {
+        //     var current_devotee_id = $(this).val();
+        //     var new_devotee_id = response.devotee_id_list[index];
+        //     if(current_devotee_id == new_devotee_id)
+        //     {
+        //       $(this).closest('tr').remove();
+        //     }
+        //   });
+        // });
 
-        $.each(response.devotee_id_list, function(index, data) {
-            $td_delete =            "<td>" +
-                                      "<i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i>" +
-                                    "</td>";
-            $td_is_checked =        "<td class='checkbox-col'>" +
-                                      "<input type='checkbox' class='xiaozai_id checkbox-multi-select-module-xiaozai-tab-raf-section-raf' name='xiaozai_id[]' value='" + response.devotee_id_list[index] + "'>" +
-                                      "<input type='hidden' class='hidden_xiaozai_id' name='is_checked[]' value=''>" +
-                                    "</td>";
-            $td_chinese_name =      "<td>" + response.chinese_name_list[index] +"</td>";
-            $td_devotee_id =        "<td>" +
-                                      "<input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + response.devotee_id_list[index] + "'>" + response.devotee_id_list[index] +
-                                    "</td>";
-            $td_register_by =       "<td>" + response.register_by_list[index] + "</td>";
-            $td_guiyi_id =          "<td>" + response.guiyi_id_list[index] + "</td>";
-            $td_gy =                "<td>" + response.gy_list[index] + "</td>";
-            $td_ops =               "<td>" + response.ops_list[index] + "</td>";
-            $td_item_description =  "<td>" + response.item_description_list[index] + "</td>";
-            $td_paid_by =           "<td>" + response.paid_by_list[index] + "</td>";
-            $td_trans_date =        "<td>" + response.trans_date_list[index] + "</td>";
+        // $.each(response.devotee_id_list, function(index, data) {
+            // $td_delete =            "<td>" +
+            //                           "<i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i>" +
+            //                         "</td>";
+            // $td_is_checked =        "<td class='checkbox-col'>" +
+            //                           "<input type='checkbox' class='xiaozai_id checkbox-multi-select-module-xiaozai-tab-raf-section-raf' name='xiaozai_id[]' value='" + response.devotee_id_list[index] + "'>" +
+            //                           "<input type='hidden' class='hidden_xiaozai_id' name='is_checked[]' value=''>" +
+            //                         "</td>";
+            // $td_chinese_name =      "<td>" + response.chinese_name_list[index] +"</td>";
+            // $td_devotee_id =        "<td>" +
+            //                           "<input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + response.devotee_id_list[index] + "'>" + response.devotee_id_list[index] +
+            //                         "</td>";
+            // $td_register_by =       "<td>" + response.register_by_list[index] + "</td>";
+            // $td_guiyi_id =          "<td>" + response.guiyi_id_list[index] + "</td>";
+            // $td_gy =                "<td>" + response.gy_list[index] + "</td>";
+            // $td_ops =               "<td>" + response.ops_list[index] + "</td>";
+            // $td_item_description =  "<td>" + response.item_description_list[index] + "</td>";
+            // $td_paid_by =           "<td>" + response.paid_by_list[index] + "</td>";
+            // $td_trans_date =        "<td>" + response.trans_date_list[index] + "</td>";
+            //
+            // if(response.type_list[index] == "base_home"){
+            //   $td_type = "<td><select class='type' name='hjgr[]'><option value='hj' selected>合家</option><option value='gr'>个人</option></select></td>";
+            // }
+            // else if(response.type_list[index] == "home"){
+            //   $td_type = "<td><select class='type' name='hjgr[]'><option value='hj' selected>合家</option><option value='gr'>个人</option></select></td>";
+            // }
+            // else if(response.type_list[index] == "company"){
+            //   $td_type = "<td>公司<input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
+            // else if(response.type_list[index] == "stall"){
+            //   $td_type = "<td>小贩<input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
+            // else if(response.type_list[index] == "office"){
+            //   $td_type = "<td>个人<input type='hidden' name='hjgr[]'  value='gr' /></td>";
+            // }
+            // else if(response.type_list[index] == "car"){
+            //   $td_type = "<td>车辆<input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
+            // else if(response.type_list[index] == "ship"){
+            //   $td_type = "<td>船只<input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
+            // else{
+            //   $td_type = "<td><input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
 
-            if(response.type_list[index] == "base_home"){
-              $td_type = "<td><select class='type' name='hjgr[]'><option value='hj' selected>合家</option><option value='gr'>个人</option></select></td>";
-            }
-            else if(response.type_list[index] == "home"){
-              $td_type = "<td><select class='type' name='hjgr[]'><option value='hj' selected>合家</option><option value='gr'>个人</option></select></td>";
-            }
-            else if(response.type_list[index] == "company"){
-              $td_type = "<td>公司<input type='hidden' name='hjgr[]'  value='' /></td>";
-            }
-            else if(response.type_list[index] == "stall"){
-              $td_type = "<td>小贩<input type='hidden' name='hjgr[]'  value='' /></td>";
-            }
-            else if(response.type_list[index] == "office"){
-              $td_type = "<td>个人<input type='hidden' name='hjgr[]'  value='gr' /></td>";
-            }
-            else if(response.type_list[index] == "car"){
-              $td_type = "<td>车辆<input type='hidden' name='hjgr[]'  value='' /></td>";
-            }
-            else if(response.type_list[index] == "ship"){
-              $td_type = "<td>船只<input type='hidden' name='hjgr[]'  value='' /></td>";
-            }
-            else{
-              $td_type = "<td><input type='hidden' name='hjgr[]'  value='' /></td>";
-            }
-
-            $('#appendDifferentFamilyCodeTable').append("<tr>" +
-            $td_delete +
-            $td_is_checked +
-            $td_chinese_name +
-            $td_devotee_id +
-            $td_register_by +
-            $td_guiyi_id +
-            $td_gy +
-            $td_ops +
-            $td_type +
-            $td_item_description +
-            $td_paid_by +
-            $td_trans_date +
-            "</tr>"
-            );
+            // $('#appendDifferentFamilyCodeTable').append("<tr>" +
+            // $td_delete +
+            // $td_is_checked +
+            // $td_chinese_name +
+            // $td_devotee_id +
+            // $td_register_by +
+            // $td_guiyi_id +
+            // $td_gy +
+            // $td_ops +
+            // $td_type +
+            // $td_item_description +
+            // $td_paid_by +
+            // $td_trans_date +
+            // "</tr>"
+            // );
 
             // "<td>"+
             //   "@if($devotee->type == 'base_home')"+
@@ -391,13 +391,13 @@ $(function() {
               //   "<td>" + $.trim(data.paytill_date) + "</td>" +
               //   "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
             // }
-        });
+        // });
 
-        if (validationFailed)
+        if (response.error != '')
         {
           var errorMsgs = '';
 
-          errorMsgs = errorMsgs + errors[0] + "<br/>";
+          errorMsgs = response.error;
 
           $('html,body').animate({ scrollTop: 0 }, 'slow');
 
@@ -415,6 +415,9 @@ $(function() {
           $('html,body').animate({ scrollTop: 0 }, 'slow');
           $(".validation-error").addClass("bg-success alert alert-error")
           $(".validation-error").html("New relative and friend has been inserted");
+
+          setTimeout(function(){ window.location.reload(true); }, 0);
+
         }
       },
       error: function (response) {
@@ -468,14 +471,16 @@ $(function() {
 
   // remove row
   $("#different_xiaozai_familycode_table").on('click', '.removeDevotee', function() {
+    var devotee_id = $(this).attr('data-devotee_id');
+
     if (!confirm("Are you sure you want to delete this devotee from Relative and Friends List? This process is irreversible.")) {
       return false;
     }
 
     else {
       var formData = {
-        _token: $('meta[name="csrf-token"]').attr('content')
-
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        devotee_id: devotee_id
       };
 
       $.ajax({
@@ -485,20 +490,27 @@ $(function() {
         dataType: 'json',
         success: function(response)
         {
-          alert(response);
-          if(response.devotee.length != 0)
-          {
-           $(this).closest('tr').remove();
-          }
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $(".validation-error").addClass("bg-success alert alert-error")
+          $(".validation-error").html("The devotee has been removed from Relative and Friends List");
+          setTimeout(function(){ window.location.reload(true); }, 0);
+          // alert(response);
+          // if(response.devotee.length != 0)
+          // {
+          //  $(this).closest('tr').remove();
+          // }
 
-          else
-          {
-            alert(response);
-            $('#search_devotee_lists tbody').append("<tr><td>Failed to delete record</td></tr>");
-          }
+          // else
+          // {
+            // alert(response);
+            // $('#search_devotee_lists tbody').append("<tr><td>Failed to delete record</td></tr>");
+          // }
         },
         error: function (response) {
-          alert(response);
+          // alert(response);
+          //setTimeout(function(){ window.location.reload(true); }, 0);
             console.log(response);
         }
       });

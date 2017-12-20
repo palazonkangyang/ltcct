@@ -22,64 +22,67 @@ class RelativeAndFriendsController extends Controller
   //   return RelativeAndFriendsController::generateRaf($devotee_id,$mod_id);
   // }
 
-  public static function generateRaf($devotee_id,$mod_id){
-    $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
-    $is_checked = false;
-    $year = DateController::getCurrentYearFormatYYYY();
-
-    $is_checked_list = [];
-    $chinese_name_list = [];
-    $devotee_id_list = [];
-    $register_by_list = [];
-    $guiyi_id_list = [];
-    $gy_list = [];
-    $ops_list = [];
-    $type_list = [];
-    $item_description_list = [];
-    $paid_by_list = [];
-    $trans_date_list = [];
-
-    $is_checked = 0;
-    $chinese_name = Devotee::getChineseName($devotee_id);
-    $register_by = '';
-    $guiyi_id = '';
-    Devotee::getGuiyiName($devotee_id) != null ? $gy = Devotee::getGuiyiName($devotee_id) : $gy ='' ;
-    $ops = '';
-    $type = 'base_home';
-    $item_description = AddressController::getAddressByDevoteeId($devotee_id);
-    $paid_by = '';
-    $trans_date = '';
-
-    /* add own address*/
-    array_push($is_checked_list,$is_checked);
-    array_push($chinese_name_list,$chinese_name);
-    array_push($devotee_id_list,$devotee_id);
-    array_push($register_by_list,$register_by);
-    array_push($guiyi_id_list,$guiyi_id);
-    array_push($gy_list,$gy);
-    array_push($ops_list,$ops);
-    array_push($type_list,$type);
-    array_push($item_description_list,$item_description);
-    array_push($paid_by_list,$paid_by);
-    array_push($trans_date_list,$trans_date);
-
-    return response()->json([
-      'is_checked_list' => $is_checked_list,
-      'chinese_name_list' => $chinese_name_list ,
-      'devotee_id_list' => $devotee_id_list ,
-      'register_by_list' => $register_by_list ,
-      'guiyi_id_list' => $guiyi_id_list ,
-      'gy_list' => $gy_list ,
-      'ops_list' => $ops_list ,
-      'type_list' => $type_list ,
-      'item_description_list' => $item_description_list ,
-      'paid_by_list' => $paid_by_list ,
-      'trans_date_list' => $trans_date_list
-    ]);
-
-  }
+  // public static function generateRaf($devotee_id,$mod_id){
+  //   $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+  //   $is_checked = false;
+  //   $year = DateController::getCurrentYearFormatYYYY();
+  //
+  //   $is_checked_list = [];
+  //   $chinese_name_list = [];
+  //   $devotee_id_list = [];
+  //   $register_by_list = [];
+  //   $guiyi_id_list = [];
+  //   $gy_list = [];
+  //   $ops_list = [];
+  //   $type_list = [];
+  //   $item_description_list = [];
+  //   $paid_by_list = [];
+  //   $trans_date_list = [];
+  //
+  //   $is_checked = 0;
+  //   $chinese_name = Devotee::getChineseName($devotee_id);
+  //   $register_by = '';
+  //   $guiyi_id = '';
+  //   Devotee::getGuiyiName($devotee_id) != null ? $gy = Devotee::getGuiyiName($devotee_id) : $gy ='' ;
+  //   $ops = '';
+  //   $type = 'base_home';
+  //   $item_description = AddressController::getAddressByDevoteeId($devotee_id);
+  //   $paid_by = '';
+  //   $trans_date = '';
+  //
+  //   /* add own address*/
+  //   array_push($is_checked_list,$is_checked);
+  //   array_push($chinese_name_list,$chinese_name);
+  //   array_push($devotee_id_list,$devotee_id);
+  //   array_push($register_by_list,$register_by);
+  //   array_push($guiyi_id_list,$guiyi_id);
+  //   array_push($gy_list,$gy);
+  //   array_push($ops_list,$ops);
+  //   array_push($type_list,$type);
+  //   array_push($item_description_list,$item_description);
+  //   array_push($paid_by_list,$paid_by);
+  //   array_push($trans_date_list,$trans_date);
+  //
+  //   return response()->json([
+  //     'is_checked_list' => $is_checked_list,
+  //     'chinese_name_list' => $chinese_name_list ,
+  //     'devotee_id_list' => $devotee_id_list ,
+  //     'register_by_list' => $register_by_list ,
+  //     'guiyi_id_list' => $guiyi_id_list ,
+  //     'gy_list' => $gy_list ,
+  //     'ops_list' => $ops_list ,
+  //     'type_list' => $type_list ,
+  //     'item_description_list' => $item_description_list ,
+  //     'paid_by_list' => $paid_by_list ,
+  //     'trans_date_list' => $trans_date_list
+  //   ]);
+  //
+  // }
 
   public static function insertRelativeAndFriends(Request $request){
+    $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+    $devotee_id = $request['devotee_id'];
+    if(Devotee::isNotSameFamily($focusdevotee_id,$devotee_id) && Raf::isNotExists($focusdevotee_id,$devotee_id)){
       $param['raf_list'] = collect(new Raf);
       $param['raf_xiaozai_list'] = collect(new RafXiaoZai);
       $param['raf_qifu_list'] = collect(new RafQiFu);
@@ -88,87 +91,106 @@ class RelativeAndFriendsController extends Controller
       $param['var']['devotee_id'] = $request['devotee_id'];
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['var']['is_checked'] = false;
-      $param['var']['year'] = null;
+      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
+
       RelativeAndFriendsController::createRafForAllModule($param);
       RelativeAndFriendsController::getRafForAllModule();
-      switch ($param['var']['mod_id']) {
-      // Xiang You
-      case 1:
 
-        break;
+      return response()->json([
+        'error' => ''
+      ]);
+    }
 
-      // Ci Ji
-      case 2:
+    elseif(Devotee::isSameFamily($focusdevotee_id,$devotee_id)){
+      return response()->json([
+        'error' => 'The devotee is the same family member'
+      ]);
+    }
 
-        break;
+    elseif(Raf::isExists($focusdevotee_id,$devotee_id)){
+      return response()->json([
+        'error' => 'The devotee is already in Relative and Friends List'
+      ]);
+    }
 
-      // Yue Juan
-      case 3:
+      // switch ($param['var']['mod_id']) {
+      // // Xiang You
+      // case 1:
+      //
+      //   break;
+      //
+      // // Ci Ji
+      // case 2:
+      //
+      //   break;
+      //
+      // // Yue Juan
+      // case 3:
+      //
+      //   break;
+      //
+      // // Zhu Xue Jin
+      // case 4:
+      //
+      //   break;
+      //
+      // // Xiao Zai Da Fa Hui
+      // case 5:
+      //   return response()->json([
+      //     'devotee' => Session()->get('relative_and_friends.xiaozai')
+      //   ]);
+      //
+      //   break;
+      //
+      // // Qian Fo Fa Hui
+      // case 6:
+      //
+      //   break;
+      //
+      // // Da Bei Fa Hui
+      // case 7:
+      //
+      //   break;
+      //
+      // // Yao Shi Fa Hui
+      // case 8:
+      //
+      //   break;
+      //
+      // // Qi Fu Fa Hui
+      // case 9:
+      //   return response()->json([
+      //     'devotee' => Session()->get('relative_and_friends.fahui')
+      //   ]);
+      //   break;
+      //
+      // // Kong Dan
+      // case 10:
+      //   return response()->json([
+      //     'devotee' => Session()->get('relative_and_friends.kongdan')
+      //   ]);
+      //   break;
+      //
+      // // Pu Du
+      // case 11:
+      //
+      //   break;
+      //
+      // // Chao Du
+      // case 12:
+      //
+      //   break;
+      //
+      // // Shou Sheng Ku Qian
+      // case 13:
+      //
+      //   break;
+      //
+      // default:
+      // }
 
-        break;
-
-      // Zhu Xue Jin
-      case 4:
-
-        break;
-
-      // Xiao Zai Da Fa Hui
-      case 5:
-        return response()->json([
-          'devotee' => Session()->get('relative_and_friends.xiaozai')
-        ]);
-
-        break;
-
-      // Qian Fo Fa Hui
-      case 6:
-
-        break;
-
-      // Da Bei Fa Hui
-      case 7:
-
-        break;
-
-      // Yao Shi Fa Hui
-      case 8:
-
-        break;
-
-      // Qi Fu Fa Hui
-      case 9:
-        return response()->json([
-          'devotee' => Session()->get('relative_and_friends.fahui')
-        ]);
-        break;
-
-      // Kong Dan
-      case 10:
-        return response()->json([
-          'devotee' => Session()->get('relative_and_friends.kongdan')
-        ]);
-        break;
-
-      // Pu Du
-      case 11:
-
-        break;
-
-      // Chao Du
-      case 12:
-
-        break;
-
-      // Shou Sheng Ku Qian
-      case 13:
-
-        break;
-
-      default:
-      }
-
-      $request->session()->flash('success', 'Setting for different addresses are successfully created.');
-    return redirect()->back();
+    //$request->session()->flash('success', 'Setting for different addresses are successfully created.');
+    // return redirect()->back();
   }
 
   public static function createRafForAllModule($param){
@@ -186,7 +208,7 @@ class RelativeAndFriendsController extends Controller
     $list['focusdevotee_id'] = $param['var']['focusdevotee_id'];
     $list['mod_id'] = $param['var']['mod_id'];
     $list['is_checked'] = $param['var']['is_checked'];
-    $list['year'] = $param['var']['year'];
+    $list['year'] = DateController::getCurrentYearFormatYYYY();
     $list['raf_id'] = Raf::create($list)->raf_id;
     $param['var']['raf_id'] = $list['raf_id'];
     $param['raf_list']->push($list);
@@ -372,7 +394,7 @@ class RelativeAndFriendsController extends Controller
     if(Session::has('relative_and_friends')) { Session::forget('relative_and_friends'); }
     $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
     $param['mod_list'] = Module::getReleasedFaHuiModuleList();
-    $param['var']['year'] = null;
+    $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
     foreach($param['mod_list'] as $index=> $mod){
       $param['var']['mod_id'] = $mod['mod_id'];
       RelativeAndFriendsController::getRaf($param);
@@ -385,7 +407,7 @@ class RelativeAndFriendsController extends Controller
                    ->leftjoin('member','member.member_id','=','devotee.member_id')
                    ->where('raf.focusdevotee_id',$param['var']['focusdevotee_id'])
                    ->where('raf.mod_id',$param['var']['mod_id'])
-                   ->where('raf.year',$param['var']['year'])
+                   ->where('raf.year',DateController::getCurrentYearFormatYYYY())
                    ->get();
 
     switch ($param['var']['mod_id']) {
@@ -491,25 +513,25 @@ class RelativeAndFriendsController extends Controller
           $optionaladdress_id = RafXiaoZai::getOptionalAddressIdByRafXiaoZaiId($raf_xiaozai['raf_xiaozai_id']);
           $raf['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
           $raf['optionalvehicle'] = null;
-          $raf['item_description'] = $raf['optionaladdress']['address'];
+          $raf['optionaladdress']['address'] != NULL ? $raf['item_description'] = $raf['optionaladdress']['address'] : $raf['item_description'] = $raf['optionaladdress']['oversea_address'];
           break;
         case 'company':
           $optionaladdress_id = RafXiaoZai::getOptionalAddressIdByRafXiaoZaiId($raf_xiaozai['raf_xiaozai_id']);
           $raf['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
           $raf['optionalvehicle'] = null;
-          $raf['item_description'] = $raf['optionaladdress']['data'] .' @ '. $raf['optionaladdress']['address'];
+          $raf['optionaladdress']['address'] != NULL ? $raf['item_description'] = $raf['optionaladdress']['data'] .' @ '. $raf['optionaladdress']['address'] : $raf['item_description'] = $raf['optionaladdress']['data'] .' @ '. $raf['optionaladdress']['oversea_address'];
           break;
         case 'stall':
           $optionaladdress_id = RafXiaoZai::getOptionalAddressIdByRafXiaoZaiId($raf_xiaozai['raf_xiaozai_id']);
           $raf['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
           $raf['optionalvehicle'] = null;
-          $raf['item_description'] = $raf['optionaladdress']['data'] .' @ '. $raf['optionaladdress']['address'];
+          $raf['optionaladdress']['address'] != NULL ? $raf['item_description'] = $raf['optionaladdress']['data'] .' @ '. $raf['optionaladdress']['address'] : $raf['item_description'] = $raf['optionaladdress']['data'] .' @ '. $raf['optionaladdress']['oversea_address'];
           break;
         case 'office':
           $optionaladdress_id = RafXiaoZai::getOptionalAddressIdByRafXiaoZaiId($raf_xiaozai['raf_xiaozai_id']);
           $raf['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
           $raf['optionalvehicle'] = null;
-          $raf['item_description'] = $raf['optionaladdress']['address'];
+          $raf['optionaladdress']['address'] != NULL ? $raf['item_description'] = $raf['optionaladdress']['address'] : $raf['item_description'] = $raf['optionaladdress']['oversea_address'];
           break;
         case 'car':
           $optionalvehicle_id = RafXiaoZai::getOptionalVehicleIdByRafXiaoZaiId($raf_xiaozai['raf_xiaozai_id']);
@@ -534,10 +556,8 @@ class RelativeAndFriendsController extends Controller
 
   public function updateRafSetting(Request $request)
   {
-    dd($request);
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['var']['mod_id'] = $request->mod_id;
-      $param['var']['year'] = null;
       $raf_id_list = $request->raf_id;
       $is_checked_list = $request->is_checked;
       $hjgr_list = $request->hjgr;
@@ -563,9 +583,32 @@ class RelativeAndFriendsController extends Controller
   }
 
   public static function deleteRelativeAndFriends(Request $request){
-  //  dd($request);
+    $devotee_id = $request['devotee_id'];
+    RelativeAndFriendsController::deleteRafForAllModule($devotee_id);
+    return response()->json([
+
+    ]);
+
     //$request->session()->flash('success', 'Setting for different address is successfully created.');
     //return redirect()->back();
+  }
+
+  public static function deleteRafForAllModule($devotee_id){
+    $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+
+    $raf_list = Raf::where('devotee_id', $devotee_id)
+                   ->where('focusdevotee_id', $focusdevotee_id)
+                   ->where('year', DateController::getCurrentYearFormatYYYY())
+                   ->select('raf_id','mod_id')
+                   ->get();
+
+    foreach($raf_list as $raf){
+      Module::isXiaoZai($raf->mod_id) ? RafXiaoZai::where('raf_id', $raf->raf_id)->delete() : false;
+      Module::isKongDan($raf->mod_id) ? RafKongDan::where('raf_id', $raf->raf_id)->delete() : false;
+      Module::isQiFu($raf->mod_id) ? RafQiFu::where('raf_id', $raf->raf_id)->delete() : false;
+      Raf::where('raf_id', $raf->raf_id)->delete();
+    }
+    RelativeAndFriendsController::getRafForAllModule();
   }
 
 

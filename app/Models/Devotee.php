@@ -233,6 +233,10 @@ class Devotee extends Model
     return Devotee::getFamilyCode($devotee_id_1) == Devotee::getFamilyCode($devotee_id_2);
   }
 
+  public static function isNotSameFamily($devotee_id_1,$devotee_id_2){
+    return Devotee::getFamilyCode($devotee_id_1) != Devotee::getFamilyCode($devotee_id_2);
+  }
+
   public static function isRelative($devotee_id_1,$devotee_id_2){
     return Devotee::getFamilyCode($devotee_id_1) != Devotee::getFamilyCode($devotee_id_2);
   }

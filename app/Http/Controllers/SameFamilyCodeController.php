@@ -58,7 +58,7 @@ class SameFamilyCodeController extends Controller
       foreach($family_list as $family){
         $param['var']['devotee_id'] = $family['devotee_id'];
         $param['var']['is_checked'] = ($param['var']['focusdevotee_id'] == $family['devotee_id']) ? true : false;
-        $param['var']['year'] = null;
+        $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
         $param = SameFamilyCodeController::createSfc($param);
       }
       return $param;
@@ -69,7 +69,7 @@ class SameFamilyCodeController extends Controller
       $list['focusdevotee_id'] = $param['var']['focusdevotee_id'];
       $list['mod_id'] = $param['var']['mod_id'];
       $list['is_checked'] = $param['var']['is_checked'];
-      $list['year'] = $param['var']['year'];
+      $list['year'] = DateController::getCurrentYearFormatYYYY();
       $list['sfc_id'] = Sfc::create($list)->sfc_id;
       $param['var']['sfc_id'] = $list['sfc_id'];
       $param['sfc_list']->push($list);
@@ -97,7 +97,7 @@ class SameFamilyCodeController extends Controller
           $param['var']['focusdevotee_id'] = $family['devotee_id'];
           $param['var']['devotee_id'] = $param['focusdevotee_id'];
           $param['var']['is_checked'] = false;
-          $param['var']['year'] = null;
+          $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
           $param = SameFamilyCodeController::createSfc($param);
         }
       }
@@ -196,7 +196,6 @@ class SameFamilyCodeController extends Controller
     {
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['var']['mod_id'] = $request->mod_id;
-      $param['var']['year'] = null;
       $sfc_id_list = $request->sfc_id;
       $is_checked_list = $request->is_checked;
       $hjgr_list = $request->hjgr;
@@ -222,7 +221,7 @@ class SameFamilyCodeController extends Controller
       if(Session::has('same_family_code')) { Session::forget('same_family_code'); }
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['mod_list'] = Module::getReleasedModuleList();
-      $param['var']['year'] = null;
+      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
       foreach($param['mod_list'] as $index=> $mod){
         $param['var']['mod_id'] = $mod['mod_id'];
         SameFamilyCodeController::getSfc($param);
@@ -235,7 +234,7 @@ class SameFamilyCodeController extends Controller
                      ->leftjoin('member','member.member_id','=','devotee.member_id')
                      ->where('sfc.focusdevotee_id',$param['var']['focusdevotee_id'])
                      ->where('sfc.mod_id',$param['var']['mod_id'])
-                     ->where('sfc.year',$param['var']['year'])
+                     ->where('sfc.year',DateController::getCurrentYearFormatYYYY())
                      ->get();
 
       switch ($param['var']['mod_id']) {
@@ -340,25 +339,26 @@ class SameFamilyCodeController extends Controller
             $optionaladdress_id = SfcXiaoZai::getOptionalAddressIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
             $sfc['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
             $sfc['optionalvehicle'] = null;
-            $sfc['item_description'] = $sfc['optionaladdress']['address'];
+            $sfc['optionaladdress']['address'] != NULL ? $sfc['item_description'] = $sfc['optionaladdress']['address'] : $sfc['item_description'] = $sfc['optionaladdress']['oversea_address'];
+
             break;
           case 'company':
             $optionaladdress_id = SfcXiaoZai::getOptionalAddressIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
             $sfc['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
             $sfc['optionalvehicle'] = null;
-            $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['address'];
+            $sfc['optionaladdress']['address'] != NULL ? $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['address'] : $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['oversea_address'];
             break;
           case 'stall':
             $optionaladdress_id = SfcXiaoZai::getOptionalAddressIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
             $sfc['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
             $sfc['optionalvehicle'] = null;
-            $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['address'];
+            $sfc['optionaladdress']['address'] != NULL ? $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['address'] : $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['oversea_address'];
             break;
           case 'office':
             $optionaladdress_id = SfcXiaoZai::getOptionalAddressIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
             $sfc['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
             $sfc['optionalvehicle'] = null;
-            $sfc['item_description'] = $sfc['optionaladdress']['address'];
+            $sfc['optionaladdress']['address'] != NULL ? $sfc['item_description'] = $sfc['optionaladdress']['address'] : $sfc['item_description'] = $sfc['optionaladdress']['oversea_address'];
             break;
           case 'car':
             $optionalvehicle_id = SfcXiaoZai::getOptionalVehicleIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
