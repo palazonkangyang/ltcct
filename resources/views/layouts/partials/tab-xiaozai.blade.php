@@ -25,7 +25,7 @@
             <th>OPS</th>
             <th>Type</th>
             <th width="200px">Item Description</th>
-            <th width="100px">XZReceipt</th>
+            <th width="100px">XZ Receipt</th>
             <th width="80px">Paid By</th>
             <th>Trans Date</th>
           </tr>
@@ -192,7 +192,7 @@
             <th>OPS</th>
             <th>Type</th>
             <th width="170px">Item Description</th>
-            <th width="100px">XZReceipt</th>
+            <th width="100px">XZ Receipt</th>
             <th width="80px">Paid By</th>
             <th>Trans Date</th>
           </tr>
@@ -559,7 +559,7 @@
     <table class="table table-bordered order-column" id="xiaozai_receipt_history_table">
       <thead>
         <tr>
-          <th>XZReceipt</th>
+          <th>XZ Receipt</th>
           <th>Trans Date</th>
           <th>Transaction</th>
           <th>Description</th>

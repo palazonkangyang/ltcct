@@ -245,4 +245,12 @@ class Devotee extends Model
     return Devotee::where('devotee_id',$devotee_id)->pluck('familycode_id')->first();
   }
 
+  public static function isTransactionPayee($focusdevotee_id,$transaction_focusdevotee_id){
+    return $focusdevotee_id == $transaction_focusdevotee_id;
+  }
+
+  public static function isNotTransactionPayee($focusdevotee_id,$transaction_focusdevotee_id){
+    return $focusdevotee_id != $transaction_focusdevotee_id;
+  }
+
 }

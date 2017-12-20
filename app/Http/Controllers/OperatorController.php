@@ -1402,7 +1402,7 @@ class OperatorController extends Controller
 		RelativeAndFriendsController::getRafForAllModule();
 		TransactionController::getTrnForAllModule();
 		// dd(Session()->all());
-		// dd(Session()->get('relative_and_friends'));
+		//dd(Session()->get('transaction'));
 
 		return redirect()->route('get-donation-page', [
 			'events' => $events

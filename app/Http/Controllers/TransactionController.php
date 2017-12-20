@@ -53,7 +53,7 @@ class TransactionController extends Controller
       Module::isXiaoZai($request['mod_id']) ? $param['var']['type_chinese_name_list'] = $request['type_chinese_name_list'] : false ;
       ReceiptController::createReceipt($param);
 
-      Trn::updateReceiptNoOfTransaction($param['receipt']['trn_id']);
+      //Trn::updateReceiptNoOfTransaction($param['receipt']['trn_id']);
 
       $view = Trn::printReceipt($param['receipt']['trn_id'],$param['transaction']['receipt_printing_type']);
       return $view;

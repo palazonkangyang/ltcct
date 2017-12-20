@@ -35,6 +35,7 @@ class Trn extends Model
   ];
 
 
+
   public static function getTransaction($trn_id){
       if(Session::has('transaction')) { Session::forget('transaction'); }
       $transaction = Trn::where('trn_id',$trn_id)->first();
@@ -50,11 +51,65 @@ class Trn extends Model
   }
 
   public static function getTrn($devotee_id,$mod_id){
+    $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
 
-    $transactions = Trn::where('focusdevotee_id',$devotee_id)
+    $transactions = collect(new Trn);
+
+    $trn_id_list = Rct::where('devotee_id',$devotee_id)
                       ->where('mod_id',$mod_id)
-                      ->orderBy('trn_id','desc')
-                      ->get();
+                      ->groupBy('trn_id')
+                      ->pluck('trn_id');
+
+    foreach($trn_id_list as $trn_id){
+
+      $trn = Trn::where('trn_id',$trn_id)
+                ->first();
+      $receipt_list = Rct::where('trn_id',$trn_id)
+                         ->get();
+      $total_amount = 0;
+      $receipt_no_list = [];
+      $receipt_no_combine = '';
+      if(Devotee::isTransactionPayee($focusdevotee_id,$trn['focusdevotee_id'])){
+        count($receipt_list) > 1 ? $receipt_no_combine = $receipt_list->first()['receipt_no'] . ' - ' . $receipt_list->last()['receipt_no'] : $receipt_no_combine = $receipt_list->first()['receipt_no'] ;
+        $trn['receipt'] = $receipt_no_combine;
+      }
+
+      elseif(Devotee::isNotTransactionPayee($focusdevotee_id,$trn['focusdevotee_id'])){
+        foreach($receipt_list as $receipt){
+          if($receipt['devotee_id'] == $focusdevotee_id){
+            $total_amount = $total_amount + $receipt['amount'];
+            array_push($receipt_no_list,$receipt['receipt_no']);
+          }
+
+        }
+
+        $trn['total_amount'] = $total_amount;
+        count($receipt_no_list) > 1 ? $receipt_no_combine = head($receipt_no_list) . ' - ' . last($receipt_no_list) : $receipt_no_combine = head($receipt_no_list) ;
+        $trn['receipt'] = $receipt_no_combine;
+      }
+      $transactions->push($trn);
+    }
+
+
+
+    // foreach($rct_list as $rct){
+    //   $trn = Trn::where('trn_id',$rct['trn_id'])->first();
+    //
+    //   if(Devotee::isTransactionPayee($rct['devotee_id'],$trn['focusdevotee_id'])){
+    //     $transactions->push($trn);
+    //   }
+    //
+    //   elseif(Devotee::isNotTransactionPayee($rct['devotee_id'],$trn['focusdevotee_id'])){
+    //     $transactions->push($trn);
+    //   }
+
+    // }
+
+
+    // $transactions = Trn::where('focusdevotee_id',$devotee_id)
+    //                   ->where('mod_id',$mod_id)
+    //                   ->orderBy('trn_id','desc')
+    //                   ->get();
 
     if(Module::isXiaoZai($mod_id)){
       Session::has('transaction.xiaozai') ? Session::forget('transaction.xiaozai') : false;
@@ -73,16 +128,16 @@ class Trn extends Model
     return $transactions;
   }
 
-  public static function updateReceiptNoOfTransaction($trn_id){
-    if(Session::has('transaction.xiaozai')) { Session::forget('transaction.xiaozai'); }
-
-      $receipts = Rct::where('trn_id',$trn_id)
-                     ->get();
-
-      $transaction = Trn::find($trn_id);
-      count($receipts) > 1 ? $transaction->receipt = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $transaction->receipt = $receipt_no_combine = $receipts->first()['receipt_no'];
-      $transaction->save();
-  }
+  // public static function updateReceiptNoOfTransaction($trn_id){
+  //   if(Session::has('transaction.xiaozai')) { Session::forget('transaction.xiaozai'); }
+  //
+  //     $receipts = Rct::where('trn_id',$trn_id)
+  //                    ->get();
+  //
+  //     $transaction = Trn::find($trn_id);
+  //     count($receipts) > 1 ? $transaction->receipt = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $transaction->receipt = $receipt_no_combine = $receipts->first()['receipt_no'];
+  //     $transaction->save();
+  // }
 
   public static function generateTransactionNo(){
     if(count(Trn::all()) > 0)
