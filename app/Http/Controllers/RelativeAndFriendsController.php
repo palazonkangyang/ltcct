@@ -193,6 +193,40 @@ class RelativeAndFriendsController extends Controller
     // return redirect()->back();
   }
 
+  public static function insertRelativeAndFriendsFromHistory(Request $request){
+
+    $devotee_id_list = $request['devotee_id_list'];
+
+    foreach($devotee_id_list as $devotee_id){
+      $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+      if(Raf::isExists($focusdevotee_id,$devotee_id)){
+        return response()->json([
+          'error' => 'Some of the devotee are already exist in Relative and Friends List'
+        ]);
+      }
+    }
+
+    foreach($devotee_id_list as $devotee_id){
+      $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+      $param['raf_list'] = collect(new Raf);
+      $param['raf_xiaozai_list'] = collect(new RafXiaoZai);
+      $param['raf_qifu_list'] = collect(new RafQiFu);
+      $param['raf_kongdan_list'] = collect(new RafKongDan);
+      $param['var']['mod_id'] = $request['mod_id'];
+      $param['var']['devotee_id'] = $devotee_id;
+      $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
+      $param['var']['is_checked'] = false;
+      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
+
+      RelativeAndFriendsController::createRafForAllModule($param);
+      RelativeAndFriendsController::getRafForAllModule();
+    }
+
+    return response()->json([
+      'error' => ''
+    ]);
+  }
+
   public static function createRafForAllModule($param){
     $param['mod_list'] = Module::getReleasedFaHuiModuleList();
     foreach($param['mod_list'] as $index=> $mod){
@@ -224,6 +258,7 @@ class RelativeAndFriendsController extends Controller
     $exist_raf_list = Raf::where('devotee_id','=',$list['devotee_id'])
                      ->where('focusdevotee_id','=',$list['focusdevotee_id'])
                      ->where('mod_id','=',$list['mod_id'])
+                     ->where('mod_id','=',$list['year'])
                      ->get();
 
     // delete existing records in children table
@@ -552,6 +587,112 @@ class RelativeAndFriendsController extends Controller
       }
     }
     return $param['raf_list'];
+  }
+
+  public static function getRafHistoryForAllModule(){
+    if(Session::has('relative_and_friends_history')) { Session::forget('relative_and_friends_history'); }
+    $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+    $mod_list = Module::getReleasedFaHuiModuleList();
+    $current_year = DateController::getCurrentYearFormatYYYY();
+    foreach($mod_list as $index=> $mod){
+      $mod_id = $mod['mod_id'];
+      RelativeAndFriendsController::getRafHistory($focusdevotee_id,$mod_id,$current_year);
+    }
+  }
+
+  public static function getRafHistory($focusdevotee_id,$mod_id,$current_year){
+    $raf_list = Raf::leftjoin('devotee','devotee.devotee_id','=','raf.devotee_id')
+                   ->leftjoin('familycode','familycode.familycode_id','=','devotee.familycode_id')
+                   ->leftjoin('member','member.member_id','=','devotee.member_id')
+                   ->where('raf.focusdevotee_id',$focusdevotee_id)
+                   ->where('raf.mod_id',$mod_id)
+                   ->where('raf.year','!=',$current_year)
+                   ->get();
+
+    switch ($mod_id) {
+      // Xiang You
+      case 1:
+
+        break;
+
+      // Ci Ji
+      case 2:
+
+        break;
+
+      // Yue Juan
+      case 3:
+
+        break;
+
+      // Zhu Xue Jin
+      case 4:
+
+        break;
+
+      // Xiao Zai Da Fa Hui
+      case 5:
+        $param['raf_list'] = $raf_list;
+        $raf_list = RelativeAndFriendsController::getRafXiaoZai($param);
+        $raf_focus_devotee= $raf_list->filter(function ($value, $key) use($focusdevotee_id) {
+            if($value['devotee_id'] == $focusdevotee_id ){
+            return $value;
+          }
+        });
+
+        $raf_family= $raf_list->filter(function ($value, $key) use($focusdevotee_id) {
+            if($value['devotee_id'] != $focusdevotee_id ){
+            return $value;
+          }
+        });
+
+        $raf_list = $raf_focus_devotee->merge($raf_family);
+
+        Session::put('relative_and_friends_history.xiaozai',$raf_list);
+        break;
+
+      // Qian Fo Fa Hui
+      case 6:
+
+        break;
+
+      // Da Bei Fa Hui
+      case 7:
+
+        break;
+
+      // Yao Shi Fa Hui
+      case 8:
+
+        break;
+
+      // Qi Fu Fa Hui
+      case 9:
+        Session::put('relative_and_friends_history.qifu',$raf_list);
+        break;
+
+      // Kong Dan
+      case 10:
+        Session::put('relative_and_friends_history.kongdan',$raf_list);
+        break;
+
+      // Pu Du
+      case 11:
+
+        break;
+
+      // Chao Du
+      case 12:
+
+        break;
+
+      // Shou Sheng Ku Qian
+      case 13:
+
+        break;
+
+      default:
+    }
   }
 
   public function updateRafSetting(Request $request)

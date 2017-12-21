@@ -1400,8 +1400,9 @@ class OperatorController extends Controller
 
 	  SameFamilyCodeController::getSfcForAllModule();
 		RelativeAndFriendsController::getRafForAllModule();
+		RelativeAndFriendsController::getRafHistoryForAllModule();
 		TransactionController::getTrnForAllModule();
-		// dd(Session()->all());
+		//dd(Session()->get('transaction.xiaozai'));
 		//dd(Session()->get('transaction'));
 
 		return redirect()->route('get-donation-page', [

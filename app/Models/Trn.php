@@ -30,6 +30,9 @@ class Trn extends Model
     'hjgr',
     'receipt_printing_type',
     'attended_by',
+    'status',
+    'cancelled_by',
+    'cancelled_date',
     'receipt_at',
     'trans_at'
   ];
@@ -128,16 +131,16 @@ class Trn extends Model
     return $transactions;
   }
 
-  // public static function updateReceiptNoOfTransaction($trn_id){
-  //   if(Session::has('transaction.xiaozai')) { Session::forget('transaction.xiaozai'); }
-  //
-  //     $receipts = Rct::where('trn_id',$trn_id)
-  //                    ->get();
-  //
-  //     $transaction = Trn::find($trn_id);
-  //     count($receipts) > 1 ? $transaction->receipt = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $transaction->receipt = $receipt_no_combine = $receipts->first()['receipt_no'];
-  //     $transaction->save();
-  // }
+  public static function updateReceiptNoOfTransaction($trn_id){
+    if(Session::has('transaction.xiaozai')) { Session::forget('transaction.xiaozai'); }
+
+      $receipts = Rct::where('trn_id',$trn_id)
+                     ->get();
+
+      $transaction = Trn::find($trn_id);
+      count($receipts) > 1 ? $transaction->receipt = $receipts->first()['receipt_no'] . ' - ' . $receipts->last()['receipt_no'] : $transaction->receipt = $receipt_no_combine = $receipts->first()['receipt_no'];
+      $transaction->save();
+  }
 
   public static function generateTransactionNo(){
     if(count(Trn::all()) > 0)
@@ -183,11 +186,7 @@ class Trn extends Model
       $paginate_receipts = Rct::paginateSingleReceipt($receipts,$mod_id);
     }
 
-
-
-
     Trn::getTrn($devotee_id,$mod_id);
-
 
       return view('receipt.preview', [
         'module' => Module::getModule($mod_id),

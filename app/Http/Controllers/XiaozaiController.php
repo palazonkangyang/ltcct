@@ -2235,7 +2235,7 @@ class XiaozaiController extends Controller
     $optional_address_list = OptionalAddress::getOptionalAddressByDevoteeId($param);
     foreach($optional_address_list as $oa){
       $param['var']['is_checked'] = false;
-      $param['var']['year'] = null;
+      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
       $param = SameFamilyCodeController::createSfc($param);
       $list['sfc_id'] = $param['var']['sfc_id'];
       $list['optionaladdress_id'] = $oa['optionaladdress_id'];
@@ -2266,7 +2266,7 @@ class XiaozaiController extends Controller
     $optional_address_list = OptionalAddress::getOptionalAddressByDevoteeId($param);
     foreach($optional_address_list as $oa){
       $param['var']['is_checked'] = false;
-      $param['var']['year'] = null;
+      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
       $param = RelativeAndFriendsController::createRaf($param);
       $list['raf_id'] = $param['var']['raf_id'];
       $list['optionaladdress_id'] = $oa['optionaladdress_id'];
@@ -2297,7 +2297,7 @@ class XiaozaiController extends Controller
     $optional_vehicle_list = OptionalVehicle::getOptionalVehicleByDevoteeId($param);
     foreach($optional_vehicle_list as $ov){
       $param['var']['is_checked'] = false;
-      $param['var']['year'] = null;
+      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
       $param = SameFamilyCodeController::createSfc($param);
       $list['sfc_id'] = $param['var']['sfc_id'];
       $list['optionaladdress_id'] = null;
@@ -2328,7 +2328,7 @@ class XiaozaiController extends Controller
     $optional_vehicle_list = OptionalVehicle::getOptionalVehicleByDevoteeId($param);
     foreach($optional_vehicle_list as $ov){
       $param['var']['is_checked'] = false;
-      $param['var']['year'] = null;
+      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
       $param = RelativeAndFriendsController::createRaf($param);
       $list['raf_id'] = $param['var']['raf_id'];
       $list['optionaladdress_id'] = null;

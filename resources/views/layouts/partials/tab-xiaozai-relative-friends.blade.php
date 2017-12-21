@@ -1,5 +1,6 @@
 @php
   $relative_and_friends = Session::get('relative_and_friends')['xiaozai'];
+  $relative_and_friends_history = Session::get('relative_and_friends_history')['xiaozai'];
 
   $xiaozai_setting_differentfamily_last1year = Session::get('xiaozai_setting_differentfamily_last1year');
 
@@ -256,11 +257,10 @@
 
     <div class="form-group">
 
-      @if(count($xiaozai_setting_differentfamily_last1year) > 0)
-
       @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
-        <span class="setting-history">XZ-{{$this_year - 1}}-FC{{ $focus_devotee[0]->devotee_id }}</span>
+        Past Year Records
+        <!--<span class="setting-history">XZ-{{$this_year - 1}}-FC{{ $focus_devotee[0]->devotee_id }}</span>-->
       </h5>
       @endif
 
@@ -268,6 +268,7 @@
         <thead>
           <tr>
             <th>#</th>
+            <th>Year</th>
             <th>Chinese Name</th>
             <th>Devotee#</th>
             <th>RegisterBy</th>
@@ -276,18 +277,21 @@
             <th>OPS</th>
             <th width="90px">Type</th>
             <th>Item Description</th>
-            <th>M.Paid Till</th>
             <th>Paid By</th>
-            <th>Last Trans</th>
+            <th>Trans Date</th>
           </tr>
         </thead>
 
         <tbody id="has_session">
-          @foreach($xiaozai_setting_differentfamily_last1year as $devotee)
+          @foreach($relative_and_friends_history as $devotee)
           <tr>
             <td class="checkbox-col">
-              <input type="checkbox" name="" value="{{ $devotee->devotee_id }}">
+              @if($devotee['type'] == 'base_home')
+              <input type="checkbox" class="devotee_id_list" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
+              @endif
+
             </td>
+            <td>{{ $devotee->year }}</td>
             <td>
               @if($devotee->deceased_year != null)
               <span class="text-danger">{{ $devotee->chinese_name }}</span>
@@ -314,60 +318,54 @@
             <td></td>
             <td>{{ $devotee->ops }}</td>
             <td>
-              @if($devotee->type == 'sameaddress')
-              合家
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="sameaddress" selected>合家</option>
-                <option value="individual">个人</option>
-              </select>
-              @elseif($devotee->type == 'individual')
-              个人
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="sameaddress">合家</option>
-                <option value="individual" selected>个人</option>
-              </select>
+              @if($devotee->type == 'base_home')
+                @if($devotee->hjgr == 'hj')
+                  合家
+                  {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                  {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
+                @elseif($devotee->hjgr == 'gr')
+                  个人
+                  {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                  {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
+                @else
+                @endif
               @elseif($devotee->type == 'home')
-              宅址
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="home" selected>宅址</option>
-              </select>
+              @if($devotee->hjgr == 'hj')
+                合家
+                {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
+              @elseif($devotee->hjgr == 'gr')
+                个人
+                {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
+              @else
+              @endif
               @elseif($devotee->type == 'company')
               公司
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="company" selected>公司</option>
-              </select>
+              {{ Form::hidden('type_chinese_name_list[]','公司')}}
+              {{ Form::hidden('amount[]',$xiaozai_price_company)}}
               @elseif($devotee->type == 'stall')
               小贩
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="stall" selected>小贩</option>
-              </select>
+              {{ Form::hidden('type_chinese_name_list[]','小贩')}}
+              {{ Form::hidden('amount[]',$xiaozai_price_stall)}}
               @elseif($devotee->type == 'office')
-              办公址
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="office" selected>办公址</option>
-              </select>
+              个人
+              {{ Form::hidden('type_chinese_name_list[]','个人')}}
+              {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
               @elseif($devotee->type == 'car')
               车辆
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="car" selected>车辆</option>
-              </select>
-              @else
+              {{ Form::hidden('type_chinese_name_list[]','车辆')}}
+              {{ Form::hidden('amount[]',$xiaozai_price_car)}}
+              @elseif($devotee->type == 'ship')
               船只
-              <select class="form-control type" name="type[]" style="display: none;">
-                <option value="ship" selected>船只</option>
-              </select>
+              {{ Form::hidden('type_chinese_name_list[]','船只')}}
+              {{ Form::hidden('amount[]',$xiaozai_price_ship)}}
+              @else
+              {{ Form::hidden('type_chinese_name_list[]','')}}
+              {{ Form::hidden('amount[]',0)}}
               @endif
             </td>
             <td>{{ $devotee->item_description }}</td>
-            <td>
-              @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-              <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-              @elseif(isset($devotee->paytill_date))
-              <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-              @else
-              <span>{{ $devotee->paytill_date }}</span>
-              @endif
-            </td>
             <td>
               @if(isset($devotee->lasttransaction_at))
               {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
@@ -381,7 +379,7 @@
         </tbody>
       </table>
 
-      @endif
+
     </div><!-- end form-group -->
 
     <div class="form-group">
@@ -390,7 +388,7 @@
           To INSERT records from the below Tick List, tick on the records and Click on the ADD FROM TICK LIST Button.
         </p>
 
-        <button id="add_trick_list" type="button" name="button" class="btn blue">Add from Tick List</button>
+        <button id="add_from_tick_list" type="button" name="button" class="btn blue">Add from Tick List</button>
       </div>
     </div><!-- end form-group -->
 

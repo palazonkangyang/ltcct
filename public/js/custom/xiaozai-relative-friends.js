@@ -252,7 +252,7 @@ $(function() {
     };
 
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       url: "/fahui/insert-relative-and-friends",
       data: formData,
       dataType: 'json',
@@ -619,5 +619,79 @@ $(function() {
     });
 
   });
+
+
+    $("#add_from_tick_list").click(function() {
+
+      var devotee_id_list = (function() {
+        var devotee_id_list_array = [];
+        $(".devotee_id_list:checkbox:checked").each(function() {
+          devotee_id_list_array.push(this.value);
+        });
+        return devotee_id_list_array;
+      })();
+
+      if(devotee_id_list == ""){
+        var errorMsgs = "Please select the devotee in the history table";
+
+        $('html,body').animate({ scrollTop: 0 }, 'slow');
+        
+        $(".validation-error").addClass("bg-danger alert alert-error");
+        $(".validation-error").html(errorMsgs);
+
+      }
+
+      else{
+
+        var formData = {
+          _token: $('meta[name="csrf-token"]').attr('content'),
+          devotee_id_list: devotee_id_list
+        };
+
+        $.ajax({
+          type: 'POST',
+          url: "/fahui/insert-relative-and-friends-from-history",
+          data: formData,
+          dataType: 'json',
+          success: function(response)
+          {
+            if (response.error != '')
+            {
+              var errorMsgs = '';
+
+              errorMsgs = response.error + "<br/>";
+
+              $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+              $(".validation-error").addClass("bg-danger alert alert-error")
+              $(".validation-error").html(errorMsgs);
+
+              return false;
+            }
+
+            else
+            {
+              $(".validation-error").removeClass("bg-danger alert alert-error")
+              $(".validation-error").empty();
+
+              $('html,body').animate({ scrollTop: 0 }, 'slow');
+              $(".validation-error").addClass("bg-success alert alert-error")
+              $(".validation-error").html("New relative and friend has been inserted");
+
+              setTimeout(function(){ window.location.reload(true); }, 0);
+            }
+
+          },
+          error: function (response) {
+            console.log(response);
+          }
+
+        });
+
+      }
+
+
+    });
+
 
 });

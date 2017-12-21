@@ -580,7 +580,13 @@
         <tbody>
           @foreach($transactions as $transaction)
           <tr>
-            <td>{{ $transaction->receipt }}</td>
+            <td>
+              @if($transaction->status == 'cancelled')
+              <span style="color:red;">{{ $transaction->receipt }}</span>
+              @elseif($transaction->status == NULL)
+              {{ $transaction->receipt }}
+              @endif
+            </td>
             <td>{{ $transaction->trans_at }}</td>
             <td>{{ $transaction->trans_no }}</td>
             <td>{{ $transaction->description }}</td>

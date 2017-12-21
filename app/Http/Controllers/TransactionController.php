@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Session;
 use Auth;
+use Hash;
 use Carbon\Carbon;
 use App\Models\Trn;
 use App\Models\Rct;
@@ -24,7 +25,7 @@ class TransactionController extends Controller
       $param['transaction']['paid_by'] = Devotee::getChineseName(session()->get('focus_devotee')[0]['devotee_id']);
       $param['transaction']['staff_id'] = Auth::user()->id;
       $param['transaction']['attended_by'] = User::getUserName(Auth::user()->id);
-      $param['transaction']['receipt'] = null;
+      $param['transaction']['receipt'] = NULL;
       $param['transaction']['mode_payment'] = $request['mode_payment'];
       $param['transaction']['trans_no'] = Trn::generateTransactionNo();
       $param['transaction']['nets_no'] = $request['nets_no'];
@@ -33,6 +34,9 @@ class TransactionController extends Controller
       $param['transaction']['total_amount'] = $request['total_amount'];
       $param['transaction']['receipt_printing_type'] = $request['receipt_printing_type'];
       $param['transaction']['receipt_at'] = $request['receipt_at'];
+      $param['transaction']['status'] = NULL;
+      $param['transaction']['cancelled_by'] = NULL;
+      $param['transaction']['cancelled_date'] = NULL;
       $param['transaction']['trans_at'] = Carbon::now();
 
       $param['receipt']['trn_id'] = Trn::create($param['transaction'])->trn_id;
@@ -53,7 +57,7 @@ class TransactionController extends Controller
       Module::isXiaoZai($request['mod_id']) ? $param['var']['type_chinese_name_list'] = $request['type_chinese_name_list'] : false ;
       ReceiptController::createReceipt($param);
 
-      //Trn::updateReceiptNoOfTransaction($param['receipt']['trn_id']);
+      Trn::updateReceiptNoOfTransaction($param['receipt']['trn_id']);
 
       $view = Trn::printReceipt($param['receipt']['trn_id'],$param['transaction']['receipt_printing_type']);
       return $view;
@@ -115,7 +119,38 @@ class TransactionController extends Controller
     }
 
     public static function cancelTransaction(Request $request){
+      $authorized_password = $request['authorized_password'];
+      $transaction_no = $request['transaction_no'];
+      $devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+      $mod_id = $request['mod_id'] ;
+      $user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
 
+      if(Hash::check($authorized_password,$hashedPassword))
+      {
+        Trn::where('trans_no',$transaction_no)
+           ->update([
+           'status' => 'cancelled' ,
+           'cancelled_date' => Carbon::now() ,
+           'cancelled_by' =>  Auth::user()->id
+           ]);
+
+        Trn::getTrn($devotee_id,$mod_id);
+
+        $request->session()->flash('success', 'The transaction is successfully cancelled.');
+
+        return redirect()->back()->with([
+
+        ]);
+      }
+
+      else{
+        $request->session()->flash("error", "Password don't match. Please Try Again");
+
+        return redirect()->back()->with([
+
+        ]);
+      }
     }
 
 
