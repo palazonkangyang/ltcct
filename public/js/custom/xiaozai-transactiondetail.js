@@ -16,8 +16,8 @@ $(function() {
     var focusdevotee_id = $("#focusdevotee_id").val();
 
     $("#amount").removeClass('text-danger');
-    $("#cancel-kongdan-replace-btn").attr('disabled', false);
-    $("#cancel-kongdan-transaction").attr('disabled', false);
+    $("#cancel-xiaozai-replace-btn").attr('disabled', false);
+    $("#cancel-xiaozai-transaction").attr('disabled', false);
     $("#authorized_password").attr('disabled', false);
     $("#transaction-text").text('');
     $(".mt-radio").attr('disabled', false);
@@ -183,18 +183,15 @@ $(function() {
           $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
         }
 
-        if(response.cancellation[0]['cancelled_date'] != null)
+        if(response.transaction.cancelled_date != null)
         {
           $("#transaction-text").text('');
 
           $("#amount").addClass('text-danger');
-          $("#cancel-kongdan-replace-btn").attr('disabled', true);
-          $("#cancel-kongdan-transaction").attr('disabled', true);
+          $("#cancel-xiaozai-replace-btn").attr('disabled', true);
+          $("#cancel-xiaozai-transaction").attr('disabled', true);
           $("#authorized_password").attr('disabled', true);
-          $("#transaction-text").append('This Transaction has been cancelled by ' +
-            response.cancellation[0]['cancelled_date']  + ' by ' + response.cancellation[0]['first_name'] + ' ' + response.cancellation[0]['last_name']
-            + '. No Printing is allowed!!');
-
+          $("#transaction-text").append('This Transaction has been cancelled on ' + response.transaction.cancelled_date  + ' by ' + response.transaction.full_name + '. No Printing is allowed!!');
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
           $("#refund").text('(Refunded/ Returned)');
@@ -204,8 +201,8 @@ $(function() {
           $("#transaction-text").text('');
 
           $("#amount").removeClass('text-danger');
-          $("#cancel-kongdan-replace-btn").attr('disabled', true);
-          $("#cancel-kongdan-transaction").attr('disabled', true);
+          $("#cancel-xiaozai-replace-btn").attr('disabled', true);
+          $("#cancel-xiaozai-transaction").attr('disabled', true);
           $("#authorized_password").attr('disabled', true);
           $("#transaction-text").text('');
 
@@ -325,7 +322,7 @@ $(function() {
 
         var user_id = $("#user_id").val();
 
-        if(response.cancellation[0]['cancelled_date'] != null)
+        if(response.transaction.cancelled_date != null)
         {
           $("#transaction-text").text('');
 
@@ -333,10 +330,7 @@ $(function() {
           $("#cancel-xiaozai-replace-btn").attr('disabled', true);
           $("#cancel-xiaozai-transaction").attr('disabled', true);
           $("#authorized_password").attr('disabled', true);
-          $("#transaction-text").append('This Transaction has been cancelled by ' +
-            response.cancellation[0]['cancelled_date']  + ' by ' + response.cancellation[0]['first_name'] + ' ' + response.cancellation[0]['last_name']
-            + '. No Printing is allowed!!');
-
+          $("#transaction-text").append('This Transaction has been cancelled on ' + response.transaction.cancelled_date  + ' by ' + response.transaction.full_name + '. No Printing is allowed!!');
           $(".mt-radio").attr('disabled', true);
           $("#reprint-btn").attr('disabled', true);
           $("#refund").text('(Refunded/ Returned)');
@@ -441,7 +435,7 @@ $(function() {
     var errors = new Array();
     var validationFailed = false;
 
-    var receipt_no = $("#receipt_no").val();
+    // var receipt_no = $("#receipt_no").val();
     var trans_no = $("#trans_no").val();
     var amount = $("#amount").text();
     var authorized_password = $("#authorized_password").val();
@@ -485,142 +479,188 @@ $(function() {
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
-      receipt_no: receipt_no,
-      trans_no: trans_no,
-      authorized_password: authorized_password
+      //receipt_no: receipt_no,
+      authorized_password: authorized_password,
+      mod_id: 5,
+      trans_no: trans_no
     };
 
     $('#xiaozai-form')[0].reset();
 
     $.ajax({
       type: 'POST',
-      url: "/fahui/xiaozai-cancel-replace-transaction",
+      url: "/fahui/cancel-and-replace-transaction",
       data: formData,
       dataType: 'json',
       success: function(response)
       {
-        total_devotee = response.total_devotee;
-
-        //alert(JSON.stringify(response.receipt));
-
-        $("#xiaozai_trans_wrap1").hide();
-    		$("#xiaozai_trans_wrap2").hide();
-    		$("#xiaozai_trans_wrap3").hide();
-    		$("#xiaozai_trans_wrap4").hide();
-    		$("#xiaozai_trans_wrap5").hide();
-    		$("#xiaozai_trans_wrap6").hide();
-    		$("#xiaozai_trans_wrap7").hide();
-    		$("#xiaozai_trans_wrap8").hide();
-
-        $('#transaction-table tbody').empty();
-        $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
-
-        $("#receipt_date").text('');
-        $("#paid_by").text('');
-        $("#donation_event").text('');
-        $("#receipt").text('');
-        $("#transaction_no").text('');
-        $("#description").text('');
-        $("#attended_by").text('');
-        $("#payment_mode").text('');
-        $("#amount").text('');
-
-        $('.nav-tabs li:eq(0) a').tab('show');
-
-        $.each(response.receipt, function(index, data) {
-
-          $("#xiaozai_table tbody tr").each(function() {
-            var devotee = $(this).find("#devotee").text();
-            var type = $(this).find("input[name='type[]']").val();
-
-            if(devotee == data.devotee_id && type == data.type)
-            {
-              $(this).find('.amount').attr('checked', true);
-            }
-          });
-
-          $("#xiaozai_table2 tbody tr").each(function() {
-            var devotee = $(this).find("#devotee").text();
-            var type = $(this).find("input[name='type[]']").val();
-
-            if(devotee == data.devotee_id && type == data.type)
-            {
-              $(this).find('.amount').attr('checked', true);
-            }
-          });
-        });
-
-        var address_sum = 0;
-        var individual_office_sum = 0;
-        var company_sum = 0;
-        var vehicle_sum = 0;
-        var total = 0;
-
-        $("input[name='xiaozai_amount[]']").each( function () {
-
-          if( $(this).is(":checked") == true ) {
-            $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',true);
-            $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',true);
-            $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',true);
-            $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',true);
-          }
-
-          else {
-            $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',false);
-            $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',false);
-            $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',false);
-            $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',false);
-          }
-        });
-
-        var address_length = $("input[name='address_total_type[]']:checked").length;
-        var individual_office_length = $("input[name='individual_office_total_type[]']:checked").length;
-        var company_length = $("input[name='company_total_type[]']:checked").length;
-        var vehicle_length = $("input[name='vehicle_total_type[]']:checked").length;
-
-        $(".address_total").html(address_length);
-        $(".individual_office_total").html(individual_office_length);
-        $(".company_total").html(company_length);
-        $(".vehicle_total").html(vehicle_length);
-
-        address_sum += address_length * 30;
-        individual_office_sum += individual_office_length * 20;
-        company_sum += company_length * 100;
-        vehicle_sum += vehicle_length * 30;
-
-        $(".address_total_amount").html(address_sum);
-        $(".individual_office_total_amount").html(individual_office_sum);
-        $(".company_total_amount").html(company_sum);
-        $(".vehicle_total_amount").html(vehicle_sum);
-
-        total = address_sum + individual_office_sum + company_sum + vehicle_sum;
-
-        $(".total_payable").html(total);
-        $("#total_amount").val(total);
-
-        $("#authorized_password").val('');
-        $("#trans_no").val('');
-
-        $("#transaction_wrap").show();
-
-        if(trans_no != "")
-        {
-          $("#trans_info").html("<span style='font-weight: bold'>" + trans_no + "</span>" + " <span class='text-danger'>is about to Cancel & Replace.</span>");
-        }
-
-        if(response.error == "not match")
+        if(response.error != "")
         {
           $('html,body').animate({ scrollTop: 0 }, 'slow');
 
           $(".validation-error").addClass("bg-danger alert alert-error")
-          $(".validation-error").html("Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes.");
+          $(".validation-error").html(response.error);
         }
 
-        else
-        {
-          $(".validation-error").removeClass("bg-danger alert alert-error")
-          $(".validation-error").empty();
+        else{
+          total_devotee = response.total_devotee;
+
+          //alert(JSON.stringify(response.receipt));
+
+          $("#xiaozai_trans_wrap1").hide();
+      		$("#xiaozai_trans_wrap2").hide();
+      		$("#xiaozai_trans_wrap3").hide();
+      		$("#xiaozai_trans_wrap4").hide();
+      		$("#xiaozai_trans_wrap5").hide();
+      		$("#xiaozai_trans_wrap6").hide();
+      		$("#xiaozai_trans_wrap7").hide();
+      		$("#xiaozai_trans_wrap8").hide();
+
+          $('#transaction-table tbody').empty();
+          $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
+
+          $("#receipt_date").text('');
+          $("#paid_by").text('');
+          $("#donation_event").text('');
+          $("#receipt").text('');
+          $("#transaction_no").text('');
+          $("#description").text('');
+          $("#attended_by").text('');
+          $("#payment_mode").text('');
+          $("#amount").text('');
+
+          $('.nav-tabs li:eq(0) a').tab('show');
+
+          $("#xiaozai_table tbody tr").remove();
+          $("#xiaozai_table2 tbody tr").remove();
+
+          $.each(response.receipt, function(index, data) {
+            var td_is_checked       = '<td><input type="checkbox" class="amount checkbox-multi-select-module-xiaozai-tab-xiaozai-section-sfc" name="xiaozai_amount[]" value="1"></td>';
+            var td_chinese_name     = "<td>"+ data.devotee_chinese_name +"</td>";
+            var td_devotee_id       = "<td>"+ data.devotee_id +"</td>";
+            var td_register_by      = "<td></td>";
+            var td_gy               = "<td></td>";
+            var td_ops              = "<td></td>";
+            var td_type             = "<td></td>";
+            var td_item_description = "<td>"+ data.item_description +"</td>";
+            var td_xz_receipt       = "<td>"+ data.receipt_no +"</td>";
+            var td_paid_by          = "<td>"+ response.transaction.paid_by +"</td>";
+            var td_trans_date       = "<td>"+ response.transaction.trans_at +"</td>";
+
+            $('#xiaozai_table tbody').append("" +
+            "<tr>" +
+            td_is_checked +
+            td_chinese_name +
+            td_devotee_id +
+            td_register_by +
+            td_gy +
+            td_ops +
+            td_type +
+            td_item_description +
+            td_xz_receipt +
+            td_paid_by +
+            td_trans_date +
+            "</tr>");
+            $("#xiaozai_table tbody tr").each(function() {
+              var devotee = $(this).find("#devotee").text();
+              var type = $(this).find("input[name='type[]']").val();
+
+              if(devotee == data.devotee_id && type == data.type)
+              {
+                $(this).find('.amount').attr('checked', true);
+              }
+            });
+
+            $("#xiaozai_table2 tbody tr").each(function() {
+              var devotee = $(this).find("#devotee").text();
+              var type = $(this).find("input[name='type[]']").val();
+
+              if(devotee == data.devotee_id && type == data.type)
+              {
+                $(this).find('.amount').attr('checked', true);
+              }
+            });
+          });
+
+          var address_sum = 0;
+          var individual_office_sum = 0;
+          var company_sum = 0;
+          var vehicle_sum = 0;
+          var total = 0;
+
+          $("input[name='xiaozai_amount[]']").each( function () {
+
+            if( $(this).is(":checked") == true ) {
+              $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',true);
+              $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',true);
+              $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',true);
+              $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',true);
+            }
+
+            else {
+              $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',false);
+              $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',false);
+              $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',false);
+              $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',false);
+            }
+          });
+
+          var address_length = $("input[name='address_total_type[]']:checked").length;
+          var individual_office_length = $("input[name='individual_office_total_type[]']:checked").length;
+          var company_length = $("input[name='company_total_type[]']:checked").length;
+          var vehicle_length = $("input[name='vehicle_total_type[]']:checked").length;
+
+          $(".address_total").html(address_length);
+          $(".individual_office_total").html(individual_office_length);
+          $(".company_total").html(company_length);
+          $(".vehicle_total").html(vehicle_length);
+
+          address_sum += address_length * 30;
+          individual_office_sum += individual_office_length * 20;
+          company_sum += company_length * 100;
+          vehicle_sum += vehicle_length * 30;
+
+          $(".address_total_amount").html(address_sum);
+          $(".individual_office_total_amount").html(individual_office_sum);
+          $(".company_total_amount").html(company_sum);
+          $(".vehicle_total_amount").html(vehicle_sum);
+
+          total = address_sum + individual_office_sum + company_sum + vehicle_sum;
+
+          $(".total_payable").html(total);
+          $("#total_amount").val(total);
+
+          $("#authorized_password").val('');
+          $("#trans_no").val('');
+
+          $("#transaction_wrap").show();
+
+          if(trans_no != "")
+          {
+            $("#trans_info").html("<span style='font-weight: bold'>" + trans_no + "</span>" + " <span class='text-danger'>is about to Cancel & Replace.</span>");
+          }
+
+          if(response.error == "not match")
+          {
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+            $(".validation-error").addClass("bg-danger alert alert-error")
+            $(".validation-error").html("Unauthorised user access! Change will not be saved! Please re-enter authorised user access to save changes.");
+          }
+
+          else
+          {
+            $(".validation-error").removeClass("bg-danger alert alert-error")
+            $(".validation-error").empty();
+          }
+
+
+
+
+
+
         }
+
       },
       error: function (response) {
         console.log(response);

@@ -61,6 +61,7 @@ class Trn extends Model
     $trn_id_list = Rct::where('devotee_id',$devotee_id)
                       ->where('mod_id',$mod_id)
                       ->groupBy('trn_id')
+                      ->orderBy('trn_id','desc')
                       ->pluck('trn_id');
 
     foreach($trn_id_list as $trn_id){

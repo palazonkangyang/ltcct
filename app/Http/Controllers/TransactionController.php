@@ -70,7 +70,7 @@ class TransactionController extends Controller
 
       if($trans_no != null){
         $transaction = Trn::where('trans_no',$trans_no)
-                           ->first();
+                          ->first();
       }
 
       elseif($receipt_no != null){
@@ -80,6 +80,8 @@ class TransactionController extends Controller
         $transaction = Trn::where('trn_id',$trn_id)
                            ->first();
       }
+
+      $transaction['full_name'] = User::getUserName($transaction['cancelled_by']);
 
       $next_event = FestiveEvent::getNextEvent();
 
@@ -153,6 +155,118 @@ class TransactionController extends Controller
       }
     }
 
+    public function cancelAndReplaceTransaction(Request $request)
+    {
+      $authorized_password = $request['authorized_password'];
+      $mod_id = $request['mod_id'];
+      $trans_no = $request['trans_no'];
+      $user = User::find(Auth::user()->id);
+      $hashedPassword = $user->password;
 
+      if (Hash::check($authorized_password, $hashedPassword)){
+        $transaction = Trn::where('trans_no',$trans_no)->first();
+        $receipt = Rct::where('trn_id',$transaction['trn_id'])->get();
+        return response()->json(array(
+          "transaction" => $transaction,
+          "receipt" => $receipt,
+          "error" => ""
+        ));
+
+      }
+
+      else{
+        return response()->json(array(
+          "error" => "Password don't match. Please Try Again"
+        ));
+      }
+
+
+
+
+      // $focus_devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+      // $input = array_except($request->all(), '_token');
+  		// $focusdevotee_id = "";
+      //
+      // if(isset($input['authorized_password']))
+  		// {
+  		// 	$user = User::find(Auth::user()->id);
+      //   $hashedPassword = $user->password;
+      //
+  		// 	if (Hash::check($input['authorized_password'], $hashedPassword))
+  		// 	{
+  		// 		if(!empty($input['receipt_no']))
+  		// 		{
+  		// 			$receipt = XiaozaiReceipt::where('receipt_no', $input['receipt_no'])->get();
+  		// 			$result = XiaozaiReceipt::find($receipt[0]['receipt_id']);
+      //
+  		// 			$generaldonation = XiaozaiGeneraldonation::where('generaldonation_id', $receipt[0]['generaldonation_id'])->get();
+      //
+  		// 			$focusdevotee_id = $generaldonation[0]->focusdevotee_id;
+      //
+  		// 			$result->cancelled_date = Carbon::now();
+  		// 			$result->status = "cancelled";
+  		// 			$result->cancelled_by = Auth::user()->id;
+      //
+  		// 			$cancellation = $result->save();
+  		// 		}
+      //
+  		// 		if(!empty($input['trans_no']))
+  		// 		{
+  		// 			$generaldonation = XiaozaiGeneraldonation::where('trans_no', $input['trans_no'])->get();
+      //
+  		// 			$focusdevotee_id = $generaldonation[0]->focusdevotee_id;
+      //
+  		// 			$receipt = XiaozaiReceipt::where('generaldonation_id', $generaldonation[0]->generaldonation_id)->get();
+      //       $total_devotee = count($receipt);
+      //
+  		// 			for($i = 0; $i < count($receipt); $i++)
+  		// 			{
+  		// 				$result = XiaozaiReceipt::find($receipt[$i]['receipt_id']);
+      //
+  		// 				$result->cancelled_date = Carbon::now();
+  		// 				$result->status = "cancelled";
+  		// 				$result->cancelled_by = Auth::user()->id;
+      //
+  		// 				$cancellation = $result->save();
+  		// 			}
+  		// 		}
+      //
+  		// 		$focus_devotee = Session::get('focus_devotee');
+      //
+  		// 		$xiaozai_receipts = XiaozaiGeneraldonation::leftjoin('devotee', 'devotee.devotee_id', '=', 'xiaozai_generaldonation.focusdevotee_id')
+      //     				            ->leftjoin('xiaozai_receipt', 'xiaozai_receipt.generaldonation_id', '=', 'xiaozai_generaldonation.generaldonation_id')
+      //     				            ->where('xiaozai_generaldonation.focusdevotee_id', '=', $focus_devotee[0]->devotee_id)
+      //     				            ->where('xiaozai_receipt.glcode_id', 117)
+      //     				            ->GroupBy('xiaozai_generaldonation.generaldonation_id')
+      //     				            ->select('xiaozai_generaldonation.*', 'devotee.chinese_name', 'xiaozai_receipt.cancelled_date')
+      //     				            ->orderBy('xiaozai_generaldonation.generaldonation_id', 'desc')
+      //     				            ->get();
+      //
+  		// 		if(count($xiaozai_receipts) > 0)
+  		// 		{
+  		// 		  for($i = 0; $i < count($xiaozai_receipts); $i++)
+  		// 		  {
+  		// 		    $data = XiaozaiReceipt::where('generaldonation_id', $xiaozai_receipts[$i]->generaldonation_id)->pluck('receipt_no');
+  		// 		    $receipt_count = count($data);
+  		// 		    $xiaozai_receipts[$i]->receipt_no = $data[0] . ' - ' . $data[$receipt_count - 1];
+  		// 		  }
+  		// 		}
+      //
+  		// 		Session::put('xiaozai_receipts', $xiaozai_receipts);
+      //
+  		// 		return response()->json(array(
+  		// 		  'receipt' => $receipt,
+      //       'total_devotee' => $total_devotee
+  		// 		));
+  		// 	}
+      //
+  		// 	else
+  		// 	{
+  		// 		return response()->json(array(
+  		// 			'error' => 'not match'
+  		// 		));
+  		// 	}
+  		// }
+    }
 
 }
