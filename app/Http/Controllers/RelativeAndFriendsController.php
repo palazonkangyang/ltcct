@@ -216,7 +216,7 @@ class RelativeAndFriendsController extends Controller
       $param['var']['devotee_id'] = $devotee_id;
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['var']['is_checked'] = false;
-      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
+      //$param['var']['year'] = DateController::getLastYearFormatYYYY();
 
       RelativeAndFriendsController::createRafForAllModule($param);
       RelativeAndFriendsController::getRafForAllModule();
@@ -231,7 +231,7 @@ class RelativeAndFriendsController extends Controller
     $param['mod_list'] = Module::getReleasedFaHuiModuleList();
     foreach($param['mod_list'] as $index=> $mod){
       $param['var']['mod_id'] = $mod['mod_id'];
-      $param = RelativeAndFriendsController::deleteExistingAndCreateRaf($param);
+      $param = RelativeAndFriendsController::createRaf($param);
       $param = RelativeAndFriendsController::createRafChildren($param);
     }
     return $param;
@@ -249,104 +249,104 @@ class RelativeAndFriendsController extends Controller
     return $param;
   }
 
-  public static function deleteExistingAndCreateRaf($param){
-    $list['devotee_id'] = $param['var']['devotee_id'];
-    $list['focusdevotee_id'] = $param['var']['focusdevotee_id'];
-    $list['mod_id'] = $param['var']['mod_id'];
-    $list['is_checked'] = $param['var']['is_checked'];
-    $list['year'] = $param['var']['year'];
-    $exist_raf_list = Raf::where('devotee_id','=',$list['devotee_id'])
-                     ->where('focusdevotee_id','=',$list['focusdevotee_id'])
-                     ->where('mod_id','=',$list['mod_id'])
-                     ->where('mod_id','=',$list['year'])
-                     ->get();
-
-    // delete existing records in children table
-    foreach($exist_raf_list as $index=>$exist_raf){
-      switch ($param['var']['mod_id']) {
-      // Xiang You
-      case 1:
-
-        break;
-
-      // Ci Ji
-      case 2:
-
-        break;
-
-      // Yue Juan
-      case 3:
-
-        break;
-
-      // Zhu Xue Jin
-      case 4:
-
-        break;
-
-      // Xiao Zai Da Fa Hui
-      case 5:
-        RafXiaoZai::where('raf_id','=',$exist_raf['raf_id'])
-               ->delete();
-        break;
-
-      // Qian Fo Fa Hui
-      case 6:
-
-        break;
-
-      // Da Bei Fa Hui
-      case 7:
-
-        break;
-
-      // Yao Shi Fa Hui
-      case 8:
-
-        break;
-
-      // Qi Fu Fa Hui
-      case 9:
-        RafQiFu::where('raf_id','=',$exist_raf['raf_id'])
-               ->delete();
-        break;
-
-      // Kong Dan
-      case 10:
-        RafKongDan::where('raf_id','=',$exist_raf['raf_id'])
-                  ->delete();
-        break;
-
-      // Pu Du
-      case 11:
-
-        break;
-
-      // Chao Du
-      case 12:
-
-        break;
-
-      // Shou Sheng Ku Qian
-      case 13:
-
-        break;
-
-      default:
-
-      }
-
-      // delete record in Raf
-      Raf::where('raf_id','=',$exist_raf['raf_id'])
-         ->delete();
-    }
-
-    $list['raf_id'] = Raf::create($list)->raf_id;
-    $param['var']['raf_id'] = $list['raf_id'];
-    $param['raf_list']->push($list);
-
-    return $param;
-  }
+  // public static function deleteExistingAndCreateRaf($param){
+  //   $list['devotee_id'] = $param['var']['devotee_id'];
+  //   $list['focusdevotee_id'] = $param['var']['focusdevotee_id'];
+  //   $list['mod_id'] = $param['var']['mod_id'];
+  //   $list['is_checked'] = $param['var']['is_checked'];
+  //   $list['year'] = $param['var']['year'];
+  //   $exist_raf_list = Raf::where('devotee_id','=',$list['devotee_id'])
+  //                    ->where('focusdevotee_id','=',$list['focusdevotee_id'])
+  //                    ->where('mod_id','=',$list['mod_id'])
+  //                    ->where('mod_id','=',$list['year'])
+  //                    ->get();
+  //
+  //   // delete existing records in children table
+  //   foreach($exist_raf_list as $index=>$exist_raf){
+  //     switch ($param['var']['mod_id']) {
+  //     // Xiang You
+  //     case 1:
+  //
+  //       break;
+  //
+  //     // Ci Ji
+  //     case 2:
+  //
+  //       break;
+  //
+  //     // Yue Juan
+  //     case 3:
+  //
+  //       break;
+  //
+  //     // Zhu Xue Jin
+  //     case 4:
+  //
+  //       break;
+  //
+  //     // Xiao Zai Da Fa Hui
+  //     case 5:
+  //       RafXiaoZai::where('raf_id','=',$exist_raf['raf_id'])
+  //              ->delete();
+  //       break;
+  //
+  //     // Qian Fo Fa Hui
+  //     case 6:
+  //
+  //       break;
+  //
+  //     // Da Bei Fa Hui
+  //     case 7:
+  //
+  //       break;
+  //
+  //     // Yao Shi Fa Hui
+  //     case 8:
+  //
+  //       break;
+  //
+  //     // Qi Fu Fa Hui
+  //     case 9:
+  //       RafQiFu::where('raf_id','=',$exist_raf['raf_id'])
+  //              ->delete();
+  //       break;
+  //
+  //     // Kong Dan
+  //     case 10:
+  //       RafKongDan::where('raf_id','=',$exist_raf['raf_id'])
+  //                 ->delete();
+  //       break;
+  //
+  //     // Pu Du
+  //     case 11:
+  //
+  //       break;
+  //
+  //     // Chao Du
+  //     case 12:
+  //
+  //       break;
+  //
+  //     // Shou Sheng Ku Qian
+  //     case 13:
+  //
+  //       break;
+  //
+  //     default:
+  //
+  //     }
+  //
+  //     // delete record in Raf
+  //     Raf::where('raf_id','=',$exist_raf['raf_id'])
+  //        ->delete();
+  //   }
+  //
+  //   $list['raf_id'] = Raf::create($list)->raf_id;
+  //   $param['var']['raf_id'] = $list['raf_id'];
+  //   $param['raf_list']->push($list);
+  //
+  //   return $param;
+  // }
 
   public static function createRafChildren($param){
     $list['raf_id'] = $param['var']['raf_id'];
@@ -442,7 +442,6 @@ class RelativeAndFriendsController extends Controller
                    ->leftjoin('member','member.member_id','=','devotee.member_id')
                    ->where('raf.focusdevotee_id',$param['var']['focusdevotee_id'])
                    ->where('raf.mod_id',$param['var']['mod_id'])
-                   ->where('raf.year',DateController::getCurrentYearFormatYYYY())
                    ->get();
 
     switch ($param['var']['mod_id']) {
@@ -593,20 +592,22 @@ class RelativeAndFriendsController extends Controller
     if(Session::has('relative_and_friends_history')) { Session::forget('relative_and_friends_history'); }
     $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $mod_list = Module::getReleasedFaHuiModuleList();
-    $current_year = DateController::getCurrentYearFormatYYYY();
+    //$last_year = DateController::getLastYearFormatYYYY();
     foreach($mod_list as $index=> $mod){
       $mod_id = $mod['mod_id'];
-      RelativeAndFriendsController::getRafHistory($focusdevotee_id,$mod_id,$current_year);
+      RelativeAndFriendsController::getRafHistory($focusdevotee_id,$mod_id);
     }
   }
 
-  public static function getRafHistory($focusdevotee_id,$mod_id,$current_year){
+  public static function getRafHistory($focusdevotee_id,$mod_id){
+    // $transaction_list = Trn::where('focusdevotee_id',$focusdevotee_id);
+                           // ->where('trans_at',);
+
     $raf_list = Raf::leftjoin('devotee','devotee.devotee_id','=','raf.devotee_id')
                    ->leftjoin('familycode','familycode.familycode_id','=','devotee.familycode_id')
                    ->leftjoin('member','member.member_id','=','devotee.member_id')
                    ->where('raf.focusdevotee_id',$focusdevotee_id)
                    ->where('raf.mod_id',$mod_id)
-                   ->where('raf.year','!=',$current_year)
                    ->get();
 
     switch ($mod_id) {
@@ -739,7 +740,7 @@ class RelativeAndFriendsController extends Controller
 
     $raf_list = Raf::where('devotee_id', $devotee_id)
                    ->where('focusdevotee_id', $focusdevotee_id)
-                   ->where('year', DateController::getCurrentYearFormatYYYY())
+                   //->where('year', DateController::getCurrentYearFormatYYYY())
                    ->select('raf_id','mod_id')
                    ->get();
 

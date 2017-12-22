@@ -234,7 +234,7 @@ class SameFamilyCodeController extends Controller
                      ->leftjoin('member','member.member_id','=','devotee.member_id')
                      ->where('sfc.focusdevotee_id',$param['var']['focusdevotee_id'])
                      ->where('sfc.mod_id',$param['var']['mod_id'])
-                     ->where('sfc.year',DateController::getCurrentYearFormatYYYY())
+                     //->where('sfc.year',DateController::getCurrentYearFormatYYYY())
                      ->get();
 
       switch ($param['var']['mod_id']) {

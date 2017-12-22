@@ -13,11 +13,15 @@ use App\Models\Module;
 use App\Models\Devotee;
 use App\Models\FestiveEvent;
 use App\Models\User;
+use App\Models\RctXiaoZai;
 
 class TransactionController extends Controller
 {
     public function createTransaction(Request $request){
+      // dd($request);
       // dd(session()->get('relative_and_friends'));
+      $trans_no_to_cancel = $request['trans_no_to_cancel'];
+
       $param['transaction']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['transaction']['festiveevent_id'] = $request['festiveevent_id'];
       $param['transaction']['mod_id'] = $request['mod_id'];
@@ -50,6 +54,8 @@ class TransactionController extends Controller
       $param['receipt']['cancelled_by'] = null;
       $param['receipt']['cancelled_date'] = null;
       $param['receipt']['trans_date'] = Carbon::now();
+
+      $trans_no_to_cancel != "" ? TransactionController::cancelTransactionByTransNo($trans_no_to_cancel,$request['mod_id']) : false;
 
       Module::isXiangYou($request['mod_id']) ? $param['receipt']['hjgr'] = $request['hjgr'] : false ;
       Module::isCiJi($request['mod_id']) ? $param['receipt']['hjgr'] = $request['hjgr'] : false ;
@@ -120,6 +126,18 @@ class TransactionController extends Controller
       return $view;
     }
 
+    public static function cancelTransactionByTransNo($trans_no,$mod_id){
+      $devotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+
+      Trn::where('trans_no',$trans_no)
+         ->update([
+         'status' => 'cancelled' ,
+         'cancelled_date' => Carbon::now() ,
+         'cancelled_by' =>  Auth::user()->id
+         ]);
+      Trn::getTrn($devotee_id,$mod_id);
+    }
+
     public static function cancelTransaction(Request $request){
       $authorized_password = $request['authorized_password'];
       $transaction_no = $request['transaction_no'];
@@ -166,6 +184,13 @@ class TransactionController extends Controller
       if (Hash::check($authorized_password, $hashedPassword)){
         $transaction = Trn::where('trans_no',$trans_no)->first();
         $receipt = Rct::where('trn_id',$transaction['trn_id'])->get();
+        if(Module::isXiaoZai($mod_id)){
+          foreach($receipt as $rct){
+            $rct['type'] = RctXiaoZai::getType($rct['rct_id']);
+            $rct['type_chinese_name'] = RctXiaoZai::getTypeChineseName($rct['rct_id']);
+          }
+        }
+
         return response()->json(array(
           "transaction" => $transaction,
           "receipt" => $receipt,

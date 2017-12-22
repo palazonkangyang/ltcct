@@ -57,12 +57,18 @@ class Trn extends Model
     $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
 
     $transactions = collect(new Trn);
+    //focus devotee
+    $trn_id_list_as_payee = Trn::where('focusdevotee_id',$devotee_id)
+                               ->orderBy('trn_id','desc')
+                               ->pluck('trn_id');
 
-    $trn_id_list = Rct::where('devotee_id',$devotee_id)
+    //non focus devotee
+    $trn_id_list_as_non_payee = Rct::where('devotee_id',$devotee_id)
                       ->where('mod_id',$mod_id)
                       ->groupBy('trn_id')
                       ->orderBy('trn_id','desc')
                       ->pluck('trn_id');
+    $trn_id_list = $trn_id_list_as_payee->merge($trn_id_list_as_non_payee)->unique();
 
     foreach($trn_id_list as $trn_id){
 
@@ -114,7 +120,7 @@ class Trn extends Model
     //                   ->where('mod_id',$mod_id)
     //                   ->orderBy('trn_id','desc')
     //                   ->get();
-
+    // dd($transactions);
     if(Module::isXiaoZai($mod_id)){
       Session::has('transaction.xiaozai') ? Session::forget('transaction.xiaozai') : false;
       Session::put('transaction.xiaozai',$transactions);

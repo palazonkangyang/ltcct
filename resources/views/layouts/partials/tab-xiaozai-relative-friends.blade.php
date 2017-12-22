@@ -259,8 +259,7 @@
 
       @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
-        Past Year Records
-        <!--<span class="setting-history">XZ-{{$this_year - 1}}-FC{{ $focus_devotee[0]->devotee_id }}</span>-->
+        <span class="setting-history">XZ-{{ $this_year - 1 }}-FC{{ $focus_devotee[0]->devotee_id }}</span>
       </h5>
       @endif
 
@@ -268,7 +267,6 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Year</th>
             <th>Chinese Name</th>
             <th>Devotee#</th>
             <th>RegisterBy</th>
@@ -283,42 +281,53 @@
         </thead>
 
         <tbody id="has_session">
-          @foreach($relative_and_friends_history as $devotee)
-          <tr>
-            <td class="checkbox-col">
-              @if($devotee['type'] == 'base_home')
-              <input type="checkbox" class="devotee_id_list" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
-              @endif
+          @if(isset($relative_and_friends_history))
+            @foreach($relative_and_friends_history as $devotee)
+            <tr>
+              <td class="checkbox-col">
+                @if($devotee['type'] == 'base_home')
+                <input type="checkbox" class="devotee_id_list" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
+                @endif
 
-            </td>
-            <td>{{ $devotee->year }}</td>
-            <td>
-              @if($devotee->deceased_year != null)
-              <span class="text-danger">{{ $devotee->chinese_name }}</span>
-              @else
-              <span>{{ $devotee->chinese_name }}</span>
-              @endif
-            </td>
-            <td>
-              <input type="hidden" value="{{ $devotee->devotee_id }}" class="xiaozai-history-id">
-              @if($devotee->specialremarks_devotee_id == null)
-              <span>{{ $devotee->devotee_id }}</span>
-              @else
-              <span class="text-danger">{{ $devotee->devotee_id }}</span>
-              @endif
-            </td>
-            <td>
-              @if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
-              <span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
-              @else
-              <span>{{ $devotee->member_id }}</span>
-              @endif
-            </td>
-            <td>{{ $devotee->guiyi_name }}</td>
-            <td></td>
-            <td>{{ $devotee->ops }}</td>
-            <td>
-              @if($devotee->type == 'base_home')
+              </td>
+              <td>
+                @if($devotee->deceased_year != null)
+                <span class="text-danger">{{ $devotee->chinese_name }}</span>
+                @else
+                <span>{{ $devotee->chinese_name }}</span>
+                @endif
+              </td>
+              <td>
+                <input type="hidden" value="{{ $devotee->devotee_id }}" class="xiaozai-history-id">
+                @if($devotee->specialremarks_devotee_id == null)
+                <span>{{ $devotee->devotee_id }}</span>
+                @else
+                <span class="text-danger">{{ $devotee->devotee_id }}</span>
+                @endif
+              </td>
+              <td>
+                @if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
+                <span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
+                @else
+                <span>{{ $devotee->member_id }}</span>
+                @endif
+              </td>
+              <td>{{ $devotee->guiyi_name }}</td>
+              <td></td>
+              <td>{{ $devotee->ops }}</td>
+              <td>
+                @if($devotee->type == 'base_home')
+                  @if($devotee->hjgr == 'hj')
+                    合家
+                    {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                    {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
+                  @elseif($devotee->hjgr == 'gr')
+                    个人
+                    {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                    {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
+                  @else
+                  @endif
+                @elseif($devotee->type == 'home')
                 @if($devotee->hjgr == 'hj')
                   合家
                   {{ Form::hidden('type_chinese_name_list[]','合家')}}
@@ -329,53 +338,42 @@
                   {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
                 @else
                 @endif
-              @elseif($devotee->type == 'home')
-              @if($devotee->hjgr == 'hj')
-                合家
-                {{ Form::hidden('type_chinese_name_list[]','合家')}}
-                {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
-              @elseif($devotee->hjgr == 'gr')
+                @elseif($devotee->type == 'company')
+                公司
+                {{ Form::hidden('type_chinese_name_list[]','公司')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_company)}}
+                @elseif($devotee->type == 'stall')
+                小贩
+                {{ Form::hidden('type_chinese_name_list[]','小贩')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_stall)}}
+                @elseif($devotee->type == 'office')
                 个人
                 {{ Form::hidden('type_chinese_name_list[]','个人')}}
                 {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
-              @else
-              @endif
-              @elseif($devotee->type == 'company')
-              公司
-              {{ Form::hidden('type_chinese_name_list[]','公司')}}
-              {{ Form::hidden('amount[]',$xiaozai_price_company)}}
-              @elseif($devotee->type == 'stall')
-              小贩
-              {{ Form::hidden('type_chinese_name_list[]','小贩')}}
-              {{ Form::hidden('amount[]',$xiaozai_price_stall)}}
-              @elseif($devotee->type == 'office')
-              个人
-              {{ Form::hidden('type_chinese_name_list[]','个人')}}
-              {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
-              @elseif($devotee->type == 'car')
-              车辆
-              {{ Form::hidden('type_chinese_name_list[]','车辆')}}
-              {{ Form::hidden('amount[]',$xiaozai_price_car)}}
-              @elseif($devotee->type == 'ship')
-              船只
-              {{ Form::hidden('type_chinese_name_list[]','船只')}}
-              {{ Form::hidden('amount[]',$xiaozai_price_ship)}}
-              @else
-              {{ Form::hidden('type_chinese_name_list[]','')}}
-              {{ Form::hidden('amount[]',0)}}
-              @endif
-            </td>
-            <td>{{ $devotee->item_description }}</td>
-            <td>
-              @if(isset($devotee->lasttransaction_at))
-              {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
-              @else
-              {{ $devotee->lasttransaction_at }}
-              @endif
-            </td>
-          </tr>
-          @endforeach
-
+                @elseif($devotee->type == 'car')
+                车辆
+                {{ Form::hidden('type_chinese_name_list[]','车辆')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_car)}}
+                @elseif($devotee->type == 'ship')
+                船只
+                {{ Form::hidden('type_chinese_name_list[]','船只')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_ship)}}
+                @else
+                {{ Form::hidden('type_chinese_name_list[]','')}}
+                {{ Form::hidden('amount[]',0)}}
+                @endif
+              </td>
+              <td>{{ $devotee->item_description }}</td>
+              <td>
+                @if(isset($devotee->lasttransaction_at))
+                {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+                @else
+                {{ $devotee->lasttransaction_at }}
+                @endif
+              </td>
+            </tr>
+            @endforeach
+          @endif
         </tbody>
       </table>
 

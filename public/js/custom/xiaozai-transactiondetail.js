@@ -503,142 +503,176 @@ $(function() {
         }
 
         else{
-          total_devotee = response.total_devotee;
+          // total_devotee = response.total_devotee;
 
           //alert(JSON.stringify(response.receipt));
 
-          $("#xiaozai_trans_wrap1").hide();
-      		$("#xiaozai_trans_wrap2").hide();
-      		$("#xiaozai_trans_wrap3").hide();
-      		$("#xiaozai_trans_wrap4").hide();
-      		$("#xiaozai_trans_wrap5").hide();
-      		$("#xiaozai_trans_wrap6").hide();
-      		$("#xiaozai_trans_wrap7").hide();
-      		$("#xiaozai_trans_wrap8").hide();
+          // $("#xiaozai_trans_wrap1").hide();
+      		// $("#xiaozai_trans_wrap2").hide();
+      		// $("#xiaozai_trans_wrap3").hide();
+      		// $("#xiaozai_trans_wrap4").hide();
+      		// $("#xiaozai_trans_wrap5").hide();
+      		// $("#xiaozai_trans_wrap6").hide();
+      		// $("#xiaozai_trans_wrap7").hide();
+      		// $("#xiaozai_trans_wrap8").hide();
+          //
+          // $('#transaction-table tbody').empty();
+          // $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
 
-          $('#transaction-table tbody').empty();
-          $('#transaction-table tbody').append("<tr><td colspan='7'>No Result Found</td></tr>");
-
-          $("#receipt_date").text('');
-          $("#paid_by").text('');
-          $("#donation_event").text('');
-          $("#receipt").text('');
-          $("#transaction_no").text('');
-          $("#description").text('');
-          $("#attended_by").text('');
-          $("#payment_mode").text('');
-          $("#amount").text('');
+          // $("#receipt_date").text('');
+          // $("#paid_by").text('');
+          // $("#donation_event").text('');
+          // $("#receipt").text('');
+          // $("#transaction_no").text('');
+          // $("#description").text('');
+          // $("#attended_by").text('');
+          // $("#payment_mode").text('');
+          // $("#amount").text('');
 
           $('.nav-tabs li:eq(0) a').tab('show');
 
-          $("#xiaozai_table tbody tr").remove();
-          $("#xiaozai_table2 tbody tr").remove();
+          // $("#xiaozai_table tbody tr").remove();
+          // $("#xiaozai_table2 tbody tr").remove();
 
-          $.each(response.receipt, function(index, data) {
-            var td_is_checked       = '<td><input type="checkbox" class="amount checkbox-multi-select-module-xiaozai-tab-xiaozai-section-sfc" name="xiaozai_amount[]" value="1"></td>';
-            var td_chinese_name     = "<td>"+ data.devotee_chinese_name +"</td>";
-            var td_devotee_id       = "<td>"+ data.devotee_id +"</td>";
-            var td_register_by      = "<td></td>";
-            var td_gy               = "<td></td>";
-            var td_ops              = "<td></td>";
-            var td_type             = "<td></td>";
-            var td_item_description = "<td>"+ data.item_description +"</td>";
-            var td_xz_receipt       = "<td>"+ data.receipt_no +"</td>";
-            var td_paid_by          = "<td>"+ response.transaction.paid_by +"</td>";
-            var td_trans_date       = "<td>"+ response.transaction.trans_at +"</td>";
+          // $.each(response.receipt, function(index, data) {
+            // $td_is_checked       = '<td>' +
+            //                         '<input type="checkbox" class="amount checkbox-multi-select-module-xiaozai-tab-xiaozai-section-sfc" name="xiaozai_amount[]" value="1" '+
+            //                         // if($data.is_checked == 1){
+            //                         //    'checked' +
+            //                         //  }
+            //
+            //                          '>' +
+            //                         '<input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">' +
+            //                        '</td>';
+            // $td_chinese_name     = "<td>"+ data.devotee_chinese_name +"</td>";
+            // $td_devotee_id       = "<td>"+ data.devotee_id +"</td>";
+            // $td_register_by      = "<td></td>";
+            // $td_gy               = "<td></td>";
+            // $td_ops              = "<td></td>";
+            // $td_item_description = "<td>"+ data.item_description +"</td>";
+            // $td_xz_receipt       = "<td>"+ data.receipt_no +"</td>";
+            // $td_paid_by          = "<td>"+ response.transaction.paid_by +"</td>";
+            // $td_trans_date       = "<td>"+ response.transaction.trans_at +"</td>";
 
-            $('#xiaozai_table tbody').append("" +
-            "<tr>" +
-            td_is_checked +
-            td_chinese_name +
-            td_devotee_id +
-            td_register_by +
-            td_gy +
-            td_ops +
-            td_type +
-            td_item_description +
-            td_xz_receipt +
-            td_paid_by +
-            td_trans_date +
-            "</tr>");
-            $("#xiaozai_table tbody tr").each(function() {
-              var devotee = $(this).find("#devotee").text();
-              var type = $(this).find("input[name='type[]']").val();
+            // if(data.type == "base_home"){
+            //   $td_type = "<td><select class='type' name='hjgr[]'><option value='hj' selected>合家</option><option value='gr'>个人</option></select></td>";
+            // }
+            // else if(data.type == "home"){
+            //   $td_type = "<td><select class='type' name='hjgr[]'><option value='hj' selected>合家</option><option value='gr'>个人</option></select></td>";
+            // }
+            // else if(data.type == "company"){
+            //   $td_type = "<td>公司<input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
+            // else if(data.type == "stall"){
+            //   $td_type = "<td>小贩<input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
+            // else if(data.type == "office"){
+            //   $td_type = "<td>个人<input type='hidden' name='hjgr[]'  value='gr' /></td>";
+            // }
+            // else if(data.type == "car"){
+            //   $td_type = "<td>车辆<input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
+            // else if(data.type == "ship"){
+            //   $td_type = "<td>船只<input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
+            // else{
+            //   $td_type = "<td><input type='hidden' name='hjgr[]'  value='' /></td>";
+            // }
 
-              if(devotee == data.devotee_id && type == data.type)
-              {
-                $(this).find('.amount').attr('checked', true);
-              }
-            });
+            // $('#xiaozai_table tbody').append("" +
+            // "<tr>" +
+            //   $td_is_checked +
+            //   $td_chinese_name +
+            //   $td_devotee_id +
+            //   $td_register_by +
+            //   $td_gy +
+            //   $td_ops +
+            //   $td_type +
+            //   $td_item_description +
+            //   $td_xz_receipt +
+            //   $td_paid_by +
+            //   $td_trans_date +
+            // "</tr>");
+            // $("#xiaozai_table tbody tr").each(function() {
+            //   var devotee = $(this).find("#devotee").text();
+            //   var type = $(this).find("input[name='type[]']").val();
+            //
+            //   if(devotee == data.devotee_id && type == data.type)
+            //   {
+            //     $(this).find('.amount').attr('checked', true);
+            //   }
+            // });
 
-            $("#xiaozai_table2 tbody tr").each(function() {
-              var devotee = $(this).find("#devotee").text();
-              var type = $(this).find("input[name='type[]']").val();
+            // $("#xiaozai_table2 tbody tr").each(function() {
+            //   var devotee = $(this).find("#devotee").text();
+            //   var type = $(this).find("input[name='type[]']").val();
+            //
+            //   if(devotee == data.devotee_id && type == data.type)
+            //   {
+            //     $(this).find('.amount').attr('checked', true);
+            //   }
+            // });
+          // });
 
-              if(devotee == data.devotee_id && type == data.type)
-              {
-                $(this).find('.amount').attr('checked', true);
-              }
-            });
-          });
 
-          var address_sum = 0;
-          var individual_office_sum = 0;
-          var company_sum = 0;
-          var vehicle_sum = 0;
-          var total = 0;
+          // var hj_sum = 0;
+          // var gr_sum = 0;
+          // var company_sum = 0;
+          // var stall_sum = 0;
+          // var car_sum = 0;
+          // var ship_sum = 0;
+          // var total = 0;
 
-          $("input[name='xiaozai_amount[]']").each( function () {
+          // $("input[name='xiaozai_amount[]']").each( function () {
+          //   if( $(this).is(":checked") == true ) {
+          //     $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',true);
+          //     $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',true);
+          //     $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',true);
+          //     $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',true);
+          //   }
+          //
+          //   else {
+          //     $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',false);
+          //     $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',false);
+          //     $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',false);
+          //     $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',false);
+          //   }
+          // });
 
-            if( $(this).is(":checked") == true ) {
-              $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',true);
-              $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',true);
-              $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',true);
-              $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',true);
-            }
+          // var address_length = $("input[name='address_total_type[]']:checked").length;
+          // var individual_office_length = $("input[name='individual_office_total_type[]']:checked").length;
+          // var company_length = $("input[name='company_total_type[]']:checked").length;
+          // var vehicle_length = $("input[name='vehicle_total_type[]']:checked").length;
+          //
+          // $(".address_total").html(address_length);
+          // $(".individual_office_total").html(individual_office_length);
+          // $(".company_total").html(company_length);
+          // $(".vehicle_total").html(vehicle_length);
 
-            else {
-              $(this).closest('.xiaozai-amount-col').find('.address_total_type').prop('checked',false);
-              $(this).closest('.xiaozai-amount-col').find('.individual_office_total_type').prop('checked',false);
-              $(this).closest('.xiaozai-amount-col').find('.company_total_type').prop('checked',false);
-              $(this).closest('.xiaozai-amount-col').find('.vehicle_total_type').prop('checked',false);
-            }
-          });
+          // address_sum += address_length * 30;
+          // individual_office_sum += individual_office_length * 20;
+          // company_sum += company_length * 100;
+          // vehicle_sum += vehicle_length * 30;
 
-          var address_length = $("input[name='address_total_type[]']:checked").length;
-          var individual_office_length = $("input[name='individual_office_total_type[]']:checked").length;
-          var company_length = $("input[name='company_total_type[]']:checked").length;
-          var vehicle_length = $("input[name='vehicle_total_type[]']:checked").length;
+          // $(".address_total_amount").html(address_sum);
+          // $(".individual_office_total_amount").html(individual_office_sum);
+          // $(".company_total_amount").html(company_sum);
+          // $(".vehicle_total_amount").html(vehicle_sum);
 
-          $(".address_total").html(address_length);
-          $(".individual_office_total").html(individual_office_length);
-          $(".company_total").html(company_length);
-          $(".vehicle_total").html(vehicle_length);
+          // total = address_sum + individual_office_sum + company_sum + vehicle_sum;
 
-          address_sum += address_length * 30;
-          individual_office_sum += individual_office_length * 20;
-          company_sum += company_length * 100;
-          vehicle_sum += vehicle_length * 30;
+          // $(".total_payable").html(1);
+          // $("#total_amount").val(1);
 
-          $(".address_total_amount").html(address_sum);
-          $(".individual_office_total_amount").html(individual_office_sum);
-          $(".company_total_amount").html(company_sum);
-          $(".vehicle_total_amount").html(vehicle_sum);
-
-          total = address_sum + individual_office_sum + company_sum + vehicle_sum;
-
-          $(".total_payable").html(total);
-          $("#total_amount").val(total);
-
-          $("#authorized_password").val('');
-          $("#trans_no").val('');
+          // $("#authorized_password").val('');
+          // $("#trans_no").val('');
 
           $("#transaction_wrap").show();
-
-          if(trans_no != "")
-          {
-            $("#trans_info").html("<span style='font-weight: bold'>" + trans_no + "</span>" + " <span class='text-danger'>is about to Cancel & Replace.</span>");
-          }
+          $('input[name="trans_no_to_cancel"]').val(response.transaction.trans_no);
+          // if(response.transaction.trans_no != "")
+          // {
+            $("#trans_info").html("<span style='font-weight: bold'>" + response.transaction.trans_no + "</span>" + " <span class='text-danger'>is about to Cancel & Replace.</span>");
+          // }
 
           if(response.error == "not match")
           {
@@ -653,10 +687,6 @@ $(function() {
             $(".validation-error").removeClass("bg-danger alert alert-error")
             $(".validation-error").empty();
           }
-
-
-
-
 
 
         }

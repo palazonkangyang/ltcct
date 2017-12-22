@@ -2,11 +2,11 @@
   $same_family_code = Session::get('same_family_code')['kongdan'];
   $focus_devotee = Session::get('focus_devotee');
 
-  $kongdan_setting_samefamily_last1year = Session::get('kongdan_setting_samefamily_last1year');
-  $kongdan_setting_samefamily_last2year = Session::get('kongdan_setting_samefamily_last2year');
-  $kongdan_setting_samefamily_last3year = Session::get('kongdan_setting_samefamily_last3year');
-  $kongdan_setting_samefamily_last4year = Session::get('kongdan_setting_samefamily_last4year');
-  $kongdan_setting_samefamily_last5year = Session::get('kongdan_setting_samefamily_last5year');
+  {{-- $kongdan_setting_samefamily_last1year = Session::get('kongdan_setting_samefamily_last1year'); --}}
+  {{-- $kongdan_setting_samefamily_last2year = Session::get('kongdan_setting_samefamily_last2year'); --}}
+  {{-- $kongdan_setting_samefamily_last3year = Session::get('kongdan_setting_samefamily_last3year'); --}}
+  {{-- $kongdan_setting_samefamily_last4year = Session::get('kongdan_setting_samefamily_last4year'); --}}
+  {{-- $kongdan_setting_samefamily_last5year = Session::get('kongdan_setting_samefamily_last5year'); --}}
 
 @endphp
 

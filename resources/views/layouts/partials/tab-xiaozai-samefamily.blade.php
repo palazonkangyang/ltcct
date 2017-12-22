@@ -1,10 +1,19 @@
 @php
   $same_family_code = Session::get('same_family_code')['xiaozai'];
   $xiaozai_setting_samefamily_last1year = Session::get('xiaozai_setting_samefamily_last1year');
+  $focus_devotee = Session::get('focus_devotee');
 
 @endphp
 
 <div class="form-body">
+
+  <div class="form-group">
+    @if(count($focus_devotee) > 0)
+    <p class="text-right text-danger" style="margin-right: 30px; margin-bottom:0;">
+      Family Code: {{ $focus_devotee[0]->familycode_id }}
+    </p>
+    @endif
+  </div>
 
   <form method="post" action="{{ URL::to('/fahui/xiaozai-samefamily-setting') }}"
     class="form-horizontal form-bordered" id="xiaozai_samefamily_form">

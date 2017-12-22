@@ -10,6 +10,7 @@
 
     {!! csrf_field() !!}
     {{ Form::hidden('mod_id',5)}}
+    {{ Form::hidden('trans_no_to_cancel','') }}
     <div class="form-group">
 
       <h4>Same Family Code 同址善信</h4>

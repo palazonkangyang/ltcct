@@ -22,7 +22,7 @@ class Raf extends Model
   public static function isExists($focusdevotee_id,$devotee_id){
     $result = Raf::where('devotee_id',$devotee_id)
                  ->where('focusdevotee_id',$focusdevotee_id)
-                 ->where('year',DateController::getCurrentYearFormatYYYY())
+                 //->where('year',DateController::getCurrentYearFormatYYYY())
                  ->count();
 
     return $result > 0 ? true : false ;
@@ -31,7 +31,7 @@ class Raf extends Model
   public static function isNotExists($focusdevotee_id,$devotee_id){
     $result = Raf::where('devotee_id',$devotee_id)
                  ->where('focusdevotee_id',$focusdevotee_id)
-                 ->where('year',DateController::getCurrentYearFormatYYYY())
+                 //->where('year',DateController::getCurrentYearFormatYYYY())
                  ->count();
 
     return $result == 0 ? true : false ;
