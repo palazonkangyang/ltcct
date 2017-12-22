@@ -285,10 +285,7 @@
             @foreach($relative_and_friends_history as $devotee)
             <tr>
               <td class="checkbox-col">
-                @if($devotee['type'] == 'base_home')
                 <input type="checkbox" class="devotee_id_list" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
-                @endif
-
               </td>
               <td>
                 @if($devotee->deceased_year != null)

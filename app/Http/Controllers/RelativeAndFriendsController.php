@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Models\Raf;
 use App\Models\RafXiaoZai;
 use App\Models\RafQiFu;
 use App\Models\RafKongDan;
+use App\Models\Trn;
+use App\Models\Rct;
 use App\Models\Module;
 use App\Models\OptionalAddress;
 use App\Models\OptionalVehicle;
@@ -600,15 +603,43 @@ class RelativeAndFriendsController extends Controller
   }
 
   public static function getRafHistory($focusdevotee_id,$mod_id){
-    // $transaction_list = Trn::where('focusdevotee_id',$focusdevotee_id);
-                           // ->where('trans_at',);
 
-    $raf_list = Raf::leftjoin('devotee','devotee.devotee_id','=','raf.devotee_id')
+    // $raf_list = Raf::leftjoin('devotee','devotee.devotee_id','=','raf.devotee_id')
+    //                ->leftjoin('familycode','familycode.familycode_id','=','devotee.familycode_id')
+    //                ->leftjoin('member','member.member_id','=','devotee.member_id')
+    //                ->where('raf.focusdevotee_id',$focusdevotee_id)
+    //                ->where('raf.mod_id',$mod_id)
+    //                ->get();
+
+   $transaction_list = Trn::where('focusdevotee_id',$focusdevotee_id)
+                          ->where('mod_id',$mod_id)
+                          //->whereDate('trans_at','<',DateController::getCurrentYearFormatYYYY())
+                          ->where(DB::raw('YEAR(trans_at)'),DateController::getLastYearFormatYYYY())
+                          ->get();
+  // dd($transaction_list);
+   $relative_and_friends_id_list = collect();
+
+   foreach($transaction_list as $transaction){
+     $receipt_list = Rct::where('trn_id',$transaction['trn_id'])
+                        ->get();
+
+     foreach($receipt_list as $receipt){
+       Devotee::isRelative($receipt['devotee_id'],$transaction['focusdevotee_id']) ? $relative_and_friends_id_list->push($receipt['devotee_id']) : false ;
+     }
+   }
+
+    $relative_and_friends_id_list = $relative_and_friends_id_list->unique()->sort();
+
+    $raf_list = Rct::leftjoin('devotee','devotee.devotee_id','=','rct.devotee_id')
                    ->leftjoin('familycode','familycode.familycode_id','=','devotee.familycode_id')
                    ->leftjoin('member','member.member_id','=','devotee.member_id')
-                   ->where('raf.focusdevotee_id',$focusdevotee_id)
-                   ->where('raf.mod_id',$mod_id)
-                   ->get();
+                   ->whereIn('rct.devotee_id',$relative_and_friends_id_list)
+                   ->get()
+                   ->unique('devotee_id');
+
+    foreach($raf_list as $raf){
+      $raf['item_description'] = AddressController::getAddressByDevoteeId($raf['devotee_id']);
+    }
 
     switch ($mod_id) {
       // Xiang You
@@ -633,21 +664,21 @@ class RelativeAndFriendsController extends Controller
 
       // Xiao Zai Da Fa Hui
       case 5:
-        $param['raf_list'] = $raf_list;
-        $raf_list = RelativeAndFriendsController::getRafXiaoZai($param);
-        $raf_focus_devotee= $raf_list->filter(function ($value, $key) use($focusdevotee_id) {
-            if($value['devotee_id'] == $focusdevotee_id ){
-            return $value;
-          }
-        });
-
-        $raf_family= $raf_list->filter(function ($value, $key) use($focusdevotee_id) {
-            if($value['devotee_id'] != $focusdevotee_id ){
-            return $value;
-          }
-        });
-
-        $raf_list = $raf_focus_devotee->merge($raf_family);
+        // $param['raf_list'] = $raf_list;
+        // $raf_list = RelativeAndFriendsController::getRafXiaoZai($param);
+        // $raf_focus_devotee= $raf_list->filter(function ($value, $key) use($focusdevotee_id) {
+        //     if($value['devotee_id'] == $focusdevotee_id ){
+        //     return $value;
+        //   }
+        // });
+        //
+        // $raf_family= $raf_list->filter(function ($value, $key) use($focusdevotee_id) {
+        //     if($value['devotee_id'] != $focusdevotee_id ){
+        //     return $value;
+        //   }
+        // });
+        //
+        // $raf_list = $raf_focus_devotee->merge($raf_family);
 
         Session::put('relative_and_friends_history.xiaozai',$raf_list);
         break;

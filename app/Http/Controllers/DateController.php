@@ -19,4 +19,8 @@ class DateController extends Controller
   public static function getLastYearFormatYYYY(){
     return Carbon::now(DateController::getCurrentTimeZone())->year - 1;
   }
+
+  public static function getLastTwoYearFormatYYYY(){
+    return Carbon::now(DateController::getCurrentTimeZone())->year - 2;
+  }
 }
