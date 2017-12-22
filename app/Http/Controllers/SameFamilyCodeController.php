@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use DB;
 use App\Models\Devotee;
 use App\Models\Module;
+use App\Models\Trn;
 use App\Models\Sfc;
+use App\Models\Rct;
 use App\Models\SfcXiangYou;
 use App\Models\SfcCiji;
 use App\Models\SfcYueJuan;
@@ -379,5 +382,115 @@ class SameFamilyCodeController extends Controller
         }
       }
       return $param['sfc_list'];
+    }
+
+    public static function getSfcHistoryForAllModule(){
+      if(Session::has('same_family_code_history')) { Session::forget('same_family_code_history'); }
+      $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
+      $mod_list = Module::getReleasedFaHuiModuleList();
+      foreach($mod_list as $index=> $mod){
+        $mod_id = $mod['mod_id'];
+        SameFamilyCodeController::getSfcHistory($focusdevotee_id,$mod_id);
+      }
+    }
+
+    public static function getSfcHistory($focusdevotee_id,$mod_id){
+     $transaction_list = Trn::where('focusdevotee_id',$focusdevotee_id)
+                            ->where('mod_id',$mod_id)
+                            ->where(DB::raw('YEAR(trans_at)'),DateController::getLastYearFormatYYYY())
+                            ->get();
+
+     $same_family_code_id_list = collect();
+
+     foreach($transaction_list as $transaction){
+       $receipt_list = Rct::where('trn_id',$transaction['trn_id'])
+                          ->get();
+
+       foreach($receipt_list as $receipt){
+         Devotee::isSameFamily($receipt['devotee_id'],$transaction['focusdevotee_id']) ? $same_family_code_id_list->push($receipt['devotee_id']) : false ;
+       }
+     }
+
+      $same_family_code_id_list = $same_family_code_id_list->unique()->sort();
+
+      $sfc_list = Rct::leftjoin('devotee','devotee.devotee_id','=','rct.devotee_id')
+                     ->leftjoin('familycode','familycode.familycode_id','=','devotee.familycode_id')
+                     ->leftjoin('member','member.member_id','=','devotee.member_id')
+                     ->whereIn('rct.devotee_id',$same_family_code_id_list)
+                     ->get()
+                     ->unique('devotee_id');
+
+      foreach($sfc_list as $sfc){
+        $sfc['item_description'] = AddressController::getAddressByDevoteeId($sfc['devotee_id']);
+      }
+
+      switch ($mod_id) {
+        // Xiang You
+        case 1:
+
+          break;
+
+        // Ci Ji
+        case 2:
+
+          break;
+
+        // Yue Juan
+        case 3:
+
+          break;
+
+        // Zhu Xue Jin
+        case 4:
+
+          break;
+
+        // Xiao Zai Da Fa Hui
+        case 5:
+          Session::put('same_family_code_history.xiaozai',$sfc_list);
+          break;
+
+        // Qian Fo Fa Hui
+        case 6:
+
+          break;
+
+        // Da Bei Fa Hui
+        case 7:
+
+          break;
+
+        // Yao Shi Fa Hui
+        case 8:
+
+          break;
+
+        // Qi Fu Fa Hui
+        case 9:
+          Session::put('same_family_code_history.qifu',$sfc_list);
+          break;
+
+        // Kong Dan
+        case 10:
+          Session::put('same_family_code_history.kongdan',$sfc_list);
+          break;
+
+        // Pu Du
+        case 11:
+
+          break;
+
+        // Chao Du
+        case 12:
+
+          break;
+
+        // Shou Sheng Ku Qian
+        case 13:
+
+          break;
+
+        default:
+      }
     }
 }

@@ -1399,6 +1399,7 @@ class OperatorController extends Controller
 							->get();
 
 	  SameFamilyCodeController::getSfcForAllModule();
+		SameFamilyCodeController::getSfcHistoryForAllModule();
 		RelativeAndFriendsController::getRafForAllModule();
 		RelativeAndFriendsController::getRafHistoryForAllModule();
 		TransactionController::getTrnForAllModule();

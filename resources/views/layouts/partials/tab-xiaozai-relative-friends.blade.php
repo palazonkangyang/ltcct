@@ -259,7 +259,8 @@
 
       @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
-        <span class="setting-history">XZ-{{ $this_year - 1 }}-FC{{ $focus_devotee[0]->devotee_id }}</span>
+        Past Year Record
+        <!--<span class="setting-history">XZ-{{ $this_year - 1 }}-FC{{ $focus_devotee[0]->devotee_id }}</span>-->
       </h5>
       @endif
 

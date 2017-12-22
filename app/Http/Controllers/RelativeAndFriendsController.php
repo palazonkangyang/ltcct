@@ -595,7 +595,6 @@ class RelativeAndFriendsController extends Controller
     if(Session::has('relative_and_friends_history')) { Session::forget('relative_and_friends_history'); }
     $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
     $mod_list = Module::getReleasedFaHuiModuleList();
-    //$last_year = DateController::getLastYearFormatYYYY();
     foreach($mod_list as $index=> $mod){
       $mod_id = $mod['mod_id'];
       RelativeAndFriendsController::getRafHistory($focusdevotee_id,$mod_id);
@@ -613,7 +612,6 @@ class RelativeAndFriendsController extends Controller
 
    $transaction_list = Trn::where('focusdevotee_id',$focusdevotee_id)
                           ->where('mod_id',$mod_id)
-                          //->whereDate('trans_at','<',DateController::getCurrentYearFormatYYYY())
                           ->where(DB::raw('YEAR(trans_at)'),DateController::getLastYearFormatYYYY())
                           ->get();
   // dd($transaction_list);

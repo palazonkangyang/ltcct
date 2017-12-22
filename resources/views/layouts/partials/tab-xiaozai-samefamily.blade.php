@@ -1,7 +1,9 @@
 @php
   $same_family_code = Session::get('same_family_code')['xiaozai'];
-  $xiaozai_setting_samefamily_last1year = Session::get('xiaozai_setting_samefamily_last1year');
+  $same_family_code_history = Session::get('same_family_code_history')['xiaozai'];
   $focus_devotee = Session::get('focus_devotee');
+  $xiaozai_setting_samefamily_last1year = Session::get('xiaozai_setting_samefamily_last1year');
+
 
 @endphp
 
@@ -34,9 +36,8 @@
             <th>OPS</th>
             <th width="90px">Type</th>
             <th>Item Description</th>
-            <th>M.Paid Till</th>
             <th>Paid By</th>
-            <th>Last Trans</th>
+            <th>Trans Date</th>
           </tr>
         </thead>
 
@@ -102,7 +103,7 @@
               @endif
             </td>
             <td>{{ $devotee->item_description }}</td>
-            <td>
+            <!--<td>
               @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
               <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
               @elseif(isset($devotee->paytill_date))
@@ -111,6 +112,7 @@
               <span>{{ $devotee->paytill_date }}</span>
               @endif
             </td>
+          -->
             <td></td>
             <td>
               @if(isset($devotee->lasttransaction_at))
@@ -141,7 +143,7 @@
     <p></p>
 
     @php $this_year = date('Y'); @endphp
-
+<!--
     <div class="form-group">
 
       @if(count($xiaozai_setting_samefamily_last1year) > 0)
@@ -270,7 +272,7 @@
       </table>
 
       @endif
-    </div><!-- end form-group -->
+    </div>
 
     <div class="form-group">
       @if(count($focus_devotee) > 0)
@@ -278,6 +280,128 @@
       @else
         <input type="hidden" name="focusdevotee_id" id="xiaozai_focusdevotee_id">
       @endif
+    </div>
+-->
+    <div class="form-group">
+
+      @if(Session::has('focus_devotee'))
+      <h5 style="font-weight: bold;">
+        Past Year Record
+      </h5>
+      @endif
+
+      <table class="table table-bordered xiaozai_history_table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Chinese Name</th>
+            <th>Devotee#</th>
+            <th>RegisterBy</th>
+            <th>Guiyi ID</th>
+            <th>GY</th>
+            <th>OPS</th>
+            <th width="90px">Type</th>
+            <th>Item Description</th>
+            <th>Paid By</th>
+            <th>Trans Date</th>
+          </tr>
+        </thead>
+
+        <tbody id="has_session">
+          @if(isset($same_family_code_history))
+            @foreach($same_family_code_history as $devotee)
+            <tr>
+              <td class="checkbox-col">
+                <input type="checkbox" class="devotee_id_list" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
+              </td>
+              <td>
+                @if($devotee->deceased_year != null)
+                <span class="text-danger">{{ $devotee->chinese_name }}</span>
+                @else
+                <span>{{ $devotee->chinese_name }}</span>
+                @endif
+              </td>
+              <td>
+                <input type="hidden" value="{{ $devotee->devotee_id }}" class="xiaozai-history-id">
+                @if($devotee->specialremarks_devotee_id == null)
+                <span>{{ $devotee->devotee_id }}</span>
+                @else
+                <span class="text-danger">{{ $devotee->devotee_id }}</span>
+                @endif
+              </td>
+              <td>
+                @if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
+                <span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
+                @else
+                <span>{{ $devotee->member_id }}</span>
+                @endif
+              </td>
+              <td>{{ $devotee->guiyi_name }}</td>
+              <td></td>
+              <td>{{ $devotee->ops }}</td>
+              <td>
+                @if($devotee->type == 'base_home')
+                  @if($devotee->hjgr == 'hj')
+                    合家
+                    {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                    {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
+                  @elseif($devotee->hjgr == 'gr')
+                    个人
+                    {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                    {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
+                  @else
+                  @endif
+                @elseif($devotee->type == 'home')
+                @if($devotee->hjgr == 'hj')
+                  合家
+                  {{ Form::hidden('type_chinese_name_list[]','合家')}}
+                  {{ Form::hidden('amount[]',$xiaozai_price_hj)}}
+                @elseif($devotee->hjgr == 'gr')
+                  个人
+                  {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                  {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
+                @else
+                @endif
+                @elseif($devotee->type == 'company')
+                公司
+                {{ Form::hidden('type_chinese_name_list[]','公司')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_company)}}
+                @elseif($devotee->type == 'stall')
+                小贩
+                {{ Form::hidden('type_chinese_name_list[]','小贩')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_stall)}}
+                @elseif($devotee->type == 'office')
+                个人
+                {{ Form::hidden('type_chinese_name_list[]','个人')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_gr)}}
+                @elseif($devotee->type == 'car')
+                车辆
+                {{ Form::hidden('type_chinese_name_list[]','车辆')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_car)}}
+                @elseif($devotee->type == 'ship')
+                船只
+                {{ Form::hidden('type_chinese_name_list[]','船只')}}
+                {{ Form::hidden('amount[]',$xiaozai_price_ship)}}
+                @else
+                {{ Form::hidden('type_chinese_name_list[]','')}}
+                {{ Form::hidden('amount[]',0)}}
+                @endif
+              </td>
+              <td>{{ $devotee->item_description }}</td>
+              <td>
+                @if(isset($devotee->lasttransaction_at))
+                {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+                @else
+                {{ $devotee->lasttransaction_at }}
+                @endif
+              </td>
+            </tr>
+            @endforeach
+          @endif
+        </tbody>
+      </table>
+
+
     </div><!-- end form-group -->
 
     <div class="form-actions">
