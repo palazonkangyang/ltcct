@@ -1,6 +1,6 @@
 $(function() {
-
   checkbox_multi_select('checkbox-multi-select-module-xiaozai-tab-raf-section-raf');
+  checkbox_multi_select('checkbox-multi-select-module-xiaozai-tab-raf-section-raf-history');
 
   $("#insert_devotee").attr("disabled", "disabled");
 
@@ -635,7 +635,7 @@ $(function() {
         var errorMsgs = "Please select the devotee in the history table";
 
         $('html,body').animate({ scrollTop: 0 }, 'slow');
-        
+
         $(".validation-error").addClass("bg-danger alert alert-error");
         $(".validation-error").html(errorMsgs);
 

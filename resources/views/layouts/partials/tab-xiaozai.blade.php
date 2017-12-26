@@ -21,7 +21,7 @@
             <th>#</th>
             <th width="120px">Chinese Name</th>
             <th width="80px">Devotee#</th>
-            <th width="80px">RegisterBy</th>
+            <th width="80px">Register By</th>
             <th>GY</th>
             <th>OPS</th>
             <th>Type</th>

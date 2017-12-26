@@ -330,7 +330,7 @@ $(function() {
 
     $.ajax({
       type: 'GET',
-      url: "/fahui/kongdan-transaction-detail",
+      url: "/fahui/transaction-detail",
       data: formData,
       dataType: 'json',
       success: function(response)
@@ -352,45 +352,27 @@ $(function() {
           var total_amount = 0;
           var count = response.transaction.length;
 
-          if(count > 1)
-          {
-            $("#receipt").text(response.transaction[0].receipt_no + " - " + response.transaction[count - 1].receipt_no);
-          }
-          else
-          {
-            $("#receipt").text(response.transaction[0].receipt_no);
-          }
+          $("#receipt").text(response.transaction.receipt);
+          $("#trans_no").val(response.transaction.trans_no);
+          $('#receipt_date').text(response.transaction.trans_at);
+          $("#description").text(response.transaction.description);
+          $("#paid_by").text(response.transaction.paid_by + " (" + response.transaction.focusdevotee_id + ")");
+          $("#donation_event").text(response.next_event.event);
+          $("#transaction_no").text(response.transaction.trans_no);
+          $("#attended_by").text(response.transaction.attended_by);
+          $("#payment_mode").text(response.transaction.mode_payment);
 
-          $("#trans_no").val(response.transaction[0].trans_no);
-          $('#receipt_date').text(response.transaction[0].trans_date);
-          $("#description").text(response.transaction[0].description);
-          $("#paid_by").text(response.focusdevotee + " (D - " + response.transaction[0].focusdevotee_id + ")");
-          $("#donation_event").text((response.transaction[0].event !=null ? response.transaction[0].event : ''));
-          $("#transaction_no").text(response.transaction[0].trans_no);
-          $("#attended_by").text(response.transaction[0].first_name + " " + response.transaction[0].last_name);
-          $("#payment_mode").text(response.transaction[0].mode_payment);
-
-          $.each(response.transaction, function(index, data) {
-
-            if(data.address_unit1 != null && data.address_unit2 != null)
-            {
-              var full_address = data.address_houseno + ", #" + data.address_unit1 + "-" + data.address_unit2 + ", " + data.address_street + ", " + data.address_postal;
-            }
-            else
-            {
-              var full_address = data.address_houseno + ", " + data.address_street + ", " + data.address_postal;
-            }
+          $.each(response.receipts, function(index, data) {
 
             $('#transaction-table tbody').append("<tr><td>" + rowno + "</td>" +
-            "<td>" + data.chinese_name + "</td>" +
+            "<td>" + data.devotee_chinese_name + "</td>" +
             "<td>" + data.devotee_id + "</td>" +
-            "<td>" + (data.hjgr == 'hj' ? '合家' : '个人') + "</td>" +
-            "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
+            "<td>个人</td>" +
+            "<td>" + (data.item_description != null ? data.item_description : '') + "</td>" +
             "<td>" + data.receipt_no + "</td>" +
             "<td>" + data.amount + "</td>");
 
             rowno++;
-            total_amount += data.amount;
           });
 
           $("#amount").text(total_amount);

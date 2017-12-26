@@ -222,10 +222,8 @@
                 <div class="form-body">
                   <div class="form-group">
                     <div class="col-md-2">
-                      {{--
-                      <label>*</label>
-                      <input type="text" class="form-control" name="*" value="" id="*">
-                      --}}
+                      <label>个人</label>
+                      <input type="number" class="form-control" name="kongdan_price_gr"  id="kongdan_price_gr" value="{{ $kongdan_price_gr }}" min="0" max="1000" step="any">
                     </div>{{-- end col-md-2 --}}
                     <div class="col-md-10">
                     </div>{{-- end col-md-10 --}}

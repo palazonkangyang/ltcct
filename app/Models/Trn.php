@@ -59,6 +59,7 @@ class Trn extends Model
     $transactions = collect(new Trn);
     //focus devotee
     $trn_id_list_as_payee = Trn::where('focusdevotee_id',$devotee_id)
+                               ->where('mod_id',$mod_id)
                                ->orderBy('trn_id','desc')
                                ->pluck('trn_id');
 

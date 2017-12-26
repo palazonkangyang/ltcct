@@ -18,7 +18,7 @@
           <th>#</th>
           <th width="120px">Chinese Name</th>
           <th width="80px">Devotee#</th>
-          <th width="80px">RegisterBy</th>
+          <th width="80px">Register By</th>
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>

@@ -13,6 +13,7 @@ use App\Models\GlCode;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryItem;
 use App\Models\Rct;
+use App\Models\SystemSetting;
 use Auth;
 use DB;
 use Hash;
@@ -34,9 +35,10 @@ class FahuiController extends Controller
 							->take(1)
 							->get();
 
-    return view('fahui.kongdan', [
-			'events' => $events
-		]);
+    $data['events'] = $events;
+    $data['kongdan_price_gr'] = SystemSetting::getValueAmountOfKongDanPriceGr();
+
+    return view('fahui.kongdan', $data);
   }
 
   // public function postKongDan(Request $request)

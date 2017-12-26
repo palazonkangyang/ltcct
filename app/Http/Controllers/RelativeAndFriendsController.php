@@ -614,7 +614,7 @@ class RelativeAndFriendsController extends Controller
                           ->where('mod_id',$mod_id)
                           ->where(DB::raw('YEAR(trans_at)'),DateController::getLastYearFormatYYYY())
                           ->get();
-  // dd($transaction_list);
+
    $relative_and_friends_id_list = collect();
 
    foreach($transaction_list as $transaction){
@@ -727,11 +727,13 @@ class RelativeAndFriendsController extends Controller
 
   public function updateRafSetting(Request $request)
   {
+      // dd($request);
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['var']['mod_id'] = $request->mod_id;
       $raf_id_list = $request->raf_id;
       $is_checked_list = $request->is_checked;
-      $hjgr_list = $request->hjgr;
+      Module::isXiaoZai($param['var']['mod_id']) ? $hjgr_list = $request->hjgr : false;
+
       if($raf_id_list != []){
         foreach ($raf_id_list as $index => $raf_id){
           $raf = Raf::find($raf_id);

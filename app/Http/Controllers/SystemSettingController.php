@@ -15,6 +15,8 @@ class SystemSettingController extends Controller
       $data['xiaozai_price_car'] = SystemSetting::getValueAmountOfXiaozaiPriceCar();
       $data['xiaozai_price_ship'] = SystemSetting::getValueAmountOfXiaozaiPriceShip();
 
+      $data['kongdan_price_gr'] = SystemSetting::getValueAmountOfKongDanPriceGr();
+
       return view('admin.fahui-setting',$data);
     }
 

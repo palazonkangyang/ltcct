@@ -23,7 +23,7 @@
             <th>#</th>
             <th width="120px">Chinese Name</th>
             <th width="80px">Devotee#</th>
-            <th width="80px">RegisterBy</th>
+            <th width="80px">Register By</th>
             <th>Guiyi ID</th>
             <th>GY</th>
             <th>OPS</th>
@@ -270,7 +270,7 @@
             <th>#</th>
             <th>Chinese Name</th>
             <th>Devotee#</th>
-            <th>RegisterBy</th>
+            <th>Register By</th>
             <th>Guiyi ID</th>
             <th>GY</th>
             <th>OPS</th>
@@ -286,7 +286,7 @@
             @foreach($relative_and_friends_history as $devotee)
             <tr>
               <td class="checkbox-col">
-                <input type="checkbox" class="devotee_id_list" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
+                <input type="checkbox" class="devotee_id_list checkbox-multi-select-module-xiaozai-tab-raf-section-raf-history" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
               </td>
               <td>
                 @if($devotee->deceased_year != null)

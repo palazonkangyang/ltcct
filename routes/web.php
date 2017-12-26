@@ -128,6 +128,12 @@ Route::group(['middleware' => 'auth'], function () {
 		//Route::get('/add-relative-and-friends', ['as' => 'add-relative-and-friends', 'uses' => 'RelativeAndFriendsController@addRelativeAndFriends']);
 		Route::post('/insert-relative-and-friends', ['as' => 'insert-relative-and-friends', 'uses' => 'RelativeAndFriendsController@insertRelativeAndFriends']);
 		Route::post('/insert-relative-and-friends-from-history', ['as' => 'insert-relative-and-friends-from-history', 'uses' => 'RelativeAndFriendsController@insertRelativeAndFriendsFromHistory']);
+		//Route::get('/kongdan-transaction-detail', ['as' => 'kongdan-transaction-detail-page', 'uses' => 'FahuiController@getTransactionDetail']);
+		Route::get('/transaction-detail', ['as' => 'transaction-detail-page', 'uses' => 'TransactionController@getTransactionDetail']);
+
+		Route::post('/xiaozai-differentfamily-setting', ['as' => 'post-xiaozai-differentfamily-setting-page', 'uses' => 'RelativeAndFriendsController@updateRafSetting']);
+		//Route::post('/kongdan-differentfamily-setting', ['as' => 'post-kongdan-differentfamily-setting-page', 'uses' => 'FahuiController@postKongdanDifferentFamilySetting']);
+		Route::post('/kongdan-differentfamily-setting', ['as' => 'post-kongdan-differentfamily-setting-page', 'uses' => 'RelativeAndFriendsController@updateRafSetting']);
 
 		Route::post('/delete-relative-and-friends', ['as' => 'delete-relative-and-friends', 'uses' => 'RelativeAndFriendsController@deleteRelativeAndFriends']);
 		Route::get('/participant-list',['as' => 'fahui-participant-list', 'uses' => 'FahuiController@getParticipantList']);
@@ -140,11 +146,10 @@ Route::group(['middleware' => 'auth'], function () {
 		//Route::get('/insert-devotee', ['as' => 'xiaozai-insert-devotee-page', 'uses' => 'XiaozaiController@getInsertDevotee']);
 
 		//Route::get('/insert-devotee-by-type', ['as' => 'xiaozai-insert-devotee-by-type-page', 'uses' => 'XiaozaiController@getInsertDevoteeByType']);
-		Route::get('/kongdan-transaction-detail', ['as' => 'kongdan-transaction-detail-page', 'uses' => 'FahuiController@getTransactionDetail']);
+
 
 		// Route::post('/kongdan', ['as' => 'post-kongdan-page', 'uses' => 'FahuiController@postKongDan']);
 		Route::post('/kongdan-samefamily-setting', ['as' => 'post-kongdan-samefamily-setting-page', 'uses' => 'SameFamilyCodeController@updateSfcSetting']);
-		Route::post('/kongdan-differentfamily-setting', ['as' => 'post-kongdan-differentfamily-setting-page', 'uses' => 'FahuiController@postKongdanDifferentFamilySetting']);
 
 		Route::post('/kongdan-reprint-detail', ['as' => 'kongdan-reprint-detail-page', 'uses' => 'FahuiController@ReprintDetail']);
 		Route::post('/kongdan-cancel-replace-transaction', ['as' => 'kongdan-cancel-replace-transaction-page', 'uses' => 'FahuiController@postCancelReplaceTransaction']);
@@ -165,7 +170,7 @@ Route::group(['middleware' => 'auth'], function () {
 		// XiaoZai
 		Route::get('/xiaozai', ['as' => 'get-xiaozai-page', 'uses' => 'XiaozaiController@getXiaoZai']);
 		//Route::get('/xiaozai-transaction-detail', ['as' => 'xiaozai-transaction-detail-page', 'uses' => 'XiaoZaiController@getTransactionDetail']);
-		Route::get('/transaction-detail', ['as' => 'transaction-detail-page', 'uses' => 'TransactionController@getTransactionDetail']);
+
 		// Route::post('/xiaozai-reprint-detail', ['as' => 'xiaozai-reprint-detail-page', 'uses' => 'XiaozaiController@ReprintDetail']);
 		Route::post('/reprint-receipt', ['as' => 'reprint-detail-page', 'uses' => 'TransactionController@reprintReceipt']);
 		//Route::post('/xiaozai-cancel-transaction', ['as' => 'xiaozai-cancel-transaction-page', 'uses' => 'XiaozaiController@postCancelTransaction']);
@@ -174,7 +179,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('/xiaozai', ['as' => 'post-xiaozai-page', 'uses' => 'XiaozaiController@postXiaozai']);
 		Route::post('/xiaozai-samefamily-setting', ['as' => 'post-xiaozai-samefamily-setting-page', 'uses' => 'SameFamilyCodeController@updateSfcSetting']);
-		Route::post('/xiaozai-differentfamily-setting', ['as' => 'post-xiaozai-differentfamily-setting-page', 'uses' => 'RelativeAndFriendsController@updateRafSetting']);
 
 
 

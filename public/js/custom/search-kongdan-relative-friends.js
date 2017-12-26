@@ -1,5 +1,8 @@
 $(function() {
 
+  checkbox_multi_select('checkbox-multi-select-module-kongdan-tab-raf-section-raf');
+  checkbox_multi_select('checkbox-multi-select-module-kongdan-tab-raf-section-raf-history');
+
   $("#insert_devotee").attr("disabled", "disabled");
 
   $("#search_devotee_id").focusout(function() {
@@ -232,68 +235,113 @@ $(function() {
     var errors = new Array();
     var validationFailed = false;
 
-    $('#different_kongdan_familycode_table .append-devotee-id').each( function () {
+    // $('#different_kongdan_familycode_table .append-devotee-id').each( function () {
 
-      var id = $(this).val();
+      // var id = $(this).val();
+      //
+      // if(devotee_id == id)
+      // {
+      //   validationFailed = true;
+      //   errors[count++] = "This devotee id is already selected."
+      // }
+    // });
 
-      if(devotee_id == id)
-      {
-        validationFailed = true;
-        errors[count++] = "This devotee id is already selected."
-      }
-    });
+    // if (validationFailed)
+    // {
+    //   var errorMsgs = '';
+    //
+    //   for(var i = 0; i < count; i++)
+    //   {
+    //     errorMsgs = errorMsgs + errors[i] + "<br/>";
+    //   }
+    //
+    //   $('html,body').animate({ scrollTop: 0 }, 'slow');
+    //
+    //   $(".validation-error").addClass("bg-danger alert alert-error")
+    //   $(".validation-error").html(errorMsgs);
+    //
+    //   return false;
+    // }
 
-    if (validationFailed)
-    {
-      var errorMsgs = '';
-
-      for(var i = 0; i < count; i++)
-      {
-        errorMsgs = errorMsgs + errors[i] + "<br/>";
-      }
-
-      $('html,body').animate({ scrollTop: 0 }, 'slow');
-
-      $(".validation-error").addClass("bg-danger alert alert-error")
-      $(".validation-error").html(errorMsgs);
-
-      return false;
-    }
-
-    else
-    {
-      $(".validation-error").removeClass("bg-danger alert alert-error")
-      $(".validation-error").empty();
-    }
+    // else
+    // {
+    //   $(".validation-error").removeClass("bg-danger alert alert-error")
+    //   $(".validation-error").empty();
+    // }
 
     var formData = {
       _token: $('meta[name="csrf-token"]').attr('content'),
       devotee_id: devotee_id,
+      mod_id: 10
     };
 
     $.ajax({
-      type: 'GET',
-      url: "/staff/insert-devotee",
+      type: 'POST',
+      url: "/fahui/insert-relative-and-friends",
       data: formData,
       dataType: 'json',
       success: function(response)
       {
-        var familycode = $("#family_code").text();
+        // var familycode = $("#family_code").text();
 
-        if(familycode == response.devotee[0]['familycode'])
-        {
-          validationFailed = true;
-          errors[count++] = "Same Family Code cannot be inserted.";
-        }
+        // if(familycode == response.devotee[0]['familycode'])
+        // {
+        //   validationFailed = true;
+        //   errors[count++] = "Same Family Code cannot be inserted.";
+        // }
 
-        if (validationFailed)
+        // if (validationFailed)
+        // {
+        //   var errorMsgs = '';
+        //
+        //   for(var i = 0; i < count; i++)
+        //   {
+        //     errorMsgs = errorMsgs + errors[i] + "<br/>";
+        //   }
+        //
+        //   $('html,body').animate({ scrollTop: 0 }, 'slow');
+        //
+        //   $(".validation-error").addClass("bg-danger alert alert-error")
+        //   $(".validation-error").html(errorMsgs);
+        //
+        //   return false;
+        // }
+
+        // else
+        // {
+        //   $(".validation-error").removeClass("bg-danger alert alert-error")
+        //   $(".validation-error").empty();
+        // }
+
+        // $.each(response.devotee, function(index, data) {
+        //
+        //   if(data.address_unit1 != null && data.address_unit2 != null)
+        //   {
+        //     var full_address = data.address_houseno + ", #" + data.address_unit1 + "-" + data.address_unit2 + ", " + data.address_street + ", " + data.address_postal;
+        //   }
+        //   else
+        //   {
+        //     var full_address = data.address_houseno + ", " + data.address_street + ", " + data.address_postal;
+        //   }
+        //
+        //   $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
+        //   "<td class='checkbox-col'><input type='checkbox' name='kongdan_id[]' value='" + data.devotee_id + "' class='different kongdan_id'>" +
+        //   "<input type='hidden' class='form-control hidden_kongdan_id' name='hidden_kongdan_id[]'  value=''></td>" +
+        //   "<td>" + data.chinese_name +"</td>" +
+        //   "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
+        //   "<td></td>" +
+        //   "<td>" + $.trim(data.guiyi_name) + "</td>" +
+        //   "<td></td>" +
+        //   "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
+        //   "<td>" + $.trim(data.paytill_date) + "</td>" +
+        //   "<td></td>" +
+        //   "<td>" + data.lasttransaction_at + "</td>");
+        // });
+        if (response.error != '')
         {
           var errorMsgs = '';
 
-          for(var i = 0; i < count; i++)
-          {
-            errorMsgs = errorMsgs + errors[i] + "<br/>";
-          }
+          errorMsgs = response.error;
 
           $('html,body').animate({ scrollTop: 0 }, 'slow');
 
@@ -307,32 +355,14 @@ $(function() {
         {
           $(".validation-error").removeClass("bg-danger alert alert-error")
           $(".validation-error").empty();
+
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $(".validation-error").addClass("bg-success alert alert-error")
+          $(".validation-error").html("New relative and friend has been inserted");
+
+          setTimeout(function(){ window.location.reload(true); }, 0);
+
         }
-
-        $.each(response.devotee, function(index, data) {
-
-          if(data.address_unit1 != null && data.address_unit2 != null)
-          {
-            var full_address = data.address_houseno + ", #" + data.address_unit1 + "-" + data.address_unit2 + ", " + data.address_street + ", " + data.address_postal;
-          }
-          else
-          {
-            var full_address = data.address_houseno + ", " + data.address_street + ", " + data.address_postal;
-          }
-
-          $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
-          "<td class='checkbox-col'><input type='checkbox' name='kongdan_id[]' value='" + data.devotee_id + "' class='different kongdan_id'>" +
-          "<input type='hidden' class='form-control hidden_kongdan_id' name='hidden_kongdan_id[]'  value=''></td>" +
-          "<td>" + data.chinese_name +"</td>" +
-          "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
-          "<td></td>" +
-          "<td>" + $.trim(data.guiyi_name) + "</td>" +
-          "<td></td>" +
-          "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
-          "<td>" + $.trim(data.paytill_date) + "</td>" +
-          "<td></td>" +
-          "<td>" + data.lasttransaction_at + "</td>");
-        });
       },
       error: function (response) {
         console.log(response);
@@ -385,100 +415,78 @@ $(function() {
 
   // remove row
   $("#different_kongdan_familycode_table").on('click', '.removeDevotee', function() {
-
+    var devotee_id = $(this).attr('data-devotee_id');
     if (!confirm("Are you sure you want to delete this devotee from Relative and Friends List? This process is irreversible.")){
       return false;
     }
 
     else{
-      $(this).closest('tr').remove();
+      var formData = {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        devotee_id: devotee_id
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: "/fahui/delete-relative-and-friends",
+        data: formData,
+        dataType: 'json',
+        success: function(response)
+        {
+          $(".validation-error").removeClass("bg-danger alert alert-error")
+          $(".validation-error").empty();
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $(".validation-error").addClass("bg-success alert alert-error")
+          $(".validation-error").html("The devotee has been removed from Relative and Friends List");
+          setTimeout(function(){ window.location.reload(true); }, 0);
+        },
+        error: function (response) {
+            console.log(response);
+        }
+      });
+
     }
   });
 
   $("#add_trick_list").click(function() {
 
-    var array = [];
-
-    $("input:checkbox:checked", ".kongdan_history_table").map(function() {
-      array.push($(this).val());
-    });
-
-    array = $.unique(array);
-
-    var count = 0;
-    var errors = new Array();
-    var validationFailed = false;
-
-    if(array.length <= 0)
-    {
-      validationFailed = true;
-      errors[count++] = "Please select the devotee in the history table";
-    }
-
-    $('#different_kongdan_familycode_table .append-devotee-id').each( function () {
-
-      var id = $(this).val();
-
-      $.each(array, function( i, val ) {
-
-        if(val == id)
-        {
-          validationFailed = true;
-          errors[count++] = "Selected devotee(s) are already exits.";
-        }
+    var devotee_id_list = (function() {
+      var devotee_id_list_array = [];
+      $(".devotee_id_list:checkbox:checked").each(function() {
+        devotee_id_list_array.push(this.value);
       });
-    });
+      return devotee_id_list_array;
+    })();
 
-    if (validationFailed)
-    {
-      var errorMsgs = '';
-
-      errorMsgs = errorMsgs + errors[0] + "<br/>";
+    if(devotee_id_list == ""){
+      var errorMsgs = "Please select the devotee in the history table";
 
       $('html,body').animate({ scrollTop: 0 }, 'slow');
 
-      $(".validation-error").addClass("bg-danger alert alert-error")
+      $(".validation-error").addClass("bg-danger alert alert-error");
       $(".validation-error").html(errorMsgs);
 
-      return false;
     }
 
-    else
-    {
-      $(".validation-error").removeClass("bg-danger alert alert-error")
-      $(".validation-error").empty();
-    }
-
-    $.each(array, function( i, val ) {
+    else{
 
       var formData = {
         _token: $('meta[name="csrf-token"]').attr('content'),
-        devotee_id: val,
+        devotee_id_list: devotee_id_list
       };
 
       $.ajax({
-        type: 'GET',
-        url: "/staff/insert-devotee",
+        type: 'POST',
+        url: "/fahui/insert-relative-and-friends-from-history",
         data: formData,
         dataType: 'json',
         success: function(response)
         {
-          var familycode = $("#family_code").text();
-
-          if(familycode == response.devotee[0]['familycode'])
-          {
-            validationFailed = true;
-            errors[count++] = "Same Family Code cannot be inserted.";
-          }
-
-          if (validationFailed)
+          if (response.error != '')
           {
             var errorMsgs = '';
 
-            for(var i = 0; i < count; i++)
-            {
-              errorMsgs = errorMsgs + errors[i] + "<br/>";
-            }
+            errorMsgs = response.error + "<br/>";
 
             $('html,body').animate({ scrollTop: 0 }, 'slow');
 
@@ -492,39 +500,22 @@ $(function() {
           {
             $(".validation-error").removeClass("bg-danger alert alert-error")
             $(".validation-error").empty();
+
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+            $(".validation-error").addClass("bg-success alert alert-error")
+            $(".validation-error").html("New relative and friend has been inserted");
+
+            setTimeout(function(){ window.location.reload(true); }, 0);
           }
 
-          $.each(response.devotee, function(index, data) {
-
-            if(data.address_unit1 != null && data.address_unit2 != null)
-            {
-              var full_address = data.address_houseno + ", #" + data.address_unit1 + "-" + data.address_unit2 + ", " + data.address_street + ", " + data.address_postal;
-            }
-            else
-            {
-              var full_address = data.address_houseno + ", " + data.address_street + ", " + data.address_postal;
-            }
-
-            $('#appendDifferentFamilyCodeTable').append("<tr><td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>" +
-            "<td class='checkbox-col'><input type='checkbox' name='kongdan_id[]' value='" + data.devotee_id + "' class='different kongdan_id'>" +
-            "<input type='hidden' class='form-control hidden_kongdan_id' name='hidden_kongdan_id[]'  value=''></td>" +
-            "<td>" + data.chinese_name +"</td>" +
-            "<td><input type='hidden' name='devotee_id[]' class='append-devotee-id' value='" + data.devotee_id + "'>" + data.devotee_id + "</td>" +
-            "<td></td>" +
-            "<td>" + $.trim(data.guiyi_name) + "</td>" +
-            "<td></td>" +
-            "<td>" + (data.address_houseno !=null ? full_address : data.oversea_addr_in_chinese) + "</td>" +
-            "<td>" + $.trim(data.paytill_date) + "</td>" +
-            "<td></td>" +
-            "<td>" + (data.lasttransaction_at !=null ? data.lasttransaction_at : '') + "</td>");
-          });
         },
         error: function (response) {
           console.log(response);
         }
 
       });
-    });
+
+    }
 
   });
 });

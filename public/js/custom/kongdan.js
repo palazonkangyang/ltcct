@@ -1,15 +1,41 @@
 $(function() {
 
+  checkbox_multi_select('checkbox-multi-select-module-kongdan-tab-kongdan-section-sfc');
+  checkbox_multi_select('checkbox-multi-select-module-kongdan-tab-kongdan-section-raf');
+
   $('body').on('change', '.kongdan-amount-col', function(){
-    var sum = 0;
-    var len = $("input[name='kongdan_amount[]']:checked").length;
+    // var sum = 0;
+    // var len = $("input[name='kongdan_amount[]']:checked").length;
 
-    sum += len * 10;
+    // sum += len * 10;
 
-    $(".total").html(len);
-    $(".total_amount").html(sum);
-    $("#total_amount").val(sum);
-    $(".total_payable").html(sum);
+    // $(".total").html(len);
+    // $(".total_amount").html(sum);
+    // $("#total_amount").val(sum);
+    // $(".total_payable").html(sum);
+
+    var gr_sum = 0;
+    var total = 0;
+
+    $("input[name='kongdan_amount[]']").each( function () {
+
+      if( $(this).is(":checked") == true ) {
+        $(this).closest('.kongdan-amount-col').find('.gr').prop('checked',true);
+      }
+
+      else {
+        $(this).closest('.kongdan-amount-col').find('.gr').prop('checked',false);
+      }
+    });
+
+    var gr_count = $("input[name='gr[]']:checked").length;
+    $(".gr_total").html(gr_count);
+    var kongdan_price_gr= $("#kongdan_price_gr").text();
+    gr_sum += gr_count * kongdan_price_gr;
+    $(".gr_total_amount").html(gr_sum);
+    total = gr_sum;
+    $(".total_payable").html(total);
+    $("#total_amount").val(total);
   });
 
   $("#kongdan-form").submit(function() {

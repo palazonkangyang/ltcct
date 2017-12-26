@@ -25,7 +25,6 @@ $focus_devotee = Session::get('focus_devotee');
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>
-          <th width="100px">M.Paid Till</th>
           <th width="80px">Paid By</th>
           <th>Trans Date</th>
         </tr>
@@ -39,10 +38,10 @@ $focus_devotee = Session::get('focus_devotee');
           @if($devotee->is_checked == 1)
             <tr>
             <td class="kongdan-amount-col">
-              {{ Form::hidden('amount[]',10)}}
-              <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
-              <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]" value="">
+              {{ Form::hidden('amount[]',$kongdan_price_gr)}}
+              <input type="checkbox" class="amount checkbox-multi-select-module-kongdan-tab-kongdan-section-sfc" name="kongdan_amount[]" value="1">
               <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
+              <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
             </td>
             <td>
               @if($devotee->deceased_year != null)
@@ -62,15 +61,9 @@ $focus_devotee = Session::get('focus_devotee');
             <td></td>
             <td>{{ $devotee->guiyi_name }}</td>
             <td></td>
-            <td>{{ $devotee->item_description }}</td>
-            <td width="80px">
-              @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-              <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-              @elseif(isset($devotee->paytill_date))
-              <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-              @else
-              <span>{{ $devotee->paytill_date }}</span>
-              @endif
+            <td>
+                {{ $devotee->item_description }}
+                {{ Form::hidden('item_description_list[]',$devotee->item_description)}}
             </td>
             <td></td>
             <td>
@@ -118,7 +111,6 @@ $focus_devotee = Session::get('focus_devotee');
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>
-          <th width="100px">M.Paid Till</th>
           <th width="80px">Paid By</th>
           <th>Trans Date</th>
         </tr>
@@ -132,10 +124,10 @@ $focus_devotee = Session::get('focus_devotee');
 
         <tr>
           <td class="kongdan-amount-col">
-            {{ Form::hidden('amount[]',10)}}
-            <input type="checkbox" class="amount" name="kongdan_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_kongdan_amount" name="hidden_kongdan_amount[]" value="">
-            <input type="hidden" class="is_checked_list" name="is_checked_list[]" value="">
+            {{ Form::hidden('amount[]',$kongdan_price_gr)}}
+            <input type="checkbox" class="amount checkbox-multi-select-module-kongdan-tab-kongdan-section-raf" name="kongdan_amount[]" value="1">
+            <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
+            <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
           </td>
           <td>
             @if($list->deceased_year != null)
@@ -155,15 +147,9 @@ $focus_devotee = Session::get('focus_devotee');
           <td></td>
           <td>{{ $list->guiyi_name }}</td>
           <td></td>
-          <td>{{ $list->item_description }}</td>
           <td>
-            @if(isset($list->paytill_date) && \Carbon\Carbon::parse($list->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($list->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $list->paytill_date }}</span>
-            @endif
+            {{ $list->item_description }}
+            {{ Form::hidden('item_description_list[]',$list->item_description)}}
           </td>
           <td></td>
           <td>
@@ -351,7 +337,7 @@ $focus_devotee = Session::get('focus_devotee');
 
       <div class="form-group">
         <label class="col-md-12">
-          <p style="font-size: 15px;"><span class="total">0</span>	个人 @ S$ 10.00	=	S$ <span class="total_amount">0</span></p>
+          <p style="font-size: 15px;"><span class="gr_total">0</span> 个人 @ S$ <span id="kongdan_price_gr">{{ $kongdan_price_gr }}</span>	=	S$ <span class="gr_total_amount">0</span></p>
         </label>
       </div><!-- end form-group -->
 
@@ -414,44 +400,37 @@ $focus_devotee = Session::get('focus_devotee');
           <th>Description</th>
           <th>Paid By</th>
           <th>Devotee ID</th>
-          <th>HJ/ GR</th>
           <th>Amount</th>
           <th>Manual Receipt</th>
           <th>View Details</th>
         </tr>
       </thead>
 
-      @if(Session::has('kongdan_receipts'))
+      @if(Session::has('transaction.kongdan'))
 
       @php
-      $receipts = Session::get('kongdan_receipts');
+      $transactions = Session::get('transaction.kongdan');
       @endphp
 
       <tbody>
-        @foreach($receipts as $receipt)
+        @foreach($transactions as $transaction)
 
         <tr>
-          @if(isset($receipt->cancelled_date))
-          <td class="text-danger">{{ $receipt->receipt_no }}</td>
-          @else
-          <td>{{ $receipt->receipt_no }}</td>
-          @endif
-          <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
-          <td>{{ $receipt->trans_no }}</td>
-          <td>{{ $receipt->description }}</td>
-          {{ Form::hidden('item_description_list[]',$receipt->description)}}
-          <td>{{ $receipt->chinese_name }}</td>
-          <td>{{ $receipt->focusdevotee_id }}</td>
           <td>
-            @if($receipt->hjgr == "hj")
-            合家
-            @else
-            个人
+            @if($transaction->status == 'cancelled')
+            <span style="color:red;">{{ $transaction->receipt }}</span>
+            @elseif($transaction->status == NULL)
+            {{ $transaction->receipt }}
             @endif
           </td>
-          <td>{{ $receipt->total_amount }}</td>
-          <td>{{ $receipt->manualreceipt }}</td>
-          <td><a href="#tab_kongdan_transactiondetail" data-toggle="tab" id="{{ $receipt->trans_no }}" class="kongdan-receipt-id">Detail</a></td>
+          <td>{{ $transaction->trans_at }}</td>
+          <td>{{ $transaction->trans_no }}</td>
+          <td>{{ $transaction->description }}</td>
+          <td>{{ $transaction->paid_by }}</td>
+          <td>{{ $transaction->focusdevotee_id }}</td>
+          <td>{{ $transaction->total_amount }}</td>
+          <td>{{ $transaction->manualreceipt }}</td>
+          <td><a href="#tab_kongdan_transactiondetail" data-toggle="tab" id="{{ $transaction->trans_no }}" class="kongdan-receipt-id">Detail</a></td>
         </tr>
         @endforeach
       </tbody>
