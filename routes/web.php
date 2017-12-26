@@ -130,16 +130,19 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/insert-relative-and-friends-from-history', ['as' => 'insert-relative-and-friends-from-history', 'uses' => 'RelativeAndFriendsController@insertRelativeAndFriendsFromHistory']);
 		//Route::get('/kongdan-transaction-detail', ['as' => 'kongdan-transaction-detail-page', 'uses' => 'FahuiController@getTransactionDetail']);
 		Route::get('/transaction-detail', ['as' => 'transaction-detail-page', 'uses' => 'TransactionController@getTransactionDetail']);
-
+		//Route::post('/xiaozai-cancel-transaction', ['as' => 'xiaozai-cancel-transaction-page', 'uses' => 'XiaozaiController@postCancelTransaction']);
+		Route::post('/cancel-transaction', ['as' => 'cancel-transaction-page', 'uses' => 'TransactionController@cancelTransaction']);
+		// Route::post('/xiaozai-cancel-replace-transaction', ['as' => 'kongdan-cancel-replace-transaction-page', 'uses' => 'XiaozaiController@postCancelReplaceTransaction']);
+		Route::post('/cancel-and-replace-transaction', ['as' => 'cancel-and-replace-transaction-page', 'uses' => 'TransactionController@cancelAndReplaceTransaction']);
 		Route::post('/xiaozai-differentfamily-setting', ['as' => 'post-xiaozai-differentfamily-setting-page', 'uses' => 'RelativeAndFriendsController@updateRafSetting']);
 		//Route::post('/kongdan-differentfamily-setting', ['as' => 'post-kongdan-differentfamily-setting-page', 'uses' => 'FahuiController@postKongdanDifferentFamilySetting']);
 		Route::post('/kongdan-differentfamily-setting', ['as' => 'post-kongdan-differentfamily-setting-page', 'uses' => 'RelativeAndFriendsController@updateRafSetting']);
-
+		// Route::post('/xiaozai-reprint-detail', ['as' => 'xiaozai-reprint-detail-page', 'uses' => 'XiaozaiController@ReprintDetail']);
+		Route::post('/reprint-receipt', ['as' => 'reprint-detail-page', 'uses' => 'TransactionController@reprintReceipt']);
 		Route::post('/delete-relative-and-friends', ['as' => 'delete-relative-and-friends', 'uses' => 'RelativeAndFriendsController@deleteRelativeAndFriends']);
 		Route::get('/participant-list',['as' => 'fahui-participant-list', 'uses' => 'FahuiController@getParticipantList']);
 
-		// Route::post('/xiaozai-cancel-replace-transaction', ['as' => 'kongdan-cancel-replace-transaction-page', 'uses' => 'XiaozaiController@postCancelReplaceTransaction']);
-		Route::post('/cancel-and-replace-transaction', ['as' => 'cancel-and-replace-transaction-page', 'uses' => 'TransactionController@cancelAndReplaceTransaction']);
+
 
 		// KongDan
 		Route::get('/kongdan', ['as' => 'get-kongdan-page', 'uses' => 'FahuiController@getKongDan']);
@@ -171,10 +174,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/xiaozai', ['as' => 'get-xiaozai-page', 'uses' => 'XiaozaiController@getXiaoZai']);
 		//Route::get('/xiaozai-transaction-detail', ['as' => 'xiaozai-transaction-detail-page', 'uses' => 'XiaoZaiController@getTransactionDetail']);
 
-		// Route::post('/xiaozai-reprint-detail', ['as' => 'xiaozai-reprint-detail-page', 'uses' => 'XiaozaiController@ReprintDetail']);
-		Route::post('/reprint-receipt', ['as' => 'reprint-detail-page', 'uses' => 'TransactionController@reprintReceipt']);
-		//Route::post('/xiaozai-cancel-transaction', ['as' => 'xiaozai-cancel-transaction-page', 'uses' => 'XiaozaiController@postCancelTransaction']);
-		Route::post('/cancel-transaction', ['as' => 'cancel-transaction-page', 'uses' => 'TransactionController@cancelTransaction']);
+
+
 
 
 		Route::post('/xiaozai', ['as' => 'post-xiaozai-page', 'uses' => 'XiaozaiController@postXiaozai']);

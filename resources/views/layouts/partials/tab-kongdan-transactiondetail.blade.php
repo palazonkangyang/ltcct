@@ -1,6 +1,6 @@
 <div class="form-body">
 
-  <form method="post" target="_blank" action="{{ URL::to('/fahui/kongdan-reprint-detail') }}"
+  <form method="post" target="_blank" action="{{ URL::to('/fahui/reprint-receipt') }}"
     class="form-horizontal form-bordered" id="">
     {!! csrf_field() !!}
 
@@ -147,12 +147,12 @@
        <div class="mt-radio-list">
 
          <label class="mt-radio mt-radio-outline"> 1 Receipt Printing for Same Address
-             <input type="radio" name="hjgr" value="hj" checked>
+             <input type="radio" name="receipt_printing_type" value="one_receipt_printing_for_same_address" checked>
              <span></span>
          </label>
 
          <label class="mt-radio mt-radio-outline"> Individual Receipt Printing
-             <input type="radio" name="hjgr" value="gr">
+             <input type="radio" name="receipt_printing_type" value="individual_receipt_printing">
              <span></span>
          </label>
      </div><!-- end mt-radio-list -->
@@ -164,9 +164,10 @@
 
    </form>
 
-   <form method="post" action="{{ URL::to('/fahui/kongdan-cancel-transaction') }}"
+   <form method="post" action="{{ URL::to('/fahui/cancel-transaction') }}"
      class="form-horizontal form-bordered" id="">
      {!! csrf_field() !!}
+     <input type="hidden" name="mod_id" value=10>
 
    <div class="col-md-12" id="kongdan_trans_wrap7">
      <br />

@@ -153,11 +153,9 @@
 
     <div class="form-group">
 
-      @if(Session::has('focus_devotee'))
       <h5 style="font-weight: bold;">
         Past Year Record
       </h5>
-      @endif
 
       <table class="table table-bordered xiaozai_history_table">
         <thead>

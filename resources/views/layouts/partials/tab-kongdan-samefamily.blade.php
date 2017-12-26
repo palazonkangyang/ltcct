@@ -3,13 +3,6 @@
   $same_family_code_history = Session::get('same_family_code_history')['kongdan'];
   $focus_devotee = Session::get('focus_devotee');
 
-
-  $kongdan_setting_samefamily_last1year = Session::get('kongdan_setting_samefamily_last1year');
-  $kongdan_setting_samefamily_last2year = Session::get('kongdan_setting_samefamily_last2year');
-  $kongdan_setting_samefamily_last3year = Session::get('kongdan_setting_samefamily_last3year');
-  $kongdan_setting_samefamily_last4year = Session::get('kongdan_setting_samefamily_last4year');
-  $kongdan_setting_samefamily_last5year = Session::get('kongdan_setting_samefamily_last5year');
-
 @endphp
 
 <div class="form-body">
@@ -118,13 +111,16 @@
 
     <p></p>
 
-    <hr>
 
     <p></p>
 
     @php $this_year = date('Y'); @endphp
 
     <div class="form-group">
+
+      <h5 style="font-weight: bold;">
+        Past Year Record
+      </h5>
 
       <table class="table table-bordered kongdan_history_table">
         <thead>

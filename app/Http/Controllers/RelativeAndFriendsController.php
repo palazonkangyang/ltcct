@@ -511,6 +511,8 @@ class RelativeAndFriendsController extends Controller
 
       // Kong Dan
       case 10:
+        $param['raf_list'] = $raf_list;
+        $raf_list = RelativeAndFriendsController::getRafKongDan($param);
         Session::put('relative_and_friends.kongdan',$raf_list);
         break;
 
@@ -531,6 +533,15 @@ class RelativeAndFriendsController extends Controller
 
       default:
     }
+  }
+
+  public static function getRafKongDan($param){
+    foreach($param['raf_list'] as $index=>$raf){
+      $raf_kongdan = RafKongDan::where('raf_id','=',$raf['sfc_id'])
+                               ->first();
+      $raf['item_description'] = AddressController::getAddressByDevoteeId($raf['devotee_id']);
+    }
+    return $param['raf_list'];
   }
 
   public static function getRafXiaoZai($param){

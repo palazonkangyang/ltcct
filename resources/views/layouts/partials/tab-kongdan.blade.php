@@ -11,6 +11,7 @@ $focus_devotee = Session::get('focus_devotee');
 
   {!! csrf_field() !!}
   {{ Form::hidden('mod_id',Session::get('module.kongdan_id'))}}
+  {{ Form::hidden('trans_no_to_cancel','') }}
   <div class="form-group">
 
     <h4>Same Family Code 同址善信</h4>
