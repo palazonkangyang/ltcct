@@ -286,14 +286,14 @@ $transactions = Session::get('transaction.kongdan');
 
         <div class="col-md-12">
           <div class="mt-radio-list">
-
+            <!--
             <label class="mt-radio mt-radio-outline"> 1 Receipt Printing for Same Address
               <input type="radio" name="receipt_printing_type" value="one_receipt_printing_for_same_address" checked>
               <span></span>
             </label>
-
+          -->
             <label class="mt-radio mt-radio-outline"> Individual Receipt Printing
-              <input type="radio" name="receipt_printing_type" value="individual_receipt_printing">
+              <input type="radio" name="receipt_printing_type" value="individual_receipt_printing" checked>
               <span></span>
             </label>
           </div><!-- end mt-radio-list -->

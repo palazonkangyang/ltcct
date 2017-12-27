@@ -23,13 +23,13 @@ p{
   margin-bottom: 10px;
 }
 
-#leftcontent{
+#section-left{
   width: 120mm;
   margin-right: 1mm;
   float: left;
 }
 
-#rightcontent{
+#section-right{
   width: 72mm;
   float: right;
 }
@@ -42,6 +42,12 @@ p{
   overflow: hidden;
   max-height: 149px;
   height: 149px;
+}
+
+.receipt-list-max-1{
+  overflow: hidden;
+  max-height: 101px;
+  height: 101px;
 }
 
 hr{
@@ -123,4 +129,9 @@ table.receipt-table td {
 	border-width: 1px;
 	padding: 1px;
   text-align: center;
+}
+
+.vertical-orientation{
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 }

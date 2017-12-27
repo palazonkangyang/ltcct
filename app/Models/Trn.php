@@ -40,7 +40,6 @@ class Trn extends Model
 
 
   public static function getTransaction($trn_id){
-      if(Session::has('transaction')) { Session::forget('transaction'); }
       $transaction = Trn::where('trn_id',$trn_id)->first();
       return $transaction;
   }
@@ -196,7 +195,7 @@ class Trn extends Model
 
     Trn::getTrn($devotee_id,$mod_id);
 
-      return view('receipt.preview', [
+      return view('receipt.index', [
         'module' => Module::getModule($mod_id),
         'transaction' => $transaction,
         'paginate_receipts' => $paginate_receipts,
