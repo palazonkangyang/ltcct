@@ -159,7 +159,6 @@ $(function() {
             $('#transaction-table tbody').append("<tr><td>" + rowno + "</td>" +
             "<td>" + data.devotee_chinese_name + "</td>" +
             "<td>" + data.devotee_id + "</td>" +
-            "<td>个人</td>" +
             "<td>" + (data.item_description != null ? data.item_description : '') + "</td>" +
             "<td>" + data.receipt_no + "</td>" +
             "<td>" + data.amount + "</td>");
@@ -347,7 +346,6 @@ $(function() {
             $('#transaction-table tbody').append("<tr><td>" + rowno + "</td>" +
             "<td>" + data.devotee_chinese_name + "</td>" +
             "<td>" + data.devotee_id + "</td>" +
-            "<td>个人</td>" +
             "<td>" + (data.item_description != null ? data.item_description : '') + "</td>" +
             "<td>" + data.receipt_no + "</td>" +
             "<td>" + data.amount + "</td>");

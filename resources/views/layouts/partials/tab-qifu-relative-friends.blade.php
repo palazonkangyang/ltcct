@@ -1,14 +1,16 @@
 @php
   $relative_and_friends = Session::get('relative_and_friends')['qifu'];
+  $relative_and_friends_history = Session::get('relative_and_friends_history')['qifu'];
+  $focus_devotee = Session::get('focus_devotee');
 @endphp
 
 <div class="form-body">
 
-  <form method="post" action="{{ URL::to('/fahui/qifu-differentfamily-setting') }}"
+  <form method="post" action="{{ URL::to('/fahui/update-relative-and-friends-setting') }}"
   class="form-horizontal form-bordered" id="qifu_differentfamily_form">
 
   {!! csrf_field() !!}
-
+  <input type="hidden" name="mod_id" value=9>
   <div class="form-group">
 
     <table class="table table-bordered" id="different_qifu_familycode_table">
@@ -18,11 +20,10 @@
           <th>#</th>
           <th width="120px">Chinese Name</th>
           <th width="80px">Devotee#</th>
-          <th width="80px">Register By</th>
+          <th width="80px">RegisterBy</th>
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>
-          <th width="100px">M.Paid Till</th>
           <th width="80px">Paid By</th>
           <th>Trans Date</th>
         </tr>
@@ -30,16 +31,15 @@
 
       <tbody id="appendDifferentFamilyCodeTable">
 
-        @if(Session::has('qifu_setting_differentfamily'))
+        @if(Session::has('relative_and_friends.qifu'))
 
         @foreach($relative_and_friends as $devotee)
         <tr>
-          <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
+          <input type="hidden" name="raf_id[]" value="{{$devotee->raf_id}}">
+          <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true' data-devotee_id='{{ $devotee->devotee_id }}' ></i></td>
           <td class="checkbox-col">
-            <input type="checkbox" class="same qifu_id" name="qifu_id[]"
-            value="1" <?php if ($devotee->qifu_id == '1'){ ?>checked="checked"<?php }?>>
-            <input type="hidden" class="form-control hidden_qifu_id" name="hidden_qifu_id[]"
-            value="">
+            <input type="checkbox" class="qifu_id checkbox-multi-select-module-qifu-tab-raf-section-raf" name="qifu_id[]" value="1" <?php if ($devotee->is_checked == '1'){ ?>checked="checked"<?php }?>>
+            <input type="hidden" class="hidden_qifu_id" name="is_checked[]" value="">
           </td>
           <td>
             @if($devotee->deceased_year != null)
@@ -59,24 +59,7 @@
           <td></td>
           <td>{{ $devotee->guiyi_name }}</td>
           <td></td>
-          <td>
-            @if(isset($devotee->oversea_addr_in_chinese))
-            {{ $devotee->oversea_addr_in_chinese }}
-            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-            @else
-            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-            @endif
-          </td>
-          <td>
-            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($devotee->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $devotee->paytill_date }}</span>
-            @endif
-          </td>
+          <td>{{ $devotee->item_description }}</td>
           <td></td>
           <td>
             @if(isset($devotee->lasttransaction_at))
@@ -233,6 +216,81 @@
 
   <p><br /><br /></p>
 
+  <p><br /></p>
+
+  @php $this_year = date('Y'); @endphp
+
+  <div class="form-group">
+
+    @if(Session::has('focus_devotee'))
+    <h5 style="font-weight: bold;">
+      Past Year Record
+    </h5>
+    @endif
+
+    <table class="table table-bordered qifu_history_table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Chinese Name</th>
+          <th>Devotee#</th>
+          <th>Register By</th>
+          <th>Guiyi ID</th>
+          <th>GY</th>
+          <th>Item Description</th>
+          <th>Paid By</th>
+          <th>Trans Date</th>
+        </tr>
+      </thead>
+
+      <tbody id="has_session">
+        @if(isset($relative_and_friends_history))
+          @foreach($relative_and_friends_history as $devotee)
+          <tr>
+            <td class="checkbox-col">
+              <input type="checkbox" class="devotee_id_list checkbox-multi-select-module-qifu-tab-raf-section-raf-history" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
+            </td>
+            <td>
+              @if($devotee->deceased_year != null)
+              <span class="text-danger">{{ $devotee->chinese_name }}</span>
+              @else
+              <span>{{ $devotee->chinese_name }}</span>
+              @endif
+            </td>
+            <td>
+              <input type="hidden" value="{{ $devotee->devotee_id }}" class="xiaozai-history-id">
+              @if($devotee->specialremarks_devotee_id == null)
+              <span>{{ $devotee->devotee_id }}</span>
+              @else
+              <span class="text-danger">{{ $devotee->devotee_id }}</span>
+              @endif
+            </td>
+            <td>
+              @if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
+              <span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
+              @else
+              <span>{{ $devotee->member_id }}</span>
+              @endif
+            </td>
+            <td>{{ $devotee->guiyi_name }}</td>
+            <td></td>
+            <td>{{ $devotee->item_description }}</td>
+            <td></td>
+            <td>
+              @if(isset($devotee->lasttransaction_at))
+              {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+              @else
+              {{ $devotee->lasttransaction_at }}
+              @endif
+            </td>
+          </tr>
+          @endforeach
+        @endif
+      </tbody>
+    </table>
+
+  </div><!-- end form-group -->
+
   <div class="form-group">
     <div class="form-actions" style="margin-left: 20px;">
       <p>
@@ -243,8 +301,6 @@
     </div>
   </div><!-- end form-group -->
 
-  @php $focus_devotee = Session::get('focus_devotee'); @endphp
-
   <div class="form-group">
     @if(count($focus_devotee) > 0)
     <input type="hidden" name="focusdevotee_id" value="{{ $focus_devotee[0]->devotee_id }}" id="focusdevotee_id">
@@ -252,6 +308,8 @@
     <input type="hidden" name="focusdevotee_id" value="" id="focusdevotee_id">
     @endif
   </div><!-- end form-group -->
+
+  <p><br /><br /></p>
 
   <div class="form-actions">
     <button type="submit" class="btn blue" id="update_differentaddr_btn">Update</button>

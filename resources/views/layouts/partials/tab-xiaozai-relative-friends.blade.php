@@ -9,7 +9,7 @@
 
 <div class="form-body">
 
-  <form method="post" action="{{ URL::to('/fahui/xiaozai-differentfamily-setting') }}"
+  <form method="post" action="{{ URL::to('/fahui/update-relative-and-friends-setting') }}"
     class="form-horizontal form-bordered" id="xiaozai_differentfamily_form">
 
     {!! csrf_field() !!}

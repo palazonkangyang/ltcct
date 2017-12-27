@@ -2,6 +2,7 @@
 $same_family_code = Session::get('same_family_code')['qifu'];
 $relative_and_friends = Session::get('relative_and_friends')['qifu'];
 $focus_devotee = Session::get('focus_devotee');
+$transactions = Session::get('transaction.qifu');
 @endphp
 
 <div class="form-body">
@@ -123,7 +124,7 @@ $focus_devotee = Session::get('focus_devotee');
       <tbody id="appendDevoteeLists">
 
         @foreach($relative_and_friends as $list)
-
+        @if($list->is_checked == 1)
         <tr>
           <td class="qifu-amount-col">
             {{ Form::hidden('amount[]',$qifu_price_gr)}}
@@ -162,7 +163,7 @@ $focus_devotee = Session::get('focus_devotee');
             @endif
           </td>
         </tr>
-
+        @endif
         @endforeach
 
       </tbody>
@@ -397,43 +398,32 @@ $focus_devotee = Session::get('focus_devotee');
           <th>Description</th>
           <th>Paid By</th>
           <th>Devotee ID</th>
-          <th>HJ/ GR</th>
           <th>Amount</th>
           <th>Manual Receipt</th>
           <th>View Details</th>
         </tr>
       </thead>
 
-      @if(Session::has('qifu_receipts'))
-
-      @php
-      $receipts = Session::get('qifu_receipts');
-      @endphp
+      @if(Session::has('transaction.qifu'))
 
       <tbody>
-        @foreach($receipts as $receipt)
-
+        @foreach($transactions as $transaction)
         <tr>
-          @if(isset($receipt->cancelled_date))
-          <td class="text-danger">{{ $receipt->receipt_no }}</td>
-          @else
-          <td>{{ $receipt->receipt_no }}</td>
-          @endif
-          <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
-          <td>{{ $receipt->trans_no }}</td>
-          <td>{{ $receipt->description }}</td>
-          <td>{{ $receipt->chinese_name }}</td>
-          <td>{{ $receipt->focusdevotee_id }}</td>
           <td>
-            @if($receipt->hjgr == "hj")
-            合家
-            @else
-            个人
+            @if($transaction->status == 'cancelled')
+            <span style="color:red;">{{ $transaction->receipt }}</span>
+            @elseif($transaction->status == NULL)
+            {{ $transaction->receipt }}
             @endif
           </td>
-          <td>{{ $receipt->total_amount }}</td>
-          <td>{{ $receipt->manualreceipt }}</td>
-          <td><a href="#tab_qifu_transactiondetail" data-toggle="tab" id="{{ $receipt->trans_no }}" class="qifu-receipt-id">Detail</a></td>
+          <td>{{ $transaction->trans_at }}</td>
+          <td>{{ $transaction->trans_no }}</td>
+          <td>{{ $transaction->description }}</td>
+          <td>{{ $transaction->paid_by }}</td>
+          <td>{{ $transaction->focusdevotee_id }}</td>
+          <td>{{ $transaction->total_amount }}</td>
+          <td>{{ $transaction->manualreceipt }}</td>
+          <td><a href="#tab_qifu_transactiondetail" data-toggle="tab" id="{{ $transaction->trans_no }}" class="qifu-receipt-id">Detail</a></td>
         </tr>
         @endforeach
       </tbody>
@@ -445,7 +435,6 @@ $focus_devotee = Session::get('focus_devotee');
           <td colspan="10">No Result Found!</td>
         </tr>
       </tbody>
-
       @endif
     </table>
 

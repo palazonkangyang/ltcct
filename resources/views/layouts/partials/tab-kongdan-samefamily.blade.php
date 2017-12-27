@@ -15,7 +15,7 @@
     @endif
   </div>
 
-  <form method="post" action="{{ URL::to('/fahui/kongdan-samefamily-setting') }}"
+  <form method="post" action="{{ URL::to('/fahui/update-same-family-code-setting') }}"
     class="form-horizontal form-bordered" id="kongdan_samefamily_form">
     <input type="hidden" name="mod_id" value=10>
     {!! csrf_field() !!}

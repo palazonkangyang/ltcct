@@ -1405,7 +1405,8 @@ class OperatorController extends Controller
 		TransactionController::getTrnForAllModule();
 		//dd(Session()->get('transaction.xiaozai'));
 		//dd(Session()->get('transaction'));
-		// dd(Session()->get('relative_and_friends_history'));
+		//dd(Session()->get('same_family_code_history'));
+		//dd(Session()->get('relative_and_friends_history'));
 
 		return redirect()->route('get-donation-page', [
 			'events' => $events

@@ -16,7 +16,7 @@
     @endif
   </div>
 
-  <form method="post" action="{{ URL::to('/fahui/xiaozai-samefamily-setting') }}"
+  <form method="post" action="{{ URL::to('/fahui/update-same-family-code-setting') }}"
     class="form-horizontal form-bordered" id="xiaozai_samefamily_form">
     <input type="hidden" name="mod_id" value=5>
     {!! csrf_field() !!}

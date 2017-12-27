@@ -3,16 +3,11 @@ $relative_and_friends = Session::get('relative_and_friends')['kongdan'];
 $relative_and_friends_history = Session::get('relative_and_friends_history')['kongdan'];
 $focus_devotee = Session::get('focus_devotee');
 
-$kongdan_setting_differentfamily_last1year = Session::get('kongdan_setting_differentfamily_last1year');
-$kongdan_setting_differentfamily_last2year = Session::get('kongdan_setting_differentfamily_last2year');
-$kongdan_setting_differentfamily_last3year = Session::get('kongdan_setting_differentfamily_last3year');
-$kongdan_setting_differentfamily_last4year = Session::get('kongdan_setting_differentfamily_last4year');
-$kongdan_setting_differentfamily_last5year = Session::get('kongdan_setting_differentfamily_last5year');
 @endphp
 
 <div class="form-body">
 
-  <form method="post" action="{{ URL::to('/fahui/kongdan-differentfamily-setting') }}"
+  <form method="post" action="{{ URL::to('/fahui/update-relative-and-friends-setting') }}"
   class="form-horizontal form-bordered" id="kongdan_differentfamily_form">
 
   {!! csrf_field() !!}
@@ -65,15 +60,7 @@ $kongdan_setting_differentfamily_last5year = Session::get('kongdan_setting_diffe
           <td></td>
           <td>{{ $devotee->guiyi_name }}</td>
           <td></td>
-          <td>
-            @if(isset($devotee->oversea_addr_in_chinese))
-            {{ $devotee->oversea_addr_in_chinese }}
-            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-            @else
-            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-            @endif
-          </td>
+          <td>{{ $devotee->item_description }}</td>
           <td></td>
           <td>
             @if(isset($devotee->lasttransaction_at))

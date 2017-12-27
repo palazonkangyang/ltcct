@@ -15,7 +15,7 @@
     @endif
   </div>
 
-  <form method="post" action="{{ URL::to('/fahui/qifu-samefamily-setting') }}"
+  <form method="post" action="{{ URL::to('/fahui/update-same-family-code-setting') }}"
     class="form-horizontal form-bordered" id="qifu_samefamily_form">
     <input type="hidden" name="mod_id" value=9>
     {!! csrf_field() !!}
@@ -33,7 +33,7 @@
             <th>GY</th>
             <th>Item Description</th>
             <th>Paid By</th>
-            <th>Last Trans</th>
+            <th>Trans Date</th>
           </tr>
         </thead>
 
@@ -44,7 +44,7 @@
           <input type="hidden" name="sfc_id[]" value="{{ $devotee->sfc_id }}">
           <tr>
             <td class="checkbox-col">
-              <input type="checkbox" class="same qifu_id" name="qifu_id[]"
+              <input type="checkbox" class="same qifu_id checkbox-multi-select-module-qifu-tab-sfc-section-sfc" name="qifu_id[]"
               value="1" <?php if ($devotee->is_checked == 1){ ?>checked="checked"<?php }?>>
               <input type="hidden" class="form-control hidden_qifu_id" name="is_checked[]"
               value="">

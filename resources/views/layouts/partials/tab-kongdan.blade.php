@@ -2,6 +2,7 @@
 $same_family_code = Session::get('same_family_code')['kongdan'];
 $relative_and_friends = Session::get('relative_and_friends')['kongdan'];
 $focus_devotee = Session::get('focus_devotee');
+$transactions = Session::get('transaction.kongdan');
 @endphp
 
 <div class="form-body">
@@ -408,10 +409,6 @@ $focus_devotee = Session::get('focus_devotee');
       </thead>
 
       @if(Session::has('transaction.kongdan'))
-
-      @php
-      $transactions = Session::get('transaction.kongdan');
-      @endphp
 
       <tbody>
         @foreach($transactions as $transaction)
