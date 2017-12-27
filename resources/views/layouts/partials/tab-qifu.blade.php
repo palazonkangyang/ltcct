@@ -1,16 +1,17 @@
 @php
-  $same_family_code = Session::get('same_family_code')['qifu'];
-
-  $qifu_different_family = Session::get('qifu_different_family');
-  $focus_devotee = Session::get('focus_devotee');
+$same_family_code = Session::get('same_family_code')['qifu'];
+$relative_and_friends = Session::get('relative_and_friends')['qifu'];
+$focus_devotee = Session::get('focus_devotee');
 @endphp
 
 <div class="form-body">
 
-  <form target="_blank" method="post" action="{{ URL::to('/fahui/qifu') }}"
+  <form target="_blank" method="post" action="{{ URL::to('/transaction/create') }}"
   class="form-horizontal form-bordered" id="qifu-form">
 
   {!! csrf_field() !!}
+  {{ Form::hidden('mod_id',Session::get('module.qifu_id'))}}
+  {{ Form::hidden('trans_no_to_cancel','') }}
 
   <div class="form-group">
 
@@ -26,7 +27,6 @@
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>
-          <th width="100px">M.Paid Till</th>
           <th width="80px">Paid By</th>
           <th>Trans Date</th>
         </tr>
@@ -40,9 +40,10 @@
           @if($devotee->is_checked == 1)
             <tr>
           <td class="qifu-amount-col">
-            <input type="checkbox" class="amount" name="qifu_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_qifu_amount" name="hidden_qifu_amount[]"
-            value="">
+            {{ Form::hidden('amount[]',$qifu_price_gr)}}
+            <input type="checkbox" class="amount checkbox-multi-select-module-qifu-tab-qifu-section-sfc" name="qifu_amount[]" value="1">
+            <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
+            <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
           </td>
           <td>
             @if($devotee->deceased_year != null)
@@ -63,22 +64,8 @@
           <td>{{ $devotee->guiyi_name }}</td>
           <td></td>
           <td>
-            @if(isset($devotee->oversea_addr_in_chinese))
-            {{ $devotee->oversea_addr_in_chinese }}
-            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
-            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-            @else
-            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
-            @endif
-          </td>
-          <td width="80px">
-            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($devotee->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $devotee->paytill_date }}</span>
-            @endif
+              {{ $devotee->item_description }}
+              {{ Form::hidden('item_description_list[]',$devotee->item_description)}}
           </td>
           <td></td>
           <td>
@@ -126,22 +113,23 @@
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>
-          <th width="100px">M.Paid Till</th>
           <th width="80px">Paid By</th>
           <th>Trans Date</th>
         </tr>
       </thead>
 
-      @if(count($qifu_different_family) > 0)
+      @if(count($relative_and_friends) > 0)
 
       <tbody id="appendDevoteeLists">
 
-        @foreach($qifu_different_family as $list)
+        @foreach($relative_and_friends as $list)
 
         <tr>
           <td class="qifu-amount-col">
-            <input type="checkbox" class="amount" name="qifu_amount[]" value="1">
-            <input type="hidden" class="form-control hidden_qifu_amount" name="hidden_qifu_amount[]" value="">
+            {{ Form::hidden('amount[]',$qifu_price_gr)}}
+            <input type="checkbox" class="amount checkbox-multi-select-module-qifu-tab-qifu-section-raf" name="qifu_amount[]" value="1">
+            <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
+            <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
           </td>
           <td>
             @if($list->deceased_year != null)
@@ -162,22 +150,8 @@
           <td>{{ $list->guiyi_name }}</td>
           <td></td>
           <td>
-            @if(isset($list->oversea_addr_in_chinese))
-            {{ $list->oversea_addr_in_chinese }}
-            @elseif(isset($list->address_unit1) && isset($list->address_unit2))
-            {{ $list->address_houseno }}, #{{ $list->address_unit1 }}-{{ $list->address_unit2 }}, {{ $list->address_street }}, {{ $list->address_postal }}
-            @else
-            {{ $list->address_houseno }}, {{ $list->address_street }}, {{ $list->address_postal }}
-            @endif
-          </td>
-          <td>
-            @if(isset($list->paytill_date) && \Carbon\Carbon::parse($list->paytill_date)->lt($now))
-            <span class="text-danger">{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
-            @elseif(isset($list->paytill_date))
-            <span>{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
-            @else
-            <span>{{ $list->paytill_date }}</span>
-            @endif
+            {{ $list->item_description }}
+            {{ Form::hidden('item_description_list[]',$list->item_description)}}
           </td>
           <td></td>
           <td>
@@ -308,12 +282,12 @@
           <div class="mt-radio-list">
 
             <label class="mt-radio mt-radio-outline"> 1 Receipt Printing for Same Address
-              <input type="radio" name="hjgr" value="hj" checked>
+              <input type="radio" name="receipt_printing_type" value="one_receipt_printing_for_same_address" checked>
               <span></span>
             </label>
 
             <label class="mt-radio mt-radio-outline"> Individual Receipt Printing
-              <input type="radio" name="hjgr" value="gr">
+              <input type="radio" name="receipt_printing_type" value="individual_receipt_printing">
               <span></span>
             </label>
           </div><!-- end mt-radio-list -->
@@ -359,7 +333,7 @@
 
       <div class="form-group">
         <label class="col-md-12">
-          <p style="font-size: 15px;"><span class="total">0</span>	个人 @ S$ 10.00	=	S$ <span class="total_amount">0</span></p>
+          <p style="font-size: 15px;"><span class="gr_total">0</span> 个人 @ S$ <span id="qifu_price_gr">{{ $qifu_price_gr }}</span>	=	S$ <span class="gr_total_amount">0</span></p>
         </label>
       </div><!-- end form-group -->
 

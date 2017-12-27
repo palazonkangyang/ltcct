@@ -47,6 +47,10 @@ class SystemSetting extends Model
     return 'kongdan_price_gr';
   }
 
+  public static function getNameOfQiFuPriceGr(){
+    return 'qifu_price_gr';
+  }
+
   public static function getValueAmountOfXiaozaiPriceHj(){
       return SystemSetting::where('name',SystemSetting::getNameOfXiaoZaiPriceHj())->pluck('value_amount')->first();
   }
@@ -75,6 +79,9 @@ class SystemSetting extends Model
       return SystemSetting::where('name',SystemSetting::getNameOfKongDanPriceGr())->pluck('value_amount')->first();
   }
 
+  public static function getValueAmountOfQiFuPriceGr(){
+      return SystemSetting::where('name',SystemSetting::getNameOfQiFuPriceGr())->pluck('value_amount')->first();
+  }
 
   public static function findValueAmountByName($name){
     return SystemSetting::where('name',$name)->pluck('value_amount')->first();

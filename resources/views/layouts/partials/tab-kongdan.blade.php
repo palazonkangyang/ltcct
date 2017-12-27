@@ -122,7 +122,7 @@ $focus_devotee = Session::get('focus_devotee');
       <tbody id="appendDevoteeLists">
 
         @foreach($relative_and_friends as $list)
-
+        @if($list->is_checked == 1)
         <tr>
           <td class="kongdan-amount-col">
             {{ Form::hidden('amount[]',$kongdan_price_gr)}}
@@ -161,7 +161,7 @@ $focus_devotee = Session::get('focus_devotee');
             @endif
           </td>
         </tr>
-
+        @endif
         @endforeach
 
       </tbody>

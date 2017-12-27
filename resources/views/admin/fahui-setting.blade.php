@@ -196,11 +196,10 @@
               <div class="portlet-body form">
                 <div class="form-body">
                   <div class="form-group">
+                    <h4>Price Setting 价格设定</h4>
                     <div class="col-md-2">
-                      {{--
-                      <label>*</label>
-                      <input type="text" class="form-control" name="*" value="" id="*">
-                      --}}
+                      <label>个人</label>
+                      <input type="number" class="form-control" name="qifu_price_gr"  id="qifu_price_gr" value="{{ $qifu_price_gr }}" min="0" max="1000" step="any">
                     </div>{{-- end col-md-2 --}}
                     <div class="col-md-10">
                     </div>{{-- end col-md-10 --}}
@@ -221,6 +220,7 @@
               <div class="portlet-body form">
                 <div class="form-body">
                   <div class="form-group">
+                    <h4>Price Setting 价格设定</h4>
                     <div class="col-md-2">
                       <label>个人</label>
                       <input type="number" class="form-control" name="kongdan_price_gr"  id="kongdan_price_gr" value="{{ $kongdan_price_gr }}" min="0" max="1000" step="any">

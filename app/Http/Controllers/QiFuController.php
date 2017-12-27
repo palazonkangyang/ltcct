@@ -12,6 +12,7 @@ use App\Models\JournalEntryItem;
 use App\Models\SettingQifu;
 use App\Models\QifuGeneraldonation;
 use App\Models\QifuReceipt;
+use App\Models\SystemSetting;
 use Auth;
 use DB;
 use Hash;
@@ -33,9 +34,10 @@ class QiFuController extends Controller
 							->take(1)
 							->get();
 
-    return view('fahui.qifu', [
-			'events' => $events
-		]);
+    $data['events'] = $events;
+    $data['qifu_price_gr'] = SystemSetting::getValueAmountOfQiFuPriceGr();
+
+    return view('fahui.qifu', $data);
   }
 
   public function postQiFu(Request $request)

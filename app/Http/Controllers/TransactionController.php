@@ -84,7 +84,7 @@ class TransactionController extends Controller
                      ->pluck('trn_id')
                      ->first();
         $transaction = Trn::where('trn_id',$trn_id)
-                           ->first();
+                          ->first();
       }
 
       $transaction['full_name'] = User::getUserName($transaction['cancelled_by']);

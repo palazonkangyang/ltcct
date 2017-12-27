@@ -506,6 +506,8 @@ class RelativeAndFriendsController extends Controller
 
       // Qi Fu Fa Hui
       case 9:
+        $param['raf_list'] = $raf_list;
+        $raf_list = RelativeAndFriendsController::getRafQiFu($param);
         Session::put('relative_and_friends.qifu',$raf_list);
         break;
 
@@ -533,15 +535,6 @@ class RelativeAndFriendsController extends Controller
 
       default:
     }
-  }
-
-  public static function getRafKongDan($param){
-    foreach($param['raf_list'] as $index=>$raf){
-      $raf_kongdan = RafKongDan::where('raf_id','=',$raf['sfc_id'])
-                               ->first();
-      $raf['item_description'] = AddressController::getAddressByDevoteeId($raf['devotee_id']);
-    }
-    return $param['raf_list'];
   }
 
   public static function getRafXiaoZai($param){
@@ -598,6 +591,20 @@ class RelativeAndFriendsController extends Controller
           $raf['optionalvehicle'] = null;
           $raf['item_description'] = null;
       }
+    }
+    return $param['raf_list'];
+  }
+
+  public static function getRafQiFu($param){
+    foreach($param['raf_list'] as $index=>$raf){
+      $raf['item_description'] = AddressController::getAddressByDevoteeId($raf['devotee_id']);
+    }
+    return $param['raf_list'];
+  }
+
+  public static function getRafKongDan($param){
+    foreach($param['raf_list'] as $index=>$raf){
+      $raf['item_description'] = AddressController::getAddressByDevoteeId($raf['devotee_id']);
     }
     return $param['raf_list'];
   }

@@ -85,7 +85,7 @@ class Rct extends Model
     }
 
     elseif(Module::isQiFu($mod_id)){
-
+      return 136;
     }
 
     elseif(Module::isKongDan($mod_id)){

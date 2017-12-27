@@ -286,6 +286,9 @@ class SameFamilyCodeController extends Controller
 
         // Qi Fu Fa Hui
         case 9:
+          $param['sfc_list'] = $sfc_list;
+          $sfc_list = SameFamilyCodeController::getSfcQiFu($param);
+          $sfc_list = Sfc::sortListByFocusDevotee($sfc_list,$param['var']['focusdevotee_id']);
           Session::put('same_family_code.qifu',$sfc_list);
           break;
 
@@ -314,15 +317,6 @@ class SameFamilyCodeController extends Controller
 
         default:
       }
-    }
-
-    public static function getSfcKongDan($param){
-      foreach($param['sfc_list'] as $index=>$sfc){
-        $sfc_kongdan = SfcKongDan::where('sfc_id','=',$sfc['sfc_id'])
-                                 ->first();
-        $sfc['item_description'] = AddressController::getAddressByDevoteeId($sfc['devotee_id']);
-      }
-      return $param['sfc_list'];
     }
 
     public static function getSfcXiaoZai($param){
@@ -380,6 +374,20 @@ class SameFamilyCodeController extends Controller
             $sfc['optionalvehicle'] = null;
             $sfc['item_description'] = null;
         }
+      }
+      return $param['sfc_list'];
+    }
+
+    public static function getSfcQiFu($param){
+      foreach($param['sfc_list'] as $index=>$sfc){
+        $sfc['item_description'] = AddressController::getAddressByDevoteeId($sfc['devotee_id']);
+      }
+      return $param['sfc_list'];
+    }
+
+    public static function getSfcKongDan($param){
+      foreach($param['sfc_list'] as $index=>$sfc){
+        $sfc['item_description'] = AddressController::getAddressByDevoteeId($sfc['devotee_id']);
       }
       return $param['sfc_list'];
     }
