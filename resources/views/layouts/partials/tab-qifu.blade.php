@@ -258,7 +258,7 @@ $transactions = Session::get('transaction.qifu');
 
             <div class="col-md-6 payment">
               <label class="mt-radio mt-radio-outline">
-                Date of Receipts
+                Date of Receipt
               </label>
             </div><!-- end col-md-6 -->
 
