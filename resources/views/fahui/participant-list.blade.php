@@ -71,7 +71,8 @@
                           <a href="#tab_fahui_participant_list" data-toggle="tab">Fa Hui Participant List</a>
                         </li>
                       </ul>
-
+                    <form method="post" target="_blank" action="{{ URL::to('/print/biaowen') }}" class="form-horizontal form-bordered" id="">
+                      {!! csrf_field() !!}
                       <div class="tab-content">
 
                         <div class="tab-pane active" id="tab_fahui_participant_list">
@@ -79,10 +80,15 @@
                           <div class="form-body">
 
                             <div class="form-group">
+                              <div class="pull-right">
+                                 <button type="submit" class="btn blue">Print Biao Wen</button>
+                              </div>
 
                               <table class="table table-bordered" id="fahui_participant_list_table">
                                 <thead>
                                   <tr id="filter">
+                                    <th></th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -95,6 +101,8 @@
                                     <th>SN</th>
                                     <th>Devotee ID</th>
                                     <th>Participant</th>
+                                    <th>Type</th>
+                                    <th>Item Description</th>
 
                                   </tr>
                                 </thead>
@@ -105,11 +113,20 @@
                                     <td>{{ $participant['module_chinese_name'] }}</td>
                                     <td>{{ $participant['year'] }}</td>
                                     <td>{{ $participant['sn'] }}</td>
-                                    <td>{{ $participant['devotee_id'] }}</td>
-                                    <td>{{ $participant['devotee_chinese_name'] }}</td>
-
-                                    </tr>
-                                    @endforeach
+                                    <td>{{ $participant['devotee_id'] }}
+                                    </td>
+                                    <td>
+                                        {{ $participant['participant_name_list'] }}
+                                        {{ Form::hidden('display_name_list[]',$participant['display_name_list'])}}
+                                    </td>
+                                    <td>
+                                        {{ $participant['type_chinese_name'] }}</td>
+                                    <td>
+                                        {{ $participant['display_address_list'] }}
+                                        {{ Form::hidden('display_address_list[]',$participant['display_address_list'])}}
+                                    </td>
+                                  </tr>
+                                  @endforeach
                                   </tbody>
                                 </table>
 
@@ -126,7 +143,7 @@
                         </div><!-- end tab-content -->
 
                       </div><!-- end tabbable-bordered -->
-
+                    </form>
                     </div><!-- end portlet-body -->
 
                   </div><!-- end portlet light -->
@@ -157,13 +174,15 @@
 // DataTable
 var table = $('#fahui_participant_list_table').removeAttr('width').DataTable( {
   "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
-  "order": [[ 0, "desc" ]],
+  "order": [[ 0, "asc" ],[1,"desc"],[2,"asc"]],
   columnDefs: [
     { "width": "200px", "targets": 0 },
     { "width": "200px", "targets": 1 },
     { "width": "200px", "targets": 2 },
     { "width": "200px", "targets": 3 },
-    { "width": "200px", "targets": 4 }
+    { "width": "200px", "targets": 4 },
+    { "width": "200px", "targets": 5 },
+    { "width": "200px", "targets": 6 }
   ],
   fixedColumns: true
 });

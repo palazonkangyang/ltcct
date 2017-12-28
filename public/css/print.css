@@ -134,4 +134,5 @@ table.receipt-table td {
 .vertical-orientation{
   writing-mode: vertical-rl;
   text-orientation: upright;
+  float: right;
 }

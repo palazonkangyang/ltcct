@@ -245,6 +245,46 @@ class Devotee extends Model
     return Devotee::where('devotee_id',$devotee_id)->pluck('familycode_id')->first();
   }
 
+  public static function getHomeAddress($devotee_id){
+    $address = OptionalAddress::where('devotee_id',$devotee_id)->where('type','home')->pluck('address')->first();
+    $address_translated = OptionalAddress::where('devotee_id',$devotee_id)->where('type','home')->pluck('address_translated')->first();
+    return $address_translated != NULL ?  $address_translated : $address ;
+  }
+
+  public static function getCompanyAddress($devotee_id){
+    $address = OptionalAddress::where('devotee_id',$devotee_id)->where('type','company')->pluck('address')->first();
+    $address_translated = OptionalAddress::where('devotee_id',$devotee_id)->where('type','company')->pluck('address_translated')->first();
+    return $address_translated != NULL ?  $address_translated : $address ;
+  }
+
+  public static function getStallAddress($devotee_id){
+    $address = OptionalAddress::where('devotee_id',$devotee_id)->where('type','stall')->pluck('address')->first();
+    $address_translated = OptionalAddress::where('devotee_id',$devotee_id)->where('type','stall')->pluck('address_translated')->first();
+    return $address_translated != NULL ?  $address_translated : $address ;
+  }
+
+  public static function getOfficeAddress($devotee_id){
+    $address = OptionalAddress::where('devotee_id',$devotee_id)->where('type','office')->pluck('address')->first();
+    $address_translated = OptionalAddress::where('devotee_id',$devotee_id)->where('type','office')->pluck('address_translated')->first();
+    return $address_translated != NULL ?  $address_translated : $address ;
+  }
+
+  public static function getCompanyName($devotee_id){
+    return OptionalAddress::where('devotee_id',$devotee_id)->where('type','company')->pluck('data')->first();
+  }
+
+  public static function getStallName($devotee_id){
+    return OptionalAddress::where('devotee_id',$devotee_id)->where('type','stall')->pluck('data')->first();
+  }
+
+  public static function getCarName($devotee_id){
+    return OptionalVehicle::where('devotee_id',$devotee_id)->where('type','car')->pluck('data')->first();
+  }
+
+  public static function getShipName($devotee_id){
+    return OptionalVehicle::where('devotee_id',$devotee_id)->where('type','ship')->pluck('data')->first();
+  }
+
   public static function isTransactionPayee($focusdevotee_id,$transaction_focusdevotee_id){
     return $focusdevotee_id == $transaction_focusdevotee_id;
   }

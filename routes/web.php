@@ -186,6 +186,10 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::post('/create', ['as' => 'create-transaction', 'uses' => 'TransactionController@createTransaction']);
 	});
 
+	Route::group(['prefix' => 'print'], function () {
+		Route::post('/biaowen', ['as' => 'print-biaowen', 'uses' => 'PrintController@printBiaoWen']);
+	});
+
 	Route::group(['prefix' => 'account'], function () {
 		Route::get('/new-glaccountgroup', ['as' => 'new-glaccount-group-page', 'uses' => 'GlController@getAddNewGlAccountGroup']);
 		Route::get('/edit-glaccountgroup', ['as' => 'edit-glaccount-group-page', 'uses' => 'GlController@EditGlAccountGroup']);
