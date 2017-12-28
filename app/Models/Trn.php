@@ -194,7 +194,7 @@ class Trn extends Model
     }
 
     Trn::getTrn($devotee_id,$mod_id);
-
+    
       return view('receipt.index', [
         'module' => Module::getModule($mod_id),
         'transaction' => $transaction,

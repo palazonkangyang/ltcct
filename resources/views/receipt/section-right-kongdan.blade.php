@@ -10,7 +10,7 @@
   <br/>
   <p style="padding-top:20px;"><span style="font-size:22px; letter-spacing:3px;">祈愿者：{{ $paginate_receipt['receipt'][0]['name'] }}</span></p>
   <br/>
-  <p style="padding-top:20px;"><span style="font-size:22px; letter-spacing:3px;">地址：</span><span style="font-size:15px; letter-spacing:3px;">{{ $paginate_receipt['receipt'][0]['item_description'] }}</span></p>
+  <p style="padding-top:20px;"><span style="font-size:22px; letter-spacing:3px;">地址：</span><span style="font-size:15px; letter-spacing:0px;">{{ $paginate_receipt['receipt'][0]['address_translated'] }}</span></p>
   <br/>
   <p style="padding-top:20px;"><span style="font-size:22px; letter-spacing:3px;">智慧日增，学业进步，考试顺利，</span></p>
   <br/>

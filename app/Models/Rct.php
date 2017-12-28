@@ -204,6 +204,7 @@ class Rct extends Model
         $list['receipt']['amount'] = null;
         $list['receipt']['is_receipt'] = false;
         $list['receipt']['devotee_id'] = $unique_devotee_id;
+        $list['receipt']['address_translated'] = null;
         array_push($receipts_list,$list['receipt']);
         array_push($current_receipts_list,$list['receipt']);
         $list = [];
@@ -223,6 +224,7 @@ class Rct extends Model
           $list['receipt']['amount'] = $receipt['amount'];
           $list['receipt']['is_receipt'] = true;
           $list['receipt']['devotee_id'] = $receipt['devotee_id'];
+          $list['receipt']['address_translated'] = AddressController::getTranslatedOrOverseaAddressByDevoteeId($receipt['devotee_id']);
           array_push($receipts_list,$list['receipt']);
           array_push($current_receipts_list,$list['receipt']);
           $list = [];
@@ -279,6 +281,7 @@ class Rct extends Model
         $list['receipt']['amount'] = null;
         $list['receipt']['is_receipt'] = false;
         $list['receipt']['devotee_id'] = $unique_devotee_id;
+        $list['receipt']['address_translated'] = null;
         array_push($receipts_list,$list['receipt']);
         $list = [];
       }
@@ -298,6 +301,7 @@ class Rct extends Model
           $list['receipt']['amount'] = $receipt['amount'];
           $list['receipt']['is_receipt'] = true;
           $list['receipt']['devotee_id'] = $receipt['devotee_id'];
+          $list['receipt']['address_translated'] = AddressController::getTranslatedOrOverseaAddressByDevoteeId($receipt['devotee_id']);
           array_push($receipts_list,$list['receipt']);
           $list = [];
         }
