@@ -37,6 +37,3 @@
         <script src="{{ asset('/js/demo.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/quick-sidebar.min.js') }}" type="text/javascript"></script>
         <script src="{{ asset('/js/quick-nav.min.js') }}" type="text/javascript"></script>
-
-        <!-- common -->
-        <script src="{{ asset('/js/custom/multi-select-checkbox.js') }}" type="text/javascript"></script>

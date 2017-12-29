@@ -436,11 +436,12 @@
                 <div class="clearfix"></div>
 
                 <div class="col-md-6 payment">
-                  <label class="mt-radio mt-radio-outline">Date of Receipt</label>
+                  <label class="mt-radio mt-radio-outline">Date of Receipts</label>
                 </div><!-- end col-md-6 -->
 
                 <div class="col-md-6">
-                  <input type="text" name="receipt_at" class="form-control input-small" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-end-date="0d" id="yuejuan_receipt_at">
+                  <input type="text" name="receipt_at" class="form-control input-small"
+                    data-provide="datepicker" data-date-format="dd/mm/yyyy" id="yuejuan_receipt_at">
                 </div><!-- end col-md-6 -->
 
               </div><!-- end mt-radio-list -->

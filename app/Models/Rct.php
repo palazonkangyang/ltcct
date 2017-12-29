@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\GlCode;
-use App\Http\Controllers\AddressController;
+use App\Models\GLCode;
 
 class Rct extends Model
 {
@@ -85,7 +84,7 @@ class Rct extends Model
     }
 
     elseif(Module::isQiFu($mod_id)){
-      return 136;
+
     }
 
     elseif(Module::isKongDan($mod_id)){
@@ -117,7 +116,7 @@ class Rct extends Model
       $last_receipt_no_running_number = 0;
     }
 
-    $receipt_prefix = GlCode::getReceiptPrefixByGlCodeId($glcode_id);
+    $receipt_prefix = GLCode::getReceiptPrefixByGlCodeId($glcode_id);
     $year = date('y');
     $next_receipt_no_number = $last_receipt_no_running_number + 1;
     $next_receipt_no_number = str_pad($next_receipt_no_number, 4, 0, STR_PAD_LEFT);
@@ -135,96 +134,86 @@ class Rct extends Model
     return Rct::where('mod_id',$mod_id)->orderBy('rct_id','desc')->pluck('receipt_no')->first();
   }
 
-  // public static function OLD_paginateSingleReceipt($receipts){
-  //   $receipts_array = [];
-  //   $unique_devotee_ids = $receipts->unique('devotee_id')->pluck('devotee_id');
-  //   foreach($unique_devotee_ids as $unique_devotee_id_index=>$unique_devotee_id){
-  //     $receipts_array[$unique_devotee_id_index]['devotee'] = Devotee::getDevotee($unique_devotee_id);
-  //     $index_count = 0;
-  //     foreach($receipts as $receipt_index=>$receipt){
-  //       if(Devotee::isSameDevoteeId($unique_devotee_id,$receipt['devotee_id'])){
-  //          $receipts_array[$unique_devotee_id_index]['receipt'][$index_count] = $receipt;
-  //          $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['sn_no'] = $index_count + 1 ;
-  //          $index_count++;
-  //       }
-  //     }
-  //   }
-  //
-  //
-  //
-  //   $paginate_receipts = [];
-  //   foreach($receipts_array as $receipt_index=>$receipt){
-  //
-  //     if(count($receipt['receipt']) > 5){
-  //       $chunk_receipts = array_chunk($receipt['receipt'],5);
-  //       foreach($chunk_receipts as $chunk_index=>$chunk_receipt){
-  //         $total_amount = 0;
-  //         foreach($chunk_receipt as $individual_receipt_index=>$individual_receipt){
-  //           $total_amount = $total_amount + $individual_receipt['amount'];
-  //         }
-  //         $list['devotee'] = $receipt['devotee'];
-  //         $list['receipt'] = $chunk_receipt;
-  //         $list['total_amount'] = number_format($total_amount, 2, '.', '');
-  //         $list['first_receipt_no'] = $chunk_receipt[0]['receipt_no'];
-  //         $list['last_receipt_no'] = $chunk_receipt[count($chunk_receipt)-1]['receipt_no'];
-  //         $list['no_of_set'] = count($chunk_receipt);
-  //         array_push($paginate_receipts,$list);
-  //         $list = [];
-  //       }
-  //     }
-  //     elseif(count($receipt['receipt'] <= 5)){
-  //       $total_amount = 0;
-  //       foreach($receipt['receipt'] as $index=>$individual_receipt){
-  //         $total_amount = $total_amount + $individual_receipt['amount'];
-  //         $list['receipt'][$index] = $individual_receipt;
-  //       }
-  //       $list['devotee'] = $receipt['devotee'];
-  //       $list['total_amount'] = number_format($total_amount, 2, '.', '');
-  //       $list['first_receipt_no'] = $receipt['receipt'][0]['receipt_no'];
-  //       $list['last_receipt_no'] = $receipt['receipt'][count($receipt['receipt'])-1]['receipt_no'];
-  //       $list['no_of_set'] = count($receipt['receipt']);
-  //       array_push($paginate_receipts,$list);
-  //       $list = [];
-  //     }
-  //   }
-  //   return $paginate_receipts;
-  // }
+  public static function OLD_paginateSingleReceipt($receipts){
+    $receipts_array = [];
+    $unique_devotee_ids = $receipts->unique('devotee_id')->pluck('devotee_id');
+    foreach($unique_devotee_ids as $unique_devotee_id_index=>$unique_devotee_id){
+      $receipts_array[$unique_devotee_id_index]['devotee'] = Devotee::getDevotee($unique_devotee_id);
+      $index_count = 0;
+      foreach($receipts as $receipt_index=>$receipt){
+        if(Devotee::isSameDevoteeId($unique_devotee_id,$receipt['devotee_id'])){
+           $receipts_array[$unique_devotee_id_index]['receipt'][$index_count] = $receipt;
+           $receipts_array[$unique_devotee_id_index]['receipt'][$index_count]['sn_no'] = $index_count + 1 ;
+           $index_count++;
+        }
+      }
+    }
 
-  public static function paginateSingleReceipt($receipts,$mod_id){
+
+
+    $paginate_receipts = [];
+    foreach($receipts_array as $receipt_index=>$receipt){
+
+      if(count($receipt['receipt']) > 5){
+        $chunk_receipts = array_chunk($receipt['receipt'],5);
+        foreach($chunk_receipts as $chunk_index=>$chunk_receipt){
+          $total_amount = 0;
+          foreach($chunk_receipt as $individual_receipt_index=>$individual_receipt){
+            $total_amount = $total_amount + $individual_receipt['amount'];
+          }
+          $list['devotee'] = $receipt['devotee'];
+          $list['receipt'] = $chunk_receipt;
+          $list['total_amount'] = number_format($total_amount, 2, '.', '');
+          $list['first_receipt_no'] = $chunk_receipt[0]['receipt_no'];
+          $list['last_receipt_no'] = $chunk_receipt[count($chunk_receipt)-1]['receipt_no'];
+          $list['no_of_set'] = count($chunk_receipt);
+          array_push($paginate_receipts,$list);
+          $list = [];
+        }
+      }
+      elseif(count($receipt['receipt'] <= 5)){
+        $total_amount = 0;
+        foreach($receipt['receipt'] as $index=>$individual_receipt){
+          $total_amount = $total_amount + $individual_receipt['amount'];
+          $list['receipt'][$index] = $individual_receipt;
+        }
+        $list['devotee'] = $receipt['devotee'];
+        $list['total_amount'] = number_format($total_amount, 2, '.', '');
+        $list['first_receipt_no'] = $receipt['receipt'][0]['receipt_no'];
+        $list['last_receipt_no'] = $receipt['receipt'][count($receipt['receipt'])-1]['receipt_no'];
+        $list['no_of_set'] = count($receipt['receipt']);
+        array_push($paginate_receipts,$list);
+        $list = [];
+      }
+    }
+    return $paginate_receipts;
+  }
+
+  public static function paginateSingleReceipt($receipts){
     $unique_devotee_ids = $receipts->unique('devotee_id')->pluck('devotee_id');
     $receipts_list = [];
     $devotee_receipts_list = [];
     $current_receipts_list = [];
     foreach($unique_devotee_ids as $unique_devotee_id_index=>$unique_devotee_id){
-      if(Module::isXiaoZai($mod_id)){
-        $list['receipt']['sn_no'] = null;
-        $list['receipt']['name'] = Devotee::getChineseName($unique_devotee_id);
-        $list['receipt']['item_description'] = '('.$unique_devotee_id.')';
-        $list['receipt']['receipt_no'] = null;
-        $list['receipt']['amount'] = null;
-        $list['receipt']['is_receipt'] = false;
-        $list['receipt']['devotee_id'] = $unique_devotee_id;
-        $list['receipt']['address_translated'] = null;
-        array_push($receipts_list,$list['receipt']);
-        array_push($current_receipts_list,$list['receipt']);
-        $list = [];
-      }
+      $list['receipt']['sn_no'] = null;
+      $list['receipt']['name'] = Devotee::getChineseName($unique_devotee_id);
+      $list['receipt']['item_description'] = '('.$unique_devotee_id.')';
+      $list['receipt']['receipt_no'] = null;
+      $list['receipt']['amount'] = null;
+      $list['receipt']['is_receipt'] = false;
+      $list['receipt']['devotee_id'] = $unique_devotee_id;
+      array_push($receipts_list,$list['receipt']);
+      array_push($current_receipts_list,$list['receipt']);
+      $list = [];
       foreach($receipts as $receipt_index=>$receipt){
         if(Devotee::isSameDevoteeId($unique_devotee_id,$receipt['devotee_id'])){
           $list['receipt']['sn_no'] = $receipt_index + 1;
-          if(Module::isXiaoZai($mod_id)){
-            $list['receipt']['name'] =  $receipt['type_chinese_name'];
-            $list['receipt']['item_description'] = $receipt['item_description'];
-          }
-          else{
-            $list['receipt']['name'] = Devotee::getChineseName($receipt['devotee_id']);
-            $list['receipt']['item_description'] = AddressController::getAddressByDevoteeId($receipt['devotee_id']);
-          }
+          $list['receipt']['name'] =  $receipt['type_chinese_name'];
+          $list['receipt']['item_description'] = $receipt['item_description'];
           $list['receipt']['receipt_no'] = $receipt['receipt_no'];
           $list['receipt']['amount'] = $receipt['amount'];
           $list['receipt']['is_receipt'] = true;
           $list['receipt']['devotee_id'] = $receipt['devotee_id'];
-          $list['receipt']['address_translated'] = AddressController::getTranslatedOrOverseaAddressByDevoteeId($receipt['devotee_id']);
           array_push($receipts_list,$list['receipt']);
           array_push($current_receipts_list,$list['receipt']);
           $list = [];
@@ -269,39 +258,28 @@ class Rct extends Model
     return $paginate_combine_receipts;
   }
 
-  public static function paginateCombineReceipt($receipts,$mod_id){
+  public static function paginateCombineReceipt($receipts){
     $unique_devotee_ids = $receipts->unique('devotee_id')->pluck('devotee_id');
     $receipts_list = [];
     foreach($unique_devotee_ids as $unique_devotee_id_index=>$unique_devotee_id){
-      if(Module::isXiaoZai($mod_id)){
-        $list['receipt']['sn_no'] = null;
-        $list['receipt']['name'] = Devotee::getChineseName($unique_devotee_id);
-        $list['receipt']['item_description'] = '('.$unique_devotee_id.')';
-        $list['receipt']['receipt_no'] = null;
-        $list['receipt']['amount'] = null;
-        $list['receipt']['is_receipt'] = false;
-        $list['receipt']['devotee_id'] = $unique_devotee_id;
-        $list['receipt']['address_translated'] = null;
-        array_push($receipts_list,$list['receipt']);
-        $list = [];
-      }
-
+      $list['receipt']['sn_no'] = null;
+      $list['receipt']['name'] = Devotee::getChineseName($unique_devotee_id);
+      $list['receipt']['item_description'] = '('.$unique_devotee_id.')';
+      $list['receipt']['receipt_no'] = null;
+      $list['receipt']['amount'] = null;
+      $list['receipt']['is_receipt'] = false;
+      $list['receipt']['devotee_id'] = $unique_devotee_id;
+      array_push($receipts_list,$list['receipt']);
+      $list = [];
       foreach($receipts as $receipt_index=>$receipt){
         if(Devotee::isSameDevoteeId($unique_devotee_id,$receipt['devotee_id'])){
           $list['receipt']['sn_no'] = $receipt_index + 1;
-          if(Module::isXiaoZai($receipts[0]['mod_id'])){
-            $list['receipt']['name'] =  $receipt['type_chinese_name'];
-            $list['receipt']['item_description'] = $receipt['item_description'];
-          }
-          else{
-            $list['receipt']['name'] = Devotee::getChineseName($receipt['devotee_id']);
-            $list['receipt']['item_description'] = AddressController::getAddressByDevoteeId($receipt['devotee_id']);
-          }
+          $list['receipt']['name'] =  $receipt['type_chinese_name'];
+          $list['receipt']['item_description'] = $receipt['item_description'];
           $list['receipt']['receipt_no'] = $receipt['receipt_no'];
           $list['receipt']['amount'] = $receipt['amount'];
           $list['receipt']['is_receipt'] = true;
           $list['receipt']['devotee_id'] = $receipt['devotee_id'];
-          $list['receipt']['address_translated'] = AddressController::getTranslatedOrOverseaAddressByDevoteeId($receipt['devotee_id']);
           array_push($receipts_list,$list['receipt']);
           $list = [];
         }

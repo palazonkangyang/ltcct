@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
-use DB;
 use App\Models\Devotee;
 use App\Models\Module;
-use App\Models\Trn;
 use App\Models\Sfc;
-use App\Models\Rct;
 use App\Models\SfcXiangYou;
 use App\Models\SfcCiji;
 use App\Models\SfcYueJuan;
@@ -61,7 +58,7 @@ class SameFamilyCodeController extends Controller
       foreach($family_list as $family){
         $param['var']['devotee_id'] = $family['devotee_id'];
         $param['var']['is_checked'] = ($param['var']['focusdevotee_id'] == $family['devotee_id']) ? true : false;
-        $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
+        $param['var']['year'] = null;
         $param = SameFamilyCodeController::createSfc($param);
       }
       return $param;
@@ -72,7 +69,7 @@ class SameFamilyCodeController extends Controller
       $list['focusdevotee_id'] = $param['var']['focusdevotee_id'];
       $list['mod_id'] = $param['var']['mod_id'];
       $list['is_checked'] = $param['var']['is_checked'];
-      $list['year'] = DateController::getCurrentYearFormatYYYY();
+      $list['year'] = $param['var']['year'];
       $list['sfc_id'] = Sfc::create($list)->sfc_id;
       $param['var']['sfc_id'] = $list['sfc_id'];
       $param['sfc_list']->push($list);
@@ -100,7 +97,7 @@ class SameFamilyCodeController extends Controller
           $param['var']['focusdevotee_id'] = $family['devotee_id'];
           $param['var']['devotee_id'] = $param['focusdevotee_id'];
           $param['var']['is_checked'] = false;
-          $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
+          $param['var']['year'] = null;
           $param = SameFamilyCodeController::createSfc($param);
         }
       }
@@ -199,6 +196,7 @@ class SameFamilyCodeController extends Controller
     {
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['var']['mod_id'] = $request->mod_id;
+      $param['var']['year'] = null;
       $sfc_id_list = $request->sfc_id;
       $is_checked_list = $request->is_checked;
       $hjgr_list = $request->hjgr;
@@ -224,7 +222,7 @@ class SameFamilyCodeController extends Controller
       if(Session::has('same_family_code')) { Session::forget('same_family_code'); }
       $param['var']['focusdevotee_id'] = session()->get('focus_devotee')[0]['devotee_id'];
       $param['mod_list'] = Module::getReleasedModuleList();
-      $param['var']['year'] = DateController::getCurrentYearFormatYYYY();
+      $param['var']['year'] = null;
       foreach($param['mod_list'] as $index=> $mod){
         $param['var']['mod_id'] = $mod['mod_id'];
         SameFamilyCodeController::getSfc($param);
@@ -237,7 +235,7 @@ class SameFamilyCodeController extends Controller
                      ->leftjoin('member','member.member_id','=','devotee.member_id')
                      ->where('sfc.focusdevotee_id',$param['var']['focusdevotee_id'])
                      ->where('sfc.mod_id',$param['var']['mod_id'])
-                     //->where('sfc.year',DateController::getCurrentYearFormatYYYY())
+                     ->where('sfc.year',$param['var']['year'])
                      ->get();
 
       switch ($param['var']['mod_id']) {
@@ -265,7 +263,21 @@ class SameFamilyCodeController extends Controller
         case 5:
           $param['sfc_list'] = $sfc_list;
           $sfc_list = SameFamilyCodeController::getSfcXiaoZai($param);
-          $sfc_list = Sfc::sortListByFocusDevotee($sfc_list,$param['var']['focusdevotee_id']);
+
+          $sfc_focus_devotee= $sfc_list->filter(function ($value, $key) use($param) {
+              if($value['devotee_id'] == $param['var']['focusdevotee_id'] ){
+              return $value;
+            }
+          });
+
+          $sfc_family= $sfc_list->filter(function ($value, $key) use($param) {
+              if($value['devotee_id'] != $param['var']['focusdevotee_id'] ){
+              return $value;
+            }
+          });
+
+          $sfc_list = $sfc_focus_devotee->merge($sfc_family);
+
           Session::put('same_family_code.xiaozai',$sfc_list);
           break;
 
@@ -286,17 +298,11 @@ class SameFamilyCodeController extends Controller
 
         // Qi Fu Fa Hui
         case 9:
-          $param['sfc_list'] = $sfc_list;
-          $sfc_list = SameFamilyCodeController::getSfcQiFu($param);
-          $sfc_list = Sfc::sortListByFocusDevotee($sfc_list,$param['var']['focusdevotee_id']);
           Session::put('same_family_code.qifu',$sfc_list);
           break;
 
         // Kong Dan
         case 10:
-          $param['sfc_list'] = $sfc_list;
-          $sfc_list = SameFamilyCodeController::getSfcKongDan($param);
-          $sfc_list = Sfc::sortListByFocusDevotee($sfc_list,$param['var']['focusdevotee_id']);
           Session::put('same_family_code.kongdan',$sfc_list);
           break;
 
@@ -336,26 +342,25 @@ class SameFamilyCodeController extends Controller
             $optionaladdress_id = SfcXiaoZai::getOptionalAddressIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
             $sfc['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
             $sfc['optionalvehicle'] = null;
-            $sfc['optionaladdress']['address'] != NULL ? $sfc['item_description'] = $sfc['optionaladdress']['address'] : $sfc['item_description'] = $sfc['optionaladdress']['oversea_address'];
-
+            $sfc['item_description'] = $sfc['optionaladdress']['address'];
             break;
           case 'company':
             $optionaladdress_id = SfcXiaoZai::getOptionalAddressIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
             $sfc['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
             $sfc['optionalvehicle'] = null;
-            $sfc['optionaladdress']['address'] != NULL ? $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['address'] : $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['oversea_address'];
+            $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['address'];
             break;
           case 'stall':
             $optionaladdress_id = SfcXiaoZai::getOptionalAddressIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
             $sfc['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
             $sfc['optionalvehicle'] = null;
-            $sfc['optionaladdress']['address'] != NULL ? $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['address'] : $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['oversea_address'];
+            $sfc['item_description'] = $sfc['optionaladdress']['data'] .' @ '. $sfc['optionaladdress']['address'];
             break;
           case 'office':
             $optionaladdress_id = SfcXiaoZai::getOptionalAddressIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
             $sfc['optionaladdress'] = OptionalAddress::getOptionalAddressByOptionalAddressId($optionaladdress_id);
             $sfc['optionalvehicle'] = null;
-            $sfc['optionaladdress']['address'] != NULL ? $sfc['item_description'] = $sfc['optionaladdress']['address'] : $sfc['item_description'] = $sfc['optionaladdress']['oversea_address'];
+            $sfc['item_description'] = $sfc['optionaladdress']['address'];
             break;
           case 'car':
             $optionalvehicle_id = SfcXiaoZai::getOptionalVehicleIdBySfcXiaoZaiId($sfc_xiaozai['sfc_xiaozai_id']);
@@ -376,129 +381,5 @@ class SameFamilyCodeController extends Controller
         }
       }
       return $param['sfc_list'];
-    }
-
-    public static function getSfcQiFu($param){
-      foreach($param['sfc_list'] as $index=>$sfc){
-        $sfc['item_description'] = AddressController::getAddressByDevoteeId($sfc['devotee_id']);
-      }
-      return $param['sfc_list'];
-    }
-
-    public static function getSfcKongDan($param){
-      foreach($param['sfc_list'] as $index=>$sfc){
-        $sfc['item_description'] = AddressController::getAddressByDevoteeId($sfc['devotee_id']);
-      }
-      return $param['sfc_list'];
-    }
-
-    public static function getSfcHistoryForAllModule(){
-      if(Session::has('same_family_code_history')) { Session::forget('same_family_code_history'); }
-      $focusdevotee_id = session()->get('focus_devotee')[0]['devotee_id'];
-      $mod_list = Module::getReleasedFaHuiModuleList();
-      foreach($mod_list as $index=> $mod){
-        $mod_id = $mod['mod_id'];
-        SameFamilyCodeController::getSfcHistory($focusdevotee_id,$mod_id);
-      }
-    }
-
-    public static function getSfcHistory($focusdevotee_id,$mod_id){
-     $transaction_list = Trn::where('focusdevotee_id',$focusdevotee_id)
-                            ->where('mod_id',$mod_id)
-                            ->where(DB::raw('YEAR(trans_at)'),DateController::getLastYearFormatYYYY())
-                            ->get();
-
-     $same_family_code_id_list = collect();
-
-     foreach($transaction_list as $transaction){
-       $receipt_list = Rct::where('trn_id',$transaction['trn_id'])
-                          ->get();
-
-       foreach($receipt_list as $receipt){
-         Devotee::isSameFamily($receipt['devotee_id'],$transaction['focusdevotee_id']) ? $same_family_code_id_list->push($receipt['devotee_id']) : false ;
-       }
-     }
-
-      $same_family_code_id_list = $same_family_code_id_list->unique()->sort();
-
-      $sfc_list = Rct::leftjoin('devotee','devotee.devotee_id','=','rct.devotee_id')
-                     ->leftjoin('familycode','familycode.familycode_id','=','devotee.familycode_id')
-                     ->leftjoin('member','member.member_id','=','devotee.member_id')
-                     ->whereIn('rct.devotee_id',$same_family_code_id_list)
-                     ->get()
-                     ->unique('devotee_id');
-
-      foreach($sfc_list as $sfc){
-        $sfc['item_description'] = AddressController::getAddressByDevoteeId($sfc['devotee_id']);
-      }
-
-      switch ($mod_id) {
-        // Xiang You
-        case 1:
-
-          break;
-
-        // Ci Ji
-        case 2:
-
-          break;
-
-        // Yue Juan
-        case 3:
-
-          break;
-
-        // Zhu Xue Jin
-        case 4:
-
-          break;
-
-        // Xiao Zai Da Fa Hui
-        case 5:
-          Session::put('same_family_code_history.xiaozai',$sfc_list);
-          break;
-
-        // Qian Fo Fa Hui
-        case 6:
-
-          break;
-
-        // Da Bei Fa Hui
-        case 7:
-
-          break;
-
-        // Yao Shi Fa Hui
-        case 8:
-
-          break;
-
-        // Qi Fu Fa Hui
-        case 9:
-          Session::put('same_family_code_history.qifu',$sfc_list);
-          break;
-
-        // Kong Dan
-        case 10:
-          Session::put('same_family_code_history.kongdan',$sfc_list);
-          break;
-
-        // Pu Du
-        case 11:
-
-          break;
-
-        // Chao Du
-        case 12:
-
-          break;
-
-        // Shou Sheng Ku Qian
-        case 13:
-
-          break;
-
-        default:
-      }
     }
 }

@@ -20,16 +20,8 @@ class GlCode extends Model
     'glcodegroup_id'
   ];
 
-  public static function getAll(){
-    return GlCode::all();
-  }
-
   public static function getGlCodeOfCashInHand(){
     return 11;
-  }
-
-  public static function getTypeName($glcode_id){
-    return GlCode::where('glcode_id',$glcode_id)->pluck('type_name')->first();
   }
 
   public static function getReceiptPrefixByGlCodeId($glcode_id){

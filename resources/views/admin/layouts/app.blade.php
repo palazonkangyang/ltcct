@@ -266,9 +266,6 @@
                     <li aria-haspopup="true">
                       <a href="/admin/address-street-lists" class="hylink">Address</a>
                     </li>
-                    <li aria-haspopup="true">
-                      <a href="/admin/fahui-setting" class="hylink">FaHui Setting</a>
-                    </li>
                   </ul>
                 </li>
                 @endif

@@ -1399,14 +1399,9 @@ class OperatorController extends Controller
 							->get();
 
 	  SameFamilyCodeController::getSfcForAllModule();
-		SameFamilyCodeController::getSfcHistoryForAllModule();
 		RelativeAndFriendsController::getRafForAllModule();
-		RelativeAndFriendsController::getRafHistoryForAllModule();
 		TransactionController::getTrnForAllModule();
-		//dd(Session()->get('transaction.xiaozai'));
-		//dd(Session()->get('transaction'));
-		//dd(Session()->get('same_family_code_history'));
-		//dd(Session()->get('relative_and_friends_history'));
+		//dd(Session()->all());
 
 		return redirect()->route('get-donation-page', [
 			'events' => $events

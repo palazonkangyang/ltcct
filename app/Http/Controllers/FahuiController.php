@@ -13,11 +13,6 @@ use App\Models\GlCode;
 use App\Models\JournalEntry;
 use App\Models\JournalEntryItem;
 use App\Models\Rct;
-use App\Models\SystemSetting;
-use App\Models\Module;
-use App\Models\RctXiaoZai;
-use App\Models\OptionalAddress;
-use App\Models\OptionalVehicle;
 use Auth;
 use DB;
 use Hash;
@@ -39,17 +34,16 @@ class FahuiController extends Controller
 							->take(1)
 							->get();
 
-    $data['events'] = $events;
-    $data['kongdan_price_gr'] = SystemSetting::getValueAmountOfKongDanPriceGr();
-
-    return view('fahui.kongdan', $data);
+    return view('fahui.kongdan', [
+			'events' => $events
+		]);
   }
 
   // public function postKongDan(Request $request)
   // {
   //   $input = array_except($request->all(), '_token');
 	// 	$total_amount = 0;
-  //
+  // 
   //   // Modify Receipt At fields
 	//   if(isset($input['receipt_at']))
 	//   {
@@ -921,97 +915,22 @@ class FahuiController extends Controller
 
     $participant_list = Rct::leftjoin('module','rct.mod_id','module.mod_id')
                            ->leftjoin('devotee','rct.devotee_id','devotee.devotee_id')
-                           ->select('rct.rct_id as rct_id','module.chinese_name as module_chinese_name','rct.trans_date as year','rct.devotee_id','devotee.chinese_name as devotee_chinese_name','rct.mod_id as mod_id','rct.item_description')
-                           ->groupBy('mod_id',DB::raw('YEAR(rct.trans_date)'),'devotee_id','item_description')
-                           ->orderBy('mod_id','asc')
-                           ->orderBy('year','asc')
-                           ->orderBy('devotee_id','asc')
+                           ->select('module.chinese_name as module_chinese_name','rct.trans_date as year','rct.devotee_id','devotee.chinese_name as devotee_chinese_name')
+                           ->groupBy('module.mod_id',DB::raw('YEAR(rct.trans_date )'),'rct.devotee_id')
                            ->get();
+
 
     foreach($participant_list as $index=>$participant){
       $participant['year'] = date("Y", strtotime($participant['year']));
-      $participant['type_chinese_name'] = RctXiaoZai::getTypeChineseName($participant['rct_id']);
-
-      if(Module::isXiaoZai($participant['mod_id'])){
-        $type = RctXiaoZai::getType($participant['rct_id']);
-
-        if( $type == 'base_home' ){
-          $participant['participant_name_list'] = $participant['devotee_chinese_name'];
-          $participant['display_address_list'] = AddressController::getTranslatedOrOverseaAddressByDevoteeId($participant['devotee_id']);
-        }
-
-        elseif( $type == 'home' ){
-          $participant['participant_name_list'] = $participant['devotee_chinese_name'];
-          $participant['display_address_list'] = Devotee::getHomeAddress($participant['devotee_id']);
-
-        }
-
-        elseif( $type == 'company' ){
-          $participant['participant_name_list'] = Devotee::getCompanyAddress($participant['devotee_id']);
-          $participant['display_address_list'] = Devotee::getCompanyAddress($participant['devotee_id']);
-
-        }
-
-        elseif( $type == 'stall' ){
-          $participant['participant_name_list'] = Devotee::getStallName($participant['devotee_id']);
-          $participant['display_address_list'] = Devotee::getStallAddress($participant['devotee_id']);
-        }
-
-        elseif( $type == 'office' ){
-          $participant['participant_name_list'] = $participant['devotee_chinese_name'];
-          $participant['display_address_list'] = Devotee::getOfficeAddress($participant['devotee_id']);
-        }
-
-        elseif( $type == 'car' ){
-          $participant['participant_name_list'] = $participant['item_description'];
-          $participant['display_address_list'] = '';
-        }
-
-        elseif( $type == 'ship' ){
-          $participant['participant_name_list'] = $participant['item_description'];
-          $participant['display_address_list'] = '';
-        }
-
-        if($participant['type_chinese_name'] == '合家'){
-          $participant['display_name_list'] = $participant['participant_name_list'] . '合家';
-        }
-
-        else{
-          $participant['display_name_list'] = $participant['participant_name_list'];
-        }
-
-
-      }
-
-      elseif(Module::isQiFu($participant['mod_id'])){
-        $participant['participant_name_list'] = $participant['devotee_chinese_name'];
-        $participant['display_address_list'] = AddressController::getTranslatedOrOverseaAddressByDevoteeId($participant['devotee_id']);
-        $participant['type_chinese_name'] = '个人';
-        $participant['display_name_list'] = $participant['participant_name_list'];
-      }
-
-      elseif(Module::isKongDan($participant['mod_id'])){
-        $participant['participant_name_list'] = $participant['devotee_chinese_name'];
-        $participant['display_address_list'] = AddressController::getTranslatedOrOverseaAddressByDevoteeId($participant['devotee_id']);
-        $participant['type_chinese_name'] = '个人';
-        $participant['display_name_list'] = $participant['participant_name_list'];
-      }
     }
 
-    $sn = 0;
-
+    $checkFahui = $participant_list[0]['module_chinese_name'];
+    $checkYear = $participant_list[0]['year'];
+    $sn = 1;
     foreach($participant_list as $index=>$participant){
-      $index == 0 ? $fahui_name_previous = $participant_list[$index]['module_chinese_name'] : $fahui_name_previous = $participant_list[$index-1]['module_chinese_name'];
-      $fahui_name_current = $participant_list[$index]['module_chinese_name'];
-
-      $index == 0 ? $year_previous = $participant_list[$index]['year'] : $year_previous = $participant_list[$index-1]['year'];
-      $year_current = $participant_list[$index]['year'];
-
-      if($fahui_name_previous == $fahui_name_current && $year_previous == $year_current){
-        $sn ++;
+      if($checkFahui == $participant['module_chinese_name'] && $checkYear == $participant['year']){
         $participant['sn'] = $sn;
-
-
+        $sn ++;
       }
 
       else{

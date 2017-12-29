@@ -1,17 +1,21 @@
 @php
 $relative_and_friends = Session::get('relative_and_friends')['kongdan'];
-$relative_and_friends_history = Session::get('relative_and_friends_history')['kongdan'];
 $focus_devotee = Session::get('focus_devotee');
 
+$kongdan_setting_differentfamily_last1year = Session::get('kongdan_setting_differentfamily_last1year');
+$kongdan_setting_differentfamily_last2year = Session::get('kongdan_setting_differentfamily_last2year');
+$kongdan_setting_differentfamily_last3year = Session::get('kongdan_setting_differentfamily_last3year');
+$kongdan_setting_differentfamily_last4year = Session::get('kongdan_setting_differentfamily_last4year');
+$kongdan_setting_differentfamily_last5year = Session::get('kongdan_setting_differentfamily_last5year');
 @endphp
 
 <div class="form-body">
 
-  <form method="post" action="{{ URL::to('/fahui/update-relative-and-friends-setting') }}"
+  <form method="post" action="{{ URL::to('/fahui/kongdan-differentfamily-setting') }}"
   class="form-horizontal form-bordered" id="kongdan_differentfamily_form">
 
   {!! csrf_field() !!}
-  <input type="hidden" name="mod_id" value=10>
+
   <div class="form-group">
 
     <table class="table table-bordered" id="different_kongdan_familycode_table">
@@ -25,6 +29,7 @@ $focus_devotee = Session::get('focus_devotee');
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>
+          <th width="100px">M.Paid Till</th>
           <th width="80px">Paid By</th>
           <th>Trans Date</th>
         </tr>
@@ -32,15 +37,16 @@ $focus_devotee = Session::get('focus_devotee');
 
       <tbody id="appendDifferentFamilyCodeTable">
 
-        @if(Session::has('relative_and_friends.kongdan'))
+        @if(Session::has('kongdan_setting_differentfamily'))
 
         @foreach($relative_and_friends as $devotee)
         <tr>
-          <input type="hidden" name="raf_id[]" value="{{$devotee->raf_id}}">
-          <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true' data-devotee_id='{{ $devotee->devotee_id }}' ></i></td>
+          <td><i class='fa fa-minus-circle removeDevotee' aria-hidden='true'></i></td>
           <td class="checkbox-col">
-            <input type="checkbox" class="kongdan_id checkbox-multi-select-module-kongdan-tab-raf-section-raf" name="kongdan_id[]" value="1" <?php if ($devotee->is_checked == '1'){ ?>checked="checked"<?php }?>>
-            <input type="hidden" class="hidden_kongdan_id" name="is_checked[]" value="">
+            <input type="checkbox" class="same kongdan_id" name="kongdan_id[]"
+            value="1" <?php if ($devotee->kongdan_id == '1'){ ?>checked="checked"<?php }?>>
+            <input type="hidden" class="form-control hidden_kongdan_id" name="hidden_kongdan_id[]"
+            value="">
           </td>
           <td>
             @if($devotee->deceased_year != null)
@@ -60,7 +66,24 @@ $focus_devotee = Session::get('focus_devotee');
           <td></td>
           <td>{{ $devotee->guiyi_name }}</td>
           <td></td>
-          <td>{{ $devotee->item_description }}</td>
+          <td>
+            @if(isset($devotee->oversea_addr_in_chinese))
+            {{ $devotee->oversea_addr_in_chinese }}
+            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @else
+            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @endif
+          </td>
+          <td>
+            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @elseif(isset($devotee->paytill_date))
+            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $devotee->paytill_date }}</span>
+            @endif
+          </td>
           <td></td>
           <td>
             @if(isset($devotee->lasttransaction_at))
@@ -217,81 +240,6 @@ $focus_devotee = Session::get('focus_devotee');
 
   <p><br /><br /></p>
 
-  <p><br /></p>
-
-  @php $this_year = date('Y'); @endphp
-
-  <div class="form-group">
-
-    @if(Session::has('focus_devotee'))
-    <h5 style="font-weight: bold;">
-      Past Year Record
-    </h5>
-    @endif
-
-    <table class="table table-bordered kongdan_history_table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Chinese Name</th>
-          <th>Devotee#</th>
-          <th>Register By</th>
-          <th>Guiyi ID</th>
-          <th>GY</th>
-          <th>Item Description</th>
-          <th>Paid By</th>
-          <th>Trans Date</th>
-        </tr>
-      </thead>
-
-      <tbody id="has_session">
-        @if(isset($relative_and_friends_history))
-          @foreach($relative_and_friends_history as $devotee)
-          <tr>
-            <td class="checkbox-col">
-              <input type="checkbox" class="devotee_id_list checkbox-multi-select-module-kongdan-tab-raf-section-raf-history" name="devotee_id_list[]" value="{{ $devotee->devotee_id }}">
-            </td>
-            <td>
-              @if($devotee->deceased_year != null)
-              <span class="text-danger">{{ $devotee->chinese_name }}</span>
-              @else
-              <span>{{ $devotee->chinese_name }}</span>
-              @endif
-            </td>
-            <td>
-              <input type="hidden" value="{{ $devotee->devotee_id }}" class="xiaozai-history-id">
-              @if($devotee->specialremarks_devotee_id == null)
-              <span>{{ $devotee->devotee_id }}</span>
-              @else
-              <span class="text-danger">{{ $devotee->devotee_id }}</span>
-              @endif
-            </td>
-            <td>
-              @if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
-              <span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
-              @else
-              <span>{{ $devotee->member_id }}</span>
-              @endif
-            </td>
-            <td>{{ $devotee->guiyi_name }}</td>
-            <td></td>
-            <td>{{ $devotee->item_description }}</td>
-            <td></td>
-            <td>
-              @if(isset($devotee->lasttransaction_at))
-              {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
-              @else
-              {{ $devotee->lasttransaction_at }}
-              @endif
-            </td>
-          </tr>
-          @endforeach
-        @endif
-      </tbody>
-    </table>
-
-  </div><!-- end form-group -->
-
   <div class="form-group">
     <div class="form-actions" style="margin-left: 20px;">
       <p>
@@ -300,6 +248,429 @@ $focus_devotee = Session::get('focus_devotee');
 
       <button type="button" name="button" class="btn blue" id="add_trick_list">Add from Tick List</button>
     </div>
+  </div><!-- end form-group -->
+
+  <p><br /></p>
+
+  @php $this_year = date('Y'); @endphp
+
+  <div class="form-group">
+
+    @if(count($kongdan_setting_differentfamily_last1year) > 0)
+
+    @if(Session::has('focus_devotee'))
+    <h5 style="font-weight: bold;">
+      <span class="setting-history">KD-{{$this_year - 1}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
+    </h5>
+    @endif
+
+    <table class="table table-bordered kongdan_history_table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th width="120px">Chinese Name</th>
+          <th width="80px">Devotee#</th>
+          <th width="80px">RegisterBy</th>
+          <th>Guiyi ID</th>
+          <th>GY</th>
+          <th width="170px">Item Description</th>
+          <th width="100px">M.Paid Till</th>
+          <th width="80px">Paid By</th>
+          <th>Trans Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @foreach($kongdan_setting_differentfamily_last1year as $devotee)
+        <tr>
+          <td>
+            <input type="checkbox" class="" name="" value="{{ $devotee->devotee_id }}">
+          </td>
+          <td>
+            @if($devotee->deceased_year != null)
+            <span class="text-danger">{{ $devotee->chinese_name }}</span>
+            @else
+            <span>{{ $devotee->chinese_name }}</span>
+            @endif
+          </td>
+          <td>
+            <input type="hidden" value="{{ $devotee->devotee_id }}" class="kongdan-history-id">
+            @if($devotee->specialremarks_devotee_id == null)
+            <span>{{ $devotee->devotee_id }}</span>
+            @else
+            <span class="text-danger">{{ $devotee->devotee_id }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>{{ $devotee->guiyi_name }}</td>
+          <td></td>
+          <td>
+            @if(isset($devotee->oversea_addr_in_chinese))
+            {{ $devotee->oversea_addr_in_chinese }}
+            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @else
+            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @endif
+          </td>
+          <td>
+            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @elseif(isset($devotee->paytill_date))
+            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $devotee->paytill_date }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>
+            @if(isset($devotee->lasttransaction_at))
+            {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+            @else
+            {{ $devotee->lasttransaction_at }}
+            @endif
+          </td>
+        </tr>
+        @endforeach
+
+      </tbody>
+    </table>
+
+    @endif
+
+    @if(count($kongdan_setting_differentfamily_last2year) > 0)
+
+    @if(Session::has('focus_devotee'))
+    <h5 style="font-weight: bold;">
+      <span class="setting-history">KD-{{$this_year - 2}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
+    </h5>
+    @endif
+
+    <table class="table table-bordered kongdan_history_table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th width="120px">Chinese Name</th>
+          <th width="80px">Devotee#</th>
+          <th width="80px">RegisterBy</th>
+          <th>Guiyi ID</th>
+          <th>GY</th>
+          <th width="170px">Item Description</th>
+          <th width="100px">M.Paid Till</th>
+          <th width="80px">Paid By</th>
+          <th>Trans Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @foreach($kongdan_setting_differentfamily_last2year as $devotee)
+        <tr>
+          <td>
+            <input type="checkbox" class="" name="" value="{{ $devotee->devotee_id }}">
+          </td>
+          <td>
+            @if($devotee->deceased_year != null)
+            <span class="text-danger">{{ $devotee->chinese_name }}</span>
+            @else
+            <span>{{ $devotee->chinese_name }}</span>
+            @endif
+          </td>
+          <td>
+            <input type="hidden" value="{{ $devotee->devotee_id }}" class="kongdan-history-id">
+            @if($devotee->specialremarks_devotee_id == null)
+            <span>{{ $devotee->devotee_id }}</span>
+            @else
+            <span class="text-danger">{{ $devotee->devotee_id }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>{{ $devotee->guiyi_name }}</td>
+          <td></td>
+          <td>
+            @if(isset($devotee->oversea_addr_in_chinese))
+            {{ $devotee->oversea_addr_in_chinese }}
+            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @else
+            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @endif
+          </td>
+          <td>
+            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @elseif(isset($devotee->paytill_date))
+            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $devotee->paytill_date }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>
+            @if(isset($devotee->lasttransaction_at))
+            {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+            @else
+            {{ $devotee->lasttransaction_at }}
+            @endif
+          </td>
+        </tr>
+        @endforeach
+
+      </tbody>
+    </table>
+
+    @endif
+
+    @if(count($kongdan_setting_differentfamily_last3year) > 0)
+
+    @if(Session::has('focus_devotee'))
+    <h5 style="font-weight: bold;">
+      <span class="setting-history">KD-{{$this_year - 3}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
+    </h5>
+    @endif
+
+    <table class="table table-bordered kongdan_history_table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th width="120px">Chinese Name</th>
+          <th width="80px">Devotee#</th>
+          <th width="80px">RegisterBy</th>
+          <th>Guiyi ID</th>
+          <th>GY</th>
+          <th width="170px">Item Description</th>
+          <th width="100px">M.Paid Till</th>
+          <th width="80px">Paid By</th>
+          <th>Trans Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @foreach($kongdan_setting_differentfamily_last3year as $devotee)
+        <tr>
+          <td>
+            <input type="checkbox" class="" name="" value="{{ $devotee->devotee_id }}">
+          </td>
+          <td>
+            @if($devotee->deceased_year != null)
+            <span class="text-danger">{{ $devotee->chinese_name }}</span>
+            @else
+            <span>{{ $devotee->chinese_name }}</span>
+            @endif
+          </td>
+          <td>
+            <input type="hidden" value="{{ $devotee->devotee_id }}" class="kongdan-history-id">
+            @if($devotee->specialremarks_devotee_id == null)
+            <span>{{ $devotee->devotee_id }}</span>
+            @else
+            <span class="text-danger">{{ $devotee->devotee_id }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>{{ $devotee->guiyi_name }}</td>
+          <td></td>
+          <td>
+            @if(isset($devotee->oversea_addr_in_chinese))
+            {{ $devotee->oversea_addr_in_chinese }}
+            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @else
+            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @endif
+          </td>
+          <td>
+            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @elseif(isset($devotee->paytill_date))
+            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $devotee->paytill_date }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>
+            @if(isset($devotee->lasttransaction_at))
+            {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+            @else
+            {{ $devotee->lasttransaction_at }}
+            @endif
+          </td>
+        </tr>
+        @endforeach
+
+      </tbody>
+    </table>
+
+    @endif
+
+    @if(count($kongdan_setting_differentfamily_last4year) > 0)
+
+    @if(Session::has('focus_devotee'))
+    <h5 style="font-weight: bold;">
+      <span class="setting-history">KD-{{$this_year - 4}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
+    </h5>
+    @endif
+
+    <table class="table table-bordered kongdan_history_table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th width="120px">Chinese Name</th>
+          <th width="80px">Devotee#</th>
+          <th width="80px">RegisterBy</th>
+          <th>Guiyi ID</th>
+          <th>GY</th>
+          <th width="170px">Item Description</th>
+          <th width="100px">M.Paid Till</th>
+          <th width="80px">Paid By</th>
+          <th>Trans Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @foreach($kongdan_setting_differentfamily_last4year as $devotee)
+        <tr>
+          <td>
+            <input type="checkbox" class="" name="" value="{{ $devotee->devotee_id }}">
+          </td>
+          <td>
+            @if($devotee->deceased_year != null)
+            <span class="text-danger">{{ $devotee->chinese_name }}</span>
+            @else
+            <span>{{ $devotee->chinese_name }}</span>
+            @endif
+          </td>
+          <td>
+            <input type="hidden" value="{{ $devotee->devotee_id }}" class="kongdan-history-id">
+            @if($devotee->specialremarks_devotee_id == null)
+            <span>{{ $devotee->devotee_id }}</span>
+            @else
+            <span class="text-danger">{{ $devotee->devotee_id }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>{{ $devotee->guiyi_name }}</td>
+          <td></td>
+          <td>
+            @if(isset($devotee->oversea_addr_in_chinese))
+            {{ $devotee->oversea_addr_in_chinese }}
+            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @else
+            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @endif
+          </td>
+          <td>
+            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @elseif(isset($devotee->paytill_date))
+            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $devotee->paytill_date }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>
+            @if(isset($devotee->lasttransaction_at))
+            {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+            @else
+            {{ $devotee->lasttransaction_at }}
+            @endif
+          </td>
+        </tr>
+        @endforeach
+
+      </tbody>
+    </table>
+
+    @endif
+
+    @if(count($kongdan_setting_differentfamily_last5year) > 0)
+
+    @if(Session::has('focus_devotee'))
+    <h5 style="font-weight: bold;">
+      <span class="setting-history">KD-{{$this_year - 5}}-RF{{ $focus_devotee[0]->devotee_id }}</span>
+    </h5>
+    @endif
+
+    <table class="table table-bordered kongdan_history_table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th width="120px">Chinese Name</th>
+          <th width="80px">Devotee#</th>
+          <th width="80px">RegisterBy</th>
+          <th>Guiyi ID</th>
+          <th>GY</th>
+          <th width="170px">Item Description</th>
+          <th width="100px">M.Paid Till</th>
+          <th width="80px">Paid By</th>
+          <th>Trans Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        @foreach($kongdan_setting_differentfamily_last5year as $devotee)
+        <tr>
+          <td>
+            <input type="checkbox" class="" name="" value="{{ $devotee->devotee_id }}">
+          </td>
+          <td>
+            @if($devotee->deceased_year != null)
+            <span class="text-danger">{{ $devotee->chinese_name }}</span>
+            @else
+            <span>{{ $devotee->chinese_name }}</span>
+            @endif
+          </td>
+          <td>
+            <input type="hidden" value="{{ $devotee->devotee_id }}" class="kongdan-history-id">
+            @if($devotee->specialremarks_devotee_id == null)
+            <span>{{ $devotee->devotee_id }}</span>
+            @else
+            <span class="text-danger">{{ $devotee->devotee_id }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>{{ $devotee->guiyi_name }}</td>
+          <td></td>
+          <td>
+            @if(isset($devotee->oversea_addr_in_chinese))
+            {{ $devotee->oversea_addr_in_chinese }}
+            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @else
+            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @endif
+          </td>
+          <td>
+            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @elseif(isset($devotee->paytill_date))
+            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $devotee->paytill_date }}</span>
+            @endif
+          </td>
+          <td></td>
+          <td>
+            @if(isset($devotee->lasttransaction_at))
+            {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
+            @else
+            {{ $devotee->lasttransaction_at }}
+            @endif
+          </td>
+        </tr>
+        @endforeach
+
+      </tbody>
+    </table>
+
+    @endif
+
   </div><!-- end form-group -->
 
   @php $focus_devotee = Session::get('focus_devotee'); @endphp
@@ -311,8 +682,6 @@ $focus_devotee = Session::get('focus_devotee');
     <input type="hidden" name="focusdevotee_id" value="" id="focusdevotee_id">
     @endif
   </div><!-- end form-group -->
-
-  <p><br /><br /></p>
 
   <div class="form-actions">
     <button type="submit" class="btn blue" id="update_kongdan_differentaddr_btn">Update</button>
