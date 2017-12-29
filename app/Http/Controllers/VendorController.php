@@ -8,6 +8,10 @@ use App\Models\APVendor;
 use App\Models\Expenditure;
 use App\Models\PaymentVoucher;
 use App\Models\PettyCashVoucher;
+<<<<<<< HEAD
+=======
+use App\Models\APVendorType;
+>>>>>>> parent of 50d72ec... fix 151 wip
 use Auth;
 use DB;
 use Hash;
@@ -22,7 +26,14 @@ class VendorController extends Controller
 {
   public function getManageVendor()
   {
+<<<<<<< HEAD
     $vendor = APVendor::all();
+=======
+    $vendor_list = APVendor::all();
+    foreach($vendor_list as $vendor){
+      $vendor['vendor_type_name'] = APVendorType::getVendorTypeName($vendor['ap_vendor_type_id']);
+    }
+>>>>>>> parent of 50d72ec... fix 151 wip
 
     $payment_amount = [];
     $cash_amount = [];
@@ -37,11 +48,19 @@ class VendorController extends Controller
       $vendor[$i]->total = $expenditure;
     }
 
+<<<<<<< HEAD
     //$vendor_type_list = APVendorType::getAll();
 
     return view('vendor.manage-vendor', [
       'vendor' => $vendor
       //'vendor_type_list' => $vendor_type_list
+=======
+    $vendor_type_list = APVendorType::getAll();
+    // dd($vendor_type_list->pluck('vendor_type_name'));
+    return view('vendor.manage-vendor', [
+      'vendor_list' => $vendor_list,
+      'vendor_type_list' => $vendor_type_list
+>>>>>>> parent of 50d72ec... fix 151 wip
     ]);
   }
 
@@ -50,9 +69,23 @@ class VendorController extends Controller
     //dd($request);
     $input = array_except($request->all(), '_token');
 
+<<<<<<< HEAD
     $vendor = APVendor::where('vendor_name', $input['vendor_name'])->first();
 
     if($vendor)
+=======
+    $vendor_code = APVendor::where('vendor_code',$input['vendor_code'])->first();
+
+    if($vendor_code)
+    {
+      $request->session()->flash('error', "Vendor Code is already exist.");
+      return redirect()->back()->withInput();
+    }
+
+    $vendor_name = APVendor::where('vendor_name',$input['vendor_name'])->first();
+
+    if($vendor_name)
+>>>>>>> parent of 50d72ec... fix 151 wip
     {
       $request->session()->flash('error', "Vendor Name is already exist.");
       return redirect()->back()->withInput();
