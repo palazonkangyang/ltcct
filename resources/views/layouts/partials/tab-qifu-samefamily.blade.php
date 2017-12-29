@@ -1,6 +1,5 @@
 @php
   $same_family_code = Session::get('same_family_code')['qifu'];
-  $same_family_code_history = Session::get('same_family_code_history')['qifu'];
   $focus_devotee = Session::get('focus_devotee');
 
 @endphp
@@ -15,7 +14,7 @@
     @endif
   </div>
 
-  <form method="post" action="{{ URL::to('/fahui/update-same-family-code-setting') }}"
+  <form method="post" action="{{ URL::to('/fahui/qifu-samefamily-setting') }}"
     class="form-horizontal form-bordered" id="qifu_samefamily_form">
     <input type="hidden" name="mod_id" value=9>
     {!! csrf_field() !!}
@@ -32,8 +31,9 @@
             <th>Guiyi ID</th>
             <th>GY</th>
             <th>Item Description</th>
+            <th>M.Paid Till</th>
             <th>Paid By</th>
-            <th>Trans Date</th>
+            <th>Last Trans</th>
           </tr>
         </thead>
 
@@ -44,7 +44,7 @@
           <input type="hidden" name="sfc_id[]" value="{{ $devotee->sfc_id }}">
           <tr>
             <td class="checkbox-col">
-              <input type="checkbox" class="same qifu_id checkbox-multi-select-module-qifu-tab-sfc-section-sfc" name="qifu_id[]"
+              <input type="checkbox" class="same qifu_id" name="qifu_id[]"
               value="1" <?php if ($devotee->is_checked == 1){ ?>checked="checked"<?php }?>>
               <input type="hidden" class="form-control hidden_qifu_id" name="is_checked[]"
               value="">
@@ -82,6 +82,15 @@
                 {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
               @endif
             </td>
+            <td>
+              @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+              <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+              @elseif(isset($devotee->paytill_date))
+              <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+              @else
+              <span>{{ $devotee->paytill_date }}</span>
+              @endif
+            </td>
             <td></td>
             <td>
               @if(isset($devotee->lasttransaction_at))
@@ -111,74 +120,9 @@
 
     <p></p>
 
+    <hr>
+
     <p></p>
-
-    <div class="form-group">
-
-      <h5 style="font-weight: bold;">
-        Past Year Record
-      </h5>
-
-      <table class="table table-bordered qifu_history_table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Chinese Name</th>
-            <th>Devotee#</th>
-            <th>Register By</th>
-            <th>Guiyi ID</th>
-            <th>GY</th>
-            <th>Item Description</th>
-            <th>Paid By</th>
-            <th>Trans Date</th>
-          </tr>
-        </thead>
-
-        <tbody id="has_session">
-          @if(isset($same_family_code_history))
-            @foreach($same_family_code_history as $devotee)
-            <tr>
-              <td></td>
-              <td>
-                @if($devotee->deceased_year != null)
-                <span class="text-danger">{{ $devotee->chinese_name }}</span>
-                @else
-                <span>{{ $devotee->chinese_name }}</span>
-                @endif
-              </td>
-              <td>
-                <input type="hidden" value="{{ $devotee->devotee_id }}" class="qifu-history-id">
-                @if($devotee->specialremarks_devotee_id == null)
-                <span>{{ $devotee->devotee_id }}</span>
-                @else
-                <span class="text-danger">{{ $devotee->devotee_id }}</span>
-                @endif
-              </td>
-              <td>
-                @if(\Carbon\Carbon::parse($devotee->lasttransaction_at)->lt($date))
-                <span style="color: #a5a5a5">{{ $devotee->member_id }}</span>
-                @else
-                <span>{{ $devotee->member_id }}</span>
-                @endif
-              </td>
-              <td>{{ $devotee->guiyi_name }}</td>
-              <td></td>
-              <td>{{ $devotee->item_description }}</td>
-              <td></td>
-              <td>
-                @if(isset($devotee->lasttransaction_at))
-                {{ \Carbon\Carbon::parse($devotee->lasttransaction_at)->format("d/m/Y") }}
-                @else
-                {{ $devotee->lasttransaction_at }}
-                @endif
-              </td>
-            </tr>
-            @endforeach
-          @endif
-        </tbody>
-      </table>
-
-    </div><!-- end form-group -->
 
     <div class="form-group">
       @if(count($focus_devotee) > 0)

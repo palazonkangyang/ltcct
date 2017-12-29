@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Rct;
 use App\Models\Module;
 use App\Models\RctXiaoZai;
-use App\Models\RctKongDan;
 use App\Models\Devotee;
 
 class ReceiptController extends Controller

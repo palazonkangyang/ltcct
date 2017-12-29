@@ -1,6 +1,5 @@
 $(function() {
-  checkbox_multi_select('checkbox-multi-select-module-qifu-tab-sfc-section-sfc');
-  
+
   $('#update_sameaddr_btn').click(function() {
 
     var count = 0;

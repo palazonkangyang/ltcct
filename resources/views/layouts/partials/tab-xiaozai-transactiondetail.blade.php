@@ -167,7 +167,6 @@
    <form method="post" action="{{ URL::to('/fahui/cancel-transaction') }}"
      class="form-horizontal form-bordered" id="">
      {!! csrf_field() !!}
-     <input type="hidden" name="mod_id" value=5>
 
    <div class="col-md-12" id="xiaozai_trans_wrap7">
      <br />

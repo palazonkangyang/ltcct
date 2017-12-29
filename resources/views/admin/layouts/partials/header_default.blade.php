@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="Preview page of Metronic Admin Theme #1 for blank page layout" name="description" />
     <meta content="" name="author" />
-
+    
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/simple-line-icons/simple-line-icons.min.css') }}" rel="stylesheet" type="text/css" />
@@ -22,6 +22,4 @@
     <!-- <link href="{{ asset('/css/darkblue.min.css') }}" rel="stylesheet" type="text/css" id="style_color" /> -->
     <link href="{{ asset('/css/default.min.css') }}" rel="stylesheet" type="text/css" id="style_color" />
     <link href="{{ asset('/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
-
-		<link href="{{ asset('/css/selectize.default.css') }}" rel="stylesheet" type="text/css" />
 </head>

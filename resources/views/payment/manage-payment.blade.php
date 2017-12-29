@@ -102,6 +102,7 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                   </tr>
                                   <tr>
                                     <th>Voucher No</th>
@@ -112,7 +113,7 @@
                                     <th>GL Description</th>
                                     <th>Total Debit Amount</th>
                                     <th>Total Credit Amount</th>
-                                    <!--<th>Cheque From</th>-->
+                                    <th>Cheque From</th>
                                   </tr>
                                 </thead>
 
@@ -134,7 +135,7 @@
                                     </td>
                                     <td>S$ {{ number_format($data->total_debit_amount, 2) }}</td>
                                     <td>S$ {{ number_format($data->total_debit_amount, 2) }}</td>
-                                    <!--<td>{{ $data->cheque_from }}</td>-->
+                                    <td>{{ $data->cheque_from }}</td>
                                   </tr>
                                   @endforeach
                                 </tbody>
@@ -174,7 +175,7 @@
                               <div class="form-group">
                                 <label class="col-md-3">Supplier *</label>
                                 <div class="col-md-8">
-                                  <input type="hidden" name="supplier_id" value="22" id="supplier_id">
+                                  <input type="hidden" name="supplier_id" value="" id="supplier_id">
                                   <input type="text" class="form-control" name="supplier_name" value="{{ old('supplier_name') }}" id="supplier_name">
                                 </div><!-- end col-md-8 -->
                               </div><!-- end form-group -->
@@ -209,26 +210,23 @@
                               <div class="form-group">
                                 <input type="hidden" value="" id="bank_amount">
                               </div><!-- end form-group -->
-                              <!--
+
                               <div class="form-group">
                                 <label class="col-md-3">Issuing Banking</label>
                                 <div class="col-md-8">
                                   <input type="text" class="form-control" name="issuing_banking" value="{{ old('issuing_banking') }}" id="issuing_banking">
-                                </div>
-                              </div>
-                            -->
+                                </div><!-- end col-md-9 -->
+                              </div><!-- end form-group -->
 
-                            <!--
                               <div class="form-group">
                                 <label class="col-md-3">Cheque From</label>
                                 <div class="col-md-8">
                                   <input type="text" class="form-control" name="cheque_from" value="{{ old('cheque_from') }}" id="cheque_from">
-                                </div>
-                              </div>
-                            -->
+                                </div><!-- end col-md-9 -->
+                              </div><!-- end form-group -->
 
                               <div class="form-group">
-                                <label class="col-md-3">Job</label>
+                                <label class="col-md-3">Job *</label>
                                 <div class="col-md-8">
                                   <select class="form-control" name="job_id" id="job_id">
                                     <option value="">Please Select</option>
@@ -394,23 +392,19 @@
                               </div><!-- end col-md-8 -->
                             </div><!-- end form-group -->
 
-                            <!--
                             <div class="form-group">
                               <label class="col-md-3">Issuing Banking</label>
                               <div class="col-md-8">
                                 <input type="text" class="form-control" id="show_issuing_banking" readonly>
-                              </div>
-                            </div>
-                          -->
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
-                          <!--
                             <div class="form-group">
                               <label class="col-md-3">Cheque From</label>
                               <div class="col-md-8">
                                 <input type="text" class="form-control" id="show_cheque_from" readonly>
-                              </div>
-                            </div>
-                          -->
+                              </div><!-- end col-md-8 -->
+                            </div><!-- end form-group -->
 
                             <div class="form-group">
                               <label class="col-md-3">Job</label>
@@ -535,8 +529,8 @@ $(function() {
       $("#show_description").val('');
       $("#show_cheque_no").val('');
       $("#show_cheque_account").val('');
-      //$("#show_issuing_banking").val('');
-      //$("#show_cheque_from").val('');
+      $("#show_issuing_banking").val('');
+      $("#show_cheque_from").val('');
       $("#show_job").val('');
       $("#show_remark").val('');
 
@@ -558,8 +552,8 @@ $(function() {
           $("#show_description").val(response.payment_voucher[0]['description']);
           $("#show_cheque_no").val(response.payment_voucher[0]['cheque_no']);
           $("#show_cheque_account").val(response.payment_voucher[0]['cheque_account']);
-          //$("#show_issuing_banking").val(response.payment_voucher[0]['issuing_banking']);
-          //$("#show_cheque_from").val(response.payment_voucher[0]['cheque_from']);
+          $("#show_issuing_banking").val(response.payment_voucher[0]['issuing_banking']);
+          $("#show_cheque_from").val(response.payment_voucher[0]['cheque_from']);
           $("#show_job").val(response.payment_voucher[0]['job_name']);
           $("#show_remark").val(response.payment_voucher[0]['remark']);
 
@@ -599,14 +593,14 @@ $(function() {
   var strDate = $.datepicker.formatDate('dd/mm/yy', new Date());
   $("#date").val(strDate);
 
-  // $("#supplier_name").autocomplete({
-  //   source: "/expenditure/search/supplier",
-  //   minLength: 1,
-  //   select: function(event, ui) {
-  //     $('#supplier_name').val(ui.item.value);
-  //     $('#supplier_id').val(ui.item.id);
-  //   }
-  // });
+  $("#supplier_name").autocomplete({
+    source: "/expenditure/search/supplier",
+    minLength: 1,
+    select: function(event, ui) {
+      $('#supplier_name').val(ui.item.value);
+      $('#supplier_id').val(ui.item.id);
+    }
+  });
 
   $("body").delegate('.debit_amount_col', 'focus', function() {
 
@@ -650,7 +644,8 @@ $(function() {
       { "width": "200px", "targets": 4 },
       { "width": "150px", "targets": 5 },
       { "width": "100px", "targets": 6 },
-      { "width": "100px", "targets": 7 }
+      { "width": "100px", "targets": 7 },
+      { "width": "100px", "targets": 8 }
     ]
   } );
 
@@ -778,8 +773,8 @@ $(function() {
     $("#show_description").val('');
     $("#show_cheque_no").val('');
     $("#show_cheque_account").val('');
-    //$("#show_issuing_banking").val('');
-    //$("#show_cheque_from").val('');
+    $("#show_issuing_banking").val('');
+    $("#show_cheque_from").val('');
     $("#show_job").val('');
     $("#show_remark").val('');
 
@@ -806,8 +801,8 @@ $(function() {
         $("#show_description").val(response.payment_voucher[0]['description']);
         $("#show_cheque_no").val(response.payment_voucher[0]['cheque_no']);
         $("#show_cheque_account").val(response.payment_voucher[0]['cheque_account']);
-        //$("#show_issuing_banking").val(response.payment_voucher[0]['issuing_banking']);
-        //$("#show_cheque_from").val(response.payment_voucher[0]['cheque_from']);
+        $("#show_issuing_banking").val(response.payment_voucher[0]['issuing_banking']);
+        $("#show_cheque_from").val(response.payment_voucher[0]['cheque_from']);
         $("#show_job").val(response.payment_voucher[0]['job_name']);
         $("#show_remark").val(response.payment_voucher[0]['remark']);
 
@@ -841,8 +836,8 @@ $(function() {
     var supplier_name = $("#supplier_name").val();
     var cheque_no = $("#cheque_no").val();
     var cheque_account = $("#cheque_account").val();
-    //var issuing_banking= $("#issuing_banking").val();
-    //var cheque_from = $("#cheque_from").val();
+    var issuing_banking= $("#issuing_banking").val();
+    var cheque_from = $("#cheque_from").val();
     var cheque_amount = $("#cheque_amount").val();
     var job_id = $("#job_id").val();
     var total_debit = $("#total_debit").text();
@@ -878,11 +873,11 @@ $(function() {
       errors[count++] = "Cheque Account field is empty.";
     }
 
-    // if($.trim(job_id).length <= 0)
-    // {
-    //   validationFailed = true;
-    //   errors[count++] = "Job field is empty.";
-    // }
+    if($.trim(job_id).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Job field is empty.";
+    }
 
     $("#new-payment-table select").each(function() {
       var $optText = $(this).find('option:selected');

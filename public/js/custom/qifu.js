@@ -1,41 +1,15 @@
 $(function() {
 
-  checkbox_multi_select('checkbox-multi-select-module-qifu-tab-qifu-section-sfc');
-  checkbox_multi_select('checkbox-multi-select-module-qifu-tab-qifu-section-raf');
-
   $('body').on('change', '.qifu-amount-col', function(){
-    // var sum = 0;
-    // var len = $("input[name='qifu_amount[]']:checked").length;
-    //
-    // sum += len * 10;
-    //
-    // $(".total").html(len);
-    // $(".total_amount").html(sum);
-    // $("#total_amount").val(sum);
-    // $(".total_payable").html(sum);
+    var sum = 0;
+    var len = $("input[name='qifu_amount[]']:checked").length;
 
-    var gr_sum = 0;
-    var total = 0;
+    sum += len * 10;
 
-    $("input[name='qifu_amount[]']").each( function () {
-
-      if( $(this).is(":checked") == true ) {
-        $(this).closest('.qifu-amount-col').find('.gr').prop('checked',true);
-      }
-
-      else {
-        $(this).closest('.qifu-amount-col').find('.gr').prop('checked',false);
-      }
-    });
-
-    var gr_count = $("input[name='gr[]']:checked").length;
-    $(".gr_total").html(gr_count);
-    var qifu_price_gr= $("#qifu_price_gr").text();
-    gr_sum += gr_count * qifu_price_gr;
-    $(".gr_total_amount").html(gr_sum);
-    total = gr_sum;
-    $(".total_payable").html(total);
-    $("#total_amount").val(total);
+    $(".total").html(len);
+    $(".total_amount").html(sum);
+    $("#total_amount").val(sum);
+    $(".total_payable").html(sum);
   });
 
   $("#qifu-form").submit(function() {
@@ -44,16 +18,16 @@ $(function() {
 
     this_master.find("input[name='qifu_amount[]']").each( function () {
       var checkbox_this = $(this);
-      var is_checked_list = checkbox_this.closest('.qifu-amount-col').find('.is_checked_list');
+      var hidden_qifu_amount = checkbox_this.closest('.qifu-amount-col').find('.hidden_qifu_amount');
 
       if( checkbox_this.is(":checked") == true ) {
-        is_checked_list.attr('value','1');
+        hidden_qifu_amount.attr('value','1');
       }
 
       else {
-        is_checked_list.prop('checked', true);
+        hidden_qifu_amount.prop('checked', true);
         //DONT' ITS JUST CHECK THE CHECKBOX TO SUBMIT FORM DATA
-        is_checked_list.attr('value','0');
+        hidden_qifu_amount.attr('value','0');
       }
     });
   });

@@ -1,5 +1,4 @@
 $(function() {
-  checkbox_multi_select('checkbox-multi-select-module-kongdan-tab-sfc-section-sfc');
 
   $('#update_kongdan_sameaddr_btn').click(function() {
 

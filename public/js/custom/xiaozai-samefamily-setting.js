@@ -1,6 +1,4 @@
 $(function() {
-  checkbox_multi_select('checkbox-multi-select-module-xiaozai-tab-sfc-section-sfc');
-
   $('#update_xiaozai_sameaddr_btn').click(function() {
 
     var count = 0;

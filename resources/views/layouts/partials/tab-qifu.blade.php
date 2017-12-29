@@ -1,18 +1,16 @@
 @php
-$same_family_code = Session::get('same_family_code')['qifu'];
-$relative_and_friends = Session::get('relative_and_friends')['qifu'];
-$focus_devotee = Session::get('focus_devotee');
-$transactions = Session::get('transaction.qifu');
+  $same_family_code = Session::get('same_family_code')['qifu'];
+
+  $qifu_different_family = Session::get('qifu_different_family');
+  $focus_devotee = Session::get('focus_devotee');
 @endphp
 
 <div class="form-body">
 
-  <form target="_blank" method="post" action="{{ URL::to('/transaction/create') }}"
+  <form target="_blank" method="post" action="{{ URL::to('/fahui/qifu') }}"
   class="form-horizontal form-bordered" id="qifu-form">
 
   {!! csrf_field() !!}
-  {{ Form::hidden('mod_id',Session::get('module.qifu_id'))}}
-  {{ Form::hidden('trans_no_to_cancel','') }}
 
   <div class="form-group">
 
@@ -28,6 +26,7 @@ $transactions = Session::get('transaction.qifu');
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>
+          <th width="100px">M.Paid Till</th>
           <th width="80px">Paid By</th>
           <th>Trans Date</th>
         </tr>
@@ -41,10 +40,9 @@ $transactions = Session::get('transaction.qifu');
           @if($devotee->is_checked == 1)
             <tr>
           <td class="qifu-amount-col">
-            {{ Form::hidden('amount[]',$qifu_price_gr)}}
-            <input type="checkbox" class="amount checkbox-multi-select-module-qifu-tab-qifu-section-sfc" name="qifu_amount[]" value="1">
-            <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
-            <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
+            <input type="checkbox" class="amount" name="qifu_amount[]" value="1">
+            <input type="hidden" class="form-control hidden_qifu_amount" name="hidden_qifu_amount[]"
+            value="">
           </td>
           <td>
             @if($devotee->deceased_year != null)
@@ -65,8 +63,22 @@ $transactions = Session::get('transaction.qifu');
           <td>{{ $devotee->guiyi_name }}</td>
           <td></td>
           <td>
-              {{ $devotee->item_description }}
-              {{ Form::hidden('item_description_list[]',$devotee->item_description)}}
+            @if(isset($devotee->oversea_addr_in_chinese))
+            {{ $devotee->oversea_addr_in_chinese }}
+            @elseif(isset($devotee->address_unit1) && isset($devotee->address_unit2))
+            {{ $devotee->address_houseno }}, #{{ $devotee->address_unit1 }}-{{ $devotee->address_unit2 }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @else
+            {{ $devotee->address_houseno }}, {{ $devotee->address_street }}, {{ $devotee->address_postal }}
+            @endif
+          </td>
+          <td width="80px">
+            @if(isset($devotee->paytill_date) && \Carbon\Carbon::parse($devotee->paytill_date)->lt($now))
+            <span class="text-danger">{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @elseif(isset($devotee->paytill_date))
+            <span>{{ \Carbon\Carbon::parse($devotee->paytill_date)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $devotee->paytill_date }}</span>
+            @endif
           </td>
           <td></td>
           <td>
@@ -114,23 +126,22 @@ $transactions = Session::get('transaction.qifu');
           <th>Guiyi ID</th>
           <th>GY</th>
           <th width="170px">Item Description</th>
+          <th width="100px">M.Paid Till</th>
           <th width="80px">Paid By</th>
           <th>Trans Date</th>
         </tr>
       </thead>
 
-      @if(count($relative_and_friends) > 0)
+      @if(count($qifu_different_family) > 0)
 
       <tbody id="appendDevoteeLists">
 
-        @foreach($relative_and_friends as $list)
-        @if($list->is_checked == 1)
+        @foreach($qifu_different_family as $list)
+
         <tr>
           <td class="qifu-amount-col">
-            {{ Form::hidden('amount[]',$qifu_price_gr)}}
-            <input type="checkbox" class="amount checkbox-multi-select-module-qifu-tab-qifu-section-raf" name="qifu_amount[]" value="1">
-            <input type="hidden" class="form-control is_checked_list" name="is_checked_list[]" value="">
-            <input type="checkbox" class="gr" name="gr[]" value="" style="display:none">
+            <input type="checkbox" class="amount" name="qifu_amount[]" value="1">
+            <input type="hidden" class="form-control hidden_qifu_amount" name="hidden_qifu_amount[]" value="">
           </td>
           <td>
             @if($list->deceased_year != null)
@@ -151,8 +162,22 @@ $transactions = Session::get('transaction.qifu');
           <td>{{ $list->guiyi_name }}</td>
           <td></td>
           <td>
-            {{ $list->item_description }}
-            {{ Form::hidden('item_description_list[]',$list->item_description)}}
+            @if(isset($list->oversea_addr_in_chinese))
+            {{ $list->oversea_addr_in_chinese }}
+            @elseif(isset($list->address_unit1) && isset($list->address_unit2))
+            {{ $list->address_houseno }}, #{{ $list->address_unit1 }}-{{ $list->address_unit2 }}, {{ $list->address_street }}, {{ $list->address_postal }}
+            @else
+            {{ $list->address_houseno }}, {{ $list->address_street }}, {{ $list->address_postal }}
+            @endif
+          </td>
+          <td>
+            @if(isset($list->paytill_date) && \Carbon\Carbon::parse($list->paytill_date)->lt($now))
+            <span class="text-danger">{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
+            @elseif(isset($list->paytill_date))
+            <span>{{ \Carbon\Carbon::parse($list->paytill_date)->format("d/m/Y") }}</span>
+            @else
+            <span>{{ $list->paytill_date }}</span>
+            @endif
           </td>
           <td></td>
           <td>
@@ -163,7 +188,7 @@ $transactions = Session::get('transaction.qifu');
             @endif
           </td>
         </tr>
-        @endif
+
         @endforeach
 
       </tbody>
@@ -258,7 +283,7 @@ $transactions = Session::get('transaction.qifu');
 
             <div class="col-md-6 payment">
               <label class="mt-radio mt-radio-outline">
-                Date of Receipt
+                Date of Receipts
               </label>
             </div><!-- end col-md-6 -->
 
@@ -281,14 +306,14 @@ $transactions = Session::get('transaction.qifu');
 
         <div class="col-md-12">
           <div class="mt-radio-list">
-            <!--
+
             <label class="mt-radio mt-radio-outline"> 1 Receipt Printing for Same Address
-              <input type="radio" name="receipt_printing_type" value="one_receipt_printing_for_same_address" checked>
+              <input type="radio" name="hjgr" value="hj" checked>
               <span></span>
             </label>
-          -->
+
             <label class="mt-radio mt-radio-outline"> Individual Receipt Printing
-              <input type="radio" name="receipt_printing_type" value="individual_receipt_printing" checked>
+              <input type="radio" name="hjgr" value="gr">
               <span></span>
             </label>
           </div><!-- end mt-radio-list -->
@@ -334,7 +359,7 @@ $transactions = Session::get('transaction.qifu');
 
       <div class="form-group">
         <label class="col-md-12">
-          <p style="font-size: 15px;"><span class="gr_total">0</span> 个人 @ S$ <span id="qifu_price_gr">{{ $qifu_price_gr }}</span>	=	S$ <span class="gr_total_amount">0</span></p>
+          <p style="font-size: 15px;"><span class="total">0</span>	个人 @ S$ 10.00	=	S$ <span class="total_amount">0</span></p>
         </label>
       </div><!-- end form-group -->
 
@@ -398,32 +423,43 @@ $transactions = Session::get('transaction.qifu');
           <th>Description</th>
           <th>Paid By</th>
           <th>Devotee ID</th>
+          <th>HJ/ GR</th>
           <th>Amount</th>
           <th>Manual Receipt</th>
           <th>View Details</th>
         </tr>
       </thead>
 
-      @if(Session::has('transaction.qifu'))
+      @if(Session::has('qifu_receipts'))
+
+      @php
+      $receipts = Session::get('qifu_receipts');
+      @endphp
 
       <tbody>
-        @foreach($transactions as $transaction)
+        @foreach($receipts as $receipt)
+
         <tr>
+          @if(isset($receipt->cancelled_date))
+          <td class="text-danger">{{ $receipt->receipt_no }}</td>
+          @else
+          <td>{{ $receipt->receipt_no }}</td>
+          @endif
+          <td>{{ \Carbon\Carbon::parse($receipt->trans_at)->format("d/m/Y") }}</td>
+          <td>{{ $receipt->trans_no }}</td>
+          <td>{{ $receipt->description }}</td>
+          <td>{{ $receipt->chinese_name }}</td>
+          <td>{{ $receipt->focusdevotee_id }}</td>
           <td>
-            @if($transaction->status == 'cancelled')
-            <span style="color:red;">{{ $transaction->receipt }}</span>
-            @elseif($transaction->status == NULL)
-            {{ $transaction->receipt }}
+            @if($receipt->hjgr == "hj")
+            合家
+            @else
+            个人
             @endif
           </td>
-          <td>{{ $transaction->trans_at }}</td>
-          <td>{{ $transaction->trans_no }}</td>
-          <td>{{ $transaction->description }}</td>
-          <td>{{ $transaction->paid_by }}</td>
-          <td>{{ $transaction->focusdevotee_id }}</td>
-          <td>{{ $transaction->total_amount }}</td>
-          <td>{{ $transaction->manualreceipt }}</td>
-          <td><a href="#tab_qifu_transactiondetail" data-toggle="tab" id="{{ $transaction->trans_no }}" class="qifu-receipt-id">Detail</a></td>
+          <td>{{ $receipt->total_amount }}</td>
+          <td>{{ $receipt->manualreceipt }}</td>
+          <td><a href="#tab_qifu_transactiondetail" data-toggle="tab" id="{{ $receipt->trans_no }}" class="qifu-receipt-id">Detail</a></td>
         </tr>
         @endforeach
       </tbody>
@@ -435,6 +471,7 @@ $transactions = Session::get('transaction.qifu');
           <td colspan="10">No Result Found!</td>
         </tr>
       </tbody>
+
       @endif
     </table>
 

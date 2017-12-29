@@ -8,8 +8,6 @@ use App\Models\APVendor;
 use App\Models\Expenditure;
 use App\Models\PaymentVoucher;
 use App\Models\PettyCashVoucher;
-use App\Models\APVendorType;
-use App\Models\GlCode;
 use Auth;
 use DB;
 use Hash;
@@ -24,72 +22,37 @@ class VendorController extends Controller
 {
   public function getManageVendor()
   {
-    $vendor_list = APVendor::all();
-    foreach($vendor_list as $vendor){
-      $vendor['vendor_type_name'] = APVendorType::getVendorTypeName($vendor['ap_vendor_type_id']);
-      $vendor['glcode_list'] = APVendor::getGlcodeIdList($vendor['ap_vendor_id']);
-      if($vendor['glcode_list'] != []){
-        $vendor['gl_account_name_list'] = APVendor::getGlAccountNameList($vendor['glcode_list']);
-      }
-
-      else{
-        $vendor['gl_account_name_list'] = [];
-      }
-
-    }
+    $vendor = APVendor::all();
 
     $payment_amount = [];
     $cash_amount = [];
 
-    for($i = 0; $i < count($vendor_list); $i++)
+    for($i = 0; $i < count($vendor); $i++)
     {
-      $expenditure = Expenditure::where('supplier', $vendor_list[$i]->ap_vendor_id)
+      $expenditure = Expenditure::where('supplier', $vendor[$i]->ap_vendor_id)
                      ->orderBy('supplier', 'asc')
                      ->where('status', '!=', 'draft')
                      ->sum('credit_total');
 
-      $vendor_list[$i]->total = $expenditure;
+      $vendor[$i]->total = $expenditure;
     }
 
-    $vendor_type_list = APVendorType::getAll();
-    $glcode_list = GlCode::getAll();
-    // dd($vendor_type_list->pluck('vendor_type_name'));
+    //$vendor_type_list = APVendorType::getAll();
+
     return view('vendor.manage-vendor', [
-      'vendor_list' => $vendor_list,
-      'vendor_type_list' => $vendor_type_list,
-      'glcode_list' => $glcode_list
+      'vendor' => $vendor
+      //'vendor_type_list' => $vendor_type_list
     ]);
   }
 
   public function postAddNewVendor(Request $request)
   {
+    //dd($request);
     $input = array_except($request->all(), '_token');
 
-    if(isset($input['glcode_id_list'])){
-      $glcode_id_list_array = $input['glcode_id_list'];
-      $glcode_id_list = '';
-      foreach($glcode_id_list_array as $index=>$glcode_id){
-        if($index == 0){
-          $input['glcode_id_list'] = $glcode_id;
-        }
-        else{
-        $input['glcode_id_list'] = $input['glcode_id_list'] . ',' . $glcode_id;
-        }
-      }
-    }
+    $vendor = APVendor::where('vendor_name', $input['vendor_name'])->first();
 
-
-    $vendor_code = APVendor::where('vendor_code',$input['vendor_code'])->first();
-
-    if($vendor_code)
-    {
-      $request->session()->flash('error', "Vendor Code is already exist.");
-      return redirect()->back()->withInput();
-    }
-
-    $vendor_name = APVendor::where('vendor_name',$input['vendor_name'])->first();
-
-    if($vendor_name)
+    if($vendor)
     {
       $request->session()->flash('error', "Vendor Name is already exist.");
       return redirect()->back()->withInput();
@@ -107,7 +70,6 @@ class VendorController extends Controller
     $vendor_history = collect();
 
     $vendor = APVendor::find($vendor_id);
-    $vendor['glcode_list'] = APVendor::getGlcodeIdList($vendor['ap_vendor_id']);
 
     $payment_voucher = PaymentVoucher::leftjoin('ap_vendor', 'payment_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
                        ->where('supplier_id', $vendor_id)
@@ -141,8 +103,6 @@ class VendorController extends Controller
       $vendor_history[$i]->date = Carbon::parse($vendor_history[$i]->date)->format("d/m/Y");
     }
 
-    // dd($vendor);
-
     return response()->json(array(
 	    'vendor' => $vendor,
       'vendor_history' => $vendor_history
@@ -153,31 +113,18 @@ class VendorController extends Controller
   {
     $input = array_except($request->all(), '_token');
 
-    $vendor_code = APVendor::where('vendor_code',$input['edit_vendor_code'])
-                           ->where('ap_vendor_id', '!=', $input['edit_ap_vendor_id'])
-                           ->first();
+    $vendor = APVendor::where('vendor_name', $input['edit_vendor_name'])
+               ->where('ap_vendor_id', '!=', $input['edit_ap_vendor_id'])
+               ->first();
 
-    if($vendor_code)
-    {
-      $request->session()->flash('error', "Vendor Code is already exist.");
-      return redirect()->back()->withInput();
-    }
-
-    $vendor_name = APVendor::where('vendor_name',$input['edit_vendor_name'])
-                           ->where('ap_vendor_id', '!=', $input['edit_ap_vendor_id'])
-                           ->first();
-
-    if($vendor_name)
+    if($vendor)
     {
       $request->session()->flash('error', "Vendor Name is already exist.");
       return redirect()->back()->withInput();
     }
 
     $result = APVendor::find($input['edit_ap_vendor_id']);
-    $result->vendor_code = $input['edit_vendor_code'];
     $result->vendor_name = $input['edit_vendor_name'];
-    $result->ap_vendor_type_id = $input['edit_ap_vendor_type_id'];
-    $result->contact_information = $input['edit_contact_information'];
     $result->description = $input['edit_description'];
     $result->save();
 
