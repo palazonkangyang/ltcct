@@ -9,7 +9,10 @@ class APVendor extends Model
   protected $primaryKey = 'ap_vendor_id';
 
   protected $fillable = [
+    'vendor_code',
     'vendor_name',
+    'ap_vendor_type_id',
+    'contact_information',
     'description'
   ];
 

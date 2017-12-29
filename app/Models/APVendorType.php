@@ -16,7 +16,11 @@ class APVendorType extends Model
     return APVendorType::all();
   }
 
-  public static function getAPVendorType($vendor_type_id){
-    return APVendorType::where('ap_vendor_type_id',$vendor_type_id)->first();
+  public static function getAPVendorType($ap_vendor_type_id){
+    return APVendorType::where('ap_vendor_type_id',$ap_vendor_type_id)->first();
+  }
+
+  public static function getVendorTypeName($ap_vendor_type_id){
+    return APVendorType::where('ap_vendor_type_id',$ap_vendor_type_id)->pluck('vendor_type_name')->first();
   }
 }

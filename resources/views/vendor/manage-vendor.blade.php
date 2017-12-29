@@ -96,20 +96,28 @@
                                   <tr id="filter">
                                     <th></th>
                                     <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                   </tr>
                                   <tr>
-                                    <th>Vendor Name</th>
-                                    <th>Description</th>
+                                    <td>Vendor Code</td>
+                                    <td>Vendor Name</td>
+                                    <td>Vendor Type</td>
+                                    <td>Contact Information</td>
+                                    <td>Description</td>
                                   </tr>
                                 </thead>
 
                                 <tbody>
-                                  @foreach($vendor as $data)
+                                  @foreach($vendor_list as $data)
                                   <tr>
                                     <td>
-                                      <a href="#tab_editvendor" data-toggle="tab"
-                                      class="edit-item" id="{{ $data->ap_vendor_id }}">{{ $data->vendor_name }}</a>
+                                      <a href="#tab_editvendor" data-toggle="tab" class="edit-item" id="{{ $data->ap_vendor_id }}">{{ $data->vendor_code }}</a>
                                     </td>
+                                    <td>{{ $data->vendor_name }}</td>
+                                    <td>{{ $data->vendor_type_name }}</td>
+                                    <td>{{ $data->contact_information }}</td>
                                     <td>{{ $data->description }}</td>
                                   </tr>
                                   @endforeach
@@ -148,12 +156,14 @@
                               </div><!-- end form-group -->
 
                               <div class="form-group" style="margin-bottom: 30px;">
-                                <label class="col-md-3">Vendor Type</label>
+                                <label class="col-md-3">Vendor Type *</label>
                                 <div class="col-md-9">
-                                  <input type="text" class="form-control" name="vendor_type" value="{{ old('vendor_type') }}" id="vendor_type">
-
-
-
+                                  <select class="form-control" name="ap_vendor_type_id" id="ap_vendor_type_id">
+                                    <option value="" selected>-- Select Vendor Type --</option>
+                                    @foreach( $vendor_type_list as $index=>$vendor_type )
+                                      <option @if (old('ap_vendor_type_id') == $vendor_type['ap_vendor_type_id']) selected="selected" @endif value="{{ $vendor_type['ap_vendor_type_id'] }}">{{ $vendor_type['vendor_type_name'] }}</option>
+                                    @endforeach
+                                  </select>
                                 </div><!-- end col-md-9 -->
                               </div><!-- end form-group -->
 
@@ -216,9 +226,35 @@
                             </div><!-- end form-group -->
 
                             <div class="form-group">
+                              <label class="col-md-3">Vendor Code *</label>
+                              <div class="col-md-9">
+                                <input type="text" class="form-control" name="edit_vendor_code" value="{{ old('edit_vendor_code') }}" id="edit_vendor_code">
+                              </div><!-- end col-md-9 -->
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
                               <label class="col-md-3">Vendor Name *</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control" name="edit_vendor_name" value="{{ old('edit_vendor_name') }}" id="edit_vendor_name">
+                              </div><!-- end col-md-9 -->
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                              <label class="col-md-3">Vendor Type *</label>
+                              <div class="col-md-9">
+                                <select class="form-control" name="edit_ap_vendor_type_id" id="edit_ap_vendor_type_id">
+                                  <option value="" selected>-- Select Vendor Type --</option>
+                                  @foreach( $vendor_type_list as $index=>$vendor_type )
+                                    <option @if (old('edit_ap_vendor_type_id') == $vendor_type['ap_vendor_type_id']) selected="selected" @endif value="{{ $vendor_type['ap_vendor_type_id'] }}">{{ $vendor_type['vendor_type_name'] }}</option>
+                                  @endforeach
+                                </select>
+                              </div><!-- end col-md-9 -->
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                              <label class="col-md-3">Contact Information</label>
+                              <div class="col-md-9">
+                                <input type="text" class="form-control" name="edit_contact_information" value="{{ old('edit_contact_information') }}" id="edit_contact_information">
                               </div><!-- end col-md-9 -->
                             </div><!-- end form-group -->
 
@@ -360,7 +396,10 @@ $(function() {
     "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
     columnDefs: [
       { width: 500, targets: 0 },
-      { width: 500, targets: 1 }
+      { width: 500, targets: 1 },
+      { width: 500, targets: 2 },
+      { width: 500, targets: 3 },
+      { width: 500, targets: 4 }
     ]
   } );
 
@@ -391,12 +430,26 @@ $(function() {
     var errors = new Array();
     var validationFailed = false;
 
+    var vendor_code = $("#vendor_code").val();
     var vendor_name = $("#vendor_name").val();
+    var ap_vendor_type_id = $("#ap_vendor_type_id").val();
+
+    if($.trim(vendor_code).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Vendor Code is empty.";
+    }
 
     if($.trim(vendor_name).length <= 0)
     {
       validationFailed = true;
       errors[count++] = "Vendor Name is empty.";
+    }
+
+    if($.trim(ap_vendor_type_id).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Vendor Type is empty.";
     }
 
     if (validationFailed)
@@ -458,7 +511,10 @@ $(function() {
         }
 
         $("#edit_ap_vendor_id").val(ap_vendor_id);
+        $("#edit_vendor_code").val(response.vendor['vendor_code']);
         $("#edit_vendor_name").val(response.vendor['vendor_name']);
+        $("#edit_ap_vendor_type_id").val(response.vendor['ap_vendor_type_id']);
+        $("#edit_contact_information").val(response.vendor['contact_information']);
         $("#edit_description").val(response.vendor['description']);
 
         if(response.vendor_history.length >= 1)
@@ -504,12 +560,26 @@ $(function() {
     var errors = new Array();
     var validationFailed = false;
 
+    var vendor_code = $("#edit_vendor_code").val();
     var vendor_name = $("#edit_vendor_name").val();
+    var ap_vendor_type_id = $("#edit_ap_vendor_type_id").val();
+
+    if($.trim(vendor_code).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Vendor Code is empty.";
+    }
 
     if($.trim(vendor_name).length <= 0)
     {
       validationFailed = true;
       errors[count++] = "Vendor Name is empty.";
+    }
+
+    if($.trim(ap_vendor_type_id).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Vendor Type is empty.";
     }
 
     if (validationFailed)
