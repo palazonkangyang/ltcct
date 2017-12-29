@@ -136,8 +136,8 @@ class PaymentController extends Controller
       "cheque_account" => $input['cheque_account'],
       "total_debit_amount" => $input['total_debit_amount'],
       "total_credit_amount" => $input['total_credit_amount'],
-      "issuing_banking" => $input['issuing_banking'],
-      "cheque_from" => $input['cheque_from'],
+      //"issuing_banking" => $input['issuing_banking'],
+      //"cheque_from" => $input['cheque_from'],
       "job_id" => $input['job_id'],
       "remark" => $input['remark']
     ];

@@ -28,6 +28,8 @@
     <link href="{{ asset('/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+		<link href="{{ asset('/css/selectize.default.css') }}" rel="stylesheet" type="text/css" />
+
 		<style type="text/css">
         tfoot input {
             width: 100%;

@@ -9,6 +9,7 @@ use App\Models\Expenditure;
 use App\Models\PaymentVoucher;
 use App\Models\PettyCashVoucher;
 use App\Models\APVendorType;
+use App\Models\GlCode;
 use Auth;
 use DB;
 use Hash;
@@ -26,6 +27,15 @@ class VendorController extends Controller
     $vendor_list = APVendor::all();
     foreach($vendor_list as $vendor){
       $vendor['vendor_type_name'] = APVendorType::getVendorTypeName($vendor['ap_vendor_type_id']);
+      $vendor['glcode_list'] = APVendor::getGlcodeIdList($vendor['ap_vendor_id']);
+      if($vendor['glcode_list'] != []){
+        $vendor['gl_account_name_list'] = APVendor::getGlAccountNameList($vendor['glcode_list']);
+      }
+
+      else{
+        $vendor['gl_account_name_list'] = [];
+      }
+
     }
 
     $payment_amount = [];
@@ -42,16 +52,32 @@ class VendorController extends Controller
     }
 
     $vendor_type_list = APVendorType::getAll();
+    $glcode_list = GlCode::getAll();
     // dd($vendor_type_list->pluck('vendor_type_name'));
     return view('vendor.manage-vendor', [
       'vendor_list' => $vendor_list,
-      'vendor_type_list' => $vendor_type_list
+      'vendor_type_list' => $vendor_type_list,
+      'glcode_list' => $glcode_list
     ]);
   }
 
   public function postAddNewVendor(Request $request)
   {
     $input = array_except($request->all(), '_token');
+
+    if(isset($input['glcode_id_list'])){
+      $glcode_id_list_array = $input['glcode_id_list'];
+      $glcode_id_list = '';
+      foreach($glcode_id_list_array as $index=>$glcode_id){
+        if($index == 0){
+          $input['glcode_id_list'] = $glcode_id;
+        }
+        else{
+        $input['glcode_id_list'] = $input['glcode_id_list'] . ',' . $glcode_id;
+        }
+      }
+    }
+
 
     $vendor_code = APVendor::where('vendor_code',$input['vendor_code'])->first();
 
@@ -81,6 +107,7 @@ class VendorController extends Controller
     $vendor_history = collect();
 
     $vendor = APVendor::find($vendor_id);
+    $vendor['glcode_list'] = APVendor::getGlcodeIdList($vendor['ap_vendor_id']);
 
     $payment_voucher = PaymentVoucher::leftjoin('ap_vendor', 'payment_voucher.supplier_id', '=', 'ap_vendor.ap_vendor_id')
                        ->where('supplier_id', $vendor_id)
@@ -113,6 +140,8 @@ class VendorController extends Controller
     {
       $vendor_history[$i]->date = Carbon::parse($vendor_history[$i]->date)->format("d/m/Y");
     }
+
+    // dd($vendor);
 
     return response()->json(array(
 	    'vendor' => $vendor,
