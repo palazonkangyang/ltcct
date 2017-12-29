@@ -488,13 +488,12 @@
 
 				                                                                        <div class="col-md-6">
 				                                                                        	<label class="mt-radio mt-radio-outline">
-				                                                                        		Date of Receipts
+				                                                                        		Date of Receipt
 					                                                                        </label>
 				                                                                        </div><!-- end col-md-6 -->
 
 				                                                                        <div class="col-md-6">
-				                                                                        	<input type="text" name="receipt_at" class="form-control input-small"
-				                                                                        		data-provide="datepicker" data-date-format="dd/mm/yyyy" id="receipt_at">
+				                                                                        	<input type="text" name="receipt_at" class="form-control input-small" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-end-date="0d" id="receipt_at">
 				                                                                    	</div><!-- end col-md-6 -->
 
 				                                                                    </div><!-- end mt-radio-list -->

@@ -96,21 +96,39 @@
                                   <tr id="filter">
                                     <th></th>
                                     <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                   </tr>
                                   <tr>
-                                    <th>Vendor Name</th>
-                                    <th>Description</th>
+                                    <td>Vendor Code</td>
+                                    <td>Vendor Name</td>
+                                    <td>Vendor Type</td>
+                                    <td>Contact Information</td>
+                                    <td>Description</td>
+                                    <td>GL Account</td>
                                   </tr>
                                 </thead>
 
                                 <tbody>
-                                  @foreach($vendor as $data)
+                                  @foreach($vendor_list as $data)
                                   <tr>
                                     <td>
-                                      <a href="#tab_editvendor" data-toggle="tab"
-                                      class="edit-item" id="{{ $data->ap_vendor_id }}">{{ $data->vendor_name }}</a>
+                                      <a href="#tab_editvendor" data-toggle="tab" class="edit-item" id="{{ $data->ap_vendor_id }}">{{ $data->vendor_code }}</a>
                                     </td>
+                                    <td>{{ $data->vendor_name }}</td>
+                                    <td>{{ $data->vendor_type_name }}</td>
+                                    <td>{{ $data->contact_information }}</td>
                                     <td>{{ $data->description }}</td>
+                                    <td>
+                                    @if($data->gl_account_name_list != [])
+                                      @foreach($data->gl_account_name_list as $gl_account_name)
+                                        &#9679; {{ $gl_account_name }}
+                                      <br/>
+                                      @endforeach
+                                    @endif
+                                  </td>
                                   </tr>
                                   @endforeach
                                 </tbody>
@@ -148,12 +166,14 @@
                               </div><!-- end form-group -->
 
                               <div class="form-group" style="margin-bottom: 30px;">
-                                <label class="col-md-3">Vendor Type</label>
+                                <label class="col-md-3">Vendor Type *</label>
                                 <div class="col-md-9">
-                                  <input type="text" class="form-control" name="vendor_type" value="{{ old('vendor_type') }}" id="vendor_type">
-
-
-
+                                  <select class="form-control" name="ap_vendor_type_id" id="ap_vendor_type_id">
+                                    <option value="" selected>Please Select</option>
+                                    @foreach( $vendor_type_list as $index=>$vendor_type )
+                                      <option @if (old('ap_vendor_type_id') == $vendor_type['ap_vendor_type_id']) selected="selected" @endif value="{{ $vendor_type['ap_vendor_type_id'] }}">{{ $vendor_type['vendor_type_name'] }}</option>
+                                    @endforeach
+                                  </select>
                                 </div><!-- end col-md-9 -->
                               </div><!-- end form-group -->
 
@@ -174,8 +194,19 @@
                               <div class="clearfix">
                               </div><!-- end clearfix -->
 
-                              <div class="form-group">
+                              <div class="form-group" style="margin-bottom: 30px; height:200px;">
+                                <label class="col-md-3">GL Account</label>
+                                <div class="col-md-9">
+                                <!--  <select name="ap_vendor_type_id" id="glcode_id"> -->
+                                  <select id="glcode_id" name="glcode_id_list[]" multiple class="demo-default" placeholder="Please Select">
+                                    @foreach( $glcode_list as $index=>$glcode )
+                                      <option value="{{ $glcode['glcode_id'] }}">{{ $glcode['type_name'] }}</option>
+                                    @endforeach
+                                  </select>
+                                </div><!-- end col-md-9 -->
+                              </div><!-- end form-group -->
 
+                              <div class="form-group">
                                 <label class="col-md-3 control-label"></label>
                                 <div class="col-md-9">
                                   <div class="form-actions pull-right">
@@ -216,19 +247,56 @@
                             </div><!-- end form-group -->
 
                             <div class="form-group">
+                              <label class="col-md-3">Vendor Code *</label>
+                              <div class="col-md-9">
+                                <input type="text" class="form-control" name="edit_vendor_code" value="{{ old('edit_vendor_code') }}" id="edit_vendor_code">
+                              </div><!-- end col-md-9 -->
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
                               <label class="col-md-3">Vendor Name *</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control" name="edit_vendor_name" value="{{ old('edit_vendor_name') }}" id="edit_vendor_name">
                               </div><!-- end col-md-9 -->
                             </div><!-- end form-group -->
 
-                            <div class="form-group" style="margin-bottom: 30px;">
+                            <div class="form-group">
+                              <label class="col-md-3">Vendor Type *</label>
+                              <div class="col-md-9">
+                                <select class="form-control" name="edit_ap_vendor_type_id" id="edit_ap_vendor_type_id">
+                                  <option value="" selected>Please Select</option>
+                                  @foreach( $vendor_type_list as $index=>$vendor_type )
+                                    <option @if (old('edit_ap_vendor_type_id') == $vendor_type['ap_vendor_type_id']) selected="selected" @endif value="{{ $vendor_type['ap_vendor_type_id'] }}">{{ $vendor_type['vendor_type_name'] }}</option>
+                                  @endforeach
+                                </select>
+                              </div><!-- end col-md-9 -->
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
+                              <label class="col-md-3">Contact Information</label>
+                              <div class="col-md-9">
+                                <input type="text" class="form-control" name="edit_contact_information" value="{{ old('edit_contact_information') }}" id="edit_contact_information">
+                              </div><!-- end col-md-9 -->
+                            </div><!-- end form-group -->
+
+                            <div class="form-group">
                               <label class="col-md-3">Description</label>
                               <div class="col-md-9">
                                 <input type="text" class="form-control" name="edit_description" value="{{ old('edit_description') }}" id="edit_description">
                               </div><!-- end col-md-9 -->
                             </div><!-- end form-group -->
-
+<!--
+                            <div class="form-group" style="margin-bottom: 30px; height:200px;">
+                              <label class="col-md-3">GL Account</label>
+                              <div class="col-md-9">
+                                <select id="edit_glcode_id_list" name="edit_glcode_id_list[]" multiple class="demo-default" placeholder="Please Select" >
+                                  @foreach( $glcode_list as $index=>$glcode )
+                                    <option @if ($glcode['glcode_id'] == 1) selected="selected" @endif value="{{ $glcode['glcode_id'] }}">{{ $glcode['type_name'] }}</option>
+                                  @endforeach
+                                </select>
+                              </div>
+                            </div>
+-->
                             <div class="form-group">
 
                               <label class="col-md-3 control-label"></label>
@@ -313,9 +381,17 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.3/js/dataTables.fixedColumns.min.js"></script>
+<script src="{{ asset('/js/selectize.min.js') }}" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function() {
+  $('#glcode_id').selectize({
+    maxItems: 5
+  });
+
+  $('#edit_glcode_id_list').selectize({
+    maxItems: 5
+  });
 
   if ( $('.alert-success').children().length > 0 ) {
     localStorage.removeItem('activeTab');
@@ -360,7 +436,11 @@ $(function() {
     "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
     columnDefs: [
       { width: 500, targets: 0 },
-      { width: 500, targets: 1 }
+      { width: 500, targets: 1 },
+      { width: 500, targets: 2 },
+      { width: 500, targets: 3 },
+      { width: 500, targets: 4 },
+      { width: 500, targets: 5 }
     ]
   } );
 
@@ -391,12 +471,26 @@ $(function() {
     var errors = new Array();
     var validationFailed = false;
 
+    var vendor_code = $("#vendor_code").val();
     var vendor_name = $("#vendor_name").val();
+    var ap_vendor_type_id = $("#ap_vendor_type_id").val();
+
+    if($.trim(vendor_code).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Vendor Code is empty.";
+    }
 
     if($.trim(vendor_name).length <= 0)
     {
       validationFailed = true;
       errors[count++] = "Vendor Name is empty.";
+    }
+
+    if($.trim(ap_vendor_type_id).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Vendor Type is empty.";
     }
 
     if (validationFailed)
@@ -458,8 +552,12 @@ $(function() {
         }
 
         $("#edit_ap_vendor_id").val(ap_vendor_id);
+        $("#edit_vendor_code").val(response.vendor['vendor_code']);
         $("#edit_vendor_name").val(response.vendor['vendor_name']);
+        $("#edit_ap_vendor_type_id").val(response.vendor['ap_vendor_type_id']);
+        $("#edit_contact_information").val(response.vendor['contact_information']);
         $("#edit_description").val(response.vendor['description']);
+        $("#edit_glcode_id_list").val(1);
 
         if(response.vendor_history.length >= 1)
         {
@@ -504,12 +602,26 @@ $(function() {
     var errors = new Array();
     var validationFailed = false;
 
+    var vendor_code = $("#edit_vendor_code").val();
     var vendor_name = $("#edit_vendor_name").val();
+    var ap_vendor_type_id = $("#edit_ap_vendor_type_id").val();
+
+    if($.trim(vendor_code).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Vendor Code is empty.";
+    }
 
     if($.trim(vendor_name).length <= 0)
     {
       validationFailed = true;
       errors[count++] = "Vendor Name is empty.";
+    }
+
+    if($.trim(ap_vendor_type_id).length <= 0)
+    {
+      validationFailed = true;
+      errors[count++] = "Vendor Type is empty.";
     }
 
     if (validationFailed)

@@ -93,21 +93,22 @@
 	          </thead>
 
 	          <tbody>
-							<tr>
-	              <td></td>
-								<td colspan="4" style="text-align: left; font-weight:bold;"></td>
-	            </tr>
-
 							@foreach($paginate_receipt['receipt'] as $index=>$rct)
 							<tr>
 								<td style="text-align: left;">{{$rct['sn_no']}}</td>
+							@if( $module['mod_id'] == Session::get('module.xiaozai_id') )
 								@if($rct['is_receipt'] == false)
-									<td style="text-align: left; font-weight:bold;">{{$rct['name']}}</td>
-									<td style="text-align: left; font-weight:bold;">{{ $rct['item_description'] }}</td>
+									<td colspan="4" style="text-align: left; font-weight:bold;">{{$rct['name']}} {{ $rct['item_description'] }}</td>
 								@else
 									<td style="text-align: left;">{{$rct['name']}}</td>
 									<td style="text-align: left; font-size:0.8em;">{{ $rct['item_description'] }}</td>
 								@endif
+
+							@else
+								<td style="text-align: left;">{{$rct['name']}}</td>
+								<td style="text-align: left; font-size:0.8em;">{{ $rct['item_description'] }}</td>
+
+							@endif
 								<td style="text-align: left;">{{ $rct['receipt_no'] }}</td>
 								<td style="text-align: right;">{{ $rct['amount'] }}</td>
 							</tr>
@@ -201,7 +202,7 @@
 							@if($paginate_receipt['first_receipt_no'] == $paginate_receipt['last_receipt_no'])
 								{{ $paginate_receipt['first_receipt_no'] }}
 							@elseif($paginate_receipt['first_receipt_no'] != $paginate_receipt['last_receipt_no'])
-								{{ $paginate_receipt['first_receipt_no'] }} -{{ $paginate_receipt['last_receipt_no'] }} &nbsp
+								{{ $paginate_receipt['first_receipt_no'] }} -{{ $paginate_receipt['last_receipt_no'] }} &nbsp;
 							@endif
 						</div><!-- end label-right -->
 	        </div><!-- end label-wrapper -->

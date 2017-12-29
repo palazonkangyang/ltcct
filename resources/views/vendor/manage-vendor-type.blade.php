@@ -293,6 +293,7 @@ $(function() {
   // DataTable
   var table = $('#vendor-table').removeAttr('width').DataTable( {
     "lengthMenu": [[50, 100, 150, -1], [50, 100, 150, "All"]],
+    "order": [[ 0, "asc" ]],
     columnDefs: [
       { width: 500, targets: 0 }
     ]
