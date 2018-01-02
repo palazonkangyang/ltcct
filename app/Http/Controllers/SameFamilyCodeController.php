@@ -144,9 +144,9 @@ class SameFamilyCodeController extends Controller
 
       // Xiao Zai Da Fa Hui
       case 5:
-        $param = XiaoZaiController::createSfcXiaoZaiFromBaseHome($param);
-        $param = XiaoZaiController::createSfcXiaoZaiFromOptionalAddress($param);
-        $param = XiaoZaiController::createSfcXiaoZaiFromOptionalVehicle($param);
+        $param = XiaozaiController::createSfcXiaoZaiFromBaseHome($param);
+        $param = XiaozaiController::createSfcXiaoZaiFromOptionalAddress($param);
+        $param = XiaozaiController::createSfcXiaoZaiFromOptionalVehicle($param);
         break;
 
       // Qian Fo Fa Hui

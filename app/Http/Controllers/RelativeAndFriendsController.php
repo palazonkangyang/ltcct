@@ -377,9 +377,9 @@ class RelativeAndFriendsController extends Controller
 
     // Xiao Zai Da Fa Hui
     case 5:
-      $param = XiaoZaiController::createRafXiaoZaiFromBaseHome($param);
-      $param = XiaoZaiController::createRafXiaoZaiFromOptionalAddress($param);
-      $param = XiaoZaiController::createRafXiaoZaiFromOptionalVehicle($param);
+      $param = XiaozaiController::createRafXiaoZaiFromBaseHome($param);
+      $param = XiaozaiController::createRafXiaoZaiFromOptionalAddress($param);
+      $param = XiaozaiController::createRafXiaoZaiFromOptionalVehicle($param);
       break;
 
     // Qian Fo Fa Hui
